@@ -27,6 +27,9 @@ namespace stella { namespace graphics {
 
     // OpenGL Viewport settings
     glViewport(0, 0, this->Width, this->Height);
+
+    // Set default Clear Color
+    this->ClearColor = glm::vec3(0.0f, 0.0f, 0.0f);
   }
 
   Display::~Display()
@@ -43,7 +46,21 @@ namespace stella { namespace graphics {
   void Display::Update()
   {
     this->updateInput();
+    this->clear();
     glfwSwapBuffers(this->Window);
+  }
+
+  void Display::SetClearColor(int r, int g, int b)
+  {
+    this->ClearColor.x = r/255.0f;
+    this->ClearColor.y = g/255.0f;
+    this->ClearColor.z = b/255.0f;
+  }
+
+  void Display::clear()
+  {
+    glClearColor(this->ClearColor.x, this->ClearColor.y, this->ClearColor.z, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
   }
 
   void Display::updateInput()
