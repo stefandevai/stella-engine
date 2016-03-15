@@ -17,6 +17,7 @@ namespace stella { namespace graphics {
       bool Running;
 
       void updateInput();
+      static void inputCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
   };
 }}
 

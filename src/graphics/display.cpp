@@ -17,6 +17,9 @@ namespace stella { namespace graphics {
     this->Window = glfwCreateWindow(this->Width, this->Height, this->Title.c_str(), nullptr, nullptr);
     glfwMakeContextCurrent(this->Window);
     this->Running = true;
+
+    // Input callback
+    glfwSetKeyCallback(this->Window, this->inputCallback);
     
     // GLEW Initialization
     glewExperimental = GL_TRUE;
@@ -47,6 +50,12 @@ namespace stella { namespace graphics {
   {
     glfwPollEvents();
     this->Running = !glfwWindowShouldClose(this->Window); 
+  }
+
+  void Display::inputCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
+  {
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+      glfwSetWindowShouldClose(window, GL_TRUE);
   }
 }}
 
