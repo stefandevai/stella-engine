@@ -5,6 +5,8 @@ file(GLOB_RECURSE SOURCE ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
+find_package(OpenGL REQUIRED)
+
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)
 include_directories(${GLFW_INCLUDE_DIRS})
@@ -17,23 +19,23 @@ include_directories(${SOIL_INCLUDE_DIRS})
 
 add_executable(stella game.cpp ${SOURCE})
 
-if (UNIX)
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
+    "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
+    "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
   set(CXX_COMPILE_FLAGS "-std=c++11 -Wall")
-endif(UNIX)
+endif()
 
 if (UNIX AND NOT APPLE)
   set (LINUX TRUE)
 endif()
 
 if (LINUX)
-  message(STATUS ">>> LINUX")
   set(CXX_LINK_FLAGS "-lX11 -lpthread -lXrandr -lXi -lGL")
 elseif(APPLE)
-  message(STATUS ">>> APPLE")
   set(CXX_LINK_FLAGS "-framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -framework Carbon")
   set(GLFW_LIBRARIES "glfw3")
 elseif(WIN32)
-  message(STATUS ">>> WIN32")
+  set(CXX_LINK_FLAGS "-lopengl32")
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COMPILE_FLAGS}")
