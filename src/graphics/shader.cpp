@@ -1,5 +1,6 @@
 #include "shader.h"
 #include "../utils/fileutils.h"
+#include "../../glm/glm/gtc/type_ptr.hpp"
 
 namespace stella { namespace graphics {
   Shader::Shader(const char* vsPath, const char* fsPath)
@@ -73,5 +74,52 @@ namespace stella { namespace graphics {
     
     return program;
   }
+      
+  // Uniform settings
+  void Shader::SetFloat(const GLchar *uniformName, const GLfloat &num)
+  {
+    glUniform1f(glGetUniformLocation(this->ShaderProgram, uniformName), num); 
+  }
+
+  void Shader::SetInt(const GLchar *uniformName, const GLint &num)
+  {
+    glUniform1i(glGetUniformLocation(this->ShaderProgram, uniformName), num);
+  }
+
+  void Shader::SetVec2f(const GLchar *uniformName, const glm::vec2 &vec)
+  {
+    glUniform2f(glGetUniformLocation(this->ShaderProgram, uniformName), vec.x, vec.y);
+  }
+
+  void Shader::SetVec2f(const GLchar *uniformName, const GLfloat &x, const GLfloat &y)
+  {
+    glUniform2f(glGetUniformLocation(this->ShaderProgram, uniformName), x, y);
+  }
+
+  void Shader::SetVec3f(const GLchar *uniformName, const glm::vec3 &vec)
+  {
+    glUniform3f(glGetUniformLocation(this->ShaderProgram, uniformName), vec.x, vec.y, vec.z);
+  }
+
+  void Shader::SetVec3f(const GLchar *uniformName, const GLfloat &x, const GLfloat &y, const GLfloat &z)
+  {
+    glUniform3f(glGetUniformLocation(this->ShaderProgram, uniformName), x, y, z);
+  }
+
+  void Shader::SetVec4f(const GLchar *uniformName, const glm::vec4 &vec)
+  {
+    glUniform4f(glGetUniformLocation(this->ShaderProgram, uniformName), vec.x, vec.y, vec.z, vec.w); 
+  }
+
+  void Shader::SetVec4f(const GLchar *uniformName, const GLfloat &x, const GLfloat &y, const GLfloat &z, const GLfloat &w)
+  {
+    glUniform4f(glGetUniformLocation(this->ShaderProgram, uniformName), x, y, z, w);
+  }
+
+  void Shader::SetMat4(const GLchar *uniformName, const glm::mat4 &mat)
+  {
+    glUniformMatrix4fv(glGetUniformLocation(this->ShaderProgram, uniformName), 1, GL_FALSE, glm::value_ptr(mat)); 
+  }
+
 } }
 
