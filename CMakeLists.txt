@@ -23,6 +23,8 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
     "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
     "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
   set(CXX_COMPILE_FLAGS "-std=c++11 -Wall")
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+  message(STATUS "Using MSVC")
 endif()
 
 if (UNIX AND NOT APPLE)
