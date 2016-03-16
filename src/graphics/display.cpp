@@ -46,7 +46,6 @@ namespace stella { namespace graphics {
   void Display::Update()
   {
     this->updateInput();
-    this->clear();
     glfwSwapBuffers(this->Window);
   }
 
@@ -57,7 +56,7 @@ namespace stella { namespace graphics {
     this->ClearColor.z = b/255.0f;
   }
 
-  void Display::clear()
+  void Display::Clear()
   {
     glClearColor(this->ClearColor.x, this->ClearColor.y, this->ClearColor.z, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);

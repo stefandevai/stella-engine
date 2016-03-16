@@ -1,4 +1,5 @@
-#include "utils/fileutils.h"
+#pragma once
+
 #include "graphics/display.h"
 #include "graphics/shader.h"
 

@@ -7,10 +7,16 @@ namespace stella { namespace graphics {
   class Shader
   {
     public:
-      Shader();
+      Shader(const char* vsPath, const char* fsPath);
       ~Shader();
+
+      void Enable();
+      void Disable();
     private:
-      GLuint Program;
+      GLuint ShaderProgram;
+      const char *VsPath, *FsPath;
+
+      GLuint load();
   };
 } }
 

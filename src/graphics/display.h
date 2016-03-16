@@ -12,6 +12,7 @@ namespace stella { namespace graphics {
       ~Display();
       bool IsRunning();
       void Update();
+      void Clear();
       void SetClearColor(int r, int g, int b);
 
     private:
@@ -22,7 +23,6 @@ namespace stella { namespace graphics {
       glm::vec3 ClearColor;
 
       void updateInput();
-      void clear();
       static void inputCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
   };
 }}
