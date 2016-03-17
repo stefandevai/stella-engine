@@ -4,7 +4,8 @@
 #include <iostream>
 
 namespace stella { namespace graphics { 
-  Renderer::Renderer()
+  Renderer::Renderer(Texture *tex)
+    : texture(tex)
   {
     this->init();
   }
@@ -36,18 +37,22 @@ namespace stella { namespace graphics {
     unsigned int c = a << 24 | b << 16 | g << 8 | r;
 
     this->VertexBuffer->vertex = glm::vec3(position, 1.0f);
+    this->VertexBuffer->uv = glm::vec2(0.0f, 1.0f);
     this->VertexBuffer->color = c;
     this->VertexBuffer++;
     
     this->VertexBuffer->vertex = glm::vec3(position.x + dimensions.x, position.y, 1.0f);
+    this->VertexBuffer->uv = glm::vec2(1.0f, 1.0f);
     this->VertexBuffer->color = c;
     this->VertexBuffer++;
     
     this->VertexBuffer->vertex = glm::vec3(position.x + dimensions.x, position.y + dimensions.y, 1.0f);
+    this->VertexBuffer->uv = glm::vec2(1.0f, 0.0f);
     this->VertexBuffer->color = c;
     this->VertexBuffer++;
     
     this->VertexBuffer->vertex = glm::vec3(position.x, position.y + dimensions.y, 1.0f);
+    this->VertexBuffer->uv = glm::vec2(0.0f, 0.0f);
     this->VertexBuffer->color = c;
     this->VertexBuffer++;
 
@@ -62,6 +67,9 @@ namespace stella { namespace graphics {
 
   void Renderer::Draw()
   {
+    glActiveTexture(GL_TEXTURE0);
+    texture->Bind();
+
     glBindVertexArray(this->VAO);
     glDrawElements(GL_TRIANGLES, this->IndexCount, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
@@ -82,6 +90,9 @@ namespace stella { namespace graphics {
     glBufferData(GL_ARRAY_BUFFER, BUFFER_SIZE, NULL, GL_DYNAMIC_DRAW);
     glVertexAttribPointer(VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE, (GLvoid*)0);
     glEnableVertexAttribArray(VERTEX_INDEX);
+
+    glVertexAttribPointer(UV_INDEX, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE, (GLvoid*) offsetof(VertexData, uv));
+    glEnableVertexAttribArray(UV_INDEX);
 
     glVertexAttribPointer(COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE, (GLvoid*) offsetof(VertexData, color));
     glEnableVertexAttribArray(COLOR_INDEX);

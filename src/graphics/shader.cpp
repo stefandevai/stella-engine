@@ -26,7 +26,7 @@ namespace stella { namespace graphics {
 
   GLuint Shader::load()
   {
-    std::string vertexSourceStr = read_file(this->VsPath); 
+    std::string vertexSourceStr = FileUtils::read_file(this->VsPath); 
     const char* vertexSource = vertexSourceStr.c_str(); 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexSource, nullptr);
@@ -42,7 +42,7 @@ namespace stella { namespace graphics {
       std::cout << "Vertex Shader compilation failed!\n" << infoLog << std::endl;
     }
 
-    std::string fragmentSourceStr = read_file(this->FsPath);
+    std::string fragmentSourceStr = FileUtils::read_file(this->FsPath);
     const char* fragmentSource = fragmentSourceStr.c_str(); 
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentSource, nullptr);

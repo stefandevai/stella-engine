@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 
 #include "sprite.h"
+#include "texture.h"
 
 #define MAX_SPRITES 10000
 #define VERTEX_SIZE sizeof(VertexData)
@@ -14,13 +15,14 @@
 namespace stella { namespace graphics { 
   enum Index {
     VERTEX_INDEX,
+    UV_INDEX,
     COLOR_INDEX
   };
 
   class Renderer
   {
     public:
-      Renderer();
+      Renderer(Texture *tex);
       ~Renderer();
       void Begin();
       void Submit(const Sprite &sprite);
@@ -31,6 +33,7 @@ namespace stella { namespace graphics {
       VertexData *VertexBuffer;
       GLuint VAO, VBO, EBO;
       GLsizei IndexCount;
+      Texture *texture;
 
       void init();
   };

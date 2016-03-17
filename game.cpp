@@ -20,12 +20,14 @@ int main(int argc, const char *argv[])
   shader.SetMat4("proj", proj);
   shader.Disable();
 
-  Renderer renderer;
+  Texture texture("assets/gfx/sprites/guanaco.png");
+  Renderer renderer(&texture);
   std::vector<Sprite*> sprites;
+  srand(47);
   for (int i = 0; i < 11; i++)
     for (int j = 0; j < 15; j++)
     {
-      Sprite *sprite = new Sprite(j*32 + 68, i*32 + 68, 28, 28, 0);
+      Sprite *sprite = new Sprite(j*32 + 68, i*32 + 68, texture, 0);
       sprite->SetColor(rand()%(200-30 + 1) + 30, rand()%(200-160 + 1) + 160, rand()%(240-20 + 1) + 20);
       sprites.push_back(sprite);
     }
