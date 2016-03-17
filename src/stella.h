@@ -2,5 +2,5 @@
 
 #include "graphics/display.h"
 #include "graphics/shader.h"
-#include "graphics/sprite.h"
+#include "graphics/renderer.h"
 
