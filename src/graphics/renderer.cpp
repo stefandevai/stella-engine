@@ -83,7 +83,7 @@ namespace stella { namespace graphics {
     glVertexAttribPointer(VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE, (GLvoid*)0);
     glEnableVertexAttribArray(VERTEX_INDEX);
 
-    glVertexAttribPointer(COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE, (GLvoid*)(offsetof(VertexData, VertexData::color)));
+    glVertexAttribPointer(COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE, (GLvoid*) offsetof(VertexData, color));
     glEnableVertexAttribArray(COLOR_INDEX);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
