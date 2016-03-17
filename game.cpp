@@ -13,21 +13,34 @@ int main(int argc, const char *argv[])
   Display display(640, 480, "Stella");
   display.SetClearColor(22, 38, 47);
 
+
+  GLint tex_ids[] =
+  {
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+  };
+
   Shader shader("assets/shaders/basic_shader.vsh", "assets/shaders/basic_shader.fsh");
 
   glm::mat4 proj = glm::ortho(0.0f, (GLfloat)display.GetWidth(), (GLfloat)display.GetHeight(), 0.0f, -1.0f, 1.0f);
   shader.Enable();
   shader.SetMat4("proj", proj);
+  shader.SetIntv("textures", tex_ids, 10);
   shader.Disable();
 
-  Texture texture("guanaco", "assets/gfx/sprites/guanaco.png");
+  Texture guanaco("guanaco", "assets/gfx/sprites/guanaco.png");
+  Texture stella("stella", "assets/gfx/sprites/stella.png");
   Renderer renderer;
   std::vector<Sprite*> sprites;
   srand(47);
   for (int i = 0; i < 11; i++)
     for (int j = 0; j < 15; j++)
     {
-      Sprite *sprite = new Sprite(j*32 + 68, i*32 + 68, texture, 0);
+      Sprite *sprite;
+      if (j%2 == 0)
+        sprite = new Sprite(j*32 + 68, i*32 + 68, guanaco, 0);
+      else
+        sprite = new Sprite(j*32 + 68, i*32 + 68, stella, 0);
+
       sprite->SetColor(rand()%(200-30 + 1) + 30, rand()%(200-160 + 1) + 160, rand()%(240-20 + 1) + 20);
       sprites.push_back(sprite);
     }

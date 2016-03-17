@@ -85,6 +85,11 @@ namespace stella { namespace graphics {
   {
     glUniform1i(glGetUniformLocation(this->ShaderProgram, uniformName), num);
   }
+      
+  void Shader::SetIntv(const GLchar *uniformName, GLint *array, int count)
+  {
+    glUniform1iv(glGetUniformLocation(this->ShaderProgram, uniformName), count, array); 
+  }
 
   void Shader::SetVec2f(const GLchar *uniformName, const glm::vec2 &vec)
   {

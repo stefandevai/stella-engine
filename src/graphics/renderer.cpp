@@ -31,11 +31,25 @@ namespace stella { namespace graphics {
     const glm::vec2 &dimensions = sprite.GetDimensions();
     const glm::vec4 &color = sprite.GetColor();
     Texture* texture = sprite.GetTexture();
+    GLfloat texid = -1.0f;
 
-    if (std::find(Textures.begin(), Textures.end(), texture) == Textures.end())
+    GLboolean found = false;
+    for (unsigned int i = 0; i < Textures.size() && !found; ++i) 
+    {
+      if (Textures[i] == texture)
+      {
+        found = true;
+        texid = (GLfloat)i;
+        break;
+      }
+    }
+    
+    if (!found)
     {
       Textures.push_back(texture);
+      texid = (GLfloat)(Textures.size() - 1);
     }
+
     int r = color.x * 255.0f;
     int g = color.y * 255.0f;
     int b = color.z * 255.0f;
@@ -45,21 +59,25 @@ namespace stella { namespace graphics {
 
     this->VertexBuffer->vertex = glm::vec3(position, 1.0f);
     this->VertexBuffer->uv = glm::vec2(0.0f, 1.0f);
+    this->VertexBuffer->tid = texid;
     this->VertexBuffer->color = c;
     this->VertexBuffer++;
     
     this->VertexBuffer->vertex = glm::vec3(position.x + dimensions.x, position.y, 1.0f);
     this->VertexBuffer->uv = glm::vec2(1.0f, 1.0f);
+    this->VertexBuffer->tid = texid;
     this->VertexBuffer->color = c;
     this->VertexBuffer++;
     
     this->VertexBuffer->vertex = glm::vec3(position.x + dimensions.x, position.y + dimensions.y, 1.0f);
     this->VertexBuffer->uv = glm::vec2(1.0f, 0.0f);
+    this->VertexBuffer->tid = texid;
     this->VertexBuffer->color = c;
     this->VertexBuffer++;
     
     this->VertexBuffer->vertex = glm::vec3(position.x, position.y + dimensions.y, 1.0f);
     this->VertexBuffer->uv = glm::vec2(0.0f, 0.0f);
+    this->VertexBuffer->tid = texid;
     this->VertexBuffer->color = c;
     this->VertexBuffer++;
 
@@ -103,6 +121,9 @@ namespace stella { namespace graphics {
 
     glVertexAttribPointer(UV_INDEX, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE, (GLvoid*) offsetof(VertexData, uv));
     glEnableVertexAttribArray(UV_INDEX);
+
+    glVertexAttribPointer(TID_INDEX, 1, GL_FLOAT, GL_FALSE, VERTEX_SIZE, (GLvoid*) offsetof(VertexData, tid));
+    glEnableVertexAttribArray(TID_INDEX);
 
     glVertexAttribPointer(COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE, (GLvoid*) offsetof(VertexData, color));
     glEnableVertexAttribArray(COLOR_INDEX);

@@ -9,6 +9,7 @@ namespace stella { namespace graphics {
   {
     glm::vec3 vertex;
     glm::vec2 uv;
+    GLfloat tid;
     unsigned int color;
   };
 

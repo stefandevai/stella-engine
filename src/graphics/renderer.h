@@ -18,6 +18,7 @@ namespace stella { namespace graphics {
   enum Index {
     VERTEX_INDEX,
     UV_INDEX,
+    TID_INDEX,
     COLOR_INDEX
   };
 

@@ -16,6 +16,7 @@ namespace stella { namespace graphics {
       // Uniform setting
       void SetFloat(const GLchar *uniformName, const GLfloat &num);
       void SetInt(const GLchar *uniformName, const GLint &num);
+      void SetIntv(const GLchar *uniformName, GLint *array, int count);
       void SetVec2f(const GLchar *uniformName, const glm::vec2 &vec);
       void SetVec2f(const GLchar *uniformName, const GLfloat &x, const GLfloat &y);
       void SetVec3f(const GLchar *uniformName, const glm::vec3 &vec);
