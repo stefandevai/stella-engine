@@ -1,10 +1,10 @@
 #include "texture.h"
 
 #include <SOIL.h>
-#include <iostream>
 
 namespace stella { namespace graphics {
-  Texture::Texture(const char* texPath)
+  Texture::Texture(const std::string name, const char* texPath)
+    : Name(name)
   {
     glGenTextures(1, &this->ID);
     this->load(texPath);
@@ -20,11 +20,16 @@ namespace stella { namespace graphics {
     glBindTexture(GL_TEXTURE_2D, this->ID);
   }
 
+  void Texture::Unbind()
+  {
+    glBindTexture(GL_TEXTURE_2D, 0);
+  }
+
   void Texture::load(const char* texPath)
   {
     int width, height;
     unsigned char* img = SOIL_load_image(texPath, &width, &height, 0, SOIL_LOAD_RGBA);
-    std::cout << width << std::endl;
+
     this->Width = (GLuint)width;
     this->Height = (GLuint)height;
 

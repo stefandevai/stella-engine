@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <GL/glew.h>
 
 #include "sprite.h"
@@ -22,7 +24,7 @@ namespace stella { namespace graphics {
   class Renderer
   {
     public:
-      Renderer(Texture *tex);
+      Renderer();
       ~Renderer();
       void Begin();
       void Submit(const Sprite &sprite);
@@ -33,7 +35,7 @@ namespace stella { namespace graphics {
       VertexData *VertexBuffer;
       GLuint VAO, VBO, EBO;
       GLsizei IndexCount;
-      Texture *texture;
+      std::vector<Texture*> Textures;
 
       void init();
   };

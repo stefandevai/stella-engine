@@ -70,6 +70,10 @@ case $OPT in
     MODE=EXEC
     shift
     ;;
+  -me)
+    MODE=ME # Make and Exec
+    shift
+    ;;
   *)
     printf "Invalid option.\nUse:\n    -c or --cmake: run cmake from build folder.\n    -m or --make: run make from build folder.\n    -e or --exec: execute target from this directory.\n"
     exit 1
@@ -86,6 +90,12 @@ case $MODE in
     shift
     ;;
   EXEC)
+    exec_func
+    shift
+    ;;
+  ME)
+    make_func
+    cd ..
     exec_func
     shift
     ;;

@@ -14,8 +14,8 @@ namespace stella { namespace graphics {
 
   class Sprite {
     public:
-      Sprite(GLint x, GLint y, const Texture &texture, const std::vector<GLuint> &frames);
-      Sprite(GLint x, GLint y, const Texture &texture, GLuint frame);
+      Sprite(GLint x, GLint y, Texture &texture, const std::vector<GLuint> &frames);
+      Sprite(GLint x, GLint y, Texture &texture, GLuint frame);
       ~Sprite();
 
       // Getters
@@ -23,6 +23,9 @@ namespace stella { namespace graphics {
       inline const glm::vec2 GetDimensions() const { return Dimensions; }
       inline const glm::vec4 GetColor() const { return Color; }
       inline const GLuint GetCurrentFrame() const { return Frame; }
+      inline const GLuint GetTexID() const { return SpriteSheet.GetID(); }
+      inline const std::string& GetTexName() const { return SpriteSheet.GetName(); }
+      inline Texture* GetTexture() const { return &SpriteSheet; }
       inline const GLboolean IsVisible() const { return Visible; }
 
       // Setters
@@ -36,7 +39,7 @@ namespace stella { namespace graphics {
     private:
       glm::vec2 Pos, Dimensions;
       glm::vec4 Color;
-      const Texture &SpriteSheet;
+      Texture &SpriteSheet;
       std::vector<GLuint> Frames;
       GLuint Frame, NumberOfFrames;
       GLboolean Visible;

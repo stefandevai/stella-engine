@@ -1,4 +1,3 @@
-#include <iostream>
 #include <sstream>
 #include "../../glm/glm/glm.hpp"
 #include "display.h" 

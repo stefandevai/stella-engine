@@ -20,8 +20,8 @@ int main(int argc, const char *argv[])
   shader.SetMat4("proj", proj);
   shader.Disable();
 
-  Texture texture("assets/gfx/sprites/guanaco.png");
-  Renderer renderer(&texture);
+  Texture texture("guanaco", "assets/gfx/sprites/guanaco.png");
+  Renderer renderer;
   std::vector<Sprite*> sprites;
   srand(47);
   for (int i = 0; i < 11; i++)

@@ -1,11 +1,13 @@
 #include "renderer.h"
 
 #include <cstddef>
+#include <algorithm>
+
+// Temporary includes
 #include <iostream>
 
 namespace stella { namespace graphics { 
-  Renderer::Renderer(Texture *tex)
-    : texture(tex)
+  Renderer::Renderer()
   {
     this->init();
   }
@@ -28,7 +30,12 @@ namespace stella { namespace graphics {
     const glm::vec2 &position = sprite.GetPos();
     const glm::vec2 &dimensions = sprite.GetDimensions();
     const glm::vec4 &color = sprite.GetColor();
+    Texture* texture = sprite.GetTexture();
 
+    if (std::find(Textures.begin(), Textures.end(), texture) == Textures.end())
+    {
+      Textures.push_back(texture);
+    }
     int r = color.x * 255.0f;
     int g = color.y * 255.0f;
     int b = color.z * 255.0f;
@@ -67,8 +74,11 @@ namespace stella { namespace graphics {
 
   void Renderer::Draw()
   {
-    glActiveTexture(GL_TEXTURE0);
-    texture->Bind();
+    for (unsigned int i = 0; i < Textures.size(); ++i)
+    {
+      glActiveTexture(GL_TEXTURE0 + i);
+      Textures[i]->Bind();
+    }
 
     glBindVertexArray(this->VAO);
     glDrawElements(GL_TRIANGLES, this->IndexCount, GL_UNSIGNED_INT, 0);
