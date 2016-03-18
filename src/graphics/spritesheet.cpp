@@ -14,7 +14,6 @@ namespace stella { namespace graphics {
     {
       this->NumOfFrames = this->SizeInFramesX * this->SizeInFramesY;
     }
-
   }
 
   SpriteSheet::~SpriteSheet()

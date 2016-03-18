@@ -13,6 +13,8 @@ namespace stella { namespace graphics {
       glm::vec2 GetUV(GLuint frame);
       inline const GLuint GetWidth() const { return Frames.GetWidth(); }
       inline const GLuint GetHeight() const { return Frames.GetHeight(); }
+
+      inline void SetOffset(GLuint x, GLuint y) { OffsetX = x; OffsetY = y; }
     private:
       const Texture &Frames;
       GLuint FrameX, FrameY, OffsetX, OffsetY, NumOfFrames, SizeInFramesX, SizeInFramesY;
