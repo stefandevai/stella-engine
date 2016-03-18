@@ -10,13 +10,13 @@ int main(int argc, const char *argv[])
   using namespace stella;
   using namespace graphics;
 
-  Display display(640, 480, "Stella");
+  Display display(800, 600, "Stella");
   display.SetClearColor(22, 38, 47);
 
-
+  // TODO Move this block to init on singleton class
   GLint tex_ids[] =
   {
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
   };
 
   Shader shader("assets/shaders/basic_shader.vsh", "assets/shaders/basic_shader.fsh");
@@ -26,20 +26,26 @@ int main(int argc, const char *argv[])
   shader.SetMat4("proj", proj);
   shader.SetIntv("textures", tex_ids, 10);
   shader.Disable();
+  // End of block
 
   Texture guanaco("guanaco", "assets/gfx/sprites/guanaco.png");
   Texture stella("stella", "assets/gfx/sprites/stella.png");
+  Texture terrain("terrain", "assets/gfx/sprites/terrain.png");
+
   Renderer renderer;
   std::vector<Sprite*> sprites;
   srand(47);
-  for (int i = 0; i < 11; i++)
-    for (int j = 0; j < 15; j++)
+  for (int i = 0; i < 9; i++)
+    for (int j = 0; j < 12; j++)
     {
       Sprite *sprite;
-      if (j%2 == 0)
-        sprite = new Sprite(j*32 + 68, i*32 + 68, guanaco, 0);
+      int rand_num = rand();
+      if (rand_num%2 == 0)
+        sprite = new Sprite(j*64, i*64, 64, 64, terrain, rand()%25);
+      else if (rand_num%3 == 0)
+        sprite = new Sprite(j*64, i*64, 28, 28, guanaco, 0);
       else
-        sprite = new Sprite(j*32 + 68, i*32 + 68, stella, 0);
+        sprite = new Sprite(j*64, i*64, 28, 28, stella, 0);
 
       sprite->SetColor(rand()%(200-30 + 1) + 30, rand()%(200-160 + 1) + 160, rand()%(240-20 + 1) + 20);
       sprites.push_back(sprite);

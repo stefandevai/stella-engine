@@ -3,6 +3,7 @@
 #include "../../glm/glm/glm.hpp"
 
 #include "texture.h"
+#include "spritesheet.h"
 
 namespace stella { namespace graphics { 
   struct VertexData
@@ -16,7 +17,8 @@ namespace stella { namespace graphics {
   class Sprite {
     public:
       Sprite(GLint x, GLint y, Texture &texture, const std::vector<GLuint> &frames);
-      Sprite(GLint x, GLint y, Texture &texture, GLuint frame);
+      Sprite(GLint x, GLint y, Texture &texture, GLuint frame = 0);
+      Sprite(GLint x, GLint y, GLint w, GLint h, Texture &texture, GLuint frame = 0);
       ~Sprite();
 
       // Getters
@@ -24,10 +26,12 @@ namespace stella { namespace graphics {
       inline const glm::vec2 GetDimensions() const { return Dimensions; }
       inline const glm::vec4 GetColor() const { return Color; }
       inline const GLuint GetCurrentFrame() const { return Frame; }
-      inline const GLuint GetTexID() const { return SpriteSheet.GetID(); }
-      inline const std::string& GetTexName() const { return SpriteSheet.GetName(); }
-      inline Texture* GetTexture() const { return &SpriteSheet; }
+      inline const GLuint GetTexID() const { return Tex.GetID(); }
+      inline const std::string& GetTexName() const { return Tex.GetName(); }
+      inline SpriteSheet* GetSpriteSheet() const { return Sprites; }
+      inline Texture* GetTexture() const { return &Tex; }
       inline const GLboolean IsVisible() const { return Visible; }
+      inline const glm::vec2 GetFrameCoords() const { return Sprites->GetUV(this->Frame); }
 
       // Setters
       void SetPos(const GLint& x, const GLint& y) { Pos.x = x; Pos.y = y; }
@@ -40,10 +44,11 @@ namespace stella { namespace graphics {
     private:
       glm::vec2 Pos, Dimensions;
       glm::vec4 Color;
-      Texture &SpriteSheet;
+      Texture &Tex;
       std::vector<GLuint> Frames;
       GLuint Frame, NumberOfFrames;
       GLboolean Visible;
+      SpriteSheet* Sprites;
   };
 } }
 

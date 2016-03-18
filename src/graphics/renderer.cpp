@@ -30,6 +30,12 @@ namespace stella { namespace graphics {
     const glm::vec2 &position = sprite.GetPos();
     const glm::vec2 &dimensions = sprite.GetDimensions();
     const glm::vec4 &color = sprite.GetColor();
+    
+    const glm::vec2 &uv = sprite.GetFrameCoords();
+    SpriteSheet* spritesheet = sprite.GetSpriteSheet();
+    GLuint stW = spritesheet->GetWidth();
+    GLuint stH = spritesheet->GetHeight();
+
     Texture* texture = sprite.GetTexture();
     GLfloat texid = -1.0f;
 
@@ -57,26 +63,29 @@ namespace stella { namespace graphics {
 
     unsigned int c = a << 24 | b << 16 | g << 8 | r;
 
+    GLfloat uvoffsetX = dimensions.x/(GLfloat)stW;
+    GLfloat uvoffsetY = dimensions.y/(GLfloat)stH;
+    //std::cout << stH << std::endl;
     this->VertexBuffer->vertex = glm::vec3(position, 1.0f);
-    this->VertexBuffer->uv = glm::vec2(0.0f, 1.0f);
+    this->VertexBuffer->uv = glm::vec2(uv.x, uv.y);
     this->VertexBuffer->tid = texid;
     this->VertexBuffer->color = c;
     this->VertexBuffer++;
     
     this->VertexBuffer->vertex = glm::vec3(position.x + dimensions.x, position.y, 1.0f);
-    this->VertexBuffer->uv = glm::vec2(1.0f, 1.0f);
+    this->VertexBuffer->uv = glm::vec2(uv.x + uvoffsetX, uv.y);
     this->VertexBuffer->tid = texid;
     this->VertexBuffer->color = c;
     this->VertexBuffer++;
     
     this->VertexBuffer->vertex = glm::vec3(position.x + dimensions.x, position.y + dimensions.y, 1.0f);
-    this->VertexBuffer->uv = glm::vec2(1.0f, 0.0f);
+    this->VertexBuffer->uv = glm::vec2(uv.x + uvoffsetX, uv.y - uvoffsetY);
     this->VertexBuffer->tid = texid;
     this->VertexBuffer->color = c;
     this->VertexBuffer++;
     
     this->VertexBuffer->vertex = glm::vec3(position.x, position.y + dimensions.y, 1.0f);
-    this->VertexBuffer->uv = glm::vec2(0.0f, 0.0f);
+    this->VertexBuffer->uv = glm::vec2(uv.x, uv.y - uvoffsetY);
     this->VertexBuffer->tid = texid;
     this->VertexBuffer->color = c;
     this->VertexBuffer++;
