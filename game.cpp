@@ -20,10 +20,11 @@ int main(int argc, const char *argv[])
   };
 
   Shader shader("assets/shaders/basic_shader.vsh", "assets/shaders/basic_shader.fsh");
-
   glm::mat4 proj = glm::ortho(0.0f, (GLfloat)display.GetWidth(), (GLfloat)display.GetHeight(), 0.0f, -1.0f, 1.0f);
+
+  SceneLayer layer(&shader, proj);
+
   shader.Enable();
-  shader.SetMat4("proj", proj);
   shader.SetIntv("textures", tex_ids, 10);
   shader.Disable();
   // End of block
@@ -32,8 +33,6 @@ int main(int argc, const char *argv[])
   Texture stella("stella", "assets/gfx/sprites/stella.png");
   Texture terrain("terrain", "assets/gfx/sprites/terrain.png");
 
-  Renderer renderer;
-  std::vector<Sprite*> sprites;
   srand(47);
   for (int i = 0; i < 9; i++)
     for (int j = 0; j < 12; j++)
@@ -47,8 +46,7 @@ int main(int argc, const char *argv[])
       else
         sprite = new Sprite(j*64, i*64, 28, 28, stella, 0);
 
-      sprite->SetColor(rand()%(200-30 + 1) + 30, rand()%(200-160 + 1) + 160, rand()%(240-20 + 1) + 20);
-      sprites.push_back(sprite);
+      layer.Add(sprite);
     }
 
   glm::mat4 model;
@@ -56,13 +54,7 @@ int main(int argc, const char *argv[])
   while (display.IsRunning())
   {
     display.Clear();
-    
-    shader.Enable();
-    renderer.Begin();
-    for (auto i : sprites)
-      renderer.Submit(*i);
-    renderer.End();
-    renderer.Draw();
+    layer.Render();
 
     model = glm::translate(model, glm::vec3(display.GetWidth()/2.0f, display.GetHeight()/2.0f, 0.0f));
     model = glm::rotate(model, glm::radians(display.GetDT() * 30.0f * cosf(display.GetTime())), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -74,8 +66,6 @@ int main(int argc, const char *argv[])
   }
 
   shader.Disable();
-  for (auto i : sprites)
-    delete i;
 
   return 0;
 }

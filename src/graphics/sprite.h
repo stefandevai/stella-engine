@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <GL/glew.h>
 #include "../../glm/glm/glm.hpp"
