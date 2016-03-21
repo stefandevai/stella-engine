@@ -13,7 +13,6 @@
 #define BUFFER_SIZE MAX_SPRITES * SPRITE_SIZE
 #define INDICES_SIZE 6 * MAX_SPRITES
 
-
 namespace stella { namespace graphics { 
   enum Index {
     VERTEX_INDEX,

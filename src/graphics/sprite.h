@@ -18,6 +18,8 @@ namespace stella { namespace graphics {
 
   class Sprite {
     public:
+      glm::vec2 Pos, Dimensions;
+
       Sprite(GLint x, GLint y, Texture &texture, const std::vector<GLuint> &frames);
       Sprite(GLint x, GLint y, Texture &texture, GLuint frame = 0);
       Sprite(GLint x, GLint y, GLint w, GLint h, Texture &texture, GLuint frame = 0);
@@ -36,15 +38,12 @@ namespace stella { namespace graphics {
       inline const glm::vec2 GetFrameCoords() const { return Sprites->GetUV(this->Frame); }
 
       // Setters
-      void SetPos(const GLint& x, const GLint& y) { Pos.x = x; Pos.y = y; }
-      void SetDimensions(const GLint& w, const GLint& h, const GLint& d) { Dimensions.x = w; Dimensions.y = h; }
       void SetColor(int r, int g, int b) { Color.x = r/255.0f; Color.y = g/255.0f; Color.z = b/255.0f; }
       void SetFrame(GLuint frame);
       void SetVisible(GLboolean vis) { Visible = vis; }
       void ToggleVisible() { Visible = !Visible; }
 
     private:
-      glm::vec2 Pos, Dimensions;
       glm::vec4 Color;
       Texture &Tex;
       std::vector<GLuint> Frames;

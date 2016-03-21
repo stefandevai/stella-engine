@@ -23,6 +23,7 @@ int main(int argc, const char *argv[])
   glm::mat4 proj = glm::ortho(0.0f, (GLfloat)display.GetWidth(), (GLfloat)display.GetHeight(), 0.0f, -1.0f, 1.0f);
 
   SceneLayer layer(&shader, proj);
+  SceneLayer layer2(&shader, proj);
 
   shader.Enable();
   shader.SetIntv("textures", tex_ids, 10);
@@ -33,34 +34,31 @@ int main(int argc, const char *argv[])
   Texture stella("stella", "assets/gfx/sprites/stella.png");
   Texture terrain("terrain", "assets/gfx/sprites/terrain.png");
 
-  srand(47);
-  for (int i = 0; i < 9; i++)
-    for (int j = 0; j < 12; j++)
+//  srand(47);
+  for (int i = 0; i < 10; i++)
+    for (int j = 0; j < 13; j++)
     {
       Sprite *sprite;
-      int rand_num = rand();
-      if (rand_num%2 == 0)
-        sprite = new Sprite(j*64, i*64, 64, 64, terrain, rand()%25);
-      else if (rand_num%3 == 0)
-        sprite = new Sprite(j*64, i*64, 28, 28, guanaco, 0);
-      else
-        sprite = new Sprite(j*64, i*64, 28, 28, stella, 0);
+//      int rand_num = rand();
+//      if (rand_num%2 == 0)
+//        sprite = new Sprite(j*64, i*64, 64, 64, terrain, rand()%25);
+//      else if (rand_num%3 == 0)
+//        sprite = new Sprite(j*64, i*64, 28, 28, guanaco, 0);
+//      else
+//        sprite = new Sprite(j*64, i*64, 28, 28, stella, 0);
+      sprite = new Sprite(j*64, i*64, 64, 64, terrain, 0);
 
       layer.Add(sprite);
     }
-
-  glm::mat4 model;
+  Sprite *Stella = new Sprite(400, 100, 28, 28, stella, 0);
+  layer2.Add(Stella);
 
   while (display.IsRunning())
   {
     display.Clear();
     layer.Render();
-
-    model = glm::translate(model, glm::vec3(display.GetWidth()/2.0f, display.GetHeight()/2.0f, 0.0f));
-    model = glm::rotate(model, glm::radians(display.GetDT() * 30.0f * cosf(display.GetTime())), glm::vec3(0.0f, 0.0f, 1.0f));
-    model = glm::translate(model, glm::vec3(display.GetWidth()/-2.0f, display.GetHeight()/-2.0f, 0.0f));
-
-    shader.SetMat4("model", model);
+    layer2.Render();
+    Stella->Pos.x = 400 - 28 + 200*cosf(display.GetTime());
 
     display.Update();
   }

@@ -65,7 +65,7 @@ namespace stella { namespace graphics {
 
     GLfloat uvoffsetX = dimensions.x/(GLfloat)stW;
     GLfloat uvoffsetY = dimensions.y/(GLfloat)stH;
-    //std::cout << stH << std::endl;
+
     this->VertexBuffer->vertex = glm::vec3(position, 1.0f);
     this->VertexBuffer->uv = glm::vec2(uv.x, uv.y);
     this->VertexBuffer->tid = texid;
