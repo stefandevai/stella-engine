@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "../../../glm/glm/glm.hpp"
+#include "../../../Dependencies/glm/glm/glm.hpp"
 
 #include "../renderer.h"
 #include "../shader.h"

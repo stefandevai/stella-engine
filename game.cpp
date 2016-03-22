@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
-#include "glm/glm/glm.hpp"
-#include "glm/glm/gtc/matrix_transform.hpp"
+#include "Dependencies/glm/glm/glm.hpp"
+#include "Dependencies/glm/glm/gtc/matrix_transform.hpp"
 #include "src/stella.h"
 
 int main(int argc, const char *argv[])

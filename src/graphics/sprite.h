@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <GL/glew.h>
-#include "../../glm/glm/glm.hpp"
+#include "../../Dependencies/glm/glm/glm.hpp"
 
 #include "texture.h"
 #include "spritesheet.h"
