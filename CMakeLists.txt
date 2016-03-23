@@ -24,6 +24,9 @@ include_directories(${OpenAL_INCLUDE_DIRS})
 find_package(ALUT REQUIRED)
 include_directories(${ALUT_INCLUDE_DIRS})
 
+find_package(Freetype REQUIRED)
+include_directories(${FREETYPE_INCLUDE_DIRS})
+
 # SOIL
 if (USE_SHARED_SOIL)
   find_package(SOIL REQUIRED)
@@ -63,5 +66,5 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COMPILE_FLAGS}")
 target_link_libraries(stella ${CXX_LINK_FLAGS} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES} ${SOIL_LIBRARIES}
-  ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES})
+  ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${FREETYPE_LIBRARIES})
 

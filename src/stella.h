@@ -7,3 +7,6 @@
 #include "graphics/layers/layer.h"
 #include "graphics/layers/scenelayer.h"
 
+#include "sound/sound.h"
+#include "sound/soundplayer.h"
+
