@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 3.0)
 project(stella)
 
+set(DEPENDENCIES_DIR ${PROJECT_SOURCE_DIR}/Dependencies)
+
+option(USE_SHARED_SOIL "Use shared SOIL library" off)
+
 file(GLOB_RECURSE SOURCE ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
 find_package(OpenGL REQUIRED)
 
@@ -14,8 +18,28 @@ include_directories(${GLFW_INCLUDE_DIRS})
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
 
-find_package(SOIL REQUIRED)
-include_directories(${SOIL_INCLUDE_DIRS})
+find_package(OpenAL REQUIRED)
+include_directories(${OpenAL_INCLUDE_DIRS})
+
+# SOIL
+if (USE_SHARED_SOIL)
+  find_package(SOIL REQUIRED)
+  include_directories(${SOIL_INCLUDE_DIRS})
+else()
+  add_subdirectory(${DEPENDENCIES_DIR}/SOIL)
+  include_directories(${DEPENDENCIES_DIR}/SOIL/src)
+  set(SOIL_LIBRARIES SOIL)
+endif()
+
+# mikmod
+#if (USE_SHARED_MIKMOD)
+#  find_package(mikmod REQUIRED)
+#  include_directories(${mikmod_INCLUDE_DIRS})
+#else()
+#  add_subdirectory(${DEPENDENCIES_DIR}/mikmod)
+#  include_directories(${DEPENDENCIES_DIR}/mikmod/include)
+#  set(MIKMOD_LIBRARIES mikmod)
+#endif()
 
 add_executable(stella game.cpp ${SOURCE})
 
@@ -41,5 +65,6 @@ elseif(WIN32)
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COMPILE_FLAGS}")
-target_link_libraries(stella ${CXX_LINK_FLAGS} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES} ${SOIL_LIBRARIES})
+target_link_libraries(stella ${CXX_LINK_FLAGS} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES} ${SOIL_LIBRARIES}
+  ${OpenAL_LIBRARIES})
 

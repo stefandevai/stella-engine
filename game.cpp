@@ -5,6 +5,9 @@
 #include "Dependencies/glm/glm/gtc/matrix_transform.hpp"
 #include "src/stella.h"
 
+#include <AL/al.h>
+#include <AL/alut.h>
+
 int main(int argc, const char *argv[])
 {
   using namespace stella;
@@ -52,6 +55,7 @@ int main(int argc, const char *argv[])
     }
   Sprite *Stella = new Sprite(400, 100, 28, 28, stella, 0);
   layer2.Add(Stella);
+
 
   while (display.IsRunning())
   {
