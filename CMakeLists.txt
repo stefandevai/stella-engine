@@ -21,6 +21,9 @@ include_directories(${GLEW_INCLUDE_DIRS})
 find_package(OpenAL REQUIRED)
 include_directories(${OpenAL_INCLUDE_DIRS})
 
+find_package(ALUT REQUIRED)
+include_directories(${ALUT_INCLUDE_DIRS})
+
 # SOIL
 if (USE_SHARED_SOIL)
   find_package(SOIL REQUIRED)
@@ -31,15 +34,9 @@ else()
   set(SOIL_LIBRARIES SOIL)
 endif()
 
-# mikmod
-#if (USE_SHARED_MIKMOD)
-#  find_package(mikmod REQUIRED)
-#  include_directories(${mikmod_INCLUDE_DIRS})
-#else()
-#  add_subdirectory(${DEPENDENCIES_DIR}/mikmod)
-#  include_directories(${DEPENDENCIES_DIR}/mikmod/include)
-#  set(MIKMOD_LIBRARIES mikmod)
-#endif()
+# Vorbis
+find_package(Vorbis REQUIRED)
+include_directories(${VORBIS_INCLUDE_DIRS})
 
 add_executable(stella game.cpp ${SOURCE})
 
@@ -66,5 +63,5 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COMPILE_FLAGS}")
 target_link_libraries(stella ${CXX_LINK_FLAGS} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES} ${SOIL_LIBRARIES}
-  ${OpenAL_LIBRARIES})
+  ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES})
 

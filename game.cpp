@@ -7,8 +7,11 @@
 
 #include <AL/al.h>
 #include <AL/alut.h>
+#include <vorbis/vorbisfile.h>
 
-int main(int argc, const char *argv[])
+#define AL_BUF_SIZE 32768
+
+int main(int argc, char *argv[])
 {
   using namespace stella;
   using namespace graphics;
@@ -56,6 +59,47 @@ int main(int argc, const char *argv[])
   Sprite *Stella = new Sprite(400, 100, 28, 28, stella, 0);
   layer2.Add(Stella);
 
+  ALint state;
+  ALuint bufferID;
+  ALuint sourceID;
+  ALenum format;
+  ALsizei freq;
+
+  std::vector<char> bufferData;
+
+  alutInit(&argc, argv);
+  alGenBuffers(1, &bufferID);
+  alGenSources(1, &sourceID);
+  alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
+  alSource3f(sourceID, AL_POSITION, 0.0f, 0.0f, 0.0f);
+
+  int endian = 0;
+  int bitStream;
+  long bytes;
+  char array[AL_BUF_SIZE];
+  FILE *file;
+
+  file = fopen("assets/audio/tune1.ogg", "rb");
+  vorbis_info *pInfo;
+  OggVorbis_File oggFile;
+  ov_open(file, &oggFile, NULL, 0);
+  pInfo = ov_info(&oggFile, -1);
+  if (pInfo->channels == 1)
+    format = AL_FORMAT_MONO16;
+  else
+    format = AL_FORMAT_STEREO16;
+  freq = pInfo->rate;
+
+  do {
+    bytes = ov_read(&oggFile, array, AL_BUF_SIZE, endian, 2, 1, &bitStream);
+    bufferData.insert(bufferData.end(), array, array+bytes);
+  } while (bytes > 0);
+
+  ov_clear(&oggFile);
+
+  alBufferData(bufferID, format, &bufferData[0], static_cast<ALsizei>(bufferData.size()), freq);
+  alSourcei(sourceID, AL_BUFFER, bufferID);
+  alSourcePlay(sourceID);
 
   while (display.IsRunning())
   {
@@ -64,8 +108,12 @@ int main(int argc, const char *argv[])
     layer2.Render();
     Stella->Pos.x = 400 - 28 + 200*cosf(display.GetTime());
 
+    alGetSourcei(sourceID, AL_SOURCE_STATE, &state);
     display.Update();
   }
+  alDeleteBuffers(1, &bufferID);
+  alDeleteSources(1, &sourceID);
+  alutExit();
 
   shader.Disable();
 
