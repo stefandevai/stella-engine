@@ -16,6 +16,7 @@ namespace stella { namespace graphics {
       Renderable(Texture &texture);
       virtual ~Renderable();
 
+      // Getters
       inline const glm::vec2 GetPos() const { return Pos; }
       inline const glm::vec2 GetDimensions() const { return Dimensions; }
       inline const GLuint GetTexID() const { return Tex.GetID(); }
@@ -23,6 +24,7 @@ namespace stella { namespace graphics {
       inline Texture* GetTexture() const { return &Tex; }
       inline const GLboolean IsVisible() const { return Visible; }
 
+      // Setters
       void SetVisible(GLboolean vis) { Visible = vis; }
       void ToggleVisible() { Visible = !Visible; }
 
