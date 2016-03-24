@@ -9,6 +9,14 @@ namespace stella { namespace graphics {
     this->Visible = visible;
   }
   
+  Renderable::Renderable(GLint x, GLint y, Texture &texture)
+    : Tex(texture)
+  {
+    this->Pos = glm::vec2((GLfloat)x, (GLfloat)y);
+    this->Dimensions = glm::vec2(this->Tex.GetWidth(), this->Tex.GetWidth());
+    this->Visible = GL_TRUE;
+  }
+  
   Renderable::Renderable(Texture &texture)
     : Tex(texture)
   {
