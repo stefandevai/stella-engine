@@ -6,19 +6,6 @@
 #include "Dependencies/glm/glm/gtc/matrix_transform.hpp"
 #include "src/stella.h"
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-
-struct Character {
-  GLuint TextureID;
-  glm::ivec2 Size;
-  glm::ivec2 Bearing;
-  GLuint Advance;
-};
-
-std::map<GLchar, Character> Characters;
-void RenderText(stella::graphics::Shader &shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color);
-
 int main(int argc, char *argv[])
 {
   using namespace stella;
@@ -48,6 +35,7 @@ int main(int argc, char *argv[])
   Texture guanaco("guanaco", "assets/gfx/sprites/guanaco.png");
   Texture stella("stella", "assets/gfx/sprites/stella.png");
   Texture terrain("terrain", "assets/gfx/sprites/terrain.png");
+  Texture tina("tina", "assets/gfx/sprites/tina.png");
 
 //  srand(47);
   for (int i = 0; i < 10; i++)
@@ -56,40 +44,34 @@ int main(int argc, char *argv[])
       Sprite *sprite;
 //      int rand_num = rand();
 //      if (rand_num%2 == 0)
-//        sprite = new Sprite(j*64, i*64, 64, 64, terrain, rand()%25);
+        sprite = new Sprite(j*64, i*64, 64, 64, terrain, rand()%25);
 //      else if (rand_num%3 == 0)
 //        sprite = new Sprite(j*64, i*64, 28, 28, guanaco, 0);
 //      else
 //        sprite = new Sprite(j*64, i*64, 28, 28, stella, 0);
-      sprite = new Sprite(j*64, i*64, 64, 64, terrain, 0);
+      //sprite = new Sprite(j*64, i*64, 64, 64, terrain, 0);
 
       layer.Add(sprite);
     }
-  Sprite *Stella = new Sprite(400, 100, 28, 28, stella, 0);
+  Sprite *Stella = new Sprite(400 - 23, 300 - 51, 46, 102, tina, 0);
+  std::vector<unsigned int> idleanim = { 0, 1, 2, 3, 4, 5 };
+  std::vector<unsigned int> walkanim = { 8, 9, 10, 11, 12, 13, 14, 15 };
+  Stella->Animations.Add("idle", idleanim, 10);
+  Stella->Animations.Add("walk", walkanim, 8);
+  Stella->Animations.Play("walk");
   layer2.Add(Stella);
 
   //SoundPlayer mplayer(&argc, argv);
   //mplayer.Add("assets/audio/tune1.ogg");
   //mplayer.Play();
   
-  FT_Library ft;
-  if (FT_Init_FreeType(&ft))
-    std::cout << "FreeType Error" << std::endl;
-
-  FT_Face face;
-  if (FT_New_Face(ft, "assets/fonts/Raleway-Medium.ttf", 0, &face))
-    std::cout << "Failed to load font" << std::endl;
-
-  FT_Set_Pixel_Sizes(face, 0, 48);
-  
-
-
   while (display.IsRunning())
   {
     display.Clear();
     layer.Render();
     layer2.Render();
     Stella->Pos.x = 400 - 28 + 200*cosf(display.GetTime());
+    Stella->Update();
 
     //mplayer.Update();
     display.Update();

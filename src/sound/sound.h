@@ -4,7 +4,7 @@
 
 #include <AL/al.h>
 
-#define SOUND_BUFFER_SIZE 32768
+#define SOUND_BUFFER_SIZE (4096 * 8)
 
 namespace stella { namespace audio {
   class Sound
@@ -20,11 +20,14 @@ namespace stella { namespace audio {
 
     private:
       ALint State;
+      ALuint ID;
       ALuint BufferID;
       ALuint SourceID;
       ALenum Format;
       ALsizei Freq;
       std::vector<char> BufferData;
+
+      bool Loop;
 
       void init(const char* filepath);
       void loadOGG(const char* filepath, std::vector<char> &buffer, ALenum &format, ALsizei &freq);

@@ -1,4 +1,5 @@
 #include "sprite.h"
+#include <iostream>
 
 namespace stella { namespace graphics { 
   Sprite::Sprite(GLint x, GLint y, Texture &texture, const std::vector<GLuint> &frames)
@@ -34,6 +35,11 @@ namespace stella { namespace graphics {
   Sprite::~Sprite()
   {
     delete Sprites;
+  }
+
+  void Sprite::Update()
+  {
+    this->Frame = Animations.Update();
   }
   
   void Sprite::SetFrame(GLuint frame) 

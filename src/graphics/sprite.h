@@ -2,6 +2,7 @@
 
 #include "renderable.h"
 #include "spritesheet.h"
+#include "animator.h"
 
 namespace stella { namespace graphics { 
   struct VertexData
@@ -15,10 +16,14 @@ namespace stella { namespace graphics {
   class Sprite : public Renderable
   {
     public:
+      Animator Animations;
+
       Sprite(GLint x, GLint y, Texture &texture, const std::vector<GLuint> &frames);
       Sprite(GLint x, GLint y, Texture &texture, GLuint frame = 0);
       Sprite(GLint x, GLint y, GLint w, GLint h, Texture &texture, GLuint frame = 0);
       ~Sprite();
+
+      void Update();
 
       // Getters
       inline const glm::vec4 GetColor() const { return Color; }
