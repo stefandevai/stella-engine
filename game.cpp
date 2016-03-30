@@ -104,21 +104,21 @@ int main(int argc, char *argv[])
         Player->Pos.y += 7;
     }
 
-    if (Keys[GLFW_KEY_SPACE])
+    if (Keys[GLFW_KEY_SPACE] && !spacepressed)
     {
-      if (!idle && !spacepressed)
+      if (!idle)
       {
         idle = true;
         Tina->Animations.Play("idle"); 
       }
-      else if (idle && !spacepressed)
+      else if (idle)
       {
         idle = false;
         Tina->Animations.Play("walk");
       }
       spacepressed = true;
     }
-    else if (!Keys[GLFW_KEY_SPACE]) spacepressed = false;
+    else if (!Keys[GLFW_KEY_SPACE] && spacepressed) spacepressed = false;
   }
 
   shader.Disable();
