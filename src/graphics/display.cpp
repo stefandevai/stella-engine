@@ -8,6 +8,7 @@ namespace stella { namespace graphics {
 
   GLuint KeyPressed, KeyReleased;
   GLboolean KeyPress = GL_FALSE, KeyRelease = GL_FALSE;
+  double MouseX, MouseY;
 
   Display::Display(GLuint width, GLuint height, const std::string& title, GLboolean (&keys)[1024])
     : Width(width), Height(height), Title(title), Keys(keys)
@@ -32,6 +33,7 @@ namespace stella { namespace graphics {
     
     // Input callback
     glfwSetKeyCallback(this->Window, this->inputCallback);
+    glfwSetCursorPosCallback(this->Window, this->mouseCallback);
     
     // GLEW Initialization
     glewExperimental = GL_TRUE;
@@ -122,6 +124,12 @@ namespace stella { namespace graphics {
     this->LastTime = currentTime;
   }
 
+  void Display::GetMousePos(double &mx, double &my)
+  {
+    mx = MouseX;
+    my = MouseY;
+  }
+
   GLfloat Display::getFPS()
   {
     GLuint currentFrame = this->Frame;
@@ -152,6 +160,18 @@ namespace stella { namespace graphics {
         KeyReleased = key;
       } 
     }
+  }
+
+  void Display::mouseCallback(GLFWwindow* window, double xpos, double ypos)
+  {
+    MouseX = xpos;
+    MouseY = ypos;
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+    if (MouseX < 0) MouseX = 0;
+    else if (MouseX > width) MouseX = width;
+    if (MouseY < 0) MouseY = 0;
+    else if (MouseY > height) MouseY = height;
   }
 }}
 

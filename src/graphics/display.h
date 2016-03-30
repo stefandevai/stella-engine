@@ -18,6 +18,7 @@ namespace stella { namespace graphics {
       GLfloat GetTime() { return (GLfloat)glfwGetTime(); }
       GLuint GetFrame() { return Frame; }
       GLfloat GetDT() { return DT; }
+      void GetMousePos(double &mx, double &my);
 
     private:
       GLuint Width, Height, Frame, LastFrame;
@@ -32,6 +33,7 @@ namespace stella { namespace graphics {
       GLfloat getFPS();
       void getDT();
       static void inputCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
+      static void mouseCallback(GLFWwindow* window, double xpos, double ypos);
   };
 }}
 

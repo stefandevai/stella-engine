@@ -10,6 +10,7 @@ out DATA
   vec2 uv;
   float tid;
   vec4 color;
+  vec2 pos;
 } v_out;
 
 uniform mat4 model = mat4(1.0);
@@ -22,5 +23,6 @@ void main()
   v_out.uv = vec2(uv.x, 1.0 - uv.y);
   v_out.tid = tid;
   v_out.color = color;
+  v_out.pos = vec2(position.xy);
 }
 

@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include <map>
 #include <cmath>
 #include "Dependencies/glm/glm/glm.hpp"
 #include "Dependencies/glm/glm/gtc/matrix_transform.hpp"
@@ -44,18 +43,18 @@ int main(int argc, char *argv[])
     for (int j = 0; j < 13; j++)
     {
       Sprite *sprite;
-      sprite = new Sprite(j*64, i*64, 64, 64, terrain, rand()%25);
+      sprite = new Sprite(j*64, i*64, 64, 64, terrain, rand()%29);
 
       layer.Add(sprite);
     }
-  Sprite *Tina = new Sprite(400, 450, 46, 102, tina, 0);
+  Sprite *Tina = new Sprite(400 - 23, 300 - 51, 46, 102, tina, 0);
   std::vector<unsigned int> idleanim = { 0, 1, 2, 3, 4, 5 };
   std::vector<unsigned int> walkanim = { 8, 9, 10, 11, 12, 13, 14, 15 };
   Tina->Animations.Add("idle", idleanim, 10);
   Tina->Animations.Add("walk", walkanim, 8);
   Tina->Animations.Play("walk");
 
-  Sprite* Player = new Sprite(400 - 23, 300 - 51, 160, 120, guanaco, 0);
+  Sprite* Player = new Sprite(400 - 80, 450, 160, 120, guanaco, 0);
   std::vector<unsigned int> guanim = { 0, 1, 2, 3, 4 };
   Player->Animations.Add("run", guanim, 5);
   Player->Animations.Play("run");
@@ -78,6 +77,9 @@ int main(int argc, char *argv[])
     if (!idle)
       Tina->Pos.x = 400 - 28 + 200*cosf(anim_counter++/50.0f);
     Tina->Update();
+
+    shader.Enable();
+    shader.SetVec2f("lightPos", Tina->Pos.x + Tina->GetWidth()/2, Tina->Pos.y + Tina->GetHeight()/2);
 
     mplayer.Update();
     display.Update();
@@ -119,6 +121,7 @@ int main(int argc, char *argv[])
     else if (!Keys[GLFW_KEY_SPACE]) spacepressed = false;
   }
 
+  shader.Disable();
   return 0;
 }
 

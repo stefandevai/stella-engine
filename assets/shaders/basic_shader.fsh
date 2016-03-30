@@ -5,14 +5,20 @@ in DATA
   vec2 uv;
   float tid;
   vec4 color;
+  vec2 pos;
 } f_in;
 
 out vec4 color;
 
 uniform sampler2D textures[32];
+uniform vec2 lightPos;
 
 void main()
 {
+  float light = 100.0/length(f_in.pos - lightPos);
+  if (light > 1.5) light = 1.5;
+  else if (light < 0.5) light = 0.5;
+
   vec4 final_color = f_in.color;
   int tid = int(f_in.tid + 0.5);
 
@@ -57,6 +63,6 @@ void main()
       break;
   } 
 
-  color = final_color * f_in.color;
+  color = vec4(final_color.xyz * f_in.color.xyz * light, final_color.w * f_in.color.w);
 }
 
