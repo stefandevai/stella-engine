@@ -66,27 +66,57 @@ int main(int argc, char *argv[])
   SoundPlayer mplayer(&argc, argv);
   mplayer.Add("assets/audio/st-dawn_pollen.ogg");
   mplayer.Play();
+
+  bool idle = false, spacepressed = false;
+  int anim_counter = 0;
   
   while (display.IsRunning())
   {
     display.Clear();
     layer.Render();
-    Tina->Pos.x = 400 - 28 + 200*cosf(display.GetTime());
     Player->Update();
+    if (!idle)
+      Tina->Pos.x = 400 - 28 + 200*cosf(anim_counter++/50.0f);
     Tina->Update();
 
     mplayer.Update();
     display.Update();
-    if (Keys[GLFW_KEY_LEFT])
+    if (Keys[GLFW_KEY_LEFT] || Keys[GLFW_KEY_A])
     {
       if (Player->Pos.x >= 0)
         Player->Pos.x -= 7;
     }
-    if (Keys[GLFW_KEY_RIGHT])
+    if (Keys[GLFW_KEY_RIGHT] || Keys[GLFW_KEY_D])
     {
       if (Player->Pos.x + Player->GetWidth() <= display.GetWidth())
         Player->Pos.x += 7;
     }
+    if (Keys[GLFW_KEY_UP] || Keys[GLFW_KEY_W])
+    {
+      if (Player->Pos.y >= 0)
+        Player->Pos.y -= 7;
+    }
+    if (Keys[GLFW_KEY_DOWN] || Keys[GLFW_KEY_S])
+    {
+      if (Player->Pos.y + Player->GetHeight() <= display.GetHeight())
+        Player->Pos.y += 7;
+    }
+
+    if (Keys[GLFW_KEY_SPACE])
+    {
+      if (!idle && !spacepressed)
+      {
+        idle = true;
+        Tina->Animations.Play("idle"); 
+      }
+      else if (idle && !spacepressed)
+      {
+        idle = false;
+        Tina->Animations.Play("walk");
+      }
+      spacepressed = true;
+    }
+    else if (!Keys[GLFW_KEY_SPACE]) spacepressed = false;
   }
 
   return 0;
