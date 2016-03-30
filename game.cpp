@@ -1,3 +1,6 @@
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include <iostream>
 #include <vector>
 #include <map>
@@ -12,7 +15,9 @@ int main(int argc, char *argv[])
   using namespace graphics;
   using namespace audio;
 
-  Display display(800, 600, "Stella");
+  GLboolean Keys[1024] = { 0 };
+
+  Display display(800, 600, "Stella", Keys);
   display.SetClearColor(22, 38, 47);
 
   // TODO Move this block to init on singleton class
@@ -25,7 +30,6 @@ int main(int argc, char *argv[])
   glm::mat4 proj = glm::ortho(0.0f, (GLfloat)display.GetWidth(), (GLfloat)display.GetHeight(), 0.0f, -1.0f, 1.0f);
 
   SceneLayer layer(&shader, proj);
-  SceneLayer layer2(&shader, proj);
 
   shader.Enable();
   shader.SetIntv("textures", tex_ids, 10);
@@ -36,6 +40,7 @@ int main(int argc, char *argv[])
   Texture stella("stella", "assets/gfx/sprites/stella.png");
   Texture terrain("terrain", "assets/gfx/sprites/terrain.png");
   Texture tina("tina", "assets/gfx/sprites/tina.png");
+  Texture guanaco2("guanaco2", "assets/gfx/sprites/guanaco-anim.png");
 
 //  srand(47);
   for (int i = 0; i < 10; i++)
@@ -44,7 +49,8 @@ int main(int argc, char *argv[])
       Sprite *sprite;
 //      int rand_num = rand();
 //      if (rand_num%2 == 0)
-        sprite = new Sprite(j*64, i*64, 64, 64, terrain, rand()%25);
+        //sprite = new Sprite(j*64, i*64, 64, 64, terrain, rand()%25);
+        sprite = new Sprite(j*64, i*64, 64, 64, terrain, 0);
 //      else if (rand_num%3 == 0)
 //        sprite = new Sprite(j*64, i*64, 28, 28, guanaco, 0);
 //      else
@@ -53,31 +59,48 @@ int main(int argc, char *argv[])
 
       layer.Add(sprite);
     }
-  Sprite *Stella = new Sprite(400 - 23, 300 - 51, 46, 102, tina, 0);
+  Sprite *Tina = new Sprite(400, 450, 46, 102, tina, 0);
   std::vector<unsigned int> idleanim = { 0, 1, 2, 3, 4, 5 };
   std::vector<unsigned int> walkanim = { 8, 9, 10, 11, 12, 13, 14, 15 };
-  Stella->Animations.Add("idle", idleanim, 10);
-  Stella->Animations.Add("walk", walkanim, 8);
-  Stella->Animations.Play("walk");
-  layer2.Add(Stella);
+  Tina->Animations.Add("idle", idleanim, 10);
+  Tina->Animations.Add("walk", walkanim, 8);
+  Tina->Animations.Play("walk");
+
+  Sprite* Player = new Sprite(400 - 23, 300 - 51, 160, 120, guanaco2, 0);
+  std::vector<unsigned int> guanim = { 0, 1, 2, 3, 4 };
+  Player->Animations.Add("run", guanim, 5);
+  Player->Animations.Play("run");
+
+  layer.Add(Tina);
+  layer.Add(Player);
 
   //SoundPlayer mplayer(&argc, argv);
-  //mplayer.Add("assets/audio/tune1.ogg");
+  //mplayer.Add("assets/audio/st-dawn_pollen.ogg");
   //mplayer.Play();
   
   while (display.IsRunning())
   {
     display.Clear();
     layer.Render();
-    layer2.Render();
-    Stella->Pos.x = 400 - 28 + 200*cosf(display.GetTime());
-    Stella->Update();
+    //Guanaco->Pos.x = 400 - 28 + 200*cosf(display.GetTime());
+    Player->Update();
+    Tina->Update();
 
     //mplayer.Update();
     display.Update();
+    if (Keys[GLFW_KEY_LEFT])
+    {
+      if (Player->Pos.x >= 0)
+        Player->Pos.x -= 7;
+    }
+    if (Keys[GLFW_KEY_RIGHT])
+    {
+      if (Player->Pos.x + Player->GetWidth() <= display.GetWidth())
+        Player->Pos.x += 7;
+    }
   }
 
-  shader.Disable();
+  //shader.Disable();
 
   return 0;
 }

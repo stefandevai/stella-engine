@@ -2,9 +2,15 @@
 #include "../../Dependencies/glm/glm/glm.hpp"
 #include "display.h" 
 
+#include <iostream>
+
 namespace stella { namespace graphics {
-  Display::Display(GLuint width, GLuint height, const std::string& title)
-    : Width(width), Height(height), Title(title)
+
+  GLuint KeyPressed, KeyReleased;
+  GLboolean KeyPress = GL_FALSE, KeyRelease = GL_FALSE;
+
+  Display::Display(GLuint width, GLuint height, const std::string& title, GLboolean (&keys)[1024])
+    : Width(width), Height(height), Title(title), Keys(keys)
   {
     // GLFW initialization
     glfwInit();
@@ -96,6 +102,17 @@ namespace stella { namespace graphics {
   {
     glfwPollEvents();
     this->Running = !glfwWindowShouldClose(this->Window); 
+    
+    if (KeyPress)
+    {
+      KeyPress = GL_FALSE;
+      this->Keys[KeyPressed] = GL_TRUE;
+    }
+    if (KeyRelease)
+    {
+      KeyRelease = GL_FALSE;
+      this->Keys[KeyReleased] = GL_FALSE;
+    }
   }
 
   void Display::getDT()
@@ -122,6 +139,19 @@ namespace stella { namespace graphics {
   {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
+    if (key >= 0 && key < 1024)
+    {
+      if (action == GLFW_PRESS)
+      {
+        KeyPress = GL_TRUE;
+        KeyPressed = key;
+      }
+      else if (action == GLFW_RELEASE)
+      {
+        KeyRelease = GL_TRUE;
+        KeyReleased = key;
+      } 
+    }
   }
 }}
 

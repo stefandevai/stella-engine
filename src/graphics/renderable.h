@@ -19,6 +19,8 @@ namespace stella { namespace graphics {
       // Getters
       inline const glm::vec2 GetPos() const { return Pos; }
       inline const glm::vec2 GetDimensions() const { return Dimensions; }
+      inline const GLfloat GetWidth() const { return Dimensions.x; }
+      inline const GLfloat GetHeight() const { return Dimensions.y; }
       inline const GLuint GetTexID() const { return Tex.GetID(); }
       inline const std::string& GetTexName() const { return Tex.GetName(); }
       inline Texture* GetTexture() const { return &Tex; }
