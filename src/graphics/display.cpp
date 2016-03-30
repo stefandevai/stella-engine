@@ -23,6 +23,7 @@ namespace stella { namespace graphics {
 
     // Window creation
     this->Window = glfwCreateWindow(this->Width, this->Height, this->Title.c_str(), nullptr, nullptr);
+    if (this->Window == nullptr) std::cout << "GLFW Error: It was not possible to create a Window." << std::endl;
     glfwMakeContextCurrent(this->Window);
     this->Running = true;
 
@@ -37,7 +38,8 @@ namespace stella { namespace graphics {
     
     // GLEW Initialization
     glewExperimental = GL_TRUE;
-    glewInit();
+    if (glewInit() != GLEW_OK)
+      std::cout << "Failed to initialize GLEW" << std::endl;
 
     // OpenGL Viewport settings
     glViewport(0, 0, this->Width, this->Height);

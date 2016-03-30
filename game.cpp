@@ -67,8 +67,8 @@ int main(int argc, char *argv[])
   mplayer.Play();
 
   bool idle = false, spacepressed = false;
-  int anim_counter = 0;
-  
+  int anim_counter = 0, light_counter = 0;
+
   while (display.IsRunning())
   {
     display.Clear();
@@ -80,6 +80,8 @@ int main(int argc, char *argv[])
 
     shader.Enable();
     shader.SetVec2f("lightPos", Tina->Pos.x + Tina->GetWidth()/2, Tina->Pos.y + Tina->GetHeight()/2);
+    shader.SetFloat("lightCounter", (GLfloat)light_counter);
+    ++light_counter;
 
     mplayer.Update();
     display.Update();
