@@ -11,9 +11,9 @@ namespace stella { namespace audio {
 
   SoundPlayer::~SoundPlayer()
   {
+    alutExit();
     for (auto i : Sounds)
       delete i;
-    alutExit();
   }
 
   void SoundPlayer::Add(const char *filepath)

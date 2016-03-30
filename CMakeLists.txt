@@ -24,9 +24,6 @@ include_directories(${OpenAL_INCLUDE_DIRS})
 find_package(ALUT REQUIRED)
 include_directories(${ALUT_INCLUDE_DIRS})
 
-find_package(Freetype REQUIRED)
-include_directories(${FREETYPE_INCLUDE_DIRS})
-
 # SOIL
 if (USE_SHARED_SOIL)
   find_package(SOIL REQUIRED)

@@ -36,26 +36,15 @@ int main(int argc, char *argv[])
   shader.Disable();
   // End of block
 
-  Texture guanaco("guanaco", "assets/gfx/sprites/guanaco.png");
-  Texture stella("stella", "assets/gfx/sprites/stella.png");
   Texture terrain("terrain", "assets/gfx/sprites/terrain.png");
   Texture tina("tina", "assets/gfx/sprites/tina.png");
-  Texture guanaco2("guanaco2", "assets/gfx/sprites/guanaco-anim.png");
+  Texture guanaco("guanaco", "assets/gfx/sprites/guanaco-anim.png");
 
-//  srand(47);
   for (int i = 0; i < 10; i++)
     for (int j = 0; j < 13; j++)
     {
       Sprite *sprite;
-//      int rand_num = rand();
-//      if (rand_num%2 == 0)
-        //sprite = new Sprite(j*64, i*64, 64, 64, terrain, rand()%25);
-        sprite = new Sprite(j*64, i*64, 64, 64, terrain, 0);
-//      else if (rand_num%3 == 0)
-//        sprite = new Sprite(j*64, i*64, 28, 28, guanaco, 0);
-//      else
-//        sprite = new Sprite(j*64, i*64, 28, 28, stella, 0);
-      //sprite = new Sprite(j*64, i*64, 64, 64, terrain, 0);
+      sprite = new Sprite(j*64, i*64, 64, 64, terrain, rand()%25);
 
       layer.Add(sprite);
     }
@@ -66,7 +55,7 @@ int main(int argc, char *argv[])
   Tina->Animations.Add("walk", walkanim, 8);
   Tina->Animations.Play("walk");
 
-  Sprite* Player = new Sprite(400 - 23, 300 - 51, 160, 120, guanaco2, 0);
+  Sprite* Player = new Sprite(400 - 23, 300 - 51, 160, 120, guanaco, 0);
   std::vector<unsigned int> guanim = { 0, 1, 2, 3, 4 };
   Player->Animations.Add("run", guanim, 5);
   Player->Animations.Play("run");
@@ -74,19 +63,19 @@ int main(int argc, char *argv[])
   layer.Add(Tina);
   layer.Add(Player);
 
-  //SoundPlayer mplayer(&argc, argv);
-  //mplayer.Add("assets/audio/st-dawn_pollen.ogg");
-  //mplayer.Play();
+  SoundPlayer mplayer(&argc, argv);
+  mplayer.Add("assets/audio/st-dawn_pollen.ogg");
+  mplayer.Play();
   
   while (display.IsRunning())
   {
     display.Clear();
     layer.Render();
-    //Guanaco->Pos.x = 400 - 28 + 200*cosf(display.GetTime());
+    Tina->Pos.x = 400 - 28 + 200*cosf(display.GetTime());
     Player->Update();
     Tina->Update();
 
-    //mplayer.Update();
+    mplayer.Update();
     display.Update();
     if (Keys[GLFW_KEY_LEFT])
     {
@@ -99,8 +88,6 @@ int main(int argc, char *argv[])
         Player->Pos.x += 7;
     }
   }
-
-  //shader.Disable();
 
   return 0;
 }
