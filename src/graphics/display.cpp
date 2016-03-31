@@ -13,11 +13,12 @@ namespace stella { namespace graphics {
     : Width(width), Height(height), Title(title), Keys(keys)
   {
     // GLFW initialization
+    glfwSetErrorCallback(this->errorCallback);
     if (!glfwInit())
       std::cout << "Failed to initialize GLFW." << std::endl;
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); 
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
@@ -174,6 +175,11 @@ namespace stella { namespace graphics {
     else if (MouseX > width) MouseX = width;
     if (MouseY < 0) MouseY = 0;
     else if (MouseY > height) MouseY = height;
+  }
+
+  void Display::errorCallback(int error, const char* description)
+  {
+    std::cout << description << std::endl;
   }
 }}
 
