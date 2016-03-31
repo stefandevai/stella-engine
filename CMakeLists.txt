@@ -4,7 +4,7 @@ project(stella)
 set(DEPENDENCIES_DIR ${PROJECT_SOURCE_DIR}/Dependencies)
 
 option(USE_SHARED_SOIL "Use shared SOIL library" off)
-option(USE_SHADER_GLFW "Use shader GLFW library" off)
+option(USE_SHARED_GLFW "Use shared GLFW library" off)
 
 file(GLOB_RECURSE SOURCE ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
@@ -16,12 +16,16 @@ if (USE_SHARED_GLFW)
   find_package(PkgConfig REQUIRED)
   pkg_search_module(GLFW REQUIRED glfw3)
   include_directories(${GLFW_INCLUDE_DIRS})
-else()
-  add_subdirectory(${DEPENDENCIES_DIR}/glfw)
-  include_directories(${DEPENDENCIES_DIR}/glfw/include)
-  #message(STATUS ${GLFW_INCLUDE_DIRS})
-  set(GLFW_LIBRARIES ${GLFW_STATIC_LIBRARIES})
+  message(STATUS ${glfw_LIBRARIES})
   message(STATUS ${GLFW_LIBRARIES})
+else()
+  add_subdirectory(Dependencies/glfw-3.1.2)
+  include_directories(Dependencies/glfw-3.1.2/include)
+  #message(STATUS ${GLFW_INCLUDE_DIRS})
+  set(GLFW_LIBRARY "glfw")
+  message(STATUS ${GLFW_LIBRARIES})
+  message(STATUS ${GLFW_LIBRARY})
+  #list(APPEND GLFW_LIBRARIES "glfw")
 endif()
 
 find_package(GLEW REQUIRED)
@@ -71,6 +75,6 @@ elseif(WIN32)
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COMPILE_FLAGS}")
-target_link_libraries(stella ${CXX_LINK_FLAGS} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES} ${SOIL_LIBRARIES}
+target_link_libraries(stella ${CXX_LINK_FLAGS} ${GLEW_LIBRARIES} ${GLFW_LIBRARY} ${GLFW_LIBRARIES} ${SOIL_LIBRARIES}
   ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES})
 

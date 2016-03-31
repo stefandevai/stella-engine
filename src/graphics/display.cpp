@@ -5,7 +5,6 @@
 #include <iostream>
 
 namespace stella { namespace graphics {
-
   GLuint KeyPressed, KeyReleased;
   GLboolean KeyPress = GL_FALSE, KeyRelease = GL_FALSE;
   double MouseX, MouseY;
@@ -14,7 +13,8 @@ namespace stella { namespace graphics {
     : Width(width), Height(height), Title(title), Keys(keys)
   {
     // GLFW initialization
-    glfwInit();
+    if (!glfwInit())
+      std::cout << "Failed to initialize GLFW." << std::endl;
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); 
