@@ -4,6 +4,7 @@ project(stella)
 set(DEPENDENCIES_DIR ${PROJECT_SOURCE_DIR}/Dependencies)
 
 option(USE_SHARED_SOIL "Use shared SOIL library" off)
+option(USE_SHARED_GLFW "Use shared GLFW library" off)
 
 file(GLOB_RECURSE SOURCE ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
@@ -11,9 +12,21 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
 find_package(OpenGL REQUIRED)
 
-find_package(PkgConfig REQUIRED)
-pkg_search_module(GLFW REQUIRED glfw3)
-include_directories(${GLFW_INCLUDE_DIRS})
+if (USE_SHARED_GLFW)
+  find_package(PkgConfig REQUIRED)
+  pkg_search_module(GLFW REQUIRED glfw3)
+  include_directories(${GLFW_INCLUDE_DIRS})
+  message(STATUS ${glfw_LIBRARIES})
+  message(STATUS ${GLFW_LIBRARIES})
+else()
+  add_subdirectory(Dependencies/glfw)
+  include_directories(Dependencies/glfw/include)
+  #message(STATUS ${GLFW_INCLUDE_DIRS})
+  set(GLFW_LIBRARY "glfw")
+  #message(STATUS ${GLFW_LIBRARIES})
+  #message(STATUS ${GLFW_LIBRARY})
+  #list(APPEND GLFW_LIBRARIES "glfw")
+endif()
 
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
@@ -53,7 +66,7 @@ if (UNIX AND NOT APPLE)
 endif()
 
 if (LINUX)
-  set(CXX_LINK_FLAGS "-lX11 -lpthread -lXrandr -lXi -lGL")
+  set(CXX_LINK_FLAGS "-lGL")
 elseif(APPLE)
   set(CXX_LINK_FLAGS "-framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -framework Carbon")
   set(GLFW_LIBRARIES "glfw3")
@@ -62,6 +75,6 @@ elseif(WIN32)
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COMPILE_FLAGS}")
-target_link_libraries(stella ${CXX_LINK_FLAGS} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES} ${SOIL_LIBRARIES}
-  ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${FREETYPE_LIBRARIES})
+target_link_libraries(stella ${CXX_LINK_FLAGS} ${GLEW_LIBRARIES} ${GLFW_LIBRARY} ${GLFW_LIBRARIES} ${SOIL_LIBRARIES}
+  ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES})
 

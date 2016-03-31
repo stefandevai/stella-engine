@@ -5,7 +5,6 @@
 #include <iostream>
 
 namespace stella { namespace graphics {
-
   GLuint KeyPressed, KeyReleased;
   GLboolean KeyPress = GL_FALSE, KeyRelease = GL_FALSE;
   double MouseX, MouseY;
@@ -14,15 +13,18 @@ namespace stella { namespace graphics {
     : Width(width), Height(height), Title(title), Keys(keys)
   {
     // GLFW initialization
-    glfwInit();
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwSetErrorCallback(this->errorCallback);
+    if (!glfwInit())
+      std::cout << "Failed to initialize GLFW." << std::endl;
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); 
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     // Window creation
     this->Window = glfwCreateWindow(this->Width, this->Height, this->Title.c_str(), nullptr, nullptr);
+    if (this->Window == nullptr) std::cout << "GLFW Error: It was not possible to create a Window." << std::endl;
     glfwMakeContextCurrent(this->Window);
     this->Running = true;
 
@@ -37,7 +39,8 @@ namespace stella { namespace graphics {
     
     // GLEW Initialization
     glewExperimental = GL_TRUE;
-    glewInit();
+    if (glewInit() != GLEW_OK)
+      std::cout << "Failed to initialize GLEW" << std::endl;
 
     // OpenGL Viewport settings
     glViewport(0, 0, this->Width, this->Height);
@@ -172,6 +175,11 @@ namespace stella { namespace graphics {
     else if (MouseX > width) MouseX = width;
     if (MouseY < 0) MouseY = 0;
     else if (MouseY > height) MouseY = height;
+  }
+
+  void Display::errorCallback(int error, const char* description)
+  {
+    std::cout << description << std::endl;
   }
 }}
 

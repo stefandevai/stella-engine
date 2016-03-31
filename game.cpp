@@ -63,12 +63,12 @@ int main(int argc, char *argv[])
   layer.Add(Player);
 
   SoundPlayer mplayer(&argc, argv);
-  mplayer.Add("assets/audio/st-dawn_pollen.ogg");
-  mplayer.Play();
+  mplayer.AddStream("dawn-pollen", "assets/audio/st-dawn_pollen.ogg");
+  mplayer.PlayStream("dawn-pollen", true);
 
   bool idle = false, spacepressed = false;
-  int anim_counter = 0;
-  
+  int anim_counter = 0, light_counter = 0;
+
   while (display.IsRunning())
   {
     display.Clear();
@@ -80,6 +80,8 @@ int main(int argc, char *argv[])
 
     shader.Enable();
     shader.SetVec2f("lightPos", Tina->Pos.x + Tina->GetWidth()/2, Tina->Pos.y + Tina->GetHeight()/2);
+    shader.SetFloat("lightCounter", (GLfloat)light_counter);
+    ++light_counter;
 
     mplayer.Update();
     display.Update();
@@ -104,21 +106,23 @@ int main(int argc, char *argv[])
         Player->Pos.y += 7;
     }
 
-    if (Keys[GLFW_KEY_SPACE])
+    if (Keys[GLFW_KEY_SPACE] && !spacepressed)
     {
-      if (!idle && !spacepressed)
+      if (!idle)
       {
         idle = true;
         Tina->Animations.Play("idle"); 
       }
-      else if (idle && !spacepressed)
+      else if (idle)
       {
         idle = false;
         Tina->Animations.Play("walk");
       }
       spacepressed = true;
     }
-    else if (!Keys[GLFW_KEY_SPACE]) spacepressed = false;
+    else if (!Keys[GLFW_KEY_SPACE] && spacepressed) spacepressed = false;
+
+    if (Keys[GLFW_KEY_P]) mplayer.PlayStream("dawn-pollen");
   }
 
   shader.Disable();
