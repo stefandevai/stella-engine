@@ -75,7 +75,7 @@ endif()
 include_directories(${OpenAL_INCLUDE_DIRS})
 include_directories(${ALUT_INCLUDE_DIRS})
 
-# Vorbis - Library for handling .ogg audios.
+# Ogg Vorbis - Libraries for handling .ogg audio format.
 if (USE_SHARED_VORBIS)
   find_package(Ogg REQUIRED)
   find_package(Vorbis REQUIRED)
