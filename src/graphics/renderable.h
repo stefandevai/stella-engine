@@ -3,7 +3,7 @@
 #include <vector>
 #include "texture.h"
 #include <GL/glew.h>
-#include "../../Dependencies/glm/glm/glm.hpp"
+#include "../../dependencies/glm/glm/glm.hpp"
 
 namespace stella { namespace graphics {
   class Renderable

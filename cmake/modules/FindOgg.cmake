@@ -19,6 +19,7 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(OGG DEFAULT_MSG OGG_INCLUDE_DIR OGG_LIBRARY)
 
 set(OGG_LIBRARIES ${OGG_LIBRARY})
+set(OGG_INCLUDE_DIRS ${OGG_INCLUDE_DIR})
 
 mark_as_advanced(OGG_INCLUDE_DIR)
 mark_as_advanced(OGG_LIBRARY)

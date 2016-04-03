@@ -1,5 +1,5 @@
 #include <sstream>
-#include "../../Dependencies/glm/glm/glm.hpp"
+#include "../../dependencies/glm/glm/glm.hpp"
 #include "display.h" 
 
 #include <iostream>
