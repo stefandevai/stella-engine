@@ -62,6 +62,9 @@ else()
     find_library(OPENAL_LIBRARY OpenAL)
     set(OpenAL_LIBRARIES ${OPENAL_LIBRARY})
   elseif (WIN32)
+    if (MINGW)
+    	 add_definitions(-D_TIMESPEC_DEFINED)
+    endif()
     set(OpenAL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/openal-soft/include)
     set(OpenAL_LIBRARIES OpenAL32)
   else()
@@ -146,8 +149,8 @@ elseif(APPLE)
   #set(PLATFORM_LIBRARIES "-framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -framework Carbon")
 elseif(WIN32)
   set(CXX_LINK_FLAGS "-lopengl32")
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif()
 
 add_subdirectory(src) # Stella source code
 add_subdirectory(${DEPENDENCIES_DIR}) # Dependencies folder
-
