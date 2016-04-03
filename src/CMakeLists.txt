@@ -2,6 +2,8 @@ include_directories(../dependencies)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
+file(GLOB_RECURSE SOURCE ${PROJECT_SOURCE_DIR}/src/*.cpp)
+
 add_executable(stella ../game.cpp ${SOURCE})
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
@@ -61,7 +63,6 @@ if (LINUX)
     find_package(Threads REQUIRED)
     list(APPEND PLATFORM_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
   endif()
-
 elseif(APPLE)
   set(CXX_LINK_FLAGS "-framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -framework Carbon")
   set(GLFW_LIBRARIES "glfw3")
@@ -69,12 +70,8 @@ elseif(WIN32)
   set(CXX_LINK_FLAGS "-lopengl32")
 endif()
 
-foreach(item ${PLATFORM_LIBRARIES})
-  message(STATUS "Using lib: " ${item})
-endforeach()
-message(STATUS ${VORBIS_LIBRARIES})
-message(STATUS ${OGG_LIBRARIES})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COMPILE_FLAGS}")
-target_link_libraries(stella ${GLEW_LIBRARIES} glfw ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
+
+target_link_libraries(stella ${GLEW_LIBRARIES} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
   ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${PLATFORM_LIBRARIES})
 

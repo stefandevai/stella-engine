@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(stella C CXX)
 
-set(DEPENDENCIES_DIR ${PROJECT_SOURCE_DIR}/dependencies)
-
 # Turn on these options to use the libraries contained in your machine.
 option(USE_SHARED_GLFW "Use shared GLFW library" off)
 option(USE_SHARED_GLEW "Use shared GLEW library" off)
@@ -10,9 +8,8 @@ option(USE_SHARED_SOIL "Use shared SOIL library" off)
 option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" off)
 option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" off)
 
-file(GLOB_RECURSE SOURCE ${PROJECT_SOURCE_DIR}/src/*.cpp)
-
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
+set(DEPENDENCIES_DIR ${PROJECT_SOURCE_DIR}/dependencies)
 
 find_package(OpenGL REQUIRED)
 
@@ -72,12 +69,12 @@ else()
   set(OGG_INCLUDE_DIRS ${DEPENDENCIES_DIR}/ogg/include)
   set(OGG_LIBRARIES ogg)
 
-  set(VORBIS_INCLUDE_DIR ${DEPENDENCIES_DIR}/Vorbis/include)
+  set(VORBIS_INCLUDE_DIR ${DEPENDENCIES_DIR}/vorbis/include)
   set(VORBIS_LIBRARIES vorbisfile vorbis)
 endif()
 include_directories(${OGG_INCLUDE_DIRS})
 include_directories(${VORBIS_INCLUDE_DIR})
 
-add_subdirectory(src)
+add_subdirectory(src) # Stella source code
+add_subdirectory(${DEPENDENCIES_DIR}) # Dependencies folder
 
-add_subdirectory(dependencies)

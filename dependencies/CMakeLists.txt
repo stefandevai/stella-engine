@@ -19,6 +19,6 @@ endif()
 
 if (NOT USE_SHARED_VORBIS)
   add_subdirectory(ogg)
-  add_subdirectory(Vorbis)
+  add_subdirectory(vorbis)
 endif()
 
