@@ -1,0 +1,3 @@
+[submodule "dependencies/ogg"]
+	path = dependencies/ogg
+	url = https://github.com/xiph/ogg.git
