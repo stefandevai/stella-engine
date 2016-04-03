@@ -1,18 +1,19 @@
 #!/bin/bash
 
 # Init checking
-if [[ $# > 1 ]]; then
+if [[ $# > 2 ]]; then
   printf You cannot have that many options.
   exit 1
 elif [[ $# == 0 ]]; then
-  printf "Use:\n    -c or --cmake: run cmake from build folder.\n    -m or --make: run make from build folder.\n    -e or --exec: execute target from this directory.\n"
+  printf "Use:\n    -cm or --cmake: runs cmake from build folder.\n    -mk or --make: runs make from build folder.\n    -ex or --exec: executes target from this directory.\n    -cl or --clean: cleans build directory. If added as a second option the it will also clean the build directory before executing the action."
   exit 1
 fi
 
 # Variables
 BUILD_DIR="build"
 TARGET="stella"
-OPT=$1
+OPT1=$1
+OPT2=$2
 
 # Functions
 function cmake_func {
@@ -51,34 +52,60 @@ function exec_func {
     cmake ..
     make
     cd ..
+  elif [ -f "$BUILD_DIR"/Makefile ]; then
+    cd $BUILD_DIR
+    make
+    cd ..
   fi
 
   ./"$BUILD_DIR"/"$TARGET"
 }
 
+function clean_func {
+  if [ -d "$BUILD_DIR" ]; then
+    rm -rf $BUILD_DIR
+  fi
+}
+
 # Args evalutation
-case $OPT in
-  -c|--cmake)
-    MODE=CMAKE
+case $OPT1 in
+  -cm|--cmake)
+    MODE=CMAKE # Invoke cmake
     shift
     ;;
-  -m|--make)
-    MODE=MAKE
+  -mk|--make)
+    MODE=MAKE # Invoke make
     shift
     ;;
-  -e|--exec)
-    MODE=EXEC
+  -ex|--exec)
+    MODE=EXEC # Execute program
     shift
     ;;
   -me)
     MODE=ME # Make and Exec
     shift
     ;;
+  -cl|--clean)
+    MODE=CLEAN # Clean build directory
+    shift
+    ;;
   *)
-    printf "Invalid option.\nUse:\n    -c or --cmake: run cmake from build folder.\n    -m or --make: run make from build folder.\n    -e or --exec: execute target from this directory.\n"
+    printf "Invalid first option.\nUse:\n    -cm or --cmake: runs cmake from build folder.\n    -mk or --make: runs make from build folder.\n    -ex or --exec: executes target from this directory.\n    -cl or --clean: cleans build directory. If added as a second option the it will also clean the build directory before executing the action."
     exit 1
     ;;
 esac
+
+if [[ -n $OPT2 ]] && [[ $OPT1 != $OPT2 ]]; then
+  case $OPT2 in
+    -cl|--clean)
+      clean_func
+      shift
+      ;;
+    *)
+      printf "Invalid second option. Ignoring...\n"
+      ;;
+  esac
+fi
 
 case $MODE in
   CMAKE)
@@ -97,6 +124,10 @@ case $MODE in
     make_func
     cd ..
     exec_func
+    shift
+    ;;
+  CLEAN)
+    clean_func
     shift
     ;;
 esac
