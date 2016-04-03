@@ -2,7 +2,11 @@
 
 #include <vector>
 
+#ifdef __APPLE__
+#include<OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 
 #define SOUND_BUFFER_SIZE (4096 * 8)
 

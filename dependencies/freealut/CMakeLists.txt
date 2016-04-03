@@ -40,10 +40,13 @@ option(BUILD_USE_WERROR "enable fail on all warning" OFF)
 ###
 # Dependencies
 ###
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/openal-soft/include)
-if (WIN32)
+if (APPLE)
+  find_package(OpenAL)
+elseif(WIN32)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/openal-soft/include)
   set(OPENAL_LIBRARY OpenAL32)
 else()
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/openal-soft/include)
   set(OPENAL_LIBRARY openal)
 endif()
 

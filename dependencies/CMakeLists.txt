@@ -13,7 +13,9 @@ if (NOT USE_SHARED_SOIL)
 endif()
 
 if (NOT USE_SHARED_OPENAL)
-  add_subdirectory(openal-soft)
+  if (NOT APPLE) # Apple already comes with OpenAL
+    add_subdirectory(openal-soft)
+  endif()
   add_subdirectory(freealut)
 endif()
 
