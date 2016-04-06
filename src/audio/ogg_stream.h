@@ -2,43 +2,37 @@
 
 #include <string>
 
-#include <iostream>
-
-#ifdef __APPLE__
-#include<OpenAL/al.h>
-#else
-#include <AL/al.h>
-#endif
+#include "playable.h"
 
 #include <ogg/ogg.h>
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
 
-#define AUDIO_BUFFERS 4
-#define AUDIO_BUFFER_SIZE (4096 * 8)
+#define STREAM_BUFFERS 4
 
 namespace stella { namespace audio {
-  class OggStream
+  class OggStream : public Playable
   {
     public:
       OggStream(const char* filepath);
       ~OggStream();
 
-      bool Play(const bool& loop);
-      bool Update();
+      void Play(const bool &loop);
+      void Pause(const bool &fadeOut = false);
+      void Stop(const bool &fadeOut = false);
+      void Update();
+
       bool IsPlaying();
       bool IsInitialized();
 
     private:
       const char *FilePath;
-      bool Loop, StreamOpened, Reseted;
+      bool StreamOpened, Reseted;
       FILE *OggFile;
       OggVorbis_File StreamData;
       vorbis_info *VorbisInfo;
       vorbis_comment *VorbisComment;
-      ALuint Buffers[AUDIO_BUFFERS];
-      ALuint Source;
-      ALenum Format;
+      ALuint Buffers[STREAM_BUFFERS];
 
       void openFile(const char* filepath);
       void displayInfo();

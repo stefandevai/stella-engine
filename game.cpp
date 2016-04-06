@@ -64,7 +64,8 @@ int main(int argc, char *argv[])
 
   SoundPlayer mplayer(&argc, argv);
   mplayer.AddStream("dawn-pollen", "assets/audio/st-dawn_pollen.ogg");
-  mplayer.PlayStream("dawn-pollen", true);
+  mplayer.Play("dawn-pollen", true);
+  mplayer.AddSound("star", "assets/audio/star.ogg");
 
   bool idle = false, spacepressed = false;
   int anim_counter = 0, light_counter = 0;
@@ -122,7 +123,7 @@ int main(int argc, char *argv[])
     }
     else if (!Keys[GLFW_KEY_SPACE] && spacepressed) spacepressed = false;
 
-    if (Keys[GLFW_KEY_P]) mplayer.PlayStream("dawn-pollen");
+    if (Keys[GLFW_KEY_P]) mplayer.Play("star");
   }
 
   shader.Disable();

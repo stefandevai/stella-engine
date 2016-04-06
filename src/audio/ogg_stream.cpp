@@ -1,5 +1,7 @@
 #include "ogg_stream.h"
 
+#include <iostream>
+
 namespace stella { namespace audio {
   OggStream::OggStream(const char *filepath)
     : FilePath(filepath)
@@ -16,78 +18,35 @@ namespace stella { namespace audio {
     }
   }
 
-  void OggStream::openFile(const char *filepath)
+  void OggStream::Play(const bool& loop)
   {
-    int result;
-    if (!(this->OggFile = fopen(filepath, "rb")))
-      std::cout << "Could not open ogg file." << std::endl; 
-    if ((result = ov_open(this->OggFile, &this->StreamData, NULL, 0)) < 0)
-    {
-      fclose(this->OggFile);
-      std::cout << "Could not open ogg stream." << errorToString(result) << std::endl;
-    }
-    this->StreamOpened = true;
-    this->VorbisInfo = ov_info(&this->StreamData, -1);
-    this->VorbisComment = ov_comment(&this->StreamData, -1);
-    if (this->VorbisInfo->channels == 1) this->Format = AL_FORMAT_MONO16;
-    else this->Format = AL_FORMAT_STEREO16;
-
-    alGenBuffers(AUDIO_BUFFERS, this->Buffers);
-    checkErrors();
-    alGenSources(1, &this->Source);
-    checkErrors();
-
-    alSource3f(this->Source, AL_POSITION, 0.0, 0.0, 0.0);
-    alSource3f(this->Source, AL_VELOCITY, 0.0, 0.0, 0.0);
-    alSource3f(this->Source, AL_DIRECTION, 0.0, 0.0, 0.0);
-    alSourcef(this->Source, AL_ROLLOFF_FACTOR, 0.0);
-    alSourcei(this->Source, AL_SOURCE_RELATIVE, AL_TRUE);
-
-    this->displayInfo();
-  }
-
-  void OggStream::displayInfo()
-  {
-    std::cout << "version: " << this->VorbisInfo->version << "channels: " << this->VorbisInfo->channels << "rate (hz) " << this->VorbisInfo->rate <<  std::endl;
-    for (int i = 0; i < this->VorbisComment->comments; i++)
-      std::cout << this->VorbisComment->user_comments[i] << std::endl;
-  }
-
-  bool OggStream::Play(const bool& loop)
-  {
-    if (IsPlaying())
-      return true;
+    if (IsPlaying()) return;
     this->Loop = loop;
     if (!this->StreamOpened)
       this->openFile(this->FilePath);
-    for (int i = 0; i < AUDIO_BUFFERS; ++i)
-      if (!streamBuffer(this->Buffers[i]))
-        return false;
+    for (int i = 0; i < STREAM_BUFFERS; ++i)
+      if (!streamBuffer(this->Buffers[i])) return;
 
-    alSourceQueueBuffers(this->Source, AUDIO_BUFFERS, this->Buffers);
+    alSourceQueueBuffers(this->Source, STREAM_BUFFERS, this->Buffers);
     alSourcePlay(this->Source);
     this->Reseted = false;
-    return true;
   }
 
-  bool OggStream::IsInitialized()
+  void OggStream::Pause(const bool &fadeOut)
   {
-    return this->StreamOpened;
-  }
-  
-  bool OggStream::IsPlaying()
-  {
-    if (!this->StreamOpened) return false;
-    ALenum state;
-    alGetSourcei(this->Source, AL_SOURCE_STATE, &state);
-    return (state == AL_PLAYING);
+
   }
 
-  bool OggStream::Update()
+  void OggStream::Stop(const bool &fadeOut)
+  {
+    
+  }
+
+  void OggStream::Update()
   {
     ALenum state;
     alGetSourcei(this->Source, AL_SOURCE_STATE, &state);
-    if (state == AL_PAUSED) return false;
+    if (state == AL_PAUSED) return;
 
     int processed;
     bool active = true;
@@ -120,8 +79,56 @@ namespace stella { namespace audio {
       }
       active = this->Loop;
     }
+  }
 
-    return active; 
+  bool OggStream::IsInitialized()
+  {
+    return this->StreamOpened;
+  }
+
+  bool OggStream::IsPlaying()
+  {
+    if (!this->StreamOpened) return false;
+    ALenum state;
+    alGetSourcei(this->Source, AL_SOURCE_STATE, &state);
+    return (state == AL_PLAYING);
+  }
+
+  void OggStream::openFile(const char *filepath)
+  {
+    int result;
+    if (!(this->OggFile = fopen(filepath, "rb")))
+      std::cout << "Could not open ogg file." << std::endl; 
+    if ((result = ov_open(this->OggFile, &this->StreamData, NULL, 0)) < 0)
+    {
+      fclose(this->OggFile);
+      std::cout << "Could not open ogg stream." << errorToString(result) << std::endl;
+    }
+    this->StreamOpened = true;
+    this->VorbisInfo = ov_info(&this->StreamData, -1);
+    this->VorbisComment = ov_comment(&this->StreamData, -1);
+    if (this->VorbisInfo->channels == 1) this->Format = AL_FORMAT_MONO16;
+    else this->Format = AL_FORMAT_STEREO16;
+
+    alGenBuffers(STREAM_BUFFERS, this->Buffers);
+    checkErrors();
+    alGenSources(1, &this->Source);
+    checkErrors();
+
+    alSource3f(this->Source, AL_POSITION, 0.0, 0.0, 0.0);
+    alSource3f(this->Source, AL_VELOCITY, 0.0, 0.0, 0.0);
+    alSource3f(this->Source, AL_DIRECTION, 0.0, 0.0, 0.0);
+    alSourcef(this->Source, AL_ROLLOFF_FACTOR, 0.0);
+    alSourcei(this->Source, AL_SOURCE_RELATIVE, AL_TRUE);
+
+    this->displayInfo();
+  }
+
+  void OggStream::displayInfo()
+  {
+    std::cout << "version: " << this->VorbisInfo->version << "channels: " << this->VorbisInfo->channels << "rate (hz) " << this->VorbisInfo->rate <<  std::endl;
+    for (int i = 0; i < this->VorbisComment->comments; i++)
+      std::cout << this->VorbisComment->user_comments[i] << std::endl;
   }
 
   bool OggStream::streamBuffer(ALuint buffer)
@@ -167,7 +174,7 @@ namespace stella { namespace audio {
     this->emptyQueue();
     alDeleteSources(1, &this->Source);
     this->checkErrors();
-    alDeleteBuffers(AUDIO_BUFFERS, this->Buffers);
+    alDeleteBuffers(STREAM_BUFFERS, this->Buffers);
     this->checkErrors();
     ov_clear(&this->StreamData);
   }

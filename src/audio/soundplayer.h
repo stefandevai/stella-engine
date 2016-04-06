@@ -14,15 +14,12 @@ namespace stella { namespace audio {
       SoundPlayer(int *argcp, char **argv);
       ~SoundPlayer();
 
-      void Add(const char *filepath);
+      void AddSound(std::string name, const char *filepath);
       void AddStream(std::string name, const char *filepath);
-      void Play();
-      void PlayStream(std::string name, bool loop = false);
+      void Play(std::string name, bool loop = false);
       void Update();
-      void initOgg(std::string filepath);
 
     private:
-      std::vector<Sound*> Sounds;
-      std::map<std::string, OggStream*> Streams;
+      std::map<std::string, Playable*> Playables;
   };
 } }

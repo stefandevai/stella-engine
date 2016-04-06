@@ -5,34 +5,53 @@
 
 namespace stella { namespace audio {
   Sound::Sound(const char *filepath)
+    : Playable()
   {
+    this->Loaded = false;
     this->init(filepath);
   }
+
   Sound::~Sound()
   {
-    alDeleteBuffers(1, &this->BufferID);
-    alDeleteSources(1, &this->SourceID);
+    alDeleteBuffers(1, &this->Buffer);
+    alDeleteSources(1, &this->Source);
   }
 
-  void Sound::Play(bool fadeIn)
+  void Sound::Play(const bool &loop)
   {
-    alSourcePlay(this->SourceID);
+    alSourcePlay(this->Source);
+  }
+
+  void Sound::Pause(const bool &fadeOut)
+  {
+
+  }
+
+  void Sound::Stop(const bool &fadeOut)
+  {
+
   }
   
   void Sound::Update()
   {
-    alGetSourcei(this->SourceID, AL_SOURCE_STATE, &this->State);
+    alGetSourcei(this->Source, AL_SOURCE_STATE, &this->State);
+  }
+  
+  bool Sound::IsInitialized()
+  {
+    return this->Loaded;
   }
 
   void Sound::init(const char *filepath)
   {
-    alGenBuffers(1, &this->BufferID);
-    alGenSources(1, &this->SourceID);
+    alGenBuffers(1, &this->Buffer);
+    alGenSources(1, &this->Source);
     alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
-    alSource3f(this->SourceID, AL_POSITION, 0.0f, 0.0f, 0.0f);
+    alSource3f(this->Source, AL_POSITION, 0.0f, 0.0f, 0.0f);
     this->loadOGG(filepath, this->BufferData, this->Format, this->Freq);
-    alBufferData(this->BufferID, this->Format, &this->BufferData[0], static_cast<ALsizei>(this->BufferData.size()), this->Freq);
-    alSourcei(this->SourceID, AL_BUFFER, this->BufferID);
+    alBufferData(this->Buffer, this->Format, &this->BufferData[0], static_cast<ALsizei>(this->BufferData.size()), this->Freq);
+    alSourcei(this->Source, AL_BUFFER, this->Buffer);
+    this->Loaded = true;
   }
   
   void Sound::loadOGG(const char* filepath, std::vector<char> &buffer, ALenum &format, ALsizei &freq)
@@ -40,7 +59,7 @@ namespace stella { namespace audio {
     int endian = 0;
     int bitStream;
     long bytes;
-    char array[SOUND_BUFFER_SIZE];
+    char array[AUDIO_BUFFER_SIZE];
     FILE *file;
 
     file = fopen(filepath, "rb");
@@ -55,7 +74,7 @@ namespace stella { namespace audio {
     freq = pInfo->rate;
 
     do {
-      bytes = ov_read(&oggFile, array, SOUND_BUFFER_SIZE, endian, 2, 1, &bitStream);
+      bytes = ov_read(&oggFile, array, AUDIO_BUFFER_SIZE, endian, 2, 1, &bitStream);
       buffer.insert(buffer.end(), array, array+bytes);
     } while (bytes > 0);
 
