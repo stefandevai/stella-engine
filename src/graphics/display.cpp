@@ -1,6 +1,6 @@
 #include <sstream>
-#include "../../dependencies/glm/glm/glm.hpp"
-#include "display.h" 
+#include <glm/glm.hpp>
+#include "graphics/display.h" 
 
 #include <iostream>
 

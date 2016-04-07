@@ -1,4 +1,4 @@
-#include "renderable.h"
+#include "graphics/renderable.h"
 
 namespace stella { namespace graphics {
   Renderable::Renderable(GLint x, GLint y, GLint w, GLint h, Texture &texture, GLboolean visible)

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
-#include "../../dependencies/glm/glm/glm.hpp"
+#include <glm/glm.hpp>
 
 namespace stella { namespace graphics {
   class Shader

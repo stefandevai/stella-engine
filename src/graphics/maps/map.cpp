@@ -1,4 +1,4 @@
-#include "map.h"
+#include "graphics/map.h"
 
 namespace stella { namespace graphics {
   Map::Map(const char* filename, const SpriteSheet &spritesheet)

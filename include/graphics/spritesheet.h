@@ -1,7 +1,7 @@
 #pragma once
 
 #include "texture.h"
-#include "../../dependencies/glm/glm/glm.hpp"
+#include <glm/glm.hpp>
 
 #include <vector>
 

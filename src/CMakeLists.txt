@@ -12,7 +12,6 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   message(STATUS "Using MSVC")
 endif()
 
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COMPILE_FLAGS}")
 
 target_link_libraries(stella ${GLEW_LIBRARIES} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}

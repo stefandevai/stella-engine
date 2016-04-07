@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(stella C CXX)
+project(STELLA C CXX)
 
 if (UNIX AND NOT APPLE)
   set (LINUX TRUE)
@@ -8,15 +8,22 @@ if (APPLE)
   set(CMAKE_MACOSX_RPATH 1)
 endif()
 
-# Turn on these options to use the libraries contained in your machine.
-option(USE_SHARED_GLFW "Use shared GLFW library" on)
-option(USE_SHARED_GLEW "Use shared GLEW library" on)
-option(USE_SHARED_SOIL "Use shared SOIL library" off)
-option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" on)
-option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" on)
+# Library name
+set(STELLA_LIBRARY_NAME "stella")
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
-set(DEPENDENCIES_DIR ${PROJECT_SOURCE_DIR}/dependencies)
+# Turn this option on to build examples
+option(BUILD_EXAMPLES "Build Stella examples" on)
+
+# Turn on these options to use the libraries contained in your machine.
+option(USE_SHARED_GLFW "Use shared GLFW library" off)
+option(USE_SHARED_GLEW "Use shared GLEW library" off)
+option(USE_SHARED_SOIL "Use shared SOIL library" off)
+option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" off)
+option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" off)
+
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
+set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dependencies)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 find_package(OpenGL REQUIRED)
 
@@ -39,6 +46,9 @@ else()
   set(GLEW_LIBRARIES libglew_static)
 endif()
 include_directories(${GLEW_INCLUDE_DIRS})
+
+# GLM - OpenGL maths library
+include_directories(${DEPENDENCIES_DIR}/glm)
 
 # SOIL - Handles image loading in various formats.
 if (USE_SHARED_SOIL)
@@ -145,12 +155,33 @@ elseif(APPLE)
   find_library(CARBON_LIBRARY Carbon)
 
   list(APPEND PLATFORM_LIBRARIES ${COCOA_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY} ${CARBON_LIBRARY})
-
-  #set(PLATFORM_LIBRARIES "-framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -framework Carbon")
 elseif(WIN32)
   set(CXX_LINK_FLAGS "-lopengl32")
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif()
 
-add_subdirectory(src) # Stella source code
 add_subdirectory(${DEPENDENCIES_DIR}) # Dependencies folder
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
+    "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
+      "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+  set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall")
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+  message(STATUS "Using MSVC")
+endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COMPILE_FLAGS}")
+
+# Build main library
+file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
+add_library(${STELLA_LIBRARY_NAME} ${STELLA_SOURCES})
+
+target_link_libraries(${STELLA_LIBRARY_NAME} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
+  ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${PLATFORM_LIBRARIES})
+
+# Build examples if specified
+if (BUILD_EXAMPLES)
+  add_subdirectory(examples)
+endif()
+

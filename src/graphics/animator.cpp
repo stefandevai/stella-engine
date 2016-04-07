@@ -1,4 +1,4 @@
-#include "animator.h"
+#include "graphics/animator.h"
 
 #include <iostream>
 

@@ -4,9 +4,9 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
-#include "dependencies/glm/glm/glm.hpp"
-#include "dependencies/glm/glm/gtc/matrix_transform.hpp"
-#include "src/stella.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <stella.h>
 
 int main(int argc, char *argv[])
 {

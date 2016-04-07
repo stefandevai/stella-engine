@@ -1,6 +1,6 @@
-#include "shader.h"
-#include "../utils/fileutils.h"
-#include "../../dependencies/glm/glm/gtc/type_ptr.hpp"
+#include "graphics/shader.h"
+#include "fileutils.h"
+#include <glm/gtc/type_ptr.hpp>
 
 namespace stella { namespace graphics {
   Shader::Shader(const char* vsPath, const char* fsPath)

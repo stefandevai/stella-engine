@@ -1,4 +1,4 @@
-#include "spritesheet.h"
+#include "graphics/spritesheet.h"
 
 #include <string>
 #include <iostream>

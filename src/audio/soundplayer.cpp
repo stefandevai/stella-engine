@@ -1,4 +1,4 @@
-#include "soundplayer.h"
+#include "audio/soundplayer.h"
 
 #include <AL/alut.h>
 #include <iostream>

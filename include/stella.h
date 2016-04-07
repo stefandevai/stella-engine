@@ -4,8 +4,8 @@
 #include "graphics/texture.h"
 #include "graphics/sprite.h"
 #include "graphics/renderer.h"
-#include "graphics/layers/layer.h"
-#include "graphics/layers/scenelayer.h"
+#include "graphics/layer.h"
+#include "graphics/scenelayer.h"
 
 #include "audio/soundplayer.h"
 

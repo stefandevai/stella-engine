@@ -1,10 +1,10 @@
 #pragma once
 
 #include <vector>
-#include "../../../dependencies/glm/glm/glm.hpp"
+#include <glm/glm.hpp>
 
-#include "../renderer.h"
-#include "../shader.h"
+#include "renderer.h"
+#include "shader.h"
 
 namespace stella { namespace graphics {
   class Layer {

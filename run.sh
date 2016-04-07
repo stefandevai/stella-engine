@@ -11,14 +11,15 @@ fi
 
 # Variables
 BUILD_DIR="build"
-TARGET="stella"
+EXEC_FOLDER="examples"
+TARGET="example"
 OPT1=$1
 OPT2=$2
 
 # Functions
 function cmake_func {
   if [ ! -d "$BUILD_DIR" ]; then
-    mkdir $BUILD_DIR
+    mkdir "$BUILD_DIR"
   fi
   
   cd $BUILD_DIR
@@ -46,19 +47,17 @@ function exec_func {
     cd $BUILD_DIR
     cmake ..
     make
-    cd ..
   elif [ ! -f "$BUILD_DIR"/Makefile ]; then
     cd $BUILD_DIR
     cmake ..
     make
-    cd ..
   elif [ -f "$BUILD_DIR"/Makefile ]; then
     cd $BUILD_DIR
     make
-    cd ..
   fi
 
-  ./"$BUILD_DIR"/"$TARGET"
+  cd $EXEC_FOLDER
+  ./"$TARGET"
 }
 
 function clean_func {
