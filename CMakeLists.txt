@@ -15,11 +15,11 @@ set(STELLA_LIBRARY_NAME "stella")
 option(BUILD_EXAMPLES "Build Stella examples" on)
 
 # Turn on these options to use the libraries contained in your machine.
-option(USE_SHARED_GLFW "Use shared GLFW library" off)
-option(USE_SHARED_GLEW "Use shared GLEW library" off)
+option(USE_SHARED_GLFW "Use shared GLFW library" on)
+option(USE_SHARED_GLEW "Use shared GLEW library" on)
 option(USE_SHARED_SOIL "Use shared SOIL library" off)
-option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" off)
-option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" off)
+option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" on)
+option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" on)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dependencies)

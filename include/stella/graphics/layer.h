@@ -3,8 +3,8 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-#include "renderer.h"
-#include "shader.h"
+#include <stella/graphics/renderer.h>
+#include <stella/graphics/shader.h>
 
 namespace stella { namespace graphics {
   class Layer {

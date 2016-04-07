@@ -1,6 +1,6 @@
 #pragma once
 
-#include "layer.h"
+#include <stella/graphics/layer.h>
 
 namespace stella { namespace graphics {
   class SceneLayer : public Layer

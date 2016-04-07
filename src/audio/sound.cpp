@@ -1,4 +1,4 @@
-#include "audio/sound.h"
+#include "stella/audio/sound.h"
 
 #include <vorbis/vorbisfile.h>
 #include <iostream>

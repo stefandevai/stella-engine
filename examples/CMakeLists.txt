@@ -1,11 +1,18 @@
-# Build Examples
+# Buil common library
+set(STELLA_COMMON_LIBRARY_NAME "${STELLA_LIBRARY_NAME}_common")
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common/include)
+file(GLOB_RECURSE STELLA_COMMON_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/common/src/*.cpp)
 
+add_library(${STELLA_COMMON_LIBRARY_NAME} ${STELLA_COMMON_SOURCES})
+target_link_libraries(${STELLA_COMMON_LIBRARY_NAME} ${STELLA_LIBRARY_NAME})
+
+# Build Examples
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/examples)
 
 macro (build_example EXAMPLE_NAME EXAMPLE_SRC_DIR)
   file(GLOB_RECURSE EXAMPLE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/${EXAMPLE_SRC_DIR}/*.cpp)
   add_executable(${EXAMPLE_NAME} ${EXAMPLE_SOURCES})
-  target_link_libraries(${EXAMPLE_NAME} ${STELLA_LIBRARY_NAME})
+  target_link_libraries(${EXAMPLE_NAME} ${STELLA_LIBRARY_NAME} ${STELLA_COMMON_LIBRARY_NAME})
 endmacro()
 
 build_example("example" "early_example")

@@ -1,4 +1,4 @@
-#include "graphics/sprite.h"
+#include "stella/graphics/sprite.h"
 #include <iostream>
 
 namespace stella { namespace graphics { 

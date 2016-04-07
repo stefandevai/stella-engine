@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "map_layer.h"
-#include "spritesheet.h"
+#include <stella/graphics/spritesheet.h>
 
 namespace stella { namespace graphics {
   class Map

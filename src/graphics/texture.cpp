@@ -1,4 +1,4 @@
-#include "graphics/texture.h"
+#include "stella/graphics/texture.h"
 
 #include <SOIL.h>
 

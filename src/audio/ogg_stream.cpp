@@ -1,4 +1,4 @@
-#include "audio/ogg_stream.h"
+#include "stella/audio/ogg_stream.h"
 
 #include <iostream>
 

@@ -1,5 +1,5 @@
-#include "graphics/shader.h"
-#include "fileutils.h"
+#include "stella/graphics/shader.h"
+#include "stella/fileutils.h"
 #include <glm/gtc/type_ptr.hpp>
 
 namespace stella { namespace graphics {

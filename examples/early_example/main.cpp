@@ -6,7 +6,9 @@
 #include <cmath>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <stella.h>
+#include <stella/stella.h>
+
+#include "scenelayer.h"
 
 int main(int argc, char *argv[])
 {

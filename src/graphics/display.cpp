@@ -1,6 +1,6 @@
 #include <sstream>
 #include <glm/glm.hpp>
-#include "graphics/display.h" 
+#include "stella/graphics/display.h" 
 
 #include <iostream>
 

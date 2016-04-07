@@ -1,4 +1,4 @@
-#include "graphics/spritesheet.h"
+#include "stella/graphics/spritesheet.h"
 
 #include <string>
 #include <iostream>

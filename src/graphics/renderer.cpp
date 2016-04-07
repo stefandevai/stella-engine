@@ -1,4 +1,4 @@
-#include "graphics/renderer.h"
+#include "stella/graphics/renderer.h"
 
 #include <cstddef>
 #include <algorithm>

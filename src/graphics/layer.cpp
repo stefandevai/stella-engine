@@ -1,4 +1,4 @@
-#include "graphics/layer.h"
+#include "stella/graphics/layer.h"
 
 namespace stella { namespace graphics{
   Layer::Layer(Renderer* renderer, Shader* shader, glm::mat4 projection)
