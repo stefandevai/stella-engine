@@ -1,6 +1,7 @@
 #include "stella/graphics/texture.h"
 
 #include <SOIL.h>
+#include <iostream>
 
 namespace stella { namespace graphics {
   Texture::Texture(const std::string name, const char* texPath)
@@ -29,6 +30,8 @@ namespace stella { namespace graphics {
   {
     int width, height;
     unsigned char* img = SOIL_load_image(texPath, &width, &height, 0, SOIL_LOAD_RGBA);
+    if (img == nullptr)
+      std::cout << "It wasn't possible to load " << texPath << std::endl;
 
     this->Width = (GLuint)width;
     this->Height = (GLuint)height;

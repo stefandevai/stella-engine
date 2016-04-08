@@ -24,3 +24,7 @@ if (NOT USE_SHARED_VORBIS)
   add_subdirectory(vorbis)
 endif()
 
+if (NOT USE_SHARED_ANAX)
+  add_subdirectory(anax)
+endif()
+
