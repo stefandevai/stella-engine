@@ -3,4 +3,5 @@
 #include "position_component.h"
 #include "sprite_component.h"
 #include "input_component.h"
+#include "light_component.h"
 

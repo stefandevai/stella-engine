@@ -3,6 +3,7 @@
 Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader, const bool *keys) {
 	systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), shader);
 	systems.add<PlayerMovementSystem>((int)display.GetWidth(), (int)display.GetHeight());
+	systems.add<LightingSystem>(shader);
 	systems.configure();
 		
 	entityx::Entity player = entities.create();
@@ -13,6 +14,8 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	player.assign<TextureComponent>(160, 120, *PlayerTex, 0);
 
 	player.assign<InputComponent>(keys);
+
+	player.assign<LightComponent>(0, 0.0f);
 }
 
 Game::~Game() {
