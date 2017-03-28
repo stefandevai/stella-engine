@@ -12,7 +12,7 @@ fi
 # Variables
 BUILD_DIR="build"
 EXEC_FOLDER="examples"
-TARGET="example"
+TARGET="game"
 OPT1=$1
 OPT2=$2
 
