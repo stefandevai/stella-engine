@@ -51,20 +51,21 @@ struct RenderSystem : public entityx::System<RenderSystem> {
 
 class Application : public entityx::EntityX {
 	public:
-		stella::graphics::Texture *StellaTex;
+		stella::graphics::Texture *PlayerTex;
 
 		explicit Application(stella::graphics::Display &display, stella::graphics::Shader *shader) {
 			systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), shader);
 			systems.configure();
 			  
 			entityx::Entity player = entities.create();
-			player.assign<Position>((int)display.GetWidth()/2 - 23, (int)display.GetHeight()/2 - 51);
+			player.assign<Position>((int)display.GetWidth()/2 - 80, (int)display.GetHeight()/2 - 60);
 
-	    StellaTex = new stella::graphics::Texture("stella-ttex", "assets/gfx/sprites/tina.png");
-			player.assign<TextureComponent>(46, 102, *StellaTex, 0);
+	    PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/guanaco-anim.png");
+			player.assign<TextureComponent>(160, 120, *PlayerTex, 0);
 		}
 
 		~Application() {
+			delete PlayerTex;
 		}
 
 		void update(entityx::TimeDelta dt) {
