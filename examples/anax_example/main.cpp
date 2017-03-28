@@ -9,8 +9,8 @@
 
 struct Position 
 {
-  Position(float x = 0.0f, float y = 0.0f) : x(x), y(y) {}
-  float x, y;
+  Position(int x = 0, int y = 0) : x(x), y(y) {}
+  int x, y;
 };
 
 struct TextureComponent
@@ -22,30 +22,26 @@ struct TextureComponent
 
 struct RenderSystem : public entityx::System<RenderSystem> {
 	SceneLayer*	TileLayer;
+	stella::graphics::Shader *shader;
 
 	explicit RenderSystem(int width, int height, stella::graphics::Shader *shad) {
+		this->shader = shad;
 		glm::mat4 proj = glm::ortho(0.0f, (float)width, (float)height, 0.0f, -1.0f, 1.0f);
-	  this->TileLayer = new SceneLayer(shad, proj);
-
-		//auto entities = this->getEntities();
-		//for (auto& entity : entities)
-		//{
-			//auto& sprite = entity.getComponent<SpriteComponent>().sprite;
-			//auto& position = entity.getComponent<PositionComponent>();
-			//sprite->Pos.x = position.x;
-			//sprite->Pos.y = position.y;
-			//TileLayer->Add(sprite);
-		//}
+		this->TileLayer = new SceneLayer(this->shader, proj);
 	}
 
 	~RenderSystem() {
 		delete this->TileLayer;
 	}
 
+	void prepare() {
+
+	}
+
 	void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override {
 		es.each<Position, TextureComponent>([this](entityx::Entity entity, Position &pos, TextureComponent &tex) {
-			tex.sprite->Pos.x = pos.x;	
-			tex.sprite->Pos.y = pos.y;	
+			tex.sprite->Pos.x = pos.x;
+			tex.sprite->Pos.y = pos.y;
 			if (!tex.InLayer) {
 				this->TileLayer->Add(tex.sprite);
 				tex.InLayer = true;
@@ -70,6 +66,9 @@ class Application : public entityx::EntityX {
 			player.assign<TextureComponent>(46, 102, StellaTex, 0);
 		}
 
+		~Application() {
+		}
+
 		void update(entityx::TimeDelta dt) {
 			systems.update_all(dt);
 		}
@@ -92,7 +91,14 @@ int main(int argc, char *argv[])
   shader.SetIntv("textures", tex_ids, 10);
   shader.Disable();
   // End of block
-  
+
+	glm::mat4 proj = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+	SceneLayer *TileLayer = new SceneLayer(&shader, proj);
+
+	stella::graphics::Texture StellaTex("stella-tex", "assets/gfx/sprites/tina.png");
+  stella::graphics::Sprite *sprite = new stella::graphics::Sprite(46, 102, 46, 102, StellaTex, 0);
+  TileLayer->Add(sprite);
+
   Application app(&display, &shader);
 
   while(display.IsRunning())
@@ -100,6 +106,7 @@ int main(int argc, char *argv[])
     display.Clear();
 
 		app.update((entityx::TimeDelta)display.GetDT());
+		//TileLayer->Render();
     display.Update();
   }
 
