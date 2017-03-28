@@ -1,77 +1,7 @@
-#include <entityx/entityx.h>
-#include <stella/stella.h>
 #include <iostream>
+#include <stella/stella.h>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
-#include "scenelayer.h"
-
-struct Position 
-{
-  Position(int x = 0, int y = 0) : x(x), y(y) {}
-  int x, y;
-};
-
-struct TextureComponent
-{
-	inline TextureComponent(int w, int h, stella::graphics::Texture &texture, int frame = 0) { sprite = new stella::graphics::Sprite(0, 0, w, h, texture, frame); InLayer = false; }
-	stella::graphics::Sprite *sprite;
-	bool InLayer;
-};
-
-struct RenderSystem : public entityx::System<RenderSystem> {
-	SceneLayer*	TileLayer;
-	stella::graphics::Shader *shader;
-
-	explicit RenderSystem(int width, int height, stella::graphics::Shader *shad) {
-		this->shader = shad;
-		glm::mat4 proj = glm::ortho(0.0f, (float)width, (float)height, 0.0f, -1.0f, 1.0f);
-		this->TileLayer = new SceneLayer(shad, proj);
-	}
-
-	~RenderSystem() {
-		delete this->TileLayer;
-	}
-
-	void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override {
-		es.each<Position, TextureComponent>([this](entityx::Entity entity, Position &pos, TextureComponent &tex) {
-			tex.sprite->Pos.x = pos.x;
-			tex.sprite->Pos.y = pos.y;
-			if (!tex.InLayer) {
-				this->TileLayer->Add(tex.sprite);
-				tex.InLayer = true;
-				std::cout << tex.sprite->Pos.x << std::endl;
-			}
-			this->TileLayer->Render();
-		});
-
-	};
-};
-
-class Application : public entityx::EntityX {
-	public:
-		stella::graphics::Texture *PlayerTex;
-
-		explicit Application(stella::graphics::Display &display, stella::graphics::Shader *shader) {
-			systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), shader);
-			systems.configure();
-			  
-			entityx::Entity player = entities.create();
-			player.assign<Position>((int)display.GetWidth()/2 - 80, (int)display.GetHeight()/2 - 60);
-
-	    PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/guanaco-anim.png");
-			player.assign<TextureComponent>(160, 120, *PlayerTex, 0);
-		}
-
-		~Application() {
-			delete PlayerTex;
-		}
-
-		void update(entityx::TimeDelta dt) {
-			systems.update_all(dt);
-		}
-};
+#include "game.h"
 
 int main(int argc, char *argv[])
 {
@@ -91,13 +21,13 @@ int main(int argc, char *argv[])
   shader.Disable();
   // End of block
 
-  Application app(display, &shader);
+  Game game(display, &shader);
 
   while(display.IsRunning())
   {
     display.Clear();
 
-		app.update((entityx::TimeDelta)display.GetDT());
+		game.Update(display.GetDT());
     display.Update();
   }
 
