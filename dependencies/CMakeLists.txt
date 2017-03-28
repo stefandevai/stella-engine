@@ -28,3 +28,7 @@ if (NOT USE_SHARED_ANAX)
   add_subdirectory(anax)
 endif()
 
+if (NOT USE_SHARED_ENTITYX)
+  add_subdirectory(entityx)
+endif()
+

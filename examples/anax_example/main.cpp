@@ -1,10 +1,79 @@
-#include <anax/anax.hpp>
+#include <entityx/entityx.h>
 #include <stella/stella.h>
 #include <iostream>
 
-#include "position_component.h"
-#include "sprite_component.h"
-#include "rendering_system.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "scenelayer.h"
+
+struct Position 
+{
+  Position(float x = 0.0f, float y = 0.0f) : x(x), y(y) {}
+  float x, y;
+};
+
+struct TextureComponent
+{
+	inline TextureComponent(int w, int h, stella::graphics::Texture &texture, int frame = 0) { sprite = new stella::graphics::Sprite(0, 0, w, h, texture, frame); InLayer = false; }
+	stella::graphics::Sprite *sprite;
+	bool InLayer;
+};
+
+struct RenderSystem : public entityx::System<RenderSystem> {
+	SceneLayer*	TileLayer;
+
+	explicit RenderSystem(int width, int height, stella::graphics::Shader *shad) {
+		glm::mat4 proj = glm::ortho(0.0f, (float)width, (float)height, 0.0f, -1.0f, 1.0f);
+	  this->TileLayer = new SceneLayer(shad, proj);
+
+		//auto entities = this->getEntities();
+		//for (auto& entity : entities)
+		//{
+			//auto& sprite = entity.getComponent<SpriteComponent>().sprite;
+			//auto& position = entity.getComponent<PositionComponent>();
+			//sprite->Pos.x = position.x;
+			//sprite->Pos.y = position.y;
+			//TileLayer->Add(sprite);
+		//}
+	}
+
+	~RenderSystem() {
+		delete this->TileLayer;
+	}
+
+	void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override {
+		es.each<Position, TextureComponent>([this](entityx::Entity entity, Position &pos, TextureComponent &tex) {
+			tex.sprite->Pos.x = pos.x;	
+			tex.sprite->Pos.y = pos.y;	
+			if (!tex.InLayer) {
+				this->TileLayer->Add(tex.sprite);
+				tex.InLayer = true;
+				std::cout << tex.sprite->Pos.x << std::endl;
+			}
+			this->TileLayer->Render();
+		});
+
+	};
+};
+
+class Application : public entityx::EntityX {
+	public:
+		explicit Application(stella::graphics::Display *display, stella::graphics::Shader *shader) {
+			systems.add<RenderSystem>((int)display->GetWidth(), (int)display->GetHeight(), shader);
+			systems.configure();
+			  
+			entityx::Entity player = entities.create();
+			player.assign<Position>((int)display->GetWidth()/2 - 23, (int)display->GetHeight()/2 - 51);
+
+			stella::graphics::Texture StellaTex("stella-tex", "assets/gfx/sprites/tina.png");
+			player.assign<TextureComponent>(46, 102, StellaTex, 0);
+		}
+
+		void update(entityx::TimeDelta dt) {
+			systems.update_all(dt);
+		}
+};
 
 int main(int argc, char *argv[])
 {
@@ -23,30 +92,16 @@ int main(int argc, char *argv[])
   shader.SetIntv("textures", tex_ids, 10);
   shader.Disable();
   // End of block
-
-  anax::World world;
-  anax::Entity entity = world.createEntity();
-  entity.addComponent<PositionComponent>((int)display.GetWidth()/2 - 23, (int)display.GetHeight()/2 - 51);
-  stella::graphics::Texture StellaTex("stella-tex", "assets/gfx/sprites/tina.png");
-  entity.addComponent<SpriteComponent>(46, 102, StellaTex, 0);
-  entity.activate();
-
-  RenderingSystem renderingSystem(display.GetWidth(), display.GetHeight(), &shader);
-  world.addSystem(renderingSystem);
-  world.refresh();
-  renderingSystem.Prepare();
+  
+  Application app(&display, &shader);
 
   while(display.IsRunning())
   {
     display.Clear();
 
-    world.refresh();
-    renderingSystem.Render();
-
+		app.update((entityx::TimeDelta)display.GetDT());
     display.Update();
   }
-
-  entity.kill();
 
   return 0;
 }
