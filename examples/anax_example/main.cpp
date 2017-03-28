@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     world.refresh();
     renderingSystem.Render();
 
-    display.Update();    
+    display.Update();
   }
 
   entity.kill();

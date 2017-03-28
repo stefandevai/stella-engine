@@ -1,10 +1,10 @@
 #include "map.h"
 
 namespace stella { namespace graphics {
-  Map::Map(const char* filename, const SpriteSheet &spritesheet)
-    : Frames(spritesheet)
+  Map::Map(const char* filename, stella::graphics::Texture *texture)
+    : Tex(texture)
   {
-    this->loadData(filename);   
+    this->load(filename); 
   }
   
   Map::~Map()
@@ -12,13 +12,7 @@ namespace stella { namespace graphics {
 
   }
 
-  void Map::Update()
-  {
-    for (auto i : Layers)
-      i->Update();
-  }
-
-  void Map::loadData(const char* filename)
+  void Map::load(const char* filename)
   {
 
   }

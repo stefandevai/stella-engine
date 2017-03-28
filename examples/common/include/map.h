@@ -2,22 +2,20 @@
 
 #include <vector>
 
-#include "map_layer.h"
-#include <stella/graphics/spritesheet.h>
+#include <stella/graphics/texture.h>
+#include <stella/graphics/sprite.h>
 
 namespace stella { namespace graphics {
   class Map
   {
     public:
-      virtual ~Map();
-      virtual void Update();
+      Map(const char* filename, stella::graphics::Texture *texture);
+      ~Map();
 
-    protected:
-      std::vector<MapLayer*> Layers;
-      SpriteSheet Frames;
-
-      Map(const char* filename, const SpriteSheet &spritesheet);
-      void loadData(const char *filename);
+    private:
+      stella::graphics::Texture *Tex;
+      std::vector<std::vector<Sprite*>> Layers;
+      void load(const char* filename);
   };
 } }
 
