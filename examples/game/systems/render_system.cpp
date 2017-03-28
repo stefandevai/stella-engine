@@ -17,13 +17,12 @@ RenderSystem::~RenderSystem() {
 }
 
 void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<Position, TextureComponent>([this](entityx::Entity entity, Position &pos, TextureComponent &tex) {
+	es.each<PositionComponent, TextureComponent>([this](entityx::Entity entity, PositionComponent &pos, TextureComponent &tex) {
 		tex.sprite->Pos.x = pos.x;
 		tex.sprite->Pos.y = pos.y;
 		if (!tex.InLayer) {
 			this->TileLayer->Add(tex.sprite);
 			tex.InLayer = true;
-			std::cout << tex.sprite->Pos.x << std::endl;
 		}
 		this->TileLayer->Render();
 	});

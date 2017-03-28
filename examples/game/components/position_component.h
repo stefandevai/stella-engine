@@ -1,8 +1,8 @@
 #pragma once
 
-struct Position 
+struct PositionComponent
 {
-  Position(int x = 0, int y = 0) : x(x), y(y) {}
+  PositionComponent(int x = 0, int y = 0) : x(x), y(y) {}
   int x, y;
 };
 

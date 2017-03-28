@@ -8,7 +8,7 @@
 
 class Game : public entityx::EntityX {
 	public:
-		Game(stella::graphics::Display &display, stella::graphics::Shader *shader);
+		Game(stella::graphics::Display &display, stella::graphics::Shader *shader, const bool *keys);
 		~Game();
 
 		void Update(entityx::TimeDelta dt);

@@ -1,14 +1,18 @@
 #include "game.h"
 
-Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader) {
+Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader, const bool *keys) {
 	systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), shader);
+	systems.add<PlayerMovementSystem>((int)display.GetWidth(), (int)display.GetHeight());
 	systems.configure();
 		
 	entityx::Entity player = entities.create();
-	player.assign<Position>((int)display.GetWidth()/2 - 80, (int)display.GetHeight()/2 - 60);
+
+	player.assign<PositionComponent>((int)display.GetWidth()/2 - 80, (int)display.GetHeight()/2 - 60);
 
 	PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/guanaco-anim.png");
 	player.assign<TextureComponent>(160, 120, *PlayerTex, 0);
+
+	player.assign<InputComponent>(keys);
 }
 
 Game::~Game() {

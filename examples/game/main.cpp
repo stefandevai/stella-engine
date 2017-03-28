@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
   shader.Disable();
   // End of block
 
-  Game game(display, &shader);
+  Game game(display, &shader, (const bool *)Keys);
 
   while(display.IsRunning())
   {
