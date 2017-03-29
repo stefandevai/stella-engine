@@ -1,3 +1,6 @@
 [submodule "dependencies/ogg"]
 	path = dependencies/ogg
 	url = https://github.com/xiph/ogg.git
+[submodule "dependencies/anax"]
+	path = dependencies/anax
+	url = https://github.com/miguelmartin75/anax.git

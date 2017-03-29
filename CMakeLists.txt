@@ -12,7 +12,7 @@ endif()
 set(STELLA_LIBRARY_NAME "stella")
 
 # Turn this option on to build examples
-option(BUILD_EXAMPLES "Build Stella examples" on)
+option(BUILD_STELLA_EXAMPLES "Build Stella examples" on)
 
 # Turn on these options to use the libraries contained in your machine.
 option(USE_SHARED_GLFW "Use shared GLFW library" on)
@@ -20,6 +20,7 @@ option(USE_SHARED_GLEW "Use shared GLEW library" on)
 option(USE_SHARED_SOIL "Use shared SOIL library" off)
 option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" on)
 option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" on)
+option(USE_SHARED_ENTITYX "Use shared EntityX library" off)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dependencies)
@@ -102,6 +103,15 @@ endif()
 include_directories(${OGG_INCLUDE_DIRS})
 include_directories(${VORBIS_INCLUDE_DIR})
 
+# EntityX - Library implementing an Entity-Component-System architecture
+if (USE_SHARED_ENTITYX)
+  find_package(entityx)
+else()
+	set(ENTITYX_INCLUDE_DIR ${DEPENDENCIES_DIR}/entityx)
+	set(ENTITYX_LIBRARIES entityx)
+endif()
+include_directories(${ENTITYX_INCLUDE_DIR})
+
 # Platform specific libraries
 set(PLATFORM_LIBRARIES)
 
@@ -178,10 +188,10 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${STELLA_LIBRARY_NAME} ${STELLA_SOURCES})
 
 target_link_libraries(${STELLA_LIBRARY_NAME} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
-  ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${PLATFORM_LIBRARIES})
+	${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTITYX_LIBRARIES} ${PLATFORM_LIBRARIES})
 
 # Build examples if specified
-if (BUILD_EXAMPLES)
+if (BUILD_STELLA_EXAMPLES)
   add_subdirectory(examples)
 endif()
 

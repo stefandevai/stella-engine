@@ -1,5 +1,4 @@
 #include <sstream>
-#include <glm/glm.hpp>
 #include "stella/graphics/display.h" 
 
 #include <iostream>

@@ -1,0 +1,29 @@
+#include "render_system.h"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "../components/position_component.h"
+#include "../components/sprite_component.h"
+
+RenderSystem::RenderSystem(int width, int height, stella::graphics::Shader *shad) {
+	this->shader = shad;
+	glm::mat4 proj = glm::ortho(0.0f, (float)width, (float)height, 0.0f, -1.0f, 1.0f);
+	this->TileLayer = new SceneLayer(shad, proj);
+}
+
+RenderSystem::~RenderSystem() {
+	delete this->TileLayer;
+}
+
+void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
+	es.each<PositionComponent, TextureComponent>([this](entityx::Entity entity, PositionComponent &pos, TextureComponent &tex) {
+		tex.sprite->Pos.x = pos.x;
+		tex.sprite->Pos.y = pos.y;
+		if (!tex.InLayer) {
+			this->TileLayer->Add(tex.sprite);
+			tex.InLayer = true;
+		}
+		this->TileLayer->Render();
+	});
+};
