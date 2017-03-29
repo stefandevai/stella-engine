@@ -16,7 +16,7 @@ macro (build_example EXAMPLE_NAME EXAMPLE_SRC_DIR)
 endmacro()
 
 #build_example("example" "early_example")
-build_example("example" "anax_example")
+build_example("game" "game")
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
