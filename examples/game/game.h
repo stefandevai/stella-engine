@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+#include <vector>
+#include <map>
+
 #include <entityx/entityx.h>
 #include <stella/stella.h>
 
@@ -15,5 +19,6 @@ class Game : public entityx::EntityX {
 
 	private:
 		stella::graphics::Texture *PlayerTex;
+		std::map<std::string, std::vector<unsigned int>> animations;
 };
 

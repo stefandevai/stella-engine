@@ -4,4 +4,5 @@
 #include "sprite_component.h"
 #include "input_component.h"
 #include "light_component.h"
+#include "animation_component.h"
 

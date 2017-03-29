@@ -4,6 +4,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), shader);
 	systems.add<PlayerMovementSystem>((int)display.GetWidth(), (int)display.GetHeight());
 	systems.add<LightingSystem>(shader);
+	systems.add<AnimationSystem>();
 	systems.configure();
 		
 	entityx::Entity player = entities.create();
@@ -15,7 +16,11 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 
 	player.assign<InputComponent>(keys);
 
-	player.assign<LightComponent>(0, 0.0f);
+	player.assign<LightComponent>(0, 0.8f);
+	
+	std::vector<unsigned int> run_frames = { 0,1,2,3,4 };
+	animations.insert(std::make_pair("run", run_frames));
+	player.assign<AnimationComponent>("run", animations);
 }
 
 Game::~Game() {
