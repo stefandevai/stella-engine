@@ -28,7 +28,6 @@ Game::~Game() {
 
 void Game::add_animation(entityx::Entity &ent, std::string name, std::vector<unsigned int> frames, unsigned int framerate) {
 	entityx::ComponentHandle<TextureComponent> tex = ent.component<TextureComponent>();
-			std::cout << frames.size() << std::endl;
 	if (tex) {
 		tex->sprite->Animations.Add(name, frames, framerate);
 	}
