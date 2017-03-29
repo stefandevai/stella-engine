@@ -20,7 +20,7 @@ void PlayerMovementSystem::update(entityx::EntityManager &es, entityx::EventMana
 				if (pos.x >= 0)
 					pos.x -= 7;
 			}
-			if (input.Keys[GLFW_KEY_RIGHT] || input.Keys[GLFW_KEY_D]) {
+			else if (input.Keys[GLFW_KEY_RIGHT] || input.Keys[GLFW_KEY_D]) {
 				if (pos.x + 160 < BoundX)
 					pos.x += 7;
 			}
@@ -30,7 +30,7 @@ void PlayerMovementSystem::update(entityx::EntityManager &es, entityx::EventMana
 				if (pos.y >= 0)
 					pos.y -= 7;
 			}
-			if (input.Keys[GLFW_KEY_DOWN] || input.Keys[GLFW_KEY_S]) {
+			else if (input.Keys[GLFW_KEY_DOWN] || input.Keys[GLFW_KEY_S]) {
 				if (pos.y + 120 < BoundY)
 					pos.y += 7;
 			}
