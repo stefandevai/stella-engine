@@ -18,13 +18,20 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 
 	player.assign<LightComponent>(0, 0.8f);
 	
-	std::vector<unsigned int> run_frames = { 0,1,2,3,4 };
-	animations.insert(std::make_pair("run", run_frames));
-	player.assign<AnimationComponent>("run", animations);
+	add_animation(player, "run", { 0,1,2,3,4 }, 5);
+	player.assign<AnimationComponent>("run");
 }
 
 Game::~Game() {
 	delete PlayerTex;
+}
+
+void Game::add_animation(entityx::Entity &ent, std::string name, std::vector<unsigned int> frames, unsigned int framerate) {
+	entityx::ComponentHandle<TextureComponent> tex = ent.component<TextureComponent>();
+			std::cout << frames.size() << std::endl;
+	if (tex) {
+		tex->sprite->Animations.Add(name, frames, framerate);
+	}
 }
 
 void Game::Update(entityx::TimeDelta dt) {

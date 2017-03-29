@@ -17,7 +17,7 @@ namespace stella { namespace graphics {
       delete i->second;
   }
 
-  void Animator::Add(const std::string &name, const std::vector<unsigned int> &frames, const unsigned int &frameRate)
+  void Animator::Add(const std::string name, const std::vector<unsigned int> frames, const unsigned int frameRate)
   {
     Animation *anim = new Animation(frames, frameRate);
     Animations.insert(std::pair<std::string, Animation*>(name, anim));
