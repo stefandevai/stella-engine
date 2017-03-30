@@ -19,7 +19,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	moon.assign<PositionComponent>(438, 98);
 	moon.assign<TextureComponent>(85, 85, *MoonTex, 0);
 
-	add_animation(moon, "moon", { 0,1,2,3,4 }, 20);
+	add_animation(moon, "moon", { 3,0,4,2,1,4,3,0,2,4,3 }, 20);
 	moon.assign<AnimationComponent>("moon");
 
 	// Player
