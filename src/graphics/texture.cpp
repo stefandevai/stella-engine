@@ -1,6 +1,6 @@
 #include "stella/graphics/texture.h"
 
-#include <SOIL.h>
+#include <soil.h>
 #include <iostream>
 
 namespace stella { namespace graphics {

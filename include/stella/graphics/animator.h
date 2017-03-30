@@ -13,7 +13,7 @@ namespace stella { namespace graphics {
       Animator();
       ~Animator();
 
-      void Add(const std::string &name, const std::vector<unsigned int> &frames, const unsigned int &frameRate);
+      void Add(const std::string name, const std::vector<unsigned int> frames, const unsigned int frameRate);
       void Play(const std::string &name);
       unsigned int Update();
       void Pause();
@@ -22,10 +22,10 @@ namespace stella { namespace graphics {
     
     private:
       struct Animation {
-        const std::vector<unsigned int> &frames;
+        const std::vector<unsigned int> frames;
         const unsigned int frameRate;
 
-        Animation(const std::vector<unsigned int> &frs, const unsigned int fr) : frames(frs), frameRate(fr)
+        Animation(const std::vector<unsigned int> frs, const unsigned int fr) : frames(frs), frameRate(fr)
         {
         }
       };
