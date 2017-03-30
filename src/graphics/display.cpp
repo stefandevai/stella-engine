@@ -7,6 +7,7 @@ namespace stella { namespace graphics {
   GLuint KeyPressed, KeyReleased;
   GLboolean KeyPress = GL_FALSE, KeyRelease = GL_FALSE;
   double MouseX, MouseY;
+  void window_size_callback(GLFWwindow* window, int width, int height);
 
   Display::Display(GLuint width, GLuint height, const std::string& title, GLboolean (&keys)[1024])
     : Width(width), Height(height), Title(title), Keys(keys)
@@ -21,11 +22,13 @@ namespace stella { namespace graphics {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
+
     // Window creation
     this->Window = glfwCreateWindow(this->Width, this->Height, this->Title.c_str(), nullptr, nullptr);
     if (this->Window == nullptr) std::cout << "GLFW Error: It was not possible to create a Window." << std::endl;
     glfwSetWindowSizeLimits(this->Window, width, height, GLFW_DONT_CARE, GLFW_DONT_CARE);
-    glfwSetWindowAspectRatio(this->Window, 16, 9);
+    glfwSetWindowSizeCallback(this->Window, windowSizeCallback);
+		glfwSetWindowAspectRatio(this->Window, 16, 9);
     glfwMakeContextCurrent(this->Window);
     this->Running = true;
 
@@ -146,6 +149,21 @@ namespace stella { namespace graphics {
 
     return deltaFrame / deltaTime;
   }
+
+	void Display::windowSizeCallback(GLFWwindow* window, int width, int height) {
+		if (width/(float)height < 1.77f) {
+			int newheight = (int)width/1.77f;
+			int left = height - newheight;
+			glViewport(0, left/2, width, newheight);
+		}
+		else if (width/(float)height > 1.78f) {
+			int newwidth = (int)height*1.77f;
+			int left = width - newwidth;
+			glViewport(left/2, 0, newwidth, height);
+		}
+
+	}
+
 
   void Display::inputCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
   {

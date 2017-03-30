@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
   GLboolean Keys[1024] = { 0 };
   stella::graphics::Display display(720, 405, "S T E L L A R", Keys);
-  display.SetClearColor(32, 27, 34);
+  display.SetClearColor(0, 0, 0);
 
   // TODO Move this block to init on singleton class
   GLint tex_ids[] =
