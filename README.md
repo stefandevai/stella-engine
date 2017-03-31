@@ -1,10 +1,10 @@
 # Stella Engine
 
-![Stella Engine early example](http://i.imgur.com/CDVu68e.png)
+![Stella Engine early example](/engine.png)
 
 ## Description:
 
-A basic 2D game engine for purposes of learning OpenGL. It is currently in its early development phase.
+A cross-platform 2D C++/OpenGL game engine. It is currently in its early development phase.
 
 ## Current features:
 
@@ -14,7 +14,7 @@ A basic 2D game engine for purposes of learning OpenGL. It is currently in its e
 
 ## Building:
 
-The project uses cmake as its build system. It has been tested on Linux and MacOS X.
+The project uses cmake as its build system. It has been tested on Linux and MacOS X, however every dependency is supposed to work on Windows aswell.
 
 ### Dependencies
 
@@ -26,6 +26,7 @@ The project already contains all its platform indepent dependencies. They are th
 - OpenAL: Audio library. *NOTE: Using [OpenAL Soft](https://github.com/kcat/openal-soft) in Linux for building the static library*.
 - ALUT: Utility Toolkit for OpenAL. *NOTE: Using [Free ALUT](https://github.com/vancegroup/freealut) for building the static library*.
 - [Ogg Vorbis](): Libraries for handling .ogg audio format.
+- [EntityX](https://github.com/alecthomas/entityx): Entity-component-system for C++.
 
 However if you want to use the shared libraries in your own computer you can turn on the specific cmake option contained in the top CMakeLists.txt file.
 e.g. To use the glfw library contained in your computer open CMakeLists.txt in a text editor and change the following line
