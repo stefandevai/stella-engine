@@ -5,4 +5,5 @@
 #include "input_component.h"
 #include "light_component.h"
 #include "animation_component.h"
+#include "body_component.h"
 

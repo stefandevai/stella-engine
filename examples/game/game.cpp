@@ -5,6 +5,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	systems.add<PlayerMovementSystem>((int)display.GetWidth(), (int)display.GetHeight());
 	systems.add<LightingSystem>(shader);
 	systems.add<AnimationSystem>();
+	systems.add<CollisionSystem>();
 	systems.configure();
 
 	// Background
@@ -34,6 +35,8 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	add_animation(player, "run", { 0,1,2,3,4 }, 5);
 	player.assign<AnimationComponent>("run");
 
+	player.assign<BodyComponent>(80, 60, 0, 0, false);
+
 	// Terrain
 	entityx::Entity block = entities.create();
 	entityx::Entity over_block = entities.create();
@@ -42,6 +45,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 
 	block.assign<PositionComponent>(0, 313);
 	block.assign<TextureComponent>(720, 92, *BlockTex, 0);
+	block.assign<BodyComponent>(720, 92, 0, 0, true);
 
 	over_block.assign<PositionComponent>(0, 301);
 	over_block.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
