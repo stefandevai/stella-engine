@@ -16,7 +16,7 @@ option(BUILD_STELLA_EXAMPLES "Build Stella examples" on)
 
 # Turn on these options to use the libraries contained in your machine.
 option(USE_SHARED_GLFW "Use shared GLFW library" off)
-option(USE_SHARED_GLEW "Use shared GLEW library" off)
+option(USE_SHARED_GLEW "Use shared GLEW library" on)
 option(USE_SHARED_SOIL "Use shared SOIL library" off)
 option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" off)
 option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" off)
