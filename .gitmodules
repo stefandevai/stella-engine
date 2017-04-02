@@ -1,6 +1,27 @@
+[submodule "dependencies/glfw"]
+	path = dependencies/glfw
+	url = https://github.com/glfw/glfw
+[submodule "dependencies/glew"]
+	path = dependencies/glew
+	url = https://github.com/nigels-com/glew
+[submodule "dependencies/soil"]
+	path = dependencies/soil
+	url = https://github.com/funlibs/soil
+[submodule "dependencies/openal-soft"]
+	path = dependencies/openal-soft
+	url = https://github.com/kcat/openal-soft
+[submodule "dependencies/freealut"]
+	path = dependencies/freealut
+	url = https://github.com/vancegroup/freealut
+[submodule "dependencies/entityx"]
+	path = dependencies/entityx
+	url = https://github.com/alecthomas/entityx
+[submodule "dependencies/glm"]
+	path = dependencies/glm
+	url = https://github.com/g-truc/glm
+[submodule "dependencies/vorbis"]
+	path = dependencies/vorbis
+	url = https://github.com/xiph/vorbis
 [submodule "dependencies/ogg"]
 	path = dependencies/ogg
-	url = https://github.com/xiph/ogg.git
-[submodule "dependencies/anax"]
-	path = dependencies/anax
-	url = https://github.com/miguelmartin75/anax.git
+	url = https://github.com/xiph/ogg
