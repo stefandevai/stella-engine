@@ -1,9 +1,6 @@
 [submodule "dependencies/glfw"]
 	path = dependencies/glfw
 	url = https://github.com/glfw/glfw
-[submodule "dependencies/glew"]
-	path = dependencies/glew
-	url = https://github.com/nigels-com/glew
 [submodule "dependencies/soil"]
 	path = dependencies/soil
 	url = https://github.com/funlibs/soil
@@ -25,3 +22,6 @@
 [submodule "dependencies/ogg"]
 	path = dependencies/ogg
 	url = https://github.com/xiph/ogg
+[submodule "dependencies/glew"]
+	path = dependencies/glew
+	url = https://github.com/LuaDist/glew
