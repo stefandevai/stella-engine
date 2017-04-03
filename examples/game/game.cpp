@@ -5,7 +5,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	systems.add<PlayerMovementSystem>((int)display.GetWidth(), (int)display.GetHeight());
 	systems.add<LightingSystem>(shader);
 	systems.add<AnimationSystem>();
-	systems.add<CollisionSystem>();
+	systems.add<CollisionSystem>((int)display.GetWidth(), (int)display.GetHeight());
 	systems.configure();
 
 	// Background
