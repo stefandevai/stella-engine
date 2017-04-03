@@ -17,7 +17,7 @@ void CollisionSystem::configure(entityx::EventManager &events) {
 }
 
 void CollisionSystem::receive(const CollisionEvent &collision) {
-	current_collisions.push_back(std::make_pair(collision.Left, collision.Right));
+	current_collisions.push_back(std::make_pair(collision, collision_direction));
 }
 
 void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
@@ -93,6 +93,7 @@ void CollisionSystem::resolveCollisions() {
 		entityx::ComponentHandle<BodyComponent> body1 = col.first.component<BodyComponent>();
 		entityx::ComponentHandle<BodyComponent> body2 = col.second.component<BodyComponent>();
 
+
 		if (pos1->y + body1->Height > pos2->y && pos1->y + body1->Height < pos2->y + body2->Height) pos1->y -= (pos1->y + body1->Height - pos2->y);
 	}
 	current_collisions.clear();
@@ -101,11 +102,14 @@ void CollisionSystem::resolveCollisions() {
 bool CollisionSystem::collided(const Candidate &c1, const Candidate &c2) {
 	bool intersectsX = false, intersectsY = false;
 
+	collision_direction.reset();
+
 	// C1 bottom and C2 top
 	if (c1.y + c1.height > c2.y && c1.y + c1.height <= c2.y + c2.height) {
 		//std::cout << "C1/C2 Intersetcs Y at " << c1.y + c1.height << "," << c2.y << std::endl;
 		//std::cout << "C1/C2 Intersetcs Y at " << c1.y << "," << c2.y << std::endl;
 		intersectsY = true;
+		collision_direction.set(0);
 	}
 
 	// C1 top and C2 bottom
@@ -113,6 +117,7 @@ bool CollisionSystem::collided(const Candidate &c1, const Candidate &c2) {
 		//std::cout << "C2/C1 Intersetcs Y at " << c1.y << "," << c2.y + c2.height << std::endl;
 		//std::cout << "C2/C1 Intersetcs Y at " << c1.y << "," << c2.y << std::endl;
 		intersectsY = true;
+		collision_direction.set(1);
 	}
 
 	// C1 right and C2 left
@@ -120,6 +125,7 @@ bool CollisionSystem::collided(const Candidate &c1, const Candidate &c2) {
 		//std::cout << "C1/C2 Intersetcs X at " << c1.x + c1.width << "," << c2.x << std::endl;
 		//std::cout << "C1/C2 Intersetcs X at " << c1.x << "," << c2.x << std::endl;
 		intersectsX = true;
+		collision_direction.set(2);
 	}
 	
 	// C1 left and C2 right
@@ -127,6 +133,7 @@ bool CollisionSystem::collided(const Candidate &c1, const Candidate &c2) {
 		//std::cout << "C2/C1 Intersetcs X at " << c1.x << "," << c2.x + c2.width << std::endl;
 		//std::cout << "C2/C1 Intersetcs X at " << c1.x << "," << c2.x << std::endl;
 		intersectsX = true;
+		collision_direction.set(3);
 	}
 
 	return (intersectsX && intersectsY);

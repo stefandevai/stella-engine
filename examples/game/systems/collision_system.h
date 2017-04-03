@@ -4,6 +4,7 @@
 #include <memory>
 #include <utility>
 #include <unordered_set>
+#include <bitset>
 
 #include <entityx/entityx.h>
 #include <stella/stella.h>
@@ -27,6 +28,7 @@ class CollisionSystem : public entityx::System<CollisionSystem>, public entityx:
 
 	private:
 		static const int PARTITIONS = 200;
+		std::bitset<4> collision_direction;
 		
 		struct Candidate {
 			int x, y, width, height;
