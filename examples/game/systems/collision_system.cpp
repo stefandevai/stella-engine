@@ -2,8 +2,6 @@
 
 #include <algorithm>
 
-#include "../components/position_component.h"
-#include "../components/body_component.h"
 
 CollisionSystem::CollisionSystem(int w, int h) {
 	Width = w / PARTITIONS + 1;
@@ -23,49 +21,16 @@ void CollisionSystem::receive(const CollisionEvent &collision) {
 }
 
 void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
+	// Clear collision grid each frame
 	grid.clear();
 	grid.resize(Width * Height);
 
 	es.each<PositionComponent, BodyComponent>([this](entityx::Entity entity, PositionComponent &pos, BodyComponent &body) {
-		unsigned int left = pos.x/PARTITIONS, 
-								 right = (pos.x + body.Width)/PARTITIONS,
-								 top = pos.y/PARTITIONS, 
-								 bottom = (pos.y + body.Height)/PARTITIONS;
-
-		Candidate candidate{pos.x, pos.y, body.Width, body.Height, entity};
-
-		unsigned int slots[4] = {
-			left + top*Width,
-			right + top*Width,
-			left + bottom*Width,
-			right + bottom*Width
-		};
-
-		grid[slots[0]].push_back(candidate);
-
-		if (slots[0] != slots[1]) {
-			unsigned int mins = std::min(slots[0], slots[1]), maxs = std::max(slots[0], slots[1]);
-
-			for (unsigned int i = mins+1; i <= maxs; ++i) {
-				grid[i].push_back(candidate);
-			}
-		}
-
-		if (slots[1] != slots[2]) {
-			unsigned int mins = std::min(slots[0], slots[2]), maxs = std::max(slots[0], slots[2]);
-			
-			for (unsigned int i = mins+Width; i <= maxs; i += Width)
-				if (i <= maxs) grid[i].push_back(candidate);
-		} 
-		if (slots[2] != slots[3]) {
-			for (unsigned int i = slots[2]; i <= slots[3]; ++i)
-				grid[i].push_back(candidate);
-
-			for (unsigned int i = slots[1]; i <= slots[3]; i += Width)
-				if (i <= slots[3]) grid[i].push_back(candidate);
-		} 
+			// Build collision grid
+			makeCollisionGrid(entity, pos, body);
 	});
 
+	// Check for collosions on all candidates
 	for (auto candidates = grid.begin(); candidates != grid.end(); ++candidates) {
 		for (auto c1 = (*candidates).begin(); c1 != (*candidates).end(); ++c1) {
 			for (auto c2 = c1; c2 != (*candidates).end(); ++c2) {
@@ -77,6 +42,50 @@ void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &
 	}
 
 	// Resolving collision
+	resolveCollisions();
+}
+
+void CollisionSystem::makeCollisionGrid(entityx::Entity &entity, PositionComponent& pos, BodyComponent& body) {
+	unsigned int left = pos.x/PARTITIONS, 
+							 right = (pos.x + body.Width)/PARTITIONS,
+							 top = pos.y/PARTITIONS, 
+							 bottom = (pos.y + body.Height)/PARTITIONS;
+
+	Candidate candidate{pos.x, pos.y, body.Width, body.Height, entity};
+
+	unsigned int slots[4] = {
+		left + top*Width,
+		right + top*Width,
+		left + bottom*Width,
+		right + bottom*Width
+	};
+
+	grid[slots[0]].push_back(candidate);
+
+	if (slots[0] != slots[1]) {
+		unsigned int mins = std::min(slots[0], slots[1]), maxs = std::max(slots[0], slots[1]);
+
+		for (unsigned int i = mins+1; i <= maxs; ++i) {
+			grid[i].push_back(candidate);
+		}
+	}
+
+	if (slots[1] != slots[2]) {
+		unsigned int mins = std::min(slots[0], slots[2]), maxs = std::max(slots[0], slots[2]);
+		
+		for (unsigned int i = mins+Width; i <= maxs; i += Width)
+			if (i <= maxs) grid[i].push_back(candidate);
+	} 
+	if (slots[2] != slots[3]) {
+		for (unsigned int i = slots[2]; i <= slots[3]; ++i)
+			grid[i].push_back(candidate);
+
+		for (unsigned int i = slots[1]; i <= slots[3]; i += Width)
+			if (i <= slots[3]) grid[i].push_back(candidate);
+	} 
+}
+
+void CollisionSystem::resolveCollisions() {
 	for (auto col : current_collisions) {
 		entityx::ComponentHandle<PositionComponent> pos1 = col.first.component<PositionComponent>();
 		entityx::ComponentHandle<PositionComponent> pos2 = col.second.component<PositionComponent>();

@@ -8,6 +8,9 @@
 #include <entityx/entityx.h>
 #include <stella/stella.h>
 
+#include "../components/position_component.h"
+#include "../components/body_component.h"
+
 struct CollisionEvent {
 	CollisionEvent(entityx::Entity left, entityx::Entity right) : Left(left), Right(right) {}
 	entityx::Entity Left, Right;
@@ -35,5 +38,7 @@ class CollisionSystem : public entityx::System<CollisionSystem>, public entityx:
 		std::vector<std::pair<entityx::Entity, entityx::Entity>> current_collisions;
 
 		bool collided(const Candidate &c1, const Candidate &c2);
+		void makeCollisionGrid(entityx::Entity &entity, PositionComponent& pos, BodyComponent& body);
+		void resolveCollisions();
 };
 
