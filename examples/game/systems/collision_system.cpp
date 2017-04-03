@@ -86,6 +86,7 @@ void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &
 
 		if (pos1->y + body1->Height > pos2->y && pos1->y + body1->Height < pos2->y + body2->Height) pos1->y -= (pos1->y + body1->Height - pos2->y);
 	}
+	current_collisions.clear();
 }
 
 bool CollisionSystem::collided(const Candidate &c1, const Candidate &c2) {
