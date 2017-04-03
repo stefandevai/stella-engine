@@ -87,14 +87,30 @@ void CollisionSystem::makeCollisionGrid(entityx::Entity &entity, PositionCompone
 
 void CollisionSystem::resolveCollisions() {
 	for (auto col : current_collisions) {
-		entityx::ComponentHandle<PositionComponent> pos1 = col.first.component<PositionComponent>();
-		entityx::ComponentHandle<PositionComponent> pos2 = col.second.component<PositionComponent>();
+		entityx::ComponentHandle<PositionComponent> pos1 = col.first.Left.component<PositionComponent>();
+		entityx::ComponentHandle<PositionComponent> pos2 = col.first.Right.component<PositionComponent>();
 
-		entityx::ComponentHandle<BodyComponent> body1 = col.first.component<BodyComponent>();
-		entityx::ComponentHandle<BodyComponent> body2 = col.second.component<BodyComponent>();
+		entityx::ComponentHandle<BodyComponent> body1 = col.first.Left.component<BodyComponent>();
+		entityx::ComponentHandle<BodyComponent> body2 = col.first.Right.component<BodyComponent>();
 
+		std::bitset<4> &direction = col.second;
 
-		if (pos1->y + body1->Height > pos2->y && pos1->y + body1->Height < pos2->y + body2->Height) pos1->y -= (pos1->y + body1->Height - pos2->y);
+		// Top collision
+		if (direction.test(0)) {
+			pos1->y -= (pos1->y + body1->Height - pos2->y);
+		}
+		// Bottom collision
+		else if (direction.test(1)) {
+			pos1->y += (pos2->y + body2->Height - pos1->y);
+		}
+		// Right collision
+		if (direction.test(2)) {
+
+		}
+		// Left collision
+		else if (direction.test(3)) {
+
+		}
 	}
 	current_collisions.clear();
 }
@@ -120,7 +136,7 @@ bool CollisionSystem::collided(const Candidate &c1, const Candidate &c2) {
 		collision_direction.set(1);
 	}
 
-	// C1 right and C2 left
+	// C1 left and C2 right
 	if (c1.x + c1.width > c2.x && c1.x + c1.width < c2.x + c2.width) {
 		//std::cout << "C1/C2 Intersetcs X at " << c1.x + c1.width << "," << c2.x << std::endl;
 		//std::cout << "C1/C2 Intersetcs X at " << c1.x << "," << c2.x << std::endl;
@@ -128,7 +144,7 @@ bool CollisionSystem::collided(const Candidate &c1, const Candidate &c2) {
 		collision_direction.set(2);
 	}
 	
-	// C1 left and C2 right
+	// C1 right and C2 left
 	else if (c1.x < c2.x + c2.width && c1.x >= c2.x) {
 		//std::cout << "C2/C1 Intersetcs X at " << c1.x << "," << c2.x + c2.width << std::endl;
 		//std::cout << "C2/C1 Intersetcs X at " << c1.x << "," << c2.x << std::endl;

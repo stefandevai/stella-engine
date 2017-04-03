@@ -37,7 +37,7 @@ class CollisionSystem : public entityx::System<CollisionSystem>, public entityx:
 
 		std::vector<std::vector<Candidate>> grid;
 		unsigned int Width, Height;
-		std::vector<std::pair<entityx::Entity, entityx::Entity>> current_collisions;
+		std::vector<std::pair<CollisionEvent, std::bitset<4>>> current_collisions;
 
 		bool collided(const Candidate &c1, const Candidate &c2);
 		void makeCollisionGrid(entityx::Entity &entity, PositionComponent& pos, BodyComponent& body);
