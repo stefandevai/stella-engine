@@ -84,7 +84,7 @@ void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &
 		entityx::ComponentHandle<BodyComponent> body1 = col.first.component<BodyComponent>();
 		entityx::ComponentHandle<BodyComponent> body2 = col.second.component<BodyComponent>();
 
-		if (pos1->y + body1->Height > pos2->y && pos1->y + body1->Height < pos2->y + body2->Height) pos1->y -= 10;
+		if (pos1->y + body1->Height > pos2->y && pos1->y + body1->Height < pos2->y + body2->Height) pos1->y -= (pos1->y + body1->Height - pos2->y);
 	}
 }
 
