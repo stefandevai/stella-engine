@@ -18,6 +18,7 @@ void CollisionSystem::configure(entityx::EventManager &events) {
 
 void CollisionSystem::receive(const CollisionEvent &collision) {
 	current_collisions.push_back(std::make_pair(collision, collision_direction));
+	collision_direction.reset();
 }
 
 void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
@@ -93,7 +94,7 @@ void CollisionSystem::resolveCollisions() {
 		entityx::ComponentHandle<BodyComponent> body1 = col.first.Left.component<BodyComponent>();
 		entityx::ComponentHandle<BodyComponent> body2 = col.first.Right.component<BodyComponent>();
 
-		std::bitset<4> &direction = col.second;
+		const std::bitset<4> &direction = col.second;
 
 		// Top collision
 		if (direction.test(0)) {
@@ -103,13 +104,13 @@ void CollisionSystem::resolveCollisions() {
 		else if (direction.test(1)) {
 			pos1->y += (pos2->y + body2->Height - pos1->y);
 		}
-		// Right collision
-		if (direction.test(2)) {
-
-		}
 		// Left collision
+		else if (direction.test(2)) {
+			pos1->x -= (pos1->x + body1->Width - pos2->x);
+		}
+		// Right collision
 		else if (direction.test(3)) {
-
+			pos1->x += (pos2->x + body2->Width - pos1->x);
 		}
 	}
 	current_collisions.clear();
@@ -117,42 +118,51 @@ void CollisionSystem::resolveCollisions() {
 
 bool CollisionSystem::collided(const Candidate &c1, const Candidate &c2) {
 	bool intersectsX = false, intersectsY = false;
+	int intersectXValue = 0, intersectYValue = 0;
+	const int &Ax = c1.x, &AX = c1.x + c1.width, &Ay = c1.y, &AY = c1.y + c1.height,
+						&Bx = c2.x, &BX = c2.x + c2.width, &By = c2.y, &BY = c2.y + c2.height;
 
-	collision_direction.reset();
+	// Check first if there is a collision
+	if (!(AX < Bx || BX < Ax || AY < By || BY < Ay)) {
+		// C1 bottom and C2 top
+		if (AY > By && AY <= BY) {
+			intersectsY = true;
+			intersectYValue = abs(AY - By);
+			collision_direction.set(0);
+		}
 
-	// C1 bottom and C2 top
-	if (c1.y + c1.height > c2.y && c1.y + c1.height <= c2.y + c2.height) {
-		//std::cout << "C1/C2 Intersetcs Y at " << c1.y + c1.height << "," << c2.y << std::endl;
-		//std::cout << "C1/C2 Intersetcs Y at " << c1.y << "," << c2.y << std::endl;
-		intersectsY = true;
-		collision_direction.set(0);
+		// C1 top and C2 bottom
+		else if (Ay < BY && Ay >= By) {
+			intersectsY = true;
+			intersectYValue = abs(BY - Ay);
+			collision_direction.set(1);
+		}
+
+		// C1 right and C2 left
+		if (AX > Bx && AX < BX) {
+			intersectsX = true;
+			intersectXValue = abs(AX - Bx);
+
+			if (intersectYValue - intersectXValue > 0) {
+				collision_direction.reset();
+				collision_direction.set(2);
+			}
+		}
+		
+		// C1 right and C2 left
+		else if (Ax < BX && Ax >= Bx) {
+			intersectsX = true;
+			intersectXValue = abs(BX - Ax);
+
+			if (intersectYValue - intersectXValue > 0) {
+				collision_direction.reset();
+				collision_direction.set(3);
+			}
+		}
+		
+		return (intersectsX && intersectsY);
 	}
-
-	// C1 top and C2 bottom
-	else if (c1.y < c2.y + c2.height && c1.y >= c2.y) {
-		//std::cout << "C2/C1 Intersetcs Y at " << c1.y << "," << c2.y + c2.height << std::endl;
-		//std::cout << "C2/C1 Intersetcs Y at " << c1.y << "," << c2.y << std::endl;
-		intersectsY = true;
-		collision_direction.set(1);
-	}
-
-	// C1 left and C2 right
-	if (c1.x + c1.width > c2.x && c1.x + c1.width < c2.x + c2.width) {
-		//std::cout << "C1/C2 Intersetcs X at " << c1.x + c1.width << "," << c2.x << std::endl;
-		//std::cout << "C1/C2 Intersetcs X at " << c1.x << "," << c2.x << std::endl;
-		intersectsX = true;
-		collision_direction.set(2);
-	}
-	
-	// C1 right and C2 left
-	else if (c1.x < c2.x + c2.width && c1.x >= c2.x) {
-		//std::cout << "C2/C1 Intersetcs X at " << c1.x << "," << c2.x + c2.width << std::endl;
-		//std::cout << "C2/C1 Intersetcs X at " << c1.x << "," << c2.x << std::endl;
-		intersectsX = true;
-		collision_direction.set(3);
-	}
-
-	return (intersectsX && intersectsY);
+	else return false;
 }
 
 
