@@ -43,8 +43,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	BlockTex = new stella::graphics::Texture("block-tex", "assets/gfx/sprites/block.png");
 	OverBlockTex = new stella::graphics::Texture("details-tex", "assets/gfx/sprites/over_block.png");
 
-	//block.assign<PositionComponent>(0, 313);
-	block.assign<PositionComponent>(150, 203);
+	block.assign<PositionComponent>(0, 313);
 	block.assign<TextureComponent>(720, 92, *BlockTex, 0);
 	block.assign<BodyComponent>(720, 92, 0, 0, true);
 
