@@ -27,7 +27,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	entityx::Entity player = entities.create();
 	PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/guanaco-anim.png");
 
-	player.assign<PositionComponent>((int)display.GetWidth()/2 - 40, (int)display.GetHeight()/2 - 30);
+	player.assign<PositionComponent>((int)display.GetWidth()/2 - 20, (int)display.GetHeight()/2 - 30);
 	player.assign<TextureComponent>(80, 60, *PlayerTex, 0);
 	player.assign<InputComponent>(keys);
 	player.assign<LightComponent>(0, 1.0f);
