@@ -122,47 +122,43 @@ bool CollisionSystem::collided(const Candidate &c1, const Candidate &c2) {
 	const int &Ax = c1.x, &AX = c1.x + c1.width, &Ay = c1.y, &AY = c1.y + c1.height,
 						&Bx = c2.x, &BX = c2.x + c2.width, &By = c2.y, &BY = c2.y + c2.height;
 
-	// Check first if there is a collision
-	if (!(AX < Bx || BX < Ax || AY < By || BY < Ay)) {
-		// C1 bottom and C2 top
-		if (AY > By && AY <= BY) {
-			intersectsY = true;
-			intersectYValue = abs(AY - By);
-			collision_direction.set(0);
-		}
-
-		// C1 top and C2 bottom
-		else if (Ay < BY && Ay >= By) {
-			intersectsY = true;
-			intersectYValue = abs(BY - Ay);
-			collision_direction.set(1);
-		}
-
-		// C1 right and C2 left
-		if (AX > Bx && AX < BX) {
-			intersectsX = true;
-			intersectXValue = abs(AX - Bx);
-
-			if (intersectYValue - intersectXValue > 0) {
-				collision_direction.reset();
-				collision_direction.set(2);
-			}
-		}
-		
-		// C1 right and C2 left
-		else if (Ax < BX && Ax >= Bx) {
-			intersectsX = true;
-			intersectXValue = abs(BX - Ax);
-
-			if (intersectYValue - intersectXValue > 0) {
-				collision_direction.reset();
-				collision_direction.set(3);
-			}
-		}
-		
-		return (intersectsX && intersectsY);
+	// Check for collisions
+	// C1 bottom and C2 top
+	if (AY > By && AY <= BY) {
+		intersectsY = true;
+		intersectYValue = abs(AY - By);
+		collision_direction.set(0);
 	}
-	else return false;
-}
 
+	// C1 top and C2 bottom
+	else if (Ay < BY && Ay >= By) {
+		intersectsY = true;
+		intersectYValue = abs(BY - Ay);
+		collision_direction.set(1);
+	}
+
+	// C1 right and C2 left
+	if (AX > Bx && AX < BX) {
+		intersectsX = true;
+		intersectXValue = abs(AX - Bx);
+
+		if (intersectYValue - intersectXValue > 0) {
+			collision_direction.reset();
+			collision_direction.set(2);
+		}
+	}
+	
+	// C1 right and C2 left
+	else if (Ax < BX && Ax >= Bx) {
+		intersectsX = true;
+		intersectXValue = abs(BX - Ax);
+
+		if (intersectYValue - intersectXValue > 0) {
+			collision_direction.reset();
+			collision_direction.set(3);
+		}
+	}
+	
+	return (intersectsX && intersectsY);
+}
 
