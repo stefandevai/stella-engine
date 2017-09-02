@@ -27,7 +27,7 @@ class CollisionSystem : public entityx::System<CollisionSystem>, public entityx:
 		void receive(const CollisionEvent &collision);
 
 	private:
-		static const int PARTITIONS = 200;
+		static const int PARTITIONS = 250;
 		std::bitset<4> collision_direction;
 		
 		struct Candidate {
@@ -39,8 +39,9 @@ class CollisionSystem : public entityx::System<CollisionSystem>, public entityx:
 		unsigned int Width, Height;
 		std::vector<std::pair<CollisionEvent, std::bitset<4>>> current_collisions;
 
-		bool collided(const Candidate &c1, const Candidate &c2);
+		const bool collided(Candidate &c1, Candidate &c2);
 		void makeCollisionGrid(entityx::Entity &entity, PositionComponent& pos, BodyComponent& body);
 		void resolveCollisions();
+		void resolveCollision(entityx::Entity left, entityx::Entity right);
 };
 
