@@ -147,6 +147,7 @@ namespace stella { namespace graphics {
     return deltaFrame / deltaTime;
   }
 
+	// Adjust viewport proportions on fullscreen to match 16:9 proportions
 	void Display::checkViewportProportions() {
 		int width, height;
 		int vpcoords[4];
@@ -155,6 +156,7 @@ namespace stella { namespace graphics {
 		width = vpcoords[2];
 		height = vpcoords[3];
 
+		// 16/9 = 1.77777. Therefore, we check if the new proportions are greater or lower than that
 		if (width/(float)height > 1.78f) { // Height is max and width is adjusted
 			int newwidth = height*1.77777f;
 			int left = width - newwidth;
