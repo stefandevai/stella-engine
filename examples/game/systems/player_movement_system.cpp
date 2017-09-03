@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 
 #include "../components/position_component.h"
+#include "../components/body_component.h"
 #include "../components/input_component.h"
 
 PlayerMovementSystem::PlayerMovementSystem(int boundx, int boundy) : BoundX(boundx), BoundY(boundy) {
@@ -14,7 +15,8 @@ PlayerMovementSystem::~PlayerMovementSystem() {
 }
 
 void PlayerMovementSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<PositionComponent, InputComponent>([this](entityx::Entity entity, PositionComponent &pos, InputComponent &input) {
+	es.each<PositionComponent, BodyComponent, InputComponent>([this](entityx::Entity entity, PositionComponent &pos, BodyComponent &body, InputComponent &input) {
+		if (!body.Colliding) {
 			// Horizontal movement
 			if (input.Keys[GLFW_KEY_LEFT] || input.Keys[GLFW_KEY_A]) {
 				if (pos.x >= 0)
@@ -34,6 +36,7 @@ void PlayerMovementSystem::update(entityx::EntityManager &es, entityx::EventMana
 				if (pos.y + 60 < BoundY)
 					pos.y += 4;
 			}
+		}
 	});
 }
 

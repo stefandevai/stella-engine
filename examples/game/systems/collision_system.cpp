@@ -12,24 +12,11 @@ CollisionSystem::~CollisionSystem() {
 
 }
 
-void CollisionSystem::configure(entityx::EventManager &events) {
-	//events.subscribe<CollisionEvent>(*this);
-}
-
-// TODO Resolve collisions within receive function without the need of a vector
-void CollisionSystem::receive(const CollisionEvent &collision) {
-	//current_collisions.push_back(std::make_pair(collision, collision_direction));
-	////resolveCollisions();
-	//collision_direction.reset();
-}
-
 void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
 	// Clear collision grid each frame
 	grid.clear();
 	grid.resize(Width * Height);
-	// Resolving collisions first so that the objects don't bounce
-	//resolveCollisions();
-
+	
 	es.each<PositionComponent, BodyComponent>([this](entityx::Entity entity, PositionComponent &pos, BodyComponent &body) {
 			// Build collision grid
 			makeCollisionGrid(entity, pos, body);
@@ -41,7 +28,6 @@ void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &
 			for (auto c2 = c1; c2 != (*candidates).end(); ++c2) {
 				if ((*c1).entity != (*c2).entity && collided(*c1, *c2)) {
 					resolveCollision((*c1).entity, (*c2).entity);
-					//events.emit<CollisionEvent>((*c1).entity, (*c2).entity);
 				}
 			}
 		}
@@ -138,10 +124,17 @@ const bool CollisionSystem::collided(Candidate &c1, Candidate &c2) {
 		}
 	}
 	
-	//if (intersectsX && intersectsY) std::cout << "Collided!" << std::endl;
-	//if (!(intersectsX && intersectsY)) std::cout << "Not Collided!" << std::endl;
-	//if (!(intersectsX && intersectsY)) collision_direction.reset();
-	return (intersectsX && intersectsY);
+	if (!(intersectsX && intersectsY)) {
+		collision_direction.reset();
+		body1->Colliding = false;
+		body2->Colliding = false;
+		return false;
+	}
+	else {
+		body1->Colliding = true;
+		body2->Colliding = true;
+		return true;
+	}
 }
 
 void CollisionSystem::resolveCollision(entityx::Entity left, entityx::Entity right) {
@@ -168,35 +161,5 @@ void CollisionSystem::resolveCollision(entityx::Entity left, entityx::Entity rig
 		pos1->x += (pos2->x + body2->Width - pos1->x) + 1;
 	}
 	collision_direction.reset();
-}
-
-void CollisionSystem::resolveCollisions() {
-	//for (auto col : current_collisions) {
-		//entityx::ComponentHandle<PositionComponent> pos1 = col.first.Left.component<PositionComponent>();
-		//entityx::ComponentHandle<PositionComponent> pos2 = col.first.Right.component<PositionComponent>();
-
-		//entityx::ComponentHandle<BodyComponent> body1 = col.first.Left.component<BodyComponent>();
-		//entityx::ComponentHandle<BodyComponent> body2 = col.first.Right.component<BodyComponent>();
-
-		//const std::bitset<4> &direction = col.second;
-
-		//// Top collision
-		//if (direction.test(0)) {
-			//pos1->y -= (pos1->y + body1->Height - pos2->y) + 1;
-		//}
-		//// Bottom collision
-		//else if (direction.test(1)) {
-			//pos1->y += (pos2->y + body2->Height - pos1->y) + 1;
-		//}
-		//// Left collision
-		//else if (direction.test(2)) {
-			//pos1->x -= (pos1->x + body1->Width - pos2->x) + 1;
-		//}
-		//// Right collision
-		//else if (direction.test(3)) {
-			//pos1->x += (pos2->x + body2->Width - pos1->x) + 1;
-		//}
-	//}
-	//current_collisions.clear();
 }
 

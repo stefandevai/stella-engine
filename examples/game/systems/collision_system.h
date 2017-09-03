@@ -12,19 +12,11 @@
 #include "../components/position_component.h"
 #include "../components/body_component.h"
 
-struct CollisionEvent {
-	CollisionEvent(entityx::Entity left, entityx::Entity right) : Left(left), Right(right) {}
-	entityx::Entity Left, Right;
-};
-
-class CollisionSystem : public entityx::System<CollisionSystem>, public entityx::Receiver<CollisionSystem> {
+class CollisionSystem : public entityx::System<CollisionSystem> {
 	public:
 		CollisionSystem(int w, int h);
 		~CollisionSystem();
 		void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override;
-
-		void configure(entityx::EventManager &events) override;
-		void receive(const CollisionEvent &collision);
 
 	private:
 		static const int PARTITIONS = 250;
@@ -37,11 +29,9 @@ class CollisionSystem : public entityx::System<CollisionSystem>, public entityx:
 
 		std::vector<std::vector<Candidate>> grid;
 		unsigned int Width, Height;
-		std::vector<std::pair<CollisionEvent, std::bitset<4>>> current_collisions;
 
 		const bool collided(Candidate &c1, Candidate &c2);
 		void makeCollisionGrid(entityx::Entity &entity, PositionComponent& pos, BodyComponent& body);
-		void resolveCollisions();
 		void resolveCollision(entityx::Entity left, entityx::Entity right);
 };
 
