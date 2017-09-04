@@ -31,8 +31,8 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 
 	//player.assign<BodyComponent>(64, 64, 0, 0, false);
 	player.assign<BodyComponent>(80, 60, 0, 0, false);
-	player.assign<MovementComponent>(2.0f, 0.8, 5.0f);
-	player.assign<PositionComponent>((int)display.GetWidth()/2 - 40, (int)display.GetHeight()/2 - 30);
+	player.assign<MovementComponent>(2.0f, 10.0f, 5.0f);
+	player.assign<PositionComponent>((int)display.GetWidth()/2 - 40, (int)display.GetHeight()/2 - 90);
 	//player.assign<TextureComponent>(64, 64, *PlayerTex, 0);
 	player.assign<TextureComponent>(80, 60, *PlayerTex, 0);
 	player.assign<InputComponent>(keys);

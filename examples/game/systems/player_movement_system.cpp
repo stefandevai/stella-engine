@@ -36,9 +36,15 @@ void PlayerMovementSystem::update(entityx::EntityManager &es, entityx::EventMana
 		}
 		else if (input.Keys[GLFW_KEY_DOWN] || input.Keys[GLFW_KEY_S]) {
 			mov.Acc.y = accel;
-			if (body.ColDir.test(0)) mov.Vel.y = 0.0f;
+
+			// Gravity takes part if player is not colliding down
+			if (body.ColDir.test(0)) {
+				mov.Acc.y = 0.0f;
+				mov.Vel.y = 0.0f;
+				mov.Gravity = false;
+			}
+			else mov.Gravity = true;
 		}
-		else mov.Acc.y = 0.0f;
 	});
 }
 
