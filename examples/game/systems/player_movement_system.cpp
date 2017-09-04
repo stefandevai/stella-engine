@@ -21,29 +21,38 @@ void PlayerMovementSystem::update(entityx::EntityManager &es, entityx::EventMana
 		// Horizontal movement
 		if (input.Keys[GLFW_KEY_LEFT] || input.Keys[GLFW_KEY_A]) {
 			mov.Acc.x = -accel;
-			if (body.ColDir.test(3)) mov.Vel.x = 0.0f;
+			if (body.ColDir.test(3)) {
+				mov.Acc.x = 0.0f;
+				mov.Vel.x = 0.0f;
+			}
 		}
 		else if (input.Keys[GLFW_KEY_RIGHT] || input.Keys[GLFW_KEY_D]) {
 			mov.Acc.x = accel;
-			if (body.ColDir.test(2)) mov.Vel.x = 0.0f;
+			if (body.ColDir.test(2)) {
+				mov.Acc.x = 0.0f;
+				mov.Vel.x = 0.0f;
+			}
 		}
 		else mov.Acc.x = 0.0f;
 
 		// Vertical movement
 		if (input.Keys[GLFW_KEY_UP] || input.Keys[GLFW_KEY_W]) {
-			mov.Acc.y = -accel;
-			if (body.ColDir.test(1)) mov.Vel.y = 0.0f;
+			if (body.ColDir.test(1)) {
+				mov.Acc.y = 0.0f;
+				mov.Vel.y = 0.0f;
+			}
 		}
 		else if (input.Keys[GLFW_KEY_DOWN] || input.Keys[GLFW_KEY_S]) {
-			mov.Acc.y = accel;
-
-			// Gravity takes part if player is not colliding down
 			if (body.ColDir.test(0)) {
 				mov.Acc.y = 0.0f;
 				mov.Vel.y = 0.0f;
-				mov.Gravity = false;
 			}
-			else mov.Gravity = true;
+		}
+		
+		if (body.ColDir.test(0)) {
+			if (input.Keys[GLFW_KEY_UP] || input.Keys[GLFW_KEY_W]) {
+				mov.Vel.y = -4.0f;
+			}
 		}
 	});
 }
