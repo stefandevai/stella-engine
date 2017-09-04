@@ -87,70 +87,15 @@ const bool CollisionSystem::collided(Candidate &c1, Candidate &c2) {
 	const int &Ax = pos1->x, &AX = pos1->x + body1->Width, &Ay = pos1->y, &AY = pos1->y + body1->Height,
 						&Bx = pos2->x, &BX = pos2->x + body2->Width, &By = pos2->y, &BY = pos2->y + body2->Height;
 
-
-	//// Check for collisions
-	//// C1 bottom and C2 top
-	//if (AY >= By && AY <= BY) {
-		////std::cout << "1" << std::endl;
-		//intersectsY = true;
-		//intersectYValue = abs(AY - By);
-		//collision_direction.set(0);
-	//}
-
-	//// C1 top and C2 bottom
-	//else if (Ay <= BY && Ay >= By) {
-		////std::cout << "2" << std::endl;
-		//intersectsY = true;
-		//intersectYValue = abs(BY - Ay);
-		//collision_direction.set(1);
-	//}
-
-	//// C1 right and C2 left
-	//if (AX >= Bx && AX <= BX) {
-		//std::cout << "3" << std::endl;
-		//intersectsX = true;
-		//intersectXValue = abs(AX - Bx);
-
-		//if (intersectYValue - intersectXValue > 0) {
-			//collision_direction.reset();
-			//collision_direction.set(2);
-		//}
-	//}
-	
-	//// C1 right and C2 left
-	//else if (Ax <= BX && Ax >= Bx) {
-		//std::cout << "4" << std::endl;
-		//intersectsX = true;
-		//intersectXValue = abs(BX - Ax);
-
-		//if (intersectYValue - intersectXValue > 0) {
-			//collision_direction.reset();
-			//collision_direction.set(3);
-		//}
-	//}
-	//
-	
 	body1->ColDir.reset();
 	body2->ColDir.reset();
 
 	if (Ay <= BY && AY >= By) {
 		intersectsY = true;
-		//if (Ay + body1->Height/2 < By + body2->Height/2) {
-			//collision_direction.set(0);
-		//}
-		//else {
-			//collision_direction.set(1);
-		//}
 	}
 
 	if (Ax <= BX && AX >= Bx) {
 		intersectsX = true;
-		//if (Ax + body1->Width/2 < Bx + body2->Width/2) {
-			//collision_direction.set(2);
-		//}
-		//else {
-			//collision_direction.set(3);
-		//}
 	}
 	
 	if (!(intersectsX && intersectsY)) {
@@ -205,23 +150,45 @@ void CollisionSystem::resolveCollision(entityx::Entity left, entityx::Entity rig
 
 	entityx::ComponentHandle<BodyComponent> body1 = left.component<BodyComponent>();
 	entityx::ComponentHandle<BodyComponent> body2 = right.component<BodyComponent>();
+	
+	// Body1 is Static
+	if (body1->Static) {
+		// Make sure that body2 is dynamic
+		if (!body2->Static) {
+			if (body2->ColDir.test(0)) {
+				pos2->y -= (pos2->y + body2->Height - pos1->y);
+			}
+			else if (body2->ColDir.test(1)) {
+				pos2->y += (pos1->y + body1->Height - pos2->y);
+			}
+			else if (body2->ColDir.test(2)) {
+				pos2->x -= (pos2->x + body2->Width - pos1->x);
+			}
+			else if (body2->ColDir.test(3)) {
+				pos2->x += (pos1->x + body1->Width - pos2->x);
+			}
+		}
+	}
 
-	//// Top collision
-	//if (collision_direction.test(0)) {
-		//pos1->y -= (pos1->y + body1->Height - pos2->y) + 1;
-	//}
-	//// Bottom collision
-	//else if (collision_direction.test(1)) {
-		//pos1->y += (pos2->y + body2->Height - pos1->y);
-	//}
-	//// Left collision
-	//else if (collision_direction.test(2)) {
-		//pos1->x -= (pos1->x + body1->Width - pos2->x);
-	//}
-	//// Right collision
-	//else if (collision_direction.test(3)) {
-		//pos1->x += (pos2->x + body2->Width - pos1->x);
-	//}
-	//collision_direction.reset();
+	// Body2 is Static and body1 is dynamic
+	else if (body2->Static) {
+		if (body1->ColDir.test(0)) {
+			pos1->y -= (pos1->y + body1->Height - pos2->y);
+		}
+		else if (body1->ColDir.test(1)) {
+			pos1->y += (pos2->y + body2->Height - pos1->y);
+		}
+		else if (body1->ColDir.test(2)) {
+			pos1->x -= (pos1->x + body1->Width - pos2->x);
+		}
+		else if (body1->ColDir.test(3)) {
+			pos1->x += (pos2->x + body2->Width - pos1->x);
+		}
+	}
+
+	// Both bodies are dynamic
+	else {
+
+	}
 }
 
