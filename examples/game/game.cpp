@@ -24,6 +24,21 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	moon.assign<AnimationComponent>("moon");
 
 
+
+	// Terrain
+	entityx::Entity block = entities.create();
+	entityx::Entity over_block = entities.create();
+	BlockTex = new stella::graphics::Texture("block-tex", "assets/gfx/sprites/block.png");
+	OverBlockTex = new stella::graphics::Texture("details-tex", "assets/gfx/sprites/over_block.png");
+
+	block.assign<PositionComponent>(200, 113);
+	//block.assign<PositionComponent>(0, 313);
+	block.assign<BodyComponent>(720, 92, 0, 0, true);
+	block.assign<TextureComponent>(720, 92, *BlockTex, 0);
+
+	//over_block.assign<PositionComponent>(0, 301);
+	//over_block.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
+	
 	// Player
 	entityx::Entity player = entities.create();
 	//PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/guanaco-anim.png");
@@ -38,21 +53,6 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 
 	//add_animation(player, "run", { 0,1,2,3,4 }, 5);
 	//player.assign<AnimationComponent>("run");
-
-	// Terrain
-	entityx::Entity block = entities.create();
-	entityx::Entity over_block = entities.create();
-	BlockTex = new stella::graphics::Texture("block-tex", "assets/gfx/sprites/block.png");
-	OverBlockTex = new stella::graphics::Texture("details-tex", "assets/gfx/sprites/over_block.png");
-
-	block.assign<PositionComponent>(200, 113);
-	block.assign<BodyComponent>(720, 92, 0, 0, true);
-	//block.assign<PositionComponent>(0, 313);
-	block.assign<TextureComponent>(720, 92, *BlockTex, 0);
-
-	//over_block.assign<PositionComponent>(0, 301);
-	//over_block.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
-	
 }
 
 Game::~Game() {

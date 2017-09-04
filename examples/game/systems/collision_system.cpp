@@ -27,7 +27,7 @@ void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &
 		for (auto c1 = (*candidates).begin(); c1 != (*candidates).end(); ++c1) {
 			for (auto c2 = c1; c2 != (*candidates).end(); ++c2) {
 				if ((*c1).entity != (*c2).entity && collided(*c1, *c2)) {
-					//resolveCollision((*c1).entity, (*c2).entity);
+					resolveCollision((*c1).entity, (*c2).entity);
 				}
 			}
 		}
@@ -87,13 +87,6 @@ const bool CollisionSystem::collided(Candidate &c1, Candidate &c2) {
 	const int &Ax = pos1->x, &AX = pos1->x + body1->Width, &Ay = pos1->y, &AY = pos1->y + body1->Height,
 						&Bx = pos2->x, &BX = pos2->x + body2->Width, &By = pos2->y, &BY = pos2->y + body2->Height;
 
-	if (Ax <= BX && AX >= Bx) {
-		intersectsX = true;
-	}
-
-	if (Ay <= BY && AY >= By) {
-		intersectsY = true;
-	}
 
 	//// Check for collisions
 	//// C1 bottom and C2 top
@@ -135,6 +128,30 @@ const bool CollisionSystem::collided(Candidate &c1, Candidate &c2) {
 			//collision_direction.set(3);
 		//}
 	//}
+	//
+	
+	body1->ColDir.reset();
+	body2->ColDir.reset();
+
+	if (Ay <= BY && AY >= By) {
+		intersectsY = true;
+		//if (Ay + body1->Height/2 < By + body2->Height/2) {
+			//collision_direction.set(0);
+		//}
+		//else {
+			//collision_direction.set(1);
+		//}
+	}
+
+	if (Ax <= BX && AX >= Bx) {
+		intersectsX = true;
+		//if (Ax + body1->Width/2 < Bx + body2->Width/2) {
+			//collision_direction.set(2);
+		//}
+		//else {
+			//collision_direction.set(3);
+		//}
+	}
 	
 	if (!(intersectsX && intersectsY)) {
 		collision_direction.reset();
@@ -145,7 +162,39 @@ const bool CollisionSystem::collided(Candidate &c1, Candidate &c2) {
 	else {
 		body1->Colliding = true;
 		body2->Colliding = true;
-		std::cout << "Coll" << std::endl;
+		
+		if (Ay < By && AY < BY) {
+			intersectYValue = abs(AY - By);
+			body1->ColDir.set(0);
+			body2->ColDir.set(1);
+		}
+		else if (Ay > By && AY > BY) {
+			intersectYValue = abs(BY - Ay);
+			body1->ColDir.set(1);
+			body2->ColDir.set(0);
+		}
+		else intersectYValue = fmin(body1->Height, body2->Height);
+
+		if (Ax < Bx && AX < BX) {
+			intersectXValue = abs(AX - Bx);
+			if (intersectYValue > intersectXValue) {
+				body1->ColDir.reset();
+				body2->ColDir.reset();
+				
+				body1->ColDir.set(2);
+				body2->ColDir.set(3);
+			}
+		}
+		else if (Ax > Bx && AX > BX) {
+			intersectXValue = abs(BX - Ax);
+			if (intersectYValue > intersectXValue) {
+				body1->ColDir.reset();
+				body2->ColDir.reset();
+				
+				body1->ColDir.set(3);
+				body2->ColDir.set(2);
+			}
+		}
 		return true;
 	}
 }
@@ -157,22 +206,22 @@ void CollisionSystem::resolveCollision(entityx::Entity left, entityx::Entity rig
 	entityx::ComponentHandle<BodyComponent> body1 = left.component<BodyComponent>();
 	entityx::ComponentHandle<BodyComponent> body2 = right.component<BodyComponent>();
 
-	// Top collision
-	if (collision_direction.test(0)) {
-		pos1->y -= (pos1->y + body1->Height - pos2->y) + 1;
-	}
-	// Bottom collision
-	else if (collision_direction.test(1)) {
-		pos1->y += (pos2->y + body2->Height - pos1->y);
-	}
-	// Left collision
-	else if (collision_direction.test(2)) {
-		pos1->x -= (pos1->x + body1->Width - pos2->x);
-	}
-	// Right collision
-	else if (collision_direction.test(3)) {
-		pos1->x += (pos2->x + body2->Width - pos1->x);
-	}
-	collision_direction.reset();
+	//// Top collision
+	//if (collision_direction.test(0)) {
+		//pos1->y -= (pos1->y + body1->Height - pos2->y) + 1;
+	//}
+	//// Bottom collision
+	//else if (collision_direction.test(1)) {
+		//pos1->y += (pos2->y + body2->Height - pos1->y);
+	//}
+	//// Left collision
+	//else if (collision_direction.test(2)) {
+		//pos1->x -= (pos1->x + body1->Width - pos2->x);
+	//}
+	//// Right collision
+	//else if (collision_direction.test(3)) {
+		//pos1->x += (pos2->x + body2->Width - pos1->x);
+	//}
+	//collision_direction.reset();
 }
 
