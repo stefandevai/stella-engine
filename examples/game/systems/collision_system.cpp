@@ -27,7 +27,7 @@ void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &
 		for (auto c1 = (*candidates).begin(); c1 != (*candidates).end(); ++c1) {
 			for (auto c2 = c1; c2 != (*candidates).end(); ++c2) {
 				if ((*c1).entity != (*c2).entity && collided(*c1, *c2)) {
-					resolveCollision((*c1).entity, (*c2).entity);
+					//resolveCollision((*c1).entity, (*c2).entity);
 				}
 			}
 		}
@@ -87,42 +87,54 @@ const bool CollisionSystem::collided(Candidate &c1, Candidate &c2) {
 	const int &Ax = pos1->x, &AX = pos1->x + body1->Width, &Ay = pos1->y, &AY = pos1->y + body1->Height,
 						&Bx = pos2->x, &BX = pos2->x + body2->Width, &By = pos2->y, &BY = pos2->y + body2->Height;
 
-	// Check for collisions
-	// C1 bottom and C2 top
-	if (AY >= By && AY <= BY) {
-		intersectsY = true;
-		intersectYValue = abs(AY - By);
-		collision_direction.set(0);
-	}
-
-	// C1 top and C2 bottom
-	else if (Ay <= BY && Ay >= By) {
-		intersectsY = true;
-		intersectYValue = abs(BY - Ay);
-		collision_direction.set(1);
-	}
-
-	// C1 right and C2 left
-	if (AX >= Bx && AX <= BX) {
+	if (Ax <= BX && AX >= Bx) {
 		intersectsX = true;
-		intersectXValue = abs(AX - Bx);
-
-		if (intersectYValue - intersectXValue > 0) {
-			collision_direction.reset();
-			collision_direction.set(2);
-		}
 	}
+
+	if (Ay <= BY && AY >= By) {
+		intersectsY = true;
+	}
+
+	//// Check for collisions
+	//// C1 bottom and C2 top
+	//if (AY >= By && AY <= BY) {
+		////std::cout << "1" << std::endl;
+		//intersectsY = true;
+		//intersectYValue = abs(AY - By);
+		//collision_direction.set(0);
+	//}
+
+	//// C1 top and C2 bottom
+	//else if (Ay <= BY && Ay >= By) {
+		////std::cout << "2" << std::endl;
+		//intersectsY = true;
+		//intersectYValue = abs(BY - Ay);
+		//collision_direction.set(1);
+	//}
+
+	//// C1 right and C2 left
+	//if (AX >= Bx && AX <= BX) {
+		//std::cout << "3" << std::endl;
+		//intersectsX = true;
+		//intersectXValue = abs(AX - Bx);
+
+		//if (intersectYValue - intersectXValue > 0) {
+			//collision_direction.reset();
+			//collision_direction.set(2);
+		//}
+	//}
 	
-	// C1 right and C2 left
-	else if (Ax <= BX && Ax >= Bx) {
-		intersectsX = true;
-		intersectXValue = abs(BX - Ax);
+	//// C1 right and C2 left
+	//else if (Ax <= BX && Ax >= Bx) {
+		//std::cout << "4" << std::endl;
+		//intersectsX = true;
+		//intersectXValue = abs(BX - Ax);
 
-		if (intersectYValue - intersectXValue > 0) {
-			collision_direction.reset();
-			collision_direction.set(3);
-		}
-	}
+		//if (intersectYValue - intersectXValue > 0) {
+			//collision_direction.reset();
+			//collision_direction.set(3);
+		//}
+	//}
 	
 	if (!(intersectsX && intersectsY)) {
 		collision_direction.reset();
@@ -133,6 +145,7 @@ const bool CollisionSystem::collided(Candidate &c1, Candidate &c2) {
 	else {
 		body1->Colliding = true;
 		body2->Colliding = true;
+		std::cout << "Coll" << std::endl;
 		return true;
 	}
 }
@@ -150,15 +163,15 @@ void CollisionSystem::resolveCollision(entityx::Entity left, entityx::Entity rig
 	}
 	// Bottom collision
 	else if (collision_direction.test(1)) {
-		pos1->y += (pos2->y + body2->Height - pos1->y) + 1;
+		pos1->y += (pos2->y + body2->Height - pos1->y);
 	}
 	// Left collision
 	else if (collision_direction.test(2)) {
-		pos1->x -= (pos1->x + body1->Width - pos2->x) + 1;
+		pos1->x -= (pos1->x + body1->Width - pos2->x);
 	}
 	// Right collision
 	else if (collision_direction.test(3)) {
-		pos1->x += (pos2->x + body2->Width - pos1->x) + 1;
+		pos1->x += (pos2->x + body2->Width - pos1->x);
 	}
 	collision_direction.reset();
 }
