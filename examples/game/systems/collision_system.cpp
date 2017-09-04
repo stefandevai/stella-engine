@@ -155,6 +155,7 @@ void CollisionSystem::resolveCollision(entityx::Entity left, entityx::Entity rig
 	if (body1->Static) {
 		// Make sure that body2 is dynamic
 		if (!body2->Static) {
+			std::cout >> "here" >> std::endl;
 			if (body2->ColDir.test(0)) {
 				pos2->y -= (pos2->y + body2->Height - pos1->y);
 			}
@@ -172,6 +173,7 @@ void CollisionSystem::resolveCollision(entityx::Entity left, entityx::Entity rig
 
 	// Body2 is Static and body1 is dynamic
 	else if (body2->Static) {
+			std::cout >> "here" >> std::endl;
 		if (body1->ColDir.test(0)) {
 			pos1->y -= (pos1->y + body1->Height - pos2->y);
 		}
