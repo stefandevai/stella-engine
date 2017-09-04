@@ -2,7 +2,7 @@
 
 #include <GLFW/glfw3.h>
 
-#include "../components/position_component.h"
+#include "../components/movement_component.h"
 #include "../components/body_component.h"
 #include "../components/input_component.h"
 
@@ -15,32 +15,30 @@ PlayerMovementSystem::~PlayerMovementSystem() {
 }
 
 void PlayerMovementSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<PositionComponent, BodyComponent, InputComponent>([this](entityx::Entity entity, PositionComponent &pos, BodyComponent &body, InputComponent &input) {
-		body.Velocity = 4;
-
-		int velox1, velox2, veloy1, veloy2;
-		velox1 = velox2 = veloy1 = veloy2 = 4;
-
-		if (body.ColDir.test(0)) veloy1 = 0;
-		else if (body.ColDir.test(1)) veloy2 = 0;
-		if (body.ColDir.test(2)) velox1 = 0;
-		else if (body.ColDir.test(3)) velox2 = 0;
+	es.each<MovementComponent, BodyComponent, InputComponent>([dt](entityx::Entity entity, MovementComponent &mov, BodyComponent &body, InputComponent &input) {
+		float accel = 30.0f;
 		
 		// Horizontal movement
 		if (input.Keys[GLFW_KEY_LEFT] || input.Keys[GLFW_KEY_A]) {
-			pos.x -= velox2;
+			mov.Acc.x = -accel;
+			if (body.ColDir.test(3)) mov.Vel.x = 0.0f;
 		}
 		else if (input.Keys[GLFW_KEY_RIGHT] || input.Keys[GLFW_KEY_D]) {
-			pos.x += velox1;
+			mov.Acc.x = accel;
+			if (body.ColDir.test(2)) mov.Vel.x = 0.0f;
 		}
+		else mov.Acc.x = 0.0f;
 
 		// Vertical movement
 		if (input.Keys[GLFW_KEY_UP] || input.Keys[GLFW_KEY_W]) {
-			pos.y -= veloy2;
+			mov.Acc.y = -accel;
+			if (body.ColDir.test(1)) mov.Vel.y = 0.0f;
 		}
 		else if (input.Keys[GLFW_KEY_DOWN] || input.Keys[GLFW_KEY_S]) {
-			pos.y += veloy1;
+			mov.Acc.y = accel;
+			if (body.ColDir.test(0)) mov.Vel.y = 0.0f;
 		}
+		else mov.Acc.y = 0.0f;
 	});
 }
 
