@@ -24,6 +24,20 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	moon.assign<AnimationComponent>("moon");
 
 
+	// Player
+	entityx::Entity player = entities.create();
+	//PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/guanaco-anim.png");
+	PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/black_block.png");
+
+	//player.assign<BodyComponent>(80, 60, 0, 0, false);
+	player.assign<BodyComponent>(64, 64, 0, 0, false);
+	player.assign<PositionComponent>((int)display.GetWidth()/2 - 40, (int)display.GetHeight()/2 - 30);
+	player.assign<TextureComponent>(64, 64, *PlayerTex, 0);
+	player.assign<InputComponent>(keys);
+	player.assign<LightComponent>(0, 1.0f);
+
+	//add_animation(player, "run", { 0,1,2,3,4 }, 5);
+	//player.assign<AnimationComponent>("run");
 
 	// Terrain
 	entityx::Entity block = entities.create();
@@ -39,20 +53,6 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	//over_block.assign<PositionComponent>(0, 301);
 	//over_block.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
 	
-	// Player
-	entityx::Entity player = entities.create();
-	//PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/guanaco-anim.png");
-	PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/black_block.png");
-
-	//player.assign<BodyComponent>(80, 60, 0, 0, false);
-	player.assign<BodyComponent>(64, 64, 0, 0, false);
-	player.assign<PositionComponent>((int)display.GetWidth()/2 - 40, (int)display.GetHeight()/2 - 30);
-	player.assign<TextureComponent>(64, 64, *PlayerTex, 0);
-	player.assign<InputComponent>(keys);
-	player.assign<LightComponent>(0, 1.0f);
-
-	//add_animation(player, "run", { 0,1,2,3,4 }, 5);
-	//player.assign<AnimationComponent>("run");
 }
 
 Game::~Game() {
