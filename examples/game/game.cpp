@@ -1,11 +1,11 @@
 #include "game.h"
 
 Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader, const bool *keys) {
+	systems.add<CollisionSystem>((int)display.GetWidth(), (int)display.GetHeight());
+	systems.add<PlayerMovementSystem>();
 	systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), shader);
-	systems.add<PlayerMovementSystem>((int)display.GetWidth(), (int)display.GetHeight());
 	systems.add<LightingSystem>(shader);
 	systems.add<AnimationSystem>();
-	systems.add<CollisionSystem>((int)display.GetWidth(), (int)display.GetHeight());
 	systems.configure();
 
 	// Background
@@ -26,8 +26,12 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	// Player
 	entityx::Entity player = entities.create();
 	PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/guanaco-anim.png");
+	//PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/black_block.png");
 
+	//player.assign<BodyComponent>(64, 64, 0, 0, false);
+	player.assign<BodyComponent>(80, 60, 0, 0, false);
 	player.assign<PositionComponent>((int)display.GetWidth()/2 - 40, (int)display.GetHeight()/2 - 30);
+	//player.assign<TextureComponent>(64, 64, *PlayerTex, 0);
 	player.assign<TextureComponent>(80, 60, *PlayerTex, 0);
 	player.assign<InputComponent>(keys);
 	player.assign<LightComponent>(0, 1.0f);
@@ -35,7 +39,6 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	add_animation(player, "run", { 0,1,2,3,4 }, 5);
 	player.assign<AnimationComponent>("run");
 
-	player.assign<BodyComponent>(80, 60, 0, 0, false);
 
 	// Terrain
 	entityx::Entity block = entities.create();
@@ -45,11 +48,12 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 
 	//block.assign<PositionComponent>(200, 113);
 	block.assign<PositionComponent>(0, 313);
-	block.assign<TextureComponent>(720, 92, *BlockTex, 0);
 	block.assign<BodyComponent>(720, 92, 0, 0, true);
+	block.assign<TextureComponent>(720, 92, *BlockTex, 0);
 
 	over_block.assign<PositionComponent>(0, 301);
 	over_block.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
+	
 }
 
 Game::~Game() {
@@ -65,6 +69,11 @@ void Game::add_animation(entityx::Entity &ent, std::string name, std::vector<uns
 }
 
 void Game::Update(entityx::TimeDelta dt) {
-	systems.update_all(dt);
+	//systems.update_all(dt);
+	systems.update<CollisionSystem>(dt);
+	systems.update<PlayerMovementSystem>(dt);
+	systems.update<RenderSystem>(dt);
+	systems.update<LightingSystem>(dt);
+	systems.update<AnimationSystem>(dt);
 }
 

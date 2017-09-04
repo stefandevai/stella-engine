@@ -4,10 +4,8 @@
 
 class PlayerMovementSystem : public entityx::System<PlayerMovementSystem> {
 	public:
-		PlayerMovementSystem(int boundx, int boundy);
+		PlayerMovementSystem();
 		~PlayerMovementSystem();
 		void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override;
-	private:
-		int BoundX, BoundY;
 };
 
