@@ -34,7 +34,6 @@ void MovementSystem::update(entityx::EntityManager &es, entityx::EventManager &e
 
 			pos.x += (mov.Vel.x);
 			pos.y += (mov.Vel.y);
-			//std::cout << mov.Vel.x << std::endl;
 	});
 }
 

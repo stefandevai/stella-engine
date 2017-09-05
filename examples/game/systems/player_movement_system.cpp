@@ -17,16 +17,17 @@ PlayerMovementSystem::~PlayerMovementSystem() {
 void PlayerMovementSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
 	es.each<MovementComponent, BodyComponent, InputComponent>([dt](entityx::Entity entity, MovementComponent &mov, BodyComponent &body, InputComponent &input) {
 		float accel = 30.0f;
+		float jumpforce = 4.5f;
 		
 		// Horizontal movement
-		if (input.Keys[GLFW_KEY_LEFT] || input.Keys[GLFW_KEY_A]) {
+		if (input.Keys[GLFW_KEY_LEFT] && !input.Keys[GLFW_KEY_RIGHT]) {
 			mov.Acc.x = -accel;
 			if (body.ColDir.test(3)) {
 				mov.Acc.x = 0.0f;
 				mov.Vel.x = 0.0f;
 			}
 		}
-		else if (input.Keys[GLFW_KEY_RIGHT] || input.Keys[GLFW_KEY_D]) {
+		else if (input.Keys[GLFW_KEY_RIGHT] && !input.Keys[GLFW_KEY_LEFT]) {
 			mov.Acc.x = accel;
 			if (body.ColDir.test(2)) {
 				mov.Acc.x = 0.0f;
@@ -49,9 +50,10 @@ void PlayerMovementSystem::update(entityx::EntityManager &es, entityx::EventMana
 			}
 		}
 		
+		// Jump if body is colliding bottom
 		if (body.ColDir.test(0)) {
 			if (input.Keys[GLFW_KEY_UP] || input.Keys[GLFW_KEY_W]) {
-				mov.Vel.y = -4.0f;
+				mov.Vel.y = -jumpforce;
 			}
 		}
 	});
