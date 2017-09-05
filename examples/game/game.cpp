@@ -2,6 +2,7 @@
 
 Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader, const bool *keys) {
 	systems.add<CollisionSystem>((int)display.GetWidth(), (int)display.GetHeight());
+	systems.add<MovementSystem>();
 	systems.add<PlayerMovementSystem>();
 	systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), shader);
 	systems.add<LightingSystem>(shader);
@@ -30,7 +31,8 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 
 	//player.assign<BodyComponent>(64, 64, 0, 0, false);
 	player.assign<BodyComponent>(80, 60, 0, 0, false);
-	player.assign<PositionComponent>((int)display.GetWidth()/2 - 40, (int)display.GetHeight()/2 - 30);
+	player.assign<MovementComponent>(2.0f, 10.0f, 5.0f);
+	player.assign<PositionComponent>((int)display.GetWidth()/2 - 40, (int)display.GetHeight()/2 - 90);
 	//player.assign<TextureComponent>(64, 64, *PlayerTex, 0);
 	player.assign<TextureComponent>(80, 60, *PlayerTex, 0);
 	player.assign<InputComponent>(keys);
@@ -69,11 +71,11 @@ void Game::add_animation(entityx::Entity &ent, std::string name, std::vector<uns
 }
 
 void Game::Update(entityx::TimeDelta dt) {
-	//systems.update_all(dt);
-	systems.update<CollisionSystem>(dt);
-	systems.update<PlayerMovementSystem>(dt);
-	systems.update<RenderSystem>(dt);
-	systems.update<LightingSystem>(dt);
-	systems.update<AnimationSystem>(dt);
+	systems.update_all(dt);
+	//systems.update<CollisionSystem>(dt);
+	//systems.update<PlayerMovementSystem>(dt);
+	//systems.update<RenderSystem>(dt);
+	//systems.update<LightingSystem>(dt);
+	//systems.update<AnimationSystem>(dt);
 }
 
