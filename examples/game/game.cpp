@@ -7,6 +7,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	systems.add<PlayerMovementSystem>((int)display.GetWidth());
 	systems.add<LightingSystem>(shader);
 	systems.add<AnimationSystem>();
+	systems.add<TileviewSystem>((int)display.GetWidth());
 	systems.configure();
 
 	// Background
@@ -19,7 +20,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	sky.assign<SpatialComponent>(720, 405);
 	
 	moon.assign<TextureComponent>(85, 85, *MoonTex, 0);
-	moon.assign<SpatialComponent>(85, 85, 438, 98);
+	moon.assign<SpatialComponent>(85, 85, 478, 78);
 
 	add_animation(moon, "moon", { 3,0,4,2,1,4,3,0,2,4,3 }, 20);
 	moon.assign<AnimationComponent>("moon");
@@ -31,10 +32,10 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 
 	//player.assign<BodyComponent>(64, 64, 0, 0, false);
 	player.assign<BodyComponent>(80, 60, 0, 0, false);
-	player.assign<MovementComponent>(2.0f, 10.0f, 5.0f);
+	player.assign<MovementComponent>(0.7f, 8.0f, 1.5f);
 	//player.assign<TextureComponent>(64, 64, *PlayerTex, 0);
 	player.assign<TextureComponent>(80, 60, *PlayerTex, 0);
-	player.assign<SpatialComponent>(80, 60, (int)display.GetWidth()/2 - 40, (int)display.GetHeight()/2 - 90);
+	player.assign<SpatialComponent>(80, 60, 140, 250);
 	player.assign<InputComponent>(keys);
 	player.assign<LightComponent>(0, 1.0f);
 
@@ -45,6 +46,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	// Terrain
 	entityx::Entity block = entities.create();
 	entityx::Entity over_block = entities.create();
+	entityx::Entity over_block2 = entities.create();
 	BlockTex = new stella::graphics::Texture("block-tex", "assets/gfx/sprites/block.png");
 	OverBlockTex = new stella::graphics::Texture("details-tex", "assets/gfx/sprites/over_block.png");
 
@@ -55,6 +57,13 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 
 	over_block.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
 	over_block.assign<SpatialComponent>(720, 12, 0, 301);
+	over_block.assign<MovementComponent>(-3.0f, 0.0f, 3.0f, false);
+	over_block.assign<TileviewComponent>();
+
+	over_block2.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
+	over_block2.assign<SpatialComponent>(720, 12, 720, 301);
+	over_block2.assign<MovementComponent>(-3.0f, 0.0f, 3.0f, false);
+	over_block2.assign<TileviewComponent>();
 	
 }
 
@@ -72,10 +81,5 @@ void Game::add_animation(entityx::Entity &ent, std::string name, std::vector<uns
 
 void Game::Update(entityx::TimeDelta dt) {
 	systems.update_all(dt);
-	//systems.update<CollisionSystem>(dt);
-	//systems.update<PlayerMovementSystem>(dt);
-	//systems.update<RenderSystem>(dt);
-	//systems.update<LightingSystem>(dt);
-	//systems.update<AnimationSystem>(dt);
 }
 
