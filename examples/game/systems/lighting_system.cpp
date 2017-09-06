@@ -1,6 +1,6 @@
 #include "game_systems.h"
 
-#include "../components/position_component.h"
+#include "../components/spatial_component.h"
 #include "../components/light_component.h"
 
 #include <glm/glm.hpp>
@@ -14,9 +14,9 @@ LightingSystem::~LightingSystem() {
 }
 
 void LightingSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<PositionComponent, LightComponent>([this](entityx::Entity entity, PositionComponent &pos, LightComponent &light) {
+	es.each<SpatialComponent, LightComponent>([this](entityx::Entity entity, SpatialComponent &spa, LightComponent &light) {
 		shader->Enable();
-		shader->SetVec2f("lightPos", pos.x + 80, pos.y + 60);
+		shader->SetVec2f("lightPos", spa.x + 80, spa.y + 60);
     shader->SetFloat("lightCounter", (float)light_counter);
     shader->SetFloat("lightIntensity", (float)light.Intensity);
 	});

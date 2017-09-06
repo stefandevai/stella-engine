@@ -1,6 +1,6 @@
 #include "game_systems.h"
 
-#include "../components/position_component.h"
+#include "../components/spatial_component.h"
 #include "../components/movement_component.h"
 
 MovementSystem::MovementSystem() {
@@ -10,18 +10,22 @@ MovementSystem::~MovementSystem() {
 }
 
 void MovementSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<PositionComponent, MovementComponent>([dt](entityx::Entity entity, PositionComponent &pos, MovementComponent &mov) {
-			if (mov.Gravity && mov.Acc.y < 9.8f)
-				mov.Acc.y += 9.8f*dt;
-			//std::cout << mov.Acc.y << std::endl;
+	es.each<SpatialComponent, MovementComponent>([dt](entityx::Entity entity, SpatialComponent &spa, MovementComponent &mov) {
+			if(mov.Gravity && mov.Acc.y < 15.0f)
+				mov.Acc.y += 25.0f*dt;
 
-			if(std::abs(mov.Vel.x) < mov.MaxVelocity)
-				mov.Vel.x +=  mov.Acc.x * dt;
+			if (mov.Acc.x > 10.0f) mov.Acc.x = 10.0f;
+			else if (mov.Acc.x < -10.0f) mov.Acc.x = -10.0f;
 
-			if(std::abs(mov.Vel.y) < mov.MaxVelocity)
+			if(std::abs(mov.Vel.y) < 8.0f)
 				mov.Vel.y +=  mov.Acc.y * dt;
+			if(std::abs(mov.Vel.x) < mov.MaxVelocity)
+				mov.Vel.x += mov.Acc.x * dt;
 
-			if(std::abs(mov.Acc.x) < 1.0f) {
+			if (mov.Vel.x > mov.MaxVelocity) mov.Vel.x = mov.MaxVelocity;
+			if (mov.Vel.x < -mov.MaxVelocity) mov.Vel.x = -mov.MaxVelocity;
+
+			if(std::abs(mov.Acc.x) == 0.0f) {
 				if (mov.Vel.x > 0.0f) {
 					mov.Vel.x -= mov.Drag*dt;
 					if (mov.Vel.x < 0.0f) mov.Vel.x = 0.0f;
@@ -32,8 +36,10 @@ void MovementSystem::update(entityx::EntityManager &es, entityx::EventManager &e
 				}
 			}
 
-			pos.x += (mov.Vel.x);
-			pos.y += (mov.Vel.y);
+			//std::cout << mov.MaxVelocity << std::endl;
+			if (mov.Vel.x > 0.0f) spa.x += std::ceil(mov.Vel.x);
+			else spa.x += std::floor(mov.Vel.x);
+			spa.y += (mov.Vel.y);
 	});
 }
 
