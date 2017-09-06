@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "../components/position_component.h"
+#include "../components/spatial_component.h"
 #include "../components/sprite_component.h"
 
 RenderSystem::RenderSystem(int width, int height, stella::graphics::Shader *shad) {
@@ -17,9 +17,9 @@ RenderSystem::~RenderSystem() {
 }
 
 void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<PositionComponent, TextureComponent>([this](entityx::Entity entity, PositionComponent &pos, TextureComponent &tex) {
-		tex.sprite->Pos.x = pos.x;
-		tex.sprite->Pos.y = pos.y;
+	es.each<SpatialComponent, TextureComponent>([this](entityx::Entity entity, SpatialComponent &spa, TextureComponent &tex) {
+		tex.sprite->Pos.x = spa.x;
+		tex.sprite->Pos.y = spa.y;
 		if (!tex.InLayer) {
 			this->TileLayer->Add(tex.sprite);
 			tex.InLayer = true;

@@ -17,9 +17,9 @@ void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &
 	grid.clear();
 	grid.resize(Width * Height);
 	
-	es.each<PositionComponent, BodyComponent>([this](entityx::Entity entity, PositionComponent &pos, BodyComponent &body) {
+	es.each<SpatialComponent, BodyComponent>([this](entityx::Entity entity, SpatialComponent &spa, BodyComponent &body) {
 			// Build collision grid
-			makeCollisionGrid(entity, pos, body);
+			makeCollisionGrid(entity, spa, body);
 	});
 
 	// Check for collosions on all candidates
@@ -34,13 +34,13 @@ void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &
 	}
 }
 
-void CollisionSystem::makeCollisionGrid(entityx::Entity &entity, PositionComponent& pos, BodyComponent& body) {
-	unsigned int left = pos.x/PARTITIONS, 
-							 right = (pos.x + body.Width)/PARTITIONS,
-							 top = pos.y/PARTITIONS, 
-							 bottom = (pos.y + body.Height)/PARTITIONS;
+void CollisionSystem::makeCollisionGrid(entityx::Entity &entity, SpatialComponent& spa, BodyComponent& body) {
+	unsigned int left = spa.x/PARTITIONS, 
+							 right = (spa.x + spa.w)/PARTITIONS,
+							 top = spa.y/PARTITIONS, 
+							 bottom = (spa.y + spa.h)/PARTITIONS;
 
-	Candidate candidate{pos.x, pos.y, body.Width, body.Height, entity};
+	Candidate candidate{spa.x, spa.y, spa.w, spa.h, entity};
 
 	unsigned int slots[4] = {
 		left + top*Width,
@@ -78,14 +78,14 @@ const bool CollisionSystem::collided(Candidate &c1, Candidate &c2) {
 	bool intersectsX = false, intersectsY = false;
 	int intersectXValue = 0, intersectYValue = 0;
 
-	entityx::ComponentHandle<PositionComponent> pos1 = c1.entity.component<PositionComponent>();
-	entityx::ComponentHandle<PositionComponent> pos2 = c2.entity.component<PositionComponent>();
+	entityx::ComponentHandle<SpatialComponent> spa1 = c1.entity.component<SpatialComponent>();
+	entityx::ComponentHandle<SpatialComponent> spa2 = c2.entity.component<SpatialComponent>();
 
 	entityx::ComponentHandle<BodyComponent> body1 = c1.entity.component<BodyComponent>();
 	entityx::ComponentHandle<BodyComponent> body2 = c2.entity.component<BodyComponent>();
 
-	const int &Ax = pos1->x, &AX = pos1->x + body1->Width, &Ay = pos1->y, &AY = pos1->y + body1->Height,
-						&Bx = pos2->x, &BX = pos2->x + body2->Width, &By = pos2->y, &BY = pos2->y + body2->Height;
+	const int &Ax = spa1->x, &AX = spa1->x + spa1->w, &Ay = spa1->y, &AY = spa1->y + spa1->h,
+						&Bx = spa2->x, &BX = spa2->x + spa2->w, &By = spa2->y, &BY = spa2->y + spa2->h;
 
 	body1->ColDir.reset();
 	body2->ColDir.reset();
@@ -145,8 +145,8 @@ const bool CollisionSystem::collided(Candidate &c1, Candidate &c2) {
 }
 
 void CollisionSystem::resolveCollision(entityx::Entity left, entityx::Entity right) {
-	entityx::ComponentHandle<PositionComponent> pos1 = left.component<PositionComponent>();
-	entityx::ComponentHandle<PositionComponent> pos2 = right.component<PositionComponent>();
+	entityx::ComponentHandle<SpatialComponent> spa1 = left.component<SpatialComponent>();
+	entityx::ComponentHandle<SpatialComponent> spa2 = right.component<SpatialComponent>();
 
 	entityx::ComponentHandle<BodyComponent> body1 = left.component<BodyComponent>();
 	entityx::ComponentHandle<BodyComponent> body2 = right.component<BodyComponent>();
@@ -156,16 +156,16 @@ void CollisionSystem::resolveCollision(entityx::Entity left, entityx::Entity rig
 		// Make sure that body2 is dynamic
 		if (!body2->Static) {
 			if (body2->ColDir.test(0)) {
-				pos2->y -= (pos2->y + body2->Height - pos1->y);
+				spa2->y -= (spa2->y + spa2->h - spa1->y);
 			}
 			else if (body2->ColDir.test(1)) {
-				pos2->y += (pos1->y + body1->Height - pos2->y);
+				spa2->y += (spa1->y + spa1->h - spa2->y);
 			}
 			else if (body2->ColDir.test(2)) {
-				pos2->x -= (pos2->x + body2->Width - pos1->x);
+				spa2->x -= (spa2->x + spa2->w - spa1->x);
 			}
 			else if (body2->ColDir.test(3)) {
-				pos2->x += (pos1->x + body1->Width - pos2->x);
+				spa2->x += (spa1->x + spa1->w - spa2->x);
 			}
 		}
 	}
@@ -173,16 +173,16 @@ void CollisionSystem::resolveCollision(entityx::Entity left, entityx::Entity rig
 	// Body2 is Static and body1 is dynamic
 	else if (body2->Static) {
 		if (body1->ColDir.test(0)) {
-			pos1->y -= (pos1->y + body1->Height - pos2->y);
+			spa1->y -= (spa1->y + spa1->h - spa2->y);
 		}
 		else if (body1->ColDir.test(1)) {
-			pos1->y += (pos2->y + body2->Height - pos1->y);
+			spa1->y += (spa2->y + spa2->h - spa1->y);
 		}
 		else if (body1->ColDir.test(2)) {
-			pos1->x -= (pos1->x + body1->Width - pos2->x);
+			spa1->x -= (spa1->x + spa1->w - spa2->x);
 		}
 		else if (body1->ColDir.test(3)) {
-			pos1->x += (pos2->x + body2->Width - pos1->x);
+			spa1->x += (spa2->x + spa2->w - spa1->x);
 		}
 	}
 

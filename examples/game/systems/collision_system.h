@@ -9,7 +9,7 @@
 #include <entityx/entityx.h>
 #include <stella/stella.h>
 
-#include "../components/position_component.h"
+#include "../components/spatial_component.h"
 #include "../components/body_component.h"
 
 class CollisionSystem : public entityx::System<CollisionSystem> {
@@ -31,7 +31,7 @@ class CollisionSystem : public entityx::System<CollisionSystem> {
 		unsigned int Width, Height;
 
 		const bool collided(Candidate &c1, Candidate &c2);
-		void makeCollisionGrid(entityx::Entity &entity, PositionComponent& pos, BodyComponent& body);
+		void makeCollisionGrid(entityx::Entity &entity, SpatialComponent& spa, BodyComponent& body);
 		void resolveCollision(entityx::Entity left, entityx::Entity right);
 };
 

@@ -3,8 +3,8 @@
 Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader, const bool *keys) {
 	systems.add<CollisionSystem>((int)display.GetWidth(), (int)display.GetHeight());
 	systems.add<MovementSystem>();
-	systems.add<PlayerMovementSystem>();
 	systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), shader);
+	systems.add<PlayerMovementSystem>((int)display.GetWidth());
 	systems.add<LightingSystem>(shader);
 	systems.add<AnimationSystem>();
 	systems.configure();
@@ -15,11 +15,11 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	SkyTex = new stella::graphics::Texture("sky-tex", "assets/gfx/sprites/sky_background.png");
 	MoonTex = new stella::graphics::Texture("moon-tex", "assets/gfx/sprites/moon_anim.png");
 
-	sky.assign<PositionComponent>(0, 0);
 	sky.assign<TextureComponent>(720, 405, *SkyTex, 0);
+	sky.assign<SpatialComponent>(720, 405);
 	
-	moon.assign<PositionComponent>(438, 98);
 	moon.assign<TextureComponent>(85, 85, *MoonTex, 0);
+	moon.assign<SpatialComponent>(85, 85, 438, 98);
 
 	add_animation(moon, "moon", { 3,0,4,2,1,4,3,0,2,4,3 }, 20);
 	moon.assign<AnimationComponent>("moon");
@@ -32,9 +32,9 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	//player.assign<BodyComponent>(64, 64, 0, 0, false);
 	player.assign<BodyComponent>(80, 60, 0, 0, false);
 	player.assign<MovementComponent>(2.0f, 10.0f, 5.0f);
-	player.assign<PositionComponent>((int)display.GetWidth()/2 - 40, (int)display.GetHeight()/2 - 90);
 	//player.assign<TextureComponent>(64, 64, *PlayerTex, 0);
 	player.assign<TextureComponent>(80, 60, *PlayerTex, 0);
+	player.assign<SpatialComponent>(80, 60, (int)display.GetWidth()/2 - 40, (int)display.GetHeight()/2 - 90);
 	player.assign<InputComponent>(keys);
 	player.assign<LightComponent>(0, 1.0f);
 
@@ -49,12 +49,12 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	OverBlockTex = new stella::graphics::Texture("details-tex", "assets/gfx/sprites/over_block.png");
 
 	//block.assign<PositionComponent>(200, 113);
-	block.assign<PositionComponent>(0, 313);
 	block.assign<BodyComponent>(720, 92, 0, 0, true);
 	block.assign<TextureComponent>(720, 92, *BlockTex, 0);
+	block.assign<SpatialComponent>(720, 92, 0, 313);
 
-	over_block.assign<PositionComponent>(0, 301);
 	over_block.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
+	over_block.assign<SpatialComponent>(720, 12, 0, 301);
 	
 }
 
