@@ -11,7 +11,7 @@ TileviewSystem::~TileviewSystem() {
 
 void TileviewSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
 	es.each<TileviewComponent, SpatialComponent>([this](entityx::Entity entity, TileviewComponent &til, SpatialComponent &spa) {
-			if (spa.x + spa.w < 0) spa.x = BoundX;
+			if (spa.x + spa.w < 0) spa.x = BoundX - 1;
 	});
 }
 

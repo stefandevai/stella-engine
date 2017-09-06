@@ -25,6 +25,42 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	add_animation(moon, "moon", { 3,0,4,2,1,4,3,0,2,4,3 }, 20);
 	moon.assign<AnimationComponent>("moon");
 
+	entityx::Entity mou1 = entities.create();
+	Mou1 = new stella::graphics::Texture("mou1-tex", "assets/gfx/sprites/mountain1-bg.png");
+	//mou1.assign<TextureComponent>(720, 173, *Mou1, 0);
+	//mou1.assign<SpatialComponent>(720, 173, 0, 232);
+	//mou1.assign<MovementComponent>(-0.5f, 0.0f, 1.0f, false);
+	//mou1.assign<TileviewComponent>();
+	//entityx::Entity mou1a = entities.create();
+	//mou1a.assign<TextureComponent>(720, 173, *Mou1, 0);
+	//mou1a.assign<SpatialComponent>(720, 173, 720, 232);
+	//mou1a.assign<MovementComponent>(-0.5f, 0.0f, 1.0f, false);
+	//mou1a.assign<TileviewComponent>();
+	
+	entityx::Entity mou2 = entities.create();
+	Mou2 = new stella::graphics::Texture("mou2-tex", "assets/gfx/sprites/mountain2-bg.png");
+	mou2.assign<TextureComponent>(720, 190, *Mou2, 0);
+	mou2.assign<SpatialComponent>(720, 190, 0, 215);
+	//mou2.assign<MovementComponent>(-1.0f, 0.0f, 1.0f, false);
+	//mou2.assign<TileviewComponent>();
+	//entityx::Entity mou2a = entities.create();
+	//mou2a.assign<TextureComponent>(720, 190, *Mou2, 0);
+	//mou2a.assign<SpatialComponent>(720, 190, 720, 215);
+	//mou2a.assign<MovementComponent>(-1.0f, 0.0f, 1.0f, false);
+	//mou2a.assign<TileviewComponent>();
+
+	entityx::Entity mou3 = entities.create();
+	Mou3 = new stella::graphics::Texture("mou3-tex", "assets/gfx/sprites/mountain3-bg.png");
+	mou3.assign<TextureComponent>(720, 230, *Mou3, 0);
+	mou3.assign<SpatialComponent>(720, 230, 0, 175);
+	//mou3.assign<MovementComponent>(-0.1f, 0.0f, 0.1f, false);
+	//mou3.assign<TileviewComponent>();
+	//entityx::Entity mou3a = entities.create();
+	//mou3a.assign<TextureComponent>(720, 239, *Mou3, 0);
+	//mou3a.assign<SpatialComponent>(720, 230, 720, 175);
+	//mou3a.assign<MovementComponent>(-0.1f, 0.0f, 0.1f, false);
+	//mou3a.assign<TileviewComponent>();
+
 	// Player
 	entityx::Entity player = entities.create();
 	PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/guanaco-anim.png");
