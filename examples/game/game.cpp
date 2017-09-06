@@ -25,8 +25,8 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	add_animation(moon, "moon", { 3,0,4,2,1,4,3,0,2,4,3 }, 20);
 	moon.assign<AnimationComponent>("moon");
 
-	entityx::Entity mou1 = entities.create();
-	Mou1 = new stella::graphics::Texture("mou1-tex", "assets/gfx/sprites/mountain1-bg.png");
+	//entityx::Entity mou1 = entities.create();
+	//Mou1 = new stella::graphics::Texture("mou1-tex", "assets/gfx/sprites/mountain1-bg.png");
 	//mou1.assign<TextureComponent>(720, 173, *Mou1, 0);
 	//mou1.assign<SpatialComponent>(720, 173, 0, 232);
 	//mou1.assign<MovementComponent>(-0.5f, 0.0f, 1.0f, false);
