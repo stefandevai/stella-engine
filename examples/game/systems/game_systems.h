@@ -7,4 +7,5 @@
 #include "lighting_system.h"
 #include "animation_system.h"
 #include "tileview_system.h"
+#include "parallax_system.h"
 

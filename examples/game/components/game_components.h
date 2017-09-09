@@ -8,4 +8,5 @@
 #include "body_component.h"
 #include "movement_component.h"
 #include "tileview_component.h"
+#include "parallax_component.h"
 
