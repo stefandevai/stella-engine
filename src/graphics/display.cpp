@@ -19,13 +19,14 @@ namespace stella { namespace graphics {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); 
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
     // Window creation
     this->Window = glfwCreateWindow(this->Width, this->Height, this->Title.c_str(), nullptr, nullptr);
     if (this->Window == nullptr) std::cout << "GLFW Error: It was not possible to create a Window." << std::endl;
 		glfwSetWindowSizeLimits(this->Window, width, height, GLFW_DONT_CARE, GLFW_DONT_CARE);
 		glfwSetWindowAspectRatio(this->Window, 16, 9);
+		glfwSetWindowSizeCallback(this->Window, this->windowCallback)
     glfwMakeContextCurrent(this->Window);
     this->Running = true;
 
@@ -75,7 +76,7 @@ namespace stella { namespace graphics {
       compo << Title << " (" << this->getFPS() << " FPS)";
       glfwSetWindowTitle(this->Window, compo.str().c_str());
     }
-    this->checkViewportProportions();
+		this->checkViewportProportions();
     this->updateInput();
     glfwSwapBuffers(this->Window);
   }
@@ -156,15 +157,19 @@ namespace stella { namespace graphics {
 		width = vpcoords[2];
 		height = vpcoords[3];
 
+		//std::cout << width/(float)height << std::endl;
+
 		// 16/9 = 1.77777. Therefore, we check if the new proportions are greater or lower than that
 		if (width/(float)height > 1.78f) { // Height is max and width is adjusted
 			int newwidth = height*1.77777f;
 			int left = width - newwidth;
+			std::cout << newwidth << std::endl;
 			glViewport(left/2, 0, newwidth, height);
 		}
 		else if (width/(float)height < 1.77f) { // Width is max and height is adjusted
 			int newheight = (int)width/1.77f;
 			int left = height - newheight;
+			std::cout << newheight << std::endl;
 			glViewport(0, left/2, width, newheight);
 		}
 	}

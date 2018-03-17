@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     display.Clear();
 
 		game.Update(display.GetDT());
-    display.Update();
+		display.Update();
   }
 
   return 0;

@@ -68,17 +68,17 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	//PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/black_block.png");
 
 	//player.assign<BodyComponent>(64, 64, 0, 0, false);
-	player.assign<BodyComponent>(80, 60, 0, 0, false);
-	player.assign<MovementComponent>(0.7f, 8.0f, 1.5f);
 	//player.assign<TextureComponent>(64, 64, *PlayerTex, 0);
+	//player.assign<SpatialComponent>(64, 64, 140, 250);
+	player.assign<BodyComponent>(80, 60, 0, 0, false);
 	player.assign<TextureComponent>(80, 60, *PlayerTex, 0);
 	player.assign<SpatialComponent>(80, 60, 140, 250);
+	player.assign<MovementComponent>(0.7f, 8.0f, 1.5f);
 	player.assign<InputComponent>(keys);
 	player.assign<LightComponent>(0, 1.0f);
 
 	add_animation(player, "run", { 0,1,2,3,4 }, 5);
 	player.assign<AnimationComponent>("run");
-
 
 	// Terrain
 	entityx::Entity block = entities.create();
@@ -87,7 +87,6 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	BlockTex = new stella::graphics::Texture("block-tex", "assets/gfx/sprites/block.png");
 	OverBlockTex = new stella::graphics::Texture("details-tex", "assets/gfx/sprites/over_block.png");
 
-	//block.assign<PositionComponent>(200, 113);
 	block.assign<BodyComponent>(720, 92, 0, 0, true);
 	block.assign<TextureComponent>(720, 92, *BlockTex, 0);
 	block.assign<SpatialComponent>(720, 92, 0, 313);
@@ -105,7 +104,13 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 }
 
 Game::~Game() {
+	delete OverBlockTex;
+	delete BlockTex;
 	delete PlayerTex;
+	delete Mou3;
+	delete Mou2;
+	delete Mou1;
+	delete MoonTex;
 	delete SkyTex;
 }
 

@@ -43,7 +43,7 @@ void PlayerMovementSystem::update(entityx::EntityManager &es, entityx::EventMana
 		}
 		else if (spa.x + spa.w > this->BoundX) {
 			spa.x = this->BoundX - spa.w;
-			mov.stopX();
+			//mov.stopX();
 		}
 	});
 }
