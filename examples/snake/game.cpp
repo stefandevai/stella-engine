@@ -10,13 +10,13 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	systems.configure();
 
 	SnakeTex = new stella::graphics::Texture("snake-tex", "assets/gfx/snake/snake.png");
-	snake = entities.create();
+	snake.head = entities.create();
 
-	snake.assign<TextureComponent>(32, 32, *SnakeTex, 0);
-	snake.assign<SpatialComponent>(32, 32, 320, 320);
-	snake.assign<MovementComponent>(3, 40);
-	snake.assign<TimerComponent>();
-	snake.assign<InputComponent>(keys);
+	snake.head.assign<TextureComponent>(32, 32, *SnakeTex, 0);
+	snake.head.assign<SpatialComponent>(32, 32, 320, 320);
+	snake.head.assign<MovementComponent>(3, 40);
+	snake.head.assign<TimerComponent>();
+	snake.head.assign<InputComponent>(keys);
 }
 
 Game::~Game() {

@@ -2,8 +2,8 @@
 
 struct MovementComponent
 {
-  int Direction, Velocity;
+  int Direction, NewDirection, Velocity;
 
-  MovementComponent(int dir, int vel) : Direction(dir), Velocity(vel) {}
+  inline MovementComponent(int dir, int vel) : Direction(dir), Velocity(vel) { NewDirection = dir; }
 };
 

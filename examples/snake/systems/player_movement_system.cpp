@@ -16,16 +16,16 @@ PlayerMovementSystem::~PlayerMovementSystem() {
 void PlayerMovementSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
 	es.each<MovementComponent, SpatialComponent, InputComponent>([this](entityx::Entity entity, MovementComponent &mov, SpatialComponent &spa, InputComponent &input) {
 		if (input.Keys[GLFW_KEY_UP]) {
-			mov.Direction = 0;
+			mov.NewDirection = 0;
 		}
 		else if (input.Keys[GLFW_KEY_RIGHT]) {
-			mov.Direction = 1;
+			mov.NewDirection = 1;
 		}
 		else if (input.Keys[GLFW_KEY_DOWN]) {
-			mov.Direction = 2;
+			mov.NewDirection = 2;
 		}
 		else if (input.Keys[GLFW_KEY_LEFT]) {
-			mov.Direction = 3;
+			mov.NewDirection = 3;
 		}
 	});
 }
