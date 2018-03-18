@@ -38,6 +38,7 @@ namespace stella { namespace graphics {
       void checkViewportProportions();
       static void inputCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
       static void mouseCallback(GLFWwindow* window, double xpos, double ypos);
+      static void windowSizeCallback(GLFWwindow* window, int width, int height);
       static void errorCallback(int error, const char* description);
   };
 }}

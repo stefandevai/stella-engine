@@ -23,7 +23,7 @@ namespace stella { namespace graphics {
       inline const GLfloat GetHeight() const { return Dimensions.y; }
       inline const GLuint GetTexID() const { return Tex.GetID(); }
       inline const std::string& GetTexName() const { return Tex.GetName(); }
-      inline Texture* GetTexture() const { return &Tex; }
+			inline Texture* GetTexture() const { return &Tex; }
       inline const GLboolean IsVisible() const { return Visible; }
 
       // Setters

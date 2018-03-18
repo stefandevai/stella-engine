@@ -24,11 +24,11 @@ namespace stella { namespace graphics{
   void Layer::Render()
   {
 		//this->Shad->Enable();
-    this->Ren->Begin();
-    for (auto i : Sprites)
-      this->Ren->Submit(*i);
-    this->Ren->End();
-    this->Ren->Draw();
+		this->Ren->Begin();
+		for (auto i : Sprites)
+			this->Ren->Submit(*i);
+		this->Ren->End();
+		this->Ren->Draw();
 		//this->Shad->Disable();
   }
 } }

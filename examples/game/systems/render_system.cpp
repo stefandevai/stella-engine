@@ -20,6 +20,7 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 	es.each<SpatialComponent, TextureComponent>([this](entityx::Entity entity, SpatialComponent &spa, TextureComponent &tex) {
 		tex.sprite->Pos.x = spa.x;
 		tex.sprite->Pos.y = spa.y;
+
 		if (!tex.InLayer) {
 			this->TileLayer->Add(tex.sprite);
 			tex.InLayer = true;

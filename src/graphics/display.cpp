@@ -15,20 +15,24 @@ namespace stella { namespace graphics {
     glfwSetErrorCallback(this->errorCallback);
     if (!glfwInit())
       std::cout << "Failed to initialize GLFW." << std::endl;
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); 
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); 
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); 
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		//glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     // Window creation
     this->Window = glfwCreateWindow(this->Width, this->Height, this->Title.c_str(), nullptr, nullptr);
     if (this->Window == nullptr) std::cout << "GLFW Error: It was not possible to create a Window." << std::endl;
-		glfwSetWindowSizeLimits(this->Window, width, height, GLFW_DONT_CARE, GLFW_DONT_CARE);
-		glfwSetWindowAspectRatio(this->Window, 16, 9);
-		glfwSetWindowSizeCallback(this->Window, this->windowCallback)
+		//glfwSetWindowSizeLimits(this->Window, width, height, GLFW_DONT_CARE, GLFW_DONT_CARE);
+		//glfwSetWindowAspectRatio(this->Window, 16, 9);
+		//glfwSetWindowSizeCallback(this->Window, this->windowSizeCallback);
     glfwMakeContextCurrent(this->Window);
     this->Running = true;
+
+    // Uncomment to enable vsync
+		//glfwSwapInterval(0);
 
     // Set initial value for Frame
     this->Frame = 1; // Setting as 1 to avoid division by 0
@@ -46,7 +50,8 @@ namespace stella { namespace graphics {
 
     // OpenGL Viewport settings
     glViewport(0, 0, this->Width, this->Height);
-    glEnable(GL_BLEND);
+		glEnable(GL_BLEND);
+		glDisable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Set default Clear Color
@@ -70,13 +75,12 @@ namespace stella { namespace graphics {
     this->Frame++;
     if (this->Frame >= 10000000)
       this->Frame = 0;
-    if (this->Frame%30 == 0)
-    {
-      std::stringstream compo;
-      compo << Title << " (" << this->getFPS() << " FPS)";
-      glfwSetWindowTitle(this->Window, compo.str().c_str());
+    if (this->Frame%60 == 0) {
+			std::stringstream compo;
+			compo << Title << " (" << this->getFPS() << " FPS)";
+			glfwSetWindowTitle(this->Window, compo.str().c_str());
+			//std::cout << this->getFPS() << std::endl;
     }
-		this->checkViewportProportions();
     this->updateInput();
     glfwSwapBuffers(this->Window);
   }
@@ -110,16 +114,16 @@ namespace stella { namespace graphics {
     glfwPollEvents();
     this->Running = !glfwWindowShouldClose(this->Window); 
     
-    if (KeyPress)
-    {
-      KeyPress = GL_FALSE;
-      this->Keys[KeyPressed] = GL_TRUE;
-    }
-    if (KeyRelease)
-    {
-      KeyRelease = GL_FALSE;
-      this->Keys[KeyReleased] = GL_FALSE;
-    }
+		if (KeyPress)
+		{
+			KeyPress = GL_FALSE;
+			this->Keys[KeyPressed] = GL_TRUE;
+		}
+		if (KeyRelease)
+		{
+			KeyRelease = GL_FALSE;
+			this->Keys[KeyReleased] = GL_FALSE;
+		}
   }
 
   void Display::getDT()
@@ -148,6 +152,10 @@ namespace stella { namespace graphics {
     return deltaFrame / deltaTime;
   }
 
+	void Display::windowSizeCallback(GLFWwindow* window, int width, int height) {
+		glViewport(0, 0, width, height);
+	}
+
 	// Adjust viewport proportions on fullscreen to match 16:9 proportions
 	void Display::checkViewportProportions() {
 		int width, height;
@@ -156,8 +164,6 @@ namespace stella { namespace graphics {
 
 		width = vpcoords[2];
 		height = vpcoords[3];
-
-		//std::cout << width/(float)height << std::endl;
 
 		// 16/9 = 1.77777. Therefore, we check if the new proportions are greater or lower than that
 		if (width/(float)height > 1.78f) { // Height is max and width is adjusted
@@ -183,11 +189,13 @@ namespace stella { namespace graphics {
       if (action == GLFW_PRESS)
       {
         KeyPress = GL_TRUE;
+        KeyRelease = GL_FALSE;
         KeyPressed = key;
       }
       else if (action == GLFW_RELEASE)
       {
         KeyRelease = GL_TRUE;
+        KeyPress = GL_FALSE;
         KeyReleased = key;
       } 
     }
