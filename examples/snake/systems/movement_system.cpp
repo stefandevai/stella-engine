@@ -13,7 +13,7 @@ MovementSystem::~MovementSystem() {
 }
 
 void MovementSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<SpatialComponent, MovementComponent, TimerComponent>([dt](entityx::Entity entity, SpatialComponent &spa, MovementComponent &mov, TimerComponent &tmr) {
+	es.each<SpatialComponent, MovementComponent>([dt](entityx::Entity entity, SpatialComponent &spa, MovementComponent &mov) {
 			int vel = 1;
 
 			assert(mov.Direction < 4 && mov.Direction >= 0);
@@ -55,8 +55,6 @@ void MovementSystem::update(entityx::EntityManager &es, entityx::EventManager &e
 					}
 					break;
 			}
-			if (tmr.frame > 1000000) tmr.frame = 0;
-			tmr.frame++;
 	});
 }
 

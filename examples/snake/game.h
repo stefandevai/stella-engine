@@ -10,10 +10,7 @@
 #include "components/game_components.h"
 #include "systems/game_systems.h"
 
-struct Snake {
-	entityx::Entity head;
-	std::vector<entityx::Entity*> body;
-};
+#include "snake.h"
 
 class Game : public entityx::EntityX {
 	public:
@@ -23,8 +20,7 @@ class Game : public entityx::EntityX {
 		void Update(entityx::TimeDelta dt);
 
 	private:
-		Snake snake;
-		stella::graphics::Texture *SnakeTex;
+		Snake *snake;
 		void add_animation(entityx::Entity &ent, std::string name, std::vector<unsigned int> frames, unsigned int framerate);
 		void update_snake();
 };

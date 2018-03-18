@@ -9,18 +9,11 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	systems.add<AnimationSystem>();
 	systems.configure();
 
-	SnakeTex = new stella::graphics::Texture("snake-tex", "assets/gfx/snake/snake.png");
-	snake.head = entities.create();
-
-	snake.head.assign<TextureComponent>(32, 32, *SnakeTex, 0);
-	snake.head.assign<SpatialComponent>(32, 32, 320, 320);
-	snake.head.assign<MovementComponent>(3, 40);
-	snake.head.assign<TimerComponent>();
-	snake.head.assign<InputComponent>(keys);
+	snake = new Snake(entities, keys);
 }
 
 Game::~Game() {
-	delete SnakeTex;
+	delete snake;
 }
 
 void Game::add_animation(entityx::Entity &ent, std::string name, std::vector<unsigned int> frames, unsigned int framerate) {
@@ -30,12 +23,7 @@ void Game::add_animation(entityx::Entity &ent, std::string name, std::vector<uns
 	}
 }
 
-void Game::update_snake() {
-
-}
-
 void Game::Update(entityx::TimeDelta dt) {
 	systems.update_all(dt);
-	this->update_snake();
 }
 
