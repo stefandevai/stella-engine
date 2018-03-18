@@ -6,11 +6,11 @@ namespace stella { namespace graphics{
   {
     this->Shad->Enable();
     this->Shad->SetMat4("proj", projection);
-    this->Shad->Disable();
   }
 
   Layer::~Layer()
   {
+    this->Shad->Disable();
     for (auto i : this->Sprites)
       delete i;
     delete Ren;
@@ -23,13 +23,13 @@ namespace stella { namespace graphics{
 
   void Layer::Render()
   {
-    this->Shad->Enable();
-    this->Ren->Begin();
-    for (auto i : Sprites)
-      this->Ren->Submit(*i);
-    this->Ren->End();
-    this->Ren->Draw();
-    this->Shad->Disable();
+		//this->Shad->Enable();
+		this->Ren->Begin();
+		for (auto i : Sprites)
+			this->Ren->Submit(*i);
+		this->Ren->End();
+		this->Ren->Draw();
+		//this->Shad->Disable();
   }
 } }
 

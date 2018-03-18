@@ -15,7 +15,7 @@ set(STELLA_LIBRARY_NAME "stella")
 option(BUILD_STELLA_EXAMPLES "Build Stella examples" on)
 
 # Turn on these options to use the libraries contained in your machine.
-option(USE_SHARED_GLFW "Use shared GLFW library" off)
+option(USE_SHARED_GLFW "Use shared GLFW library" on)
 option(USE_SHARED_GLEW "Use shared GLEW library" on)
 option(USE_SHARED_SOIL "Use shared SOIL library" off)
 option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" on)
@@ -175,7 +175,7 @@ add_subdirectory(${DEPENDENCIES_DIR}) # Dependencies folder
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
     "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
       "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-  set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall")
+  set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -g -O0")
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   message(STATUS "Using MSVC")
 endif()

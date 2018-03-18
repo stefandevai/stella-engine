@@ -28,7 +28,7 @@ namespace stella { namespace graphics {
       // Getters
       inline const glm::vec4 GetColor() const { return Color; }
       inline const GLuint GetCurrentFrame() const { return Frame; }
-      inline SpriteSheet* GetSpriteSheet() const { return Sprites; }
+      inline const SpriteSheet GetSpriteSheet() const { return *Sprites; }
       inline const glm::vec2 GetFrameCoords() const { return Sprites->GetUV(this->Frame); }
 
       // Setters

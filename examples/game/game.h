@@ -21,6 +21,9 @@ class Game : public entityx::EntityX {
 		stella::graphics::Texture *PlayerTex;
 		stella::graphics::Texture *SkyTex;
 		stella::graphics::Texture *MoonTex;
+		stella::graphics::Texture *Mou1;
+		stella::graphics::Texture *Mou2;
+		stella::graphics::Texture *Mou3;
 		stella::graphics::Texture *BlockTex;
 		stella::graphics::Texture *OverBlockTex;
 		void add_animation(entityx::Entity &ent, std::string name, std::vector<unsigned int> frames, unsigned int framerate);

@@ -35,7 +35,7 @@ namespace stella { namespace graphics {
       VertexData *VertexBuffer;
       GLuint VAO, VBO, EBO;
       GLsizei IndexCount;
-      std::vector<Texture*> Textures;
+			std::vector<Texture*> Textures;
 
       void init();
   };

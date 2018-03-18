@@ -32,29 +32,29 @@ namespace stella { namespace graphics {
     const glm::vec4 &color = sprite.GetColor();
     
     const glm::vec2 &uv = sprite.GetFrameCoords();
-    SpriteSheet* spritesheet = sprite.GetSpriteSheet();
-    GLuint stW = spritesheet->GetWidth();
-    GLuint stH = spritesheet->GetHeight();
+		const SpriteSheet &spritesheet = sprite.GetSpriteSheet();
+    const GLuint &stW = spritesheet.GetWidth();
+    const GLuint &stH = spritesheet.GetHeight();
 
-    Texture* texture = sprite.GetTexture();
+		Texture *texture = sprite.GetTexture();
     GLfloat texid = -1.0f;
 
-    GLboolean found = false;
-    for (unsigned int i = 0; i < Textures.size() && !found; ++i) 
-    {
-      if (Textures[i] == texture)
-      {
-        found = true;
-        texid = (GLfloat)i;
-        break;
-      }
-    }
+		GLboolean found = false;
+		for (unsigned int i = 0; i < Textures.size() && !found; ++i) 
+		{
+			if (Textures[i] == texture)
+			{
+				found = true;
+				texid = (GLfloat)i;
+				break;
+			}
+		}
     
-    if (!found)
-    {
-      Textures.push_back(texture);
-      texid = (GLfloat)(Textures.size() - 1);
-    }
+		if (!found)
+		{
+			Textures.push_back(texture);
+			texid = (GLfloat)(Textures.size() - 1);
+		}
 
     int r = color.x * 255.0f;
     int g = color.y * 255.0f;
@@ -101,16 +101,15 @@ namespace stella { namespace graphics {
 
   void Renderer::Draw()
   {
-    for (unsigned int i = 0; i < Textures.size(); ++i)
-    {
-      glActiveTexture(GL_TEXTURE0 + i);
-      Textures[i]->Bind();
-    }
+		for (unsigned int i = 0; i < Textures.size(); ++i) {
+			glActiveTexture(GL_TEXTURE0 + i);
+			Textures[i]->Bind();
+		}
 
-    glBindVertexArray(this->VAO);
-    glDrawElements(GL_TRIANGLES, this->IndexCount, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
-    this->IndexCount = 0;
+		glBindVertexArray(this->VAO);
+		glDrawElements(GL_TRIANGLES, this->IndexCount, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+		this->IndexCount = 0;
   }
 
   void Renderer::init()

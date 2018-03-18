@@ -11,16 +11,9 @@ in DATA
 out vec4 color;
 
 uniform sampler2D textures[32];
-uniform vec2 lightPos;
-uniform float lightCounter;
-uniform float lightIntensity;
 
 void main()
 {
-  float light = (10*cos(lightCounter/5.0) + 100.0)/length(f_in.pos - lightPos) * lightIntensity;
-  if (light > 1.5) light = 1.5;
-  else if (light < 0.5) light = 0.5;
-
   vec4 final_color = f_in.color;
   int tid = int(f_in.tid + 0.5);
 

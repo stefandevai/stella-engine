@@ -2,38 +2,49 @@
 
 #include <GLFW/glfw3.h>
 
-#include "../components/position_component.h"
+#include "../components/movement_component.h"
+#include "../components/body_component.h"
+#include "../components/spatial_component.h"
 #include "../components/input_component.h"
 
-PlayerMovementSystem::PlayerMovementSystem(int boundx, int boundy) : BoundX(boundx), BoundY(boundy) {
-	
+PlayerMovementSystem::PlayerMovementSystem(const int &boundx) : BoundX(boundx) {
 }
 
 PlayerMovementSystem::~PlayerMovementSystem() {
-
 }
 
 void PlayerMovementSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<PositionComponent, InputComponent>([this](entityx::Entity entity, PositionComponent &pos, InputComponent &input) {
-			// Horizontal movement
-			if (input.Keys[GLFW_KEY_LEFT] || input.Keys[GLFW_KEY_A]) {
-				if (pos.x >= 0)
-					pos.x -= 4;
-			}
-			else if (input.Keys[GLFW_KEY_RIGHT] || input.Keys[GLFW_KEY_D]) {
-				if (pos.x + 80 < BoundX)
-					pos.x += 4;
-			}
+	es.each<MovementComponent, BodyComponent, SpatialComponent, InputComponent>([this](entityx::Entity entity, MovementComponent &mov, BodyComponent &body, SpatialComponent &spa, InputComponent &input) {
+		float jumpforce = 3.5f;
+		
+		// Horizontal movement
+		if (input.Keys[GLFW_KEY_LEFT] && !input.Keys[GLFW_KEY_RIGHT]) {
+			mov.accelX(-1.0f);
+		}
+		else if (input.Keys[GLFW_KEY_RIGHT] && !input.Keys[GLFW_KEY_LEFT]) {
+			mov.accelX(1.0f);
+		}
+		else mov.desaccelX();
 
-			// Vertical movement
-			if (input.Keys[GLFW_KEY_UP] || input.Keys[GLFW_KEY_W]) {
-				if (pos.y >= 0)
-					pos.y -= 4;
+		// Jump if body is colliding bottom
+		if (body.ColDir.test(0)) {
+			mov.stopY();
+			if (input.Keys[GLFW_KEY_UP]) {
+				mov.Vel.y = -jumpforce;
 			}
-			else if (input.Keys[GLFW_KEY_DOWN] || input.Keys[GLFW_KEY_S]) {
-				if (pos.y + 60 < BoundY)
-					pos.y += 4;
-			}
+		}
+		else {
+			mov.Gravity = true;
+		}
+
+		if (spa.x < 0) {
+			spa.x = 0;
+			mov.stopX();
+		}
+		else if (spa.x + spa.w > this->BoundX) {
+			spa.x = this->BoundX - spa.w;
+			//mov.stopX();
+		}
 	});
 }
 
