@@ -15,8 +15,7 @@ macro (build_example EXAMPLE_NAME EXAMPLE_SRC_DIR)
   target_link_libraries(${EXAMPLE_NAME} ${STELLA_COMMON_LIBRARY_NAME} ${STELLA_LIBRARY_NAME})
 endmacro()
 
-#build_example("example" "early_example")
-build_example("game" "game")
+build_example("game" "snake")
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 

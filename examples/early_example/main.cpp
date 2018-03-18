@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
   };
 
-  Shader shader("assets/shaders/basic_shader.vsh", "assets/shaders/basic_shader.fsh");
+  Shader shader("assets/shaders/basic_shader.vsh", "assets/shaders/light_shader.fsh");
   glm::mat4 proj = glm::ortho(0.0f, (GLfloat)display.GetWidth(), (GLfloat)display.GetHeight(), 0.0f, -1.0f, 1.0f);
 
   SceneLayer layer(&shader, proj);
@@ -84,6 +84,7 @@ int main(int argc, char *argv[])
     shader.Enable();
     shader.SetVec2f("lightPos", Tina->Pos.x + Tina->GetWidth()/2, Tina->Pos.y + Tina->GetHeight()/2);
     shader.SetFloat("lightCounter", (GLfloat)light_counter);
+		shader.SetFloat("lightIntensity", (GLfloat)0.7f);
     ++light_counter;
 
     mplayer.Update();

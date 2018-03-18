@@ -9,7 +9,7 @@
 namespace stella { namespace graphics {
   class Display {
     public:
-      Display(GLuint width, GLuint height, const std::string& title, GLboolean (&keys)[1024]);
+			Display(GLuint width, GLuint height, const std::string& title, GLboolean (&keys)[1024]);
       ~Display();
       bool IsRunning();
       void Update();
@@ -30,7 +30,7 @@ namespace stella { namespace graphics {
       GLFWwindow *Window;
       bool Running;
       glm::vec3 ClearColor;
-      GLboolean (&Keys)[1024];
+			GLboolean (&Keys)[1024];
 
       void updateInput();
       GLfloat getFPS();

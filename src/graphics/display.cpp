@@ -8,8 +8,8 @@ namespace stella { namespace graphics {
   GLboolean KeyPress = GL_FALSE, KeyRelease = GL_FALSE;
   double MouseX, MouseY;
 
-  Display::Display(GLuint width, GLuint height, const std::string& title, GLboolean (&keys)[1024])
-    : Width(width), Height(height), Title(title), Keys(keys)
+	Display::Display(GLuint width, GLuint height, const std::string& title, GLboolean (&keys)[1024])
+		: Width(width), Height(height), Title(title), Keys(keys)
   {
     // GLFW initialization
     glfwSetErrorCallback(this->errorCallback);
@@ -111,15 +111,15 @@ namespace stella { namespace graphics {
 
   void Display::updateInput()
   {
-    glfwPollEvents();
-    this->Running = !glfwWindowShouldClose(this->Window); 
+		glfwPollEvents();
+		this->Running = !glfwWindowShouldClose(this->Window); 
     
 		if (KeyPress)
 		{
 			KeyPress = GL_FALSE;
 			this->Keys[KeyPressed] = GL_TRUE;
 		}
-		if (KeyRelease)
+		else if (KeyRelease)
 		{
 			KeyRelease = GL_FALSE;
 			this->Keys[KeyReleased] = GL_FALSE;
