@@ -19,19 +19,9 @@ class CollisionSystem : public entityx::System<CollisionSystem> {
 		void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override;
 
 	private:
-		static const int PARTITIONS = 250;
-		std::bitset<4> collision_direction;
-		
-		struct Candidate {
-			int x, y, width, height;
-			entityx::Entity entity;
-		};
+		std::vector<entityx::Entity> static_bodies;
+		std::vector<entityx::Entity> dynamic_bodies;
 
-		std::vector<std::vector<Candidate>> grid;
-		unsigned int Width, Height;
-
-		const bool collided(Candidate &c1, Candidate &c2);
-		void makeCollisionGrid(entityx::Entity &entity, SpatialComponent& spa, BodyComponent& body);
-		void resolveCollision(entityx::Entity left, entityx::Entity right);
+		bool check_collision(entityx::Entity *b1, entityx::Entity *b2);
 };
 

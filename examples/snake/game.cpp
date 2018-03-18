@@ -9,11 +9,25 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	systems.add<AnimationSystem>();
 	systems.configure();
 
+	this->AddCoins(10);
 	snake = new Snake(entities, keys);
 }
 
 Game::~Game() {
 	delete snake;
+	delete CoinTex;
+}
+
+void Game::AddCoins(size_t num_coins) {
+	int offset = 2;
+	CoinTex = new stella::graphics::Texture("coin-tex", "assets/gfx/snake/snake16.png");
+
+	for (size_t i = offset; i < num_coins*offset; i += offset) {
+		auto coin = entities.create();
+		coin.assign<TextureComponent>(16, 16, *CoinTex, 16);
+		coin.assign<SpatialComponent>(16, 16, offset*16 + i*16, 304);
+		coin.assign<BodyComponent>();
+	}
 }
 
 void Game::add_animation(entityx::Entity &ent, std::string name, std::vector<unsigned int> frames, unsigned int framerate) {

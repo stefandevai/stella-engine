@@ -18,7 +18,6 @@ void CollisionSystem::update(entityx::EntityManager &es, entityx::EventManager &
 	grid.resize(Width * Height);
 	
 	es.each<SpatialComponent, BodyComponent>([this](entityx::Entity entity, SpatialComponent &spa, BodyComponent &body) {
-			//std::cout << spa.x << std::endl;
 			// Build collision grid
 			makeCollisionGrid(entity, spa, body);
 	});
