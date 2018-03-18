@@ -10,8 +10,6 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	systems.configure();
 
 	snake = new Snake(entities, keys);
-	snake->RemoveBodyPart();
-	snake->AddBodyPart();
 }
 
 Game::~Game() {

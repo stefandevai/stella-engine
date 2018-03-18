@@ -18,9 +18,8 @@ class Snake {
 		void AddBodyPart();
 		void Update();
 
-
 	private:
-		entityx::Entity head;
+		entityx::Entity head, under_head;
 		std::vector<entityx::Entity> body;
 		entityx::EntityManager &entities;
 		const bool *keys;
