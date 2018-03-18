@@ -10,6 +10,8 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	systems.configure();
 
 	snake = new Snake(entities, keys);
+	snake->RemoveBodyPart();
+	snake->AddBodyPart();
 }
 
 Game::~Game() {
@@ -25,5 +27,6 @@ void Game::add_animation(entityx::Entity &ent, std::string name, std::vector<uns
 
 void Game::Update(entityx::TimeDelta dt) {
 	systems.update_all(dt);
+	snake->Update();
 }
 

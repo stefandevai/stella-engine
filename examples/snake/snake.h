@@ -14,12 +14,18 @@ class Snake {
 		Snake(entityx::EntityManager &entities, const bool keys[1024]);
 		~Snake();
 
-		void create();
+		void RemoveBodyPart();
+		void AddBodyPart();
+		void Update();
+
 
 	private:
 		entityx::Entity head;
 		std::vector<entityx::Entity> body;
 		entityx::EntityManager &entities;
 		const bool *keys;
+		int Velocity, Dimension;
+
+		void create(size_t size);
 };
 

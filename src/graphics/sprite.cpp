@@ -46,5 +46,10 @@ namespace stella { namespace graphics {
   { 
     Frame = frame%this->NumberOfFrames; 
   }
+
+  void Sprite::SetDirectFrame(GLuint frame) 
+  { 
+    Frame = frame; 
+  }
 }}
 

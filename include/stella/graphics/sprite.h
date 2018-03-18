@@ -34,6 +34,7 @@ namespace stella { namespace graphics {
       // Setters
       void SetColor(int r, int g, int b) { Color.x = r/255.0f; Color.y = g/255.0f; Color.z = b/255.0f; }
       void SetFrame(GLuint frame);
+      void SetDirectFrame(GLuint frame);
 
     private:
       glm::vec4 Color;
