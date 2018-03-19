@@ -1,11 +1,15 @@
 #!/bin/bash
 
 # Init checking
+function print_options {
+  printf "Use:\n    -m or --make: runs cmake from build folder.\n    -b or --build: builds program.\n    -e or --execute: executes target.\n    -c or --clean: cleans build directory. If added as a second option the it will also clean the build directory before executing the action.\n"
+}
+
 if [[ $# > 2 ]]; then
-  printf You cannot have that many options.
+  printf "You cannot have that many options."
   exit 1
 elif [[ $# == 0 ]]; then
-  printf "Use:\n    -cm or --cmake: runs cmake from build folder.\n    -mk or --make: runs make from build folder.\n    -ex or --exec: executes target from this directory.\n    -cl or --clean: cleans build directory. If added as a second option the it will also clean the build directory before executing the action."
+	print_options
   exit 1
 fi
 
@@ -42,22 +46,24 @@ function make_func {
 }
 
 function exec_func {
-  if [ ! -d "$BUILD_DIR" ]; then
-    mkdir $BUILD_DIR
-    cd $BUILD_DIR
-    cmake ..
-    make
-  elif [ ! -f "$BUILD_DIR"/Makefile ]; then
-    cd $BUILD_DIR
-    cmake ..
-    make
-  elif [ -f "$BUILD_DIR"/Makefile ]; then
-    cd $BUILD_DIR
-    make
-  fi
+	if [ ! -d "$BUILD_DIR" ]; then
+		mkdir $BUILD_DIR
+		cd $BUILD_DIR
+		cmake ..
+		make
+	elif [ ! -f "$BUILD_DIR"/Makefile ]; then
+		cd $BUILD_DIR
+		cmake ..
+		make
+	elif [ ! -f "$BUILD_DIR"/"$EXEC_FOLDER"/"$TARGET" ]; then
+		cd $BUILD_DIR
+		make
+	else
+		cd $BUILD_DIR
+	fi
 
-  cd $EXEC_FOLDER
-  ./"$TARGET"
+	cd $EXEC_FOLDER
+	./"$TARGET"
 }
 
 function clean_func {
@@ -68,35 +74,36 @@ function clean_func {
 
 # Args evalutation
 case $OPT1 in
-  -cm|--cmake)
+  -m|--make)
     MODE=CMAKE # Invoke cmake
     shift
     ;;
-  -mk|--make)
+  -b|--build)
     MODE=MAKE # Invoke make
     shift
     ;;
-  -ex|--exec)
+  -e|--execute)
     MODE=EXEC # Execute program
     shift
     ;;
-  -me)
+  -be)
     MODE=ME # Make and Exec
     shift
     ;;
-  -cl|--clean)
+  -c|--clean)
     MODE=CLEAN # Clean build directory
     shift
     ;;
   *)
-    printf "Invalid first option.\nUse:\n    -cm or --cmake: runs cmake from build folder.\n    -mk or --make: runs make from build folder.\n    -ex or --exec: executes target from this directory.\n    -cl or --clean: cleans build directory. If added as a second option the it will also clean the build directory before executing the action."
+    printf "Invalid option.\n"
+  	print_options
     exit 1
     ;;
 esac
 
 if [[ -n $OPT2 ]] && [[ $OPT1 != $OPT2 ]]; then
   case $OPT2 in
-    -cl|--clean)
+    -c|--clean)
       clean_func
       shift
       ;;
