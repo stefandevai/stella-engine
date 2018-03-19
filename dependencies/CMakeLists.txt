@@ -19,10 +19,6 @@ if (NOT USE_SHARED_OPENAL)
   add_subdirectory(freealut)
 endif()
 
-if (NOT USE_SHARED_PORTAUDIO)
-	add_subdirectory(portaudio)
-endif()
-
 if (NOT USE_SHARED_VORBIS)
   add_subdirectory(ogg)
   add_subdirectory(vorbis)

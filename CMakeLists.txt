@@ -22,7 +22,6 @@ option(USE_SHARED_GLFW "Use shared GLFW library" on)
 option(USE_SHARED_GLEW "Use shared GLEW library" on)
 option(USE_SHARED_SOIL "Use shared SOIL library" off)
 option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" on)
-option(USE_SHARED_PORTAUDIO "Use shared PortAudio library" on)
 option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" on)
 option(USE_SHARED_ENTITYX "Use shared EntityX library" off)
 
@@ -92,15 +91,6 @@ else()
 endif()
 include_directories(${OpenAL_INCLUDE_DIRS})
 include_directories(${ALUT_INCLUDE_DIRS})
-
-# PortAudio - Portable audio I/O library.
-if (USE_SHARED_PORTAUDIO)
-	find_package(Portaudio REQUIRED)
-else()
-	set(PORTAUDIO_INCLUDE_DIR ${DEPENDENCIES_DIR}/portaudio/include)
-	set(PORTAUDIO_LIBRARIES portaudio)
-endif()
-include_directories(${PORTAUDIO_INCLUDE_DIR})
 
 # Ogg Vorbis - Libraries for handling .ogg audio format.
 if (USE_SHARED_VORBIS)
@@ -201,7 +191,7 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${STELLA_LIBRARY_NAME} ${STELLA_SOURCES})
 
 target_link_libraries(${STELLA_LIBRARY_NAME} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
-	${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${PORTAUDIO_LIBRARIES} ${ENTITYX_LIBRARIES} ${PLATFORM_LIBRARIES})
+	${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTITYX_LIBRARIES} ${PLATFORM_LIBRARIES})
 
 # Build examples if specified
 if (BUILD_STELLA_EXAMPLE)
