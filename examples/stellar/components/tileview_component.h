@@ -1,7 +1,5 @@
 #pragma once
 
-struct TileviewComponent
-{
+struct TileviewComponent {
   TileviewComponent() {}
 };
-

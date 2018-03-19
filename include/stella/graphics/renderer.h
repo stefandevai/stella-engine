@@ -10,34 +10,29 @@
 #define MAX_SPRITES 10000
 #define VERTEX_SIZE sizeof(VertexData)
 #define SPRITE_SIZE 4 * VERTEX_SIZE
-#define BUFFER_SIZE MAX_SPRITES * SPRITE_SIZE
+#define BUFFER_SIZE MAX_SPRITES *SPRITE_SIZE
 #define INDICES_SIZE 6 * MAX_SPRITES
 
-namespace stella { namespace graphics { 
-  enum Index {
-    VERTEX_INDEX,
-    UV_INDEX,
-    TID_INDEX,
-    COLOR_INDEX
-  };
+namespace stella {
+namespace graphics {
+enum Index { VERTEX_INDEX, UV_INDEX, TID_INDEX, COLOR_INDEX };
 
-  class Renderer
-  {
-    public:
-      Renderer();
-      ~Renderer();
-      void Begin();
-      void Submit(const Sprite &sprite);
-      void End();
-      void Draw();
+class Renderer {
+public:
+  Renderer();
+  ~Renderer();
+  void Begin();
+  void Submit(const Sprite &sprite);
+  void End();
+  void Draw();
 
-    private:
-      VertexData *VertexBuffer;
-      GLuint VAO, VBO, EBO;
-      GLsizei IndexCount;
-			std::vector<Texture*> Textures;
+private:
+  VertexData *VertexBuffer;
+  GLuint VAO, VBO, EBO;
+  GLsizei IndexCount;
+  std::vector<Texture *> Textures;
 
-      void init();
-  };
-} }
-
+  void init();
+};
+} // namespace graphics
+} // namespace stella

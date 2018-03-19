@@ -5,8 +5,6 @@
 
 struct SpriteComponent;
 
-struct MapComponent : anax::Component
-{
+struct MapComponent : anax::Component {
   std::vector<std::vector<SpriteComponent>> sprites;
 }
-
