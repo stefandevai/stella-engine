@@ -7,7 +7,7 @@ Snake::Snake(entityx::EntityManager &entities, const bool keys[1024]) : entities
 	this->Dimension = 16;
 	SnakeTex = new stella::graphics::Texture("snake-tex", "assets/gfx/snake/snake16.png");
 
-	this->create(6);
+	this->create(3);
 }
 
 Snake::~Snake() {
@@ -33,10 +33,6 @@ void Snake::create(size_t size) {
 	for (unsigned int i = 0; i < size; ++i) {
 		this->AddBodyPart();
 	}
-	//this->RemoveBodyPart();
-	//this->RemoveBodyPart();
-	//this->RemoveBodyPart();
-	//this->RemoveBodyPart();
 }
 
 void Snake::RemoveBodyPart() {
