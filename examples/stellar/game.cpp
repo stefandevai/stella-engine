@@ -67,14 +67,10 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/guanaco-anim.png");
 	//PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/black_block.png");
 
-<<<<<<< HEAD
-	player.assign<PositionComponent>((int)display.GetWidth()/2 - 20, (int)display.GetHeight()/2 - 30);
-=======
 	//player.assign<BodyComponent>(64, 64, 0, 0, false);
 	//player.assign<TextureComponent>(64, 64, *PlayerTex, 0);
 	//player.assign<SpatialComponent>(64, 64, 140, 250);
 	player.assign<BodyComponent>(80, 60, 0, 0, false);
->>>>>>> development
 	player.assign<TextureComponent>(80, 60, *PlayerTex, 0);
 	player.assign<SpatialComponent>(80, 60, 140, 250);
 	player.assign<MovementComponent>(0.7f, 8.0f, 1.5f);

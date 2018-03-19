@@ -15,7 +15,7 @@ fi
 
 # Variables
 BUILD_DIR="build"
-EXEC_FOLDER="examples"
+TARGET_DIR="examples"
 TARGET="game"
 OPT1=$1
 OPT2=$2
@@ -55,21 +55,37 @@ function exec_func {
 		cd $BUILD_DIR
 		cmake ..
 		make
-	elif [ ! -f "$BUILD_DIR"/"$EXEC_FOLDER"/"$TARGET" ]; then
+	elif [ ! -f "$BUILD_DIR"/"$TARGET_DIR"/"$TARGET" ]; then
 		cd $BUILD_DIR
 		make
 	else
 		cd $BUILD_DIR
 	fi
 
-	cd $EXEC_FOLDER
+	cd $TARGET_DIR
 	./"$TARGET"
 }
 
 function clean_func {
-  if [ -d "$BUILD_DIR" ]; then
-    rm -rf $BUILD_DIR
-  fi
+	case $1 in
+		-c|--clean)
+			if [ -d "$BUILD_DIR/$TARGET_DIR" ]; then
+				rm -rf "$BUILD_DIR/$TARGET_DIR"
+			fi
+			shift
+			;;
+		-ca|--clean-all)
+			if [ -d "$BUILD_DIR" ]; then
+				rm -rf $BUILD_DIR
+			fi
+			shift
+			;;
+		*)
+			printf "Invalid clean option.\n"
+			print_options
+			exit 1
+			;;
+	esac
 }
 
 # Args evalutation
@@ -90,7 +106,7 @@ case $OPT1 in
     MODE=ME # Make and Exec
     shift
     ;;
-  -c|--clean)
+  -c|--clean|-ca|--clean-all)
     MODE=CLEAN # Clean build directory
     shift
     ;;
@@ -133,7 +149,7 @@ case $MODE in
     shift
     ;;
   CLEAN)
-    clean_func
+		clean_func $OPT1
     shift
     ;;
 esac
