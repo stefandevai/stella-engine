@@ -7,4 +7,5 @@
 #include "animation_component.h"
 #include "body_component.h"
 #include "movement_component.h"
+#include "collectible_component.h"
 

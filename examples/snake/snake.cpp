@@ -15,25 +15,28 @@ Snake::~Snake() {
 }
 
 void Snake::create(size_t size) {
-
 	// Create underhead to allow smooth movement
 	auto under_head = entities.create();
 	under_head.assign<TextureComponent>(this->Dimension, this->Dimension, *SnakeTex, 4);
-	under_head.assign<SpatialComponent>(this->Dimension, this->Dimension, 320, 320);
-	under_head.assign<MovementComponent>(1, this->Velocity, false);
+	under_head.assign<SpatialComponent>(this->Dimension, this->Dimension, 320, 304);
+	under_head.assign<MovementComponent>(3, this->Velocity, false);
 	this->body.push_back(under_head);
 
 	// Create head
 	this->head = entities.create();
 	this->head.assign<TextureComponent>(this->Dimension, this->Dimension, *SnakeTex, 4);
-	this->head.assign<SpatialComponent>(this->Dimension, this->Dimension, 320, 320);
-	this->head.assign<MovementComponent>(1, this->Velocity);
+	this->head.assign<SpatialComponent>(this->Dimension, this->Dimension, 320, 304);
+	this->head.assign<MovementComponent>(3, this->Velocity);
 	this->head.assign<InputComponent>(keys);
 	this->head.assign<BodyComponent>(false);
 
 	for (unsigned int i = 0; i < size; ++i) {
 		this->AddBodyPart();
 	}
+	//this->RemoveBodyPart();
+	//this->RemoveBodyPart();
+	//this->RemoveBodyPart();
+	//this->RemoveBodyPart();
 }
 
 void Snake::RemoveBodyPart() {
@@ -45,7 +48,7 @@ void Snake::RemoveBodyPart() {
 	entityx::Entity& bent = this->body.back();
 	entityx::ComponentHandle<TextureComponent> tex = bent.component<TextureComponent>();
 	entityx::ComponentHandle<MovementComponent> mov = bent.component<MovementComponent>();
-	tex->sprite->SetDirectFrame(2);
+	tex->sprite->SetDirectFrame(4);
 	mov->Eased = true;
 }
 

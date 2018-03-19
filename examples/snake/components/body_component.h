@@ -2,7 +2,7 @@
 
 struct BodyComponent
 {
-  BodyComponent(bool is_static = true) : IsStatic(is_static) {}
-  bool IsStatic;
+  BodyComponent(bool is_static = true) : IsStatic(is_static) { CoinCollided = false; }
+  bool IsStatic, CoinCollided;
 };
 

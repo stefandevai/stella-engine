@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
   while(display.IsRunning())
   {
     display.Clear();
-
 		game.Update(display.GetDT());
 		display.Update();
   }

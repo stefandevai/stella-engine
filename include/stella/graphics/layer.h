@@ -11,6 +11,7 @@ namespace stella { namespace graphics {
     public:
       virtual ~Layer();
       virtual void Add(Sprite* sprite);
+      virtual void Remove(Sprite* sprite);
       virtual void Render();
 
     protected:

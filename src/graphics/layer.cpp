@@ -1,5 +1,7 @@
 #include "stella/graphics/layer.h"
 
+#include <algorithm>
+
 namespace stella { namespace graphics{
   Layer::Layer(Renderer* renderer, Shader* shader, glm::mat4 projection)
     : Ren(renderer), Shad(shader), Projection(projection)
@@ -20,6 +22,12 @@ namespace stella { namespace graphics{
   {
     this->Sprites.push_back(sprite);
   }
+
+  void Layer::Remove(Sprite* sprite)
+	{
+		auto it = std::find(this->Sprites.begin(), this->Sprites.end(), sprite);
+		this->Sprites.erase(it);
+	}
 
   void Layer::Render()
   {

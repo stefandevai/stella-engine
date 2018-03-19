@@ -1,12 +1,13 @@
 #include "game.h"
 
 Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader, const bool *keys) {
-	systems.add<CollisionSystem>((int)display.GetWidth(), (int)display.GetHeight());
 	systems.add<MovementSystem>();
-	systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), shader);
 	systems.add<PlayerMovementSystem>((int)display.GetWidth());
-	systems.add<LightingSystem>(shader);
-	systems.add<AnimationSystem>();
+	systems.add<CollisionSystem>((int)display.GetWidth(), (int)display.GetHeight());
+	systems.add<CollectSystem>();
+	//systems.add<LightingSystem>(shader);
+	//systems.add<AnimationSystem>();
+	systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), shader);
 	systems.configure();
 
 	this->AddCoins(10);
@@ -27,6 +28,7 @@ void Game::AddCoins(size_t num_coins) {
 		coin.assign<TextureComponent>(16, 16, *CoinTex, 16);
 		coin.assign<SpatialComponent>(16, 16, offset*16 + i*16, 304);
 		coin.assign<BodyComponent>();
+		coin.assign<CollectibleComponent>(0, 1.0f);
 	}
 }
 

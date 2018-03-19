@@ -24,7 +24,6 @@ class Game : public entityx::EntityX {
 		stella::graphics::Texture *CoinTex;
 
 		void add_animation(entityx::Entity &ent, std::string name, std::vector<unsigned int> frames, unsigned int framerate);
-		void update_snake();
 		void AddCoins(size_t num_coins);
 };
 

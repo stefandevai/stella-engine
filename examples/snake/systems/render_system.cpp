@@ -20,6 +20,8 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 	es.each<SpatialComponent, TextureComponent>([this](entityx::Entity entity, SpatialComponent &spa, TextureComponent &tex) {
 		tex.sprite->Pos.x = spa.x;
 		tex.sprite->Pos.y = spa.y;
+		if (spa.x == 16)
+			std::cout << "here" << std::endl;
 
 		if (!tex.InLayer) {
 			this->TileLayer->Add(tex.sprite);
@@ -28,3 +30,18 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 		this->TileLayer->Render();
 	});
 };
+
+
+void RenderSystem::configure(entityx::EventManager &event_manager) {
+	event_manager.subscribe<entityx::ComponentRemovedEvent<TextureComponent>>(*this);
+}
+
+void RenderSystem::receive(const entityx::ComponentRemovedEvent<TextureComponent> &ev) {
+	auto ent = ev.entity;
+	auto tex = ent.component<TextureComponent>();
+	if (tex->InLayer) {
+		this->TileLayer->Remove(tex->sprite);
+		tex->InLayer = false;
+	}
+}
+

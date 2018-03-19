@@ -19,9 +19,9 @@ class CollisionSystem : public entityx::System<CollisionSystem> {
 		void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override;
 
 	private:
-		std::vector<entityx::Entity> static_bodies;
-		std::vector<entityx::Entity> dynamic_bodies;
+		//std::vector<entityx::Entity> static_bodies;
+		//std::vector<entityx::Entity> dynamic_bodies;
 
-		bool check_collision(entityx::Entity *b1, entityx::Entity *b2);
+		bool check_collision(entityx::Entity &b1, entityx::Entity &b2);
 };
 
