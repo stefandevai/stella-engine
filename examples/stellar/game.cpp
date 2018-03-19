@@ -14,8 +14,8 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	// Background
 	entityx::Entity sky = entities.create();
 	entityx::Entity moon = entities.create();
-	SkyTex = new stella::graphics::Texture("sky-tex", "assets/gfx/sprites/sky_background.png");
-	MoonTex = new stella::graphics::Texture("moon-tex", "assets/gfx/sprites/moon_anim.png");
+	SkyTex = new stella::graphics::Texture("sky-tex", "assets/sprites/sky_background.png");
+	MoonTex = new stella::graphics::Texture("moon-tex", "assets/sprites/moon_anim.png");
 
 	sky.assign<TextureComponent>(720, 405, *SkyTex, 0);
 	sky.assign<SpatialComponent>(720, 405);
@@ -27,7 +27,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	moon.assign<AnimationComponent>("moon");
 
 	entityx::Entity mou1 = entities.create();
-	Mou1 = new stella::graphics::Texture("mou1-tex", "assets/gfx/sprites/mountain1-bg.png");
+	Mou1 = new stella::graphics::Texture("mou1-tex", "assets/sprites/mountain1-bg.png");
 	mou1.assign<TextureComponent>(720, 170, *Mou1, 0);
 	mou1.assign<SpatialComponent>(720, 170, 0, 230);
 	mou1.assign<ParallaxComponent>(-1.0f);
@@ -39,7 +39,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	mou1a.assign<TileviewComponent>();
 	
 	entityx::Entity mou2 = entities.create();
-	Mou2 = new stella::graphics::Texture("mou2-tex", "assets/gfx/sprites/mountain2-bg.png");
+	Mou2 = new stella::graphics::Texture("mou2-tex", "assets/sprites/mountain2-bg.png");
 	mou2.assign<TextureComponent>(720, 190, *Mou2, 0);
 	mou2.assign<SpatialComponent>(720, 190, 0, 215);
 	mou2.assign<ParallaxComponent>(-3.0f);
@@ -51,7 +51,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	mou2a.assign<TileviewComponent>();
 
 	entityx::Entity mou3 = entities.create();
-	Mou3 = new stella::graphics::Texture("mou3-tex", "assets/gfx/sprites/mountain3-bg.png");
+	Mou3 = new stella::graphics::Texture("mou3-tex", "assets/sprites/mountain3-bg.png");
 	mou3.assign<TextureComponent>(720, 230, *Mou3, 0);
 	mou3.assign<SpatialComponent>(720, 230, 0, 175);
 	mou3.assign<ParallaxComponent>(-5.0f);
@@ -64,8 +64,8 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 
 	// Player
 	entityx::Entity player = entities.create();
-	PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/guanaco-anim.png");
-	//PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/gfx/sprites/black_block.png");
+	PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/sprites/guanaco-anim.png");
+	//PlayerTex = new stella::graphics::Texture("guanaco-tex", "assets/sprites/black_block.png");
 
 	//player.assign<BodyComponent>(64, 64, 0, 0, false);
 	//player.assign<TextureComponent>(64, 64, *PlayerTex, 0);
@@ -84,8 +84,8 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 	entityx::Entity block = entities.create();
 	entityx::Entity over_block = entities.create();
 	entityx::Entity over_block2 = entities.create();
-	BlockTex = new stella::graphics::Texture("block-tex", "assets/gfx/sprites/block.png");
-	OverBlockTex = new stella::graphics::Texture("details-tex", "assets/gfx/sprites/over_block.png");
+	BlockTex = new stella::graphics::Texture("block-tex", "assets/sprites/block.png");
+	OverBlockTex = new stella::graphics::Texture("details-tex", "assets/sprites/over_block.png");
 
 	block.assign<BodyComponent>(720, 92, 0, 0, true);
 	block.assign<TextureComponent>(720, 92, *BlockTex, 0);

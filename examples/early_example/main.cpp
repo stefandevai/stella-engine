@@ -37,9 +37,9 @@ int main(int argc, char *argv[])
   shader.Disable();
   // End of block
 
-  Texture terrain("terrain", "assets/gfx/sprites/terrain.png");
-  Texture tina("tina", "assets/gfx/sprites/tina.png");
-  Texture guanaco("guanaco", "assets/gfx/sprites/guanaco-anim.png");
+  Texture terrain("terrain", "assets/sprites/terrain.png");
+  Texture tina("tina", "assets/sprites/tina.png");
+  Texture guanaco("guanaco", "assets/sprites/guanaco-anim.png");
 
   for (int i = 0; i < 10; i++)
     for (int j = 0; j < 13; j++)

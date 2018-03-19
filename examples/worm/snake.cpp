@@ -5,7 +5,7 @@ bool MovementComponent::Finished = false;
 Snake::Snake(entityx::EntityManager &entities, const bool keys[1024]) : entities(entities), keys(keys){
 	this->Velocity = 1;
 	this->Dimension = 16;
-	SnakeTex = new stella::graphics::Texture("snake-tex", "assets/gfx/snake/snake16.png");
+	SnakeTex = new stella::graphics::Texture("snake-tex", "assets/sprites/snake16.png");
 
 	this->create(3);
 }

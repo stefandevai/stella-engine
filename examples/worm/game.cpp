@@ -21,7 +21,7 @@ Game::~Game() {
 
 void Game::AddCoins(size_t num_coins) {
 	int offset = 2;
-	CoinTex = new stella::graphics::Texture("coin-tex", "assets/gfx/snake/snake16.png");
+	CoinTex = new stella::graphics::Texture("coin-tex", "assets/sprites/snake16.png");
 
 	for (size_t i = offset; i < num_coins*offset; i += offset) {
 		auto coin = entities.create();
