@@ -25,3 +25,6 @@
 [submodule "dependencies/glew"]
 	path = dependencies/glew
 	url = https://github.com/LuaDist/glew
+[submodule "dependencies/portaudio"]
+	path = dependencies/portaudio
+	url = git://git.assembla.com/portaudio.git
