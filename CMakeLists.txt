@@ -14,7 +14,7 @@ set(STELLA_LIBRARY_NAME "stella")
 # Turn this option on to build a targeted example
 option(BUILD_STELLA_EXAMPLE "Build example" on)
 if (BUILD_STELLA_EXAMPLE)
-	set(EXAMPLE_DIR "worm")
+	set(EXAMPLE_DIR "early_example")
 endif()
 
 # Turn on these options to use the libraries contained in your machine.

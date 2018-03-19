@@ -1,6 +1,6 @@
 # Stella Engine
 
-![Stella Engine early example](/engine.png)
+![Stella Engine stellar example](/img/stellar.png)
 
 ## Description:
 
@@ -11,10 +11,11 @@ A cross-platform 2D C++/OpenGL game engine. It is currently in its early develop
 - Spritesheets
 - Animations
 - Ogg audio streaming
+- 2D basic AABB physics
 
 ## Building:
 
-The project uses cmake as its build system. It has been tested on Linux and MacOS X, however every dependency is supposed to work on Windows aswell.
+The project uses cmake as its build system. It has been built on GNU/Linux and OSX, however every dependency is supposed to work on Windows too.
 
 ### Dependencies
 
@@ -40,12 +41,12 @@ to
 ```cmake
 option(USE_SHARED_GLFW "Use shared GLFW library" on)
 ```
-### Building example on Linux or MacOS X:
+### Building an example on GNU/Linux or MacOS X:
 
 ```bash
 git clone --recursive https://github.com/stefandevai/stella-engine.git
 cd stella-engine
-./run.sh --exec
+./setup.sh --build
 ```
 
 If you don't want to use the script you can also do it manually:
