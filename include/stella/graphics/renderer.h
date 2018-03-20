@@ -31,6 +31,7 @@ private:
   GLuint VAO, VBO, EBO;
   GLsizei IndexCount;
   std::vector<Texture *> Textures;
+  bool TexturesBinded;
 
   void init();
 };

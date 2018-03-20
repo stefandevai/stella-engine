@@ -8,7 +8,10 @@
 
 namespace stella {
 namespace graphics {
-Renderer::Renderer() { this->init(); }
+Renderer::Renderer() { 
+	this->TexturesBinded = false;
+	this->init(); 
+}
 
 Renderer::~Renderer() {
   glDeleteBuffers(1, &this->VBO);
@@ -32,21 +35,12 @@ void Renderer::Submit(const Sprite &sprite) {
   const GLuint &stH = spritesheet.GetHeight();
 
   Texture *texture = sprite.GetTexture();
-  GLfloat texid = -1.0f;
 
-  GLboolean found = false;
-  for (unsigned int i = 0; i < Textures.size() && !found; ++i) {
-    if (Textures[i] == texture) {
-      found = true;
-      texid = (GLfloat)i;
-      break;
-    }
-  }
-
-  if (!found) {
+	if (!texture->IsCached()) {
     Textures.push_back(texture);
-    texid = (GLfloat)(Textures.size() - 1);
-  }
+    texture->SetCached((GLfloat)(Textures.size() - 1));
+    this->TexturesBinded = false;
+	}
 
   int r = color.x * 255.0f;
   int g = color.y * 255.0f;
@@ -60,28 +54,28 @@ void Renderer::Submit(const Sprite &sprite) {
 
   this->VertexBuffer->vertex = glm::vec3(position, 1.0f);
   this->VertexBuffer->uv = glm::vec2(uv.x, uv.y);
-  this->VertexBuffer->tid = texid;
+  this->VertexBuffer->tid = texture->GetCacheID();
   this->VertexBuffer->color = c;
   this->VertexBuffer++;
 
   this->VertexBuffer->vertex =
       glm::vec3(position.x + dimensions.x, position.y, 1.0f);
   this->VertexBuffer->uv = glm::vec2(uv.x + uvoffsetX, uv.y);
-  this->VertexBuffer->tid = texid;
+  this->VertexBuffer->tid = texture->GetCacheID();
   this->VertexBuffer->color = c;
   this->VertexBuffer++;
 
   this->VertexBuffer->vertex =
       glm::vec3(position.x + dimensions.x, position.y + dimensions.y, 1.0f);
   this->VertexBuffer->uv = glm::vec2(uv.x + uvoffsetX, uv.y - uvoffsetY);
-  this->VertexBuffer->tid = texid;
+  this->VertexBuffer->tid = texture->GetCacheID();
   this->VertexBuffer->color = c;
   this->VertexBuffer++;
 
   this->VertexBuffer->vertex =
       glm::vec3(position.x, position.y + dimensions.y, 1.0f);
   this->VertexBuffer->uv = glm::vec2(uv.x, uv.y - uvoffsetY);
-  this->VertexBuffer->tid = texid;
+  this->VertexBuffer->tid = texture->GetCacheID();
   this->VertexBuffer->color = c;
   this->VertexBuffer++;
 
@@ -94,14 +88,17 @@ void Renderer::End() {
 }
 
 void Renderer::Draw() {
-  for (unsigned int i = 0; i < Textures.size(); ++i) {
-    glActiveTexture(GL_TEXTURE0 + i);
-    Textures[i]->Bind();
-  }
+	if (!this->TexturesBinded) {
+		for (unsigned int i = 0; i < Textures.size(); ++i) {
+			glActiveTexture(GL_TEXTURE0 + i);
+			Textures[i]->Bind();
+		}
+		this->TexturesBinded = true;
+	}
 
-  glBindVertexArray(this->VAO);
+	glBindVertexArray(this->VAO);
   glDrawElements(GL_TRIANGLES, this->IndexCount, GL_UNSIGNED_INT, 0);
-  glBindVertexArray(0);
+	glBindVertexArray(0);
   this->IndexCount = 0;
 }
 

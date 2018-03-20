@@ -6,6 +6,7 @@
 namespace stella {
 namespace graphics {
 Texture::Texture(const std::string name, const char *texPath) : Name(name) {
+	this->Cached = false;
   glGenTextures(1, &this->ID);
   this->load(texPath);
 }
