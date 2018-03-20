@@ -9,7 +9,7 @@ Worm::Worm(entityx::EntityManager &entities, const std::array<bool, 1024> &keys)
   Tex =
       new stella::graphics::Texture("snake-tex", "assets/sprites/snake16.png");
 
-  this->create(3);
+  this->create(4);
 }
 
 Worm::~Worm() { delete Tex; }
@@ -19,22 +19,22 @@ void Worm::configure(entityx::EventManager &events) {
 }
 
 void Worm::create(size_t size) {
-  // Create underhead to allow smooth movement
-  auto under_head = entities.create();
-  under_head.assign<TextureComponent>(this->Dimension, this->Dimension,
-                                      *Tex, 4);
-  under_head.assign<SpatialComponent>(this->Dimension, this->Dimension, 320,
-                                      304);
-  under_head.assign<MovementComponent>(3, this->Velocity, false);
-  this->body.push_back(under_head);
+	 //Create underhead to allow smooth movement
+	auto under_head = entities.create();
+	under_head.assign<TextureComponent>(this->Dimension, this->Dimension,
+																			*Tex, 4);
+	under_head.assign<SpatialComponent>(this->Dimension, this->Dimension, 320,
+																			320);
+	under_head.assign<MovementComponent>(1, this->Velocity, false);
+	this->body.push_back(under_head);
 
   // Create head
   this->head = entities.create();
   this->head.assign<TextureComponent>(this->Dimension, this->Dimension,
                                       *Tex, 4);
   this->head.assign<SpatialComponent>(this->Dimension, this->Dimension, 320,
-                                      304);
-  this->head.assign<MovementComponent>(3, this->Velocity);
+                                      320);
+  this->head.assign<MovementComponent>(1, this->Velocity);
   this->head.assign<InputComponent>(keys);
   this->head.assign<BodyComponent>(false);
 
@@ -62,48 +62,74 @@ void Worm::AddBodyPart() {
   entityx::ComponentHandle<TextureComponent> tex;
   entityx::ComponentHandle<SpatialComponent> spa;
   entityx::ComponentHandle<MovementComponent> mov;
+  entityx::Entity body_part = entities.create();
 
   // In case of existing tail
-  if (this->body.size() > 0) {
-    entityx::Entity &bent = this->body.back();
-    tex = bent.component<TextureComponent>();
+  if (this->body.size() > 1) {
+    entityx::Entity &tail = this->body.at(this->body.size() - 1);
+    auto tail_mov = tail.component<MovementComponent>();
+    //tail_mov->Eased = false;
+    tex = tail.component<TextureComponent>();
+    tex->sprite->SetDirectFrame(4);
+
+    entityx::Entity &bent = this->body.at(this->body.size() - 2);
     spa = bent.component<SpatialComponent>();
     mov = bent.component<MovementComponent>();
 
-    mov->Eased = false;
-    tex->sprite->SetDirectFrame(4);
+		// Add next body part according to the direction of movement
+		switch (mov->Direction) {
+		case 0:
+			body_part.assign<SpatialComponent>(this->Dimension, this->Dimension, spa->x,
+																				 spa->y + this->Dimension);
+			break;
+		case 1:
+			body_part.assign<SpatialComponent>(this->Dimension, this->Dimension,
+																				 spa->x - 2*this->Dimension, spa->y);
+			break;
+		case 2:
+			body_part.assign<SpatialComponent>(this->Dimension, this->Dimension, spa->x,
+																				 spa->y - this->Dimension);
+			break;
+		case 3:
+			body_part.assign<SpatialComponent>(this->Dimension, this->Dimension,
+																				 spa->x + 2*this->Dimension, spa->y);
+			std::cout << spa->x + this->Dimension << std::endl;
+			break;
+		}
+
   }
   // If there's no tail yet
   else {
     spa = this->head.component<SpatialComponent>();
     mov = this->head.component<MovementComponent>();
-  }
 
-  // Add next body part according to the direction of movement
-  entityx::Entity body_part = entities.create();
-  switch (mov->Direction) {
-  case 0:
-    body_part.assign<SpatialComponent>(this->Dimension, this->Dimension, spa->x,
-                                       spa->y + this->Dimension);
-    break;
-  case 1:
-    body_part.assign<SpatialComponent>(this->Dimension, this->Dimension,
-                                       spa->x - this->Dimension, spa->y);
-    break;
-  case 2:
-    body_part.assign<SpatialComponent>(this->Dimension, this->Dimension, spa->x,
-                                       spa->y - this->Dimension);
-    break;
-  case 3:
-    body_part.assign<SpatialComponent>(this->Dimension, this->Dimension,
-                                       spa->x + this->Dimension, spa->y);
-    break;
+		// Add next body part according to the direction of movement
+		switch (mov->Direction) {
+		case 0:
+			body_part.assign<SpatialComponent>(this->Dimension, this->Dimension, spa->x,
+																				 spa->y + this->Dimension);
+			break;
+		case 1:
+			body_part.assign<SpatialComponent>(this->Dimension, this->Dimension,
+																				 spa->x - this->Dimension, spa->y);
+			break;
+		case 2:
+			body_part.assign<SpatialComponent>(this->Dimension, this->Dimension, spa->x,
+																				 spa->y - this->Dimension);
+			break;
+		case 3:
+			body_part.assign<SpatialComponent>(this->Dimension, this->Dimension,
+																				 spa->x + this->Dimension, spa->y);
+			std::cout << spa->x + this->Dimension << std::endl;
+			break;
+		}
   }
 
   body_part.assign<MovementComponent>(mov->Direction, this->Velocity);
   body_part.assign<TextureComponent>(this->Dimension, this->Dimension,
                                      *Tex, 12);
   this->body.push_back(body_part);
+
 }
 
 void Worm::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
