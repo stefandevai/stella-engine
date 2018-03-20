@@ -20,6 +20,7 @@ SpriteSheet::SpriteSheet(const Texture &texture, unsigned int framex,
 SpriteSheet::~SpriteSheet() {}
 
 glm::vec2 SpriteSheet::GetUV(GLuint frame) {
+	//return glm::vec2(0.0f, 1.0f);
   if (this->NumOfFrames <= 1) {
     return glm::vec2(0.0f, 1.0f);
   }
