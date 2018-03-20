@@ -10,7 +10,7 @@
 #include "components/game_components.h"
 #include "systems/game_systems.h"
 
-#include "snake.h"
+#include "entities/worm.h"
 
 class Game : public entityx::EntityX {
 public:
@@ -21,7 +21,7 @@ public:
   void Update(entityx::TimeDelta dt);
 
 private:
-  Snake *snake;
+  Worm *worm;
   stella::graphics::Texture *CoinTex;
 
   void add_animation(entityx::Entity &ent, std::string name,

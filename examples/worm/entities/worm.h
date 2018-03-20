@@ -5,14 +5,14 @@
 #include <entityx/entityx.h>
 #include <stella/stella.h>
 
-#include "components/game_components.h"
+#include "../components/game_components.h"
 
-class Snake {
+class Worm {
 public:
-  stella::graphics::Texture *SnakeTex;
+  stella::graphics::Texture *Tex;
 
-  Snake(entityx::EntityManager &entities, const std::array<bool, 1024> &keys);
-  ~Snake();
+  Worm(entityx::EntityManager &entities, const std::array<bool, 1024> &keys);
+  ~Worm();
 
   void RemoveBodyPart();
   void AddBodyPart();

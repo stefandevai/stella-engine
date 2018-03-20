@@ -1,24 +1,24 @@
-#include "snake.h"
+#include "worm.h"
 
 bool MovementComponent::Finished = false;
 
-Snake::Snake(entityx::EntityManager &entities, const std::array<bool, 1024> &keys)
+Worm::Worm(entityx::EntityManager &entities, const std::array<bool, 1024> &keys)
     : entities(entities), keys(keys) {
   this->Velocity = 1;
   this->Dimension = 16;
-  SnakeTex =
+  Tex =
       new stella::graphics::Texture("snake-tex", "assets/sprites/snake16.png");
 
   this->create(3);
 }
 
-Snake::~Snake() { delete SnakeTex; }
+Worm::~Worm() { delete Tex; }
 
-void Snake::create(size_t size) {
+void Worm::create(size_t size) {
   // Create underhead to allow smooth movement
   auto under_head = entities.create();
   under_head.assign<TextureComponent>(this->Dimension, this->Dimension,
-                                      *SnakeTex, 4);
+                                      *Tex, 4);
   under_head.assign<SpatialComponent>(this->Dimension, this->Dimension, 320,
                                       304);
   under_head.assign<MovementComponent>(3, this->Velocity, false);
@@ -27,7 +27,7 @@ void Snake::create(size_t size) {
   // Create head
   this->head = entities.create();
   this->head.assign<TextureComponent>(this->Dimension, this->Dimension,
-                                      *SnakeTex, 4);
+                                      *Tex, 4);
   this->head.assign<SpatialComponent>(this->Dimension, this->Dimension, 320,
                                       304);
   this->head.assign<MovementComponent>(3, this->Velocity);
@@ -39,7 +39,7 @@ void Snake::create(size_t size) {
   }
 }
 
-void Snake::RemoveBodyPart() {
+void Worm::RemoveBodyPart() {
   assert(this->body.size() > 0);
   entityx::Entity &ent = this->body.back();
   ent.destroy();
@@ -54,7 +54,7 @@ void Snake::RemoveBodyPart() {
   mov->Eased = true;
 }
 
-void Snake::AddBodyPart() {
+void Worm::AddBodyPart() {
   entityx::ComponentHandle<TextureComponent> tex;
   entityx::ComponentHandle<SpatialComponent> spa;
   entityx::ComponentHandle<MovementComponent> mov;
@@ -98,11 +98,11 @@ void Snake::AddBodyPart() {
 
   body_part.assign<MovementComponent>(mov->Direction, this->Velocity);
   body_part.assign<TextureComponent>(this->Dimension, this->Dimension,
-                                     *SnakeTex, 12);
+                                     *Tex, 12);
   this->body.push_back(body_part);
 }
 
-void Snake::Update() {
+void Worm::Update() {
   if (this->body.size() > 0) {
     entityx::ComponentHandle<MovementComponent> hmov =
         this->head.component<MovementComponent>();

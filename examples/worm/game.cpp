@@ -14,11 +14,11 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
   systems.configure();
 
   this->AddCoins(10);
-  snake = new Snake(entities, keys);
+  worm = new Worm(entities, keys);
 }
 
 Game::~Game() {
-  delete snake;
+  delete worm;
   delete CoinTex;
 }
 
@@ -48,5 +48,5 @@ void Game::add_animation(entityx::Entity &ent, std::string name,
 
 void Game::Update(entityx::TimeDelta dt) {
   systems.update_all(dt);
-  snake->Update();
+  worm->Update();
 }
