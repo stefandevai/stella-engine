@@ -11,10 +11,13 @@ endif()
 # Library name
 set(STELLA_LIBRARY_NAME "stella")
 
+# Debug mode
+option(STELLA_DEBUG_MODE "Build in debug mode" on)
+
 # Turn this option on to build a targeted example
 option(BUILD_STELLA_EXAMPLE "Build example" on)
 if (BUILD_STELLA_EXAMPLE)
-	set(EXAMPLE_DIR "worm")
+	set(EXAMPLE_DIR "stellar")
 endif()
 
 # Turn on these options to use the libraries contained in your machine.
@@ -178,12 +181,18 @@ add_subdirectory(${DEPENDENCIES_DIR}) # Dependencies folder
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
 		"${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
 			"${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-	set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -g -O0")
+	if (STELLA_DEBUG_MODE)
+		set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -pg -g -O0 -no-pie")
+		set(CXX_LINK_FLAGS "-pg")
+	else()
+		set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -O3")
+	endif()
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	message(STATUS "Using MSVC")
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COMPILE_FLAGS}")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CXX_LINK_FLAGS}")
 
 # Build main library
 file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)

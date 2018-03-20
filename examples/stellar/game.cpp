@@ -38,11 +38,11 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
   mou1.assign<SpatialComponent>(720, 170, 0, 230);
   mou1.assign<ParallaxComponent>(-1.0f);
   mou1.assign<TileviewComponent>();
-  entityx::Entity mou1a = entities.create();
-  mou1a.assign<TextureComponent>(720, 170, *Mou1, 0);
-  mou1a.assign<SpatialComponent>(720, 170, 720, 230);
-  mou1a.assign<ParallaxComponent>(-1.0f);
-  mou1a.assign<TileviewComponent>();
+	entityx::Entity mou1a = entities.create();
+	mou1a.assign<TextureComponent>(720, 170, *Mou1, 0);
+	mou1a.assign<SpatialComponent>(720, 170, 720, 230);
+	mou1a.assign<ParallaxComponent>(-1.0f);
+	mou1a.assign<TileviewComponent>();
 
   entityx::Entity mou2 = entities.create();
   Mou2 = new stella::graphics::Texture("mou2-tex",
@@ -51,11 +51,11 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
   mou2.assign<SpatialComponent>(720, 190, 0, 215);
   mou2.assign<ParallaxComponent>(-3.0f);
   mou2.assign<TileviewComponent>();
-  entityx::Entity mou2a = entities.create();
-  mou2a.assign<TextureComponent>(720, 190, *Mou2, 0);
-  mou2a.assign<SpatialComponent>(720, 190, 720, 215);
-  mou2a.assign<ParallaxComponent>(-3.0f);
-  mou2a.assign<TileviewComponent>();
+	entityx::Entity mou2a = entities.create();
+	mou2a.assign<TextureComponent>(720, 190, *Mou2, 0);
+	mou2a.assign<SpatialComponent>(720, 190, 720, 215);
+	mou2a.assign<ParallaxComponent>(-3.0f);
+	mou2a.assign<TileviewComponent>();
 
   entityx::Entity mou3 = entities.create();
   Mou3 = new stella::graphics::Texture("mou3-tex",
@@ -64,11 +64,11 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
   mou3.assign<SpatialComponent>(720, 230, 0, 175);
   mou3.assign<ParallaxComponent>(-5.0f);
   mou3.assign<TileviewComponent>();
-  entityx::Entity mou3a = entities.create();
-  mou3a.assign<TextureComponent>(720, 239, *Mou3, 0);
-  mou3a.assign<SpatialComponent>(720, 230, 720, 175);
-  mou3a.assign<ParallaxComponent>(-5.0f);
-  mou3a.assign<TileviewComponent>();
+	entityx::Entity mou3a = entities.create();
+	mou3a.assign<TextureComponent>(720, 239, *Mou3, 0);
+	mou3a.assign<SpatialComponent>(720, 230, 720, 175);
+	mou3a.assign<ParallaxComponent>(-5.0f);
+	mou3a.assign<TileviewComponent>();
 
   // Player
   entityx::Entity player = entities.create();
@@ -108,10 +108,10 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
   over_block.assign<MovementComponent>(-7.0f, 0.0f, 7.0f, false);
   over_block.assign<TileviewComponent>();
 
-  over_block2.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
-  over_block2.assign<SpatialComponent>(720, 12, 720, 301);
-  over_block2.assign<MovementComponent>(-7.0f, 0.0f, 7.0f, false);
-  over_block2.assign<TileviewComponent>();
+	over_block2.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
+	over_block2.assign<SpatialComponent>(720, 12, 720, 301);
+	over_block2.assign<MovementComponent>(-7.0f, 0.0f, 7.0f, false);
+	over_block2.assign<TileviewComponent>();
 }
 
 Game::~Game() {
