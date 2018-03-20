@@ -6,8 +6,9 @@
 #include <stella/stella.h>
 
 #include "../components/game_components.h"
+#include "../events/collect.h"
 
-class Worm : public entityx::System<Worm> {
+class Worm : public entityx::System<Worm>, public entityx::Receiver<Worm> {
 public:
   stella::graphics::Texture *Tex;
 
@@ -16,7 +17,10 @@ public:
 
   void RemoveBodyPart();
   void AddBodyPart();
+
+  void configure(entityx::EventManager &events);
   void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt);
+  void receive(const Collect &collectible);
 
 private:
   entityx::Entity head, under_head;

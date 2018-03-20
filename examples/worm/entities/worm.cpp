@@ -14,6 +14,10 @@ Worm::Worm(entityx::EntityManager &entities, const std::array<bool, 1024> &keys)
 
 Worm::~Worm() { delete Tex; }
 
+void Worm::configure(entityx::EventManager &events) {
+  events.subscribe<Collect>(*this);
+}
+
 void Worm::create(size_t size) {
   // Create underhead to allow smooth movement
   auto under_head = entities.create();
@@ -122,4 +126,9 @@ void Worm::update(entityx::EntityManager &es, entityx::EventManager &events, ent
   } else {
     std::cout << "LOST!" << std::endl;
   }
+}
+
+void Worm::receive(const Collect &collectible) {
+	this->AddBodyPart();
+	std::cout << "Collected!" << std::endl;
 }
