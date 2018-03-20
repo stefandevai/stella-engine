@@ -8,9 +8,9 @@
 
 namespace stella {
 namespace graphics {
-Renderer::Renderer() { 
-	this->TexturesBinded = false;
-	this->init(); 
+Renderer::Renderer() {
+  this->TexturesBinded = false;
+  this->init();
 }
 
 Renderer::~Renderer() {
@@ -36,11 +36,11 @@ void Renderer::Submit(const Sprite &sprite) {
 
   Texture *texture = sprite.GetTexture();
 
-	if (!texture->IsCached()) {
+  if (!texture->IsCached()) {
     Textures.push_back(texture);
     texture->SetCached((GLfloat)(Textures.size() - 1));
     this->TexturesBinded = false;
-	}
+  }
 
   int r = color.x * 255.0f;
   int g = color.y * 255.0f;
@@ -88,17 +88,17 @@ void Renderer::End() {
 }
 
 void Renderer::Draw() {
-	if (!this->TexturesBinded) {
-		for (unsigned int i = 0; i < Textures.size(); ++i) {
-			glActiveTexture(GL_TEXTURE0 + i);
-			Textures[i]->Bind();
-		}
-		this->TexturesBinded = true;
-	}
+  if (!this->TexturesBinded) {
+    for (unsigned int i = 0; i < Textures.size(); ++i) {
+      glActiveTexture(GL_TEXTURE0 + i);
+      Textures[i]->Bind();
+    }
+    this->TexturesBinded = true;
+  }
 
-	glBindVertexArray(this->VAO);
+  glBindVertexArray(this->VAO);
   glDrawElements(GL_TRIANGLES, this->IndexCount, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
+  glBindVertexArray(0);
   this->IndexCount = 0;
 }
 

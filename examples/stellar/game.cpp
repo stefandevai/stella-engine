@@ -16,56 +16,58 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 
   // Background
   entityx::Entity sky = entities.create();
-  SkyTex = new stella::graphics::Texture("sky-tex", "assets/sprites/sky_background.png");
+  SkyTex = new stella::graphics::Texture("sky-tex",
+                                         "assets/sprites/sky_background.png");
   sky.assign<TextureComponent>(720, 405, *SkyTex, 0);
   sky.assign<SpatialComponent>(720, 405);
 
-	entityx::Entity moon = entities.create();
-	MoonTex = new stella::graphics::Texture("moon-tex", "assets/sprites/moon_anim.png");
-	moon.assign<TextureComponent>(85, 85, *MoonTex, 0);
-	moon.assign<SpatialComponent>(85, 85, 478, 78);
+  entityx::Entity moon = entities.create();
+  MoonTex =
+      new stella::graphics::Texture("moon-tex", "assets/sprites/moon_anim.png");
+  moon.assign<TextureComponent>(85, 85, *MoonTex, 0);
+  moon.assign<SpatialComponent>(85, 85, 478, 78);
 
-	add_animation(moon, "moon", {3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
-	moon.assign<AnimationComponent>("moon");
+  add_animation(moon, "moon", {3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
+  moon.assign<AnimationComponent>("moon");
 
-	entityx::Entity mou1 = entities.create();
-	Mou1 = new stella::graphics::Texture("mou1-tex",
-																			 "assets/sprites/mountain1-bg.png");
-	mou1.assign<TextureComponent>(720, 170, *Mou1, 0);
-	mou1.assign<SpatialComponent>(720, 170, 0, 230);
-	mou1.assign<ParallaxComponent>(-1.0f);
-	mou1.assign<TileviewComponent>();
-	entityx::Entity mou1a = entities.create();
-	mou1a.assign<TextureComponent>(720, 170, *Mou1, 0);
-	mou1a.assign<SpatialComponent>(720, 170, 720, 230);
-	mou1a.assign<ParallaxComponent>(-1.0f);
-	mou1a.assign<TileviewComponent>();
+  entityx::Entity mou1 = entities.create();
+  Mou1 = new stella::graphics::Texture("mou1-tex",
+                                       "assets/sprites/mountain1-bg.png");
+  mou1.assign<TextureComponent>(720, 170, *Mou1, 0);
+  mou1.assign<SpatialComponent>(720, 170, 0, 230);
+  mou1.assign<ParallaxComponent>(-1.0f);
+  mou1.assign<TileviewComponent>();
+  entityx::Entity mou1a = entities.create();
+  mou1a.assign<TextureComponent>(720, 170, *Mou1, 0);
+  mou1a.assign<SpatialComponent>(720, 170, 720, 230);
+  mou1a.assign<ParallaxComponent>(-1.0f);
+  mou1a.assign<TileviewComponent>();
 
-	entityx::Entity mou2 = entities.create();
-	Mou2 = new stella::graphics::Texture("mou2-tex",
-																			 "assets/sprites/mountain2-bg.png");
-	mou2.assign<TextureComponent>(720, 190, *Mou2, 0);
-	mou2.assign<SpatialComponent>(720, 190, 0, 215);
-	mou2.assign<ParallaxComponent>(-3.0f);
-	mou2.assign<TileviewComponent>();
-	entityx::Entity mou2a = entities.create();
-	mou2a.assign<TextureComponent>(720, 190, *Mou2, 0);
-	mou2a.assign<SpatialComponent>(720, 190, 720, 215);
-	mou2a.assign<ParallaxComponent>(-3.0f);
-	mou2a.assign<TileviewComponent>();
+  entityx::Entity mou2 = entities.create();
+  Mou2 = new stella::graphics::Texture("mou2-tex",
+                                       "assets/sprites/mountain2-bg.png");
+  mou2.assign<TextureComponent>(720, 190, *Mou2, 0);
+  mou2.assign<SpatialComponent>(720, 190, 0, 215);
+  mou2.assign<ParallaxComponent>(-3.0f);
+  mou2.assign<TileviewComponent>();
+  entityx::Entity mou2a = entities.create();
+  mou2a.assign<TextureComponent>(720, 190, *Mou2, 0);
+  mou2a.assign<SpatialComponent>(720, 190, 720, 215);
+  mou2a.assign<ParallaxComponent>(-3.0f);
+  mou2a.assign<TileviewComponent>();
 
-	entityx::Entity mou3 = entities.create();
-	Mou3 = new stella::graphics::Texture("mou3-tex",
-																			 "assets/sprites/mountain3-bg.png");
-	mou3.assign<TextureComponent>(720, 230, *Mou3, 0);
-	mou3.assign<SpatialComponent>(720, 230, 0, 175);
-	mou3.assign<ParallaxComponent>(-5.0f);
-	mou3.assign<TileviewComponent>();
-	entityx::Entity mou3a = entities.create();
-	mou3a.assign<TextureComponent>(720, 239, *Mou3, 0);
-	mou3a.assign<SpatialComponent>(720, 230, 720, 175);
-	mou3a.assign<ParallaxComponent>(-5.0f);
-	mou3a.assign<TileviewComponent>();
+  entityx::Entity mou3 = entities.create();
+  Mou3 = new stella::graphics::Texture("mou3-tex",
+                                       "assets/sprites/mountain3-bg.png");
+  mou3.assign<TextureComponent>(720, 230, *Mou3, 0);
+  mou3.assign<SpatialComponent>(720, 230, 0, 175);
+  mou3.assign<ParallaxComponent>(-5.0f);
+  mou3.assign<TileviewComponent>();
+  entityx::Entity mou3a = entities.create();
+  mou3a.assign<TextureComponent>(720, 239, *Mou3, 0);
+  mou3a.assign<SpatialComponent>(720, 230, 720, 175);
+  mou3a.assign<ParallaxComponent>(-5.0f);
+  mou3a.assign<TileviewComponent>();
 
   // Player
   entityx::Entity player = entities.create();
@@ -102,13 +104,13 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
 
   over_block.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
   over_block.assign<SpatialComponent>(720, 12, 0, 301);
-	over_block.assign<ParallaxComponent>(-7.0f);
+  over_block.assign<ParallaxComponent>(-7.0f);
   over_block.assign<TileviewComponent>();
 
-	over_block2.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
-	over_block2.assign<SpatialComponent>(720, 12, 720, 301);
-	over_block2.assign<ParallaxComponent>(-7.0f);
-	over_block2.assign<TileviewComponent>();
+  over_block2.assign<TextureComponent>(720, 12, *OverBlockTex, 0);
+  over_block2.assign<SpatialComponent>(720, 12, 720, 301);
+  over_block2.assign<ParallaxComponent>(-7.0f);
+  over_block2.assign<TileviewComponent>();
 }
 
 Game::~Game() {

@@ -29,6 +29,6 @@ void RenderSystem::update(entityx::EntityManager &es,
       this->TileLayer->Add(tex.sprite);
       tex.InLayer = true;
     }
-    this->TileLayer->Render();
   });
+  this->TileLayer->Render();
 };
