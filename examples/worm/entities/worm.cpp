@@ -102,7 +102,7 @@ void Worm::AddBodyPart() {
   this->body.push_back(body_part);
 }
 
-void Worm::Update() {
+void Worm::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
   if (this->body.size() > 0) {
     entityx::ComponentHandle<MovementComponent> hmov =
         this->head.component<MovementComponent>();

@@ -21,7 +21,7 @@ public:
   void Update(entityx::TimeDelta dt);
 
 private:
-  Worm *worm;
+  //Worm *worm;
   stella::graphics::Texture *CoinTex;
 
   void add_animation(entityx::Entity &ent, std::string name,

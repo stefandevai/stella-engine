@@ -7,7 +7,7 @@
 
 #include "../components/game_components.h"
 
-class Worm {
+class Worm : public entityx::System<Worm> {
 public:
   stella::graphics::Texture *Tex;
 
@@ -16,7 +16,7 @@ public:
 
   void RemoveBodyPart();
   void AddBodyPart();
-  void Update();
+  void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt);
 
 private:
   entityx::Entity head, under_head;

@@ -11,14 +11,15 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
   // systems.add<AnimationSystem>();
   systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(),
                             shader);
+  systems.add<Worm>(entities, keys);
   systems.configure();
 
   this->AddCoins(10);
-  worm = new Worm(entities, keys);
+  //worm = new Worm(entities, keys);
 }
 
 Game::~Game() {
-  delete worm;
+  //delete worm;
   delete CoinTex;
 }
 
@@ -32,7 +33,7 @@ void Game::AddCoins(size_t num_coins) {
     coin.assign<TextureComponent>(16, 16, *CoinTex, 16);
     coin.assign<SpatialComponent>(16, 16, offset * 16 + i * 16, 304);
     coin.assign<BodyComponent>();
-    coin.assign<CollectibleComponent>(0, 1.0f);
+    coin.assign<CollectibleComponent>(CollectibleType::Seed);
   }
 }
 
@@ -48,5 +49,5 @@ void Game::add_animation(entityx::Entity &ent, std::string name,
 
 void Game::Update(entityx::TimeDelta dt) {
   systems.update_all(dt);
-  worm->Update();
+  //worm->Update();
 }
