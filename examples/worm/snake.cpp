@@ -2,7 +2,7 @@
 
 bool MovementComponent::Finished = false;
 
-Snake::Snake(entityx::EntityManager &entities, const bool keys[1024])
+Snake::Snake(entityx::EntityManager &entities, const std::array<bool, 1024> &keys)
     : entities(entities), keys(keys) {
   this->Velocity = 1;
   this->Dimension = 16;

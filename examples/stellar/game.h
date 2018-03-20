@@ -13,7 +13,7 @@
 class Game : public entityx::EntityX {
 public:
   Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
-       const bool *keys);
+       std::array<bool, 1024> &keys);
   ~Game();
 
   void Update(entityx::TimeDelta dt);

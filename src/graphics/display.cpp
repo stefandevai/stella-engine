@@ -9,8 +9,10 @@ GLuint KeyPressed, KeyReleased;
 GLboolean KeyPress = GL_FALSE, KeyRelease = GL_FALSE;
 double MouseX, MouseY;
 
+//Display::Display(GLuint width, GLuint height, const std::string &title,
+                 //GLboolean (&keys)[1024])
 Display::Display(GLuint width, GLuint height, const std::string &title,
-                 GLboolean (&keys)[1024])
+				std::array<bool, 1024> &keys)
     : Width(width), Height(height), Title(title), Keys(keys) {
   // GLFW initialization
   glfwSetErrorCallback(this->errorCallback);
@@ -20,8 +22,8 @@ Display::Display(GLuint width, GLuint height, const std::string &title,
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-  glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-  // glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+  //glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+	 glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
   // Window creation
   this->Window = glfwCreateWindow(this->Width, this->Height,
@@ -29,15 +31,15 @@ Display::Display(GLuint width, GLuint height, const std::string &title,
   if (this->Window == nullptr)
     std::cout << "GLFW Error: It was not possible to create a Window."
               << std::endl;
-  glfwSetWindowSizeLimits(this->Window, width, height, GLFW_DONT_CARE,
-                          GLFW_DONT_CARE);
-  glfwSetWindowAspectRatio(this->Window, 16, 9);
-  glfwSetWindowSizeCallback(this->Window, this->windowSizeCallback);
+  //glfwSetWindowSizeLimits(this->Window, width, height, GLFW_DONT_CARE,
+                          //GLFW_DONT_CARE);
+  //glfwSetWindowAspectRatio(this->Window, 16, 9);
+  //glfwSetWindowSizeCallback(this->Window, this->windowSizeCallback);
   glfwMakeContextCurrent(this->Window);
   this->Running = true;
 
   // Uncomment to enable vsync
-  // glfwSwapInterval(0);
+	 //glfwSwapInterval(0);
 
   // Set initial value for Frame
   this->Frame = 1; // Setting as 1 to avoid division by 0
@@ -77,9 +79,9 @@ void Display::Update() {
     this->Frame = 0;
   if (this->Frame % 60 == 0) {
     std::stringstream compo;
-    compo << Title << " (" << this->getFPS() << " FPS)";
-    glfwSetWindowTitle(this->Window, compo.str().c_str());
-    // std::cout << this->getFPS() << std::endl;
+		compo << Title << " (" << this->getFPS() << " FPS)";
+		glfwSetWindowTitle(this->Window, compo.str().c_str());
+		 //std::cout << this->getFPS() << std::endl;
   }
   this->updateInput();
   glfwSwapBuffers(this->Window);
@@ -117,10 +119,15 @@ void Display::updateInput() {
   if (KeyPress) {
     KeyPress = GL_FALSE;
     this->Keys[KeyPressed] = GL_TRUE;
-  } else if (KeyRelease) {
-    KeyRelease = GL_FALSE;
-    this->Keys[KeyReleased] = GL_FALSE;
   }
+  if (KeyRelease) {
+		KeyRelease = GL_FALSE;
+		this->Keys[KeyReleased] = GL_FALSE;
+	}
+}
+
+bool Display::IsKeyDown(int key) {
+	return glfwGetKey(this->Window, key);
 }
 
 void Display::getDT() {
@@ -182,13 +189,12 @@ void Display::inputCallback(GLFWwindow *window, int key, int scancode,
   if (key >= 0 && key < 1024) {
     if (action == GLFW_PRESS) {
       KeyPress = GL_TRUE;
-      KeyRelease = GL_FALSE;
       KeyPressed = key;
-    } else if (action == GLFW_RELEASE) {
-      KeyRelease = GL_TRUE;
-      KeyPress = GL_FALSE;
-      KeyReleased = key;
-    }
+    } 
+		else if (action == GLFW_RELEASE) {
+			KeyRelease = GL_TRUE;
+			KeyReleased = key;
+		}
   }
 }
 

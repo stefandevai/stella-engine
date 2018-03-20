@@ -1,10 +1,13 @@
 #include <iostream>
+#include <array>
 #include <stella/stella.h>
 
 #include "game.h"
 
 int main(int argc, char *argv[]) {
-  GLboolean Keys[1024] = {0};
+	std::array<bool, 1024> Keys;
+	Keys.fill(false);
+
   stella::graphics::Display display(640, 640, "W O R M !", Keys);
   display.SetClearColor(16 / 255.0f, 5 / 255.0f, 21 / 255.0f);
 
@@ -18,7 +21,7 @@ int main(int argc, char *argv[]) {
   shader.Disable();
   // End of block
 
-  Game game(display, &shader, (const bool *)Keys);
+  Game game(display, &shader, Keys);
 
   while (display.IsRunning()) {
     display.Clear();

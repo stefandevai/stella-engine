@@ -11,7 +11,7 @@ class Snake {
 public:
   stella::graphics::Texture *SnakeTex;
 
-  Snake(entityx::EntityManager &entities, const bool keys[1024]);
+  Snake(entityx::EntityManager &entities, const std::array<bool, 1024> &keys);
   ~Snake();
 
   void RemoveBodyPart();
@@ -22,7 +22,7 @@ private:
   entityx::Entity head, under_head;
   std::vector<entityx::Entity> body;
   entityx::EntityManager &entities;
-  const bool *keys;
+	const std::array<bool, 1024> &keys;
   int Velocity, Dimension;
 
   void create(size_t size);

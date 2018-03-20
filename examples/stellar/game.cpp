@@ -1,7 +1,7 @@
 #include "game.h"
 
 Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
-           const bool *keys) {
+       std::array<bool, 1024> &keys) {
   systems.add<CollisionSystem>((int)display.GetWidth(),
                                (int)display.GetHeight());
   systems.add<MovementSystem>();

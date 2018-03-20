@@ -23,8 +23,10 @@ void PlayerMovementSystem::update(entityx::EntityManager &es,
 
         // Horizontal movement
         if (input.Keys[GLFW_KEY_LEFT] && !input.Keys[GLFW_KEY_RIGHT]) {
+          //std::cout << "moving left" << std::endl;
           mov.accelX(-1.0f);
         } else if (input.Keys[GLFW_KEY_RIGHT] && !input.Keys[GLFW_KEY_LEFT]) {
+          //std::cout << "moving right" << std::endl;
           mov.accelX(1.0f);
         } else
           mov.desaccelX();
@@ -33,6 +35,7 @@ void PlayerMovementSystem::update(entityx::EntityManager &es,
         if (body.ColDir.test(0)) {
           mov.stopY();
           if (input.Keys[GLFW_KEY_UP]) {
+						//std::cout << "jumping" << std::endl;
             mov.Vel.y = -jumpforce;
           }
         } else {

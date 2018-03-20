@@ -15,7 +15,8 @@ int main(int argc, char *argv[]) {
   using namespace graphics;
   using namespace audio;
 
-  GLboolean Keys[1024] = {0};
+	std::array<bool, 1024> Keys;
+	Keys.fill(false);
 
   Display display(800, 600, "Stella", Keys);
   display.SetClearColor(22, 38, 47);

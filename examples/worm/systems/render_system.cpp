@@ -24,15 +24,13 @@ void RenderSystem::update(entityx::EntityManager &es,
                                                      TextureComponent &tex) {
     tex.sprite->Pos.x = spa.x;
     tex.sprite->Pos.y = spa.y;
-    if (spa.x == 16)
-      std::cout << "here" << std::endl;
 
     if (!tex.InLayer) {
       this->TileLayer->Add(tex.sprite);
       tex.InLayer = true;
     }
-    this->TileLayer->Render();
   });
+	this->TileLayer->Render();
 };
 
 void RenderSystem::configure(entityx::EventManager &event_manager) {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <array>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -11,7 +12,7 @@ namespace graphics {
 class Display {
 public:
   Display(GLuint width, GLuint height, const std::string &title,
-          GLboolean (&keys)[1024]);
+          std::array<bool, 1024> &keys);
   ~Display();
   bool IsRunning();
   void Update();
@@ -24,6 +25,7 @@ public:
   GLuint GetFrame() { return Frame; }
   GLfloat GetDT() { return DT; }
   void GetMousePos(double &mx, double &my);
+	bool IsKeyDown(int key);
 
 private:
   GLuint Width, Height, Frame, LastFrame;
@@ -32,7 +34,8 @@ private:
   GLFWwindow *Window;
   bool Running;
   glm::vec3 ClearColor;
-  GLboolean (&Keys)[1024];
+  //GLboolean (&Keys)[1024];
+	std::array<bool, 1024> &Keys;
 
   void updateInput();
   GLfloat getFPS();
