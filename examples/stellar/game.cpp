@@ -6,26 +6,33 @@
 Game::Game(stella::graphics::Display &display) {
   systems.add<CollisionSystem>((int)display.GetWidth(), (int)display.GetHeight());
   systems.add<MovementSystem>();
-  systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), this->Textures);
+  systems.add<FontRenderingSystem>((int)display.GetWidth(), (int)display.GetHeight(), this->Fonts);
+	systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), this->Textures);
   systems.add<PlayerMovementSystem>((int)display.GetWidth(), display);
   systems.add<TileviewSystem>((int)display.GetWidth());
   systems.add<ParallaxSystem>();
   systems.configure();
 
+  this->LoadFont("font", "assets/sprites/font.png");
   // Textures
   this->LoadTexture("sky", "assets/sprites/sky_background.png");
   this->LoadTexture("moon", "assets/sprites/moon_anim.png");
   this->LoadTexture("mountain1", "assets/sprites/mountain1-bg.png");
-  this->LoadTexture("block", "assets/sprites/block.png");
-  this->LoadTexture("over_block", "assets/sprites/over_block.png");
   this->LoadTexture("mountain2", "assets/sprites/mountain2-bg.png");
   this->LoadTexture("mountain3", "assets/sprites/mountain3-bg.png");
+  this->LoadTexture("block", "assets/sprites/block.png");
+  this->LoadTexture("over_block", "assets/sprites/over_block.png");
   this->LoadTexture("guanaco", "assets/sprites/guanaco-anim.png");
+
 
 	this->load_background();
 	this->load_blocks();
 	this->load_player(150, 253);
 	this->load_foreground();
+
+	entityx::Entity font = entities.create();
+	font.assign<SpatialComponent>(9, 9, 15, 15);
+	font.assign<TextComponent>("S T E L L A R !", "font");
 }
 
 Game::~Game() {
@@ -33,12 +40,26 @@ Game::~Game() {
 		delete tex.second;
 }
 
-void Game::Update(entityx::TimeDelta dt) { systems.update_all(dt); }
+void Game::Update(entityx::TimeDelta dt) { 
+  systems.update<CollisionSystem>(dt);
+  systems.update<MovementSystem>(dt);
+	systems.update<RenderSystem>(dt);
+  systems.update<PlayerMovementSystem>(dt);
+  systems.update<TileviewSystem>(dt);
+  systems.update<ParallaxSystem>(dt);
+  systems.update<FontRenderingSystem>(dt);
+}
 
 void Game::LoadTexture(std::string tex_name, const char *tex_path) {
 	stella::graphics::Texture *texture = new stella::graphics::Texture(tex_name, tex_path);
 	std::pair<std::string, stella::graphics::Texture*> cached_texture(tex_name, texture);
 	this->Textures.insert(cached_texture);
+}
+
+void Game::LoadFont(std::string font_name, const char *font_path) {
+	stella::graphics::Texture *texture = new stella::graphics::Texture(font_name, font_path);
+	std::pair<std::string, stella::graphics::Texture*> font(font_name, texture);
+	this->Fonts.insert(font);
 }
 
 void Game::load_background() {

@@ -5,5 +5,7 @@
 #include "movement_system.h"
 #include "parallax_system.h"
 #include "player_movement_system.h"
+#include "font_rendering_system.h"
 #include "render_system.h"
 #include "tileview_system.h"
+

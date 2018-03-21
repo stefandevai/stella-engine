@@ -88,13 +88,13 @@ void Renderer::End() {
 }
 
 void Renderer::Draw() {
-  if (!this->TexturesBinded) {
+  //if (!this->TexturesBinded) {
     for (unsigned int i = 0; i < Textures.size(); ++i) {
       glActiveTexture(GL_TEXTURE0 + i);
       Textures[i]->Bind();
     }
-    this->TexturesBinded = true;
-  }
+    //this->TexturesBinded = true;
+  //}
 
   glBindVertexArray(this->VAO);
   glDrawElements(GL_TRIANGLES, this->IndexCount, GL_UNSIGNED_INT, 0);

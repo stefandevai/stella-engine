@@ -63,7 +63,7 @@ void RenderSystem::update(entityx::EntityManager &es,
 			spr.Sprite->Pos.x = spa.x;
 			spr.Sprite->Pos.y = spa.y;
   });
-  this->TileLayer->Render();
+	this->TileLayer->Render();
 };
 
 void RenderSystem::configure(entityx::EventManager &event_manager) {

@@ -20,7 +20,10 @@ public:
 
 private:
 	std::unordered_map<std::string, stella::graphics::Texture*> Textures;
+	std::unordered_map<std::string, stella::graphics::Texture*> Fonts;
+
 	void LoadTexture(std::string tex_name, const char *tex_path);
+	void LoadFont(std::string font_name, const char *font_path);
 
 	void load_background();
 	void load_player(int x, int y);

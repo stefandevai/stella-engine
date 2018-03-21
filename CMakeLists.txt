@@ -12,7 +12,7 @@ endif()
 set(STELLA_LIBRARY_NAME "stella")
 
 # Debug mode
-option(STELLA_DEBUG_MODE "Build in debug mode" on)
+option(STELLA_DEBUG_MODE "Build in debug mode" off)
 
 # Turn this option on to build a targeted example
 option(BUILD_STELLA_EXAMPLE "Build example" on)
