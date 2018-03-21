@@ -4,3 +4,4 @@
 - In spritesheet.cpp, cache UV coords so you don't have to calculate them every frame.
 - Understand memory leak when destroying a entity
 - Fix blinking behavior in worm
+- Merge light system with rendering system
