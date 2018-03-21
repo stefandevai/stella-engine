@@ -21,18 +21,11 @@ void Worm::configure(entityx::EventManager &events) {
 void Worm::create(size_t size) {
 	 //Create underhead to allow smooth movement
 	under_head = entities.create();
-	//under_head.assign<TextureComponent>(this->Dimension, this->Dimension,
-																			//*Tex, 4);
+	under_head.assign<TextureComponent>(this->Dimension, this->Dimension,
+																			*Tex, 4);
 	under_head.assign<SpatialComponent>(this->Dimension, this->Dimension, 320+Dimension*5,
 																			304);
 	under_head.assign<MovementComponent>(3, this->Velocity, false);
-
-	mtail = entities.create();
-	mtail.assign<TextureComponent>(this->Dimension, this->Dimension,
-																			*Tex, 16);
-	mtail.assign<SpatialComponent>(this->Dimension, this->Dimension, 320+Dimension*6,
-																			304);
-	mtail.assign<MovementComponent>(3, this->Velocity, false);
 
   // Create head
   this->head = entities.create();
@@ -79,7 +72,6 @@ void Worm::AddBodyPart() {
     // Place tail in grid again
 		if (spa->x % this->Dimension != 0) {
 			int diff = this->Dimension - spa->x % this->Dimension;
-			////std::cout << diff << std::endl;
 			if (mov->Direction == 3) spa->x += diff;
 		}
 		//else if (spa->y % this->Dimension != 0) {
@@ -146,5 +138,5 @@ void Worm::update(entityx::EntityManager &es, entityx::EventManager &events, ent
 }
 
 void Worm::receive(const Collect &collectible) {
-	this->RemoveBodyPart();
+	this->AddBodyPart();
 }
