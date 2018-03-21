@@ -11,8 +11,7 @@ namespace stella {
 namespace graphics {
 class Display {
 public:
-  Display(GLuint width, GLuint height, const std::string &title,
-          std::array<bool, 1024> &keys);
+  Display(GLuint width, GLuint height, const std::string &title);
   ~Display();
   bool IsRunning();
   void Update();
@@ -34,8 +33,6 @@ private:
   GLFWwindow *Window;
   bool Running;
   glm::vec3 ClearColor;
-  //GLboolean (&Keys)[1024];
-	std::array<bool, 1024> &Keys;
 
   void updateInput();
   GLfloat getFPS();

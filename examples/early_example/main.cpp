@@ -15,10 +15,7 @@ int main(int argc, char *argv[]) {
   using namespace graphics;
   using namespace audio;
 
-	std::array<bool, 1024> Keys;
-	Keys.fill(false);
-
-  Display display(800, 600, "Stella", Keys);
+  Display display(800, 600, "Stella");
   display.SetClearColor(22, 38, 47);
 
   // TODO Move this block to init on singleton class
@@ -87,24 +84,24 @@ int main(int argc, char *argv[]) {
 
     mplayer.Update();
     display.Update();
-    if (Keys[GLFW_KEY_LEFT] || Keys[GLFW_KEY_A]) {
+    if (display.IsKeyDown(GLFW_KEY_LEFT) || display.IsKeyDown(GLFW_KEY_A)) {
       if (Player->Pos.x >= 0)
         Player->Pos.x -= 7;
     }
-    if (Keys[GLFW_KEY_RIGHT] || Keys[GLFW_KEY_D]) {
+    if (display.IsKeyDown(GLFW_KEY_RIGHT) || display.IsKeyDown(GLFW_KEY_D)) {
       if (Player->Pos.x + Player->GetWidth() <= display.GetWidth())
         Player->Pos.x += 7;
     }
-    if (Keys[GLFW_KEY_UP] || Keys[GLFW_KEY_W]) {
+    if (display.IsKeyDown(GLFW_KEY_UP) || display.IsKeyDown(GLFW_KEY_W)) {
       if (Player->Pos.y >= 0)
         Player->Pos.y -= 7;
     }
-    if (Keys[GLFW_KEY_DOWN] || Keys[GLFW_KEY_S]) {
+    if (display.IsKeyDown(GLFW_KEY_DOWN) || display.IsKeyDown(GLFW_KEY_S)) {
       if (Player->Pos.y + Player->GetHeight() <= display.GetHeight())
         Player->Pos.y += 7;
     }
 
-    if (Keys[GLFW_KEY_SPACE] && !spacepressed) {
+    if (display.IsKeyDown(GLFW_KEY_SPACE) && !spacepressed) {
       if (!idle) {
         idle = true;
         Tina->Animations.Play("idle");
@@ -113,10 +110,10 @@ int main(int argc, char *argv[]) {
         Tina->Animations.Play("walk");
       }
       spacepressed = true;
-    } else if (!Keys[GLFW_KEY_SPACE] && spacepressed)
+    } else if (!display.IsKeyDown(GLFW_KEY_SPACE) && spacepressed)
       spacepressed = false;
 
-    if (Keys[GLFW_KEY_P])
+    if (display.IsKeyDown(GLFW_KEY_P))
       mplayer.Play("star");
   }
 

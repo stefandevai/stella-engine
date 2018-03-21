@@ -5,15 +5,10 @@
 
 namespace stella {
 namespace graphics {
-GLuint KeyPressed, KeyReleased;
-GLboolean KeyPress = GL_FALSE, KeyRelease = GL_FALSE;
 double MouseX, MouseY;
 
-//Display::Display(GLuint width, GLuint height, const std::string &title,
-                 //GLboolean (&keys)[1024])
-Display::Display(GLuint width, GLuint height, const std::string &title,
-				std::array<bool, 1024> &keys)
-    : Width(width), Height(height), Title(title), Keys(keys) {
+Display::Display(GLuint width, GLuint height, const std::string &title)
+    : Width(width), Height(height), Title(title) {
   // GLFW initialization
   glfwSetErrorCallback(this->errorCallback);
   if (!glfwInit())
@@ -47,7 +42,7 @@ Display::Display(GLuint width, GLuint height, const std::string &title,
   this->LastFrame = 0;
 
   // Input callback
-  glfwSetKeyCallback(this->Window, this->inputCallback);
+	glfwSetKeyCallback(this->Window, this->inputCallback);
   glfwSetCursorPosCallback(this->Window, this->mouseCallback);
 
   // GLEW Initialization
@@ -115,15 +110,6 @@ void Display::Clear() {
 void Display::updateInput() {
   glfwPollEvents();
   this->Running = !glfwWindowShouldClose(this->Window);
-
-  if (KeyPress) {
-    KeyPress = GL_FALSE;
-    this->Keys[KeyPressed] = GL_TRUE;
-  }
-  if (KeyRelease) {
-		KeyRelease = GL_FALSE;
-		this->Keys[KeyReleased] = GL_FALSE;
-	}
 }
 
 bool Display::IsKeyDown(int key) {
@@ -183,19 +169,9 @@ void Display::checkViewportProportions() {
 }
 
 void Display::inputCallback(GLFWwindow *window, int key, int scancode,
-                            int action, int mode) {
-  if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-    glfwSetWindowShouldClose(window, GL_TRUE);
-  if (key >= 0 && key < 1024) {
-    if (action == GLFW_PRESS) {
-      KeyPress = GL_TRUE;
-      KeyPressed = key;
-    } 
-		else if (action == GLFW_RELEASE) {
-			KeyRelease = GL_TRUE;
-			KeyReleased = key;
-		}
-  }
+														int action, int mode) {
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
 void Display::mouseCallback(GLFWwindow *window, double xpos, double ypos) {

@@ -1,14 +1,12 @@
 #include "game.h"
 
-Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
-       std::array<bool, 1024> &keys) {
+Game::Game(stella::graphics::Display &display) {
   systems.add<CollisionSystem>((int)display.GetWidth(),
                                (int)display.GetHeight());
   systems.add<MovementSystem>();
-  systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(),
-                            shader);
+  systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight());
   systems.add<PlayerMovementSystem>((int)display.GetWidth(), display);
-  systems.add<LightingSystem>(shader);
+  //systems.add<LightingSystem>(shader);
   systems.add<AnimationSystem>();
   systems.add<TileviewSystem>((int)display.GetWidth());
   systems.add<ParallaxSystem>();
@@ -83,7 +81,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
   player.assign<TextureComponent>(80, 60, *PlayerTex, 0);
   player.assign<SpatialComponent>(80, 60, 140, 250);
   player.assign<MovementComponent>(0.7f, 8.0f, 1.5f);
-  player.assign<InputComponent>(keys);
+  player.assign<InputComponent>();
   player.assign<LightComponent>(0, 1.0f);
 
   add_animation(player, "run", {0, 1, 2, 3, 4}, 5);

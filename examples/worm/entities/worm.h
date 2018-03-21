@@ -12,7 +12,7 @@ class Worm : public entityx::System<Worm>, public entityx::Receiver<Worm> {
 public:
   stella::graphics::Texture *Tex;
 
-  Worm(entityx::EntityManager &entities, const std::array<bool, 1024> &keys);
+  Worm(entityx::EntityManager &entities);
   ~Worm();
 
   void RemoveBodyPart();
@@ -26,7 +26,6 @@ private:
   entityx::Entity head, under_head, mtail;
   std::vector<entityx::Entity> body;
   entityx::EntityManager &entities;
-	const std::array<bool, 1024> &keys;
   int Velocity, Dimension;
 
   void create(size_t size);

@@ -2,8 +2,7 @@
 
 bool MovementComponent::Finished = false;
 
-Worm::Worm(entityx::EntityManager &entities, const std::array<bool, 1024> &keys)
-    : entities(entities), keys(keys) {
+Worm::Worm(entityx::EntityManager &entities) : entities(entities) {
   this->Velocity = 1;
   this->Dimension = 16;
   Tex =
@@ -34,7 +33,7 @@ void Worm::create(size_t size) {
   this->head.assign<SpatialComponent>(this->Dimension, this->Dimension, 320+Dimension*5,
                                       304);
   this->head.assign<MovementComponent>(3, this->Velocity);
-  this->head.assign<InputComponent>(keys);
+  this->head.assign<InputComponent>();
   this->head.assign<BodyComponent>(false);
 
   for (unsigned int i = 0; i < size; ++i) {

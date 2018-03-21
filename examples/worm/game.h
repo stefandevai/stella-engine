@@ -14,14 +14,11 @@
 
 class Game : public entityx::EntityX {
 public:
-  Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
-       std::array<bool, 1024> &keys);
+  Game(stella::graphics::Display &display);
   ~Game();
 
   void Update(entityx::TimeDelta dt);
-
 private:
-  //Worm *worm;
   stella::graphics::Texture *CoinTex;
 
   void add_animation(entityx::Entity &ent, std::string name,

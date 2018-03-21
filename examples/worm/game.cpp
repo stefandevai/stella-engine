@@ -1,17 +1,15 @@
 #include "game.h"
 
-Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
-       std::array<bool, 1024> &keys) {
+Game::Game(stella::graphics::Display &display) {
   systems.add<MovementSystem>();
-  systems.add<PlayerMovementSystem>((int)display.GetWidth());
+  systems.add<PlayerMovementSystem>((int)display.GetWidth(), display);
   systems.add<CollisionSystem>((int)display.GetWidth(),
                                (int)display.GetHeight());
   systems.add<CollectSystem>();
   // systems.add<LightingSystem>(shader);
   // systems.add<AnimationSystem>();
-  systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(),
-                            shader);
-  systems.add<Worm>(entities, keys);
+  systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight());
+  systems.add<Worm>(entities);
   systems.configure();
 
   this->AddCoins(8);
