@@ -9,29 +9,33 @@ Game::Game(stella::graphics::Display &display) {
   systems.add<MovementSystem>();
   systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), this->Textures);
   systems.add<PlayerMovementSystem>((int)display.GetWidth(), display);
-  //systems.add<LightingSystem>(shader);
   systems.add<TileviewSystem>((int)display.GetWidth());
   systems.add<ParallaxSystem>();
   systems.configure();
 
+  // Textures
+  this->LoadTexture("sky", "assets/sprites/sky_background.png");
+  this->LoadTexture("moon", "assets/sprites/moon_anim.png");
+  this->LoadTexture("mountain1", "assets/sprites/mountain1-bg.png");
+  this->LoadTexture("block", "assets/sprites/block.png");
+  this->LoadTexture("over_block", "assets/sprites/over_block.png");
+  this->LoadTexture("mountain2", "assets/sprites/mountain2-bg.png");
+  this->LoadTexture("mountain3", "assets/sprites/mountain3-bg.png");
+  this->LoadTexture("guanaco", "assets/sprites/guanaco-anim.png");
+
   // Background
   entityx::Entity sky = entities.create();
-  this->LoadTexture("sky", "assets/sprites/sky_background.png");
  	sky.assign<SpriteComponent>("sky");
   sky.assign<SpatialComponent>(720, 405);
 
   entityx::Entity moon = entities.create();
-  this->LoadTexture("moon", "assets/sprites/moon_anim.png");
   moon.assign<SpriteComponent>("moon");
-
 	std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> moon_anims;
 	moon_anims.emplace_back("moon-anim", std::vector<unsigned int>{3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
 	moon.assign<AnimationsComponent>(moon_anims);
-
   moon.assign<SpatialComponent>(85, 85, 478, 78);
 
 	// Background mountains
-  this->LoadTexture("mountain1", "assets/sprites/mountain1-bg.png");
   entityx::Entity mou1 = entities.create();
   mou1.assign<SpriteComponent>("mountain1");
   mou1.assign<SpatialComponent>(720, 170, 0, 230);
@@ -44,7 +48,6 @@ Game::Game(stella::graphics::Display &display) {
   mou1a.assign<ParallaxComponent>(-1.0f);
   mou1a.assign<TileviewComponent>();
 
-  this->LoadTexture("mountain2", "assets/sprites/mountain2-bg.png");
   entityx::Entity mou2 = entities.create();
   mou2.assign<SpriteComponent>("mountain2");
   mou2.assign<SpatialComponent>(720, 190, 0, 215);
@@ -57,7 +60,6 @@ Game::Game(stella::graphics::Display &display) {
   mou2a.assign<ParallaxComponent>(-3.0f);
   mou2a.assign<TileviewComponent>();
 
-  this->LoadTexture("mountain3", "assets/sprites/mountain3-bg.png");
   entityx::Entity mou3 = entities.create();
   mou3.assign<SpriteComponent>("mountain3");
   mou3.assign<SpatialComponent>(720, 230, 0, 175);
@@ -72,13 +74,10 @@ Game::Game(stella::graphics::Display &display) {
 
   // Player
   entityx::Entity player = entities.create();
-  this->LoadTexture("guanaco", "assets/sprites/guanaco-anim.png");
   player.assign<SpriteComponent>("guanaco");
-
 	std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> guanaco_anims;
 	guanaco_anims.emplace_back("running", std::vector<unsigned int>{0, 1, 2, 3, 4}, 5);
 	player.assign<AnimationsComponent>(guanaco_anims);
-
   player.assign<BodyComponent>(80, 60, 0, 0, false);
   player.assign<SpatialComponent>(80, 60, 140, 250);
   player.assign<MovementComponent>(0.7f, 8.0f, 1.5f);
@@ -87,20 +86,17 @@ Game::Game(stella::graphics::Display &display) {
 
   // Terrain
   entityx::Entity block = entities.create();
-  entityx::Entity over_block = entities.create();
-  entityx::Entity over_block2 = entities.create();
-  this->LoadTexture("block", "assets/sprites/block.png");
-  this->LoadTexture("over_block", "assets/sprites/over_block.png");
-
   block.assign<BodyComponent>(720, 92, 0, 0, true);
   block.assign<SpatialComponent>(720, 92, 0, 313);
   block.assign<SpriteComponent>("block");
 
+  entityx::Entity over_block = entities.create();
   over_block.assign<SpatialComponent>(720, 12, 0, 301);
   over_block.assign<ParallaxComponent>(-7.0f);
   over_block.assign<TileviewComponent>();
   over_block.assign<SpriteComponent>("over_block");
 
+  entityx::Entity over_block2 = entities.create();
   over_block2.assign<SpatialComponent>(720, 12, 720, 301);
   over_block2.assign<ParallaxComponent>(-7.0f);
   over_block2.assign<TileviewComponent>();
