@@ -21,4 +21,9 @@ public:
 private:
 	std::unordered_map<std::string, stella::graphics::Texture*> Textures;
 	void LoadTexture(std::string tex_name, const char *tex_path);
+
+	void load_background();
+	void load_player(int x, int y);
+	void load_blocks();
+	void load_foreground();
 };

@@ -4,8 +4,7 @@
 #include <utility>
 
 Game::Game(stella::graphics::Display &display) {
-  systems.add<CollisionSystem>((int)display.GetWidth(),
-                               (int)display.GetHeight());
+  systems.add<CollisionSystem>((int)display.GetWidth(), (int)display.GetHeight());
   systems.add<MovementSystem>();
   systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), this->Textures);
   systems.add<PlayerMovementSystem>((int)display.GetWidth(), display);
@@ -23,6 +22,26 @@ Game::Game(stella::graphics::Display &display) {
   this->LoadTexture("mountain3", "assets/sprites/mountain3-bg.png");
   this->LoadTexture("guanaco", "assets/sprites/guanaco-anim.png");
 
+	this->load_background();
+	this->load_blocks();
+	this->load_player(150, 253);
+	this->load_foreground();
+}
+
+Game::~Game() {
+	for (auto& tex: this->Textures)
+		delete tex.second;
+}
+
+void Game::Update(entityx::TimeDelta dt) { systems.update_all(dt); }
+
+void Game::LoadTexture(std::string tex_name, const char *tex_path) {
+	stella::graphics::Texture *texture = new stella::graphics::Texture(tex_name, tex_path);
+	std::pair<std::string, stella::graphics::Texture*> cached_texture(tex_name, texture);
+	this->Textures.insert(cached_texture);
+}
+
+void Game::load_background() {
   // Background
   entityx::Entity sky = entities.create();
  	sky.assign<SpriteComponent>("sky");
@@ -71,7 +90,9 @@ Game::Game(stella::graphics::Display &display) {
   mou3a.assign<SpatialComponent>(720, 230, 720, 175);
   mou3a.assign<ParallaxComponent>(-5.0f);
   mou3a.assign<TileviewComponent>();
+}
 
+void Game::load_player(int x, int y) {
   // Player
   entityx::Entity player = entities.create();
   player.assign<SpriteComponent>("guanaco");
@@ -79,17 +100,21 @@ Game::Game(stella::graphics::Display &display) {
 	guanaco_anims.emplace_back("running", std::vector<unsigned int>{0, 1, 2, 3, 4}, 5);
 	player.assign<AnimationsComponent>(guanaco_anims);
   player.assign<BodyComponent>(80, 60, 0, 0, false);
-  player.assign<SpatialComponent>(80, 60, 140, 250);
+  player.assign<SpatialComponent>(80, 60, x, y);
   player.assign<MovementComponent>(0.7f, 8.0f, 1.5f);
   player.assign<InputComponent>();
   player.assign<LightComponent>(0, 1.0f);
+}
 
+void Game::load_blocks() {
   // Terrain
   entityx::Entity block = entities.create();
   block.assign<BodyComponent>(720, 92, 0, 0, true);
   block.assign<SpatialComponent>(720, 92, 0, 313);
   block.assign<SpriteComponent>("block");
+}
 
+void Game::load_foreground() {
   entityx::Entity over_block = entities.create();
   over_block.assign<SpatialComponent>(720, 12, 0, 301);
   over_block.assign<ParallaxComponent>(-7.0f);
@@ -103,15 +128,3 @@ Game::Game(stella::graphics::Display &display) {
   over_block2.assign<SpriteComponent>("over_block");
 }
 
-Game::~Game() {
-	for (auto& tex: this->Textures)
-		delete tex.second;
-}
-
-void Game::LoadTexture(std::string tex_name, const char *tex_path) {
-	stella::graphics::Texture *texture = new stella::graphics::Texture(tex_name, tex_path);
-	std::pair<std::string, stella::graphics::Texture*> cached_texture(tex_name, texture);
-	this->Textures.insert(cached_texture);
-}
-
-void Game::Update(entityx::TimeDelta dt) { systems.update_all(dt); }
