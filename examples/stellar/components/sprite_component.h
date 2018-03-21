@@ -1,16 +1,17 @@
 #pragma once
 
+#include <string>
+
 #include <stella/stella.h>
 
-struct TextureComponent {
-  //inline TextureComponent(int w, int h, stella::graphics::Texture &texture, int frame = 0) {
-    //sprite = new stella::graphics::Sprite(0, 0, w, h, texture, frame);
-    //InLayer = false;
-  //}
-  inline TextureComponent(int w, int h, stella::graphics::Texture &texture, int frame = 0) {
-    sprite = new stella::graphics::Sprite(0, 0, w, h, texture, frame);
+struct SpriteComponent {
+  inline SpriteComponent(std::string tex_name) : TexName(tex_name) {
     InLayer = false;
+    Initialized = false;
   }
-  stella::graphics::Sprite *sprite;
-  bool InLayer;
+
+	stella::graphics::Sprite *Sprite;
+	std::string TexName;
+  bool InLayer, Initialized;
 };
+

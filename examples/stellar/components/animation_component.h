@@ -1,12 +1,14 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <tuple>
 
-struct AnimationComponent {
-  inline AnimationComponent(std::string initial_animation)
-      : current_animation(initial_animation) {
-    initialized = false;
+struct AnimationsComponent {
+  inline AnimationsComponent(std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> frames)
+      : Frames{std::move(frames)} {
+     this->Initialized = false;
   }
-  bool initialized;
-  std::string current_animation;
+	bool Initialized;
+	std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> Frames;
 };
