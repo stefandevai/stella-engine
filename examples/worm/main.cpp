@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
 	std::array<bool, 1024> Keys;
 	Keys.fill(false);
 
-  stella::graphics::Display display(640, 640, "W O R M !", Keys);
+  stella::graphics::Display display(720, 405, "W O R M !", Keys);
   display.SetClearColor(16 / 255.0f, 5 / 255.0f, 21 / 255.0f);
 
   // TODO Move this block to init on singleton class

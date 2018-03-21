@@ -70,13 +70,13 @@ void Worm::AddBodyPart() {
     spa = tail.component<SpatialComponent>();
 
     // Place tail in grid again
-		if (spa->x % this->Dimension != 0) {
-			int diff = this->Dimension - spa->x % this->Dimension;
-			if (mov->Direction == 3) spa->x += diff;
-		}
+		//if (spa->x % this->Dimension != 0) {
+			//int diff = this->Dimension - spa->x % this->Dimension;
+			//if (mov->Direction == 3) spa->x += diff;
+		//}
 		//else if (spa->y % this->Dimension != 0) {
 		//}
-		mov->Eased = false;
+		//mov->Eased = false;
 		tex = tail.component<TextureComponent>();
 		tex->sprite->SetDirectFrame(4);
   }
@@ -107,7 +107,7 @@ void Worm::AddBodyPart() {
 	}
   body_part.assign<MovementComponent>(mov->Direction, this->Velocity);
   body_part.assign<TextureComponent>(this->Dimension, this->Dimension,
-                                     *Tex, 16);
+                                     *Tex, 14);
 	this->body.push_back(body_part);
 }
 

@@ -22,8 +22,8 @@ Display::Display(GLuint width, GLuint height, const std::string &title,
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-  //glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-	 glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+	 //glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
   // Window creation
   this->Window = glfwCreateWindow(this->Width, this->Height,
@@ -31,10 +31,10 @@ Display::Display(GLuint width, GLuint height, const std::string &title,
   if (this->Window == nullptr)
     std::cout << "GLFW Error: It was not possible to create a Window."
               << std::endl;
-  //glfwSetWindowSizeLimits(this->Window, width, height, GLFW_DONT_CARE,
-                          //GLFW_DONT_CARE);
-  //glfwSetWindowAspectRatio(this->Window, 16, 9);
-  //glfwSetWindowSizeCallback(this->Window, this->windowSizeCallback);
+	glfwSetWindowSizeLimits(this->Window, width, height, GLFW_DONT_CARE,
+													GLFW_DONT_CARE);
+	glfwSetWindowAspectRatio(this->Window, 16, 9);
+	glfwSetWindowSizeCallback(this->Window, this->windowSizeCallback);
   glfwMakeContextCurrent(this->Window);
   this->Running = true;
 

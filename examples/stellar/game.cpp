@@ -7,7 +7,7 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
   systems.add<MovementSystem>();
   systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(),
                             shader);
-  systems.add<PlayerMovementSystem>((int)display.GetWidth());
+  systems.add<PlayerMovementSystem>((int)display.GetWidth(), display);
   systems.add<LightingSystem>(shader);
   systems.add<AnimationSystem>();
   systems.add<TileviewSystem>((int)display.GetWidth());

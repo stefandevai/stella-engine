@@ -7,8 +7,8 @@
 #include "../components/movement_component.h"
 #include "../components/spatial_component.h"
 
-PlayerMovementSystem::PlayerMovementSystem(const int &boundx)
-    : BoundX(boundx) {}
+PlayerMovementSystem::PlayerMovementSystem(const int &boundx, stella::graphics::Display &display)
+    : BoundX(boundx), Display(display) {}
 
 PlayerMovementSystem::~PlayerMovementSystem() {}
 
@@ -22,20 +22,20 @@ void PlayerMovementSystem::update(entityx::EntityManager &es,
         float jumpforce = 3.5f;
 
         // Horizontal movement
-        if (input.Keys[GLFW_KEY_LEFT] && !input.Keys[GLFW_KEY_RIGHT]) {
-          //std::cout << "moving left" << std::endl;
+				if (this->Display.IsKeyDown(GLFW_KEY_LEFT) && !this->Display.IsKeyDown(GLFW_KEY_RIGHT)) {
           mov.accelX(-1.0f);
-        } else if (input.Keys[GLFW_KEY_RIGHT] && !input.Keys[GLFW_KEY_LEFT]) {
-          //std::cout << "moving right" << std::endl;
+				}
+				else if (this->Display.IsKeyDown(GLFW_KEY_RIGHT) && !this->Display.IsKeyDown(GLFW_KEY_LEFT)) {
           mov.accelX(1.0f);
-        } else
-          mov.desaccelX();
+				}
+				else {
+					mov.desaccelX();
+				}
 
-        // Jump if body is colliding bottom
+        // Jump only if body is colliding bottom
         if (body.ColDir.test(0)) {
           mov.stopY();
-          if (input.Keys[GLFW_KEY_UP]) {
-						//std::cout << "jumping" << std::endl;
+          if (this->Display.IsKeyDown(GLFW_KEY_UP)) {
             mov.Vel.y = -jumpforce;
           }
         } else {
