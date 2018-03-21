@@ -35,11 +35,34 @@ void FontRenderingSystem::update(entityx::EntityManager &es, entityx::EventManag
 					std::cout << "It was not possible to find " << text.Name << " in loaded fonts." << std::endl;
 				}
 				else {
-					auto spr = new stella::graphics::Sprite(0, 0, 577, 9, *tex->second, 0);
-					this->TextLayer->Add(spr);
-					std::cout << "hereee" << std::endl;
+					int stride = 0;
+
+					for (auto c: text.Text) {
+						int frame = (int)c - 33;
+						if (frame == -1) stride += 1;
+						else {
+							auto spr = new stella::graphics::Sprite(spa.x + spa.w*stride, spa.y, spa.w, spa.h, *tex->second, 1);
+							spr->SetDirectFrame(frame);
+							text.Sprites.push_back(spr);
+							this->TextLayer->Add(spr);
+							stride += 1;
+						}
+					}
 				}
 				text.InLayer = true;
+			}
+			
+			if (!text.IsStatic) {
+				int stride = 0;
+
+				for (auto c: text.Text) {
+					int frame = (int)c;
+					if (frame == -1) stride += spa.w;
+					else {
+
+
+					}
+				}
 			}
 	});
 
