@@ -23,7 +23,7 @@ public:
   void receive(const Collect &collectible);
 
 private:
-  entityx::Entity head, under_head;
+  entityx::Entity head, under_head, mtail;
   std::vector<entityx::Entity> body;
   entityx::EntityManager &entities;
 	const std::array<bool, 1024> &keys;

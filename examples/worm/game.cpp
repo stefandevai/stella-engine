@@ -14,12 +14,10 @@ Game::Game(stella::graphics::Display &display, stella::graphics::Shader *shader,
   systems.add<Worm>(entities, keys);
   systems.configure();
 
-  this->AddCoins(10);
-  //worm = new Worm(entities, keys);
+  this->AddCoins(8);
 }
 
 Game::~Game() {
-  //delete worm;
   delete CoinTex;
 }
 

@@ -23,7 +23,7 @@ void MovementSystem::update(entityx::EntityManager &es,
         if (spa.y <= spa.ty * spa.h) {
           spa.ty -= 1;
         }
-        if (spa.y == (spa.ty + 1) * spa.h) {
+				if (spa.y == (spa.ty + 1) * spa.h) {
           mov.Direction = mov.NewDirection;
           mov.Finished = true;
         } else
@@ -40,7 +40,7 @@ void MovementSystem::update(entityx::EntityManager &es,
         if (spa.x > spa.tx * spa.w) {
           spa.tx += 1;
         }
-        if (spa.x == spa.tx * spa.w) {
+				if (spa.x == spa.tx * spa.w) {
           mov.Direction = mov.NewDirection;
           mov.Finished = true;
         } else
@@ -57,7 +57,7 @@ void MovementSystem::update(entityx::EntityManager &es,
         if (spa.y > spa.ty * spa.h) {
           spa.ty += 1;
         }
-        if (spa.y == spa.ty * spa.h) {
+				if (spa.y == spa.ty * spa.h) {
           mov.Direction = mov.NewDirection;
           mov.Finished = true;
         } else
@@ -70,20 +70,24 @@ void MovementSystem::update(entityx::EntityManager &es,
       break;
     case 3:
       if (mov.Eased) {
-        spa.x -= mov.Velocity;
-        if (spa.x <= spa.tx * spa.w) {
-          spa.tx -= 1;
-        }
-        if (spa.x == (spa.tx + 1) * spa.w) {
+				spa.x -= mov.Velocity;
+
+				if (spa.x % (spa.w + spa.w % mov.Velocity) == 0) {
           mov.Direction = mov.NewDirection;
           mov.Finished = true;
-        } else
+					//std::cout << spa.x << std::endl;
+				}
+				else {
           mov.Finished = false;
-      } else if (mov.Finished) {
-        spa.x -= spa.w;
-        spa.tx -= 1;
+				}
+      }
+      else if (mov.Finished) {
+				spa.x -= spa.w;
         mov.Direction = mov.NewDirection;
       }
+			if (spa.x <= spa.tx * spa.w) {
+				spa.tx -= 1;
+			}
       break;
     }
   });
