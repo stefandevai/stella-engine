@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 
@@ -18,6 +19,7 @@ public:
   void Update(entityx::TimeDelta dt);
 
 private:
+	std::unordered_map<std::string, stella::graphics::Texture*> Textures;
   stella::graphics::Texture *PlayerTex;
   stella::graphics::Texture *SkyTex;
   stella::graphics::Texture *MoonTex;
@@ -28,4 +30,6 @@ private:
   stella::graphics::Texture *OverBlockTex;
   void add_animation(entityx::Entity &ent, std::string name,
                      std::vector<unsigned int> frames, unsigned int framerate);
+
+	void LoadTexture(std::string tex_name, const char *tex_path);
 };

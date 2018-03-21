@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+
 #include <entityx/entityx.h>
 #include <stella/stella.h>
 
@@ -8,7 +10,7 @@
 
 class RenderSystem : public entityx::System<RenderSystem>, public entityx::Receiver<RenderSystem> {
 public:
-  RenderSystem(int width, int height);
+  RenderSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &textures);
   ~RenderSystem();
   void update(entityx::EntityManager &es, entityx::EventManager &events,
               entityx::TimeDelta dt) override;
@@ -18,4 +20,5 @@ public:
 private:
   SceneLayer *TileLayer;
   stella::graphics::Shader *Shader;
+  std::unordered_map<std::string, stella::graphics::Texture*> &Textures;
 };

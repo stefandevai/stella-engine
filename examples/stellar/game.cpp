@@ -4,7 +4,7 @@ Game::Game(stella::graphics::Display &display) {
   systems.add<CollisionSystem>((int)display.GetWidth(),
                                (int)display.GetHeight());
   systems.add<MovementSystem>();
-  systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight());
+  systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), this->Textures);
   systems.add<PlayerMovementSystem>((int)display.GetWidth(), display);
   //systems.add<LightingSystem>(shader);
   systems.add<AnimationSystem>();
@@ -22,7 +22,11 @@ Game::Game(stella::graphics::Display &display) {
   entityx::Entity moon = entities.create();
   MoonTex =
       new stella::graphics::Texture("moon-tex", "assets/sprites/moon_anim.png");
+
+  this->LoadTexture("moon", "assets/sprites/moon_anim.png");
+
   moon.assign<TextureComponent>(85, 85, *MoonTex, 0);
+  moon.assign<SpriteComponent>("moon");
   moon.assign<SpatialComponent>(85, 85, 478, 78);
 
   add_animation(moon, "moon", {3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
@@ -112,6 +116,9 @@ Game::Game(stella::graphics::Display &display) {
 }
 
 Game::~Game() {
+	for (auto& tex: this->Textures)
+		delete tex.second;
+
   delete OverBlockTex;
   delete BlockTex;
   delete PlayerTex;
@@ -130,6 +137,12 @@ void Game::add_animation(entityx::Entity &ent, std::string name,
   if (tex) {
     tex->sprite->Animations.Add(name, frames, framerate);
   }
+}
+
+void Game::LoadTexture(std::string tex_name, const char *tex_path) {
+	stella::graphics::Texture *texture = new stella::graphics::Texture(tex_name, tex_path);
+	std::pair<std::string, stella::graphics::Texture*> cached_texture(tex_name, texture);
+	this->Textures.insert(cached_texture);
 }
 
 void Game::Update(entityx::TimeDelta dt) { systems.update_all(dt); }

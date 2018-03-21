@@ -8,4 +8,5 @@
 #include "parallax_component.h"
 #include "spatial_component.h"
 #include "sprite_component.h"
+#include "sprite2_component.h"
 #include "tileview_component.h"

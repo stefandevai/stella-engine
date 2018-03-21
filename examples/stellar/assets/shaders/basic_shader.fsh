@@ -17,7 +17,7 @@ void main()
   vec4 final_color = f_in.color;
   int tid = int(f_in.tid + 0.5);
 
-  // Select texture (Up to 12 textures)
+  // Select texture (Up to 20 textures)
   switch (tid)
   {
     case 0:
@@ -54,6 +54,33 @@ void main()
       final_color = texture(textures[10], f_in.uv);
       break;
     case 11:
+      final_color = texture(textures[11], f_in.uv);
+      break;
+    case 12:
+      final_color = texture(textures[11], f_in.uv);
+      break;
+    case 13:
+      final_color = texture(textures[11], f_in.uv);
+      break;
+    case 14:
+      final_color = texture(textures[11], f_in.uv);
+      break;
+    case 15:
+      final_color = texture(textures[11], f_in.uv);
+      break;
+    case 16:
+      final_color = texture(textures[11], f_in.uv);
+      break;
+    case 17:
+      final_color = texture(textures[11], f_in.uv);
+      break;
+    case 18:
+      final_color = texture(textures[11], f_in.uv);
+      break;
+    case 19:
+      final_color = texture(textures[11], f_in.uv);
+      break;
+    case 20:
       final_color = texture(textures[11], f_in.uv);
       break;
   } 
