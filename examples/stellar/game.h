@@ -19,6 +19,9 @@ public:
   void Update(entityx::TimeDelta dt);
 
 private:
+	stella::graphics::Display &Display;
+	entityx::Entity FPSText;
+
 	std::unordered_map<std::string, stella::graphics::Texture*> Textures;
 	std::unordered_map<std::string, stella::graphics::Texture*> Fonts;
 

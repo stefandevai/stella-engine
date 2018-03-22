@@ -23,6 +23,7 @@ public:
   GLfloat GetTime() { return (GLfloat)glfwGetTime(); }
   GLuint GetFrame() { return Frame; }
   GLfloat GetDT() { return DT; }
+  GLfloat getFPS();
   void GetMousePos(double &mx, double &my);
 	bool IsKeyDown(int key);
 
@@ -35,7 +36,6 @@ private:
   glm::vec3 ClearColor;
 
   void updateInput();
-  GLfloat getFPS();
   void getDT();
   void checkViewportProportions();
   static void inputCallback(GLFWwindow *window, int key, int scancode,

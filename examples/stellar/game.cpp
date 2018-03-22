@@ -2,14 +2,16 @@
 
 #include <tuple>
 #include <utility>
+#include <sstream>
+#include <iomanip>
 
-Game::Game(stella::graphics::Display &display) {
-  systems.add<CollisionSystem>((int)display.GetWidth(), (int)display.GetHeight());
+Game::Game(stella::graphics::Display &display) : Display(display) {
+  systems.add<CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
   systems.add<MovementSystem>();
-  systems.add<FontRenderingSystem>((int)display.GetWidth(), (int)display.GetHeight(), this->Fonts);
-	systems.add<RenderSystem>((int)display.GetWidth(), (int)display.GetHeight(), this->Textures);
-  systems.add<PlayerMovementSystem>((int)display.GetWidth(), display);
-  systems.add<TileviewSystem>((int)display.GetWidth());
+  systems.add<FontRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
+	systems.add<RenderSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures);
+  systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
+  systems.add<TileviewSystem>((int)this->Display.GetWidth());
   systems.add<ParallaxSystem>();
   systems.configure();
 
@@ -32,9 +34,9 @@ Game::Game(stella::graphics::Display &display) {
 	this->load_player(150, 253);
 	this->load_foreground();
 
-	entityx::Entity FPSText = entities.create();
-	FPSText.assign<SpatialComponent>(9, 9, 15, 15);
-	FPSText.assign<TextComponent>("FPS: ", "font");
+	this->FPSText = entities.create();
+	this->FPSText.assign<SpatialComponent>(9, 9, 15, 15);
+	this->FPSText.assign<TextComponent>("", "font");
 }
 
 Game::~Game() {
@@ -50,6 +52,13 @@ void Game::Update(entityx::TimeDelta dt) {
   systems.update<TileviewSystem>(dt);
   systems.update<ParallaxSystem>(dt);
   systems.update<FontRenderingSystem>(dt);
+
+	if (this->Display.GetFrame() % 30 == 0) {
+		std::stringstream fps_string("");
+		fps_string << std::setprecision(4) << 1/dt << " FPS";
+		auto text = this->FPSText.component<TextComponent>();
+		text->Text = fps_string.str();
+	}
 }
 
 void Game::LoadTexture(std::string tex_name, const char *tex_path) {
