@@ -13,7 +13,6 @@ Game::Game(stella::graphics::Display &display) {
   systems.add<ParallaxSystem>();
   systems.configure();
 
-  this->LoadFont("font", "assets/sprites/font.png");
   // Textures
   this->LoadTexture("sky", "assets/sprites/sky_background.png");
   this->LoadTexture("moon", "assets/sprites/moon_anim.png");
@@ -24,15 +23,18 @@ Game::Game(stella::graphics::Display &display) {
   this->LoadTexture("over_block", "assets/sprites/over_block.png");
   this->LoadTexture("guanaco", "assets/sprites/guanaco-anim.png");
 
+  // Fonts
+  this->LoadFont("font", "assets/sprites/font.png");
+
 
 	this->load_background();
 	this->load_blocks();
 	this->load_player(150, 253);
 	this->load_foreground();
 
-	entityx::Entity font = entities.create();
-	font.assign<SpatialComponent>(9, 9, 15, 15);
-	font.assign<TextComponent>("S T E L L A R !", "font");
+	entityx::Entity FPSText = entities.create();
+	FPSText.assign<SpatialComponent>(9, 9, 15, 15);
+	FPSText.assign<TextComponent>("FPS: ", "font");
 }
 
 Game::~Game() {

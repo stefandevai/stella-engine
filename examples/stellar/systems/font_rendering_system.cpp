@@ -26,7 +26,7 @@ FontRenderingSystem::~FontRenderingSystem() {
 
 void FontRenderingSystem::update(entityx::EntityManager &es, entityx::EventManager &events,
 		entityx::TimeDelta dt) {
-	es.each<SpatialComponent, TextComponent>([this](entityx::Entity entity,
+	es.each<SpatialComponent, TextComponent>([this, &dt](entityx::Entity entity,
 																										 SpatialComponent &spa,
 																										 TextComponent &text) {
 			if (!text.InLayer) {
@@ -35,14 +35,19 @@ void FontRenderingSystem::update(entityx::EntityManager &es, entityx::EventManag
 					std::cout << "It was not possible to find " << text.Name << " in loaded fonts." << std::endl;
 				}
 				else {
+					text.Text = "FPS: 64.44";
+
+					text.Spaces = 0;
 					int stride = 0;
 
 					for (auto c: text.Text) {
 						int frame = (int)c - 33;
-						if (frame == -1) stride += 1;
+						if (frame == -1) {
+							stride += 1;
+							text.Spaces += 1;
+						}
 						else {
-							auto spr = new stella::graphics::Sprite(spa.x + spa.w*stride, spa.y, spa.w, spa.h, *tex->second, 1);
-							spr->SetDirectFrame(frame);
+							auto spr = new stella::graphics::Sprite(spa.x + spa.w*stride, spa.y, spa.w, spa.h, *tex->second, frame);
 							text.Sprites.push_back(spr);
 							this->TextLayer->Add(spr);
 							stride += 1;
@@ -53,14 +58,62 @@ void FontRenderingSystem::update(entityx::EntityManager &es, entityx::EventManag
 			}
 			
 			if (!text.IsStatic) {
+				text.Text = "FPS: ";
+				text.Text += std::to_string(1.0f/dt);
 				int stride = 0;
 
-				for (auto c: text.Text) {
-					int frame = (int)c;
-					if (frame == -1) stride += spa.w;
-					else {
+				if (text.Text.size() - text.Spaces != text.Sprites.size()) {
+					auto spr = text.Sprites.begin();
+					auto c = text.Text.begin();
+					for (; c != text.Text.end(); ++c) {
+						int frame = (int)*c - 33;
+						if (frame == -1) stride += 1;
+						else {
+							(*spr)->SetDirectFrame(frame);	
+							++spr;
+							stride += 1;
+						}
+						if (spr == text.Sprites.end()) 
+							break;
+					}
 
+					if (c != text.Text.end()) {
+						auto tex = this->Fonts.find(text.Name);
+						for (; c != text.Text.end(); ++c) {
+							int frame = (int)*c - 33;
+							if (frame == -1) {
+								stride += 1;
+								text.Spaces += 1;
+							}
+							else {
+								auto spr = new stella::graphics::Sprite(spa.x + spa.w*stride, spa.y, spa.w, spa.h, *tex->second, frame);
+								text.Sprites.push_back(spr);
+								this->TextLayer->Add(spr);
+								stride += 1;
+							}
+						}
+					}
 
+					else if (spr != text.Sprites.end()) {
+						auto it_copy = spr;
+
+						for (; spr != text.Sprites.end(); ++spr) {
+							this->TextLayer->Remove(*spr);
+						}
+
+						text.Sprites.erase(it_copy, text.Sprites.end());
+
+					}
+				}
+				else {
+					auto spr = text.Sprites.begin();
+					for (auto& c: text.Text) {
+						int frame = (int)c - 33;
+						if (frame == -1) stride += 1;
+						else {
+							(*spr)->SetDirectFrame(frame);	
+							++spr;
+						}
 					}
 				}
 			}
