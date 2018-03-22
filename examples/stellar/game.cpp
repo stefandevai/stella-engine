@@ -27,16 +27,21 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
 
   // Fonts
   this->LoadFont("font", "assets/sprites/font.png");
-
+  this->LoadFont("font-outlined", "assets/sprites/font_outlined.png");
+  this->LoadFont("font-cursive", "assets/sprites/cursive.png");
 
 	this->load_background();
 	this->load_blocks();
 	this->load_player(150, 253);
 	this->load_foreground();
 
+	auto title_text = entities.create();
+	title_text.assign<SpatialComponent>(9, 9, 30, 30);
+	title_text.assign<TextComponent>("Stella Engine", "font-cursive", true);
+
 	this->FPSText = entities.create();
-	this->FPSText.assign<SpatialComponent>(9, 9, 15, 15);
-	this->FPSText.assign<TextComponent>("", "font");
+	this->FPSText.assign<SpatialComponent>(9, 9, 30, 45);
+	this->FPSText.assign<TextComponent>("", "font-cursive");
 }
 
 Game::~Game() {

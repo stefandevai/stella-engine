@@ -70,6 +70,7 @@ void FontRenderingSystem::update(entityx::EntityManager &es, entityx::EventManag
 						text.Spaces += 1;
 					}
 					else {
+						(*spr)->Pos.x = spa.x + spa.w*stride;
 						(*spr)->SetDirectFrame(frame);	
 						++spr;
 						stride += 1;

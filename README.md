@@ -12,6 +12,7 @@ A cross-platform 2D C++/OpenGL game engine. It is currently in its early develop
 - Animations
 - Ogg audio streaming
 - 2D basic AABB physics
+- Bitmap font rendering
 
 ## Building:
 
