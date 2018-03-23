@@ -1,6 +1,8 @@
 #include "stella/graphics/layer.h"
 
 #include <algorithm>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace stella {
 namespace graphics {
@@ -28,8 +30,18 @@ void Layer::Remove(Sprite *sprite) {
 void Layer::Render() {
 	 this->Shad->Enable();
   this->Ren->Begin();
+
+	glm::mat4 trans;
+	trans = glm::scale(trans, glm::vec3(0.9f, 0.9f, 1.0f));
+	trans = glm::rotate(trans, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	trans = glm::translate(trans, glm::vec3(30.f, 50.f, 0.f));
+	this->Ren->PushTransformation(trans);
+
   for (auto i : Sprites)
     this->Ren->Submit(*i);
+  
+  this->Ren->PopTransformation();
+
   this->Ren->End();
   this->Ren->Draw();
 	 this->Shad->Disable();
