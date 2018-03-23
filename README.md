@@ -12,7 +12,7 @@ A cross-platform 2D C++/OpenGL game engine. It is currently in its early develop
 - Animations
 - Ogg audio streaming
 - 2D basic AABB physics
-- Bitmap font rendering
+- Bitmap font rendering using awesome [usr_share Grafx2](https://opengameart.org/users/usrshare) fonts
 
 ## Building:
 

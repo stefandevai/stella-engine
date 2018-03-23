@@ -1,6 +1,7 @@
 #include "render_system.h"
 
 #include <tuple>
+#include <ctime>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -19,6 +20,9 @@ RenderSystem::RenderSystem(int width, int height, std::unordered_map<std::string
 	// Initialize Layer
   glm::mat4 proj = glm::ortho(0.0f, (float)width, (float)height, 0.0f, -1.0f, 1.0f);
   this->TileLayer = new SceneLayer(this->Shader, proj);
+
+  // Seed pseudo random number generator
+	std::srand (static_cast <unsigned> (std::time(0)));
 }
 
 RenderSystem::~RenderSystem() { delete this->TileLayer; delete this->Shader; }

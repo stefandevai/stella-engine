@@ -32,4 +32,5 @@ private:
 	void load_player(int x, int y);
 	void load_blocks();
 	void load_foreground();
+	void load_text();
 };

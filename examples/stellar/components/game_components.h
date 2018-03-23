@@ -10,4 +10,6 @@
 #include "text_component.h"
 #include "sprite_component.h"
 #include "tileview_component.h"
+#include "particle_component.h"
+#include "particle_generator.h"
 

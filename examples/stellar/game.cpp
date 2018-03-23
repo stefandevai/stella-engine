@@ -13,6 +13,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   systems.add<TileviewSystem>((int)this->Display.GetWidth());
   systems.add<ParallaxSystem>();
+  systems.add<ParticleSystem>();
   systems.configure();
 
   // Textures
@@ -24,6 +25,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->LoadTexture("block", "assets/sprites/block.png");
   this->LoadTexture("over_block", "assets/sprites/over_block.png");
   this->LoadTexture("guanaco", "assets/sprites/guanaco-anim.png");
+	this->LoadTexture("fire-particle", "assets/sprites/fire_particle.png");
 
   // Fonts
   this->LoadFont("font", "assets/sprites/font.png");
@@ -34,14 +36,12 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
 	this->load_blocks();
 	this->load_player(150, 253);
 	this->load_foreground();
+	this->load_text();
 
-	auto title_text = entities.create();
-	title_text.assign<SpatialComponent>(9, 9, 30, 30);
-	title_text.assign<TextComponent>("Stella Engine", "font-cursive", true);
-
-	this->FPSText = entities.create();
-	this->FPSText.assign<SpatialComponent>(9, 9, 30, 45);
-	this->FPSText.assign<TextComponent>("", "font-cursive");
+	auto fire = entities.create();
+  //fire.assign<SpriteComponent>("fire-particle");
+	fire.assign<SpatialComponent>(16, 16, 300, 200);
+	fire.assign<ParticleGenerator>();
 }
 
 Game::~Game() {
@@ -57,6 +57,7 @@ void Game::Update(entityx::TimeDelta dt) {
   systems.update<TileviewSystem>(dt);
   systems.update<ParallaxSystem>(dt);
   systems.update<FontRenderingSystem>(dt);
+  systems.update<ParticleSystem>(dt);
 
 	if (this->Display.GetFrame() % 30 == 0) {
 		std::stringstream fps_string("");
@@ -163,5 +164,15 @@ void Game::load_foreground() {
   over_block2.assign<ParallaxComponent>(-7.0f);
   over_block2.assign<TileviewComponent>();
   over_block2.assign<SpriteComponent>("over_block");
+}
+
+void Game::load_text() {
+	auto title_text = entities.create();
+	title_text.assign<SpatialComponent>(9, 9, 30, 30);
+	title_text.assign<TextComponent>("Stella Engine", "font-cursive", true);
+
+	this->FPSText = entities.create();
+	this->FPSText.assign<SpatialComponent>(9, 9, 30, 45);
+	this->FPSText.assign<TextComponent>("", "font-cursive");
 }
 

@@ -8,4 +8,5 @@
 #include "font_rendering_system.h"
 #include "render_system.h"
 #include "tileview_system.h"
+#include "particle_system.h"
 
