@@ -12,6 +12,6 @@ class ParticleSystem : public entityx::System<ParticleSystem> {
 	private:
 		std::vector<entityx::Entity> ParticlesAlive, ParticlesDead;
 
-		void CreateParticle(entityx::EntityManager& es); 
+		entityx::Entity CreateParticle(entityx::Entity generator, entityx::EntityManager& es); 
 };
 	
