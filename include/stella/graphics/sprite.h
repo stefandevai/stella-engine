@@ -29,18 +29,14 @@ public:
   inline const glm::vec4 GetColor() const { return Color; }
   inline const GLuint GetCurrentFrame() const { return Frame; }
   inline const SpriteSheet GetSpriteSheet() const { return *Sprites; }
-  inline const glm::vec2 GetFrameCoords() const {
-    return Sprites->GetUV(this->Frame);
-  }
+  inline const glm::vec2 GetFrameCoords() const { return Sprites->GetUV(this->Frame); }
 
   // Setters
-  void SetColor(int r, int g, int b) {
-    Color.x = r / 255.0f;
-    Color.y = g / 255.0f;
-    Color.z = b / 255.0f;
-  }
   void SetFrame(GLuint frame);
   void SetDirectFrame(GLuint frame);
+  void SetColorRGB(int r, int g, int b);
+  void SetColorRGBA(int r, int g, int b, int a);
+	void SetAlpha(int a);
 
 private:
   glm::vec4 Color;

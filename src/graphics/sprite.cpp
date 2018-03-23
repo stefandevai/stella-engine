@@ -42,5 +42,20 @@ void Sprite::Update() { this->Frame = Animations.Update(); }
 void Sprite::SetFrame(GLuint frame) { Frame = frame % this->NumberOfFrames; }
 
 void Sprite::SetDirectFrame(GLuint frame) { Frame = frame; }
+
+void Sprite::SetColorRGB(int r, int g, int b) {
+	Color.x = r / 255.0f;
+	Color.y = g / 255.0f;
+	Color.z = b / 255.0f;
+}
+void Sprite::SetColorRGBA(int r, int g, int b, int a) {
+	Color.x = r / 255.0f;
+	Color.y = g / 255.0f;
+	Color.z = b / 255.0f;
+	Color.w = a / 255.0f;
+}
+void Sprite::SetAlpha(int a) {
+	Color.w = a / 255.0f;
+}
 } // namespace graphics
 } // namespace stella

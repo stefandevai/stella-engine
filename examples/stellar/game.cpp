@@ -32,10 +32,10 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->LoadFont("font-outlined", "assets/sprites/font_outlined.png");
   this->LoadFont("font-cursive", "assets/sprites/cursive.png");
 
-	//this->load_background();
-	//this->load_blocks();
-	//this->load_player(150, 253);
-	//this->load_foreground();
+	this->load_background();
+	this->load_blocks();
+	this->load_player(150, 253);
+	this->load_foreground();
 	this->load_text();
 
 	auto fire = entities.create();
