@@ -64,6 +64,8 @@ void RenderSystem::update(entityx::EntityManager &es,
 				spr.Sprite->Update();
 			}
 
+			spr.Sprite->Dimensions.x = spa.w;
+			spr.Sprite->Dimensions.y = spa.h;
 			spr.Sprite->Pos.x = spa.x;
 			spr.Sprite->Pos.y = spa.y;
   });

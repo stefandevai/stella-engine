@@ -7,6 +7,8 @@
 #include "../components/particle_generator.h"
 #include "../components/sprite_component.h"
 
+#define PI 3.14159265
+
 ParticleSystem::ParticleSystem() {
 
 }
@@ -39,10 +41,21 @@ void ParticleSystem::update(entityx::EntityManager &es, entityx::EventManager &e
 			 
 			//particle_spa->x += par->SpeedX;
 			//particle_spa->y += par->SpeedY;
-			particle_spa->x += cos(par->Life);
+			//particle_spa->x += sin(par->SpeedX*par->Life*PI/180)*5;
+			//particle_spa->x += cos(11*par->Life*PI/180)*4;
+			if ((int)par->SpeedY % 2 == 0)
+				particle_spa->x += cos(-(par->SpeedX)*par->Life*PI/180)*4 + 1;
+			else
+				particle_spa->x += sin(par->SpeedX*par->Life*PI/180)*4 + 1;
+
 			particle_spa->y += par->SpeedY;
-			particle_spa->w = (int)par->W;
-			particle_spa->h = (int)par->H;
+
+
+			if (par->Life % 5 == 0) {
+				particle_spa->w *= 0.85;
+				particle_spa->w = std::max(1.0f, (float)particle_spa->w);
+				particle_spa->h = particle_spa->w;
+			}
 			++par->Life;
 
 			if (par->Life >= par->MaxLife && par->Alive) {
@@ -59,10 +72,13 @@ entityx::Entity ParticleSystem::CreateParticle(entityx::Entity generator, entity
 
 		auto particle = es.create();
 		unsigned int MaxLife = std::rand() % 41 + 20;
-		//unsigned int MaxLife = std::rand() % 21 + 50;
-		double W = 5.0 + static_cast <float>(std::rand())/( static_cast <float> (RAND_MAX/(16.0f - 5.0f)));
-		double SpeedX = -3.0 + static_cast <float> (std::rand()) /( static_cast <float> (RAND_MAX/(3.0f+3.0f)));
+		double W = 10.0 + static_cast <float>(std::rand())/( static_cast <float> (RAND_MAX/(30.0f - 8.0f)));
+		double SpeedX = 10.0 + static_cast <float> (std::rand()) /( static_cast <float> (RAND_MAX/(30.0f-10.0f)));
 		double SpeedY = static_cast<float>(std::rand()) / (static_cast <float> (RAND_MAX/3.0));
+		//unsigned int MaxLife = 20;
+		//double W = 30.0;
+		//double SpeedX = 1.0;
+		//double SpeedY = 5.0;
 
 		particle.assign<SpatialComponent>(W, W, spa->x, spa->y);
 		particle.assign<ParticleComponent>(MaxLife, W, SpeedX, -SpeedY);
