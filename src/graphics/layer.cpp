@@ -46,7 +46,7 @@ void Layer::Render() {
 
   this->Ren->End();
   this->Ren->Draw();
-	 this->Shad->Disable();
+	this->Shad->Disable();
 }
 } // namespace graphics
 } // namespace stella

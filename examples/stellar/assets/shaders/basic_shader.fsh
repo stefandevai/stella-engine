@@ -53,36 +53,6 @@ void main()
     case 10:
       final_color = texture(textures[10], f_in.uv);
       break;
-    case 11:
-      final_color = texture(textures[11], f_in.uv);
-      break;
-    case 12:
-      final_color = texture(textures[12], f_in.uv);
-      break;
-    case 13:
-      final_color = texture(textures[13], f_in.uv);
-      break;
-    case 14:
-      final_color = texture(textures[14], f_in.uv);
-      break;
-    case 15:
-      final_color = texture(textures[15], f_in.uv);
-      break;
-    case 16:
-      final_color = texture(textures[16], f_in.uv);
-      break;
-    case 17:
-      final_color = texture(textures[17], f_in.uv);
-      break;
-    case 18:
-      final_color = texture(textures[18], f_in.uv);
-      break;
-    case 19:
-      final_color = texture(textures[19], f_in.uv);
-      break;
-    case 20:
-      final_color = texture(textures[20], f_in.uv);
-      break;
   } 
 
   color = vec4(final_color.xyz * f_in.color.xyz, final_color.w * f_in.color.w);

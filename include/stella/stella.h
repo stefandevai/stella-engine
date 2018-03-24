@@ -5,5 +5,6 @@
 #include "graphics/renderer.h"
 #include "graphics/sprite.h"
 #include "graphics/texture.h"
+#include "graphics/framebuffer.h"
 
 #include "audio/soundplayer.h"
