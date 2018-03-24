@@ -65,6 +65,8 @@ function exec_func {
 		cd $BUILD_DIR
 	fi
 
+	cp -r ../examples/stellar/assets examples
+
 	cd $TARGET_DIR
 	./"$TARGET"
 }
@@ -75,6 +77,7 @@ function clean_func {
 		-c|--clean)
 			if [ -d "$BUILD_DIR/$TARGET_DIR" ]; then
 				rm -rf "$BUILD_DIR/$TARGET_DIR"
+				rm -rf "$BUILD_DIR/assets"
 			fi
 			shift
 			;;
@@ -138,6 +141,10 @@ function format_code {
 	find examples/ -iname "*.h" -o -iname "*.cpp" | xargs clang-format -i -style=file
 }
 
+function copy_assets {
+	cp -r examples/stellar/assets $BUILD_DIR/examples
+}
+
 # Args evalutation
 case $OPT1 in
   -m|--make)
@@ -166,6 +173,10 @@ case $OPT1 in
 		;;
 	-f|--format-code)
 		MODE=FORMAT_CODE # Formats cpp code using clang-format
+		shift
+		;;
+	-cp|--copy-assets)
+		MODE=COPY_ASSETS
 		shift
 		;;
   *)
@@ -218,6 +229,9 @@ case $MODE in
 		format_code
 		shift
 		;;
+	COPY_ASSETS)
+		copy_assets
+		shift
+		;;
 esac
-
 

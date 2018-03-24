@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
   display.SetClearColor(0, 0, 0);
 
 	Framebuffer FBO;
-	stella::graphics::Shader FBOshader("assets/shaders/fbo_shader.vs", "assets/shaders/fbo_shader.fs");
+	stella::graphics::Shader FBOshader("assets/shaders/fbo_shader.vs", "assets/shaders/kernel_shader.fs");
 
 	float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
 			// positions   // texCoords
