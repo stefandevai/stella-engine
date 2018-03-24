@@ -8,7 +8,7 @@ uniform sampler2D screenTexture;
 void main()
 { 
 		// Don't postprocess the scene
-		//FragColor = texture(screenTexture, TexCoords);
+		FragColor = texture(screenTexture, TexCoords);
 
 		// Invert colors
     //FragColor = vec4(vec3(1.0 - texture(screenTexture, TexCoords)), 1.0);
@@ -19,8 +19,8 @@ void main()
 		//FragColor = vec4(average, average, average, 1.0);
 
 		// Weighted average grayscale
-		FragColor = texture(screenTexture, TexCoords);
-		float average = (0.2126*FragColor.r + 0.7152*FragColor.g + 0.0722*FragColor.b);
-		FragColor = vec4(average, average, average, 1.0);
+		//FragColor = texture(screenTexture, TexCoords);
+		//float average = (0.2126*FragColor.r + 0.7152*FragColor.g + 0.0722*FragColor.b);
+		//FragColor = vec4(average, average, average, 1.0);
 }
 
