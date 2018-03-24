@@ -21,6 +21,11 @@ Renderer::~Renderer() {
   glDeleteVertexArrays(1, &this->VAO);
 }
 
+void Renderer::BindAsRenderTarget(int width, int height) {
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glViewport(0, 0, width, height); 
+}
+
 void Renderer::init() {
   this->IndexCount = 0;
   glGenVertexArrays(1, &this->VAO);

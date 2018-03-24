@@ -28,7 +28,8 @@ void Layer::Remove(Sprite *sprite) {
 }
 
 void Layer::Render() {
-	 this->Shad->Enable();
+
+  this->Shad->Enable();
   this->Ren->Begin();
 
 	//glm::mat4 trans;

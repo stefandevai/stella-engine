@@ -13,3 +13,5 @@
 - Fix blinking behavior in worm
 - Rebuild worm using a FIFO data structure
 
+## Features
+- Experiment with procedurally generated crystals

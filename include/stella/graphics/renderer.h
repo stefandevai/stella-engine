@@ -27,6 +27,8 @@ public:
   void End();
   void Draw();
 
+  void BindAsRenderTarget(int width = 720, int height = 405);
+
   void PushTransformation(glm::mat4& mat, bool override = false);
 	void PopTransformation();
 
