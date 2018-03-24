@@ -77,7 +77,7 @@ void Renderer::Begin() {
 void Renderer::Submit(const Sprite &sprite) {
   const glm::vec2 &position = sprite.GetPos();
   const glm::vec2 &dimensions = sprite.GetDimensions();
-  const glm::vec4 &color = sprite.GetColor();
+	const unsigned int &c = sprite.GetColor();
 
   const glm::vec2 &uv = sprite.GetFrameCoords();
   const SpriteSheet &spritesheet = sprite.GetSpriteSheet();
@@ -91,13 +91,6 @@ void Renderer::Submit(const Sprite &sprite) {
     texture->SetCached((GLfloat)(Textures.size() - 1));
     this->TexturesBinded = false;
   }
-
-  int r = color.x * 255.0f;
-  int g = color.y * 255.0f;
-  int b = color.z * 255.0f;
-	int a = color.w * 255.0f;
-
-  unsigned int c = a << 24 | b << 16 | g << 8 | r;
 
   GLfloat uvoffsetX = dimensions.x / (GLfloat)stW;
   GLfloat uvoffsetY = dimensions.y / (GLfloat)stH;

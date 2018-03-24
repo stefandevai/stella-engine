@@ -41,7 +41,6 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
 	auto fire = entities.create();
 	fire.assign<ParticleGenerator>();
 	fire.assign<SpatialComponent>(16, 16, 350, 290);
-
 }
 
 Game::~Game() {

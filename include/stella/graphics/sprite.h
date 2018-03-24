@@ -26,7 +26,7 @@ public:
   void Update();
 
   // Getters
-  inline const glm::vec4 GetColor() const { return Color; }
+	inline const unsigned int GetColor() const { return Color; }
   inline const GLuint GetCurrentFrame() const { return Frame; }
   inline const SpriteSheet GetSpriteSheet() const { return *Sprites; }
   inline const glm::vec2 GetFrameCoords() const { return Sprites->GetUV(this->Frame); }
@@ -34,12 +34,13 @@ public:
   // Setters
   void SetFrame(GLuint frame);
   void SetDirectFrame(GLuint frame);
-  void SetColorRGB(int r, int g, int b);
-  void SetColorRGBA(int r, int g, int b, int a);
+	void SetColorRGB(int r, int g, int b);
+  void SetColorRGBA(unsigned int r, unsigned int g, unsigned int b, unsigned int a);
 	void SetAlpha(int a);
 
 private:
-  glm::vec4 Color;
+  //glm::vec4 Color;
+  unsigned int Color;
   std::vector<GLuint> Frames;
   GLuint Frame, NumberOfFrames;
   SpriteSheet *Sprites;

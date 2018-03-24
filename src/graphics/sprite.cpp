@@ -6,7 +6,7 @@ namespace graphics {
 Sprite::Sprite(GLint x, GLint y, Texture &texture,
                const std::vector<GLuint> &frames)
     : Renderable(x, y, texture), Frames(frames) {
-  this->Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+  this->Color = 4294967295; // r = 255, g = 255, b = 255, a = 255
   this->NumberOfFrames = this->Frames.size();
   this->Frame = 0;
 
@@ -16,7 +16,7 @@ Sprite::Sprite(GLint x, GLint y, Texture &texture,
 
 Sprite::Sprite(GLint x, GLint y, Texture &texture, GLuint frame)
     : Renderable(x, y, texture) {
-  this->Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+  this->Color = 4294967295; // r = 255, g = 255, b = 255, a = 255
   this->NumberOfFrames = 1;
   this->Frame = frame;
 
@@ -27,7 +27,7 @@ Sprite::Sprite(GLint x, GLint y, Texture &texture, GLuint frame)
 Sprite::Sprite(GLint x, GLint y, GLint w, GLint h, Texture &texture,
                GLuint frame)
     : Renderable(x, y, w, h, texture) {
-  this->Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+  this->Color = 4294967295; // r = 255, g = 255, b = 255, a = 255
   this->NumberOfFrames = 1;
   this->Frame = frame;
 
@@ -44,18 +44,13 @@ void Sprite::SetFrame(GLuint frame) { Frame = frame % this->NumberOfFrames; }
 void Sprite::SetDirectFrame(GLuint frame) { Frame = frame; }
 
 void Sprite::SetColorRGB(int r, int g, int b) {
-	Color.x = r / 255.0f;
-	Color.y = g / 255.0f;
-	Color.z = b / 255.0f;
+	this->Color = 255 << 24 | b << 16 | g << 8 | r;
 }
-void Sprite::SetColorRGBA(int r, int g, int b, int a) {
-	Color.x = r / 255.0f;
-	Color.y = g / 255.0f;
-	Color.z = b / 255.0f;
-	Color.w = a / 255.0f;
+void Sprite::SetColorRGBA(unsigned int r, unsigned int g, unsigned int b, unsigned int a) {
+	this->Color = a << 24 | b << 16 | g << 8 | r;
 }
 void Sprite::SetAlpha(int a) {
-	Color.w = a / 255.0f;
+	this->Color = a << 24;
 }
 } // namespace graphics
 } // namespace stella
