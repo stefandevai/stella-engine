@@ -74,12 +74,12 @@ void Display::Update() {
     this->Frame = 0;
 
   // Display FPS on window border
-  //if (this->Frame % 60 == 0) {
-    //std::stringstream compo;
+	//if (this->Frame % 120 == 0) {
+		//std::stringstream compo;
 		//compo << Title << " (" << this->getFPS() << " FPS)";
 		//glfwSetWindowTitle(this->Window, compo.str().c_str());
 		 //std::cout << this->getFPS() << std::endl;
-  //}
+	//}
 
   this->updateInput();
   glfwSwapBuffers(this->Window);

@@ -14,7 +14,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   systems.add<TileviewSystem>((int)this->Display.GetWidth());
   systems.add<ParallaxSystem>();
   systems.add<ParticleSystem>();
-  systems.configure();
+	systems.configure();
 
   // Textures
   this->LoadTexture("sky", "assets/sprites/sky_background.png");
@@ -49,16 +49,16 @@ Game::~Game() {
 }
 
 void Game::Update(entityx::TimeDelta dt) { 
-  systems.update<CollisionSystem>(dt);
-  systems.update<MovementSystem>(dt);
+	systems.update<CollisionSystem>(dt);
+	systems.update<MovementSystem>(dt);
 	systems.update<RenderSystem>(dt);
-  systems.update<PlayerMovementSystem>(dt);
-  systems.update<TileviewSystem>(dt);
-  systems.update<ParallaxSystem>(dt);
-  systems.update<FontRenderingSystem>(dt);
-  systems.update<ParticleSystem>(dt);
+	systems.update<PlayerMovementSystem>(dt);
+	systems.update<TileviewSystem>(dt);
+	systems.update<ParallaxSystem>(dt);
+	systems.update<FontRenderingSystem>(dt);
+	systems.update<ParticleSystem>(dt);
 
-	if (this->Display.GetFrame() % 30 == 0) {
+	if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
 		std::stringstream fps_string("");
 		fps_string << std::setprecision(4) << 1/dt << " FPS";
 		auto text = this->FPSText.component<TextComponent>();
@@ -80,9 +80,9 @@ void Game::LoadFont(std::string font_name, const char *font_path) {
 
 void Game::load_background() {
   // Background
-  entityx::Entity sky = entities.create();
- 	sky.assign<SpriteComponent>("sky");
-  sky.assign<SpatialComponent>(720, 405);
+	entityx::Entity sky = entities.create();
+	 sky.assign<SpriteComponent>("sky");
+	sky.assign<SpatialComponent>(720, 405);
 
   entityx::Entity moon = entities.create();
   moon.assign<SpriteComponent>("moon");
@@ -92,41 +92,41 @@ void Game::load_background() {
   moon.assign<SpatialComponent>(85, 85, 478, 78);
 
 	// Background mountains
-  entityx::Entity mou1 = entities.create();
-  mou1.assign<SpriteComponent>("mountain1");
-  mou1.assign<SpatialComponent>(720, 170, 0, 230);
-  mou1.assign<ParallaxComponent>(-1.0f);
-  mou1.assign<TileviewComponent>();
+	entityx::Entity mou1 = entities.create();
+	mou1.assign<SpriteComponent>("mountain1");
+	mou1.assign<SpatialComponent>(720, 170, 0, 230);
+	mou1.assign<ParallaxComponent>(-1.0f);
+	mou1.assign<TileviewComponent>();
 
-  entityx::Entity mou1a = entities.create();
-  mou1a.assign<SpriteComponent>("mountain1");
-  mou1a.assign<SpatialComponent>(720, 170, 720, 230);
-  mou1a.assign<ParallaxComponent>(-1.0f);
-  mou1a.assign<TileviewComponent>();
+	entityx::Entity mou1a = entities.create();
+	mou1a.assign<SpriteComponent>("mountain1");
+	mou1a.assign<SpatialComponent>(720, 170, 720, 230);
+	mou1a.assign<ParallaxComponent>(-1.0f);
+	mou1a.assign<TileviewComponent>();
 
-  entityx::Entity mou2 = entities.create();
-  mou2.assign<SpriteComponent>("mountain2");
-  mou2.assign<SpatialComponent>(720, 190, 0, 215);
-  mou2.assign<ParallaxComponent>(-3.0f);
-  mou2.assign<TileviewComponent>();
+	entityx::Entity mou2 = entities.create();
+	mou2.assign<SpriteComponent>("mountain2");
+	mou2.assign<SpatialComponent>(720, 190, 0, 215);
+	mou2.assign<ParallaxComponent>(-3.0f);
+	mou2.assign<TileviewComponent>();
 
-  entityx::Entity mou2a = entities.create();
-  mou2a.assign<SpriteComponent>("mountain2");
-  mou2a.assign<SpatialComponent>(720, 190, 720, 215);
-  mou2a.assign<ParallaxComponent>(-3.0f);
-  mou2a.assign<TileviewComponent>();
+	entityx::Entity mou2a = entities.create();
+	mou2a.assign<SpriteComponent>("mountain2");
+	mou2a.assign<SpatialComponent>(720, 190, 720, 215);
+	mou2a.assign<ParallaxComponent>(-3.0f);
+	mou2a.assign<TileviewComponent>();
 
-  entityx::Entity mou3 = entities.create();
-  mou3.assign<SpriteComponent>("mountain3");
-  mou3.assign<SpatialComponent>(720, 230, 0, 175);
-  mou3.assign<ParallaxComponent>(-5.0f);
-  mou3.assign<TileviewComponent>();
+	entityx::Entity mou3 = entities.create();
+	mou3.assign<SpriteComponent>("mountain3");
+	mou3.assign<SpatialComponent>(720, 230, 0, 175);
+	mou3.assign<ParallaxComponent>(-5.0f);
+	mou3.assign<TileviewComponent>();
 
-  entityx::Entity mou3a = entities.create();
-  mou3a.assign<SpriteComponent>("mountain3");
-  mou3a.assign<SpatialComponent>(720, 230, 720, 175);
-  mou3a.assign<ParallaxComponent>(-5.0f);
-  mou3a.assign<TileviewComponent>();
+	entityx::Entity mou3a = entities.create();
+	mou3a.assign<SpriteComponent>("mountain3");
+	mou3a.assign<SpatialComponent>(720, 230, 720, 175);
+	mou3a.assign<ParallaxComponent>(-5.0f);
+	mou3a.assign<TileviewComponent>();
 }
 
 void Game::load_player(int x, int y) {
