@@ -15,6 +15,7 @@ void main()
 { 
 	vec2 offset = 1.0 / textureSize(ScreenTex, 0);
 	vec3 result = texture(ScreenTex, TexCoords).rgb * weight[0];
+	FragColor = texture(ScreenTex, TexCoords);
 
 	if (horizontal) {
 		for (int i = 1; i < sizek; ++i) {
@@ -29,6 +30,6 @@ void main()
 		}
 	}
 
-	FragColor = vec4(result, 1.0);
+	FragColor = vec4(result, FragColor.a);
 }
 

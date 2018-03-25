@@ -85,6 +85,7 @@ void main()
       break;
   } 
 
-  color = vec4(final_color.xyz * f_in.color.xyz, final_color.w * f_in.color.w);
+  //color = vec4(final_color.xyz * f_in.color.xyz, final_color.w * f_in.color.w);
+  color = vec4(final_color.xyz * f_in.color.xyz, final_color.w);
 }
 

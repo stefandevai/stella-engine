@@ -14,7 +14,16 @@ void main()
 		vec4 NormalColor = texture(NormalScene, TexCoords);
 		vec4 PostColor = texture(PostScene, TexCoords);
 		
-		FragColor = NormalColor * PostColor*intensity + PostColor*1.5;
+		// Bloom
+		//vec4 auxColor = NormalColor + PostColor;
+
+		// Fire
+		vec4 auxColor = NormalColor * PostColor*intensity + PostColor*1.5;
+
+		auxColor.a = auxColor.r + auxColor.g + auxColor.b;
+		//auxColor = vec4(auxColor.rgb * auxColor.a, auxColor.r + auxColor.g + auxColor.b);
+
+		FragColor = auxColor;
 }
 
 

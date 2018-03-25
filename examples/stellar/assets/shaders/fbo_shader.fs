@@ -27,6 +27,6 @@ void main()
 
 		// Contrast
 		FragColor = texture(screenTexture, TexCoords);
-		FragColor = vec4((FragColor.rgb - 0.5) * (1.0 + contrast) + 0.5, 1.0);
+		FragColor = vec4((FragColor.rgb - 0.5) * (1.0 + contrast) + 0.5, FragColor.a);
 }
 

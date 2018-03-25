@@ -11,10 +11,10 @@ Framebuffer::~Framebuffer() {
 }
 
 void Framebuffer::Draw() {
-	//Display.SetClearColor(0.f, 0.f, 0.f);
-	//Display.Clear();
+	Display.SetClearColor(0.f, 0.f, 0.f);
+	Display.Clear();
 	glBindVertexArray(this->VAO);
-	//glBindTexture(GL_TEXTURE_2D, this->GetTexture());
+	glBindTexture(GL_TEXTURE_2D, this->GetTexture());
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
@@ -38,8 +38,7 @@ void Framebuffer::init() {
 
 	glGenTextures(1, &FBOtex);
 	glBindTexture(GL_TEXTURE_2D, FBOtex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, this->Display.GetWidth(), this->Display.GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 720, 405, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->Display.GetWidth(), this->Display.GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);

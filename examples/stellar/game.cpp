@@ -8,8 +8,9 @@
 Game::Game(stella::graphics::Display &display) : Display(display) {
   systems.add<CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
   systems.add<MovementSystem>();
-  systems.add<FontRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
-	systems.add<RenderSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures);
+  systems.add<AnimationSystem>();
+	systems.add<FontRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
+	systems.add<RenderSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
   systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   systems.add<TileviewSystem>((int)this->Display.GetWidth());
   systems.add<ParallaxSystem>();
@@ -38,9 +39,9 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
 	this->load_foreground();
 	this->load_text();
 
-	auto fire = entities.create();
-	fire.assign<ParticleGenerator>();
-	fire.assign<SpatialComponent>(16, 16, 350, 290);
+	this->Fire = entities.create();
+	this->Fire.assign<ParticleGenerator>();
+	this->Fire.assign<SpatialComponent>(16, 16, 350, 290);
 }
 
 Game::~Game() {
@@ -51,12 +52,13 @@ Game::~Game() {
 void Game::Update(entityx::TimeDelta dt) { 
 	systems.update<CollisionSystem>(dt);
 	systems.update<MovementSystem>(dt);
+	systems.update<ParticleSystem>(dt);
 	systems.update<RenderSystem>(dt);
 	systems.update<PlayerMovementSystem>(dt);
+	systems.update<AnimationSystem>(dt);
 	systems.update<TileviewSystem>(dt);
 	systems.update<ParallaxSystem>(dt);
 	systems.update<FontRenderingSystem>(dt);
-	systems.update<ParticleSystem>(dt);
 
 	if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
 		std::stringstream fps_string("");
@@ -64,6 +66,12 @@ void Game::Update(entityx::TimeDelta dt) {
 		auto text = this->FPSText.component<TextComponent>();
 		text->Text = fps_string.str();
 	}
+
+	auto fire_spa = this->Fire.component<SpatialComponent>();
+	double mousex, mousey;
+	this->Display.GetMousePos(mousex, mousey);
+	fire_spa->x = (int)mousex;
+	fire_spa->y = (int)mousey;
 }
 
 void Game::LoadTexture(std::string tex_name, const char *tex_path) {

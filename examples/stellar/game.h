@@ -20,7 +20,7 @@ public:
 
 private:
 	stella::graphics::Display &Display;
-	entityx::Entity FPSText;
+	entityx::Entity FPSText, Fire;
 
 	std::unordered_map<std::string, stella::graphics::Texture*> Textures;
 	std::unordered_map<std::string, stella::graphics::Texture*> Fonts;

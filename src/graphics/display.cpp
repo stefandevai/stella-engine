@@ -30,6 +30,7 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
 													GLFW_DONT_CARE);
 	glfwSetWindowAspectRatio(this->Window, 16, 9);
 	glfwSetWindowSizeCallback(this->Window, this->windowSizeCallback);
+	glfwSetInputMode(this->Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
   glfwMakeContextCurrent(this->Window);
   this->Running = true;
 

@@ -4,9 +4,9 @@
 #include <entityx/entityx.h>
 
 struct ParticleGenerator {
-	ParticleGenerator() {
-		MaxParticles = 50;
-		TextureName = "fire-particle";
+	ParticleGenerator(std::string texture_name, unsigned int max_particles) : TextureName(texture_name), MaxParticles(mas_particles) {
+		//MaxParticles = 60;
+		//TextureName = "fire-particle";
 		NumParticles = 0;
 		Initialized = false;
 	}
