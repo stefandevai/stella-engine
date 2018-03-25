@@ -15,6 +15,7 @@ class Framebuffer {
 		void Unbind();
 		void Draw();
 
+		void ActivateTexture(GLenum tex_id);
 		inline GLuint GetTexture() { return FBOtex; }
 
 	private:
