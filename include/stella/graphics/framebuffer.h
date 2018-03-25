@@ -3,19 +3,23 @@
 #include <GL/glew.h>
 #include <vector>
 
+#include "stella/graphics/display.h"
+#include "stella/graphics/shader.h"
+
 class Framebuffer {
 	public:
-		Framebuffer();
+		Framebuffer(stella::graphics::Display &display);
 		~Framebuffer();
 
 		void Bind();
 		void Unbind();
+		void Draw();
 
 		inline GLuint GetTexture() { return FBOtex; }
 
 	private:
-		GLuint FBOtex;
-		GLuint FBO;
+		GLuint FBO, FBOtex, VAO, VBO;
+		stella::graphics::Display &Display;
 
 		void init();
 };

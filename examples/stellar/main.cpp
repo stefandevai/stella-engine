@@ -7,46 +7,40 @@
 int main(int argc, char *argv[]) {
   stella::graphics::Display display(720, 405, "S T E L L A R");
   display.SetClearColor(0, 0, 0);
+  
+	stella::graphics::Shader contrastshader("assets/shaders/fbo_shader.vs", "assets/shaders/fbo_shader.fs");
+	stella::graphics::Shader blurshader("assets/shaders/horizontal_blur.vs", "assets/shaders/horizontal_blur.fs");
 
-	Framebuffer FBO;
-	stella::graphics::Shader FBOshader("assets/shaders/fbo_shader.vs", "assets/shaders/kernel_shader.fs");
-
-	float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
-			// positions   // texCoords
-			-1.0f,  1.0f,  0.0f, 1.0f,
-			-1.0f, -1.0f,  0.0f, 0.0f,
-			 1.0f, -1.0f,  1.0f, 0.0f,
-
-			-1.0f,  1.0f,  0.0f, 1.0f,
-			 1.0f, -1.0f,  1.0f, 0.0f,
-			 1.0f,  1.0f,  1.0f, 1.0f
-	};
-	GLuint quadVAO, quadVBO;
-	glGenVertexArrays(1, &quadVAO);
-	glGenBuffers(1, &quadVBO);
-	glBindVertexArray(quadVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	Framebuffer* blurFBO[2];
+	blurFBO[0] = new Framebuffer(display);
+	blurFBO[1] = new Framebuffer(display);
 
   Game game(display);
 
+
   while (display.IsRunning()) {
-		FBO.Bind();
-    display.Clear();
+  	blurFBO[0]->Bind();
+  	display.Clear();
     game.Update(display.GetDT());
-		FBO.Unbind();
-		display.SetClearColor(0.5f, 0.3f, 0.2f);
-		display.Clear();
-		FBOshader.Enable();
-		glBindVertexArray(quadVAO);
-		glBindTexture(GL_TEXTURE_2D, FBO.GetTexture());
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		int amount = 10;
+		bool horizontal = true;
+		blurshader.Enable();
+		for (int i = 1; i < amount; ++i) {
+			blurFBO[horizontal]->Bind();
+			blurshader.SetInt("horizontal", horizontal);
+			blurFBO[!horizontal]->Draw();
+			horizontal = !horizontal;
+		}
+
+		blurFBO[!horizontal]->Unbind();
+		blurFBO[!horizontal]->Draw();
+		blurshader.Disable();
     display.Update();
   }
+	
+	delete blurFBO[1];
+	delete blurFBO[0];
 
   return 0;
 }

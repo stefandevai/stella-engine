@@ -21,21 +21,7 @@ void main()
 		vec2(-offset, offset)
 	);
 
-	// Sharpen
-	//float kernel[9] = float[](
-	//	-1, -1, -1,
-	//	-1, 9, -1,
-	//	-1, -1, -1
-	//);
-
-	// Edge
-	//float kernel[9] = float[](
-	//	1, 1, 1,
-	//	1, -8, 1,
-	//	1, 1, 1
-	//);
-
-	// Blur
+	// Blur kernel
 	float kernel[9] = float[](
     1.0 / 16, 2.0 / 16, 1.0 / 16,
     2.0 / 16, 4.0 / 16, 2.0 / 16,
@@ -56,5 +42,4 @@ void main()
 	FragColor = vec4(col, 1.0);
 
 }
-
 
