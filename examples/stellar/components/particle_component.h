@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stella/particles.h>
+
 struct ParticleComponent {
 	ParticleComponent(unsigned int max_life, double size, double speedx, double speedy) : MaxLife(max_life), W(size), SpeedX(speedx), SpeedY(speedy) {
 		Life = 0;
@@ -12,5 +14,6 @@ struct ParticleComponent {
 	double W, H;
 	double SpeedX, SpeedY;
 	bool Alive;
+	stella::graphics::Particle Particle;
 };
 

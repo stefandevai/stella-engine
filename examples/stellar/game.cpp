@@ -40,7 +40,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
 	this->load_text();
 
 	this->Fire = entities.create();
-	this->Fire.assign<ParticleGenerator>();
+	this->Fire.assign<ParticleEmitter>("fire-particle", 0, 50);
 	this->Fire.assign<SpatialComponent>(16, 16, 350, 290);
 }
 

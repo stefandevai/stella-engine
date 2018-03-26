@@ -1,6 +1,7 @@
 #include <iostream>
 #include <array>
 #include <stella/stella.h>
+#include <stella/particles.h>
 
 #include "game.h"
 
@@ -11,6 +12,8 @@ int main(int argc, char *argv[]) {
   display.SetClearColor(0, 0, 0);
 
   Game game(display);
+
+	stella::graphics::FireEmitter fire_emitter(10, 10);
 
   while (display.IsRunning()) {
 		display.Clear();

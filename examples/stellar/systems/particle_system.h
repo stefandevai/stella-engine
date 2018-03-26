@@ -10,8 +10,6 @@ class ParticleSystem : public entityx::System<ParticleSystem> {
               entityx::TimeDelta dt) override;
 
 	private:
-		std::vector<entityx::Entity> ParticlesAlive, ParticlesDead;
-
 		entityx::Entity CreateParticle(entityx::Entity generator, entityx::EntityManager& es); 
 };
 	
