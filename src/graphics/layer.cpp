@@ -32,12 +32,12 @@ void Layer::Render() {
   this->Shad->Enable();
   this->Ren->Begin();
 
-	//glm::mat4 trans;
-	//trans = glm::translate(trans, glm::vec3(360.0f, 202.0f, 0.0f));
-	//trans = glm::scale(trans, glm::vec3(0.9f, 0.9f, 1.0f));
-	//trans = glm::rotate(trans, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	//trans = glm::translate(trans, glm::vec3(-360.0f, -202.0f, 0.0f));
-	//this->Ren->PushTransformation(trans);
+  //glm::mat4 trans;
+  //trans = glm::translate(trans, glm::vec3(360.0f, 202.0f, 0.0f));
+  //trans = glm::scale(trans, glm::vec3(0.9f, 0.9f, 1.0f));
+  //trans = glm::rotate(trans, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+  //trans = glm::translate(trans, glm::vec3(-360.0f, -202.0f, 0.0f));
+  //this->Ren->PushTransformation(trans);
 
   for (auto i : Sprites)
     this->Ren->Submit(*i);

@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <cstddef>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 // Temporary includes
 #include <iostream>
 
@@ -82,6 +84,8 @@ void Renderer::Begin() {
 void Renderer::Submit(const Sprite &sprite) {
   const glm::vec2 &position = sprite.GetPos();
   const glm::vec2 &dimensions = sprite.GetDimensions();
+  const float &rotation = sprite.GetRotation();
+  const glm::vec2 &scale = sprite.GetScale();
 	const unsigned int &c = sprite.GetColor();
 
   const glm::vec2 &uv = sprite.GetFrameCoords();
@@ -100,28 +104,40 @@ void Renderer::Submit(const Sprite &sprite) {
   GLfloat uvoffsetX = dimensions.x / (GLfloat)stW;
   GLfloat uvoffsetY = dimensions.y / (GLfloat)stH;
 
-	auto transformation_result = *this->TransformationBack * glm::vec4(position, 1.0f, 1.0f); 
+  //trans = glm::translate(trans, glm::vec3(360.0f, 202.0f, 0.0f));
+  //trans = glm::scale(trans, glm::vec3(0.9f, 0.9f, 1.0f));
+  //trans = glm::rotate(trans, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+  //trans = glm::translate(trans, glm::vec3(-360.0f, -202.0f, 0.0f));
+  auto particular_transform = *this->TransformationBack;
+  particular_transform = glm::translate(particular_transform, glm::vec3(dimensions/2.f, 0.0f));
+  particular_transform = glm::scale(particular_transform, glm::vec3(scale, 1.0f));
+  particular_transform = glm::rotate(particular_transform, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+  particular_transform = glm::translate(particular_transform, glm::vec3(-dimensions/2.f, 0.0f));
+
+	//auto transformation_result = *this->TransformationBack * glm::vec4(position, 1.0f, 1.0f); 
+  auto transformation_result = particular_transform * glm::vec4(position, 1.0f, 1.0f); 
   this->VertexBuffer->vertex = glm::vec3(transformation_result.x, transformation_result.y, transformation_result.z);
   this->VertexBuffer->uv = glm::vec2(uv.x, uv.y);
   this->VertexBuffer->tid = texture->GetCacheID();
   this->VertexBuffer->color = c;
   this->VertexBuffer++;
 
-	transformation_result = *this->TransformationBack * glm::vec4(position.x + dimensions.x, position.y, 1.0f, 1.0f); 
+	//transformation_result = *this->TransformationBack * glm::vec4(position.x + dimensions.x, position.y, 1.0f, 1.0f); 
+	transformation_result = particular_transform * glm::vec4(position.x + dimensions.x, position.y, 1.0f, 1.0f); 
   this->VertexBuffer->vertex = glm::vec3(transformation_result.x, transformation_result.y, transformation_result.z);
   this->VertexBuffer->uv = glm::vec2(uv.x + uvoffsetX, uv.y);
   this->VertexBuffer->tid = texture->GetCacheID();
   this->VertexBuffer->color = c;
   this->VertexBuffer++;
 
-	transformation_result = *this->TransformationBack * glm::vec4(position.x + dimensions.x, position.y + dimensions.y, 1.0f, 1.0f);
+	transformation_result = particular_transform * glm::vec4(position.x + dimensions.x, position.y + dimensions.y, 1.0f, 1.0f);
   this->VertexBuffer->vertex = glm::vec3(transformation_result.x, transformation_result.y, transformation_result.z);
   this->VertexBuffer->uv = glm::vec2(uv.x + uvoffsetX, uv.y - uvoffsetY);
   this->VertexBuffer->tid = texture->GetCacheID();
   this->VertexBuffer->color = c;
   this->VertexBuffer++;
 
-	transformation_result = *this->TransformationBack * glm::vec4(position.x, position.y + dimensions.y, 1.0f, 1.0f);
+	transformation_result = particular_transform * glm::vec4(position.x, position.y + dimensions.y, 1.0f, 1.0f);
   this->VertexBuffer->vertex = glm::vec3(transformation_result.x, transformation_result.y, transformation_result.z);
   this->VertexBuffer->uv = glm::vec2(uv.x, uv.y - uvoffsetY);
   this->VertexBuffer->tid = texture->GetCacheID();
