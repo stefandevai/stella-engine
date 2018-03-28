@@ -151,7 +151,6 @@ void Game::load_player(int x, int y) {
   player.assign<MovementComponent>(0.7f, 8.0f, 1.5f);
   player.assign<InputComponent>();
   player.assign<LightComponent>(0, 1.0f);
-	player.assign<TransformComponent>(0.f, glm::vec2(1.5f, 1.5f));
 }
 
 void Game::load_blocks() {

@@ -18,14 +18,8 @@ void TransformSystem::update(entityx::EntityManager &es, entityx::EventManager &
                                                       SpatialComponent &spa,
                                                       SpriteComponent &spr) {
 
-    if (!spr.HasScaled) {
-      spr.Sprite->SetScale(trans.Scale);
-      spr.Sprite->SetRotation(trans.Rotation);
-      //spa.w *= trans.Scale.x;
-      //spa.h *= trans.Scale.y;
-      spr.HasScaled = true;
-    }
-
+    spr.Sprite->SetScale(trans.Scale);
+    spr.Sprite->SetRotation(trans.Rotation);
   });
 }
 
