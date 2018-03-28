@@ -13,8 +13,6 @@ int main(int argc, char *argv[]) {
 
   Game game(display);
 
-	stella::graphics::FireEmitter fire_emitter(10, 10);
-
   while (display.IsRunning()) {
 		display.Clear();
     game.Update(display.GetDT());

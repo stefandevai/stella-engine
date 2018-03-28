@@ -1,5 +1,9 @@
 #include "stella/graphics/particles/particle_emitter.h"
 
+#include "../examples/stellar/components/particle_component.h"
+#include "../examples/stellar/components/spatial_component.h"
+#include "../examples/stellar/components/sprite_component.h"
+
 #include <iostream>
 #include <cmath>
 
@@ -9,29 +13,46 @@ namespace graphics {
 
 	class FireEmitter : public ParticleEmitter {
 		public:
-			inline FireEmitter(int posx, int posy) : ParticleEmitter(posx, posy) {
+			inline FireEmitter(int posx, int posy, std::string tex_name) : ParticleEmitter(posx, posy, tex_name) {
 			}
 
 			inline ~FireEmitter() {
 			}
 
-			inline void UpdateParticle(stella::graphics::Particle &particle) {
-				if ((int)particle.spx % 3 == 0)
-					particle.x -= cos(particle.spx*particle.life*PI/180)*3 - 1;
-				else if ((int)particle.spy % 2 == 0)
-					particle.x += sin(particle.spx * particle.life * PI/180)*3;
+			inline void UpdateParticle(entityx::Entity particle) {
+        auto particle_spa = particle.component<SpatialComponent>();
+        auto par = particle.component<ParticleComponent>();
 
-				particle.y += particle.spy;
+        if ((int)par->SpeedX % 3 == 0)
+          particle_spa->x -= cos(par->SpeedX*par->Life*PI/180)*3 - 1;
+        else if ((int)par->SpeedY % 2 == 0)
+          particle_spa->x += sin(par->SpeedX*par->Life*PI/180)*3;
 
-				if (particle.life % 5 == 0) {
-					particle.w *= 0.80;
-					particle.w = std::max(1.0f, (float)particle.w);
-					particle.h = particle.w;
-				}
-				++particle.life;
+        particle_spa->y += par->SpeedY;
+
+
+        if (par->Life % 5 == 0) {
+          particle_spa->w *= 0.80;
+          particle_spa->w = std::max(1.0f, (float)particle_spa->w);
+          particle_spa->h = particle_spa->w;
+        }
+        ++par->Life;
 			}
 
-			inline void GenerateParticle() {
+			inline entityx::Entity GenerateParticle(entityx::Entity generator, entityx::EntityManager& es) {
+        auto spa = generator.component<SpatialComponent>();
+
+        auto particle = es.create();
+        unsigned int MaxLife = std::rand() % 41 + 20;
+        double W = 10.0 + static_cast <float>(std::rand())/( static_cast <float> (RAND_MAX/(25.0f - 10.0f)));
+        double SpeedX = 10.0 + static_cast <float> (std::rand()) /( static_cast <float> (RAND_MAX/(30.0f-10.0f)));
+        double SpeedY = static_cast<float>(std::rand()) / (static_cast <float> (RAND_MAX/3.0));
+        int px = spa->x + (-6 + std::rand()/(RAND_MAX/(6 + 6)));
+
+        particle.assign<SpatialComponent>(W, W, px, spa->y);
+        particle.assign<ParticleComponent>(MaxLife, W, SpeedX, -SpeedY);
+        particle.assign<SpriteComponent>(this->TextureName);
+        return particle;
 			}
 	};
 }}

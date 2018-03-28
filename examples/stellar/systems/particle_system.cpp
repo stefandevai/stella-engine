@@ -30,46 +30,15 @@ void ParticleSystem::update(entityx::EntityManager &es, entityx::EventManager &e
 			gen.Initialized = true;
 		}
 		else if (gen.Particles.size() < gen.MaxParticles) {
-			auto particle = this->CreateParticle(entity, es);
+			auto particle = gen.Emitter->GenerateParticle(entity, es);
 			gen.Particles.push_back(particle);
 		}
 		std::vector<std::vector<entityx::Entity>::iterator> particles_to_erase;
 
 		for (auto particle = gen.Particles.begin(); particle != gen.Particles.end(); ++particle) {
 			auto par = (*particle).component<ParticleComponent>();
-			auto particle_spa = (*particle).component<SpatialComponent>();
 			 
-			stella::graphics::Particle part;
-			part.x = particle_spa->x;
-			part.y = particle_spa->y;
-			part.w = particle_spa->w;
-			part.h = particle_spa->h;
-			part.spx = par->SpeedX;
-			part.spy = par->SpeedY;
-			part.life = par->Life;
-			gen.Emitter->UpdateParticle(part);
-			particle_spa->x = (int)part.x;
-			particle_spa->y = (int)part.y;
-			particle_spa->w = (int)part.w;
-			particle_spa->h = (int)part.h;
-			par->SpeedX = part.spx;
-			par->SpeedY = part.spy;
-			par->Life = part.life;
-
-			//if ((int)par->SpeedX % 3 == 0)
-				//particle_spa->x -= cos(par->SpeedX*par->Life*PI/180)*3 - 1;
-			//else if ((int)par->SpeedY % 2 == 0)
-				//particle_spa->x += sin(par->SpeedX*par->Life*PI/180)*3;
-
-			//particle_spa->y += par->SpeedY;
-
-
-			//if (par->Life % 5 == 0) {
-				//particle_spa->w *= 0.80;
-				//particle_spa->w = std::max(1.0f, (float)particle_spa->w);
-				//particle_spa->h = particle_spa->w;
-			//}
-			//++par->Life;
+			gen.Emitter->UpdateParticle(*particle);
 
 			if (par->Life >= par->MaxLife && par->Alive) {
 				particles_to_erase.push_back(particle);
