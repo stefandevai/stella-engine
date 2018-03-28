@@ -7,6 +7,7 @@
 #include "movement_component.h"
 #include "parallax_component.h"
 #include "spatial_component.h"
+#include "transform_component.h"
 #include "text_component.h"
 #include "sprite_component.h"
 #include "tileview_component.h"

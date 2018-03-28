@@ -11,6 +11,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   systems.add<AnimationSystem>();
 	systems.add<FontRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
 	systems.add<RenderSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
+  systems.add<TransformSystem>();
   systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   systems.add<TileviewSystem>((int)this->Display.GetWidth());
   systems.add<ParallaxSystem>();
@@ -54,6 +55,7 @@ void Game::Update(entityx::TimeDelta dt) {
 	systems.update<MovementSystem>(dt);
 	systems.update<ParticleSystem>(dt);
 	systems.update<RenderSystem>(dt);
+  systems.update<TransformSystem>(dt);
 	systems.update<PlayerMovementSystem>(dt);
 	systems.update<AnimationSystem>(dt);
 	systems.update<TileviewSystem>(dt);
@@ -67,11 +69,11 @@ void Game::Update(entityx::TimeDelta dt) {
 		text->Text = fps_string.str();
 	}
 
-	auto fire_spa = this->Fire.component<SpatialComponent>();
-	double mousex, mousey;
-	this->Display.GetMousePos(mousex, mousey);
-	fire_spa->x = (int)mousex;
-	fire_spa->y = (int)mousey;
+  auto fire_spa = this->Fire.component<SpatialComponent>();
+  double mousex, mousey;
+  this->Display.GetMousePos(mousex, mousey);
+  fire_spa->x = (int)mousex;
+  fire_spa->y = (int)mousey;
 }
 
 void Game::LoadTexture(std::string tex_name, const char *tex_path) {
@@ -89,7 +91,7 @@ void Game::LoadFont(std::string font_name, const char *font_path) {
 void Game::load_background() {
   // Background
 	entityx::Entity sky = entities.create();
-	 sky.assign<SpriteComponent>("sky");
+	sky.assign<SpriteComponent>("sky");
 	sky.assign<SpatialComponent>(720, 405);
 
   entityx::Entity moon = entities.create();
@@ -149,6 +151,7 @@ void Game::load_player(int x, int y) {
   player.assign<MovementComponent>(0.7f, 8.0f, 1.5f);
   player.assign<InputComponent>();
   player.assign<LightComponent>(0, 1.0f);
+	player.assign<TransformComponent>(0.f, glm::vec2(1.5f, 1.5f));
 }
 
 void Game::load_blocks() {

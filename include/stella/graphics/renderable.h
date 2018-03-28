@@ -32,6 +32,8 @@ public:
   // Setters
   void SetVisible(GLboolean vis) { Visible = vis; }
   void ToggleVisible() { Visible = !Visible; }
+  void SetRotation(float rotation) { Rotation = rotation; }
+  void SetScale(glm::vec2 scale) { Scale = scale; }
 
 protected:
   Texture &Tex;

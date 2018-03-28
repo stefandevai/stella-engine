@@ -8,10 +8,11 @@ struct SpriteComponent {
   inline SpriteComponent(std::string tex_name) : TexName(tex_name) {
     InLayer = false;
     Initialized = false;
+    HasScaled = false;
   }
 
 	stella::graphics::Sprite *Sprite;
 	std::string TexName;
-  bool InLayer, Initialized;
+  bool InLayer, Initialized, HasScaled;
 };
 
