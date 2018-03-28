@@ -1,4 +1,4 @@
-#include "stella/graphics/particles/particle_emitter.h"
+#include "stella/graphics/particles/emitter.h"
 
 #include "../examples/stellar/components/particle_component.h"
 #include "../examples/stellar/components/spatial_component.h"
@@ -11,9 +11,9 @@ namespace stella {
 namespace graphics {
 	const double PI = 3.14159265;
 
-	class FireEmitter : public ParticleEmitter {
+	class FireEmitter : public Emitter {
 		public:
-			inline FireEmitter(int posx, int posy, std::string tex_name) : ParticleEmitter(posx, posy, tex_name) {
+			inline FireEmitter(int posx, int posy, unsigned int max_particles, std::string tex_name) : Emitter(posx, posy, max_particles, tex_name) {
 			}
 
 			inline ~FireEmitter() {
@@ -39,8 +39,16 @@ namespace graphics {
         ++par->Life;
 			}
 
-			inline entityx::Entity GenerateParticle(entityx::Entity generator, entityx::EntityManager& es) {
+			inline entityx::Entity Emit(entityx::Entity generator, entityx::EntityManager& es) {
         auto spa = generator.component<SpatialComponent>();
+
+        if (!this->Initialized) {
+            auto particle = es.create();
+            unsigned int MaxLife = std::rand() % 41 + 20;
+            particle.assign<SpatialComponent>(spa->x, spa->y, spa->w, spa->h);
+            particle.assign<ParticleComponent>(MaxLife, 1.0, 1.0, 1.0);
+            return particle;
+        }
 
         auto particle = es.create();
         unsigned int MaxLife = std::rand() % 41 + 20;

@@ -6,19 +6,24 @@
 
 struct ParticleEmitter {
 	public:
-		inline ParticleEmitter(std::string texture_name, unsigned int type, unsigned int max_particles) : TextureName(texture_name), Type(type), MaxParticles(max_particles) {
-			NumParticles = 0;
-			Initialized = false;
-			Emitter = new stella::graphics::FireEmitter(0, 0, texture_name);
+	  enum Type { FIRE_EMITTER };
+
+		std::vector<entityx::Entity> Particles;
+		stella::graphics::Emitter *Emitter;
+
+		inline ParticleEmitter(Type type, unsigned int max_particles) {
+      switch(type) {
+        case FIRE_EMITTER:
+          this->Emitter = new stella::graphics::FireEmitter(0, 0, max_particles, "fire-particle");
+          break;
+        default:
+          this->Emitter = new stella::graphics::FireEmitter(0, 0, max_particles, "fire-particle");
+          break;
+      }
 		}
 		inline ~ParticleEmitter() {
-			delete Emitter;
+		  if (Emitter)
+        delete Emitter;
 		}
-
-		std::string TextureName;
-		unsigned int Type, MaxParticles, NumParticles;
-		std::vector<entityx::Entity> Particles;
-		bool Initialized;
-		stella::graphics::ParticleEmitter *Emitter;
 };
 
