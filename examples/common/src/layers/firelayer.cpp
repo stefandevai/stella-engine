@@ -5,10 +5,10 @@ FireLayer::FireLayer(stella::graphics::Shader *shader, const glm::mat4 &projecti
 
 	this->QuadVAO = 0;
 
-	this->ShNormal = new stella::graphics::Shader("assets/shaders/fbo_shader.vs", "assets/shaders/normal_shader.fs");
-	this->ShContrast = new stella::graphics::Shader("assets/shaders/fbo_shader.vs", "assets/shaders/fbo_shader.fs");
+	this->ShNormal = new stella::graphics::Shader("assets/shaders/fbo_shader.vert", "assets/shaders/normal_shader.fs");
+	this->ShContrast = new stella::graphics::Shader("assets/shaders/fbo_shader.vert", "assets/shaders/fbo_shader.fs");
 	this->ShBlur = new stella::graphics::Shader("assets/shaders/horizontal_blur.vs", "assets/shaders/horizontal_blur.fs");
-	this->ShBloom = new stella::graphics::Shader("assets/shaders/fbo_shader.vs", "assets/shaders/combine.fs");
+	this->ShBloom = new stella::graphics::Shader("assets/shaders/fbo_shader.vert", "assets/shaders/combine.frag");
 	this->ShBloom->Enable();
 	this->ShBloom->SetInt("NormalScene", 0);
 	this->ShBloom->SetInt("PostScene", 1);

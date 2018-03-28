@@ -1,5 +1,7 @@
 #pragma once
-//#include <stella/stella.h>
+
+#include <vector>
+#include <entityx/entityx.h>
 
 namespace stella {
 namespace graphics {
@@ -16,6 +18,7 @@ namespace graphics {
 
 		protected:
 			int PosX, PosY;
+      std::vector<entityx::Entity> Particles;
 			inline ParticleEmitter(int posx, int posy) : PosX(posx), PosY(posy) {}
 	};
 }}
