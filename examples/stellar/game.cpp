@@ -28,6 +28,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->LoadTexture("over_block", "assets/sprites/over_block.png");
   this->LoadTexture("guanaco", "assets/sprites/guanaco-anim.png");
 	this->LoadTexture("fire-particle", "assets/sprites/fire_particle.png");
+	this->LoadTexture("bubble-particle", "assets/sprites/bubble.png");
 
   // Fonts
   this->LoadFont("font", "assets/sprites/font.png");
@@ -40,9 +41,19 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
 	this->load_foreground();
 	this->load_text();
 
-	this->Fire = entities.create();
-	this->Fire.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 40);
-	this->Fire.assign<SpatialComponent>(16, 16, 350, 290);
+  this->Fire = entities.create();
+  this->Fire.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 40);
+  //this->Fire.assign<SpatialComponent>(100, 100, 350, 290);
+  this->Fire.assign<SpatialComponent>(16, 16, 350, 290);
+
+  //auto bubble = entities.create();
+  //bubble.assign<SpriteComponent>("bubble-particle");
+  //bubble.assign<SpatialComponent>(16, 16, 200, 0);
+  //bubble.assign<TransformComponent>(0.f, glm::vec2(0.5f, 0.5f));
+
+	//this->Fire = entities.create();
+	//this->Fire.assign<ParticleEmitter>("bubble-particle", 40);
+	//this->Fire.assign<SpatialComponent>(16, 16, 350, 290);
 }
 
 Game::~Game() {
@@ -69,11 +80,11 @@ void Game::Update(entityx::TimeDelta dt) {
 		text->Text = fps_string.str();
 	}
 
-  auto fire_spa = this->Fire.component<SpatialComponent>();
-  double mousex, mousey;
-  this->Display.GetMousePos(mousex, mousey);
-  fire_spa->x = (int)mousex;
-  fire_spa->y = (int)mousey;
+  //auto fire_spa = this->Fire.component<SpatialComponent>();
+  //double mousex, mousey;
+  //this->Display.GetMousePos(mousex, mousey);
+  //fire_spa->x = (int)mousex;
+  //fire_spa->y = (int)mousey;
 }
 
 void Game::LoadTexture(std::string tex_name, const char *tex_path) {
@@ -98,7 +109,7 @@ void Game::load_background() {
   moon.assign<SpriteComponent>("moon");
 	std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> moon_anims;
 	moon_anims.emplace_back("moon-anim", std::vector<unsigned int>{3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
-	moon.assign<AnimationsComponent>(moon_anims);
+	moon.assign<AnimationsComponent>(moon_anims, glm::vec2(85, 85));
   moon.assign<SpatialComponent>(85, 85, 478, 78);
 
 	// Background mountains
@@ -145,7 +156,7 @@ void Game::load_player(int x, int y) {
   player.assign<SpriteComponent>("guanaco");
 	std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> guanaco_anims;
 	guanaco_anims.emplace_back("running", std::vector<unsigned int>{0, 1, 2, 3, 4}, 5);
-	player.assign<AnimationsComponent>(guanaco_anims);
+	player.assign<AnimationsComponent>(guanaco_anims, glm::vec2(80, 60));
   player.assign<BodyComponent>(80, 60, 0, 0, false);
   player.assign<SpatialComponent>(80, 60, x, y);
   player.assign<MovementComponent>(0.7f, 8.0f, 1.5f);

@@ -18,7 +18,8 @@ void TransformSystem::update(entityx::EntityManager &es, entityx::EventManager &
                                                       SpatialComponent &spa,
                                                       SpriteComponent &spr) {
 
-    spr.Sprite->SetScale(trans.Scale);
+    //spr.Sprite->SetScale(trans.Scale);
+    spr.Sprite->SetDirectScale(glm::vec2(spa.w, spa.h));
     spr.Sprite->SetRotation(trans.Rotation);
   });
 }

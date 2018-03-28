@@ -17,11 +17,18 @@ ParticleSystem::~ParticleSystem() {
 
 void ParticleSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
 	es.each<SpatialComponent, ParticleEmitter>([this, &es](entityx::Entity entity, SpatialComponent &spa, ParticleEmitter &gen) {
-    while (gen.Particles.size() < gen.Emitter->GetMaxParticles()) {
-			auto particle = gen.Emitter->Emit(entity, es);
-			gen.Particles.push_back(particle);
-		}
-		if (!gen.Emitter->IsInitialized()) gen.Emitter->Initialize();
+    //while (gen.Particles.size() < gen.Emitter->GetMaxParticles()) {
+			//auto particle = gen.Emitter->Emit(entity, es);
+			//gen.Particles.push_back(particle);
+    //}
+		//if (!gen.Emitter->IsInitialized()) gen.Emitter->Initialize();
+
+    if(++this->Timer % this->Velocity == 0) {
+      auto particle = gen.Emitter->Emit(entity, es);
+      gen.Particles.push_back(particle);
+
+      if (this->Timer > 1000000) this->Timer = 0;
+    }
 
 		std::vector<std::vector<entityx::Entity>::iterator> particles_to_erase;
 

@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <vector>
+#include <iostream>
 
 namespace stella {
 namespace graphics {
@@ -32,8 +33,13 @@ public:
   // Setters
   void SetVisible(GLboolean vis) { Visible = vis; }
   void ToggleVisible() { Visible = !Visible; }
+  void SetDimensions(glm::vec2 dimensions) { Dimensions = dimensions; }
   void SetRotation(float rotation) { Rotation = rotation; }
+  void SetRelativeScale(glm::vec2 scale) { Scale = scale; }
   void SetScale(glm::vec2 scale) { Scale = scale; }
+  
+  void SetDirectScale(glm::vec2 scale) { Scale = scale/(this->Dimensions);  }
+  //void SetDirectScale(glm::vec2 scale) { Scale = scale/(this->Dimensions); this->Dimensions *= this->Scale; }
 
 protected:
   Texture &Tex;

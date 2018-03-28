@@ -18,6 +18,7 @@ void AnimationSystem::update(entityx::EntityManager &es,
                                                    SpriteComponent &spr) {
 		if (!animations.Initialized) {
 			for (auto& anim: animations.Frames) {
+			  spr.Sprite->SetDimensions(animations.FrameDimensions);
 				spr.Sprite->Animations.Add(std::get<0>(anim), std::get<1>(anim), std::get<2>(anim));
 				spr.Sprite->Animations.Play(std::get<0>(anim));
 			}

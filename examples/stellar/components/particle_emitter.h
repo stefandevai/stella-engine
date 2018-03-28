@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <string>
 
@@ -14,7 +16,8 @@ struct ParticleEmitter {
 		inline ParticleEmitter(Type type, unsigned int max_particles) {
       switch(type) {
         case FIRE_EMITTER:
-          this->Emitter = new stella::graphics::FireEmitter(0, 0, max_particles, "fire-particle");
+          this->Emitter = new stella::graphics::FireEmitter(0, 0, max_particles, "bubble-particle");
+          //this->Emitter = new stella::graphics::FireEmitter(0, 0, max_particles, "fire-particle");
           break;
         default:
           this->Emitter = new stella::graphics::FireEmitter(0, 0, max_particles, "fire-particle");

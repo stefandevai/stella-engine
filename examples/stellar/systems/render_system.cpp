@@ -8,6 +8,8 @@
 
 #include "../components/spatial_component.h"
 #include "../components/particle_component.h"
+#include "../components/animation_component.h"
+#include "../components/transform_component.h"
 
 RenderSystem::RenderSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &textures, stella::graphics::Display &display) : Textures(textures) {
 	// Initialize shader and textures IDs
@@ -39,14 +41,26 @@ void RenderSystem::update(entityx::EntityManager &es,
                                                      SpriteComponent &spr) {
 		// Adds sprite to layer
 		if (!spr.InLayer) {
-			auto tex = this->Textures.find(spr.TexName);
-			if (tex == this->Textures.end()) {
+			auto texdata = this->Textures.find(spr.TexName);
+			if (texdata == this->Textures.end()) {
 				std::cout << "It was not possible to find " << spr.TexName << " in loaded textures." << std::endl;
 			}
 			else {
 				// Creates sprite if it doesn't exist yet
 				if (!spr.Initialized) {
-					spr.Sprite = new stella::graphics::Sprite(0, 0, spa.w, spa.h, *tex->second, 0);
+          auto tex = texdata->second;
+          if (entity.has_component<AnimationsComponent>()) {
+            auto anims = entity.component<AnimationsComponent>();
+					  spr.Sprite = new stella::graphics::Sprite(spa.x, spa.y, anims->FrameDimensions.x, anims->FrameDimensions.y, *tex, 0);
+          }
+          else {
+            spr.Sprite = new stella::graphics::Sprite(spa.x, spa.y, *tex);
+          }
+          if (entity.has_component<TransformComponent>()) {
+            auto trans = entity.component<TransformComponent>();
+            //spr.Sprite->SetScale(trans.Scale);
+            spr.Sprite->SetDirectScale(glm::vec2(spa.w, spa.h));
+          }
 					spr.Initialized = true;
 				}
 				if (entity.has_component<ParticleComponent>()) {
@@ -59,14 +73,14 @@ void RenderSystem::update(entityx::EntityManager &es,
 			spr.InLayer = true;
 		}
 
-		spr.Sprite->Dimensions.x = spa.w;
-		spr.Sprite->Dimensions.y = spa.h;
+		//spr.Sprite->Dimensions.x = spa.w;
+		//spr.Sprite->Dimensions.y = spa.h;
 		spr.Sprite->Pos.x = spa.x;
 		spr.Sprite->Pos.y = spa.y;
   });
  
 	this->TileLayer->Render();
-	this->ParticleLayer->RenderWithFBOs();
+  this->ParticleLayer->Render();
 };
 
 void RenderSystem::configure(entityx::EventManager &event_manager) {
