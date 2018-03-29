@@ -19,7 +19,7 @@ struct ParticleEmitter {
           this->Emitter = new stella::graphics::FireEmitter(0, 0, max_particles, "fire-particle");
           break;
         case ICE_EMITTER:
-          this->Emitter = new stella::graphics::FireEmitter(0, 0, max_particles, "ice-particle");
+          this->Emitter = new stella::graphics::IceEmitter(0, 0, max_particles, "ice-particle");
           break;
         case LEAFY_EMITTER:
           this->Emitter = new stella::graphics::FireEmitter(0, 0, max_particles, "leaf-particle");

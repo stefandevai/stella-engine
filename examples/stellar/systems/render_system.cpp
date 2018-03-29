@@ -59,7 +59,11 @@ void RenderSystem::update(entityx::EntityManager &es,
 
           // If the texture has a diferent resolution than the actual size we want
           if ((int)spr.Sprite->Dimensions.x != spa.w || (int)spr.Sprite->Dimensions.y != spa.h) {
-            spr.Sprite->SetDirectScale(glm::vec2((float)spa.w, (float)spa.h));
+            if (entity.has_component<TransformComponent>()) {
+              auto trans = entity.component<TransformComponent>();
+              spr.Sprite->SetDirectScale(glm::vec2((float)spa.w*trans->Scale.x, (float)spa.h*trans->Scale.y));
+            }
+            else spr.Sprite->SetDirectScale(glm::vec2((float)spa.w, (float)spa.h));
           }
 
 					spr.Initialized = true;

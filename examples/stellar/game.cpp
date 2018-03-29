@@ -46,13 +46,9 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->Fire.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 30);
   this->Fire.assign<SpatialComponent>(16, 16, 350, 290);
 
-  auto ices = entities.create();
-  ices.assign<ParticleEmitter>(ParticleEmitter::Type::ICE_EMITTER, 30);
-  ices.assign<SpatialComponent>(16, 16, 450, 290);
-
-  auto leaves = entities.create();
-  leaves.assign<ParticleEmitter>(ParticleEmitter::Type::LEAFY_EMITTER, 30);
-  leaves.assign<SpatialComponent>(16, 16, 550, 290);
+  auto ice = entities.create();
+  ice.assign<ParticleEmitter>(ParticleEmitter::Type::ICE_EMITTER, 30);
+  ice.assign<SpatialComponent>(16, 16, 550, 290);
 }
 
 Game::~Game() {

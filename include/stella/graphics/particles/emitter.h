@@ -41,23 +41,16 @@ namespace graphics {
 			virtual entityx::Entity Emit(entityx::Entity generator, entityx::EntityManager& es) {
         auto spa = generator.component<SpatialComponent>();
 
-        //if (!this->Initialized) {
-            //auto particle = es.create();
-            //unsigned int max_life = this->GetRandomValue<unsigned int>(this->Data.MaxLifeRange);
-            //particle.assign<ParticleComponent>(max_life, 1.0, 1.0, 1.0);
-            //return particle;
-        //}
-
         auto particle = es.create();
         
         unsigned int max_life = this->GetRandomValue<unsigned int>(this->Data.MaxLifeRange);
         int px = spa->x + this->GetRandomValue<int>(this->Data.PositionXRange);
         int py = spa->y + this->GetRandomValue<int>(this->Data.PositionYRange);
-        double speedx = this->GetRandomValue<float>(this->Data.SpeedXRange);
-        double speedy = this->GetRandomValue<float>(this->Data.SpeedYRange);
+        double speedx = this->GetRandomValue<float>(this->Data.SpeedXRange, true);
+        double speedy = this->GetRandomValue<float>(this->Data.SpeedYRange, true);
         float rotation = this->GetRandomValue<float>(this->Data.RotationRange);
-        double scalex = this->GetRandomValue<float>(this->Data.ScaleXRange);
-        double scaley = this->GetRandomValue<float>(this->Data.ScaleYRange);
+        double scalex = this->GetRandomValue<float>(this->Data.ScaleXRange, true);
+        double scaley = this->GetRandomValue<float>(this->Data.ScaleYRange, true);
 
         // If we havent set a ScaleX range, we suppose we want proportional sprites in generation;
         // therefore we check if scaley is -1.f, as it is the default value
@@ -71,9 +64,16 @@ namespace graphics {
 			}
 
 			template<typename T>
-			T GetRandomValue(std::pair<T,T> range) {
+			T GetRandomValue(std::pair<T,T> range, bool exclude_zero = false) {
 			  if (range.first == range.second) return range.first;
-        return range.first + static_cast<T>(std::rand()) / (static_cast<T>(RAND_MAX/(range.second - range.first)));
+			  if (!exclude_zero)
+          return range.first + static_cast<T>(std::rand()) / (static_cast<T>(RAND_MAX/(range.second - range.first)));
+        else {
+          T value = range.first + static_cast<T>(std::rand()) / (static_cast<T>(RAND_MAX/(range.second - range.first)));
+          while(!value)
+            value = range.first + static_cast<T>(std::rand()) / (static_cast<T>(RAND_MAX/(range.second - range.first)));
+          return value;
+        }
 			}
 
 			inline const unsigned int& GetMaxParticles () const { return MaxParticles; }
