@@ -10,7 +10,7 @@ namespace stella {
 namespace graphics {
 class Renderable {
 public:
-  glm::vec2 Pos, Dimensions;
+  glm::vec2 Pos, Dimensions, RealDimensions;
 
   Renderable(GLint x, GLint y, GLint w, GLint h, Texture &texture,
              GLboolean visible = GL_TRUE);

@@ -49,18 +49,19 @@ void RenderSystem::update(entityx::EntityManager &es,
 				// Creates sprite if it doesn't exist yet
 				if (!spr.Initialized) {
           auto tex = texdata->second;
-          if (entity.has_component<AnimationsComponent>()) {
-            auto anims = entity.component<AnimationsComponent>();
-					  spr.Sprite = new stella::graphics::Sprite(spa.x, spa.y, anims->FrameDimensions.x, anims->FrameDimensions.y, *tex, 0);
+          // If no frame dimensions were provided
+          if (spr.FrameDimensions.x == 0) {
+            spr.Sprite = new stella::graphics::Sprite(spa.x, spa.y,*tex);
           }
           else {
-            spr.Sprite = new stella::graphics::Sprite(spa.x, spa.y, *tex);
+					  spr.Sprite = new stella::graphics::Sprite(spa.x, spa.y, spr.FrameDimensions.x, spr.FrameDimensions.y, *tex, 0);
           }
-          if (entity.has_component<TransformComponent>()) {
-            auto trans = entity.component<TransformComponent>();
-            //spr.Sprite->SetScale(trans.Scale);
-            spr.Sprite->SetDirectScale(glm::vec2(spa.w, spa.h));
+
+          // If the texture has a diferent resolution than the actual size we want
+          if ((int)spr.Sprite->Dimensions.x != spa.w || (int)spr.Sprite->Dimensions.y != spa.h) {
+            spr.Sprite->SetDirectScale(glm::vec2((float)spa.w, (float)spa.h));
           }
+
 					spr.Initialized = true;
 				}
 				if (entity.has_component<ParticleComponent>()) {
@@ -80,7 +81,8 @@ void RenderSystem::update(entityx::EntityManager &es,
   });
  
 	this->TileLayer->Render();
-  this->ParticleLayer->Render();
+  //this->ParticleLayer->Render();
+  this->ParticleLayer->RenderWithFBOs();
 };
 
 void RenderSystem::configure(entityx::EventManager &event_manager) {

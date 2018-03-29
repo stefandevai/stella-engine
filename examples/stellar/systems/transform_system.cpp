@@ -18,8 +18,15 @@ void TransformSystem::update(entityx::EntityManager &es, entityx::EventManager &
                                                       SpatialComponent &spa,
                                                       SpriteComponent &spr) {
 
-    //spr.Sprite->SetScale(trans.Scale);
-    spr.Sprite->SetDirectScale(glm::vec2(spa.w, spa.h));
+    if ((int)(spr.Sprite->RealDimensions.x) != spa.w) {
+      trans.Scale.x *= static_cast<float>(spa.w/spr.Sprite->Dimensions.x);
+      spr.Sprite->RealDimensions.x = spa.w;
+    }
+    if ((int)(spr.Sprite->RealDimensions.y) != spa.h) {
+      trans.Scale.y *= static_cast<double>(spa.h/spr.Sprite->Dimensions.y);
+      spr.Sprite->RealDimensions.y = spa.h;
+    }
+    spr.Sprite->SetScale(trans.Scale);
     spr.Sprite->SetRotation(trans.Rotation);
   });
 }

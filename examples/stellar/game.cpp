@@ -28,7 +28,8 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->LoadTexture("over_block", "assets/sprites/over_block.png");
   this->LoadTexture("guanaco", "assets/sprites/guanaco-anim.png");
 	this->LoadTexture("fire-particle", "assets/sprites/fire_particle.png");
-	this->LoadTexture("bubble-particle", "assets/sprites/bubble.png");
+	this->LoadTexture("ice-particle", "assets/sprites/water.png");
+	this->LoadTexture("leaf-particle", "assets/sprites/grass.jpg");
 
   // Fonts
   this->LoadFont("font", "assets/sprites/font.png");
@@ -42,18 +43,16 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
 	this->load_text();
 
   this->Fire = entities.create();
-  this->Fire.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 40);
-  //this->Fire.assign<SpatialComponent>(100, 100, 350, 290);
+  this->Fire.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 30);
   this->Fire.assign<SpatialComponent>(16, 16, 350, 290);
 
-  //auto bubble = entities.create();
-  //bubble.assign<SpriteComponent>("bubble-particle");
-  //bubble.assign<SpatialComponent>(16, 16, 200, 0);
-  //bubble.assign<TransformComponent>(0.f, glm::vec2(0.5f, 0.5f));
+  auto ices = entities.create();
+  ices.assign<ParticleEmitter>(ParticleEmitter::Type::ICE_EMITTER, 30);
+  ices.assign<SpatialComponent>(16, 16, 450, 290);
 
-	//this->Fire = entities.create();
-	//this->Fire.assign<ParticleEmitter>("bubble-particle", 40);
-	//this->Fire.assign<SpatialComponent>(16, 16, 350, 290);
+  auto leaves = entities.create();
+  leaves.assign<ParticleEmitter>(ParticleEmitter::Type::LEAFY_EMITTER, 30);
+  leaves.assign<SpatialComponent>(16, 16, 550, 290);
 }
 
 Game::~Game() {
@@ -106,7 +105,7 @@ void Game::load_background() {
 	sky.assign<SpatialComponent>(720, 405);
 
   entityx::Entity moon = entities.create();
-  moon.assign<SpriteComponent>("moon");
+  moon.assign<SpriteComponent>("moon", glm::vec2(85, 85));
 	std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> moon_anims;
 	moon_anims.emplace_back("moon-anim", std::vector<unsigned int>{3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
 	moon.assign<AnimationsComponent>(moon_anims, glm::vec2(85, 85));
@@ -153,7 +152,7 @@ void Game::load_background() {
 void Game::load_player(int x, int y) {
   // Player
   entityx::Entity player = entities.create();
-  player.assign<SpriteComponent>("guanaco");
+  player.assign<SpriteComponent>("guanaco", glm::vec2(80, 60));
 	std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> guanaco_anims;
 	guanaco_anims.emplace_back("running", std::vector<unsigned int>{0, 1, 2, 3, 4}, 5);
 	player.assign<AnimationsComponent>(guanaco_anims, glm::vec2(80, 60));

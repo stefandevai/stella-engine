@@ -13,9 +13,7 @@ AnimationSystem::~AnimationSystem() {}
 void AnimationSystem::update(entityx::EntityManager &es,
                             entityx::EventManager &events,
                             entityx::TimeDelta dt) {
-  es.each<AnimationsComponent, SpriteComponent>([this](entityx::Entity entity,
-                                                   AnimationsComponent &animations,
-                                                   SpriteComponent &spr) {
+  es.each<AnimationsComponent, SpriteComponent>([this](entityx::Entity entity, AnimationsComponent &animations, SpriteComponent &spr) {
 		if (!animations.Initialized) {
 			for (auto& anim: animations.Frames) {
 			  spr.Sprite->SetDimensions(animations.FrameDimensions);

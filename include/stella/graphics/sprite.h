@@ -42,7 +42,7 @@ private:
   //glm::vec4 Color;
   unsigned int Color;
   std::vector<GLuint> Frames;
-  GLuint Frame, NumberOfFrames;
+  GLuint Frame = 0, NumberOfFrames;
   SpriteSheet *Sprites;
 };
 } // namespace graphics
