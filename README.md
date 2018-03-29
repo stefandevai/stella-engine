@@ -8,14 +8,14 @@ A cross-platform 2D C++/OpenGL game engine. It's currently in its early developm
 
 ## Current features:
 
-- Batch rendering
+- Batch Rendering
 - Spritesheets
 - Animations
 - Particles
 - Framebuffers
 - Bitmap font rendering using awesome [usr_share Grafx2](https://opengameart.org/users/usrshare) fonts
-- Ogg audio streaming
-- 2D basic AABB physics
+- Responsive audio streaming
+- Basic 2D AABB physics
 
 ## Building:
 
