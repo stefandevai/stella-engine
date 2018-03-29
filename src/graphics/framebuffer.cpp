@@ -22,17 +22,18 @@ void Framebuffer::Bind() {
   float TexW = this->CurrentTextureResolution.x;
   float TexH = this->CurrentTextureResolution.y;
 
+  // Updates FBO's texture resolusion on window resizing
   if (TexW != this->Display.GetWidth() || TexH != this->Display.GetHeight())
     this->RefreshTextureResolution();
+
 	glBindFramebuffer(GL_FRAMEBUFFER, this->FBO);
 }
 
 void Framebuffer::RefreshTextureResolution() {
   this->CurrentTextureResolution = glm::vec2(this->Display.GetWidth(), this->Display.GetHeight());
-  glViewport(0, 0, this->Display.GetWidth(), this->Display.GetHeight());
 
-  glBindTexture(GL_TEXTURE_2D, FBOtex);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->Display.GetWidth(), this->Display.GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+  glBindTexture(GL_TEXTURE_2D, this->FBOtex);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->CurrentTextureResolution.x, this->CurrentTextureResolution.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
   glBindTexture(GL_TEXTURE_2D, 0);
 }
 
@@ -52,14 +53,14 @@ void Framebuffer::init() {
 	glGenFramebuffers(1, &this->FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, this->FBO);
 
-	glGenTextures(1, &FBOtex);
-	glBindTexture(GL_TEXTURE_2D, FBOtex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->Display.GetWidth(), this->Display.GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glGenTextures(1, &this->FBOtex);
+	glBindTexture(GL_TEXTURE_2D, this->FBOtex);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->CurrentTextureResolution.x, this->CurrentTextureResolution.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, FBOtex, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->FBOtex, 0);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "Error: Framebuffer is not complete." << std::endl;
