@@ -2,6 +2,7 @@
 
 #include <GL/glew.h>
 #include <vector>
+#include <glm/glm.hpp>
 
 #include "stella/graphics/display.h"
 #include "stella/graphics/shader.h"
@@ -21,7 +22,9 @@ class Framebuffer {
 	private:
 		GLuint FBO, FBOtex, VAO, VBO;
 		stella::graphics::Display &Display;
+    glm::vec2 CurrentTextureResolution;
 
 		void init();
+    void RefreshTextureResolution(); 
 };
 	

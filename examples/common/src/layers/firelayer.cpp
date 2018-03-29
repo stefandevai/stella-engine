@@ -36,32 +36,33 @@ void FireLayer::RenderWithFBOs() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		this->Render();
-		this->ContrastFBO->Bind();
+    this->ContrastFBO->Bind();
 		this->ShNormal->Enable();
 		this->NormalFBO->ActivateTexture(GL_TEXTURE0);
 		this->DrawQuad(this->QuadVAO, this->QuadVBO);
 
 		this->BlurFBO[0]->Bind();
-		this->ShContrast->Enable();
-		this->ContrastFBO->ActivateTexture(GL_TEXTURE0);
-		this->DrawQuad(this->QuadVAO, this->QuadVBO);
+    this->ShContrast->Enable();
+    this->ContrastFBO->ActivateTexture(GL_TEXTURE0);
+    this->DrawQuad(this->QuadVAO, this->QuadVBO);
 
-		int amount = 4;
-		bool horizontal = true;
-		this->ShBlur->Enable();
-		for (int i = 0; i < amount; ++i) {
-			this->BlurFBO[horizontal]->Bind();
-			this->ShBlur->SetInt("horizontal", horizontal);
-			this->BlurFBO[!horizontal]->ActivateTexture(GL_TEXTURE0);
-			this->DrawQuad(this->QuadVAO, this->QuadVBO);
-			horizontal = !horizontal;
-		}
-		BlurFBO[!horizontal]->Unbind();
+    int amount = 4;
+    bool horizontal = true;
+    this->ShBlur->Enable();
+    for (int i = 0; i < amount; ++i) {
+      this->BlurFBO[horizontal]->Bind();
+      this->ShBlur->SetInt("horizontal", horizontal);
+      this->BlurFBO[!horizontal]->ActivateTexture(GL_TEXTURE0);
+      this->DrawQuad(this->QuadVAO, this->QuadVBO);
+      horizontal = !horizontal;
+    }
+    BlurFBO[!horizontal]->Unbind();
 
-		this->ShBloom->Enable();
-		this->NormalFBO->ActivateTexture(GL_TEXTURE0);
-		this->BlurFBO[!horizontal]->ActivateTexture(GL_TEXTURE1);
+    this->ShBloom->Enable();
+    this->NormalFBO->ActivateTexture(GL_TEXTURE0);
+    this->BlurFBO[!horizontal]->ActivateTexture(GL_TEXTURE1);
 		this->DrawQuad(this->QuadVAO, this->QuadVBO);
+    glViewport(0.0f, 0.0f, this->Display.GetWidth(), this->Display.GetHeight());
 }
 
 void FireLayer::DrawQuad(GLuint &VAO, GLuint &VBO) {

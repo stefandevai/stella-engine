@@ -18,8 +18,8 @@ public:
   void Clear();
   void SetClearColor(int r, int g, int b);
   void SetClearColor(GLfloat x, GLfloat y, GLfloat z);
-  GLuint GetWidth() { return Width; }
-  GLuint GetHeight() { return Height; }
+  GLuint GetWidth();
+  GLuint GetHeight();
   GLfloat GetTime() { return (GLfloat)glfwGetTime(); }
   GLuint GetFrame() { return Frame; }
   GLfloat GetDT() { return DT; }
@@ -29,6 +29,7 @@ public:
 
 private:
   GLuint Width, Height, Frame, LastFrame;
+
   GLfloat LastTime, LastFPSCheck, DT;
   std::string Title;
   GLFWwindow *Window;

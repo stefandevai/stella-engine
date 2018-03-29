@@ -188,10 +188,24 @@ void Game::load_foreground() {
 void Game::load_text() {
 	auto title_text = entities.create();
 	title_text.assign<SpatialComponent>(9, 9, 30, 30);
-	title_text.assign<TextComponent>("Stella Engine", "font-cursive", true);
+	title_text.assign<TextComponent>("- STELLA ENGINE -", "font-cursive", true);
+
+	const GLubyte* renderer = glGetString(GL_RENDERER);
+	std::stringstream renderer_string("");
+	renderer_string << renderer;
+	auto renderer_info = entities.create();
+	renderer_info.assign<SpatialComponent>(9, 9, 30, 60);
+	renderer_info.assign<TextComponent>(renderer_string.str(), "font-cursive", true);
+
+	const GLubyte* version = glGetString(GL_VERSION);
+	std::stringstream version_string("");
+	version_string << "OpenGL " << version;
+	auto opengl_info = entities.create();
+	opengl_info.assign<SpatialComponent>(9, 9, 30, 75);
+	opengl_info.assign<TextComponent>(version_string.str(), "font-cursive", true);
 
 	this->FPSText = entities.create();
-	this->FPSText.assign<SpatialComponent>(9, 9, 30, 45);
+	this->FPSText.assign<SpatialComponent>(9, 9, 30, 90);
 	this->FPSText.assign<TextComponent>("", "font-cursive");
 }
 

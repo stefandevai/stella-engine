@@ -66,6 +66,18 @@ Display::~Display() {
   glfwTerminate();
 }
 
+GLuint Display::GetWidth() {
+  int width, height;
+  glfwGetWindowSize(this->Window, &width, &height);
+  return width;
+}
+
+GLuint Display::GetHeight() {
+  int width, height;
+  glfwGetWindowSize(this->Window, &width, &height);
+  return height;
+}
+
 bool Display::IsRunning() { return this->Running; }
 
 void Display::Update() {
@@ -144,7 +156,7 @@ GLfloat Display::getFPS() {
 }
 
 void Display::windowSizeCallback(GLFWwindow *window, int width, int height) {
-  glViewport(0, 0, width, height);
+  //glViewport(0, 0, width, height);
 }
 
 // Adjust viewport proportions on fullscreen to match 16:9 proportions

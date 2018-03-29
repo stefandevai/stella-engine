@@ -19,7 +19,21 @@ void Framebuffer::Draw() {
 }
 
 void Framebuffer::Bind() {
+  float TexW = this->CurrentTextureResolution.x;
+  float TexH = this->CurrentTextureResolution.y;
+
+  if (TexW != this->Display.GetWidth() || TexH != this->Display.GetHeight())
+    this->RefreshTextureResolution();
 	glBindFramebuffer(GL_FRAMEBUFFER, this->FBO);
+}
+
+void Framebuffer::RefreshTextureResolution() {
+  this->CurrentTextureResolution = glm::vec2(this->Display.GetWidth(), this->Display.GetHeight());
+  glViewport(0, 0, this->Display.GetWidth(), this->Display.GetHeight());
+
+  glBindTexture(GL_TEXTURE_2D, FBOtex);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->Display.GetWidth(), this->Display.GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+  glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Framebuffer::ActivateTexture(GLenum tex_id) {
@@ -32,6 +46,8 @@ void Framebuffer::Unbind() {
 }
 
 void Framebuffer::init() {
+  this->CurrentTextureResolution = glm::vec2(this->Display.GetWidth(), this->Display.GetHeight());
+
 	// Framebuffer
 	glGenFramebuffers(1, &this->FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, this->FBO);
