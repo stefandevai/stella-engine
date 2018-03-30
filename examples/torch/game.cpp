@@ -9,7 +9,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->LoadTexture("player", "assets/sprites/player.png");
   this->LoadTexture("ground", "assets/sprites/ground.png");
 	this->LoadTexture("fire-particle", "assets/sprites/fire-particle.png");
-	this->LoadTexture("snowflake", "assets/sprites/snowflake.png");
+	this->LoadTexture("snowflake", "assets/snowflakes/flake2-small.png");
 
   // Fonts
   this->LoadFont("font-cursive", "assets/sprites/cursive.png");
@@ -31,7 +31,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
 
   auto snow = entities.create();
   snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
-  snow.assign<SpatialComponent>(16, 16, 384, -64);
+  snow.assign<SpatialComponent>(32, 32, 120, -64);
 
   this->load_blocks();
   this->load_text();

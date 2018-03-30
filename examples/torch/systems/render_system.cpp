@@ -84,8 +84,8 @@ void RenderSystem::update(entityx::EntityManager &es,
 		spr.Sprite->Pos.y = spa.y;
   });
  
-  this->ParticleLayer->RenderWithFBOs();
 	this->TileLayer->Render();
+  this->ParticleLayer->RenderWithFBOs();
   //this->ParticleLayer->Render();
 };
 
