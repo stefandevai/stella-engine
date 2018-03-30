@@ -36,9 +36,6 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
   this->LastFPSCheck = this->LastTime = (float)SDL_GetTicks()/1000.0f;
   this->LastFrame = 0;
 
-  // Input callback
-  //glfwSetCursorPosCallback(this->Window, this->mouseCallback);
-
   if (!gladLoadGLLoader(SDL_GL_GetProcAddress)) {
     std::cout << "Failed to initialize GLAD" << std::endl;
   }   
@@ -78,10 +75,10 @@ void Display::Update() {
   if (this->Frame >= 10000000)
     this->Frame = 0;
 
-  // Display FPS 
-  if (this->Frame % 120 == 0) {
-     std::cout << this->getFPS() << std::endl;
-  }
+  // Print FPS 
+  //if (this->Frame % 120 == 0) {
+     //std::cout << this->getFPS() << std::endl;
+  //}
 
   this->updateInput();
   SDL_GL_SwapWindow(this->Window);

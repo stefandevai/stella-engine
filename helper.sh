@@ -65,7 +65,7 @@ function exec_func {
 		cd $BUILD_DIR
 	fi
 
-	cp -r ../examples/stellar/assets examples
+	cp -r ../examples/torch/assets examples
 
 	cd $TARGET_DIR
 	./"$TARGET"

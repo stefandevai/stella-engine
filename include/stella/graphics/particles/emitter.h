@@ -4,10 +4,10 @@
 #include <string>
 #include <entityx/entityx.h>
 
-#include "../examples/stellar/components/particle_component.h"
-#include "../examples/stellar/components/spatial_component.h"
-#include "../examples/stellar/components/sprite_component.h"
-#include "../examples/stellar/components/transform_component.h"
+#include "../examples/torch/components/particle_component.h"
+#include "../examples/torch/components/spatial_component.h"
+#include "../examples/torch/components/sprite_component.h"
+#include "../examples/torch/components/transform_component.h"
 
 namespace stella {
 namespace graphics {
