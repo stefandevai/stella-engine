@@ -22,8 +22,7 @@ endif()
 
 # Turn on these options to use the libraries contained in your machine.
 option(USE_SHARED_GLFW "Use shared GLFW library" on)
-#option(USE_SHARED_SDL2 "Use shared SDL2 library" on)
-#option(USE_SHARED_GLEW "Use shared GLEW library" on)
+option(USE_SHARED_SDL2 "Use shared SDL2 library" on)
 option(USE_SHARED_SOIL "Use shared SOIL library" off)
 option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" on)
 option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" on)
@@ -46,14 +45,14 @@ endif()
 include_directories(${GLFW_INCLUDE_DIRS})
 
 # SDL2 - Windowing and input library for OpenGL.
-#if (USE_SHARED_SDL2)
-	#find_package(PkgConfig REQUIRED)
-  #pkg_search_module(SDL2 REQUIRED sdl2)
-#else()
-  #set(SDL2_INCLUDE_DIRS ${DEPENDENCIES_DIR}/sdl2/include)
-  #set(SDL2_LIBRARIES SDL2)
-#endif()
-#include_directories(${SDL2_INCLUDE_DIRS})
+if (USE_SHARED_SDL2)
+  find_package(PkgConfig REQUIRED)
+  pkg_search_module(SDL2 REQUIRED sdl2)
+else()
+  set(SDL2_INCLUDE_DIRS ${DEPENDENCIES_DIR}/sdl2/include)
+  set(SDL2_LIBRARIES SDL2)
+endif()
+include_directories(${SDL2_INCLUDE_DIRS})
 
 # GLAD
 set(GLAD_INCLUDE_DIRS ${DEPENDENCIES_DIR}/glad/include)
@@ -205,7 +204,7 @@ file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${STELLA_LIBRARY_NAME} ${STELLA_SOURCES})
 
-target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
+target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${SDL2_LIBRARIES} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
 	${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTITYX_LIBRARIES} ${PLATFORM_LIBRARIES})
 
 # Build examples if specified
