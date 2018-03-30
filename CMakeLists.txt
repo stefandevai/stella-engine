@@ -22,7 +22,8 @@ endif()
 
 # Turn on these options to use the libraries contained in your machine.
 option(USE_SHARED_GLFW "Use shared GLFW library" on)
-option(USE_SHARED_GLEW "Use shared GLEW library" on)
+#option(USE_SHARED_SDL2 "Use shared SDL2 library" on)
+#option(USE_SHARED_GLEW "Use shared GLEW library" on)
 option(USE_SHARED_SOIL "Use shared SOIL library" off)
 option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" on)
 option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" on)
@@ -44,15 +45,30 @@ else()
 endif()
 include_directories(${GLFW_INCLUDE_DIRS})
 
+# SDL2 - Windowing and input library for OpenGL.
+#if (USE_SHARED_SDL2)
+	#find_package(PkgConfig REQUIRED)
+  #pkg_search_module(SDL2 REQUIRED sdl2)
+#else()
+  #set(SDL2_INCLUDE_DIRS ${DEPENDENCIES_DIR}/sdl2/include)
+  #set(SDL2_LIBRARIES SDL2)
+#endif()
+#include_directories(${SDL2_INCLUDE_DIRS})
+
+# GLAD
+#set(GLAD_INCLUDE_DIRS ${DEPENDENCIES_DIR}/glad/include)
+#set(GLAD_LIBRARIES glad)
+#include_directories(${GLAD_INCLUDE_DIRS})
+
 # GLEW - Library for querying and loading OpenGL extensions.
-if (USE_SHARED_GLEW)
-	find_package(GLEW REQUIRED)
-else()
-	add_definitions(-DGLEW_STATIC)
-	set(GLEW_INCLUDE_DIRS ${DEPENDENCIES_DIR}/glew/include)
-	set(GLEW_LIBRARIES libglew_static)
-endif()
-include_directories(${GLEW_INCLUDE_DIRS})
+#if (USE_SHARED_GLEW)
+	#find_package(GLEW REQUIRED)
+#else()
+	#add_definitions(-DGLEW_STATIC)
+	#set(GLEW_INCLUDE_DIRS ${DEPENDENCIES_DIR}/glew/include)
+	#set(GLEW_LIBRARIES libglew_static)
+#endif()
+#include_directories(${GLEW_INCLUDE_DIRS})
 
 # GLM - OpenGL maths library
 include_directories(${DEPENDENCIES_DIR}/glm)
@@ -182,10 +198,10 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
 		"${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
 			"${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
 	if (STELLA_DEBUG_MODE)
-		set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -pg -g -O0 -no-pie")
+		set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -pg -g -O0 -no-pie -ldl")
 		set(CXX_LINK_FLAGS "-pg")
 	else()
-		set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -O3")
+		set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -O3 -ldl")
 	endif()
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	message(STATUS "Using MSVC")
@@ -199,7 +215,7 @@ file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${STELLA_LIBRARY_NAME} ${STELLA_SOURCES})
 
-target_link_libraries(${STELLA_LIBRARY_NAME} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
+target_link_libraries(${STELLA_LIBRARY_NAME} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
 	${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTITYX_LIBRARIES} ${PLATFORM_LIBRARIES})
 
 # Build examples if specified

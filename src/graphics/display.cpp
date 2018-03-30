@@ -47,9 +47,13 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
   glfwSetCursorPosCallback(this->Window, this->mouseCallback);
 
   // GLEW Initialization
-  glewExperimental = GL_TRUE;
-  if (glewInit() != GLEW_OK)
-    std::cout << "Failed to initialize GLEW" << std::endl;
+  //glewExperimental = GL_TRUE;
+  //if (glewInit() != GLEW_OK)
+    //std::cout << "Failed to initialize GLEW" << std::endl;
+
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+    std::cout << "Failed to initialize GLAD" << std::endl;
+  }   
 
   // OpenGL Viewport settings
   glViewport(0, 0, this->Width, this->Height);

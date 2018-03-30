@@ -4,9 +4,13 @@ if (NOT USE_SHARED_GLFW)
   add_subdirectory(glfw)
 endif()
 
-if (NOT USE_SHARED_GLEW)
-  add_subdirectory(glew)
-endif()
+#if (NOT USE_SHARED_SDL2)
+  #add_subdirectory(sdl2)
+#endif()
+
+#if (NOT USE_SHARED_GLEW)
+  #add_subdirectory(glew)
+#endif()
 
 if (NOT USE_SHARED_SOIL)
   add_subdirectory(soil)

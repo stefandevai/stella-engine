@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
   Game game(display);
 
   while (display.IsRunning()) {
-		display.Clear();
+    display.Clear();
     game.Update(display.GetDT());
     display.Update();
   }
