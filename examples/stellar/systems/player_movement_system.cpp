@@ -1,6 +1,6 @@
 #include "player_movement_system.h"
 
-#include <GLFW/glfw3.h>
+#include <SDL2/SDL.h>
 
 #include "../components/body_component.h"
 #include "../components/input_component.h"
@@ -22,10 +22,10 @@ void PlayerMovementSystem::update(entityx::EntityManager &es,
         float jumpforce = 3.5f;
 
         // Horizontal movement
-				if (this->Display.IsKeyDown(GLFW_KEY_LEFT) && !this->Display.IsKeyDown(GLFW_KEY_RIGHT)) {
+				if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT) && !this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
           mov.accelX(-1.0f);
 				}
-				else if (this->Display.IsKeyDown(GLFW_KEY_RIGHT) && !this->Display.IsKeyDown(GLFW_KEY_LEFT)) {
+				else if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT) && !this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
           mov.accelX(1.0f);
 				}
 				else {
@@ -35,7 +35,7 @@ void PlayerMovementSystem::update(entityx::EntityManager &es,
         // Jump only if body is colliding bottom
         if (body.ColDir.test(0)) {
           mov.stopY();
-          if (this->Display.IsKeyDown(GLFW_KEY_UP)) {
+          if (this->Display.IsKeyDown(SDL_SCANCODE_UP)) {
             mov.Vel.y = -jumpforce;
           }
         } else {

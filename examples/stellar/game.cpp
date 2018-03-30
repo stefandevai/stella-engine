@@ -9,14 +9,14 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   systems.add<CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
   systems.add<MovementSystem>();
   systems.add<AnimationSystem>();
-	systems.add<FontRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
-	systems.add<RenderSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
+  systems.add<FontRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
+  systems.add<RenderSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
   systems.add<TransformSystem>();
   systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   systems.add<TileviewSystem>((int)this->Display.GetWidth());
   systems.add<ParallaxSystem>();
   systems.add<ParticleSystem>();
-	systems.configure();
+  systems.configure();
 
   // Textures
   this->LoadTexture("sky", "assets/sprites/sky_background.png");
@@ -36,11 +36,11 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->LoadFont("font-outlined", "assets/sprites/font_outlined.png");
   this->LoadFont("font-cursive", "assets/sprites/cursive.png");
 
-	this->load_background();
-	this->load_blocks();
-	this->load_player(150, 253);
-	this->load_foreground();
-	this->load_text();
+  this->load_background();
+  this->load_blocks();
+  this->load_player(150, 253);
+  this->load_foreground();
+  this->load_text();
 
   this->Fire = entities.create();
   this->Fire.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 30);
@@ -57,16 +57,16 @@ Game::~Game() {
 }
 
 void Game::Update(entityx::TimeDelta dt) { 
-	systems.update<CollisionSystem>(dt);
-	systems.update<MovementSystem>(dt);
-	systems.update<ParticleSystem>(dt);
-	systems.update<RenderSystem>(dt);
+  systems.update<CollisionSystem>(dt);
+  systems.update<MovementSystem>(dt);
+  systems.update<ParticleSystem>(dt);
+  systems.update<RenderSystem>(dt);
   systems.update<TransformSystem>(dt);
-	systems.update<PlayerMovementSystem>(dt);
-	systems.update<AnimationSystem>(dt);
-	systems.update<TileviewSystem>(dt);
-	systems.update<ParallaxSystem>(dt);
-	systems.update<FontRenderingSystem>(dt);
+  systems.update<PlayerMovementSystem>(dt);
+  systems.update<AnimationSystem>(dt);
+  systems.update<TileviewSystem>(dt);
+  systems.update<ParallaxSystem>(dt);
+  systems.update<FontRenderingSystem>(dt);
 
 	if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
 		std::stringstream fps_string("");

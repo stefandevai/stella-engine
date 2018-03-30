@@ -26,7 +26,6 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
 	//glfwSetWindowSizeLimits(this->Window, width, height, GLFW_DONT_CARE,
 													//GLFW_DONT_CARE);
 	//glfwSetWindowAspectRatio(this->Window, 16, 9);
-	//glfwSetWindowSizeCallback(this->Window, this->windowSizeCallback);
   
   this->Running = true;
 
@@ -35,7 +34,7 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
 
   // Set initial value for Frame
   this->Frame = 1; // Setting as 1 to avoid division by 0
-  this->LastFPSCheck = this->LastTime = SDL_GetTicks();
+  this->LastFPSCheck = this->LastTime = (float)SDL_GetTicks()/1000.0f;
   this->LastFrame = 0;
 
   // Input callback
@@ -63,13 +62,13 @@ Display::~Display() {
 
 GLuint Display::GetWidth() {
   int width, height;
-  //glfwGetWindowSize(this->Window, &width, &height);
+  SDL_GetWindowSize(this->Window, &width, &height);
   return width;
 }
 
 GLuint Display::GetHeight() {
   int width, height;
-  //glfwGetWindowSize(this->Window, &width, &height);
+  SDL_GetWindowSize(this->Window, &width, &height);
   return height;
 }
 
@@ -119,16 +118,42 @@ void Display::Clear() {
 }
 
 void Display::updateInput() {
-  //glfwPollEvents();
-  //this->Running = !glfwWindowShouldClose(this->Window);
+  SDL_Event event;
+  while (SDL_PollEvent(&event))
+  {
+    if (event.type == SDL_QUIT)
+      this->Running = false;
+    if (event.type == SDL_KEYDOWN)
+    {
+      switch (event.key.keysym.sym)
+      {
+      case SDLK_ESCAPE:
+        this->Running = false;
+        break;
+      default:
+        break;
+      }
+    }
+    if (event.type == SDL_WINDOWEVENT) {
+      switch (event.window.event) {
+        case SDL_WINDOWEVENT_RESIZED:
+          glViewport(0, 0, event.window.data1, event.window.data2);
+          break;
+        case SDL_WINDOWEVENT_SIZE_CHANGED:
+          glViewport(0, 0, event.window.data1, event.window.data2);
+          break;
+      }
+    }
+  }
 }
 
 bool Display::IsKeyDown(int key) {
-	//return glfwGetKey(this->Window, key);
+  const Uint8* keys = SDL_GetKeyboardState(NULL);
+  return keys[key];
 }
 
 void Display::getDT() {
-  GLfloat currentTime = SDL_GetTicks();
+  GLfloat currentTime = (float)SDL_GetTicks()/1000.0f;
   this->DT = currentTime - this->LastTime;
   this->LastTime = currentTime;
 }
@@ -143,15 +168,11 @@ GLfloat Display::getFPS() {
   GLuint deltaFrame = currentFrame - this->LastFrame;
   this->LastFrame = currentFrame;
 
-  GLfloat currentTime = SDL_GetTicks();
+  GLfloat currentTime = (float)SDL_GetTicks()/1000.0f;
   GLfloat deltaTime = currentTime - this->LastFPSCheck;
   this->LastFPSCheck = currentTime;
 
   return deltaFrame / deltaTime;
-}
-
-void Display::windowSizeCallback(SDL_Window *window, int width, int height) {
-  //glViewport(0, 0, width, height);
 }
 
 // Adjust viewport proportions on fullscreen to match 16:9 proportions
