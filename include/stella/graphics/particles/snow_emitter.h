@@ -13,10 +13,10 @@ namespace graphics {
         this->SetMaxLifeRange(std::make_pair(500,600));
         this->SetPositionXRange(std::make_pair(-384,384));
         this->SetPositionYRange(std::make_pair(0,0));
-        this->SetSpeedXRange(std::make_pair(0.f,0.f));
+        this->SetSpeedXRange(std::make_pair(-1.f,1.f));
         this->SetSpeedYRange(std::make_pair(1.f,1.f));
-        this->SetScaleXRange(std::make_pair(1.f,1.f));
-        this->SetRotationRange(std::make_pair(0.f,0.f));
+        this->SetScaleXRange(std::make_pair(0.1f,1.f));
+        this->SetRotationRange(std::make_pair(0.f,90.f));
 			}
 
 			inline ~SnowEmitter() {
