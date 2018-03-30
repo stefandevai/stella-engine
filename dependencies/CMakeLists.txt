@@ -12,6 +12,8 @@ endif()
   #add_subdirectory(glew)
 #endif()
 
+add_subdirectory(glad)
+
 if (NOT USE_SHARED_SOIL)
   add_subdirectory(soil)
 endif()

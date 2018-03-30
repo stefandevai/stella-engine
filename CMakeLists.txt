@@ -56,19 +56,9 @@ include_directories(${GLFW_INCLUDE_DIRS})
 #include_directories(${SDL2_INCLUDE_DIRS})
 
 # GLAD
-#set(GLAD_INCLUDE_DIRS ${DEPENDENCIES_DIR}/glad/include)
-#set(GLAD_LIBRARIES glad)
-#include_directories(${GLAD_INCLUDE_DIRS})
-
-# GLEW - Library for querying and loading OpenGL extensions.
-#if (USE_SHARED_GLEW)
-	#find_package(GLEW REQUIRED)
-#else()
-	#add_definitions(-DGLEW_STATIC)
-	#set(GLEW_INCLUDE_DIRS ${DEPENDENCIES_DIR}/glew/include)
-	#set(GLEW_LIBRARIES libglew_static)
-#endif()
-#include_directories(${GLEW_INCLUDE_DIRS})
+set(GLAD_INCLUDE_DIRS ${DEPENDENCIES_DIR}/glad/include)
+set(GLAD_LIBRARIES glad)
+include_directories(${GLAD_INCLUDE_DIRS})
 
 # GLM - OpenGL maths library
 include_directories(${DEPENDENCIES_DIR}/glm)
@@ -175,7 +165,7 @@ if (LINUX)
 	
 		find_package(LibDL REQUIRED)
 		include_directories(${LIBDL_INCLUDE_DIR})
-		list(APPEND PLATFORM_LIBRARIES ${LIBDL_LIBRARY})
+    list(APPEND PLATFORM_LIBRARIES ${LIBDL_LIBRARIES})
 
 		find_package(Threads REQUIRED)
 		list(APPEND PLATFORM_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
@@ -198,10 +188,10 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
 		"${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
 			"${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
 	if (STELLA_DEBUG_MODE)
-		set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -pg -g -O0 -no-pie -ldl")
+		set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -pg -g -O0 -no-pie")
 		set(CXX_LINK_FLAGS "-pg")
 	else()
-		set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -O3 -ldl")
+		set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -O3")
 	endif()
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	message(STATUS "Using MSVC")
@@ -215,7 +205,7 @@ file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${STELLA_LIBRARY_NAME} ${STELLA_SOURCES})
 
-target_link_libraries(${STELLA_LIBRARY_NAME} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
+target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
 	${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTITYX_LIBRARIES} ${PLATFORM_LIBRARIES})
 
 # Build examples if specified
