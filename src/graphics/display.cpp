@@ -78,13 +78,10 @@ void Display::Update() {
   if (this->Frame >= 10000000)
     this->Frame = 0;
 
-  // Display FPS on window border
-	//if (this->Frame % 120 == 0) {
-		//std::stringstream compo;
-		//compo << Title << " (" << this->getFPS() << " FPS)";
-		//glfwSetWindowTitle(this->Window, compo.str().c_str());
-		 //std::cout << this->getFPS() << std::endl;
-	//}
+  // Display FPS 
+  if (this->Frame % 120 == 0) {
+     std::cout << this->getFPS() << std::endl;
+  }
 
   this->updateInput();
   SDL_GL_SwapWindow(this->Window);
@@ -110,8 +107,7 @@ void Display::SetClearColor(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void Display::Clear() {
-  glClearColor(this->ClearColor.x, this->ClearColor.y, this->ClearColor.z,
-               1.0f);
+  glClearColor(this->ClearColor.x, this->ClearColor.y, this->ClearColor.z, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
 }
 
