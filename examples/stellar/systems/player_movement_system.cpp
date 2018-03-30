@@ -22,16 +22,15 @@ void PlayerMovementSystem::update(entityx::EntityManager &es,
         float jumpforce = 3.5f;
 
         // Horizontal movement
-				//if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT) && !this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
-				if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
+				if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT) && !this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
           mov.accelX(-1.0f);
 				}
-				if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
+				else if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT) && !this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
           mov.accelX(1.0f);
 				}
-				//else {
-					//mov.desaccelX();
-				//}
+				else {
+					mov.desaccelX();
+				}
 
         // Jump only if body is colliding bottom
         if (body.ColDir.test(0)) {

@@ -21,7 +21,6 @@ if (BUILD_STELLA_EXAMPLE)
 endif()
 
 # Turn on these options to use the libraries contained in your machine.
-option(USE_SHARED_GLFW "Use shared GLFW library" on)
 option(USE_SHARED_SDL2 "Use shared SDL2 library" on)
 option(USE_SHARED_SOIL "Use shared SOIL library" off)
 option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" on)
@@ -33,16 +32,6 @@ set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dependencies)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 find_package(OpenGL REQUIRED)
-
-# GLFW - Windowing and input library for OpenGL.
-if (USE_SHARED_GLFW)
-	find_package(PkgConfig REQUIRED)
-	pkg_search_module(GLFW REQUIRED glfw3)
-else()
-	set(GLFW_INCLUDE_DIRS ${DEPENDENCIES_DIR}/glfw/include)
-	set(GLFW_LIBRARIES glfw)
-endif()
-include_directories(${GLFW_INCLUDE_DIRS})
 
 # SDL2 - Windowing and input library for OpenGL.
 if (USE_SHARED_SDL2)
@@ -127,7 +116,7 @@ include_directories(${ENTITYX_INCLUDE_DIR})
 set(PLATFORM_LIBRARIES)
 
 if (LINUX)
-	if (NOT USE_SHARED_GLFW)
+  if (NOT USE_SHARED_SDL2)
 		find_package(X11 REQUIRED)
 		include_directories(${X11_INCLUDE_DIR})
 		list(APPEND PLATFORM_LIBRARIES ${X11_X11_LIB})
@@ -204,7 +193,7 @@ file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${STELLA_LIBRARY_NAME} ${STELLA_SOURCES})
 
-target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${SDL2_LIBRARIES} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
+target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
 	${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTITYX_LIBRARIES} ${PLATFORM_LIBRARIES})
 
 # Build examples if specified

@@ -200,12 +200,6 @@ void Display::checkViewportProportions() {
   }
 }
 
-//void Display::inputCallback(SDL_Window *window, int key, int scancode,
-														//int action, int mode) {
-	//if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		//glfwSetWindowShouldClose(window, GL_TRUE);
-//}
-
 //void Display::mouseCallback(SDL_Window *window, double xpos, double ypos) {
   //MouseX = xpos;
   //MouseY = ypos;
