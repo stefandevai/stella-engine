@@ -10,28 +10,24 @@ double MouseX, MouseY;
 Display::Display(GLuint width, GLuint height, const std::string &title)
     : Width(width), Height(height), Title(title) {
   // GLFW initialization
-  glfwSetErrorCallback(this->errorCallback);
-  if (!glfwInit())
-    std::cout << "Failed to initialize GLFW." << std::endl;
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	 glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-	//glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+  //glfwSetErrorCallback(this->errorCallback);
+  if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    std::cout << "It was not possible to initialize SDL2" << std::endl;
+	
+	//this->Window = SDL_CreateWindow(this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+	this->Window = SDL_CreateWindow(this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+	SDL_ShowCursor(SDL_DISABLE);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_CreateContext(this->Window);
 
-  // Window creation
-  this->Window = glfwCreateWindow(this->Width, this->Height,
-                                  this->Title.c_str(), nullptr, nullptr);
-  if (this->Window == nullptr)
-    std::cout << "GLFW Error: It was not possible to create a Window."
-              << std::endl;
-	glfwSetWindowSizeLimits(this->Window, width, height, GLFW_DONT_CARE,
-													GLFW_DONT_CARE);
-	glfwSetWindowAspectRatio(this->Window, 16, 9);
-	glfwSetWindowSizeCallback(this->Window, this->windowSizeCallback);
-	glfwSetInputMode(this->Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-  glfwMakeContextCurrent(this->Window);
+	//glfwSetWindowSizeLimits(this->Window, width, height, GLFW_DONT_CARE,
+													//GLFW_DONT_CARE);
+	//glfwSetWindowAspectRatio(this->Window, 16, 9);
+	//glfwSetWindowSizeCallback(this->Window, this->windowSizeCallback);
+  
   this->Running = true;
 
   // Uncomment to enable vsync
@@ -39,19 +35,14 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
 
   // Set initial value for Frame
   this->Frame = 1; // Setting as 1 to avoid division by 0
-  this->LastFPSCheck = this->LastTime = glfwGetTime();
+  this->LastFPSCheck = this->LastTime = SDL_GetTicks();
   this->LastFrame = 0;
 
   // Input callback
-	glfwSetKeyCallback(this->Window, this->inputCallback);
-  glfwSetCursorPosCallback(this->Window, this->mouseCallback);
+	//glfwSetKeyCallback(this->Window, this->inputCallback);
+  //glfwSetCursorPosCallback(this->Window, this->mouseCallback);
 
-  // GLEW Initialization
-  //glewExperimental = GL_TRUE;
-  //if (glewInit() != GLEW_OK)
-    //std::cout << "Failed to initialize GLEW" << std::endl;
-
-  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+  if (!gladLoadGLLoader(SDL_GL_GetProcAddress)) {
     std::cout << "Failed to initialize GLAD" << std::endl;
   }   
 
@@ -66,19 +57,19 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
 }
 
 Display::~Display() {
-  // Terminating GLFW
-  glfwTerminate();
+  SDL_DestroyWindow(this->Window);
+  SDL_Quit();
 }
 
 GLuint Display::GetWidth() {
   int width, height;
-  glfwGetWindowSize(this->Window, &width, &height);
+  //glfwGetWindowSize(this->Window, &width, &height);
   return width;
 }
 
 GLuint Display::GetHeight() {
   int width, height;
-  glfwGetWindowSize(this->Window, &width, &height);
+  //glfwGetWindowSize(this->Window, &width, &height);
   return height;
 }
 
@@ -99,7 +90,7 @@ void Display::Update() {
 	//}
 
   this->updateInput();
-  glfwSwapBuffers(this->Window);
+  SDL_GL_SwapWindow(this->Window);
 }
 
 void Display::SetClearColor(int r, int g, int b) {
@@ -128,16 +119,16 @@ void Display::Clear() {
 }
 
 void Display::updateInput() {
-  glfwPollEvents();
-  this->Running = !glfwWindowShouldClose(this->Window);
+  //glfwPollEvents();
+  //this->Running = !glfwWindowShouldClose(this->Window);
 }
 
 bool Display::IsKeyDown(int key) {
-	return glfwGetKey(this->Window, key);
+	//return glfwGetKey(this->Window, key);
 }
 
 void Display::getDT() {
-  GLfloat currentTime = glfwGetTime();
+  GLfloat currentTime = SDL_GetTicks();
   this->DT = currentTime - this->LastTime;
   this->LastTime = currentTime;
 }
@@ -152,14 +143,14 @@ GLfloat Display::getFPS() {
   GLuint deltaFrame = currentFrame - this->LastFrame;
   this->LastFrame = currentFrame;
 
-  GLfloat currentTime = glfwGetTime();
+  GLfloat currentTime = SDL_GetTicks();
   GLfloat deltaTime = currentTime - this->LastFPSCheck;
   this->LastFPSCheck = currentTime;
 
   return deltaFrame / deltaTime;
 }
 
-void Display::windowSizeCallback(GLFWwindow *window, int width, int height) {
+void Display::windowSizeCallback(SDL_Window *window, int width, int height) {
   //glViewport(0, 0, width, height);
 }
 
@@ -188,29 +179,29 @@ void Display::checkViewportProportions() {
   }
 }
 
-void Display::inputCallback(GLFWwindow *window, int key, int scancode,
-														int action, int mode) {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
-}
+//void Display::inputCallback(SDL_Window *window, int key, int scancode,
+														//int action, int mode) {
+	//if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		//glfwSetWindowShouldClose(window, GL_TRUE);
+//}
 
-void Display::mouseCallback(GLFWwindow *window, double xpos, double ypos) {
-  MouseX = xpos;
-  MouseY = ypos;
-  int width, height;
-  glfwGetWindowSize(window, &width, &height);
-  if (MouseX < 0)
-    MouseX = 0;
-  else if (MouseX > width)
-    MouseX = width;
-  if (MouseY < 0)
-    MouseY = 0;
-  else if (MouseY > height)
-    MouseY = height;
-}
+//void Display::mouseCallback(SDL_Window *window, double xpos, double ypos) {
+  //MouseX = xpos;
+  //MouseY = ypos;
+  //int width, height;
+  ////glfwGetWindowSize(window, &width, &height);
+  //if (MouseX < 0)
+    //MouseX = 0;
+  //else if (MouseX > width)
+    //MouseX = width;
+  //if (MouseY < 0)
+    //MouseY = 0;
+  //else if (MouseY > height)
+    //MouseY = height;
+//}
 
-void Display::errorCallback(int error, const char *description) {
-  std::cout << description << std::endl;
-}
+//void Display::errorCallback(int error, const char *description) {
+  //std::cout << description << std::endl;
+//}
 } // namespace graphics
 } // namespace stella

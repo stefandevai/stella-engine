@@ -4,7 +4,7 @@
 #include <array>
 
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 
 namespace stella {
@@ -20,7 +20,7 @@ public:
   void SetClearColor(GLfloat x, GLfloat y, GLfloat z);
   GLuint GetWidth();
   GLuint GetHeight();
-  GLfloat GetTime() { return (GLfloat)glfwGetTime(); }
+  GLfloat GetTime() { return (GLfloat)SDL_GetTicks(); }
   GLuint GetFrame() { return Frame; }
   GLfloat GetDT() { return DT; }
   GLfloat getFPS();
@@ -32,17 +32,17 @@ private:
 
   GLfloat LastTime, LastFPSCheck, DT;
   std::string Title;
-  GLFWwindow *Window;
+  SDL_Window *Window;
   bool Running;
   glm::vec3 ClearColor;
 
   void updateInput();
   void getDT();
   void checkViewportProportions();
-  static void inputCallback(GLFWwindow *window, int key, int scancode,
+  static void inputCallback(SDL_Window *window, int key, int scancode,
                             int action, int mode);
-  static void mouseCallback(GLFWwindow *window, double xpos, double ypos);
-  static void windowSizeCallback(GLFWwindow *window, int width, int height);
+  static void mouseCallback(SDL_Window *window, double xpos, double ypos);
+  static void windowSizeCallback(SDL_Window *window, int width, int height);
   static void errorCallback(int error, const char *description);
 };
 } // namespace graphics
