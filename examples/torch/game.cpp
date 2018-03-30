@@ -24,13 +24,17 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   player.assign<InputComponent>();
   player.assign<PlayerComponent>();
 
-  this->load_blocks();
-  this->load_text();
-
   auto torch = entities.create();
   torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
   torch.assign<SpatialComponent>(16, 16, 350, 290);
   torch.assign<TorchComponent>();
+
+  auto snow = entities.create();
+  snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
+  snow.assign<SpatialComponent>(16, 16, 384, -64);
+
+  this->load_blocks();
+  this->load_text();
 
   // Systems
   systems.add<CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());

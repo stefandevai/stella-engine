@@ -23,7 +23,7 @@ void ParticleSystem::update(entityx::EntityManager &es, entityx::EventManager &e
     //}
 		//if (!gen.Emitter->IsInitialized()) gen.Emitter->Initialize();
 
-    if(++this->Timer % this->Velocity == 0) {
+    if(++this->Timer % gen.Velocity == 0) {
       auto particle = gen.Emitter->Emit(entity, es);
       gen.Particles.push_back(particle);
 

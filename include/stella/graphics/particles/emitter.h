@@ -4,10 +4,7 @@
 #include <string>
 #include <entityx/entityx.h>
 
-#include "../examples/torch/components/particle_component.h"
-#include "../examples/torch/components/spatial_component.h"
-#include "../examples/torch/components/sprite_component.h"
-#include "../examples/torch/components/transform_component.h"
+#include "../examples/torch/components/game_components.h"
 
 namespace stella {
 namespace graphics {
@@ -25,7 +22,6 @@ namespace graphics {
 	class Emitter {
 		public:
 			inline virtual ~Emitter() {};
-			//virtual void UpdateParticle(entityx::Entity particle) = 0;
       virtual void UpdateParticle(entityx::Entity particle) {
         auto particle_par = particle.component<ParticleComponent>();
 
