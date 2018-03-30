@@ -39,9 +39,6 @@ private:
   void updateInput();
   void getDT();
   void checkViewportProportions();
-  static void inputCallback(SDL_Window *window, int key, int scancode, int action, int mode);
-  static void mouseCallback(SDL_Window *window, double xpos, double ypos);
-  static void errorCallback(int error, const char *description);
 };
 } // namespace graphics
 } // namespace stella

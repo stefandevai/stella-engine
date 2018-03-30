@@ -68,12 +68,12 @@ void RenderSystem::update(entityx::EntityManager &es,
 
 					spr.Initialized = true;
 				}
-				if (entity.has_component<ParticleComponent>()) {
-					this->ParticleLayer->Add(spr.Sprite);
-				}
-				else {
+        if (entity.has_component<ParticleComponent>()) {
+          this->ParticleLayer->Add(spr.Sprite);
+        }
+        else {
 					this->TileLayer->Add(spr.Sprite);
-				}
+        }
 			}
 			spr.InLayer = true;
 		}
@@ -100,12 +100,12 @@ void RenderSystem::receive(
   auto spr = ent.component<SpriteComponent>();
 
 	if (spr->InLayer) {
-		if (ent.has_component<ParticleComponent>()) {
-			this->ParticleLayer->Remove(spr->Sprite);
-		}
-		else {
+    if (ent.has_component<ParticleComponent>()) {
+      this->ParticleLayer->Remove(spr->Sprite);
+    }
+    else {
 			this->TileLayer->Remove(spr->Sprite);
-		}
+    }
     spr->InLayer = false;
   }
 }

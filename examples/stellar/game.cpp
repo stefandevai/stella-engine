@@ -75,11 +75,11 @@ void Game::Update(entityx::TimeDelta dt) {
 		text->Text = fps_string.str();
 	}
 
-  //auto fire_spa = this->Fire.component<SpatialComponent>();
-  //double mousex, mousey;
-  //this->Display.GetMousePos(mousex, mousey);
-  //fire_spa->x = (int)mousex;
-  //fire_spa->y = (int)mousey;
+  auto fire_spa = this->Fire.component<SpatialComponent>();
+  double mousex, mousey;
+  this->Display.GetMousePos(mousex, mousey);
+  fire_spa->x = (int)mousex;
+  fire_spa->y = (int)mousey;
 }
 
 void Game::LoadTexture(std::string tex_name, const char *tex_path) {

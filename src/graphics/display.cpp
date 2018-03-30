@@ -10,7 +10,6 @@ double MouseX, MouseY;
 Display::Display(GLuint width, GLuint height, const std::string &title)
     : Width(width), Height(height), Title(title) {
   // GLFW initialization
-  //glfwSetErrorCallback(this->errorCallback);
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
     std::cout << "It was not possible to initialize SDL2" << std::endl;
 	
@@ -38,7 +37,6 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
   this->LastFrame = 0;
 
   // Input callback
-	//glfwSetKeyCallback(this->Window, this->inputCallback);
   //glfwSetCursorPosCallback(this->Window, this->mouseCallback);
 
   if (!gladLoadGLLoader(SDL_GL_GetProcAddress)) {
@@ -144,6 +142,10 @@ void Display::updateInput() {
           break;
       }
     }
+    if (event.type == SDL_MOUSEMOTION) {
+      MouseX = event.motion.x;
+      MouseY = event.motion.y;
+    }
   }
 }
 
@@ -199,24 +201,5 @@ void Display::checkViewportProportions() {
     glViewport(0, left / 2, width, newheight);
   }
 }
-
-//void Display::mouseCallback(SDL_Window *window, double xpos, double ypos) {
-  //MouseX = xpos;
-  //MouseY = ypos;
-  //int width, height;
-  ////glfwGetWindowSize(window, &width, &height);
-  //if (MouseX < 0)
-    //MouseX = 0;
-  //else if (MouseX > width)
-    //MouseX = width;
-  //if (MouseY < 0)
-    //MouseY = 0;
-  //else if (MouseY > height)
-    //MouseY = height;
-//}
-
-//void Display::errorCallback(int error, const char *description) {
-  //std::cout << description << std::endl;
-//}
 } // namespace graphics
 } // namespace stella
