@@ -11,7 +11,7 @@ namespace graphics {
 		public:
 			inline SnowEmitter(int posx, int posy, unsigned int max_particles, std::string tex_name) : Emitter(posx, posy, max_particles, tex_name) {
         this->SetMaxLifeRange(std::make_pair(500,600));
-        this->SetPositionXRange(std::make_pair(-384,384));
+        this->SetPositionXRange(std::make_pair(0.0f,32.0f));
         this->SetPositionYRange(std::make_pair(0,0));
         this->SetSpeedXRange(std::make_pair(1.0f,4.0f));
         this->SetSpeedYRange(std::make_pair(1.f,1.f));

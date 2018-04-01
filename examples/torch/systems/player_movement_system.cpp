@@ -17,7 +17,7 @@ void PlayerMovementSystem::update(entityx::EntityManager &es,
                                           MovementComponent &mov,
                                           PositionComponent &pos,
                                           DimensionComponent &dim) {
-        const float GROUND_Y = 368.f;
+        const float GROUND_Y = 512;
 
         mov.Acceleration.x = 0.f;
         if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
@@ -38,8 +38,8 @@ void PlayerMovementSystem::update(entityx::EntityManager &es,
           mov.Velocity.x = 0.0f;
           mov.Acceleration.x = 0.0f;
         }
-        else if (pos.x > this->Display.GetWidth() - dim.w) {
-          pos.x = this->Display.GetWidth() - dim.w;
+        else if (pos.x > 1024 - dim.w) {
+          pos.x = 1024 - dim.w;
           mov.Velocity.x = 0.0f;
           mov.Acceleration.x = 0.0f;
         } 

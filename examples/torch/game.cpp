@@ -33,7 +33,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
 
   auto snow = entities.create();
   snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
-  snow.assign<PositionComponent>(this->Display.GetWidth()/2, -64.f);
+  snow.assign<PositionComponent>(0.0f, -64.f);
   snow.assign<DimensionComponent>(32.f, 32.f);
 
   this->load_blocks();
@@ -91,9 +91,9 @@ void Game::LoadFont(std::string font_name, const char *font_path) {
 void Game::load_blocks() {
   // Terrain
   entityx::Entity block = entities.create();
-  block.assign<BodyComponent>(768, 64, 0, 0, true);
-  block.assign<PositionComponent>(0.f, 368.f);
-  block.assign<DimensionComponent>(768.f, 64.f);
+  block.assign<BodyComponent>(this->Display.GetWidth(), 64, 0, 0, true);
+  block.assign<PositionComponent>(0.f, this->Display.GetHeight() - 64);
+  block.assign<DimensionComponent>(this->Display.GetWidth(), 64.f);
   block.assign<SpriteComponent>("ground");
 }
 
