@@ -21,7 +21,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   player.assign<BodyComponent>(32, 32, 0, 0, false);
   player.assign<PositionComponent>(100.f, 336.f);
   player.assign<DimensionComponent>(32.f, 32.f);
-  player.assign<MovementComponent>(glm::vec2(10.f, 0.f), glm::vec2(30.f, 10.f));
+  player.assign<MovementComponent>(glm::vec2(300.f, 0.f));
   player.assign<InputComponent>();
   player.assign<PlayerComponent>();
 
