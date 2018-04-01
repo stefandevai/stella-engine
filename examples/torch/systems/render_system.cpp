@@ -6,10 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "../components/spatial_component.h"
-#include "../components/particle_component.h"
-#include "../components/animation_component.h"
-#include "../components/transform_component.h"
+#include "../components/game_components.h"
 
 RenderSystem::RenderSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &textures, stella::graphics::Display &display) : Textures(textures) {
 	// Initialize shader and textures IDs
@@ -36,9 +33,10 @@ void RenderSystem::update(entityx::EntityManager &es,
                           entityx::EventManager &events,
                           entityx::TimeDelta dt) {
 
-  es.each<SpatialComponent, SpriteComponent>([this](entityx::Entity entity,
-                                                     SpatialComponent &spa,
-                                                     SpriteComponent &spr) {
+  es.each<SpriteComponent, PositionComponent, DimensionComponent>([this](entityx::Entity entity,
+                                                     SpriteComponent &spr,
+                                                     PositionComponent &pos,
+                                                     DimensionComponent &dim) {
 		// Adds sprite to layer
 		if (!spr.InLayer) {
 			auto texdata = this->Textures.find(spr.TexName);
@@ -51,19 +49,19 @@ void RenderSystem::update(entityx::EntityManager &es,
           auto tex = texdata->second;
           // If no frame dimensions were provided
           if (spr.FrameDimensions.x == 0) {
-            spr.Sprite = new stella::graphics::Sprite(spa.x, spa.y,*tex);
+            spr.Sprite = new stella::graphics::Sprite(pos.x, pos.y,*tex);
           }
           else {
-					  spr.Sprite = new stella::graphics::Sprite(spa.x, spa.y, spr.FrameDimensions.x, spr.FrameDimensions.y, *tex, 0);
+					  spr.Sprite = new stella::graphics::Sprite(pos.x, pos.y, spr.FrameDimensions.x, spr.FrameDimensions.y, *tex, 0);
           }
 
           // If the texture has a diferent resolution than the actual size we want
-          if ((int)spr.Sprite->Dimensions.x != spa.w || (int)spr.Sprite->Dimensions.y != spa.h) {
+          if ((int)spr.Sprite->Dimensions.x != dim.w || (int)spr.Sprite->Dimensions.y != dim.h) {
             if (entity.has_component<TransformComponent>()) {
               auto trans = entity.component<TransformComponent>();
-              spr.Sprite->SetDirectScale(glm::vec2((float)spa.w*trans->Scale.x, (float)spa.h*trans->Scale.y));
+              spr.Sprite->SetDirectScale(glm::vec2((float)dim.w*trans->Scale.x, (float)dim.h*trans->Scale.y));
             }
-            else spr.Sprite->SetDirectScale(glm::vec2((float)spa.w, (float)spa.h));
+            else spr.Sprite->SetDirectScale(glm::vec2((float)dim.w, (float)dim.h));
           }
 
 					spr.Initialized = true;
@@ -78,10 +76,10 @@ void RenderSystem::update(entityx::EntityManager &es,
 			spr.InLayer = true;
 		}
 
-		//spr.Sprite->Dimensions.x = spa.w;
-		//spr.Sprite->Dimensions.y = spa.h;
-		spr.Sprite->Pos.x = spa.x;
-		spr.Sprite->Pos.y = spa.y;
+		//spr.Sprite->Dimensions.x = dim.w;
+		//spr.Sprite->Dimensions.y = dim.h;
+		spr.Sprite->Pos.x = pos.x;
+		spr.Sprite->Pos.y = pos.y;
   });
  
 	this->TileLayer->Render();

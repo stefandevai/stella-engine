@@ -25,10 +25,10 @@ namespace graphics {
       inline void UpdateParticle(entityx::Entity particle) override {
         auto particle_par = particle.component<ParticleComponent>();
 
-        if (particle.has_component<SpatialComponent>() && particle_par->Life % 1 == 0) {
-          auto particle_spa = particle.component<SpatialComponent>();
-          particle_spa->x += particle_par->SpeedX;
-          particle_spa->y += particle_par->SpeedY;
+        if (particle.has_component<PositionComponent>() && particle_par->Life % 1 == 0) {
+          auto particle_pos = particle.component<PositionComponent>();
+          particle_pos->x += particle_par->SpeedX;
+          particle_pos->y += particle_par->SpeedY;
         }
 
         ++particle_par->Life;

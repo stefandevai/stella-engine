@@ -19,13 +19,13 @@ public:
   virtual ~Renderable();
 
   // Getters
-  inline const glm::vec2 GetPos() const { return Pos; }
-  inline const glm::vec2 GetDimensions() const { return Dimensions; }
-  inline const GLfloat GetWidth() const { return Dimensions.x; }
-  inline const GLfloat GetHeight() const { return Dimensions.y; }
-  inline const GLfloat GetRotation() const { return Rotation; }
-  inline const glm::vec2 GetScale() const { return Scale; }
-  inline const GLuint GetTexID() const { return Tex.GetID(); }
+  inline glm::vec2 GetPos() const { return Pos; }
+  inline glm::vec2 GetDimensions() const { return Dimensions; }
+  inline GLfloat GetWidth() const { return Dimensions.x; }
+  inline GLfloat GetHeight() const { return Dimensions.y; }
+  inline GLfloat GetRotation() const { return Rotation; }
+  inline glm::vec2 GetScale() const { return Scale; }
+  inline GLuint GetTexID() const { return Tex.GetID(); }
   inline const std::string &GetTexName() const { return Tex.GetName(); }
   inline Texture *GetTexture() const { return &Tex; }
   inline const GLboolean& IsVisible() const { return Visible; }

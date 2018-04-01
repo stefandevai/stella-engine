@@ -12,12 +12,12 @@ public:
   void Bind();
   void Unbind();
 
-  inline const GLuint GetWidth() const { return (GLint)Width; }
-  inline const GLuint GetHeight() const { return (GLint)Height; }
-  inline const GLuint GetID() const { return ID; }
-  inline const GLuint GetCacheID() const { return CacheID; }
+  inline GLuint GetWidth() const { return (GLint)Width; }
+  inline GLuint GetHeight() const { return (GLint)Height; }
+  inline GLuint GetID() const { return ID; }
+  inline GLuint GetCacheID() const { return CacheID; }
   inline const std::string &GetName() const { return Name; }
-  inline const bool IsCached() { return this->Cached; }
+  inline bool IsCached() const { return this->Cached; }
 
   inline void SetCached(GLfloat cache_id) {
     this->Cached = true;

@@ -1,10 +1,11 @@
 #include "font_rendering_system.h"
 
+#include <cmath>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "../components/spatial_component.h"
-#include "../components/text_component.h"
+#include "../components/game_components.h"
 
 FontRenderingSystem::FontRenderingSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &fonts) : Fonts(fonts) {
   GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
@@ -26,9 +27,10 @@ FontRenderingSystem::~FontRenderingSystem() {
 
 void FontRenderingSystem::update(entityx::EntityManager &es, entityx::EventManager &events,
 		entityx::TimeDelta dt) {
-	es.each<SpatialComponent, TextComponent>([this, &dt](entityx::Entity entity,
-																										 SpatialComponent &spa,
-																										 TextComponent &text) {
+	es.each<TextComponent, PositionComponent, DimensionComponent>([this, &dt](entityx::Entity entity,
+                                                       TextComponent &text,
+                                                       PositionComponent &pos,
+																										   DimensionComponent &dim) {
 			if (!text.InLayer) {
 				auto tex = this->Fonts.find(text.Name);
 				if (tex == this->Fonts.end()) {
@@ -45,7 +47,7 @@ void FontRenderingSystem::update(entityx::EntityManager &es, entityx::EventManag
 							text.Spaces += 1;
 						}
 						else {
-							auto spr = new stella::graphics::Sprite(spa.x + spa.w*stride, spa.y, spa.w, spa.h, *tex->second, frame);
+							auto spr = new stella::graphics::Sprite(pos.x + dim.w*stride, pos.y, dim.w, dim.h, *tex->second, frame);
 							text.Sprites.push_back(spr);
 							this->TextLayer->Add(spr);
 							stride += 1;
@@ -70,7 +72,7 @@ void FontRenderingSystem::update(entityx::EntityManager &es, entityx::EventManag
 						text.Spaces += 1;
 					}
 					else {
-						(*spr)->Pos.x = spa.x + spa.w*stride;
+						(*spr)->Pos.x = pos.x + dim.w*stride;
 						(*spr)->SetDirectFrame(frame);	
 						++spr;
 						stride += 1;
@@ -87,7 +89,7 @@ void FontRenderingSystem::update(entityx::EntityManager &es, entityx::EventManag
 							text.Spaces += 1;
 						}
 						else {
-							auto spr = new stella::graphics::Sprite(spa.x + spa.w*stride, spa.y, spa.w, spa.h, *tex->second, frame);
+							auto spr = new stella::graphics::Sprite(pos.x + dim.w*stride, pos.y, dim.w, dim.h, *tex->second, frame);
 							text.Sprites.push_back(spr);
 							this->TextLayer->Add(spr);
 							stride += 1;

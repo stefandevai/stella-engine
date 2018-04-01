@@ -1,8 +1,6 @@
 #include "transform_system.h"
 
-#include "../components/transform_component.h"
-#include "../components/spatial_component.h"
-#include "../components/sprite_component.h"
+#include "../components/game_components.h"
 
 TransformSystem::TransformSystem() {
 
@@ -13,18 +11,18 @@ TransformSystem::~TransformSystem() {
 }
 
 void TransformSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-  es.each<TransformComponent, SpatialComponent, SpriteComponent>([this](entityx::Entity entity,
+  es.each<TransformComponent, DimensionComponent, SpriteComponent>([this](entityx::Entity entity,
                                                       TransformComponent &trans,
-                                                      SpatialComponent &spa,
+                                                      DimensionComponent &dim,
                                                       SpriteComponent &spr) {
 
-    if ((int)(spr.Sprite->RealDimensions.x) != spa.w) {
-      trans.Scale.x *= static_cast<float>(spa.w/spr.Sprite->Dimensions.x);
-      spr.Sprite->RealDimensions.x = spa.w;
+    if ((int)(spr.Sprite->RealDimensions.x) != dim.w) {
+      trans.Scale.x *= static_cast<float>(dim.w/spr.Sprite->Dimensions.x);
+      spr.Sprite->RealDimensions.x = dim.w;
     }
-    if ((int)(spr.Sprite->RealDimensions.y) != spa.h) {
-      trans.Scale.y *= static_cast<double>(spa.h/spr.Sprite->Dimensions.y);
-      spr.Sprite->RealDimensions.y = spa.h;
+    if ((int)(spr.Sprite->RealDimensions.y) != dim.h) {
+      trans.Scale.y *= static_cast<double>(dim.h/spr.Sprite->Dimensions.y);
+      spr.Sprite->RealDimensions.y = dim.h;
     }
     spr.Sprite->SetScale(trans.Scale);
     spr.Sprite->SetRotation(trans.Rotation);

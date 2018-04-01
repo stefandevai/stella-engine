@@ -2,10 +2,7 @@
 
 #include <algorithm>
 
-#include "../components/spatial_component.h"
-#include "../components/particle_component.h"
-#include "../components/particle_emitter.h"
-#include "../components/sprite_component.h"
+#include "../components/game_components.h"
 
 ParticleSystem::ParticleSystem() {
 
@@ -16,13 +13,7 @@ ParticleSystem::~ParticleSystem() {
 }
 
 void ParticleSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<SpatialComponent, ParticleEmitter>([this, &es](entityx::Entity entity, SpatialComponent &spa, ParticleEmitter &gen) {
-    //while (gen.Particles.size() < gen.Emitter->GetMaxParticles()) {
-			//auto particle = gen.Emitter->Emit(entity, es);
-			//gen.Particles.push_back(particle);
-    //}
-		//if (!gen.Emitter->IsInitialized()) gen.Emitter->Initialize();
-
+	es.each<ParticleEmitter>([this, &es](entityx::Entity entity, ParticleEmitter &gen) {
     if(++this->Timer % gen.Velocity == 0) {
       auto particle = gen.Emitter->Emit(entity, es);
       gen.Particles.push_back(particle);

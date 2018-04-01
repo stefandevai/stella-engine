@@ -25,23 +25,24 @@ namespace graphics {
       virtual void UpdateParticle(entityx::Entity particle) {
         auto particle_par = particle.component<ParticleComponent>();
 
-        if (particle.has_component<SpatialComponent>()) {
-          auto particle_spa = particle.component<SpatialComponent>();
-          particle_spa->x += particle_par->SpeedX;
-          particle_spa->y += particle_par->SpeedY;
+        if (particle.has_component<PositionComponent>()) {
+          auto particle_pos = particle.component<PositionComponent>();
+          particle_pos->x += particle_par->SpeedX;
+          particle_pos->y += particle_par->SpeedY;
         }
 
         ++particle_par->Life;
       }
 
 			virtual entityx::Entity Emit(entityx::Entity generator, entityx::EntityManager& es) {
-        auto spa = generator.component<SpatialComponent>();
+        auto pos = generator.component<PositionComponent>();
+        auto dim = generator.component<DimensionComponent>();
 
         auto particle = es.create();
         
         unsigned int max_life = this->GetRandomValue<unsigned int>(this->Data.MaxLifeRange);
-        int px = spa->x + this->GetRandomValue<int>(this->Data.PositionXRange);
-        int py = spa->y + this->GetRandomValue<int>(this->Data.PositionYRange);
+        int px = pos->x + this->GetRandomValue<int>(this->Data.PositionXRange);
+        int py = pos->y + this->GetRandomValue<int>(this->Data.PositionYRange);
         double speedx = this->GetRandomValue<float>(this->Data.SpeedXRange, true);
         double speedy = this->GetRandomValue<float>(this->Data.SpeedYRange, true);
         float rotation = this->GetRandomValue<float>(this->Data.RotationRange);
@@ -52,7 +53,8 @@ namespace graphics {
         // therefore we check if scaley is -1.f, as it is the default value
         if (scaley == -1.f) scaley = scalex;
 
-        particle.assign<SpatialComponent>(spa->w, spa->h, px, py);
+        particle.assign<PositionComponent>(px, py);
+        particle.assign<DimensionComponent>(dim->w, dim->h);
         particle.assign<ParticleComponent>(max_life, scalex, speedx, speedy);
         particle.assign<SpriteComponent>(this->TextureName);
         particle.assign<TransformComponent>(rotation, glm::vec2(scalex, scaley));

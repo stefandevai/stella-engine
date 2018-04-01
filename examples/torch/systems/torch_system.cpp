@@ -11,15 +11,14 @@ TorchSystem::~TorchSystem() {
 }
 
 void TorchSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-  es.each<TorchComponent, SpatialComponent>([this](entityx::Entity entity,
+  es.each<TorchComponent, PositionComponent>([this](entityx::Entity entity,
                                                       TorchComponent &torch,
-                                                      SpatialComponent &spa) {
-      //std::cout << "here" << std::endl;
+                                                      PositionComponent &pos) {
       auto player_component = this->Player.component<PlayerComponent>();
       if (player_component->HasTorch) {
-        auto player_spa = this->Player.component<SpatialComponent>();
-        spa.x = player_spa->x;
-        spa.y = player_spa->y;
+        auto player_pos = this->Player.component<PositionComponent>();
+        pos.x = player_pos->x;
+        pos.y = player_pos->y;
       }
 
   });

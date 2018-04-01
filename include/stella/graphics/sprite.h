@@ -26,10 +26,10 @@ public:
   void Update();
 
   // Getters
-	inline const unsigned int GetColor() const { return Color; }
-  inline const GLuint GetCurrentFrame() const { return Frame; }
-  inline const SpriteSheet GetSpriteSheet() const { return *Sprites; }
-  inline const glm::vec2 GetFrameCoords() const { return Sprites->GetUV(this->Frame); }
+	inline unsigned int GetColor() const { return Color; }
+  inline GLuint GetCurrentFrame() const { return Frame; }
+  inline SpriteSheet GetSpriteSheet() const { return *Sprites; }
+  inline glm::vec2 GetFrameCoords() const { return Sprites->GetUV(this->Frame); }
 
   // Setters
   void SetFrame(GLuint frame);

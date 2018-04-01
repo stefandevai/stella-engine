@@ -19,24 +19,29 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   auto player = entities.create();
   player.assign<SpriteComponent>("player", glm::vec2(32, 32));
   player.assign<BodyComponent>(32, 32, 0, 0, false);
-  player.assign<SpatialComponent>(32, 32, 100, 336);
-  player.assign<MovementComponent>(0.7f, 8.0f, 1.5f);
+  player.assign<PositionComponent>(100.f, 336.f);
+  player.assign<DimensionComponent>(32.f, 32.f);
+  player.assign<MovementComponent>(glm::vec2(10.f, 0.f), glm::vec2(30.f, 10.f));
   player.assign<InputComponent>();
   player.assign<PlayerComponent>();
 
   auto torch = entities.create();
   torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
-  torch.assign<SpatialComponent>(16, 16, 350, 290);
+  //torch.assign<SpatialComponent>(16, 16, 350, 290);
+  torch.assign<PositionComponent>(350.f, 290.f);
+  torch.assign<DimensionComponent>(16.f, 16.f);
   torch.assign<TorchComponent>();
 
   auto snow = entities.create();
   snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
-  snow.assign<SpatialComponent>(32, 32, 120, -64);
+  //snow.assign<SpatialComponent>(32, 32, 120, -64);
+  snow.assign<PositionComponent>(120.f, -64.f);
+  snow.assign<DimensionComponent>(32.f, 32.f);
 
   this->load_blocks();
   this->load_text();
 
-  // Systems
+  //// Systems
   systems.add<CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
   systems.add<MovementSystem>();
   systems.add<ParticleSystem>();
@@ -85,45 +90,40 @@ void Game::LoadFont(std::string font_name, const char *font_path) {
 	this->Fonts.insert(font);
 }
 
-void Game::load_player(int x, int y) {
-  //// Player
-  //entityx::Entity player = entities.create();
-  //player.assign<SpriteComponent>("player", glm::vec2(32, 32));
-  //player.assign<BodyComponent>(32, 32, 0, 0, false);
-  //player.assign<SpatialComponent>(32, 32, x, y);
-  //player.assign<MovementComponent>(0.7f, 8.0f, 1.5f);
-  //player.assign<InputComponent>();
-}
- 
 void Game::load_blocks() {
   // Terrain
   entityx::Entity block = entities.create();
   block.assign<BodyComponent>(768, 64, 0, 0, true);
-  block.assign<SpatialComponent>(768, 64, 0, 368);
+  block.assign<PositionComponent>(0.f, 368.f);
+  block.assign<DimensionComponent>(768.f, 64.f);
   block.assign<SpriteComponent>("ground");
 }
 
 void Game::load_text() {
 	auto title_text = entities.create();
-	title_text.assign<SpatialComponent>(9, 9, 30, 30);
+  title_text.assign<PositionComponent>(30.f, 30.f);
+  title_text.assign<DimensionComponent>(9.f, 9.f);
 	title_text.assign<TextComponent>("- TORCH -", "font-cursive", true);
 
-	const GLubyte* renderer = glGetString(GL_RENDERER);
-	std::stringstream renderer_string("");
-	renderer_string << renderer;
-	auto renderer_info = entities.create();
-	renderer_info.assign<SpatialComponent>(9, 9, 30, 60);
-	renderer_info.assign<TextComponent>(renderer_string.str(), "font-cursive", true);
+  const GLubyte* renderer = glGetString(GL_RENDERER);
+  std::stringstream renderer_string("");
+  renderer_string << renderer;
+  auto renderer_info = entities.create();
+  renderer_info.assign<PositionComponent>(30.f, 60.f);
+  renderer_info.assign<DimensionComponent>(9.f, 9.f);
+  renderer_info.assign<TextComponent>(renderer_string.str(), "font-cursive", true);
 
-	const GLubyte* version = glGetString(GL_VERSION);
-	std::stringstream version_string("");
-	version_string << "OpenGL " << version;
-	auto opengl_info = entities.create();
-	opengl_info.assign<SpatialComponent>(9, 9, 30, 75);
-	opengl_info.assign<TextComponent>(version_string.str(), "font-cursive", true);
+  const GLubyte* version = glGetString(GL_VERSION);
+  std::stringstream version_string("");
+  version_string << "OpenGL " << version;
+  auto opengl_info = entities.create();
+  opengl_info.assign<PositionComponent>(30.f, 75.f);
+  opengl_info.assign<DimensionComponent>(9.f, 9.f);
+  opengl_info.assign<TextComponent>(version_string.str(), "font-cursive", true);
 
-	this->FPSText = entities.create();
-	this->FPSText.assign<SpatialComponent>(9, 9, 30, 90);
-	this->FPSText.assign<TextComponent>("", "font-cursive");
+  this->FPSText = entities.create();
+  this->FPSText.assign<PositionComponent>(30.f, 90.f);
+  this->FPSText.assign<DimensionComponent>(9.f, 9.f);
+  this->FPSText.assign<TextComponent>("", "font-cursive");
 }
 
