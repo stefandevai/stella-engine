@@ -17,23 +17,20 @@ void PlayerMovementSystem::update(entityx::EntityManager &es,
                                           MovementComponent &mov,
                                           PositionComponent &pos,
                                           DimensionComponent &dim) {
-        const float JUMP_FORCE = 200.f;
-        const float ACCELERATION = 400.f;
-        const float DRAG = 500.f;
         const float GROUND_Y = 368.f;
 
         mov.Acceleration.x = 0.f;
         if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
           if (player.InAir)
-            mov.Acceleration.x -= 4*ACCELERATION;
+            mov.Acceleration.x -= 4*player.Acceleration;
           else
-            mov.Acceleration.x -= ACCELERATION;
+            mov.Acceleration.x -= player.Acceleration;
         }
         if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
           if (player.InAir)
-            mov.Acceleration.x += 4*ACCELERATION;
+            mov.Acceleration.x += 4*player.Acceleration;
           else
-            mov.Acceleration.x += ACCELERATION;
+            mov.Acceleration.x += player.Acceleration;
         }
 
         if (pos.x < 0.f) {
@@ -52,15 +49,15 @@ void PlayerMovementSystem::update(entityx::EntityManager &es,
           mov.Velocity.y = 0.0f;
           mov.Acceleration.y = 0.0f;
           player.InAir = false;
-          mov.Drag.x = DRAG;
+          mov.Drag.x = player.Drag;
         }
 
         if (this->Display.IsKeyDown(SDL_SCANCODE_UP) && !player.InAir) {
-          mov.Velocity.y = -JUMP_FORCE;
+          mov.Velocity.y = -player.JumpForce;
           player.InAir = true;
 
           // Limit player movement in air
-          mov.Drag.x = DRAG*2;
+          mov.Drag.x = player.Drag*2;
         }
       });
 }

@@ -25,16 +25,16 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   player.assign<InputComponent>();
   player.assign<PlayerComponent>();
 
-  //auto torch = entities.create();
-  //torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
-  //torch.assign<PositionComponent>(350.f, 290.f);
-  //torch.assign<DimensionComponent>(16.f, 16.f);
-  //torch.assign<TorchComponent>();
+  auto torch = entities.create();
+  torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
+  torch.assign<PositionComponent>(350.f, 290.f);
+  torch.assign<DimensionComponent>(16.f, 16.f);
+  torch.assign<TorchComponent>();
 
-  //auto snow = entities.create();
-  //snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
-  //snow.assign<PositionComponent>(120.f, -64.f);
-  //snow.assign<DimensionComponent>(32.f, 32.f);
+  auto snow = entities.create();
+  snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
+  snow.assign<PositionComponent>(this->Display.GetWidth()/2, -64.f);
+  snow.assign<DimensionComponent>(32.f, 32.f);
 
   this->load_blocks();
   this->load_text();

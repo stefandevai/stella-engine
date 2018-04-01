@@ -14,7 +14,7 @@ namespace graphics {
         this->SetPositionXRange(std::make_pair(-384,384));
         this->SetPositionYRange(std::make_pair(0,0));
         this->SetSpeedXRange(std::make_pair(1.0f,4.0f));
-        this->SetSpeedYRange(std::make_pair(1.f,4.f));
+        this->SetSpeedYRange(std::make_pair(1.f,1.f));
         this->SetScaleXRange(std::make_pair(0.1f,0.5f));
         this->SetRotationRange(std::make_pair(0.f,90.f));
 			}
@@ -33,6 +33,24 @@ namespace graphics {
 
         ++particle_par->Life;
       }
+			inline  entityx::Entity Emit(entityx::Entity generator, entityx::EntityManager& es) override {
+        auto pos = generator.component<PositionComponent>();
+        auto dim = generator.component<DimensionComponent>();
+
+        auto particle = es.create();
+        
+        unsigned int max_life = this->GetRandomValue<unsigned int>(this->Data.MaxLifeRange);
+        int px = pos->x + dim->w*((int)this->GetRandomValue<int>(this->Data.PositionXRange)%(int)dim->w);
+        double speedy = this->GetRandomValue<float>(this->Data.SpeedYRange, true);
+        float rotation = this->GetRandomValue<float>(this->Data.RotationRange);
+
+        particle.assign<PositionComponent>(px, pos->y);
+        particle.assign<DimensionComponent>(dim->w, dim->h);
+        particle.assign<ParticleComponent>(max_life, 16.f, 0.f, speedy);
+        particle.assign<SpriteComponent>(this->TextureName);
+        particle.assign<TransformComponent>(rotation, glm::vec2(1.f, 1.f));
+        return particle;
+			}
 	};
 }}
 

@@ -75,7 +75,7 @@ void Display::Update() {
   if (this->Frame >= 10000000)
     this->Frame = 0;
 
-  // Print FPS 
+   //Print FPS 
   //if (this->Frame % 120 == 0) {
      //std::cout << this->getFPS() << std::endl;
   //}
