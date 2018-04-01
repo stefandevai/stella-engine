@@ -10,4 +10,5 @@ struct MovementComponent {
             Velocity     = glm::vec2(0.0f, 0.0f),
             Drag         = glm::vec2(500.f, 0.f),
             TargetVelocity;
+  bool Gravity = true;
 };

@@ -21,7 +21,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   player.assign<BodyComponent>(32, 32, 0, 0, false);
   player.assign<PositionComponent>(100.f, 336.f);
   player.assign<DimensionComponent>(32.f, 32.f);
-  player.assign<MovementComponent>(glm::vec2(300.f, 0.f));
+  player.assign<MovementComponent>(glm::vec2(250.f, 400.f));
   player.assign<InputComponent>();
   player.assign<PlayerComponent>();
 
@@ -61,9 +61,9 @@ void Game::Update(entityx::TimeDelta dt) {
   systems.update<CollisionSystem>(dt);
   systems.update<MovementSystem>(dt);
   systems.update<ParticleSystem>(dt);
+  systems.update<PlayerMovementSystem>(dt);
   systems.update<RenderSystem>(dt);
   systems.update<TransformSystem>(dt);
-  systems.update<PlayerMovementSystem>(dt);
   systems.update<TorchSystem>(dt);
   systems.update<AnimationSystem>(dt);
   systems.update<FontRenderingSystem>(dt);
