@@ -12,8 +12,11 @@ PlayerMovementSystem::~PlayerMovementSystem() {}
 void PlayerMovementSystem::update(entityx::EntityManager &es,
                                   entityx::EventManager &events,
                                   entityx::TimeDelta dt) {
-  es.each<MovementComponent, PlayerComponent>(
-      [this, &dt](entityx::Entity entity, MovementComponent &mov, PlayerComponent &player) {
+  es.each<PlayerComponent, MovementComponent, PositionComponent, DimensionComponent>(
+      [this, &dt](entityx::Entity entity, PlayerComponent &player,
+                                          MovementComponent &mov,
+                                          PositionComponent &pos,
+                                          DimensionComponent &dim) {
 
         mov.Acceleration.x = 0.f;
         if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
@@ -23,17 +26,15 @@ void PlayerMovementSystem::update(entityx::EntityManager &es,
           mov.Acceleration.x += 400.f;
         }
 
-				//if(this->Display.IsKeyDown(SDL_SCANCODE_LEFT) || this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
-					//float final_acceleration = 0.f;
-          //if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
-            //final_acceleration -= 400.f;
-          //}
-          //if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
-            //final_acceleration += 400.f;
-          //}
-          //mov.Acceleration.x = final_acceleration;
-				//}
-        //else mov.Acceleration.x = 0.f;
-
+        if (pos.x < 0.f) {
+          pos.x = 0.f;
+          mov.Velocity.x = 0.0f;
+          mov.Acceleration.x = 0.0f;
+        }
+        else if (pos.x > this->Display.GetWidth() - dim.w) {
+          pos.x = this->Display.GetWidth() - dim.w;
+          mov.Velocity.x = 0.0f;
+          mov.Acceleration.x = 0.0f;
+        } 
       });
 }

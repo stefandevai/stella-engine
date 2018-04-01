@@ -78,8 +78,8 @@ void RenderSystem::update(entityx::EntityManager &es,
 
 		//spr.Sprite->Dimensions.x = dim.w;
 		//spr.Sprite->Dimensions.y = dim.h;
-		spr.Sprite->Pos.x = pos.x;
-		spr.Sprite->Pos.y = pos.y;
+		spr.Sprite->Pos.x = (int)pos.x;
+		spr.Sprite->Pos.y = (int)pos.y;
   });
  
 	this->TileLayer->Render();

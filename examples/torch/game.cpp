@@ -25,18 +25,16 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   player.assign<InputComponent>();
   player.assign<PlayerComponent>();
 
-  auto torch = entities.create();
-  torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
-  //torch.assign<SpatialComponent>(16, 16, 350, 290);
-  torch.assign<PositionComponent>(350.f, 290.f);
-  torch.assign<DimensionComponent>(16.f, 16.f);
-  torch.assign<TorchComponent>();
+  //auto torch = entities.create();
+  //torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
+  //torch.assign<PositionComponent>(350.f, 290.f);
+  //torch.assign<DimensionComponent>(16.f, 16.f);
+  //torch.assign<TorchComponent>();
 
-  auto snow = entities.create();
-  snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
-  //snow.assign<SpatialComponent>(32, 32, 120, -64);
-  snow.assign<PositionComponent>(120.f, -64.f);
-  snow.assign<DimensionComponent>(32.f, 32.f);
+  //auto snow = entities.create();
+  //snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
+  //snow.assign<PositionComponent>(120.f, -64.f);
+  //snow.assign<DimensionComponent>(32.f, 32.f);
 
   this->load_blocks();
   this->load_text();
@@ -45,9 +43,9 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   systems.add<CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
   systems.add<MovementSystem>();
   systems.add<ParticleSystem>();
+  systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   systems.add<RenderSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
   systems.add<TransformSystem>();
-  systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   systems.add<TorchSystem>(player);
   systems.add<AnimationSystem>();
   systems.add<FontRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
