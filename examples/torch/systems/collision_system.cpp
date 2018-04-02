@@ -1,6 +1,7 @@
 #include "collision_system.h"
 
 #include <algorithm>
+#include "../events/collision.h"
 
 CollisionSystem::CollisionSystem(int w, int h) {
 }
@@ -25,14 +26,28 @@ void CollisionSystem::update(entityx::EntityManager &es,
             snow_particles.emplace_back(entity);
       });
 
-  for (auto b1 = fire_particles.begin(); b1 != fire_particles.end(); ++b1) {
-    for (auto b2 = snow_particles.begin(); b2 != snow_particles.end(); ++b2) {
-      if ((*b1).valid() && (*b2).valid()) {
-        if (check_collision(*b1, *b2)) {
+  for (auto b1: fire_particles) {
+    for (auto b2: snow_particles) {
+      if (b1.valid() && b2.valid()) {
+        if (check_collision(b1, b2)) {
+          events.emit<Collision>(b1, b2);
         }
       }
     }
   }
+
+  //for (auto b1 = fire_particles.begin(); b1 != fire_particles.end(); ++b1) {
+    //for (auto b2 = snow_particles.begin(); b2 != snow_particles.end(); ++b2) {
+      //if ((*b1).valid() && (*b2).valid()) {
+        //if (check_collision(*b2, *b1)) {
+          //(*b2).destroy();
+          //snow_particles.erase(b2);
+          ////std::cout << "here\n";
+          ////events.emit<Collision>(*b1, *b2);
+        //}
+      //}
+    //}
+  //}
 }
 
 bool CollisionSystem::check_collision(entityx::Entity &b1,

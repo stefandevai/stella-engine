@@ -10,6 +10,15 @@ TorchSystem::~TorchSystem() {
 
 }
 
+void TorchSystem::configure(entityx::EventManager &events) {
+  events.subscribe<Collision>(*this);
+}
+
+void TorchSystem::receive(const Collision &collision) {
+  auto en = collision.Snowflake;
+  en.destroy();
+}
+
 void TorchSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
   es.each<TorchComponent, PositionComponent>([this](entityx::Entity entity,
                                                       TorchComponent &torch,

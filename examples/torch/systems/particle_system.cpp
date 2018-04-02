@@ -24,16 +24,22 @@ void ParticleSystem::update(entityx::EntityManager &es, entityx::EventManager &e
 		std::vector<std::vector<entityx::Entity>::iterator> particles_to_erase;
 
 		for (auto particle = gen.Particles.begin(); particle != gen.Particles.end(); ++particle) {
-			auto par = (*particle).component<ParticleComponent>();
-			 
-			gen.Emitter->UpdateParticle(*particle);
+      if ((*particle).valid()) {
+        auto par = (*particle).component<ParticleComponent>();
+         
+        gen.Emitter->UpdateParticle(*particle);
 
-			if (par->Life >= par->MaxLife && par->Alive) {
-				particles_to_erase.push_back(particle);
-			}
+        if (par->Life >= par->MaxLife && par->Alive) {
+          particles_to_erase.push_back(particle);
+        }
+      }
+      else {
+        particles_to_erase.push_back(particle);
+      }
 		}
 		for (auto& it: particles_to_erase) {
-			(*it).destroy();
+		  if ((*it).valid())
+        (*it).destroy();
 			gen.Particles.erase(it);
 		}
 	});
