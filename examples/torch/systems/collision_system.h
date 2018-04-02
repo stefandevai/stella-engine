@@ -9,8 +9,7 @@
 #include <entityx/entityx.h>
 #include <stella/stella.h>
 
-#include "../components/body_component.h"
-#include "../components/spatial_component.h"
+#include "../components/game_components.h"
 
 class CollisionSystem : public entityx::System<CollisionSystem> {
 public:
@@ -20,19 +19,5 @@ public:
               entityx::TimeDelta dt) override;
 
 private:
-  static const int PARTITIONS = 250;
-  std::bitset<4> collision_direction;
-
-  struct Candidate {
-    int x, y, width, height;
-    entityx::Entity entity;
-  };
-
-  std::vector<std::vector<Candidate>> grid;
-  unsigned int Width, Height;
-
-  const bool collided(Candidate &c1, Candidate &c2);
-  void makeCollisionGrid(entityx::Entity &entity, SpatialComponent &spa,
-                         BodyComponent &body);
-  void resolveCollision(entityx::Entity left, entityx::Entity right);
+  bool check_collision(entityx::Entity &b1, entityx::Entity &b2);
 };

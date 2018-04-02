@@ -8,7 +8,7 @@ struct ParticleComponent {
 		H = W;
 	}
 
-	unsigned int Life, MaxLife;
+	unsigned int Life, MaxLife, ID;
 	double W, H;
 	double SpeedX, SpeedY;
 	bool Alive;

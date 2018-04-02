@@ -3,8 +3,6 @@
 #include <algorithm>
 
 CollisionSystem::CollisionSystem(int w, int h) {
-  Width = w / PARTITIONS + 1;
-  Height = h / PARTITIONS + 1;
 }
 
 CollisionSystem::~CollisionSystem() {}
@@ -12,183 +10,41 @@ CollisionSystem::~CollisionSystem() {}
 void CollisionSystem::update(entityx::EntityManager &es,
                              entityx::EventManager &events,
                              entityx::TimeDelta dt) {
-  // Clear collision grid each frame
-  grid.clear();
-  grid.resize(Width * Height);
+  std::vector<entityx::Entity> fire_particles;
+  std::vector<entityx::Entity> snow_particles;
 
-  es.each<SpatialComponent, BodyComponent>([this](entityx::Entity entity,
-                                                  SpatialComponent &spa,
-                                                  BodyComponent &body) {
-    // Build collision grid
-    makeCollisionGrid(entity, spa, body);
-  });
+  fire_particles.clear();
+  snow_particles.clear();
 
-  // Check for collosions on all candidates
-  for (auto candidates = grid.begin(); candidates != grid.end(); ++candidates) {
-    for (auto c1 = (*candidates).begin(); c1 != (*candidates).end(); ++c1) {
-      for (auto c2 = c1; c2 != (*candidates).end(); ++c2) {
-        if ((*c1).entity != (*c2).entity && collided(*c1, *c2)) {
-          resolveCollision((*c1).entity, (*c2).entity);
+  es.each<ParticleComponent>(
+      [this, &fire_particles, &snow_particles](
+          entityx::Entity entity, ParticleComponent &par) {
+          if (par.ID == -1)
+            fire_particles.emplace_back(entity);
+          else if (par.ID == 1)
+            snow_particles.emplace_back(entity);
+      });
+
+  for (auto b1 = fire_particles.begin(); b1 != fire_particles.end(); ++b1) {
+    for (auto b2 = snow_particles.begin(); b2 != snow_particles.end(); ++b2) {
+      if ((*b1).valid() && (*b2).valid()) {
+        if (check_collision(*b1, *b2)) {
         }
       }
     }
   }
 }
 
-void CollisionSystem::makeCollisionGrid(entityx::Entity &entity,
-                                        SpatialComponent &spa,
-                                        BodyComponent &body) {
-  unsigned int left = spa.x / PARTITIONS, right = (spa.x + spa.w) / PARTITIONS,
-               top = spa.y / PARTITIONS, bottom = (spa.y + spa.h) / PARTITIONS;
+bool CollisionSystem::check_collision(entityx::Entity &b1,
+                                      entityx::Entity &b2) {
+  auto pos1 = b1.component<PositionComponent>();
+  auto dim1 = b1.component<DimensionComponent>();
+  auto pos2 = b2.component<PositionComponent>();
+  auto dim2 = b2.component<DimensionComponent>();
 
-  Candidate candidate{spa.x, spa.y, spa.w, spa.h, entity};
+  bool colX = pos1->x + dim1->w > pos2->x && pos2->x + dim2->w > pos1->x;
+  bool colY = pos1->y + dim1->h > pos2->y && pos2->y + dim2->h > pos1->y;
 
-  unsigned int slots[4] = {left + top * Width, right + top * Width,
-                           left + bottom * Width, right + bottom * Width};
-
-  grid[slots[0]].push_back(candidate);
-
-  if (slots[0] != slots[1]) {
-    unsigned int mins = std::min(slots[0], slots[1]),
-                 maxs = std::max(slots[0], slots[1]);
-
-    for (unsigned int i = mins + 1; i <= maxs; ++i) {
-      grid[i].push_back(candidate);
-    }
-  }
-
-  if (slots[1] != slots[2]) {
-    unsigned int mins = std::min(slots[0], slots[2]),
-                 maxs = std::max(slots[0], slots[2]);
-
-    for (unsigned int i = mins + Width; i <= maxs; i += Width)
-      if (i <= maxs)
-        grid[i].push_back(candidate);
-  }
-  if (slots[2] != slots[3]) {
-    for (unsigned int i = slots[2]; i <= slots[3]; ++i)
-      grid[i].push_back(candidate);
-
-    for (unsigned int i = slots[1]; i <= slots[3]; i += Width)
-      if (i <= slots[3])
-        grid[i].push_back(candidate);
-  }
+  return colX && colY;
 }
 
-const bool CollisionSystem::collided(Candidate &c1, Candidate &c2) {
-  bool intersectsX = false, intersectsY = false;
-  int intersectXValue = 0, intersectYValue = 0;
-
-  entityx::ComponentHandle<SpatialComponent> spa1 =
-      c1.entity.component<SpatialComponent>();
-  entityx::ComponentHandle<SpatialComponent> spa2 =
-      c2.entity.component<SpatialComponent>();
-
-  entityx::ComponentHandle<BodyComponent> body1 =
-      c1.entity.component<BodyComponent>();
-  entityx::ComponentHandle<BodyComponent> body2 =
-      c2.entity.component<BodyComponent>();
-
-  const int &Ax = spa1->x, &AX = spa1->x + spa1->w, &Ay = spa1->y,
-            &AY = spa1->y + spa1->h, &Bx = spa2->x, &BX = spa2->x + spa2->w,
-            &By = spa2->y, &BY = spa2->y + spa2->h;
-
-  body1->ColDir.reset();
-  body2->ColDir.reset();
-
-  if (Ay <= BY && AY >= By) {
-    intersectsY = true;
-  }
-
-  if (Ax <= BX && AX >= Bx) {
-    intersectsX = true;
-  }
-
-  if (!(intersectsX && intersectsY)) {
-    collision_direction.reset();
-    body1->Colliding = false;
-    body2->Colliding = false;
-    return false;
-  } else {
-    body1->Colliding = true;
-    body2->Colliding = true;
-
-    if (Ay < By && AY < BY) {
-      intersectYValue = abs(AY - By);
-      body1->ColDir.set(0);
-      body2->ColDir.set(1);
-    } else if (Ay > By && AY > BY) {
-      intersectYValue = abs(BY - Ay);
-      body1->ColDir.set(1);
-      body2->ColDir.set(0);
-    } else
-      intersectYValue = fmin(body1->Height, body2->Height);
-
-    if (Ax < Bx && AX < BX) {
-      intersectXValue = abs(AX - Bx);
-      if (intersectYValue > intersectXValue) {
-        body1->ColDir.reset();
-        body2->ColDir.reset();
-
-        body1->ColDir.set(2);
-        body2->ColDir.set(3);
-      }
-    } else if (Ax > Bx && AX > BX) {
-      intersectXValue = abs(BX - Ax);
-      if (intersectYValue > intersectXValue) {
-        body1->ColDir.reset();
-        body2->ColDir.reset();
-
-        body1->ColDir.set(3);
-        body2->ColDir.set(2);
-      }
-    }
-    return true;
-  }
-}
-
-void CollisionSystem::resolveCollision(entityx::Entity left,
-                                       entityx::Entity right) {
-  entityx::ComponentHandle<SpatialComponent> spa1 =
-      left.component<SpatialComponent>();
-  entityx::ComponentHandle<SpatialComponent> spa2 =
-      right.component<SpatialComponent>();
-
-  entityx::ComponentHandle<BodyComponent> body1 =
-      left.component<BodyComponent>();
-  entityx::ComponentHandle<BodyComponent> body2 =
-      right.component<BodyComponent>();
-
-  // Body1 is Static
-  if (body1->Static) {
-    // Make sure that body2 is dynamic
-    if (!body2->Static) {
-      if (body2->ColDir.test(0)) {
-        spa2->y -= (spa2->y + spa2->h - spa1->y);
-      } else if (body2->ColDir.test(1)) {
-        spa2->y += (spa1->y + spa1->h - spa2->y);
-      } else if (body2->ColDir.test(2)) {
-        spa2->x -= (spa2->x + spa2->w - spa1->x);
-      } else if (body2->ColDir.test(3)) {
-        spa2->x += (spa1->x + spa1->w - spa2->x);
-      }
-    }
-  }
-
-  // Body2 is Static and body1 is dynamic
-  else if (body2->Static) {
-    if (body1->ColDir.test(0)) {
-      spa1->y -= (spa1->y + spa1->h - spa2->y);
-    } else if (body1->ColDir.test(1)) {
-      spa1->y += (spa2->y + spa2->h - spa1->y);
-    } else if (body1->ColDir.test(2)) {
-      spa1->x -= (spa1->x + spa1->w - spa2->x);
-    } else if (body1->ColDir.test(3)) {
-      spa1->x += (spa2->x + spa2->w - spa1->x);
-    }
-  }
-
-  // Both bodies are dynamic
-  else {
-  }
-}

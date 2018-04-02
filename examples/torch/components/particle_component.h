@@ -1,7 +1,7 @@
 #pragma once
 
 struct ParticleComponent {
-	ParticleComponent(unsigned int max_life, double size, double speedx, double speedy) : MaxLife(max_life), W(size), SpeedX(speedx), SpeedY(speedy) {
+	ParticleComponent(unsigned int max_life, double size, double speedx, double speedy, int id = -1) : MaxLife(max_life), W(size), SpeedX(speedx), SpeedY(speedy), ID(id) {
 		Life = 0;
 		Alive = true;
 
@@ -9,8 +9,8 @@ struct ParticleComponent {
 	}
 
 	unsigned int Life, MaxLife;
-	double W, H;
-	double SpeedX, SpeedY;
+	double W, H, SpeedX, SpeedY;
+	int ID;
 	bool Alive;
 };
 

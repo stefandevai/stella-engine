@@ -4,7 +4,7 @@
 #include <string>
 #include <entityx/entityx.h>
 
-#include "../examples/stellar/components/game_components.h"
+#include "../game_components.h"
 
 namespace stella {
 namespace graphics {

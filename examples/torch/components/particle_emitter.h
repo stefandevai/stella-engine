@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-#include <stella/particles.h>
+#include "particles/particles.h"
 #include <entityx/entityx.h>
 
 struct ParticleEmitter {
