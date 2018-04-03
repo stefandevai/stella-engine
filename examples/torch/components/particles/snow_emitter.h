@@ -22,7 +22,7 @@ namespace graphics {
 			inline ~SnowEmitter() {
 			}
 
-      inline void UpdateParticle(entityx::Entity particle) override {
+      inline void UpdateParticle(ex::Entity particle) override {
         auto particle_par = particle.component<ParticleComponent>();
 
         if (particle.has_component<PositionComponent>() && particle_par->Life % 1 == 0) {
@@ -33,7 +33,7 @@ namespace graphics {
 
         ++particle_par->Life;
       }
-			inline  entityx::Entity Emit(entityx::Entity generator, entityx::EntityManager& es) override {
+			inline  ex::Entity Emit(ex::Entity generator, ex::EntityManager& es) override {
         auto pos = generator.component<PositionComponent>();
         auto dim = generator.component<DimensionComponent>();
 

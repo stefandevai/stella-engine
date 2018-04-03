@@ -25,9 +25,9 @@ FontRenderingSystem::~FontRenderingSystem() {
 	delete this->Shader;
 }
 
-void FontRenderingSystem::update(entityx::EntityManager &es, entityx::EventManager &events,
-		entityx::TimeDelta dt) {
-	es.each<TextComponent, PositionComponent, DimensionComponent>([this, &dt](entityx::Entity entity,
+void FontRenderingSystem::update(ex::EntityManager &es, ex::EventManager &events,
+		ex::TimeDelta dt) {
+	es.each<TextComponent, PositionComponent, DimensionComponent>([this, &dt](ex::Entity entity,
                                                        TextComponent &text,
                                                        PositionComponent &pos,
 																										   DimensionComponent &dim) {

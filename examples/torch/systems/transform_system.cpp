@@ -10,8 +10,8 @@ TransformSystem::~TransformSystem() {
 
 }
 
-void TransformSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-  es.each<TransformComponent, DimensionComponent, SpriteComponent>([this](entityx::Entity entity,
+void TransformSystem::update(ex::EntityManager &es, ex::EventManager &events, ex::TimeDelta dt) {
+  es.each<TransformComponent, DimensionComponent, SpriteComponent>([this](ex::Entity entity,
                                                       TransformComponent &trans,
                                                       DimensionComponent &dim,
                                                       SpriteComponent &spr) {

@@ -10,14 +10,16 @@
 
 #include "../components/sprite_component.h"
 
-class RenderSystem : public entityx::System<RenderSystem>, public entityx::Receiver<RenderSystem> {
+namespace ex = entityx;
+
+class RenderSystem : public ex::System<RenderSystem>, public ex::Receiver<RenderSystem> {
 public:
   RenderSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &textures, stella::graphics::Display& display);
   ~RenderSystem();
-  void update(entityx::EntityManager &es, entityx::EventManager &events,
-              entityx::TimeDelta dt) override;
-  void configure(entityx::EventManager &event_manager);
-  void receive(const entityx::ComponentRemovedEvent<SpriteComponent> &ev);
+  void update(ex::EntityManager &es, ex::EventManager &events,
+              ex::TimeDelta dt) override;
+  void configure(ex::EventManager &event_manager);
+  void receive(const ex::ComponentRemovedEvent<SpriteComponent> &ev);
 
 private:
   SceneLayer *TileLayer;

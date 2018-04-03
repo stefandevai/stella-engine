@@ -1,12 +1,13 @@
 #pragma once
 
 #include <entityx/entityx.h>
+namespace ex = entityx;
 
-class TransformSystem : public entityx::System<TransformSystem> {
+class TransformSystem : public ex::System<TransformSystem> {
 public:
   TransformSystem();
   ~TransformSystem();
-  void update(entityx::EntityManager &es, entityx::EventManager &events,
-              entityx::TimeDelta dt) override;
+  void update(ex::EntityManager &es, ex::EventManager &events,
+              ex::TimeDelta dt) override;
 };
 

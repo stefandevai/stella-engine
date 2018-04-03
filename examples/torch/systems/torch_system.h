@@ -3,16 +3,18 @@
 #include <entityx/entityx.h>
 #include "../events/collision.h"
 
-class TorchSystem : public entityx::System<TorchSystem>, public entityx::Receiver<TorchSystem> {
+namespace ex = entityx;
+
+class TorchSystem : public ex::System<TorchSystem>, public ex::Receiver<TorchSystem> {
 public:
-  TorchSystem(entityx::Entity player, entityx::EntityManager &es);
+  TorchSystem(ex::Entity player, ex::EntityManager &es);
   ~TorchSystem();
-  void configure(entityx::EventManager &events);
-  void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override;
+  void configure(ex::EventManager &events);
+  void update(ex::EntityManager &es, ex::EventManager &events, ex::TimeDelta dt) override;
   void receive(const Collision &collision);
 
 private:
-  entityx::Entity Player, PointsString;
+  ex::Entity Player, PointsString;
   int Points = 0;
 };
 

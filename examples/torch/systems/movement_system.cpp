@@ -10,10 +10,10 @@ MovementSystem::MovementSystem() {}
 
 MovementSystem::~MovementSystem() {}
 
-void MovementSystem::update(entityx::EntityManager &es,
-                            entityx::EventManager &events,
-                            entityx::TimeDelta dt) {
-  es.each<PositionComponent, MovementComponent>([dt](entityx::Entity entity,
+void MovementSystem::update(ex::EntityManager &es,
+                            ex::EventManager &events,
+                            ex::TimeDelta dt) {
+  es.each<PositionComponent, MovementComponent>([dt](ex::Entity entity,
                                                     PositionComponent &pos,
                                                     MovementComponent &mov) {
       // X movement

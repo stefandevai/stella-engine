@@ -11,13 +11,15 @@
 
 #include "../components/game_components.h"
 
-class CollisionSystem : public entityx::System<CollisionSystem> {
+namespace ex = entityx;
+
+class CollisionSystem : public ex::System<CollisionSystem> {
 public:
   CollisionSystem(int w, int h);
   ~CollisionSystem();
-  void update(entityx::EntityManager &es, entityx::EventManager &events,
-              entityx::TimeDelta dt) override;
+  void update(ex::EntityManager &es, ex::EventManager &events,
+              ex::TimeDelta dt) override;
 
 private:
-  bool check_collision(entityx::Entity &b1, entityx::Entity &b2);
+  bool check_collision(ex::Entity &b1, ex::Entity &b2);
 };

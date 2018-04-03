@@ -6,12 +6,14 @@
 #include "particles/particles.h"
 #include <entityx/entityx.h>
 
+namespace ex = entityx;
+
 struct ParticleEmitter {
 	public:
 	  int Velocity;
 	  enum Type { FIRE_EMITTER, SNOW_EMITTER, ICE_EMITTER };
 
-		std::vector<entityx::Entity> Particles;
+		std::vector<ex::Entity> Particles;
 		stella::graphics::Emitter *Emitter;
 
 		inline ParticleEmitter(Type type, unsigned int max_particles) {

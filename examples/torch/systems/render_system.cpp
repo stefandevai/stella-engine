@@ -29,11 +29,11 @@ RenderSystem::RenderSystem(int width, int height, std::unordered_map<std::string
 
 RenderSystem::~RenderSystem() { delete this->TileLayer; delete this->Shader; }
 
-void RenderSystem::update(entityx::EntityManager &es,
-                          entityx::EventManager &events,
-                          entityx::TimeDelta dt) {
+void RenderSystem::update(ex::EntityManager &es,
+                          ex::EventManager &events,
+                          ex::TimeDelta dt) {
 
-  es.each<SpriteComponent, PositionComponent, DimensionComponent>([this](entityx::Entity entity,
+  es.each<SpriteComponent, PositionComponent, DimensionComponent>([this](ex::Entity entity,
                                                      SpriteComponent &spr,
                                                      PositionComponent &pos,
                                                      DimensionComponent &dim) {
@@ -87,13 +87,13 @@ void RenderSystem::update(entityx::EntityManager &es,
   //this->ParticleLayer->Render();
 };
 
-void RenderSystem::configure(entityx::EventManager &event_manager) {
-  event_manager.subscribe<entityx::ComponentRemovedEvent<SpriteComponent>>(
+void RenderSystem::configure(ex::EventManager &event_manager) {
+  event_manager.subscribe<ex::ComponentRemovedEvent<SpriteComponent>>(
       *this);
 }
 
 void RenderSystem::receive(
-    const entityx::ComponentRemovedEvent<SpriteComponent> &ev) {
+    const ex::ComponentRemovedEvent<SpriteComponent> &ev) {
   auto ent = ev.entity;
   auto spr = ent.component<SpriteComponent>();
 

@@ -57,7 +57,7 @@ Game::~Game() {
 		delete tex.second;
 }
 
-void Game::Update(entityx::TimeDelta dt) { 
+void Game::Update(ex::TimeDelta dt) { 
   systems.update<CollisionSystem>(dt);
   systems.update<MovementSystem>(dt);
   systems.update<ParticleSystem>(dt);
@@ -90,7 +90,7 @@ void Game::LoadFont(std::string font_name, const char *font_path) {
 
 void Game::load_blocks() {
   // Terrain
-  entityx::Entity block = entities.create();
+  ex::Entity block = entities.create();
   block.assign<BodyComponent>(this->Display.GetWidth(), 64, 0, 0, true);
   block.assign<PositionComponent>(0.f, this->Display.GetHeight() - 64);
   block.assign<DimensionComponent>(this->Display.GetWidth(), 64.f);

@@ -12,8 +12,8 @@ ParticleSystem::~ParticleSystem() {
 
 }
 
-void ParticleSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	es.each<ParticleEmitter>([this, &es](entityx::Entity entity, ParticleEmitter &gen) {
+void ParticleSystem::update(ex::EntityManager &es, ex::EventManager &events, ex::TimeDelta dt) {
+	es.each<ParticleEmitter>([this, &es](ex::Entity entity, ParticleEmitter &gen) {
     if(++this->Timer % gen.Velocity == 0) {
       auto particle = gen.Emitter->Emit(entity, es);
       gen.Particles.push_back(particle);
@@ -21,7 +21,7 @@ void ParticleSystem::update(entityx::EntityManager &es, entityx::EventManager &e
       if (this->Timer > 1000000) this->Timer = 0;
     }
 
-		std::vector<std::vector<entityx::Entity>::iterator> particles_to_erase;
+		std::vector<std::vector<ex::Entity>::iterator> particles_to_erase;
 
 		for (auto particle = gen.Particles.begin(); particle != gen.Particles.end(); ++particle) {
       if ((*particle).valid()) {

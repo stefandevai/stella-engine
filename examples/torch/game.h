@@ -11,16 +11,18 @@
 #include "components/game_components.h"
 #include "systems/game_systems.h"
 
-class Game : public entityx::EntityX {
+namespace ex = entityx;
+
+class Game : public ex::EntityX {
 public:
   Game(stella::graphics::Display &display);
   ~Game();
 
-  void Update(entityx::TimeDelta dt);
+  void Update(ex::TimeDelta dt);
 
 private:
 	stella::graphics::Display &Display;
-	entityx::Entity FPSText, Fire;
+	ex::Entity FPSText, Fire;
 
 	std::unordered_map<std::string, stella::graphics::Texture*> Textures;
 	std::unordered_map<std::string, stella::graphics::Texture*> Fonts;

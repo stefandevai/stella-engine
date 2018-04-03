@@ -6,6 +6,8 @@
 
 #include "../game_components.h"
 
+namespace ex = entityx;
+
 namespace stella {
 namespace graphics {
   struct ParticleVariationData {
@@ -22,7 +24,7 @@ namespace graphics {
 	class Emitter {
 		public:
 			inline virtual ~Emitter() {};
-      virtual void UpdateParticle(entityx::Entity particle) {
+      virtual void UpdateParticle(ex::Entity particle) {
         auto particle_par = particle.component<ParticleComponent>();
 
         if (particle.has_component<PositionComponent>()) {
@@ -34,7 +36,7 @@ namespace graphics {
         ++particle_par->Life;
       }
 
-			virtual entityx::Entity Emit(entityx::Entity generator, entityx::EntityManager& es) {
+			virtual ex::Entity Emit(ex::Entity generator, ex::EntityManager& es) {
         auto pos = generator.component<PositionComponent>();
         auto dim = generator.component<DimensionComponent>();
 

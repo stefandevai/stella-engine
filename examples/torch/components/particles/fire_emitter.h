@@ -24,7 +24,7 @@ namespace graphics {
 			inline ~FireEmitter() {
 			}
 
-      inline void UpdateParticle(entityx::Entity particle) override {
+      inline void UpdateParticle(ex::Entity particle) override {
         auto particle_par = particle.component<ParticleComponent>();
 
         if (particle.has_component<PositionComponent>()) {

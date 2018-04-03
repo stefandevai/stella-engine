@@ -9,11 +9,11 @@ PlayerMovementSystem::PlayerMovementSystem(const int &boundx, stella::graphics::
 
 PlayerMovementSystem::~PlayerMovementSystem() {}
 
-void PlayerMovementSystem::update(entityx::EntityManager &es,
-                                  entityx::EventManager &events,
-                                  entityx::TimeDelta dt) {
+void PlayerMovementSystem::update(ex::EntityManager &es,
+                                  ex::EventManager &events,
+                                  ex::TimeDelta dt) {
   es.each<PlayerComponent, MovementComponent, PositionComponent, DimensionComponent>(
-      [this, &dt](entityx::Entity entity, PlayerComponent &player,
+      [this, &dt](ex::Entity entity, PlayerComponent &player,
                                           MovementComponent &mov,
                                           PositionComponent &pos,
                                           DimensionComponent &dim) {

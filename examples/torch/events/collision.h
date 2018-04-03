@@ -1,10 +1,11 @@
 #pragma once
 
 #include <entityx/entityx.h>
+namespace ex = entityx;
 
 struct Collision {
-  Collision(entityx::Entity fire, entityx::Entity snowflake)
+  Collision(ex::Entity fire, ex::Entity snowflake)
       : Fire(fire), Snowflake(snowflake) {}
-  entityx::Entity Fire, Snowflake;
+  ex::Entity Fire, Snowflake;
 };
 

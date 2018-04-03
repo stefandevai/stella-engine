@@ -10,10 +10,10 @@ AnimationSystem::AnimationSystem() {
 
 AnimationSystem::~AnimationSystem() {}
 
-void AnimationSystem::update(entityx::EntityManager &es,
-                            entityx::EventManager &events,
-                            entityx::TimeDelta dt) {
-  es.each<AnimationsComponent, SpriteComponent>([this](entityx::Entity entity, AnimationsComponent &animations, SpriteComponent &spr) {
+void AnimationSystem::update(ex::EntityManager &es,
+                            ex::EventManager &events,
+                            ex::TimeDelta dt) {
+  es.each<AnimationsComponent, SpriteComponent>([this](ex::Entity entity, AnimationsComponent &animations, SpriteComponent &spr) {
 		if (!animations.Initialized) {
 			for (auto& anim: animations.Frames) {
 			  spr.Sprite->SetDimensions(animations.FrameDimensions);

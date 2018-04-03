@@ -22,7 +22,7 @@ namespace graphics {
 			inline ~IceEmitter() {
 			}
 
-      inline void UpdateParticle(entityx::Entity particle) override {
+      inline void UpdateParticle(ex::Entity particle) override {
         auto particle_par = particle.component<ParticleComponent>();
 
         if (particle.has_component<SpatialComponent>() && particle_par->Life % 2 == 0) {

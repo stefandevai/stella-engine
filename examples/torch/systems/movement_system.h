@@ -3,12 +3,14 @@
 #include <entityx/entityx.h>
 #include <stella/stella.h>
 
-class MovementSystem : public entityx::System<MovementSystem> {
+namespace ex = entityx;
+
+class MovementSystem : public ex::System<MovementSystem> {
 public:
   MovementSystem();
   ~MovementSystem();
-  void update(entityx::EntityManager &es, entityx::EventManager &events,
-              entityx::TimeDelta dt) override;
+  void update(ex::EntityManager &es, ex::EventManager &events,
+              ex::TimeDelta dt) override;
 
 private:
 };

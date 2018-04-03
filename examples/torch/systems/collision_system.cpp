@@ -8,18 +8,18 @@ CollisionSystem::CollisionSystem(int w, int h) {
 
 CollisionSystem::~CollisionSystem() {}
 
-void CollisionSystem::update(entityx::EntityManager &es,
-                             entityx::EventManager &events,
-                             entityx::TimeDelta dt) {
-  std::vector<entityx::Entity> fire_particles;
-  std::vector<entityx::Entity> snow_particles;
+void CollisionSystem::update(ex::EntityManager &es,
+                             ex::EventManager &events,
+                             ex::TimeDelta dt) {
+  std::vector<ex::Entity> fire_particles;
+  std::vector<ex::Entity> snow_particles;
 
   fire_particles.clear();
   snow_particles.clear();
 
   es.each<ParticleComponent>(
       [this, &fire_particles, &snow_particles](
-          entityx::Entity entity, ParticleComponent &par) {
+          ex::Entity entity, ParticleComponent &par) {
           if (par.ID == -1)
             fire_particles.emplace_back(entity);
           else if (par.ID == 1)
@@ -50,8 +50,8 @@ void CollisionSystem::update(entityx::EntityManager &es,
   //}
 }
 
-bool CollisionSystem::check_collision(entityx::Entity &b1,
-                                      entityx::Entity &b2) {
+bool CollisionSystem::check_collision(ex::Entity &b1,
+                                      ex::Entity &b2) {
   auto pos1 = b1.component<PositionComponent>();
   auto dim1 = b1.component<DimensionComponent>();
   auto pos2 = b2.component<PositionComponent>();

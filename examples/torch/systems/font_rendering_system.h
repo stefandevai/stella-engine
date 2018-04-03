@@ -8,12 +8,14 @@
 
 #include "scenelayer.h"
 
-class FontRenderingSystem : public entityx::System<FontRenderingSystem> {
+namespace ex = entityx;
+
+class FontRenderingSystem : public ex::System<FontRenderingSystem> {
 	public:
  		FontRenderingSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &fonts);
 		~FontRenderingSystem();
-		void update(entityx::EntityManager &es, entityx::EventManager &events,
-								entityx::TimeDelta dt) override;
+		void update(ex::EntityManager &es, ex::EventManager &events,
+								ex::TimeDelta dt) override;
 	private:
 		SceneLayer *TextLayer;
 		stella::graphics::Shader *Shader;

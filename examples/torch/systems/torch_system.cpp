@@ -4,7 +4,7 @@
 
 #include "../components/game_components.h"
 
-TorchSystem::TorchSystem(entityx::Entity player, entityx::EntityManager &es) : Player(player) {
+TorchSystem::TorchSystem(ex::Entity player, ex::EntityManager &es) : Player(player) {
   this->PointsString = es.create();
   this->PointsString.assign<PositionComponent>(30.f, 105.f);
   this->PointsString.assign<DimensionComponent>(9.f, 9.f);
@@ -15,7 +15,7 @@ TorchSystem::~TorchSystem() {
 
 }
 
-void TorchSystem::configure(entityx::EventManager &events) {
+void TorchSystem::configure(ex::EventManager &events) {
   events.subscribe<Collision>(*this);
 }
 
@@ -29,8 +29,8 @@ void TorchSystem::receive(const Collision &collision) {
   en.destroy();
 }
 
-void TorchSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-  es.each<TorchComponent, PositionComponent>([this](entityx::Entity entity,
+void TorchSystem::update(ex::EntityManager &es, ex::EventManager &events, ex::TimeDelta dt) {
+  es.each<TorchComponent, PositionComponent>([this](ex::Entity entity,
                                                       TorchComponent &torch,
                                                       PositionComponent &pos) {
       auto player_component = this->Player.component<PlayerComponent>();
