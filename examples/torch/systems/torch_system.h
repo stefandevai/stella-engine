@@ -5,14 +5,15 @@
 
 class TorchSystem : public entityx::System<TorchSystem>, public entityx::Receiver<TorchSystem> {
 public:
-  TorchSystem(entityx::Entity player);
+  TorchSystem(entityx::Entity player, entityx::EntityManager &es);
   ~TorchSystem();
   void configure(entityx::EventManager &events);
   void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override;
   void receive(const Collision &collision);
 
 private:
-  entityx::Entity Player;
+  entityx::Entity Player, PointsString;
+  int Points = 0;
 };
 
 

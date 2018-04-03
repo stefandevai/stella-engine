@@ -46,7 +46,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   systems.add<RenderSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
   systems.add<TransformSystem>();
-  systems.add<TorchSystem>(player);
+  systems.add<TorchSystem>(player, entities);
   systems.add<AnimationSystem>();
   systems.add<FontRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
   systems.configure();

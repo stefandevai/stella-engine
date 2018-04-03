@@ -1,9 +1,14 @@
 #include "torch_system.h"
 
+#include <sstream>
+
 #include "../components/game_components.h"
 
-TorchSystem::TorchSystem(entityx::Entity player) : Player(player) {
-
+TorchSystem::TorchSystem(entityx::Entity player, entityx::EntityManager &es) : Player(player) {
+  this->PointsString = es.create();
+  this->PointsString.assign<PositionComponent>(30.f, 105.f);
+  this->PointsString.assign<DimensionComponent>(9.f, 9.f);
+	this->PointsString.assign<TextComponent>("Points: ", "font-cursive");
 }
 
 TorchSystem::~TorchSystem() {
@@ -16,6 +21,11 @@ void TorchSystem::configure(entityx::EventManager &events) {
 
 void TorchSystem::receive(const Collision &collision) {
   auto en = collision.Snowflake;
+  this->Points += 10;
+  std::stringstream ss;
+  ss << "Points:  " << this->Points;
+  auto pstring = this->PointsString.component<TextComponent>();
+  pstring->Text = ss.str();
   en.destroy();
 }
 
