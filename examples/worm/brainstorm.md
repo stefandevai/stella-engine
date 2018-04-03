@@ -1,5 +1,0 @@
-- Puzzle game
-- Multiple levels
-- Collect diferent types of objects: mushrooms, seeds, etc.
-- Obstacles that involve throwing collected objects, the worm size, switches, time
-- Get to a hole to finish the level
