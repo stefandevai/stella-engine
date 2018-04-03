@@ -2,11 +2,9 @@
 
 #include "animation_component.h"
 #include "body_component.h"
-#include "input_component.h"
 #include "torch_component.h"
 #include "player_component.h"
 #include "movement_component.h"
-#include "spatial_component.h"
 #include "position_component.h"
 #include "dimension_component.h"
 #include "transform_component.h"

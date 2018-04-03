@@ -10,10 +10,10 @@
 
 namespace ex = entityx;
 
-class FontRenderingSystem : public ex::System<FontRenderingSystem> {
+class GuiRenderingSystem : public ex::System<GuiRenderingSystem> {
 	public:
- 		FontRenderingSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &fonts);
-		~FontRenderingSystem();
+ 		GuiRenderingSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &fonts);
+		~GuiRenderingSystem();
 		void update(ex::EntityManager &es, ex::EventManager &events,
 								ex::TimeDelta dt) override;
 	private:

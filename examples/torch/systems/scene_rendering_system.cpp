@@ -1,4 +1,4 @@
-#include "render_system.h"
+#include "scene_rendering_system.h"
 
 #include <tuple>
 #include <ctime>
@@ -8,10 +8,10 @@
 
 #include "../components/game_components.h"
 
-RenderSystem::RenderSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &textures, stella::graphics::Display &display) : Textures(textures) {
+SceneRenderingSystem::SceneRenderingSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &textures, stella::graphics::Display &display) : Textures(textures) {
 	// Initialize shader and textures IDs
   GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-  this->Shader = new stella::graphics::Shader("assets/shaders/basic_shader.vsh", "assets/shaders/basic_shader.fsh");
+  this->Shader = new stella::graphics::Shader("assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag");
   this->Shader->Enable();
   this->Shader->SetIntv("textures", tex_ids, 21);
   this->Shader->Disable();
@@ -27,9 +27,9 @@ RenderSystem::RenderSystem(int width, int height, std::unordered_map<std::string
 	std::srand (static_cast <unsigned> (std::time(0)));
 }
 
-RenderSystem::~RenderSystem() { delete this->TileLayer; delete this->Shader; }
+SceneRenderingSystem::~SceneRenderingSystem() { delete this->TileLayer; delete this->Shader; }
 
-void RenderSystem::update(ex::EntityManager &es,
+void SceneRenderingSystem::update(ex::EntityManager &es,
                           ex::EventManager &events,
                           ex::TimeDelta dt) {
 
@@ -87,12 +87,12 @@ void RenderSystem::update(ex::EntityManager &es,
   //this->ParticleLayer->Render();
 };
 
-void RenderSystem::configure(ex::EventManager &event_manager) {
+void SceneRenderingSystem::configure(ex::EventManager &event_manager) {
   event_manager.subscribe<ex::ComponentRemovedEvent<SpriteComponent>>(
       *this);
 }
 
-void RenderSystem::receive(
+void SceneRenderingSystem::receive(
     const ex::ComponentRemovedEvent<SpriteComponent> &ev) {
   auto ent = ev.entity;
   auto spr = ent.component<SpriteComponent>();

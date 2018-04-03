@@ -22,7 +22,6 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   player.assign<PositionComponent>(100.f, 336.f);
   player.assign<DimensionComponent>(32.f, 32.f);
   player.assign<MovementComponent>(glm::vec2(250.f, 400.f));
-  player.assign<InputComponent>();
   player.assign<PlayerComponent>();
 
   auto torch = entities.create();
@@ -44,11 +43,11 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   systems.add<MovementSystem>();
   systems.add<ParticleSystem>();
   systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
-  systems.add<RenderSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
+  systems.add<SceneRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
   systems.add<TransformSystem>();
   systems.add<TorchSystem>(player, entities);
   systems.add<AnimationSystem>();
-  systems.add<FontRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
+  systems.add<GuiRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
   systems.configure();
 }
 
@@ -62,11 +61,11 @@ void Game::Update(ex::TimeDelta dt) {
   systems.update<MovementSystem>(dt);
   systems.update<ParticleSystem>(dt);
   systems.update<PlayerMovementSystem>(dt);
-  systems.update<RenderSystem>(dt);
+  systems.update<SceneRenderingSystem>(dt);
   systems.update<TransformSystem>(dt);
   systems.update<TorchSystem>(dt);
   systems.update<AnimationSystem>(dt);
-  systems.update<FontRenderingSystem>(dt);
+  systems.update<GuiRenderingSystem>(dt);
 
 	if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
 		std::stringstream fps_string("");

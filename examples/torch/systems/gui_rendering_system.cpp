@@ -1,4 +1,4 @@
-#include "font_rendering_system.h"
+#include "gui_rendering_system.h"
 
 #include <cmath>
 
@@ -7,10 +7,10 @@
 
 #include "../components/game_components.h"
 
-FontRenderingSystem::FontRenderingSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &fonts) : Fonts(fonts) {
+GuiRenderingSystem::GuiRenderingSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &fonts) : Fonts(fonts) {
   GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
 
-  this->Shader = new stella::graphics::Shader("assets/shaders/gui_shader.vsh", "assets/shaders/gui_shader.fsh");
+  this->Shader = new stella::graphics::Shader("assets/shaders/gui.vert", "assets/shaders/gui.frag");
   this->Shader->Enable();
 	this->Shader->SetIntv("textures", tex_ids, 21);
   this->Shader->Disable();
@@ -20,12 +20,12 @@ FontRenderingSystem::FontRenderingSystem(int width, int height, std::unordered_m
   this->TextLayer = new SceneLayer(this->Shader, proj);
 }
 
-FontRenderingSystem::~FontRenderingSystem() {
+GuiRenderingSystem::~GuiRenderingSystem() {
 	delete this->TextLayer;
 	delete this->Shader;
 }
 
-void FontRenderingSystem::update(ex::EntityManager &es, ex::EventManager &events,
+void GuiRenderingSystem::update(ex::EntityManager &es, ex::EventManager &events,
 		ex::TimeDelta dt) {
 	es.each<TextComponent, PositionComponent, DimensionComponent>([this, &dt](ex::Entity entity,
                                                        TextComponent &text,

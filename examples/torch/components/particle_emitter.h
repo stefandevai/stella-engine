@@ -11,7 +11,7 @@ namespace ex = entityx;
 struct ParticleEmitter {
 	public:
 	  int Velocity;
-	  enum Type { FIRE_EMITTER, SNOW_EMITTER, ICE_EMITTER };
+	  enum Type { FIRE_EMITTER, SNOW_EMITTER };
 
 		std::vector<ex::Entity> Particles;
 		stella::graphics::Emitter *Emitter;
@@ -21,10 +21,6 @@ struct ParticleEmitter {
         case FIRE_EMITTER:
           this->Velocity = 1;
           this->Emitter = new stella::graphics::FireEmitter(0, 0, max_particles, "fire-particle");
-          break;
-        case ICE_EMITTER:
-          this->Velocity = 2;
-          this->Emitter = new stella::graphics::IceEmitter(0, 0, max_particles, "ice-particle");
           break;
         case SNOW_EMITTER:
           this->Velocity = 180;
