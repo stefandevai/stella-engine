@@ -2,6 +2,7 @@
 
 #include "animation_component.h"
 #include "body_component.h"
+#include "body2d_component.h"
 #include "torch_component.h"
 #include "player_component.h"
 #include "movement_component.h"

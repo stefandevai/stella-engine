@@ -23,3 +23,4 @@ public:
 private:
   bool check_collision(ex::Entity &b1, ex::Entity &b2);
 };
+

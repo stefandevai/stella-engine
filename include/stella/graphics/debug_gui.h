@@ -1,8 +1,8 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include "stella/imgui/imgui.h"
-#include "stella/imgui/imgui_impl_sdl_gl3.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_sdl_gl3.h"
 
 class DebugGui {
   public:
@@ -15,5 +15,6 @@ class DebugGui {
 
   private:
     SDL_Window *Window;
+    bool my_tool_active;
 };
 

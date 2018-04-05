@@ -20,28 +20,30 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   auto player = entities.create();
   player.assign<SpriteComponent>("player", glm::vec2(32, 32));
   //player.assign<BodyComponent>(32, 32, 0, 0, false);
+  player.assign<Body2DComponent>();
   player.assign<PositionComponent>(100.f, 336.f);
   player.assign<DimensionComponent>(32.f, 32.f);
   player.assign<MovementComponent>(glm::vec2(250.f, 400.f));
   player.assign<PlayerComponent>();
 
-  auto torch = entities.create();
-  torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
-  torch.assign<PositionComponent>(350.f, 290.f);
-  torch.assign<DimensionComponent>(16.f, 16.f);
-  torch.assign<TorchComponent>();
+  //auto torch = entities.create();
+  //torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
+  //torch.assign<PositionComponent>(350.f, 290.f);
+  //torch.assign<DimensionComponent>(16.f, 16.f);
+  //torch.assign<TorchComponent>();
 
-  auto snow = entities.create();
-  snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
-  snow.assign<PositionComponent>(0.0f, -64.f);
-  snow.assign<DimensionComponent>(32.f, 32.f);
+  //auto snow = entities.create();
+  //snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
+  //snow.assign<PositionComponent>(0.0f, -64.f);
+  //snow.assign<DimensionComponent>(32.f, 32.f);
 
   this->load_blocks();
   this->load_text();
 
   //// Systems
   systems.add<CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
-  systems.add<MovementSystem>();
+  //systems.add<MovementSystem>();
+  systems.add<PhysicsSystem>();
   systems.add<ParticleSystem>();
   systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   systems.add<SceneRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
@@ -59,7 +61,8 @@ Game::~Game() {
 
 void Game::Update(ex::TimeDelta dt) { 
   systems.update<CollisionSystem>(dt);
-  systems.update<MovementSystem>(dt);
+  //systems.update<MovementSystem>(dt);
+  systems.update<PhysicsSystem>(dt);
   systems.update<ParticleSystem>(dt);
   systems.update<PlayerMovementSystem>(dt);
   systems.update<SceneRenderingSystem>(dt);
@@ -92,6 +95,7 @@ void Game::load_blocks() {
   // Terrain
   for (unsigned int i = 0; i < this->Display.GetWidth() / 32; ++i) {
     ex::Entity block = entities.create();
+    block.assign<Body2DComponent>();
     //block.assign<BodyComponent>(this->Display.GetWidth(), 64, 0, 0, true);
     block.assign<PositionComponent>(32.f * (float)i, this->Display.GetHeight() - 64);
     block.assign<DimensionComponent>(32.f, 32.f);
@@ -99,6 +103,7 @@ void Game::load_blocks() {
 
     ex::Entity block2 = entities.create();
     //block.assign<BodyComponent>(this->Display.GetWidth(), 64, 0, 0, true);
+    block2.assign<Body2DComponent>();
     block2.assign<PositionComponent>(32.f * (float)i, this->Display.GetHeight() - 32);
     block2.assign<DimensionComponent>(32.f, 32.f);
     block2.assign<SpriteComponent>("tiles", glm::vec2(32, 32), 0);

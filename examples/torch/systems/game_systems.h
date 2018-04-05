@@ -2,6 +2,7 @@
 
 #include "transform_system.h"
 #include "collision_system.h"
+#include "physics_system.h"
 #include "movement_system.h"
 #include "animation_system.h"
 #include "player_movement_system.h"

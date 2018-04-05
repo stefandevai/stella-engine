@@ -7,4 +7,7 @@
 #include "graphics/texture.h"
 #include "graphics/framebuffer.h"
 
+#include "physics2d/world.h"
+#include "physics2d/body.h"
+
 #include "audio/soundplayer.h"

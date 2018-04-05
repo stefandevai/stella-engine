@@ -77,7 +77,7 @@ void Display::Update() {
   //}
 
   this->updateInput();
-  this->DGUI.Update();
+  //this->DGUI.Update();
   SDL_GL_SwapWindow(this->Window);
 }
 
@@ -109,7 +109,7 @@ void Display::updateInput() {
   SDL_Event event;
   while (SDL_PollEvent(&event))
   {
-    this->DGUI.GetInput(event);
+    //this->DGUI.GetInput(event);
     if (event.type == SDL_QUIT)
       this->Running = false;
     if (event.type == SDL_KEYDOWN)

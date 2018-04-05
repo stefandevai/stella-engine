@@ -39,8 +39,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-#include "stella/imgui/imgui.h"
-#include "stella/imgui/imgui_impl_sdl_gl3.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_sdl_gl3.h"
 
 // SDL,GL3W
 //#include <SDL.h>
