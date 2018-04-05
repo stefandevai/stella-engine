@@ -7,6 +7,9 @@
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 
+#include "stella/imgui/imgui.h"
+#include "stella/imgui/imgui_impl_sdl_gl3.h"
+
 namespace stella {
 namespace graphics {
 class Display {

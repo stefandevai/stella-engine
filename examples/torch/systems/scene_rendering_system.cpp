@@ -52,7 +52,7 @@ void SceneRenderingSystem::update(ex::EntityManager &es,
             spr.Sprite = new stella::graphics::Sprite(pos.x, pos.y,*tex);
           }
           else {
-					  spr.Sprite = new stella::graphics::Sprite(pos.x, pos.y, spr.FrameDimensions.x, spr.FrameDimensions.y, *tex, 0);
+					  spr.Sprite = new stella::graphics::Sprite(pos.x, pos.y, spr.FrameDimensions.x, spr.FrameDimensions.y, *tex, spr.Frame);
           }
 
           // If the texture has a diferent resolution than the actual size we want

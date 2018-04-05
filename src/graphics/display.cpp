@@ -22,14 +22,7 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_GL_CreateContext(this->Window);
 
-	//glfwSetWindowSizeLimits(this->Window, width, height, GLFW_DONT_CARE,
-													//GLFW_DONT_CARE);
-	//glfwSetWindowAspectRatio(this->Window, 16, 9);
-  
   this->Running = true;
-
-  // Uncomment to enable vsync
-	 //glfwSwapInterval(0);
 
   // Set initial value for Frame
   this->Frame = 1; // Setting as 1 to avoid division by 0
@@ -39,6 +32,12 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
   if (!gladLoadGLLoader(SDL_GL_GetProcAddress)) {
     std::cout << "Failed to initialize GLAD" << std::endl;
   }   
+
+  ImGui::CreateContext();
+  ImGuiIO& io = ImGui::GetIO(); (void)io;
+  ImGui_ImplSdlGL3_Init(this->Window);
+  ImGui::StyleColorsDark();
+  //ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
   // OpenGL Viewport settings
   glViewport(0, 0, this->Width, this->Height);
@@ -51,6 +50,8 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
 }
 
 Display::~Display() {
+  ImGui_ImplSdlGL3_Shutdown();
+  ImGui::DestroyContext();
   SDL_DestroyWindow(this->Window);
   SDL_Quit();
 }
@@ -81,6 +82,17 @@ void Display::Update() {
   //}
 
   this->updateInput();
+  ImGui_ImplSdlGL3_NewFrame(this->Window);
+  bool show_another_window = true;
+  if (show_another_window) {
+    ImGui::Begin("Another Window", &show_another_window);
+    ImGui::Text("Hello from another window!");
+    if (ImGui::Button("Close Me"))
+        show_another_window = false;
+    ImGui::End();
+  }
+  ImGui::Render();
+  ImGui_ImplSdlGL3_RenderDrawData(ImGui::GetDrawData());
   SDL_GL_SwapWindow(this->Window);
 }
 
@@ -112,6 +124,8 @@ void Display::updateInput() {
   SDL_Event event;
   while (SDL_PollEvent(&event))
   {
+    ImGui_ImplSdlGL3_ProcessEvent(&event);
+
     if (event.type == SDL_QUIT)
       this->Running = false;
     if (event.type == SDL_KEYDOWN)

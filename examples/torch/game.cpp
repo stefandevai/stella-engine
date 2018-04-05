@@ -101,7 +101,7 @@ void Game::load_blocks() {
     //block.assign<BodyComponent>(this->Display.GetWidth(), 64, 0, 0, true);
     block2.assign<PositionComponent>(32.f * (float)i, this->Display.GetHeight() - 32);
     block2.assign<DimensionComponent>(32.f, 32.f);
-    block2.assign<SpriteComponent>("tiles", glm::vec2(32, 32));
+    block2.assign<SpriteComponent>("tiles", glm::vec2(32, 32), 0);
   }
 }
 
