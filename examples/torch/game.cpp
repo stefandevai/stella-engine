@@ -8,6 +8,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   // Textures
   this->LoadTexture("player", "assets/sprites/player.png");
   this->LoadTexture("ground", "assets/sprites/ground.png");
+  this->LoadTexture("tiles", "assets/sprites/tiles.png");
 	this->LoadTexture("fire-particle", "assets/sprites/fire-particle.png");
 	this->LoadTexture("snowflake", "assets/snowflakes/flake2-small.png");
 
@@ -18,7 +19,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   // Player
   auto player = entities.create();
   player.assign<SpriteComponent>("player", glm::vec2(32, 32));
-  player.assign<BodyComponent>(32, 32, 0, 0, false);
+  //player.assign<BodyComponent>(32, 32, 0, 0, false);
   player.assign<PositionComponent>(100.f, 336.f);
   player.assign<DimensionComponent>(32.f, 32.f);
   player.assign<MovementComponent>(glm::vec2(250.f, 400.f));
@@ -89,11 +90,19 @@ void Game::LoadFont(std::string font_name, const char *font_path) {
 
 void Game::load_blocks() {
   // Terrain
-  ex::Entity block = entities.create();
-  block.assign<BodyComponent>(this->Display.GetWidth(), 64, 0, 0, true);
-  block.assign<PositionComponent>(0.f, this->Display.GetHeight() - 64);
-  block.assign<DimensionComponent>(this->Display.GetWidth(), 64.f);
-  block.assign<SpriteComponent>("ground");
+  for (unsigned int i = 0; i < this->Display.GetWidth() / 32; ++i) {
+    ex::Entity block = entities.create();
+    //block.assign<BodyComponent>(this->Display.GetWidth(), 64, 0, 0, true);
+    block.assign<PositionComponent>(32.f * (float)i, this->Display.GetHeight() - 64);
+    block.assign<DimensionComponent>(32.f, 32.f);
+    block.assign<SpriteComponent>("tiles", glm::vec2(32, 32));
+
+    ex::Entity block2 = entities.create();
+    //block.assign<BodyComponent>(this->Display.GetWidth(), 64, 0, 0, true);
+    block2.assign<PositionComponent>(32.f * (float)i, this->Display.GetHeight() - 32);
+    block2.assign<DimensionComponent>(32.f, 32.f);
+    block2.assign<SpriteComponent>("tiles", glm::vec2(32, 32));
+  }
 }
 
 void Game::load_text() {
