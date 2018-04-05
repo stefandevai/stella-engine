@@ -7,8 +7,7 @@
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 
-#include "stella/imgui/imgui.h"
-#include "stella/imgui/imgui_impl_sdl_gl3.h"
+#include "stella/graphics/debug_gui.h"
 
 namespace stella {
 namespace graphics {
@@ -38,6 +37,8 @@ private:
   SDL_Window *Window;
   bool Running;
   glm::vec3 ClearColor;
+
+  DebugGui DGUI;
 
   void updateInput();
   void getDT();

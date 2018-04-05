@@ -115,23 +115,24 @@ function create_class {
 
 	echo "#pragma once
 
-	class ${class_camel_name} {
-		public:
-			${class_camel_name}();
-			~${class_camel_name}();
-	};
-	" > "$class_name.h"
+class ${class_camel_name} {
+  public:
+    ${class_camel_name}();
+    ~${class_camel_name}();
+};
+" > "$class_name.h"
+
 
 	echo "#include \"${class_name}.h\"
 
-	${class_camel_name}::${class_camel_name}() {
+${class_camel_name}::${class_camel_name}() {
 
-	}
+}
 
-	${class_camel_name}::~${class_camel_name}() {
+${class_camel_name}::~${class_camel_name}() {
 
-	}
-	" > "$class_name.cpp"
+}
+" > "$class_name.cpp"
 }
 
 # Formats cpp code using clang-format
