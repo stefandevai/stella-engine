@@ -19,7 +19,6 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   // Player
   auto player = entities.create();
   player.assign<SpriteComponent>("player", glm::vec2(32, 32));
-  //player.assign<BodyComponent>(32, 32, 0, 0, false);
   player.assign<Body2DComponent>();
   player.assign<PositionComponent>(100.f, 336.f);
   player.assign<DimensionComponent>(32.f, 32.f);
@@ -41,8 +40,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->load_text();
 
   //// Systems
-  systems.add<CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
-  //systems.add<MovementSystem>();
+  //systems.add<CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
   systems.add<PhysicsSystem>();
   systems.add<ParticleSystem>();
   systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
@@ -60,8 +58,7 @@ Game::~Game() {
 }
 
 void Game::Update(ex::TimeDelta dt) { 
-  systems.update<CollisionSystem>(dt);
-  //systems.update<MovementSystem>(dt);
+  //systems.update<CollisionSystem>(dt);
   systems.update<PhysicsSystem>(dt);
   systems.update<ParticleSystem>(dt);
   systems.update<PlayerMovementSystem>(dt);
@@ -93,21 +90,40 @@ void Game::LoadFont(std::string font_name, const char *font_path) {
 
 void Game::load_blocks() {
   // Terrain
-  for (unsigned int i = 0; i < this->Display.GetWidth() / 32; ++i) {
+  unsigned int nblock = this->Display.GetWidth() / 32;
+  //unsigned int nblock = 4;
+  for (unsigned int i = 0; i < nblock; ++i) {
     ex::Entity block = entities.create();
     block.assign<Body2DComponent>();
-    //block.assign<BodyComponent>(this->Display.GetWidth(), 64, 0, 0, true);
     block.assign<PositionComponent>(32.f * (float)i, this->Display.GetHeight() - 64);
     block.assign<DimensionComponent>(32.f, 32.f);
     block.assign<SpriteComponent>("tiles", glm::vec2(32, 32));
 
     ex::Entity block2 = entities.create();
-    //block.assign<BodyComponent>(this->Display.GetWidth(), 64, 0, 0, true);
     block2.assign<Body2DComponent>();
     block2.assign<PositionComponent>(32.f * (float)i, this->Display.GetHeight() - 32);
     block2.assign<DimensionComponent>(32.f, 32.f);
     block2.assign<SpriteComponent>("tiles", glm::vec2(32, 32), 0);
   }
+
+  ex::Entity block = entities.create();
+  block.assign<Body2DComponent>();
+  //block.assign<PositionComponent>(32.f * 6.f, this->Display.GetHeight() - 96);
+  block.assign<PositionComponent>(32.f * 0.f, this->Display.GetHeight() - 96);
+  block.assign<DimensionComponent>(32.f, 32.f);
+  block.assign<SpriteComponent>("tiles", glm::vec2(32, 32));
+
+  ex::Entity block2 = entities.create();
+  block2.assign<Body2DComponent>();
+  block2.assign<PositionComponent>(32.f * 6.f, this->Display.GetHeight() - 96);
+  block2.assign<DimensionComponent>(32.f, 32.f);
+  block2.assign<SpriteComponent>("tiles", glm::vec2(32, 32), 0);
+
+  ex::Entity block3 = entities.create();
+  block3.assign<Body2DComponent>();
+  block3.assign<PositionComponent>(32.f * 8.f, this->Display.GetHeight() - 128);
+  block3.assign<DimensionComponent>(32.f, 32.f);
+  block3.assign<SpriteComponent>("tiles", glm::vec2(32, 32), 0);
 }
 
 void Game::load_text() {

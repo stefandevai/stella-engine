@@ -2,8 +2,6 @@
 
 #include <glm/glm.hpp>
 
-#include "../components/game_components.h"
-
 PhysicsSystem::PhysicsSystem() {
 
 }
@@ -23,6 +21,12 @@ void PhysicsSystem::update(ex::EntityManager &es, ex::EventManager &events, ex::
         auto mov = entity.component<MovementComponent>();
         body.Body->TargetVelocity = mov->TargetVelocity;
         body.Body->Gravity = mov->Gravity;
+        if (mov->ConstantVelocity) {
+          body.Body->Velocity = mov->TargetVelocity;
+        }
+      }
+      else {
+        body.Body->IsStatic = true;
       }
 
       this->World.AddBody(body.Body);

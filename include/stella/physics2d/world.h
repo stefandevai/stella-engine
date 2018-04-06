@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "stella/physics2d/body.h"
+#include "stella/physics2d/manifold.h"
 
 namespace stella {
 namespace physics2d {
@@ -18,9 +19,14 @@ class World {
   private:
     static constexpr float GRAVITY = 1000.f;
     std::vector<std::shared_ptr<stella::physics2d::Body>> Bodies;
+    std::vector<std::shared_ptr<stella::physics2d::Manifold>> Manifolds;
 
-    void UpdateCollisions(float dt);
     void UpdateMovement(float dt);
+    void UpdateCollisions();
+
+    bool AABBvsAABB(std::shared_ptr<stella::physics2d::Body> ba, std::shared_ptr<stella::physics2d::Body> bb);
+    void ResolveManifolds();
+    void ResolveManifold(stella::physics2d::Manifold& mf);
 };
 }}
 

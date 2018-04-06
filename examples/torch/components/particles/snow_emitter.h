@@ -49,6 +49,8 @@ namespace graphics {
         particle.assign<ParticleComponent>(max_life, 16.f, 0.f, speedy, 1);
         particle.assign<SpriteComponent>(this->TextureName);
         particle.assign<TransformComponent>(rotation, glm::vec2(1.f, 1.f));
+        //particle.assign<MovementComponent>(glm::vec2(0.f, 100.f*speedy), false, true);
+        //particle.assign<Body2DComponent>();
         return particle;
 			}
 	};
