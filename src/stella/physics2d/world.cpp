@@ -79,30 +79,29 @@ void World::ResolveManifold(stella::physics2d::Manifold& mf) {
     bool lastix = false, lastiy = false;
     if (last_maxx_a > minx_b && last_minx_a < maxx_b) lastix = true;
     if (last_maxy_a > miny_b && last_miny_a < maxy_b) lastiy = true;
-    //std::cout << lastix << ' ' << lastiy << '\n';
 
-    if (last_maxy_a < cyb && maxy_a >= miny_b && lastix && !lastiy) {
+    if (last_maxy_a < cyb && maxy_a >= miny_b && ((lastix && !lastiy) || (!lastix && !lastiy))) {
         mf.A->Collisions.set(2);
         mf.A->Acceleration.y = 0.f;
         mf.A->Velocity.y = 0.f;
         mf.A->Position.y -= mf.Penetration.y;
         //std::cout << "Colliding bottom\n";
     }
-    else if (last_miny_a > cyb && miny_a <= maxy_b && lastix && !lastiy) {
+    else if (last_miny_a > cyb && miny_a <= maxy_b && ((lastix && !lastiy) || (!lastix && !lastiy))) {
         mf.A->Collisions.set(0);
         mf.A->Acceleration.y = 0.f;
         mf.A->Velocity.y = 0.f;
         mf.A->Position.y += mf.Penetration.y;
         //std::cout << "Colliding top\n";
     }
-    else if (last_maxx_a < cxb && maxx_a >= minx_b && !lastix && lastiy) {
+    else if (last_maxx_a < cxb && maxx_a >= minx_b && ((!lastix && lastiy) || (!lastix && !lastiy))) {
         mf.A->Collisions.set(1);
         mf.A->Acceleration.x = 0.f;
         mf.A->Velocity.x = 0.f;
         mf.A->Position.x -= mf.Penetration.x;
         //std::cout << "Colliding right\n";
     }
-    else if (last_minx_a > cxb && minx_a < maxx_b && !lastix && lastiy) {
+    else if (last_minx_a > cxb && minx_a < maxx_b && ((!lastix && lastiy) || (!lastix && !lastiy))) {
         mf.A->Collisions.set(3);
         mf.A->Acceleration.x = 0.f;
         mf.A->Velocity.x = 0.f;
@@ -110,8 +109,14 @@ void World::ResolveManifold(stella::physics2d::Manifold& mf) {
         //std::cout << "Colliding left\n";
     }
     else {
+      std::cout << lastix << ' ' << lastiy << '\n';
+      std::cout << last_maxx_a << ' ' << last_maxy_a << '\n';
+      std::cout << last_minx_a << ' ' << last_miny_a << '\n';
+      std::cout << maxx_b << ' ' << maxx_b << '\n';
+      std::cout << minx_b << ' ' << minx_b << '\n';
+
       //std::cout <<   << '\n';
-      std::cout << "shoshsusda\n";
+      //std::cout << "shoshsusda\n";
     }
 
 
