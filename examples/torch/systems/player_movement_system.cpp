@@ -17,49 +17,27 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
                                           Body2DComponent &body,
                                           PositionComponent &pos,
                                           DimensionComponent &dim) {
-        //const float GROUND_Y = 512;
 
         body.Body->Acceleration.x = 0.f;
         if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
-          //if (player.InAir)
-            //body.Body->Acceleration.x -= 4*player.Acceleration;
-          //else
-            body.Body->Acceleration.x -= player.Acceleration;
+          body.Body->Acceleration.x -= player.Acceleration;
         }
         if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
-          //if (player.InAir)
-            //body.Body->Acceleration.x += 4*player.Acceleration;
-          //else
-            body.Body->Acceleration.x += player.Acceleration;
+          body.Body->Acceleration.x += player.Acceleration;
         }
-        
-        //// Temp
-        //body.Body->Acceleration.y = 0.f;
-        //if (this->Display.IsKeyDown(SDL_SCANCODE_UP)) {
-          //if (player.InAir)
-            //body.Body->Acceleration.x -= 4*player.Acceleration;
-          //else
-            //body.Body->Acceleration.y -= player.Acceleration;
-        //}
-        //if (this->Display.IsKeyDown(SDL_SCANCODE_DOWN)) {
-          //if (player.InAir)
-            //body.Body->Acceleration.x += 4*player.Acceleration;
-          //else
-            //body.Body->Acceleration.y += player.Acceleration;
-        //}
 
         // JUMP
         if (body.Body->CollidingBottom()) {
-          player.InAir = false;
+          player.Jumping = false;
           body.Body->Drag.x = player.Drag;
         }
         else {
           body.Body->Drag.x = player.Drag*2;
         }
 
-        if (this->Display.IsKeyDown(SDL_SCANCODE_UP) && !player.InAir) {
+        if (this->Display.IsKeyDown(SDL_SCANCODE_UP) && !player.Jumping) {
           body.Body->Velocity.y = -player.JumpForce;
-          player.InAir = true;
+          player.Jumping = true;
         }
       });
 }
