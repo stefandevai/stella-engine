@@ -1,6 +1,9 @@
 #include "stella/graphics/display.h"
-#include <sstream>
 
+#include <glad/glad.h>
+#include <SDL2/SDL.h>
+
+#include <sstream>
 #include <iostream>
 
 namespace stella {

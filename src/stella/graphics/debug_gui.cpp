@@ -1,5 +1,8 @@
 #include "stella/graphics/debug_gui.h"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_sdl_gl3.h"
+
 DebugGui::DebugGui() {
   ImGui::CreateContext();
   ImGuiIO& io = ImGui::GetIO(); (void)io;

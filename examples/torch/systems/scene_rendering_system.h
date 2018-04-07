@@ -1,9 +1,7 @@
 #pragma once
 
 #include <unordered_map>
-
 #include <entityx/entityx.h>
-#include <stella/stella.h>
 
 #include "scenelayer.h"
 #include "firelayer.h"
@@ -11,6 +9,13 @@
 #include "../components/sprite_component.h"
 
 namespace ex = entityx;
+
+namespace stella {
+namespace graphics {
+  class Display;
+  class Texture;
+}
+}
 
 class SceneRenderingSystem : public ex::System<SceneRenderingSystem>, public ex::Receiver<SceneRenderingSystem> {
 public:

@@ -3,11 +3,13 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-#include <stella/graphics/renderer.h>
-#include <stella/graphics/shader.h>
+#include "stella/graphics/shader.h"
+#include "stella/graphics/sprite.h"
+#include "stella/graphics/renderer.h"
 
 namespace stella {
 namespace graphics {
+
 class Layer {
 public:
   virtual ~Layer();

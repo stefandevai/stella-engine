@@ -1,5 +1,7 @@
 #include "firelayer.h"
 
+#include <glad/glad.h>
+
 FireLayer::FireLayer(stella::graphics::Shader *shader, const glm::mat4 &projection, stella::graphics::Display& display)
 	: Layer(new stella::graphics::Renderer(), shader, projection), Display(display) {
 

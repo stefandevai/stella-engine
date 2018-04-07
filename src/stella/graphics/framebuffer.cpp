@@ -1,6 +1,7 @@
 #include "stella/graphics/framebuffer.h"
+#include "stella/graphics/shader.h"
 
-#include <iostream>
+#include <glad/glad.h>
 
 Framebuffer::Framebuffer(stella::graphics::Display &display) : Display(display) {
 	this->init();
@@ -64,8 +65,8 @@ void Framebuffer::init() {
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->FBOtex, 0);
 
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		std::cout << "Error: Framebuffer is not complete." << std::endl;
+	//if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		//std::cout << "Error: Framebuffer is not complete." << std::endl;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

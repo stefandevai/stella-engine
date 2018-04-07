@@ -2,11 +2,7 @@
 
 #include <vector>
 
-#include <glad/glad.h>
 #include <glm/glm.hpp>
-
-#include "sprite.h"
-#include "texture.h"
 
 #define MAX_SPRITES 10000
 #define VERTEX_SIZE sizeof(VertexData)
@@ -14,8 +10,15 @@
 #define BUFFER_SIZE MAX_SPRITES * SPRITE_SIZE
 #define INDICES_SIZE 6 * MAX_SPRITES
 
+typedef unsigned int GLuint;
+typedef int GLsizei;
+
 namespace stella {
 namespace graphics {
+class Sprite;
+class Texture;
+struct VertexData;
+
 enum Index { VERTEX_INDEX, UV_INDEX, TID_INDEX, COLOR_INDEX };
 
 class Renderer {

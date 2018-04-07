@@ -1,8 +1,7 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_sdl_gl3.h"
+struct SDL_Window;
+union SDL_Event;
 
 class DebugGui {
   public:

@@ -1,8 +1,10 @@
 #include "stella/physics2d/world.h"
+#include "stella/physics2d/body.h"
+#include "stella/physics2d/manifold.h"
 
-#include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 
 namespace stella {
 namespace physics2d {

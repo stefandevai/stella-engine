@@ -22,6 +22,9 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
         if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
           body.Body->Acceleration.x -= player.Acceleration;
 
+          body.Body->Velocity.y = -player.JumpForce;
+          body.Body->Acceleration.y = 0.0f;
+
           if (!player.SpriteDirection.test(0)) {
             player.SpriteDirection.flip();
             auto player_sprite = entity.component<SpriteComponent>();
@@ -30,6 +33,9 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
         }
         if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
           body.Body->Acceleration.x += player.Acceleration;
+
+          body.Body->Velocity.y = -player.JumpForce;
+          body.Body->Acceleration.y = 0.0f;
 
           if (!player.SpriteDirection.test(1)) {
             player.SpriteDirection.flip();
@@ -41,6 +47,8 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
         if (this->Display.IsKeyDown(SDL_SCANCODE_UP)) {
           body.Body->Velocity.y = -player.JumpForce;
           body.Body->Acceleration.y = 0.0f;
+
+          body.Body->Acceleration.x = 0.f;
         }
       });
 }

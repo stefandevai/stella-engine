@@ -1,7 +1,6 @@
 #pragma once
 
 #include <entityx/entityx.h>
-#include <stella/stella.h>
 
 namespace ex = entityx;
 

@@ -1,12 +1,13 @@
 #include "stella/graphics/renderer.h"
+#include "stella/graphics/sprite.h"
+#include "stella/graphics/texture.h"
+
+#include <glad/glad.h>
 
 #include <algorithm>
 #include <cstddef>
 
 #include <glm/gtc/matrix_transform.hpp>
-
-// Temporary includes
-#include <iostream>
 
 namespace stella {
 namespace graphics {

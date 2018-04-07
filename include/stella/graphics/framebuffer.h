@@ -1,11 +1,12 @@
 #pragma once
 
-#include <glad/glad.h>
 #include <vector>
 #include <glm/glm.hpp>
 
 #include "stella/graphics/display.h"
-#include "stella/graphics/shader.h"
+
+typedef unsigned int GLuint;
+typedef unsigned int GLenum;
 
 class Framebuffer {
 	public:

@@ -1,10 +1,11 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include "stella/physics2d/body.h"
 
 namespace stella {
 namespace physics2d {
+class Body;
+
 struct Manifold {
   Manifold(std::shared_ptr<stella::physics2d::Body> a, std::shared_ptr<stella::physics2d::Body> b, glm::vec2 penetration)
     : A(a), B(b), Penetration(penetration) {}

@@ -1,6 +1,5 @@
 #include "stella/audio/sound.h"
 
-#include <iostream>
 #include <vorbis/vorbisfile.h>
 
 namespace stella {

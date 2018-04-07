@@ -44,7 +44,7 @@ function make_func {
     cd $BUILD_DIR
   fi
 
-  make
+  make -j 4
 }
 
 # Execute target
@@ -53,14 +53,14 @@ function exec_func {
 		mkdir $BUILD_DIR
 		cd $BUILD_DIR
 		cmake ..
-		make
+		make -j 4
 	elif [ ! -f "$BUILD_DIR"/Makefile ]; then
 		cd $BUILD_DIR
 		cmake ..
-		make
+		make -j 4
 	elif [ ! -f "$BUILD_DIR"/"$TARGET_DIR"/"$TARGET" ]; then
 		cd $BUILD_DIR
-		make
+		make -j 4
 	else
 		cd $BUILD_DIR
 	fi

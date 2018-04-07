@@ -1,7 +1,11 @@
 #pragma once
 
-#include <glad/glad.h>
 #include <glm/glm.hpp>
+
+typedef char GLchar;
+typedef float GLfloat;
+typedef int GLint;
+typedef unsigned int GLuint;
 
 namespace stella {
 namespace graphics {

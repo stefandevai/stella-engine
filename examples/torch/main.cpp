@@ -1,6 +1,4 @@
-#include <iostream>
-#include <array>
-#include <stella/stella.h>
+#include <stella/graphics/display.h>
 
 #include "game.h"
 

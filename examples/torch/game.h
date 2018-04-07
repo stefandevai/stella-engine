@@ -1,15 +1,10 @@
 #pragma once
 
-#include <map>
 #include <unordered_map>
 #include <string>
-#include <vector>
 
 #include <entityx/entityx.h>
 #include <stella/stella.h>
-
-#include "components/game_components.h"
-#include "systems/game_systems.h"
 
 namespace ex = entityx;
 

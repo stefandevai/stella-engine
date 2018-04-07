@@ -1,8 +1,12 @@
 #include "game.h" 
+
 #include <tuple>
 #include <utility>
 #include <sstream>
 #include <iomanip>
+
+#include "components/game_components.h"
+#include "systems/game_systems.h"
 
 Game::Game(stella::graphics::Display &display) : Display(display) {
   // Textures
@@ -32,10 +36,10 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   torch.assign<DimensionComponent>(16.f, 16.f);
   torch.assign<TorchComponent>();
 
-  //auto snow = entities.create();
-  //snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
-  //snow.assign<PositionComponent>(0.0f, -64.f);
-  //snow.assign<DimensionComponent>(32.f, 32.f);
+  auto snow = entities.create();
+  snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
+  snow.assign<PositionComponent>(0.0f, -64.f);
+  snow.assign<DimensionComponent>(32.f, 32.f);
 
   this->load_blocks();
   this->load_text();
@@ -133,21 +137,21 @@ void Game::load_text() {
   title_text.assign<DimensionComponent>(9.f, 9.f);
 	title_text.assign<TextComponent>("- TORCH -", "font-cursive", true);
 
-  const GLubyte* renderer = glGetString(GL_RENDERER);
-  std::stringstream renderer_string("");
-  renderer_string << renderer;
-  auto renderer_info = entities.create();
-  renderer_info.assign<PositionComponent>(30.f, 60.f);
-  renderer_info.assign<DimensionComponent>(9.f, 9.f);
-  renderer_info.assign<TextComponent>(renderer_string.str(), "font-cursive", true);
+  //const unsigned char* renderer = glGetString(GL_RENDERER);
+  //std::stringstream renderer_string("");
+  //renderer_string << renderer;
+  //auto renderer_info = entities.create();
+  //renderer_info.assign<PositionComponent>(30.f, 60.f);
+  //renderer_info.assign<DimensionComponent>(9.f, 9.f);
+  //renderer_info.assign<TextComponent>(renderer_string.str(), "font-cursive", true);
 
-  const GLubyte* version = glGetString(GL_VERSION);
-  std::stringstream version_string("");
-  version_string << "OpenGL " << version;
-  auto opengl_info = entities.create();
-  opengl_info.assign<PositionComponent>(30.f, 75.f);
-  opengl_info.assign<DimensionComponent>(9.f, 9.f);
-  opengl_info.assign<TextComponent>(version_string.str(), "font-cursive", true);
+  //const unsigned char* version = glGetString(GL_VERSION);
+  //std::stringstream version_string("");
+  //version_string << "OpenGL " << version;
+  //auto opengl_info = entities.create();
+  //opengl_info.assign<PositionComponent>(30.f, 75.f);
+  //opengl_info.assign<DimensionComponent>(9.f, 9.f);
+  //opengl_info.assign<TextComponent>(version_string.str(), "font-cursive", true);
 
   this->FPSText = entities.create();
   this->FPSText.assign<PositionComponent>(30.f, 90.f);

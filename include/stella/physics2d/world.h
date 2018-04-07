@@ -3,11 +3,11 @@
 #include <vector>
 #include <memory>
 
-#include "stella/physics2d/body.h"
-#include "stella/physics2d/manifold.h"
-
 namespace stella {
 namespace physics2d {
+class Manifold;
+class Body;
+
 class World {
   public:
     World();

@@ -1,9 +1,14 @@
 #pragma once
 
 #include <entityx/entityx.h>
-#include <stella/stella.h>
 
 namespace ex = entityx;
+
+namespace stella {
+namespace graphics {
+  class Display;
+}
+}
 
 class PlayerMovementSystem : public ex::System<PlayerMovementSystem> {
 public:

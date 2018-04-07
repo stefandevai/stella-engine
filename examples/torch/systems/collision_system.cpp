@@ -1,7 +1,11 @@
 #include "collision_system.h"
+#include "../events/collision.h"
+#include "../components/position_component.h"
+#include "../components/dimension_component.h"
+#include "../components/particle_component.h"
 
 #include <algorithm>
-#include "../events/collision.h"
+#include <vector>
 
 CollisionSystem::CollisionSystem(int w, int h) {
 }

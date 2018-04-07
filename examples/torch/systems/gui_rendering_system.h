@@ -4,7 +4,6 @@
 #include <unordered_map>
 
 #include <entityx/entityx.h>
-#include <stella/stella.h>
 
 #include "scenelayer.h"
 

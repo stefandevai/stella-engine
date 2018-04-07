@@ -1,11 +1,14 @@
 #include "gui_rendering_system.h"
+#include <stella/stella.h>
 
 #include <cmath>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "../components/game_components.h"
+#include "../components/text_component.h"
+#include "../components/position_component.h"
+#include "../components/dimension_component.h"
 
 GuiRenderingSystem::GuiRenderingSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &fonts) : Fonts(fonts) {
   GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};

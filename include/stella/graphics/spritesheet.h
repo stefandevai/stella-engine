@@ -1,36 +1,30 @@
 #pragma once
 
-#include "texture.h"
 #include <glm/glm.hpp>
-
 #include <vector>
 
 namespace stella {
 namespace graphics {
+class Texture;
+
 class SpriteSheet {
 public:
   SpriteSheet(const Texture &texture, unsigned int framex, unsigned int framey,
               unsigned int number_of_frames = 0);
   ~SpriteSheet();
 
-  glm::vec2 GetUV(GLuint frame);
-  inline GLuint GetWidth() const { return Frames.GetWidth(); }
-  inline GLuint GetHeight() const { return Frames.GetHeight(); }
+  glm::vec2 GetUV(unsigned int frame);
+  unsigned int GetWidth() const; 
+  unsigned int GetHeight() const;
 
-  inline void SetOffset(GLuint x, GLuint y) {
+  inline void SetOffset(unsigned int x, unsigned int y) {
     OffsetX = x;
     OffsetY = y;
   }
-
-  void push(const glm::mat4 &mat);
-  void pop();
-
 private:
   const Texture &Frames;
-  GLuint FrameX, FrameY, OffsetX, OffsetY, NumOfFrames, SizeInFramesX,
+  unsigned int FrameX, FrameY, OffsetX, OffsetY, NumOfFrames, SizeInFramesX,
       SizeInFramesY;
-  std::vector<glm::vec4> TransfStack;
-  const glm::mat4 *TransfBack;
 };
 } // namespace graphics
 } // namespace stella

@@ -1,10 +1,8 @@
 #pragma once
 
-#include <memory>
-
+#include <stella/physics2d/world.h>
 #include <entityx/entityx.h>
-#include <stella/stella.h>
-#include "../components/game_components.h"
+#include "../components/body2d_component.h"
 
 namespace ex = entityx;
 

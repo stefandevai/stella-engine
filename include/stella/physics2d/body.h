@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <bitset>
 #include <glm/glm.hpp>
 

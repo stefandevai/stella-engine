@@ -1,6 +1,6 @@
 #include "stella/graphics/spritesheet.h"
+#include "stella/graphics/texture.h"
 
-#include <iostream>
 #include <string>
 
 namespace stella {
@@ -19,33 +19,36 @@ SpriteSheet::SpriteSheet(const Texture &texture, unsigned int framex,
 
 SpriteSheet::~SpriteSheet() {}
 
-glm::vec2 SpriteSheet::GetUV(GLuint frame) {
+glm::vec2 SpriteSheet::GetUV(unsigned int frame) {
   if (this->NumOfFrames <= 1) {
     return glm::vec2(0.0f, 1.0f);
   }
   frame += 1;
-  GLfloat w = (GLfloat)Frames.GetWidth();
-  GLfloat h = (GLfloat)Frames.GetHeight();
+  float w = (float)Frames.GetWidth();
+  float h = (float)Frames.GetHeight();
 
   if (frame > this->NumOfFrames) {
-    std::cout << "SpriteSheet::Warning: frame has a greater value than the "
-                 "number of frames.\nModulus will be applied to select another "
-                 "frame."
-              << std::endl;
+    //std::cout << "SpriteSheet::Warning: frame has a greater value than the "
+                 //"number of frames.\nModulus will be applied to select another "
+                 //"frame."
+              //<< std::endl;
     frame = frame % this->NumOfFrames;
   }
 
-  GLint coordX = frame % this->SizeInFramesX - 1;
+  int coordX = frame % this->SizeInFramesX - 1;
   if (coordX == -1) {
     coordX = this->SizeInFramesX - 1;
   }
-  GLuint coordY = ceil(frame / (GLfloat)this->SizeInFramesX) - 1;
+  unsigned int coordY = ceil(frame / (float)this->SizeInFramesX) - 1;
 
-  GLfloat uvX = coordX * this->FrameX / w;
-  GLfloat uvY = 1.0f - coordY * this->FrameY / h;
+  float uvX = coordX * this->FrameX / w;
+  float uvY = 1.0f - coordY * this->FrameY / h;
 
   return glm::vec2(uvX, uvY);
 }
+
+unsigned int SpriteSheet::GetWidth() const { return Frames.GetWidth(); }
+unsigned int SpriteSheet::GetHeight() const { return Frames.GetHeight(); }
 
 } // namespace graphics
 } // namespace stella

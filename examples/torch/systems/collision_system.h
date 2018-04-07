@@ -1,15 +1,6 @@
 #pragma once
 
-#include <bitset>
-#include <memory>
-#include <unordered_set>
-#include <utility>
-#include <vector>
-
 #include <entityx/entityx.h>
-#include <stella/stella.h>
-
-#include "../components/game_components.h"
 
 namespace ex = entityx;
 

@@ -1,7 +1,5 @@
 #include "stella/graphics/animator.h"
 
-#include <iostream>
-
 namespace stella {
 namespace graphics {
 Animator::Animator() {
@@ -28,8 +26,9 @@ void Animator::Play(const std::string &name) {
   if (anim_entry != Animations.end()) {
     this->CurrentAnimation = anim_entry->second;
     this->CurrentFrameIndex = 0;
-  } else
-    std::cout << "There's no animation named '" << name << "''" << std::endl;
+  } 
+  //else
+    //std::cout << "There's no animation named '" << name << "''" << std::endl;
 }
 
 unsigned int Animator::Update() {

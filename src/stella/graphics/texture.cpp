@@ -1,6 +1,6 @@
 #include "stella/graphics/texture.h"
 
-#include <iostream>
+#include <glad/glad.h>
 #include <soil.h>
 
 namespace stella {
@@ -21,11 +21,11 @@ void Texture::load(const char *texPath) {
   int width, height;
   unsigned char *img =
       SOIL_load_image(texPath, &width, &height, 0, SOIL_LOAD_RGBA);
-  if (img == nullptr)
-    std::cout << "It wasn't possible to load " << texPath << std::endl;
+  //if (img == nullptr)
+    //std::cout << "It wasn't possible to load " << texPath << std::endl;
 
-  this->Width = (GLuint)width;
-  this->Height = (GLuint)height;
+  this->Width = (unsigned int)width;
+  this->Height = (unsigned int)height;
 
   glBindTexture(GL_TEXTURE_2D, this->ID);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->Width, this->Height, 0, GL_RGBA,

@@ -6,6 +6,7 @@
 
 namespace stella {
 namespace graphics {
+
 struct VertexData {
   glm::vec3 vertex;
   glm::vec2 uv;

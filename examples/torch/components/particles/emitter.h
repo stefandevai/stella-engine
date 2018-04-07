@@ -4,9 +4,13 @@
 #include <string>
 #include <entityx/entityx.h>
 
-#include "../game_components.h"
-
 namespace ex = entityx;
+
+struct PositionComponent;
+struct DimensionComponent;
+struct ParticleComponent;
+struct SpriteComponent;
+struct TransformComponent;
 
 namespace stella {
 namespace graphics {

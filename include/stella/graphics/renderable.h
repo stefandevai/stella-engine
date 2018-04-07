@@ -1,19 +1,23 @@
 #pragma once
 
-#include "texture.h"
-#include <glad/glad.h>
+#include <string>
 #include <glm/glm.hpp>
-#include <vector>
-#include <iostream>
+
+typedef float GLfloat;
+typedef unsigned int GLuint;
+typedef int GLint;
+typedef unsigned char GLboolean;
 
 namespace stella {
 namespace graphics {
+
+class Texture; 
+
 class Renderable {
 public:
   glm::vec2 Pos, Dimensions, RealDimensions;
 
-  Renderable(GLint x, GLint y, GLint w, GLint h, Texture &texture,
-             GLboolean visible = GL_TRUE);
+  Renderable(GLint x, GLint y, GLint w, GLint h, Texture &texture, GLboolean visible = 1);
   Renderable(GLint x, GLint y, Texture &texture);
   Renderable(Texture &texture);
   virtual ~Renderable();
@@ -25,9 +29,9 @@ public:
   inline GLfloat GetHeight() const { return Dimensions.y; }
   inline GLfloat GetRotation() const { return Rotation; }
   inline glm::vec2 GetScale() const { return Scale; }
-  inline GLuint GetTexID() const { return Tex.GetID(); }
-  inline const std::string &GetTexName() const { return Tex.GetName(); }
-  inline Texture *GetTexture() const { return &Tex; }
+  GLuint GetTexID() const;
+  const std::string &GetTexName() const;
+  Texture *GetTexture() const;
   inline const GLboolean& IsVisible() const { return Visible; }
 
   // Setters

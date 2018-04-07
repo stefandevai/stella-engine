@@ -1,4 +1,8 @@
 #include "stella/graphics/renderable.h"
+#include "stella/graphics/texture.h"
+
+#include <vector>
+#include <glad/glad.h>
 
 namespace stella {
 namespace graphics {
@@ -26,5 +30,10 @@ Renderable::Renderable(Texture &texture) : Tex(texture) {
 }
 
 Renderable::~Renderable() {}
+
+GLuint Renderable::GetTexID() const { return Tex.GetID(); }
+const std::string& Renderable::GetTexName() const { return Tex.GetName(); }
+Texture* Renderable::GetTexture() const { return &Tex; }
+
 } // namespace graphics
 } // namespace stella

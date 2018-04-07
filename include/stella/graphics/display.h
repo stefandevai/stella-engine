@@ -3,11 +3,15 @@
 #include <string>
 #include <array>
 
-#include <glad/glad.h>
-#include <SDL2/SDL.h>
+#include <SDL2/SDL_timer.h>
 #include <glm/glm.hpp>
 
 #include "stella/graphics/debug_gui.h"
+
+// Forward declarations
+struct SDL_Window;
+typedef unsigned int GLuint;
+typedef float GLfloat;
 
 namespace stella {
 namespace graphics {
