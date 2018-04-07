@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 
 PhysicsSystem::PhysicsSystem() {
+  this->World.SetGravity(900.f);
 
 }
 
@@ -21,6 +22,7 @@ void PhysicsSystem::update(ex::EntityManager &es, ex::EventManager &events, ex::
         auto mov = entity.component<MovementComponent>();
         body.Body->TargetVelocity = mov->TargetVelocity;
         body.Body->Gravity = mov->Gravity;
+
         if (mov->ConstantVelocity) {
           body.Body->Velocity = mov->TargetVelocity;
         }

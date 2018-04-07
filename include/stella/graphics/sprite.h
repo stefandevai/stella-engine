@@ -37,6 +37,7 @@ public:
 	void SetColorRGB(int r, int g, int b);
   void SetColorRGBA(unsigned int r, unsigned int g, unsigned int b, unsigned int a);
 	void SetAlpha(int a);
+	void Flip() { this->SetScale(glm::vec2(-1.f, 0.f)); }
 
 private:
   //glm::vec4 Color;

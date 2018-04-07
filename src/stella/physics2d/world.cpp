@@ -169,11 +169,11 @@ void World::UpdateMovement(float dt) {
       body->LastPosition = body->Position;
       // X movement
       if (fabs(body->Acceleration.x) > 0.f) {
-        if (fabs(body->Velocity.x) <= body->TargetVelocity.x) {
+        if (fabs(body->Velocity.x + body->Acceleration.x*dt) <= body->TargetVelocity.x) {
           body->Velocity.x += body->Acceleration.x*dt;
         }
         else {
-          body->Velocity.x = body->TargetVelocity.x*fabs(body->Velocity.x)/body->Velocity.x;
+          body->Velocity.x = body->TargetVelocity.x*fabs(body->Acceleration.x)/body->Acceleration.x;
         }
       }
       else {
@@ -185,7 +185,7 @@ void World::UpdateMovement(float dt) {
       body->Position.x += body->Velocity.x*dt;
 
       // Y movement
-      if (body->Gravity) body->Acceleration.y += GRAVITY*dt;
+      if (body->Gravity) body->Acceleration.y += this->Gravity*dt;
 
       if (fabs(body->Acceleration.y) > 0.f) {
         if (fabs(body->Velocity.y) < body->TargetVelocity.y) {

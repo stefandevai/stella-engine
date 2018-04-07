@@ -6,7 +6,8 @@
 
 Game::Game(stella::graphics::Display &display) : Display(display) {
   // Textures
-  this->LoadTexture("player", "assets/sprites/player.png");
+  //this->LoadTexture("player", "assets/sprites/player.png");
+  this->LoadTexture("player", "assets/sprites/bug-64.png");
   this->LoadTexture("ground", "assets/sprites/ground.png");
   this->LoadTexture("tiles", "assets/sprites/tiles.png");
 	this->LoadTexture("fire-particle", "assets/sprites/fire-particle.png");
@@ -18,7 +19,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   // Entities
   // Player
   auto player = entities.create();
-  player.assign<SpriteComponent>("player", glm::vec2(32, 32));
+  player.assign<SpriteComponent>("player", glm::vec2(64.f, 64.f));
   player.assign<Body2DComponent>();
   player.assign<PositionComponent>(100.f, 336.f);
   player.assign<DimensionComponent>(32.f, 32.f);
@@ -31,10 +32,10 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   torch.assign<DimensionComponent>(16.f, 16.f);
   torch.assign<TorchComponent>();
 
-  auto snow = entities.create();
-  snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
-  snow.assign<PositionComponent>(0.0f, -64.f);
-  snow.assign<DimensionComponent>(32.f, 32.f);
+  //auto snow = entities.create();
+  //snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
+  //snow.assign<PositionComponent>(0.0f, -64.f);
+  //snow.assign<DimensionComponent>(32.f, 32.f);
 
   this->load_blocks();
   this->load_text();

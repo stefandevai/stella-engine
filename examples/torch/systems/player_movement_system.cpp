@@ -21,23 +21,26 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
         body.Body->Acceleration.x = 0.f;
         if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
           body.Body->Acceleration.x -= player.Acceleration;
+
+          if (!player.SpriteDirection.test(0)) {
+            player.SpriteDirection.flip();
+            auto player_sprite = entity.component<SpriteComponent>();
+            player_sprite->Sprite->SetDirectFrame(1);
+          }
         }
         if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
           body.Body->Acceleration.x += player.Acceleration;
+
+          if (!player.SpriteDirection.test(1)) {
+            player.SpriteDirection.flip();
+            auto player_sprite = entity.component<SpriteComponent>();
+            player_sprite->Sprite->SetDirectFrame(0);
+          }
         }
 
-        // JUMP
-        if (body.Body->CollidingBottom()) {
-          player.Jumping = false;
-          body.Body->Drag.x = player.Drag;
-        }
-        else {
-          body.Body->Drag.x = player.Drag*2;
-        }
-
-        if (this->Display.IsKeyDown(SDL_SCANCODE_UP) && !player.Jumping) {
+        if (this->Display.IsKeyDown(SDL_SCANCODE_UP)) {
           body.Body->Velocity.y = -player.JumpForce;
-          player.Jumping = true;
+          body.Body->Acceleration.y = 0.0f;
         }
       });
 }

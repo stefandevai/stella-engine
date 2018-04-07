@@ -17,7 +17,7 @@ namespace graphics {
         this->SetPositionYRange(std::make_pair(0,0));
         this->SetSpeedXRange(std::make_pair(10.f,30.f));
         this->SetSpeedYRange(std::make_pair(-3.f,-1.f));
-        this->SetScaleXRange(std::make_pair(0.5f,2.2f));
+        this->SetScaleXRange(std::make_pair(0.5f,1.2f));
         this->SetRotationRange(std::make_pair(45.f,45.f));
 			}
 

@@ -15,9 +15,10 @@ class World {
     void AddBody(std::shared_ptr<stella::physics2d::Body> body);
     void RemoveBody(std::shared_ptr<stella::physics2d::Body> body);
     void Update(float dt);
+    void SetGravity(float new_gravity) { this->Gravity = new_gravity; }
 
   private:
-    static constexpr float GRAVITY = 1000.f;
+    float Gravity = 2000.f;
     std::vector<std::shared_ptr<stella::physics2d::Body>> Bodies;
     std::vector<std::shared_ptr<stella::physics2d::Manifold>> Manifolds;
 

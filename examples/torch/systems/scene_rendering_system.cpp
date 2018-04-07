@@ -66,7 +66,7 @@ void SceneRenderingSystem::update(ex::EntityManager &es,
 
 					spr.Initialized = true;
 				}
-        if (entity.has_component<ParticleComponent>()) {
+        if (entity.has_component<ParticleComponent>() || entity.has_component<PlayerComponent>()) {
           this->ParticleLayer->Add(spr.Sprite);
         }
         else {
