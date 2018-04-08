@@ -12,7 +12,7 @@ endif()
 set(STELLA_LIBRARY_NAME "stella")
 
 # Debug mode
-option(STELLA_DEBUG_MODE "Build in debug mode" on)
+option(STELLA_DEBUG_MODE "Build in debug mode" off)
 
 # Turn this option on to build a targeted example
 option(BUILD_STELLA_EXAMPLE "Build example" on)
@@ -177,11 +177,12 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
 			"${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
 	if (STELLA_DEBUG_MODE)
     set(CXX_COMPILE_FLAGS "-std=gnu++1z -Wall -g -O0")
+
     # Uncomment for profiling
 		#set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -pg -g -O0 -no-pie")
 		set(CXX_LINK_FLAGS "-pg")
 	else()
-		set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -O3")
+		set(CXX_COMPILE_FLAGS "-std=gnu++11 -O2")
 	endif()
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	message(STATUS "Using MSVC")

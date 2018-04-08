@@ -46,10 +46,10 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
 
   //// Systems
   //systems.add<CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
-  systems.add<PhysicsSystem>();
   systems.add<ParticleSystem>();
-  systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
+  systems.add<PhysicsSystem>();
   systems.add<SceneRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
+  systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   systems.add<TransformSystem>();
   systems.add<TorchSystem>(player, entities);
   systems.add<AnimationSystem>();
@@ -64,10 +64,10 @@ Game::~Game() {
 
 void Game::Update(ex::TimeDelta dt) { 
   //systems.update<CollisionSystem>(dt);
-  systems.update<PhysicsSystem>(dt);
   systems.update<ParticleSystem>(dt);
-  systems.update<PlayerMovementSystem>(dt);
+  systems.update<PhysicsSystem>(dt);
   systems.update<SceneRenderingSystem>(dt);
+  systems.update<PlayerMovementSystem>(dt);
   systems.update<TransformSystem>(dt);
   systems.update<TorchSystem>(dt);
   systems.update<AnimationSystem>(dt);
