@@ -9,41 +9,14 @@
 #include "systems/game_systems.h"
 
 Game::Game(stella::graphics::Display &display) : Display(display) {
-  // Textures
-  this->LoadTexture("tiles", "assets/sprites/tiles.png");
-	this->LoadTexture("fire-particle", "assets/sprites/fire-particle.png");
-	this->LoadTexture("snowflake", "assets/snowflakes/flake2-small.png");
-
-  this->LoadTexture("sky", "assets/sprites/sky_background.png");
-  this->LoadTexture("moon", "assets/sprites/moon_anim.png");
-  this->LoadTexture("mountain1", "assets/sprites/mountain1-bg.png");
-  this->LoadTexture("mountain2", "assets/sprites/mountain2-bg.png");
-  this->LoadTexture("mountain3", "assets/sprites/mountain3-bg.png");
-  this->LoadTexture("over_block", "assets/sprites/over_block.png");
-  this->LoadTexture("guanaco", "assets/sprites/guanaco-anim.png");
-
-  // Fonts
-  this->LoadFont("font-cursive", "assets/sprites/cursive.png");
-
-  // Entities
+  // Load game entities
   this->load_background();
   this->load_player(100, 200);
-
-  //auto torch = entities.create();
-  //torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
-  //torch.assign<PositionComponent>(350.f, 290.f);
-  //torch.assign<DimensionComponent>(16.f, 16.f);
-  //torch.assign<TorchComponent>();
-
-  auto snow = entities.create();
-  snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
-  snow.assign<PositionComponent>(0.0f, -64.f);
-  snow.assign<DimensionComponent>(32.f, 32.f);
-
+  this->load_particles();
   this->load_blocks();
   this->load_text();
 
-  //// Systems
+  // Add systems
   //systems.add<CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
   systems.add<ParticleSystem>();
   systems.add<PhysicsSystem>();
@@ -97,6 +70,9 @@ void Game::LoadFont(std::string font_name, const char *font_path) {
 }
 
 void Game::load_blocks() {
+  this->LoadTexture("over_block", "assets/sprites/over_block.png");
+  this->LoadTexture("tiles", "assets/sprites/tiles.png");
+
   // Terrain
   unsigned int nblock = this->Display.GetWidth() / 32 + 1;
   for (unsigned int i = 0; i < nblock; ++i) {
@@ -130,6 +106,9 @@ void Game::load_blocks() {
 }
 
 void Game::load_text() {
+  // Fonts
+  this->LoadFont("font-cursive", "assets/sprites/cursive.png");
+
 	auto title_text = entities.create();
   title_text.assign<PositionComponent>(30.f, 30.f);
   title_text.assign<DimensionComponent>(9.f, 9.f);
@@ -158,6 +137,12 @@ void Game::load_text() {
 }
 
 void Game::load_background() {
+  this->LoadTexture("sky", "assets/sprites/sky_background.png");
+  this->LoadTexture("moon", "assets/sprites/moon_anim.png");
+  this->LoadTexture("mountain1", "assets/sprites/mountain1-bg.png");
+  this->LoadTexture("mountain2", "assets/sprites/mountain2-bg.png");
+  this->LoadTexture("mountain3", "assets/sprites/mountain3-bg.png");
+
   // Background
   auto sky = entities.create();
   sky.assign<SpriteComponent>("sky");
@@ -216,7 +201,24 @@ void Game::load_background() {
   mou3a.assign<TileviewComponent>();
 }
 
+void Game::load_particles() {
+	//this->LoadTexture("fire-particle", "assets/sprites/fire-particle.png");
+  //auto torch = entities.create();
+  //torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
+  //torch.assign<PositionComponent>(350.f, 290.f);
+  //torch.assign<DimensionComponent>(16.f, 16.f);
+  //torch.assign<TorchComponent>();
+
+  this->LoadTexture("snowflake", "assets/snowflakes/flake2-small.png");
+  auto snow = entities.create();
+  snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
+  snow.assign<PositionComponent>(0.0f, -64.f);
+  snow.assign<DimensionComponent>(32.f, 32.f);
+}
+
 void Game::load_player(int x, int y) {
+  this->LoadTexture("guanaco", "assets/sprites/guanaco-anim.png");
+
   auto player = entities.create();
   player.assign<SpriteComponent>("guanaco", glm::vec2(80.f, 60.f));
   std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> guanaco_anims;
