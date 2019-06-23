@@ -9,4 +9,6 @@
 #include "scene_rendering_system.h"
 #include "particle_system.h"
 #include "torch_system.h"
+#include "simple_movement.h"
+#include "tileview_system.h"
 

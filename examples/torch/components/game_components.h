@@ -13,4 +13,5 @@
 #include "sprite_component.h"
 #include "particle_component.h"
 #include "particle_emitter.h"
+#include "tileview_component.h"
 
