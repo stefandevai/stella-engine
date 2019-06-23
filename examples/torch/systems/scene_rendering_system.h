@@ -23,7 +23,7 @@ public:
   ~SceneRenderingSystem();
   void update(ex::EntityManager &es, ex::EventManager &events,
               ex::TimeDelta dt) override;
-  void configure(ex::EventManager &event_manager);
+  void configure(ex::EventManager &event_manager) override;
   void receive(const ex::ComponentRemovedEvent<SpriteComponent> &ev);
 
 private:

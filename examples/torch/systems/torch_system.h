@@ -9,7 +9,7 @@ class TorchSystem : public ex::System<TorchSystem>, public ex::Receiver<TorchSys
 public:
   TorchSystem(ex::Entity player, ex::EntityManager &es);
   ~TorchSystem();
-  void configure(ex::EventManager &events);
+  void configure(ex::EventManager &events) override;
   void update(ex::EntityManager &es, ex::EventManager &events, ex::TimeDelta dt) override;
   void receive(const Collision &collision);
 

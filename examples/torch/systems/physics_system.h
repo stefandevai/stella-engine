@@ -11,7 +11,7 @@ class PhysicsSystem : public ex::System<PhysicsSystem>, public ex::Receiver<Phys
 		PhysicsSystem();
 		~PhysicsSystem();
 		void update(ex::EntityManager &es, ex::EventManager &events, ex::TimeDelta dt) override;
-    void configure(ex::EventManager &events) {
+    void configure(ex::EventManager &events) override {
       events.subscribe<ex::ComponentRemovedEvent<Body2DComponent>>(*this);
     }
     void receive(const ex::ComponentRemovedEvent<Body2DComponent> &ev) {

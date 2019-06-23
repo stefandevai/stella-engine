@@ -36,7 +36,7 @@ public:
 private:
   GLuint Width, Height, Frame, LastFrame;
 
-  GLfloat LastTime, LastFPSCheck, DT;
+  GLfloat LastTime, LastFPSCheck, DT = 0.0f;
   std::string Title;
   SDL_Window *Window;
   bool Running;
