@@ -23,7 +23,7 @@ struct ParticleEmitter {
           this->Emitter = new stella::graphics::FireEmitter(0, 0, max_particles, "fire-particle");
           break;
         case SNOW_EMITTER:
-          this->Velocity = 180;
+          this->Velocity = 1;
           this->Emitter = new stella::graphics::SnowEmitter(0, 0, max_particles, "snowflake");
           break;
         default:

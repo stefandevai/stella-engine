@@ -10,9 +10,6 @@
 
 Game::Game(stella::graphics::Display &display) : Display(display) {
   // Textures
-  this->LoadTexture("player", "assets/sprites/player.png");
-  //this->LoadTexture("player", "assets/sprites/bug-64.png");
-  this->LoadTexture("ground", "assets/sprites/ground.png");
   this->LoadTexture("tiles", "assets/sprites/tiles.png");
 	this->LoadTexture("fire-particle", "assets/sprites/fire-particle.png");
 	this->LoadTexture("snowflake", "assets/snowflakes/flake2-small.png");
@@ -22,7 +19,6 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->LoadTexture("mountain1", "assets/sprites/mountain1-bg.png");
   this->LoadTexture("mountain2", "assets/sprites/mountain2-bg.png");
   this->LoadTexture("mountain3", "assets/sprites/mountain3-bg.png");
-  this->LoadTexture("block", "assets/sprites/block.png");
   this->LoadTexture("over_block", "assets/sprites/over_block.png");
   this->LoadTexture("guanaco", "assets/sprites/guanaco-anim.png");
 
@@ -33,16 +29,16 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->load_background();
   this->load_player(100, 200);
 
-  auto torch = entities.create();
-  torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
-  torch.assign<PositionComponent>(350.f, 290.f);
-  torch.assign<DimensionComponent>(16.f, 16.f);
-  torch.assign<TorchComponent>();
+  //auto torch = entities.create();
+  //torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
+  //torch.assign<PositionComponent>(350.f, 290.f);
+  //torch.assign<DimensionComponent>(16.f, 16.f);
+  //torch.assign<TorchComponent>();
 
-  //auto snow = entities.create();
-  //snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
-  //snow.assign<PositionComponent>(0.0f, -64.f);
-  //snow.assign<DimensionComponent>(32.f, 32.f);
+  auto snow = entities.create();
+  snow.assign<ParticleEmitter>(ParticleEmitter::Type::SNOW_EMITTER, 10);
+  snow.assign<PositionComponent>(0.0f, -64.f);
+  snow.assign<DimensionComponent>(32.f, 32.f);
 
   this->load_blocks();
   this->load_text();
@@ -54,7 +50,6 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   systems.add<SimpleMovementSystem>();
   systems.add<SceneRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
   systems.add<TileviewSystem>((int)this->Display.GetWidth());
-  //systems.add<ParallaxSystem>();
   systems.add<PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   systems.add<TransformSystem>();
   //systems.add<TorchSystem>(player, entities);
@@ -117,6 +112,21 @@ void Game::load_blocks() {
     block2.assign<DimensionComponent>(32.f, 32.f);
     block2.assign<SpriteComponent>("tiles", glm::vec2(32, 32), 0);
   }
+
+  // Over terrain decoration
+  auto over_terrain = entities.create();
+  over_terrain.assign<PositionComponent>(0, this->Display.GetHeight() - 76);
+  over_terrain.assign<SpriteComponent>("over_block");
+  over_terrain.assign<DimensionComponent>(720.f, 12.f);
+  over_terrain.assign<MovementComponent>(glm::vec2(-200.f, 0.f), false, true);
+  over_terrain.assign<TileviewComponent>();
+
+  auto over_terrain2 = entities.create();
+  over_terrain2.assign<PositionComponent>(720, this->Display.GetHeight() - 76);
+  over_terrain2.assign<SpriteComponent>("over_block");
+  over_terrain2.assign<DimensionComponent>(720.f, 12.f);
+  over_terrain2.assign<MovementComponent>(glm::vec2(-200.f, 0.f), false, true);
+  over_terrain2.assign<TileviewComponent>();
 }
 
 void Game::load_text() {
