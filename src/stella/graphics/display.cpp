@@ -159,6 +159,14 @@ void Display::GetMousePos(double &mx, double &my) {
   my = MouseY;
 }
 
+const unsigned char* Display::GetGlVersion() {
+  return glGetString(GL_VERSION);
+}
+
+const unsigned char* Display::GetGlRenderer() {
+  return glGetString(GL_RENDERER);
+}
+
 GLfloat Display::getFPS() {
   GLuint currentFrame = this->Frame;
   GLuint deltaFrame = currentFrame - this->LastFrame;

@@ -31,6 +31,8 @@ public:
   GLfloat GetDT() { return DT; }
   GLfloat getFPS();
   void GetMousePos(double &mx, double &my);
+  const unsigned char* GetGlVersion();
+  const unsigned char* GetGlRenderer();
 	bool IsKeyDown(int key);
 
 private:

@@ -66,11 +66,11 @@ void SceneRenderingSystem::update(ex::EntityManager &es,
 
 					spr.Initialized = true;
 				}
-        if (entity.has_component<ParticleComponent>() || entity.has_component<PlayerComponent>()) {
+        if (entity.has_component<ParticleComponent>()) {
           this->ParticleLayer->Add(spr.Sprite);
         }
         else {
-					this->TileLayer->Add(spr.Sprite);
+          this->TileLayer->Add(spr.Sprite);
         }
 			}
 			spr.InLayer = true;
