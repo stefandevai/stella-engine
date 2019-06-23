@@ -18,7 +18,7 @@ class World {
     void SetGravity(float new_gravity) { this->Gravity = new_gravity; }
 
   private:
-    float Gravity = 900.f;
+    float Gravity = 1200.f;
     std::vector<std::shared_ptr<stella::physics2d::Body>> Bodies;
     std::vector<std::shared_ptr<stella::physics2d::Manifold>> Manifolds;
 

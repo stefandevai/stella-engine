@@ -7,7 +7,7 @@ namespace stella {
 namespace physics2d {
 class Body {
   public:
-    Body(glm::vec2 position, glm::vec2 dimension);
+    Body(glm::vec2 position, glm::vec2 dimension, glm::vec2 drag = glm::vec2(0.f, 0.f));
     ~Body();
 
     inline glm::vec2 GetPosition() const { return Position; }

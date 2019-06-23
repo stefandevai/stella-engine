@@ -17,13 +17,20 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
                                           Body2DComponent &body,
                                           PositionComponent &pos,
                                           DimensionComponent &dim) {
+        // Handle collision events
+        // TODO: Use library events
+        // Collided bottom
+        if (body.Body->Collisions.test(2)) {
+          player.InAir = false;
+        }
 
+        // Handle input
         body.Body->Acceleration.x = 0.f;
         if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
           body.Body->Acceleration.x -= player.Acceleration;
 
-          body.Body->Velocity.y = -player.JumpForce;
-          body.Body->Acceleration.y = 0.0f;
+          //body.Body->Velocity.y = -player.JumpForce;
+          //body.Body->Acceleration.y = 0.0f;
 
           if (!player.SpriteDirection.test(0)) {
             player.SpriteDirection.flip();
@@ -34,8 +41,8 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
         if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
           body.Body->Acceleration.x += player.Acceleration;
 
-          body.Body->Velocity.y = -player.JumpForce;
-          body.Body->Acceleration.y = 0.0f;
+          //body.Body->Velocity.y = -player.JumpForce;
+          //body.Body->Acceleration.y = 0.0f;
 
           if (!player.SpriteDirection.test(1)) {
             player.SpriteDirection.flip();
@@ -45,10 +52,12 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
         }
 
         if (this->Display.IsKeyDown(SDL_SCANCODE_UP)) {
-          body.Body->Velocity.y = -player.JumpForce;
-          body.Body->Acceleration.y = 0.0f;
+          if (!player.InAir) {
+            body.Body->Velocity.y = -player.JumpForce;
+            body.Body->Acceleration.y = 0.0f;
 
-          body.Body->Acceleration.x = 0.f;
+            player.InAir = true;
+          }
         }
       });
 }

@@ -180,7 +180,10 @@ void World::UpdateMovement(float dt) {
       }
       else {
         if (fabs(body->Velocity.x) - body->Drag.x*dt > 0.f) {
+          //std::cout << "here\n";
           body->Velocity.x -= body->Drag.x*dt*body->Velocity.x/fabs(body->Velocity.x);
+          //std::cout << body->Drag.x << std::endl;
+          //std::cout << body->Velocity.x << " " << body->Drag.x*body->Velocity.x/fabs(body->Velocity.x) << std::endl;
         }
         else body->Velocity.x = 0.f;
       }
@@ -203,14 +206,8 @@ void World::UpdateMovement(float dt) {
         }
         else body->Velocity.y = 0.f;
       }
-      //body->Position.y += 0.3f;
-      if (body->Velocity.y > body->TargetVelocity.y) {
-        body->Velocity.y = body->TargetVelocity.y;
-      } else if (body->Velocity.y < -body->TargetVelocity.y) {
-        body->Velocity.y = -body->TargetVelocity.y;
-      }
-      //std::cout << dt << std::endl;
-      body->Position.y += body->Velocity.y;
+
+      body->Position.y += body->Velocity.y*dt;
     }
   }
 }

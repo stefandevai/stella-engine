@@ -24,10 +24,10 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   // Player
   auto player = entities.create();
   player.assign<SpriteComponent>("player", glm::vec2(64.f, 64.f));
-  player.assign<Body2DComponent>();
+  player.assign<Body2DComponent>(std::vector<double>(500.f, 500.f));
   player.assign<PositionComponent>(100.f, 336.f);
   player.assign<DimensionComponent>(32.f, 32.f);
-  player.assign<MovementComponent>(glm::vec2(250.f, 400.f));
+  player.assign<MovementComponent>(glm::vec2(450.f, 400.f));
   player.assign<PlayerComponent>();
 
   auto torch = entities.create();
