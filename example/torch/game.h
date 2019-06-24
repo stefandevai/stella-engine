@@ -6,6 +6,9 @@
 #include <entityx/entityx.h>
 #include <stella/stella.h>
 
+#define SOL_ALL_SAFETIES_ON 1
+#include <sol.hpp>
+
 namespace ex = entityx;
 
 
@@ -17,8 +20,10 @@ public:
   void Update(ex::TimeDelta dt);
 
 private:
+  enum States {NONE, GAME_LOADING, GAME_LOADED, GAME_NOT_LOADED, MAIN_MENU, GAME_LOOP, GAME_PAUSED, GAME_OVER};
 	stella::graphics::Display &Display;
 	ex::Entity FPSText, Fire;
+  sol::state lua;
 
 	std::unordered_map<std::string, stella::graphics::Texture*> Textures;
 	std::unordered_map<std::string, stella::graphics::Texture*> Fonts;

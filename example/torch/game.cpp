@@ -8,13 +8,9 @@
 #include <stella/components/game_components.h>
 #include <stella/systems/game_systems.h>
 
-#include <sol.hpp>
-
 Game::Game(stella::graphics::Display &display) : Display(display) {
-  sol::state lua;
-  lua.open_libraries(sol::lib::base, sol::lib::package);
-  lua.script("print('heyaaa')");
-  std::cout << '\n';
+  this->lua.open_libraries(sol::lib::base, sol::lib::package);
+  this->lua.script_file("scripts/states.lua");
 
   // Load game entities
   this->load_background();
@@ -44,24 +40,47 @@ Game::~Game() {
 }
 
 void Game::Update(ex::TimeDelta dt) { 
-  //systems.update<stella::systems::CollisionSystem>(dt);
-  systems.update<stella::systems::ParticleSystem>(dt);
-  systems.update<stella::systems::PhysicsSystem>(dt);
-  systems.update<stella::systems::SimpleMovementSystem>(dt);
-  systems.update<stella::systems::SceneRenderingSystem>(dt);
-  systems.update<stella::systems::TileviewSystem>(dt);
-  systems.update<stella::systems::PlayerMovementSystem>(dt);
-  systems.update<stella::systems::TransformSystem>(dt);
-  //systems.update<stella::systems::TorchSystem>(dt);
-  systems.update<stella::systems::AnimationSystem>(dt);
-  systems.update<stella::systems::GuiRenderingSystem>(dt);
+  const unsigned int state = this->lua["current_state"];
+  switch(state) {
+    case GAME_LOADING:
+      this->lua["update_game"] = [this, &dt]() {
+        //systems.update<stella::systems::CollisionSystem>(dt);
+        systems.update<stella::systems::ParticleSystem>(dt);
+        systems.update<stella::systems::PhysicsSystem>(dt);
+        systems.update<stella::systems::SimpleMovementSystem>(dt);
+        systems.update<stella::systems::SceneRenderingSystem>(dt);
+        systems.update<stella::systems::TileviewSystem>(dt);
+        systems.update<stella::systems::PlayerMovementSystem>(dt);
+        systems.update<stella::systems::TransformSystem>(dt);
+        //systems.update<stella::systems::TorchSystem>(dt);
+        systems.update<stella::systems::AnimationSystem>(dt);
+        systems.update<stella::systems::GuiRenderingSystem>(dt);
 
-	if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
-		std::stringstream fps_string("");
-		fps_string << std::setprecision(4) << 1/dt << " FPS";
-		auto text = this->FPSText.component<stella::components::TextComponent>();
-		text->Text = fps_string.str();
-	}
+        if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
+          std::stringstream fps_string("");
+          fps_string << std::setprecision(4) << 1/dt << " FPS";
+          auto text = this->FPSText.component<stella::components::TextComponent>();
+          text->Text = fps_string.str();
+        }
+      };
+      this->lua["load"]();
+      break;
+    case GAME_LOADED:
+      break;
+    case GAME_NOT_LOADED:
+      break;
+    case MAIN_MENU:
+      break;
+    case GAME_LOOP:
+      this->lua["loop"]();
+      break;
+    case GAME_PAUSED:
+      break;
+    case GAME_OVER:
+      break;
+    default:
+      break;
+  }
 }
 
 void Game::LoadTexture(std::string tex_name, const char *tex_path) {
