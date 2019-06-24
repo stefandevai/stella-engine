@@ -28,7 +28,7 @@ option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" on)
 option(USE_SHARED_ENTITYX "Use shared EntityX library" off)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
-set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dependencies)
+set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 find_package(OpenGL REQUIRED)

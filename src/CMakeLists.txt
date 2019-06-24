@@ -1,4 +1,4 @@
-include_directories(../dependencies)
+include_directories(../lib)
 
 file(GLOB_RECURSE SOURCE ${PROJECT_SOURCE_DIR}/src/*.cpp)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
