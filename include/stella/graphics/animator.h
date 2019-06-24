@@ -19,7 +19,6 @@ public:
   void TogglePause();
   void Reset();
 
-private:
   struct Animation {
     const std::vector<unsigned int> frames;
     const unsigned int frameRate;

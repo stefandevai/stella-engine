@@ -180,6 +180,24 @@ case $OPT1 in
 		MODE=COPY_ASSETS
 		shift
 		;;
+  -bt|--build-tests)
+    TARGET_DIR="test"
+    TARGET="tests"
+    MODE=MAKE # Invoke make
+    shift
+    ;;
+  -rt|--run-tests)
+    TARGET_DIR="test"
+    TARGET="tests"
+    MODE=EXECUTE # Execute program
+    shift
+    ;;
+  -t|--test)
+    TARGET_DIR="test"
+    TARGET="tests"
+    MODE=BE # Make and Exec
+    shift
+    ;;
   *)
     printf "Invalid option.\n"
   	print_options

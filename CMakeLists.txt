@@ -16,23 +16,26 @@ endif()
 set(STELLA_LIBRARY_NAME "stella")
 
 # Debug mode
-option(STELLA_DEBUG_MODE "Build in debug mode" off)
+option(STELLA_DEBUG_MODE "Build in debug mode" OFF)
 
 # Turn this option on to build a targeted example
-option(BUILD_STELLA_EXAMPLE "Build example" on)
+option(BUILD_STELLA_EXAMPLE "Build example" OFF)
 if (BUILD_STELLA_EXAMPLE)
 	set(EXAMPLE_DIR "torch")
 endif()
+
+# Build tests
+option(BUILD_STELLA_TESTS "Build tests" ON)
 
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Turn on these options to use the libraries contained in your machine.
-option(USE_SHARED_SDL2 "Use shared SDL2 library" on)
-option(USE_SHARED_SOIL "Use shared SOIL library" off)
-option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" on)
-option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" on)
-option(USE_SHARED_ENTITYX "Use shared EntityX library" off)
+option(USE_SHARED_SDL2 "Use shared SDL2 library" ON)
+option(USE_SHARED_SOIL "Use shared SOIL library" OFF)
+option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" ON)
+option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" ON)
+option(USE_SHARED_ENTITYX "Use shared EntityX library" OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -116,6 +119,7 @@ if (USE_SHARED_ENTITYX)
 else()
 	set(ENTITYX_INCLUDE_DIR ${DEPENDENCIES_DIR}/entityx)
 	set(ENTITYX_LIBRARIES entityx)
+  set(ENTITYX_BUILD_TESTING false CACHE BOOL "Enable building of tests.")
 endif()
 include_directories(${ENTITYX_INCLUDE_DIR})
 
@@ -224,5 +228,10 @@ target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${SDL2_LIBRARIES}
 # Build examples if specified
 if (BUILD_STELLA_EXAMPLE)
   add_subdirectory(example)
+endif()
+
+# Build tests if specified
+if (BUILD_STELLA_TESTS)
+  add_subdirectory(test)
 endif()
 
