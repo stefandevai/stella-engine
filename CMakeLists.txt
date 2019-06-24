@@ -20,6 +20,9 @@ if (BUILD_STELLA_EXAMPLE)
 	set(EXAMPLE_DIR "torch")
 endif()
 
+# Generate compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Turn on these options to use the libraries contained in your machine.
 option(USE_SHARED_SDL2 "Use shared SDL2 library" on)
 option(USE_SHARED_SOIL "Use shared SOIL library" off)

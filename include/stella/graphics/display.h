@@ -6,7 +6,7 @@
 #include <SDL2/SDL_timer.h>
 #include <glm/glm.hpp>
 
-#include "stella/graphics/debug_gui.h"
+//#include "stella/graphics/debug_gui.h"
 
 // Forward declarations
 struct SDL_Window;
@@ -44,7 +44,7 @@ private:
   bool Running;
   glm::vec3 ClearColor;
 
-  DebugGui DGUI;
+  //DebugGui DGUI;
 
   void updateInput();
   void getDT();

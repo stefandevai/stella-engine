@@ -46,7 +46,7 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
   this->ClearColor = glm::vec3(0.0f, 0.0f, 0.0f);
 
   // Init debug GUI
-  this->DGUI.Init(this->Window);
+  //this->DGUI.Init(this->Window);
 }
 
 Display::~Display() {

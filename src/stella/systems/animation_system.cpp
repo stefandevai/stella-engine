@@ -3,7 +3,6 @@
 #include "stella/systems/animation_system.h"
 #include "stella/components/game_components.h"
 
-
 namespace stella {
 namespace systems {
 AnimationSystem::AnimationSystem() {
