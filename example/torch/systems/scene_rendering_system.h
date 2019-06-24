@@ -6,7 +6,7 @@
 #include "scenelayer.h"
 #include "firelayer.h"
 
-#include "../components/sprite_component.h"
+#include <components/game_components.h>
 
 namespace ex = entityx;
 

@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "components/game_components.h"
+#include <components/game_components.h>
 #include "systems/game_systems.h"
 
 Game::Game(stella::graphics::Display &display) : Display(display) {
@@ -202,12 +202,12 @@ void Game::load_background() {
 }
 
 void Game::load_particles() {
-	//this->LoadTexture("fire-particle", "assets/sprites/fire-particle.png");
-  //auto torch = entities.create();
-  //torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
-  //torch.assign<PositionComponent>(350.f, 290.f);
-  //torch.assign<DimensionComponent>(16.f, 16.f);
-  //torch.assign<TorchComponent>();
+  this->LoadTexture("fire-particle", "assets/sprites/fire-particle.png");
+  auto torch = entities.create();
+  torch.assign<ParticleEmitter>(ParticleEmitter::Type::FIRE_EMITTER, 10);
+  torch.assign<PositionComponent>(350.f, 290.f);
+  torch.assign<DimensionComponent>(16.f, 16.f);
+  torch.assign<TorchComponent>();
 
   this->LoadTexture("snowflake", "assets/snowflakes/flake2-small.png");
   auto snow = entities.create();

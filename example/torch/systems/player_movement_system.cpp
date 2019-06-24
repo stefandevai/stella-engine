@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "../components/game_components.h"
+#include <components/game_components.h>
 
 PlayerMovementSystem::PlayerMovementSystem(const int &boundx, stella::graphics::Display &display)
     : BoundX(boundx), Display(display) {}

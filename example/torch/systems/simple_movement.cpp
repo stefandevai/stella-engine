@@ -1,6 +1,6 @@
 #include "simple_movement.h"
 
-#include "../components/game_components.h"
+#include <components/game_components.h>
 
 SimpleMovementSystem::SimpleMovementSystem() {
 }

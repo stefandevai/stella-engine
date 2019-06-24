@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "../components/game_components.h"
+#include <components/game_components.h>
 
 SceneRenderingSystem::SceneRenderingSystem(int width, int height, std::unordered_map<std::string, stella::graphics::Texture*> &textures, stella::graphics::Display &display) : Textures(textures) {
 	// Initialize shader and textures IDs

@@ -30,7 +30,6 @@ namespace graphics {
           particle_pos->x += particle_par->SpeedX;
           particle_pos->y += particle_par->SpeedY;
         }
-
         ++particle_par->Life;
       }
 			inline  ex::Entity Emit(ex::Entity generator, ex::EntityManager& es) override {

@@ -1,6 +1,6 @@
 #include "transform_system.h"
 
-#include "../components/game_components.h"
+#include <components/game_components.h>
 
 TransformSystem::TransformSystem() {
 

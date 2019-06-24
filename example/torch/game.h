@@ -8,6 +8,7 @@
 
 namespace ex = entityx;
 
+
 class Game : public ex::EntityX {
 public:
   Game(stella::graphics::Display &display);

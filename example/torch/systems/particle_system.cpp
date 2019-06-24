@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "../components/game_components.h"
+#include <components/game_components.h>
 
 ParticleSystem::ParticleSystem() {
 

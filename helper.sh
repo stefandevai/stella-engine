@@ -15,7 +15,7 @@ fi
 
 # Variables
 BUILD_DIR="build"
-TARGET_DIR="examples"
+TARGET_DIR="example"
 TARGET="game"
 OPT1=$1
 OPT2=$2
@@ -65,7 +65,7 @@ function exec_func {
 		cd $BUILD_DIR
 	fi
 
-	cp -r ../examples/torch/assets examples
+	cp -r ../example/torch/assets example
 
 	cd $TARGET_DIR
 	./"$TARGET"
@@ -139,11 +139,11 @@ ${class_camel_name}::~${class_camel_name}() {
 function format_code {
 	find include/ -iname "*.h" -o -iname "*.cpp" | xargs clang-format -i -style=file
 	find src/ -iname "*.h" -o -iname "*.cpp" | xargs clang-format -i -style=file
-	find examples/ -iname "*.h" -o -iname "*.cpp" | xargs clang-format -i -style=file
+	find example/ -iname "*.h" -o -iname "*.cpp" | xargs clang-format -i -style=file
 }
 
 function copy_assets {
-	cp -r examples/stellar/assets $BUILD_DIR/examples
+	cp -r example/stellar/assets $BUILD_DIR/example
 }
 
 # Args evalutation

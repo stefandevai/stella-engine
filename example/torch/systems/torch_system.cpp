@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-#include "../components/game_components.h"
+#include <components/game_components.h>
 
 TorchSystem::TorchSystem(ex::Entity player, ex::EntityManager &es) : Player(player) {
   this->PointsString = es.create();

@@ -1,7 +1,6 @@
 #include "animation_system.h"
 
-#include "../components/animation_component.h"
-#include "../components/sprite_component.h"
+#include <components/game_components.h>
 
 #include <glm/glm.hpp>
 

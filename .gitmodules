@@ -3,7 +3,7 @@
 	url = https://github.com/glfw/glfw
 [submodule "dependencies/soil"]
 	path = dependencies/soil
-	url = https://github.com/funlibs/soil
+	url = https://github.com/fundependenciess/soil
 [submodule "dependencies/openal-soft"]
 	path = dependencies/openal-soft
 	url = https://github.com/kcat/openal-soft

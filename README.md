@@ -1,6 +1,6 @@
 # Stella Engine
 
-![Stella Engine stellar example](/img/stella-particles.png)
+![Stella Engine stellar example](/assets/img/stella-particles.png)
 
 ## Description:
 

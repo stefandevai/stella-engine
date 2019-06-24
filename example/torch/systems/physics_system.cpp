@@ -3,9 +3,7 @@
 #include <memory>
 #include <glm/glm.hpp>
 
-#include "../components/position_component.h"
-#include "../components/dimension_component.h"
-#include "../components/movement_component.h"
+#include <components/game_components.h>
 
 PhysicsSystem::PhysicsSystem() {
   this->World.SetGravity(900.f);

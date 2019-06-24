@@ -1,6 +1,6 @@
 #include "tileview_system.h"
 
-#include "../components/game_components.h"
+#include <components/game_components.h>
 
 TileviewSystem::TileviewSystem(const int &boundx) : BoundX(boundx) {}
 
