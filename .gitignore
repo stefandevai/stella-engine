@@ -1,4 +1,5 @@
 build/
 *.o
 .DS_Store
+tools/cppcheck/html
 
