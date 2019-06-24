@@ -90,9 +90,9 @@ void GuiRenderingSystem::update(ex::EntityManager &es, ex::EventManager &events,
 							text.Spaces += 1;
 						}
 						else {
-							auto spr = new stella::graphics::Sprite(pos.x + dim.w*stride, pos.y, dim.w, dim.h, *tex->second, frame);
-							text.Sprites.push_back(spr);
-							this->TextLayer->Add(spr);
+							auto tex_spr = new stella::graphics::Sprite(pos.x + dim.w*stride, pos.y, dim.w, dim.h, *tex->second, frame);
+							text.Sprites.push_back(tex_spr);
+							this->TextLayer->Add(tex_spr);
 							stride += 1;
 						}
 					}

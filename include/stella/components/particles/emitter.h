@@ -73,7 +73,7 @@ namespace graphics {
 			}
 
 			template<typename T>
-			T GetRandomValue(std::pair<T,T> range, bool exclude_zero = false) {
+			static T GetRandomValue(std::pair<T,T> range, bool exclude_zero = false) {
 			  if (range.first == range.second) return range.first;
 			  if (!exclude_zero)
           return range.first + static_cast<T>(std::rand()) / (static_cast<T>(RAND_MAX/(range.second - range.first)));
@@ -106,7 +106,7 @@ namespace graphics {
       bool Initialized = false;
       ParticleVariationData Data;
 
-			inline Emitter(int posx, int posy, unsigned int max_particles, std::string tex_name) : PosX(posx), PosY(posy), MaxParticles(max_particles), TextureName(tex_name) {}
+			inline Emitter(int posx, int posy, unsigned int max_particles, const std::string& tex_name) : PosX(posx), PosY(posy), MaxParticles(max_particles), TextureName(tex_name) {}
 	};
 }}
 

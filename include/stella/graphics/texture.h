@@ -6,10 +6,10 @@ namespace stella {
 namespace graphics {
 class Texture {
 public:
-  Texture(const std::string name, const char *texPath);
+  Texture(const std::string &name, const char *texPath);
   ~Texture();
   void Bind();
-  void Unbind();
+  static void Unbind();
 
   inline unsigned int GetWidth() const { return (int)Width; }
   inline unsigned int GetHeight() const { return (int)Height; }

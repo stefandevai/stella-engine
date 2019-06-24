@@ -6,7 +6,7 @@
 namespace stella {
 namespace components {
 struct Body2DComponent {
-  Body2DComponent(std::vector<double> drag = {0.f,0.f}) : Drag(drag) {}
+  explicit Body2DComponent(const std::vector<double>& drag = {0.f, 0.f}) : Drag(drag) {}
   ~Body2DComponent() {}
 
   std::shared_ptr<stella::physics2d::Body> Body;

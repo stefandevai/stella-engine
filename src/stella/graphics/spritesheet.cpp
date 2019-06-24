@@ -11,6 +11,8 @@ SpriteSheet::SpriteSheet(const Texture &texture, unsigned int framex,
       NumOfFrames(number_of_frames) {
   this->SizeInFramesX = Frames.GetWidth() / this->FrameX;
   this->SizeInFramesY = Frames.GetHeight() / this->FrameY;
+  this->OffsetX = 0;
+  this->OffsetY = 0;
 
   if (!number_of_frames) {
     this->NumOfFrames = this->SizeInFramesX * this->SizeInFramesY;

@@ -24,7 +24,7 @@ protected:
   ALuint Source;
   ALenum Format;
   ALint State;
-  bool Loop;
+  bool Loop = false;
 
   inline Playable() {}
 };

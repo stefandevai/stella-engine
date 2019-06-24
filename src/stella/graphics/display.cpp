@@ -6,6 +6,38 @@
 #include <sstream>
 #include <iostream>
 
+#ifdef __APPLE__
+#include <OpenCL/opencl.h>
+#include <OpenGL/OpenGL.h>
+#endif
+
+namespace {
+// Adjust viewport proportions on fullscreen to match 16:9 proportions
+void checkViewportProportions() {
+  int width, height;
+  int vpcoords[4];
+  glGetIntegerv(GL_VIEWPORT, vpcoords);
+
+  width = vpcoords[2];
+  height = vpcoords[3];
+
+  // 16/9 = 1.77777. Therefore, we check if the new proportions are greater or
+  // lower than that
+  if (width / (float)height > 1.78f) { // Height is max and width is adjusted
+    int newwidth = height * 1.77777f;
+    int left = width - newwidth;
+    std::cout << newwidth << std::endl;
+    glViewport(left / 2, 0, newwidth, height);
+  } else if (width / (float)height <
+             1.77f) { // Width is max and height is adjusted
+    int newheight = (int)width / 1.77f;
+    int left = height - newheight;
+    std::cout << newheight << std::endl;
+    glViewport(0, left / 2, width, newheight);
+  }
+}
+}
+
 namespace stella {
 namespace graphics {
 double MouseX, MouseY;
@@ -66,18 +98,24 @@ GLuint Display::GetHeight() {
   return height;
 }
 
-bool Display::IsRunning() { return this->Running; }
+bool Display::IsRunning() const { return this->Running; }
 
 void Display::Update() {
+#ifdef __APPLE__
+  GLint                       vsync = 0;
+  CGLContextObj               ctx = CGLGetCurrentContext();
+  CGLSetParameter(ctx, kCGLCPSwapInterval, &vsync);
+#endif
+
   this->getDT();
   this->Frame++;
   if (this->Frame >= 10000000)
     this->Frame = 0;
 
    //Print FPS 
-  //if (this->Frame % 120 == 0) {
-     //std::cout << this->getFPS() << std::endl;
-  //}
+  if (this->Frame % 120 == 0) {
+     std::cout << this->getFPS() << '\n';
+  }
 
   this->updateInput();
   //this->DGUI.Update();
@@ -179,29 +217,5 @@ GLfloat Display::getFPS() {
   return deltaFrame / deltaTime;
 }
 
-// Adjust viewport proportions on fullscreen to match 16:9 proportions
-void Display::checkViewportProportions() {
-  int width, height;
-  int vpcoords[4];
-  glGetIntegerv(GL_VIEWPORT, vpcoords);
-
-  width = vpcoords[2];
-  height = vpcoords[3];
-
-  // 16/9 = 1.77777. Therefore, we check if the new proportions are greater or
-  // lower than that
-  if (width / (float)height > 1.78f) { // Height is max and width is adjusted
-    int newwidth = height * 1.77777f;
-    int left = width - newwidth;
-    std::cout << newwidth << std::endl;
-    glViewport(left / 2, 0, newwidth, height);
-  } else if (width / (float)height <
-             1.77f) { // Width is max and height is adjusted
-    int newheight = (int)width / 1.77f;
-    int left = height - newheight;
-    std::cout << newheight << std::endl;
-    glViewport(0, left / 2, width, newheight);
-  }
-}
 } // namespace graphics
 } // namespace stella

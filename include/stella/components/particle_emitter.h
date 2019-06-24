@@ -12,10 +12,9 @@ namespace stella {
 namespace components {
 struct ParticleEmitter {
 	public:
-	  int Velocity;
 	  enum Type { FIRE_EMITTER, SNOW_EMITTER };
-
 		std::vector<ex::Entity> Particles;
+	  int Velocity;
 		stella::graphics::Emitter *Emitter;
 
 		inline ParticleEmitter(Type type, unsigned int max_particles) {
@@ -29,9 +28,25 @@ struct ParticleEmitter {
           this->Emitter = new stella::graphics::SnowEmitter(0, 0, max_particles, "snowflake");
           break;
         default:
+          this->Velocity = 0;
+          this->Emitter = nullptr;
           break;
       }
 		}
+
+    inline ParticleEmitter(const ParticleEmitter &copied_emitter) : Particles(copied_emitter.Particles), Velocity(copied_emitter.Velocity) {
+      *Emitter = *(copied_emitter.Emitter);
+    }
+
+    inline ParticleEmitter & operator= (const ParticleEmitter &p) {
+      if (this != &p) {
+        Particles = p.Particles;
+        Velocity = p.Velocity;
+        *Emitter = *(p.Emitter);
+      }
+      return *this;
+    }
+
 		inline ~ParticleEmitter() {
 		  if (Emitter)
         delete Emitter;

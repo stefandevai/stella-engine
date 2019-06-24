@@ -5,8 +5,7 @@
 
 namespace stella {
 namespace systems {
-TorchSystem::TorchSystem(ex::Entity player, ex::EntityManager &es) : Player(player) {
-  this->PointsString = es.create();
+TorchSystem::TorchSystem(ex::Entity player, ex::EntityManager &es) : Player(player), PointsString(es.create()) {
   this->PointsString.assign<components::PositionComponent>(30.f, 105.f);
   this->PointsString.assign<components::DimensionComponent>(9.f, 9.f);
 	this->PointsString.assign<components::TextComponent>("Points: ", "font-cursive");

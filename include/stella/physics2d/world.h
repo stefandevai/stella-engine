@@ -22,12 +22,12 @@ class World {
     std::vector<std::shared_ptr<stella::physics2d::Body>> Bodies;
     std::vector<std::shared_ptr<stella::physics2d::Manifold>> Manifolds;
 
-    void UpdateMovement(float dt);
+    void UpdateMovement(float dt) const;
     void UpdateCollisions();
 
     bool AABBvsAABB(std::shared_ptr<stella::physics2d::Body> ba, std::shared_ptr<stella::physics2d::Body> bb);
     void ResolveManifolds();
-    void ResolveManifold(stella::physics2d::Manifold& mf);
+    static void ResolveManifold(stella::physics2d::Manifold& mf);
 };
 }}
 

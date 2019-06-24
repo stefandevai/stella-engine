@@ -11,7 +11,7 @@ namespace graphics {
 
 	class FireEmitter : public Emitter {
 		public:
-			inline FireEmitter(int posx, int posy, unsigned int max_particles, std::string tex_name) : Emitter(posx, posy, max_particles, tex_name) {
+			inline FireEmitter(int posx, int posy, unsigned int max_particles, const std::string& tex_name) : Emitter(posx, posy, max_particles, tex_name) {
         this->SetMaxLifeRange(std::make_pair(20,60));
         this->SetPositionXRange(std::make_pair(-6,6));
         this->SetPositionYRange(std::make_pair(0,0));

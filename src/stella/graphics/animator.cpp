@@ -2,20 +2,15 @@
 
 namespace stella {
 namespace graphics {
-Animator::Animator() {
-  this->Counter = 0;
-  this->Paused = false;
-  this->Reseted = false;
-  this->CurrentFrame = 0;
-}
+Animator::Animator() {}
 
 Animator::~Animator() {
   for (auto i = Animations.begin(); i != Animations.end(); ++i)
     delete i->second;
 }
 
-void Animator::Add(const std::string name,
-                   const std::vector<unsigned int> frames,
+void Animator::Add(const std::string &name,
+                   const std::vector<unsigned int> &frames,
                    const unsigned int frameRate) {
   Animation *anim = new Animation(frames, frameRate);
   Animations.insert(std::pair<std::string, Animation *>(name, anim));

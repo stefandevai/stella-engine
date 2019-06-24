@@ -2,6 +2,31 @@
 
 #include <iostream>
 
+namespace {
+void checkErrors() {
+  int error = alGetError();
+  if (error != AL_NO_ERROR)
+    std::cout << "OpenAL error." << std::endl;
+}
+
+std::string errorToString(int code) {
+  switch (code) {
+  case OV_EREAD:
+    return "Read from media.";
+  case OV_ENOTVORBIS:
+    return "Not vorbis data.";
+  case OV_EVERSION:
+    return "Vorbis version mismatch";
+  case OV_EBADHEADER:
+    return "Invalid vorbis header.";
+  case OV_EFAULT:
+    return "Internal logic fault";
+  default:
+    return "Unknown Ogg error.";
+  }
+}
+}
+
 namespace stella {
 namespace audio {
 OggStream::OggStream(const char *filepath) : FilePath(filepath) {
@@ -41,17 +66,17 @@ void OggStream::Update() {
     return;
 
   int processed;
-  bool active = true;
+  //bool active = true;
   alGetSourcei(this->Source, AL_BUFFERS_PROCESSED, &processed);
   while (processed--) {
     ALuint buffer;
     alSourceUnqueueBuffers(this->Source, 1, &buffer);
     checkErrors();
 
-    active = this->streamBuffer(buffer);
+    bool active = this->streamBuffer(buffer);
     if (active) {
       alSourceQueueBuffers(this->Source, 1, &buffer);
-      this->checkErrors();
+      checkErrors();
     }
   }
 
@@ -63,11 +88,11 @@ void OggStream::Update() {
       this->Reseted = true;
       ov_raw_seek(&this->StreamData, 0);
     }
-    active = this->Loop;
+    //active = this->Loop;
   }
 }
 
-bool OggStream::IsInitialized() { return this->StreamOpened; }
+//bool OggStream::IsInitialized() const { return this->StreamOpened; }
 
 bool OggStream::IsPlaying() {
   if (!this->StreamOpened)
@@ -79,10 +104,11 @@ bool OggStream::IsPlaying() {
 
 void OggStream::openFile(const char *filepath) {
   int result;
-  if (!(this->OggFile = fopen(filepath, "rb")))
+  FILE *file;
+  if (!(file = fopen(filepath, "rb")))
     std::cout << "Could not open ogg file." << std::endl;
-  if ((result = ov_open(this->OggFile, &this->StreamData, NULL, 0)) < 0) {
-    fclose(this->OggFile);
+  if ((result = ov_open(file, &this->StreamData, NULL, 0)) < 0) {
+    fclose(file);
     std::cout << "Could not open ogg stream." << errorToString(result)
               << std::endl;
   }
@@ -108,7 +134,7 @@ void OggStream::openFile(const char *filepath) {
   this->displayInfo();
 }
 
-void OggStream::displayInfo() {
+const void OggStream::displayInfo() const {
   std::cout << "version: " << this->VorbisInfo->version
             << "channels: " << this->VorbisInfo->channels << "rate (hz) "
             << this->VorbisInfo->rate << std::endl;
@@ -120,9 +146,8 @@ bool OggStream::streamBuffer(ALuint buffer) {
   char data[AUDIO_BUFFER_SIZE];
   int size = 0;
   int section;
-  int result;
   while (size < AUDIO_BUFFER_SIZE) {
-    result = ov_read(&this->StreamData, data + size, AUDIO_BUFFER_SIZE - size,
+    const int result = ov_read(&this->StreamData, data + size, AUDIO_BUFFER_SIZE - size,
                      0, 2, 1, &section);
     if (result > 0)
       size += result;
@@ -155,33 +180,10 @@ void OggStream::clean() {
   alSourceStop(this->Source);
   this->emptyQueue();
   alDeleteSources(1, &this->Source);
-  this->checkErrors();
+  checkErrors();
   alDeleteBuffers(STREAM_BUFFERS, this->Buffers);
-  this->checkErrors();
+  checkErrors();
   ov_clear(&this->StreamData);
-}
-
-void OggStream::checkErrors() {
-  int error = alGetError();
-  if (error != AL_NO_ERROR)
-    std::cout << "OpenAL error." << std::endl;
-}
-
-std::string OggStream::errorToString(int code) {
-  switch (code) {
-  case OV_EREAD:
-    return "Read from media.";
-  case OV_ENOTVORBIS:
-    return "Not vorbis data.";
-  case OV_EVERSION:
-    return "Vorbis version mismatch";
-  case OV_EBADHEADER:
-    return "Invalid vorbis header.";
-  case OV_EFAULT:
-    return "Internal logic fault";
-  default:
-    return "Unknown Ogg error.";
-  }
 }
 } // namespace audio
 } // namespace stella

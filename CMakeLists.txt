@@ -183,7 +183,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
 
     # Uncomment for profiling
 		#set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -pg -g -O0 -no-pie")
-		set(CXX_LINK_FLAGS "-pg")
+		#set(CXX_LINK_FLAGS "-pg")
 	else()
 		set(CXX_COMPILE_FLAGS "-std=gnu++11 -O2")
 	endif()

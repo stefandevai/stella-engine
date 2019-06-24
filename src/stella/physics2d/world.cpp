@@ -165,7 +165,7 @@ void World::ResolveManifold(stella::physics2d::Manifold& mf) {
     }
 }
 
-void World::UpdateMovement(float dt) {
+void World::UpdateMovement(float dt) const {
   for (auto& body: this->Bodies) {
     if (!body->IsStatic) {
       body->LastPosition = body->Position;

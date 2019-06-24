@@ -19,7 +19,7 @@ public:
 
   Renderable(GLint x, GLint y, GLint w, GLint h, Texture &texture, GLboolean visible = 1);
   Renderable(GLint x, GLint y, Texture &texture);
-  Renderable(Texture &texture);
+  explicit Renderable(Texture &texture);
   virtual ~Renderable();
 
   // Getters

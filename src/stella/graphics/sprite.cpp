@@ -34,6 +34,27 @@ Sprite::Sprite(GLint x, GLint y, GLint w, GLint h, Texture &texture,
       new SpriteSheet(texture, this->Dimensions.x, this->Dimensions.y);
 }
 
+Sprite::Sprite(const Sprite &copied_sprite)
+    : Renderable(copied_sprite.Pos.x, copied_sprite.Pos.y, copied_sprite.Dimensions.x, copied_sprite.Dimensions.y, copied_sprite.Tex, copied_sprite.Visible), Animations(copied_sprite.Animations), Frames(copied_sprite.Frames) {
+  Color = copied_sprite.Color;
+  Frame = copied_sprite.Frame;
+  NumberOfFrames = copied_sprite.NumberOfFrames;
+  Sprites = 
+      new SpriteSheet(Tex, Dimensions.x, Dimensions.y);
+}
+Sprite& Sprite::operator=(const Sprite &sprite) {
+  if (this != &sprite) {
+    Animations = sprite.Animations;
+    Color = sprite.Color;
+    Frames = sprite.Frames;
+    Frame = sprite.Frame;
+    NumberOfFrames = sprite.NumberOfFrames;
+    Sprites = 
+        new SpriteSheet(Tex, Dimensions.x, Dimensions.y);
+  }
+  return *this;
+}
+
 Sprite::~Sprite() { delete Sprites; }
 
 void Sprite::Update() { this->Frame = Animations.Update(); }

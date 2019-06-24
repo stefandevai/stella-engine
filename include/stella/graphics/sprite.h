@@ -22,6 +22,8 @@ public:
   Sprite(GLint x, GLint y, Texture &texture, GLuint frame = 0);
   Sprite(GLint x, GLint y, GLint w, GLint h, Texture &texture,
          GLuint frame = 0);
+  Sprite(const Sprite &copied_sprite);
+  Sprite& operator=(const Sprite &sprite);
   ~Sprite();
 
   void Update();
@@ -41,7 +43,6 @@ public:
 	void Flip() { this->SetScale(glm::vec2(-1.f, 0.f)); }
 
 private:
-  //glm::vec4 Color;
   unsigned int Color;
   std::vector<GLuint> Frames;
   GLuint Frame = 0, NumberOfFrames;

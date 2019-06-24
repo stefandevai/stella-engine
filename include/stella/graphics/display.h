@@ -19,21 +19,21 @@ class Display {
 public:
   Display(GLuint width, GLuint height, const std::string &title);
   ~Display();
-  bool IsRunning();
+  bool IsRunning() const;
   void Update();
   void Clear();
   void SetClearColor(int r, int g, int b);
   void SetClearColor(GLfloat x, GLfloat y, GLfloat z);
   GLuint GetWidth();
   GLuint GetHeight();
-  GLfloat GetTime() { return (GLfloat)SDL_GetTicks(); }
-  GLuint GetFrame() { return Frame; }
-  GLfloat GetDT() { return DT; }
+  static GLfloat GetTime() { return (GLfloat)SDL_GetTicks(); }
+  GLuint GetFrame() const { return Frame; }
+  GLfloat GetDT() const { return DT; }
   GLfloat getFPS();
-  void GetMousePos(double &mx, double &my);
-  const unsigned char* GetGlVersion();
-  const unsigned char* GetGlRenderer();
-	bool IsKeyDown(int key);
+  static void GetMousePos(double &mx, double &my);
+  static const unsigned char* GetGlVersion();
+  static const unsigned char* GetGlRenderer();
+	static bool IsKeyDown(int key);
 
 private:
   GLuint Width, Height, Frame, LastFrame;
@@ -48,7 +48,6 @@ private:
 
   void updateInput();
   void getDT();
-  void checkViewportProportions();
 };
 } // namespace graphics
 } // namespace stella

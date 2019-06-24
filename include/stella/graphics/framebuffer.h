@@ -10,15 +10,15 @@ typedef unsigned int GLenum;
 
 class Framebuffer {
 	public:
-		Framebuffer(stella::graphics::Display &display);
+		explicit Framebuffer(stella::graphics::Display &display);
 		~Framebuffer();
 
 		void Bind();
-		void Unbind();
+		static void Unbind();
 		void Draw();
 
 		void ActivateTexture(GLenum tex_id);
-		inline GLuint GetTexture() { return FBOtex; }
+		inline GLuint GetTexture() const { return FBOtex; }
 
 	private:
 		GLuint FBO, FBOtex, VAO, VBO;

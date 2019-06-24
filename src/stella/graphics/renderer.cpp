@@ -79,7 +79,7 @@ void Renderer::init() {
 
 void Renderer::Begin() {
   glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
-  VertexBuffer = (VertexData *)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+  VertexBuffer = static_cast<VertexData *>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 }
 
 void Renderer::Submit(const Sprite &sprite) {

@@ -27,10 +27,10 @@ public:
   ~Renderer();
   void Begin();
   void Submit(const Sprite &sprite);
-  void End();
+  static void End();
   void Draw();
 
-  void BindAsRenderTarget(int width = 720, int height = 405);
+  static void BindAsRenderTarget(int width = 720, int height = 405);
 
   void PushTransformation(glm::mat4& mat, bool override = false);
 	void PopTransformation();

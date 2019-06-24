@@ -9,7 +9,7 @@ namespace stella {
 namespace graphics {
 	class SnowEmitter : public Emitter {
 		public:
-			inline SnowEmitter(int posx, int posy, unsigned int max_particles, std::string tex_name) : Emitter(posx, posy, max_particles, tex_name) {
+			inline SnowEmitter(int posx, int posy, unsigned int max_particles, const std::string& tex_name) : Emitter(posx, posy, max_particles, tex_name) {
         this->SetMaxLifeRange(std::make_pair(100,200));
         this->SetPositionXRange(std::make_pair(0.0f,32.0f));
         this->SetPositionYRange(std::make_pair(0,0));

@@ -15,7 +15,7 @@ public:
   ~Shader();
 
   void Enable();
-  void Disable();
+  static void Disable();
 
   // Uniform setting
   void SetFloat(const GLchar *uniformName, const GLfloat &num);
