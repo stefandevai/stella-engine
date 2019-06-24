@@ -8,7 +8,14 @@
 #include <stella/components/game_components.h>
 #include <stella/systems/game_systems.h>
 
+#include <sol.hpp>
+
 Game::Game(stella::graphics::Display &display) : Display(display) {
+  sol::state lua;
+  lua.open_libraries(sol::lib::base, sol::lib::package);
+  lua.script("print('heyaaa')");
+  std::cout << '\n';
+
   // Load game entities
   this->load_background();
   this->load_player(100, 200);
