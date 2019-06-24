@@ -6,9 +6,11 @@
 #include <sstream>
 #include <iostream>
 
+#if DISABLE_VSYNC == 1
 #ifdef __APPLE__
 #include <OpenCL/opencl.h>
 #include <OpenGL/OpenGL.h>
+#endif
 #endif
 
 namespace {
@@ -101,10 +103,18 @@ GLuint Display::GetHeight() {
 bool Display::IsRunning() const { return this->Running; }
 
 void Display::Update() {
+
+#if DISABLE_VSYNC == 1
 #ifdef __APPLE__
-  GLint                       vsync = 0;
-  CGLContextObj               ctx = CGLGetCurrentContext();
+  GLint vsync = 0;
+  CGLContextObj ctx = CGLGetCurrentContext();
   CGLSetParameter(ctx, kCGLCPSwapInterval, &vsync);
+#endif
+
+  // Print FPS 
+  if (this->Frame % 120 == 0) {
+     std::cout << this->getFPS() << '\n';
+  }
 #endif
 
   this->getDT();
@@ -112,10 +122,6 @@ void Display::Update() {
   if (this->Frame >= 10000000)
     this->Frame = 0;
 
-   //Print FPS 
-  if (this->Frame % 120 == 0) {
-     std::cout << this->getFPS() << '\n';
-  }
 
   this->updateInput();
   //this->DGUI.Update();
@@ -216,6 +222,5 @@ GLfloat Display::getFPS() {
 
   return deltaFrame / deltaTime;
 }
-
 } // namespace graphics
 } // namespace stella

@@ -7,6 +7,8 @@
 #include <glm/glm.hpp>
 
 //#include "stella/graphics/debug_gui.h"
+// Set to 1 to disable vsync
+#define DISABLE_VSYNC 0
 
 // Forward declarations
 struct SDL_Window;

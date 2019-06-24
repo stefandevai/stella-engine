@@ -83,6 +83,7 @@ void SceneRenderingSystem::update(ex::EntityManager &es,
   });
  
 	this->TileLayer->Render();
+	// TODO: Join postprocessing passes to highly improve performance
   this->ParticleLayer->RenderWithFBOs();
   //this->ParticleLayer->Render();
 };
