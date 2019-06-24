@@ -38,13 +38,13 @@ Game::~Game() {
 
 void Game::Update(ex::TimeDelta dt) { 
   //systems.update<stella::systems::CollisionSystem>(dt);
-  systems.update<stella::systems::ParticleSystem>(dt);
-  systems.update<stella::systems::PhysicsSystem>(dt);
-  systems.update<stella::systems::SimpleMovementSystem>(dt);
+  //systems.update<stella::systems::ParticleSystem>(dt);
+  //systems.update<stella::systems::PhysicsSystem>(dt);
+  //systems.update<stella::systems::SimpleMovementSystem>(dt);
   systems.update<stella::systems::SceneRenderingSystem>(dt);
-  systems.update<stella::systems::TileviewSystem>(dt);
-  systems.update<stella::systems::PlayerMovementSystem>(dt);
-  systems.update<stella::systems::TransformSystem>(dt);
+  //systems.update<stella::systems::TileviewSystem>(dt);
+  //systems.update<stella::systems::PlayerMovementSystem>(dt);
+  //systems.update<stella::systems::TransformSystem>(dt);
   //systems.update<stella::systems::TorchSystem>(dt);
   systems.update<stella::systems::AnimationSystem>(dt);
   systems.update<stella::systems::GuiRenderingSystem>(dt);
