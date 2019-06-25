@@ -46,7 +46,7 @@ TEST_CASE("textures can be loaded and assigned to sprites", "[lib][graphics]")
   }
 }
 
-TEST_CASE("sprites can have frames and animations")
+TEST_CASE("sprites can have frames and animations", "[lib][graphics]")
 {
   sprite3.Animations.Add("first-animation", std::vector<unsigned int>{0,1,2,3,4}, 1);
   sprite3.Animations.Add("second-animation", std::vector<unsigned int>{3,1,0,3,4,6}, 1);

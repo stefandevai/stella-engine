@@ -143,7 +143,11 @@ function format_code {
 }
 
 function copy_assets {
-	cp -r example/stellar/assets $BUILD_DIR/example
+	cp -r example/torch/assets $BUILD_DIR/example
+}
+
+function copy_scripts {
+	cp -r example/torch/scripts $BUILD_DIR/example
 }
 
 # Args evalutation
@@ -227,6 +231,7 @@ case $MODE in
     shift
     ;;
   EXECUTE)
+		copy_scripts
     exec_func
     shift
     ;;
@@ -250,6 +255,7 @@ case $MODE in
 		;;
 	COPY_ASSETS)
 		copy_assets
+		copy_scripts
 		shift
 		;;
 esac

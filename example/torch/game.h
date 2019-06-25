@@ -24,6 +24,7 @@ private:
 	stella::graphics::Display &Display;
 	ex::Entity FPSText, Fire;
   sol::state lua;
+  stella::ScriptApi scriptApi;
 
 	std::unordered_map<std::string, stella::graphics::Texture*> Textures;
 	std::unordered_map<std::string, stella::graphics::Texture*> Fonts;
@@ -37,4 +38,6 @@ private:
 	void load_background();
 	void load_foreground();
 	void load_text();
+
+  void update_systems(const double &dt);
 };

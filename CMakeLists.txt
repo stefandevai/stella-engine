@@ -19,13 +19,13 @@ set(STELLA_LIBRARY_NAME "stella")
 option(STELLA_DEBUG_MODE "Build in debug mode" OFF)
 
 # Turn this option on to build a targeted example
-option(BUILD_STELLA_EXAMPLE "Build example" OFF)
+option(BUILD_STELLA_EXAMPLE "Build example" ON)
 if (BUILD_STELLA_EXAMPLE)
 	set(EXAMPLE_DIR "torch")
 endif()
 
 # Build tests
-option(BUILD_STELLA_TESTS "Build tests" ON)
+option(BUILD_STELLA_TESTS "Build tests" OFF)
 
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

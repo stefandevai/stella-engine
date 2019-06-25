@@ -4,12 +4,25 @@ initial_state = 1
 current_state = initial_state
 load_fail = false
 
+function load_game()
+end
+
+function update_game(dt)
+end
+
+function render_game(dt)
+end
+
+function quit_game()
+end
+
 function load ()
   print('Loading Game...')
   if load_fail == true then
     -- GAME_NOT_LOADED
     current_state = 3
   else
+    print(update_game)
     if update_game ~= nil then
       -- GAME_LOOP
       current_state = 5
@@ -22,7 +35,7 @@ function after_load()
 end
 
 function loop()
-  update_game()
+  update_game(0.001)
 end
 
 function game_main_menu ()
