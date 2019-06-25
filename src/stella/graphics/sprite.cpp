@@ -1,5 +1,7 @@
 #include "stella/graphics/sprite.h"
 
+#include <iostream>
+
 namespace stella {
 namespace graphics {
 Sprite::Sprite(GLint x, GLint y, Texture &texture,

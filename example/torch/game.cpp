@@ -15,11 +15,12 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->scriptApi.vm.set_function("e_add_sprite_component", &Game::add_sprite_component, this);
   this->scriptApi.vm.set_function("e_add_dimension_component", &Game::add_dimension_component, this);
   this->scriptApi.vm.set_function("e_add_position_component", &Game::add_position_component, this);
+  this->scriptApi.vm.set_function("e_add_animation_component", &Game::add_animation_component, this);
   this->scriptApi.RunScript("scripts/main.lua");
   this->scriptApi.RunLoad();
 
   // Load game entities
-  //this->load_background();
+  this->load_background();
   //this->load_player(100, 200);
   //this->load_particles();
   //this->load_blocks();
@@ -35,7 +36,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   //systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   //systems.add<stella::systems::TransformSystem>();
   //systems.add<stella::systems::TorchSystem>(player, entities);
-  //systems.add<stella::systems::AnimationSystem>();
+  systems.add<stella::systems::AnimationSystem>();
   //systems.add<stella::systems::GuiRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
   systems.configure();
 
@@ -61,7 +62,7 @@ void Game::update_systems(const double &dt)
   //systems.update<stella::systems::PlayerMovementSystem>(dt);
   //systems.update<stella::systems::TransformSystem>(dt);
   //systems.update<stella::systems::TorchSystem>(dt);
-  //systems.update<stella::systems::AnimationSystem>(dt);
+  systems.update<stella::systems::AnimationSystem>(dt);
   //systems.update<stella::systems::GuiRenderingSystem>(dt);
 
   //if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
@@ -183,25 +184,25 @@ void Game::load_text() {
 }
 
 void Game::load_background() {
-  this->LoadTexture("sky", "assets/sprites/sky_background.png");
-  //this->LoadTexture("moon", "assets/sprites/moon_anim.png");
+  //this->LoadTexture("sky", "assets/sprites/sky_background.png");
+  this->LoadTexture("moon2", "assets/sprites/moon_anim.png");
   //this->LoadTexture("mountain1", "assets/sprites/mountain1-bg.png");
   //this->LoadTexture("mountain2", "assets/sprites/mountain2-bg.png");
   //this->LoadTexture("mountain3", "assets/sprites/mountain3-bg.png");
 
   // Background
-  auto sky = entities.create();
-  sky.assign<stella::components::SpriteComponent>("sky");
-  sky.assign<stella::components::DimensionComponent>(720.f, 405.f);
-  sky.assign<stella::components::PositionComponent>(0.f, 0.f);
+  //auto sky = entities.create();
+  //sky.assign<stella::components::SpriteComponent>("sky");
+  //sky.assign<stella::components::DimensionComponent>(720.f, 405.f);
+  //sky.assign<stella::components::PositionComponent>(0.f, 0.f);
 
-  //auto moon = entities.create();
-  //moon.assign<stella::components::SpriteComponent>("moon", glm::vec2(85, 85));
-  //std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> moon_anims;
-  //moon_anims.emplace_back("moon-anim", std::vector<unsigned int>{3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
-  //moon.assign<stella::components::AnimationsComponent>(moon_anims, glm::vec2(85, 85));
-  //moon.assign<stella::components::DimensionComponent>(85.f, 85.f);
-  //moon.assign<stella::components::PositionComponent>(478.f, 78.f);
+  auto moon = entities.create();
+  moon.assign<stella::components::SpriteComponent>("moon2", glm::vec2(85, 85));
+  std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> moon_anims;
+  moon_anims.emplace_back("moon-anim", std::vector<unsigned int>{3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
+  moon.assign<stella::components::AnimationsComponent>(moon_anims, glm::vec2(85, 85));
+  moon.assign<stella::components::DimensionComponent>(85.f, 85.f);
+  moon.assign<stella::components::PositionComponent>(78.f, 78.f);
 
 	// Background mountains
   //auto mou1 = entities.create();

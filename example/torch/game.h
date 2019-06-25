@@ -8,6 +8,7 @@
 #include <stella/components/game_components.h>
 
 #define SOL_ALL_SAFETIES_ON 1
+#define SOL_CHECK_ARGUMENTS 1
 #include <sol.hpp>
 
 namespace ex = entityx;
@@ -49,24 +50,64 @@ private:
     return std::tuple<unsigned int, unsigned int>(eid.index(), eid.version());
   }
 
-  inline void add_sprite_component(const unsigned int &index, const unsigned int &version, const std::string texture_name)
+  inline void add_sprite_component(const sol::table &obj)
   {
-    //auto entity = entities.get(ex::Entity::Id(index, version));
-    //entity.assign<stella::components::SpriteComponent>(texture_name);
-    entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name);
+    const int &type = obj["type"];
+    const int &index = obj["index"];
+    const int &version = obj["version"];
+    const std::string &texture_name = obj["texture_name"];
+
+    if (type == 0)
+    {
+      entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name);
+    }
+    else if (type == 1)
+    {
+      const float &framew = obj["frame_dimensions"][1];
+      const float &frameh = obj["frame_dimensions"][2];
+      entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name, glm::vec2(framew, frameh));
+    }
   }
 
   inline void add_dimension_component(const unsigned int &index, const unsigned int &version, const unsigned int w, const unsigned int h)
   {
-    //auto entity = entities.get(ex::Entity::Id(index, version));
-    //entity.assign<stella::components::DimensionComponent>(w, h);
     entities.assign<stella::components::DimensionComponent>(ex::Entity::Id(index, version), w, h);
   }
 
   inline void add_position_component(const unsigned int &index, const unsigned int &version, const int x, const int y)
   {
-    //auto entity = entities.get(ex::Entity::Id(index, version));
-    //entity.assign<stella::components::PositionComponent>(x, y);
     entities.assign<stella::components::PositionComponent>(ex::Entity::Id(index, version), x, y);
+  }
+   
+  inline void add_animation_component(const sol::table &obj)
+  {
+    const int &index = obj["index"];
+    const int &version = obj["version"];
+    const float &framew = obj["frame_dimensions"][1];
+    const float &frameh = obj["frame_dimensions"][2];
+
+    std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> animations;
+    sol::table animations_obj = obj["animations"];
+    for (const auto& key_value_pair : animations_obj)
+    {
+      const sol::table &animation = key_value_pair.second;
+      const std::string &name = animation[1];
+      const sol::table &frames_table = animation[2];
+      const int &frames_table_size = frames_table.size();
+      std::vector<unsigned int> frames(frames_table_size);
+      for (int i = 1; i < frames_table_size+1; ++i)
+      {
+        int frame = frames_table[i];
+        frames[i-1] = frame;
+      }
+      const unsigned int &speed = animation[3];
+      assert(speed > 0);
+      assert(frames.size() > 0);
+      animations.emplace_back(name, frames, speed);
+    }
+
+    std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> moon_anims;
+    moon_anims.emplace_back("glow", std::vector<unsigned int>{3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
+    entities.assign<stella::components::AnimationsComponent>(ex::Entity::Id(index, version), animations, glm::vec2(framew, frameh));
   }
 };
