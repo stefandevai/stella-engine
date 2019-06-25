@@ -29,7 +29,7 @@ public:
   std::map<std::string, Animation *> Animations;
   Animation *CurrentAnimation = nullptr;
   unsigned int CurrentFrame = 0, CurrentFrameIndex = 0, Counter = 0;
-  bool Paused = false, Reseted = false;
+  bool Paused = true, Reseted = false;
 };
 } // namespace graphics
 } // namespace stella

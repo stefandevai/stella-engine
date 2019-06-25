@@ -17,10 +17,12 @@ void Animator::Add(const std::string &name,
 }
 
 void Animator::Play(const std::string &name) {
+  if (this->Paused) this->Paused = false;
   auto anim_entry = this->Animations.find(name);
   if (anim_entry != Animations.end()) {
     this->CurrentAnimation = anim_entry->second;
     this->CurrentFrameIndex = 0;
+    this->Reseted = true;
   } 
   //else
     //std::cout << "There's no animation named '" << name << "''" << std::endl;
@@ -36,6 +38,7 @@ unsigned int Animator::Update() {
     return this->CurrentFrame;
   }
   if (Animations.size() > 0) {
+
     if (this->Counter == 10000000)
       this->Counter = 0;
     if (this->Counter % this->CurrentAnimation->frameRate == 0) {
