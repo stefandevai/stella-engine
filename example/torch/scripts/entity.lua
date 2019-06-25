@@ -1,9 +1,7 @@
-local M = {}
-M.__index = M
+local Entity = {}
+Entity.__index = Entity
 
 local function add_sprite(self, args)
-  --print(self.index)
-  -- Checks which type of arguments should go to the c++ method
   local obj = {}
   obj["index"] = self.index
   obj["version"] = self.version
@@ -19,7 +17,6 @@ local function add_sprite(self, args)
 end
 
 local function add_animation(self, args)
-  --print(self.index)
   local obj = {}
   obj["index"] = self.index
   obj["version"] = self.version
@@ -28,7 +25,7 @@ local function add_animation(self, args)
   e_add_animation_component(obj)
 end
 
-function M:add_component (type, args)
+function Entity:add_component (type, args)
   if type == "sprite" then
     add_sprite(self, args)
   elseif type == "position" then
@@ -42,11 +39,11 @@ function M:add_component (type, args)
   end
 end
 
-function M:create_entity()
+function Entity:create_entity()
   local e = {}
-  setmetatable(e, M)
+  setmetatable(e, Entity)
   e.index, e.version = e_create_entity()
   return e
 end
 
-return M
+return Entity
