@@ -10,30 +10,33 @@
 #include <stella/systems/game_systems.h>
 
 Game::Game(stella::graphics::Display &display) : Display(display) {
-  //this->lua.open_libraries(sol::lib::base, sol::lib::package);
-  //this->lua.script_file("scripts/states.lua");
-  this->scriptApi.RunScript("scripts/states.lua");
+  this->scriptApi.vm.set_function("load_texture", &Game::LoadTexture, this);
+  this->scriptApi.vm.set_function("e_create_entity", &Game::create_entity, this);
+  this->scriptApi.vm.set_function("e_add_sprite_component", &Game::add_sprite_component, this);
+  this->scriptApi.vm.set_function("e_add_dimension_component", &Game::add_dimension_component, this);
+  this->scriptApi.vm.set_function("e_add_position_component", &Game::add_position_component, this);
+  this->scriptApi.RunScript("scripts/main.lua");
   this->scriptApi.RunLoad();
 
   // Load game entities
-  this->load_background();
-  this->load_player(100, 200);
-  this->load_particles();
-  this->load_blocks();
-  this->load_text();
+  //this->load_background();
+  //this->load_player(100, 200);
+  //this->load_particles();
+  //this->load_blocks();
+  //this->load_text();
 
   // Add systems
   //systems.add<stella::systems::CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
-  systems.add<stella::systems::ParticleSystem>();
-  systems.add<stella::systems::PhysicsSystem>();
-  systems.add<stella::systems::SimpleMovementSystem>();
+  //systems.add<stella::systems::ParticleSystem>();
+  //systems.add<stella::systems::PhysicsSystem>();
+  //systems.add<stella::systems::SimpleMovementSystem>();
   systems.add<stella::systems::SceneRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
-  systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
-  systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display);
-  systems.add<stella::systems::TransformSystem>();
+  //systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
+  //systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display);
+  //systems.add<stella::systems::TransformSystem>();
   //systems.add<stella::systems::TorchSystem>(player, entities);
-  systems.add<stella::systems::AnimationSystem>();
-  systems.add<stella::systems::GuiRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
+  //systems.add<stella::systems::AnimationSystem>();
+  //systems.add<stella::systems::GuiRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
   systems.configure();
 
   std::function<void(double)> update_function = [=](double dt) {
@@ -50,53 +53,54 @@ Game::~Game() {
 void Game::update_systems(const double &dt)
 {
   //systems.update<stella::systems::CollisionSystem>(dt);
-  systems.update<stella::systems::ParticleSystem>(dt);
-  systems.update<stella::systems::PhysicsSystem>(dt);
-  systems.update<stella::systems::SimpleMovementSystem>(dt);
+  //systems.update<stella::systems::ParticleSystem>(dt);
+  //systems.update<stella::systems::PhysicsSystem>(dt);
+  //systems.update<stella::systems::SimpleMovementSystem>(dt);
   systems.update<stella::systems::SceneRenderingSystem>(dt);
-  systems.update<stella::systems::TileviewSystem>(dt);
-  systems.update<stella::systems::PlayerMovementSystem>(dt);
-  systems.update<stella::systems::TransformSystem>(dt);
+  //systems.update<stella::systems::TileviewSystem>(dt);
+  //systems.update<stella::systems::PlayerMovementSystem>(dt);
+  //systems.update<stella::systems::TransformSystem>(dt);
   //systems.update<stella::systems::TorchSystem>(dt);
-  systems.update<stella::systems::AnimationSystem>(dt);
-  systems.update<stella::systems::GuiRenderingSystem>(dt);
+  //systems.update<stella::systems::AnimationSystem>(dt);
+  //systems.update<stella::systems::GuiRenderingSystem>(dt);
 
-  if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
-    std::stringstream fps_string("");
-    fps_string << std::setprecision(4) << 1/dt << " FPS";
-    auto text = this->FPSText.component<stella::components::TextComponent>();
-    text->Text = fps_string.str();
-  }
+  //if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
+    //std::stringstream fps_string("");
+    //fps_string << std::setprecision(4) << 1/dt << " FPS";
+    //auto text = this->FPSText.component<stella::components::TextComponent>();
+    //text->Text = fps_string.str();
+  //}
 }
 
 
 void Game::Update(ex::TimeDelta dt) { 
   this->scriptApi.RunUpdate(dt);
   this->scriptApi.RunRender(dt);
+  this->update_systems(dt);
 
-  const unsigned int state = scriptApi.GetVariable<const unsigned int>("current_state");
-  switch(state) {
-    case GAME_LOADING:
-      this->scriptApi.RunLoad();
-      //this->lua["load"]();
-      break;
-    case GAME_LOADED:
-      break;
-    case GAME_NOT_LOADED:
-      break;
-    case MAIN_MENU:
-      break;
-    case GAME_LOOP:
-      this->scriptApi.RunFunction("loop");
-      //this->lua["loop"]();
-      break;
-    case GAME_PAUSED:
-      break;
-    case GAME_OVER:
-      break;
-    default:
-      break;
-  }
+  //const unsigned int state = scriptApi.GetVariable<const unsigned int>("current_state");
+  //switch(state) {
+    //case GAME_LOADING:
+      //this->scriptApi.RunLoad();
+      ////this->lua["load"]();
+      //break;
+    //case GAME_LOADED:
+      //break;
+    //case GAME_NOT_LOADED:
+      //break;
+    //case MAIN_MENU:
+      //break;
+    //case GAME_LOOP:
+      //this->scriptApi.RunFunction("loop");
+      ////this->lua["loop"]();
+      //break;
+    //case GAME_PAUSED:
+      //break;
+    //case GAME_OVER:
+      //break;
+    //default:
+      //break;
+  //}
 }
 
 void Game::LoadTexture(std::string tex_name, const char *tex_path) {
@@ -180,67 +184,67 @@ void Game::load_text() {
 
 void Game::load_background() {
   this->LoadTexture("sky", "assets/sprites/sky_background.png");
-  this->LoadTexture("moon", "assets/sprites/moon_anim.png");
-  this->LoadTexture("mountain1", "assets/sprites/mountain1-bg.png");
-  this->LoadTexture("mountain2", "assets/sprites/mountain2-bg.png");
-  this->LoadTexture("mountain3", "assets/sprites/mountain3-bg.png");
+  //this->LoadTexture("moon", "assets/sprites/moon_anim.png");
+  //this->LoadTexture("mountain1", "assets/sprites/mountain1-bg.png");
+  //this->LoadTexture("mountain2", "assets/sprites/mountain2-bg.png");
+  //this->LoadTexture("mountain3", "assets/sprites/mountain3-bg.png");
 
   // Background
   auto sky = entities.create();
   sky.assign<stella::components::SpriteComponent>("sky");
-	sky.assign<stella::components::DimensionComponent>(720.f, 405.f);
-	sky.assign<stella::components::PositionComponent>(0.f, 0.f);
+  sky.assign<stella::components::DimensionComponent>(720.f, 405.f);
+  sky.assign<stella::components::PositionComponent>(0.f, 0.f);
 
-  auto moon = entities.create();
-  moon.assign<stella::components::SpriteComponent>("moon", glm::vec2(85, 85));
-  std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> moon_anims;
-  moon_anims.emplace_back("moon-anim", std::vector<unsigned int>{3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
-  moon.assign<stella::components::AnimationsComponent>(moon_anims, glm::vec2(85, 85));
-  moon.assign<stella::components::DimensionComponent>(85.f, 85.f);
-  moon.assign<stella::components::PositionComponent>(478.f, 78.f);
+  //auto moon = entities.create();
+  //moon.assign<stella::components::SpriteComponent>("moon", glm::vec2(85, 85));
+  //std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> moon_anims;
+  //moon_anims.emplace_back("moon-anim", std::vector<unsigned int>{3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
+  //moon.assign<stella::components::AnimationsComponent>(moon_anims, glm::vec2(85, 85));
+  //moon.assign<stella::components::DimensionComponent>(85.f, 85.f);
+  //moon.assign<stella::components::PositionComponent>(478.f, 78.f);
 
 	// Background mountains
-  auto mou1 = entities.create();
-  mou1.assign<stella::components::SpriteComponent>("mountain1");
-  mou1.assign<stella::components::DimensionComponent>(720.f, 170.f);
-  mou1.assign<stella::components::PositionComponent>(0.f, 230.f);
-  mou1.assign<stella::components::MovementComponent>(glm::vec2(-3.f, 0.f), false, true);
-  mou1.assign<stella::components::TileviewComponent>();
+  //auto mou1 = entities.create();
+  //mou1.assign<stella::components::SpriteComponent>("mountain1");
+  //mou1.assign<stella::components::DimensionComponent>(720.f, 170.f);
+  //mou1.assign<stella::components::PositionComponent>(0.f, 230.f);
+  //mou1.assign<stella::components::MovementComponent>(glm::vec2(-3.f, 0.f), false, true);
+  //mou1.assign<stella::components::TileviewComponent>();
 
-  auto mou1a = entities.create();
-  mou1a.assign<stella::components::SpriteComponent>("mountain1");
-  mou1a.assign<stella::components::DimensionComponent>(720.f, 170.f);
-  mou1a.assign<stella::components::PositionComponent>(720.f, 230.f);
-  mou1a.assign<stella::components::MovementComponent>(glm::vec2(-3.f, 0.f), false, true);
-  mou1a.assign<stella::components::TileviewComponent>();
+  //auto mou1a = entities.create();
+  //mou1a.assign<stella::components::SpriteComponent>("mountain1");
+  //mou1a.assign<stella::components::DimensionComponent>(720.f, 170.f);
+  //mou1a.assign<stella::components::PositionComponent>(720.f, 230.f);
+  //mou1a.assign<stella::components::MovementComponent>(glm::vec2(-3.f, 0.f), false, true);
+  //mou1a.assign<stella::components::TileviewComponent>();
 
-  auto mou2 = entities.create();
-  mou2.assign<stella::components::SpriteComponent>("mountain2");
-  mou2.assign<stella::components::DimensionComponent>(720.f, 190.f);
-  mou2.assign<stella::components::PositionComponent>(0.f, 215.f);
-  mou2.assign<stella::components::MovementComponent>(glm::vec2(-9.f, 0.f), false, true);
-  mou2.assign<stella::components::TileviewComponent>();
+  //auto mou2 = entities.create();
+  //mou2.assign<stella::components::SpriteComponent>("mountain2");
+  //mou2.assign<stella::components::DimensionComponent>(720.f, 190.f);
+  //mou2.assign<stella::components::PositionComponent>(0.f, 215.f);
+  //mou2.assign<stella::components::MovementComponent>(glm::vec2(-9.f, 0.f), false, true);
+  //mou2.assign<stella::components::TileviewComponent>();
 
-  auto mou2a = entities.create();
-  mou2a.assign<stella::components::SpriteComponent>("mountain2");
-  mou2a.assign<stella::components::DimensionComponent>(720.f, 190.f);
-  mou2a.assign<stella::components::PositionComponent>(720.f, 215.f);
-  mou2a.assign<stella::components::MovementComponent>(glm::vec2(-9.f, 0.f), false, true);
-  mou2a.assign<stella::components::TileviewComponent>();
+  //auto mou2a = entities.create();
+  //mou2a.assign<stella::components::SpriteComponent>("mountain2");
+  //mou2a.assign<stella::components::DimensionComponent>(720.f, 190.f);
+  //mou2a.assign<stella::components::PositionComponent>(720.f, 215.f);
+  //mou2a.assign<stella::components::MovementComponent>(glm::vec2(-9.f, 0.f), false, true);
+  //mou2a.assign<stella::components::TileviewComponent>();
 
-  auto mou3 = entities.create();
-  mou3.assign<stella::components::SpriteComponent>("mountain3");
-  mou3.assign<stella::components::DimensionComponent>(720.f, 230.f);
-  mou3.assign<stella::components::PositionComponent>(0.f, 175.f);
-  mou3.assign<stella::components::MovementComponent>(glm::vec2(-15.f, 0.f), false, true);
-  mou3.assign<stella::components::TileviewComponent>();
+  //auto mou3 = entities.create();
+  //mou3.assign<stella::components::SpriteComponent>("mountain3");
+  //mou3.assign<stella::components::DimensionComponent>(720.f, 230.f);
+  //mou3.assign<stella::components::PositionComponent>(0.f, 175.f);
+  //mou3.assign<stella::components::MovementComponent>(glm::vec2(-15.f, 0.f), false, true);
+  //mou3.assign<stella::components::TileviewComponent>();
 
-  auto mou3a = entities.create();
-  mou3a.assign<stella::components::SpriteComponent>("mountain3");
-  mou3a.assign<stella::components::DimensionComponent>(720.f, 230.f);
-  mou3a.assign<stella::components::PositionComponent>(720.f, 175.f);
-  mou3a.assign<stella::components::MovementComponent>(glm::vec2(-15.f, 0.f), false, true);
-  mou3a.assign<stella::components::TileviewComponent>();
+  //auto mou3a = entities.create();
+  //mou3a.assign<stella::components::SpriteComponent>("mountain3");
+  //mou3a.assign<stella::components::DimensionComponent>(720.f, 230.f);
+  //mou3a.assign<stella::components::PositionComponent>(720.f, 175.f);
+  //mou3a.assign<stella::components::MovementComponent>(glm::vec2(-15.f, 0.f), false, true);
+  //mou3a.assign<stella::components::TileviewComponent>();
 }
 
 void Game::load_particles() {

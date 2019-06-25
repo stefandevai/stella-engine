@@ -78,6 +78,7 @@ void SceneRenderingSystem::update(ex::EntityManager &es,
 
 		//spr.Sprite->Dimensions.x = dim.w;
 		//spr.Sprite->Dimensions.y = dim.h;
+		// TODO: Dont't update static sprite position
 		spr.Sprite->Pos.x = (int)pos.x;
 		spr.Sprite->Pos.y = (int)pos.y;
   });

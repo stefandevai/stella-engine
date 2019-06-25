@@ -12,6 +12,8 @@ namespace stella
 class ScriptApi
 {
   public:
+    sol::state vm;
+
     explicit ScriptApi();
     ~ScriptApi();
 
@@ -39,7 +41,6 @@ class ScriptApi
       return this->vm.get<T>(name);
     }
   private:
-    sol::state vm;
     const std::string load_function_name = "load_game";
     const std::string update_function_name = "update_game";
     const std::string render_function_name = "render_game";

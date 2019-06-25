@@ -5,6 +5,7 @@
 
 #include <entityx/entityx.h>
 #include <stella/stella.h>
+#include <stella/components/game_components.h>
 
 #define SOL_ALL_SAFETIES_ON 1
 #include <sol.hpp>
@@ -40,4 +41,32 @@ private:
 	void load_text();
 
   void update_systems(const double &dt);
+
+  inline const std::tuple<unsigned int, unsigned int> create_entity()
+  {
+    auto entity = entities.create();
+    auto eid = entity.id();
+    return std::tuple<unsigned int, unsigned int>(eid.index(), eid.version());
+  }
+
+  inline void add_sprite_component(const unsigned int &index, const unsigned int &version, const std::string texture_name)
+  {
+    //auto entity = entities.get(ex::Entity::Id(index, version));
+    //entity.assign<stella::components::SpriteComponent>(texture_name);
+    entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name);
+  }
+
+  inline void add_dimension_component(const unsigned int &index, const unsigned int &version, const unsigned int w, const unsigned int h)
+  {
+    //auto entity = entities.get(ex::Entity::Id(index, version));
+    //entity.assign<stella::components::DimensionComponent>(w, h);
+    entities.assign<stella::components::DimensionComponent>(ex::Entity::Id(index, version), w, h);
+  }
+
+  inline void add_position_component(const unsigned int &index, const unsigned int &version, const int x, const int y)
+  {
+    //auto entity = entities.get(ex::Entity::Id(index, version));
+    //entity.assign<stella::components::PositionComponent>(x, y);
+    entities.assign<stella::components::PositionComponent>(ex::Entity::Id(index, version), x, y);
+  }
 };
