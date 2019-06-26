@@ -33,13 +33,10 @@ public:
   void receive(const ex::ComponentRemovedEvent<components::SpriteComponent> &ev);
 
 private:
-	glm::mat4 proj;
   std::unordered_map<std::string, std::shared_ptr<graphics::BasicLayer>> layers;
   std::unordered_map<std::string, int> layer_order;
-  //std::vector<graphics::BasicLayer> layers;
-  graphics::SceneLayer *TileLayer;
-  stella::graphics::Shader *Shader;
   std::unordered_map<std::string, stella::graphics::Texture*> &Textures;
+  const graphics::Display &Display;
 };
 } // namespace systems
 } // namespace stella

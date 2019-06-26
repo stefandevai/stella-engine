@@ -5,23 +5,19 @@
 
 namespace stella {
 namespace graphics {
-Layer::Layer(std::shared_ptr<Renderer> renderer, Shader *shader, glm::mat4 projection)
-    : Ren(renderer), Shad(shader), Projection(projection) {
-  this->Shad->Enable();
-  this->Shad->SetMat4("proj", projection);
-  this->Shad->Disable();
+Layer::Layer(std::shared_ptr<Renderer> renderer)
+    : Ren(renderer) {
 }
 
 Layer::~Layer() {
   this->Shad->Disable();
-  for (auto i : this->Sprites)
-    delete i;
-  //delete Ren;
+  //for (auto i : this->Sprites)
+    //delete i;
 }
 
-void Layer::Add(Sprite *sprite) { this->Sprites.push_back(sprite); }
+void Layer::Add(std::shared_ptr<Sprite> sprite) { this->Sprites.push_back(sprite); }
 
-void Layer::Remove(Sprite *sprite) {
+void Layer::Remove(std::shared_ptr<Sprite> sprite) {
   auto it = std::find(this->Sprites.begin(), this->Sprites.end(), sprite);
   this->Sprites.erase(it);
 }

@@ -13,17 +13,16 @@ namespace graphics {
 class Layer {
 public:
   virtual ~Layer();
-  virtual void Add(Sprite *sprite);
-  virtual void Remove(Sprite *sprite);
+  virtual void Add(std::shared_ptr<Sprite> sprite);
+  virtual void Remove(std::shared_ptr<Sprite> sprite);
   virtual void Render();
 
 protected:
   std::shared_ptr<Renderer> Ren;
-  Shader *Shad;
-  glm::mat4 Projection;
-  std::vector<Sprite *> Sprites;
+  std::shared_ptr<Shader> Shad;
+  std::vector<std::shared_ptr<Sprite>> Sprites;
 
-  Layer(std::shared_ptr<Renderer> renderer, Shader *shader, glm::mat4 projection);
+  Layer(std::shared_ptr<Renderer> renderer);
 };
 } // namespace graphics
 } // namespace stella

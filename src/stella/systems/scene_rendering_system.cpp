@@ -49,10 +49,10 @@ void SceneRenderingSystem::update(ex::EntityManager &es,
           auto tex = texdata->second;
           // If no frame dimensions were provided
           if (spr.FrameDimensions.x == 0) {
-            spr.Sprite = new stella::graphics::Sprite(pos.x, pos.y,*tex);
+            spr.Sprite = std::shared_ptr<graphics::Sprite>(new graphics::Sprite(pos.x, pos.y,*tex));
           }
           else {
-					  spr.Sprite = new stella::graphics::Sprite(pos.x, pos.y, spr.FrameDimensions.x, spr.FrameDimensions.y, *tex, spr.Frame);
+					  spr.Sprite = std::shared_ptr<graphics::Sprite>(new graphics::Sprite(pos.x, pos.y, spr.FrameDimensions.x, spr.FrameDimensions.y, *tex, spr.Frame));
           }
 
           // If the texture has a diferent resolution than the actual size we want

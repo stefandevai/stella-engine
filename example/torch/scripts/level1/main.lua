@@ -114,7 +114,7 @@ end
 local function load_particles()
   local snow_emitter = Entity:create_entity()
   snow_emitter:add_component("particle_emitter", {"snow", 10})
-  snow_emitter:add_component("position", {0, -64}) 
+  snow_emitter:add_component("position", {0, -64, 3}) 
   snow_emitter:add_component("dimension", {32, 32})
 
   --local fire_emitter = Entity:create_entity()

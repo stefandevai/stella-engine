@@ -7,7 +7,7 @@ namespace stella {
 namespace graphics {
 class BasicLayer : public Layer {
 public:
-  BasicLayer(stella::graphics::Shader *shader, const glm::mat4 &projection);
+  BasicLayer(float width, float height);
   ~BasicLayer();
 };
 } // namespace graphics

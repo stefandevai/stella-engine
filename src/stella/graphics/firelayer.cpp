@@ -34,7 +34,7 @@ void drawQuad(GLuint &VAO, GLuint &VBO) {
 namespace stella {
 namespace graphics {
 FireLayer::FireLayer(stella::graphics::Shader *shader, const glm::mat4 &projection, stella::graphics::Display& display)
-	: Layer(std::shared_ptr<Renderer>(new Renderer()), shader, projection), Display(display) {
+	: Layer(std::shared_ptr<Renderer>(new Renderer())), Display(display) {
 
 	this->QuadVAO = 0;
 	this->QuadVBO = 0;
@@ -54,7 +54,7 @@ FireLayer::FireLayer(stella::graphics::Shader *shader, const glm::mat4 &projecti
 	this->BlurFBO[1] = new Framebuffer(display);
 }
 
-FireLayer::FireLayer(const FireLayer &copied_layer) : Layer(copied_layer.Ren, copied_layer.Shad, copied_layer.Projection), Display(copied_layer.Display) {
+FireLayer::FireLayer(const FireLayer &copied_layer) : Layer(copied_layer.Ren), Display(copied_layer.Display) {
   QuadVAO = copied_layer.QuadVAO;
   QuadVBO = copied_layer.QuadVBO;
 

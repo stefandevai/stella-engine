@@ -9,24 +9,12 @@
 
 namespace stella {
 namespace systems {
-RenderingSystem::RenderingSystem(std::unordered_map<std::string, stella::graphics::Texture*> &textures, stella::graphics::Display &display) : Textures(textures) {
-
-	// Initialize shader and textures IDs
-  GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-  this->Shader = new stella::graphics::Shader("assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag");
-  this->Shader->Enable();
-  this->Shader->SetIntv("textures", tex_ids, 21);
-  this->Shader->Disable();
-
-	// Initialize Layer
-  this->proj = glm::ortho(0.0f, (float)display.GetWidth(), (float)display.GetHeight(), 0.0f, -20.0f, 10.0f);
-  this->TileLayer = new graphics::SceneLayer(this->Shader, proj);
-
+RenderingSystem::RenderingSystem(std::unordered_map<std::string, stella::graphics::Texture*> &textures, stella::graphics::Display &display) : Textures(textures), Display(display) {
   // Seed pseudo random number generator
 	std::srand (static_cast <unsigned> (std::time(0)));
 }
 
-RenderingSystem::~RenderingSystem() { delete this->TileLayer; delete this->Shader; }
+RenderingSystem::~RenderingSystem() { }
 
 void RenderingSystem::update(ex::EntityManager &es,
                           ex::EventManager &events,
@@ -34,7 +22,7 @@ void RenderingSystem::update(ex::EntityManager &es,
   es.each<components::LayerComponent>([this](ex::Entity entity,
                                                      components::LayerComponent &layer) {
       if (!layer.Initialized) {
-        layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->Shader, this->proj));
+        layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->Display.GetWidth(), this->Display.GetHeight()));
         layer_order[layer.Id] = layer.Order;
         layer.Initialized = true;
       }
@@ -60,10 +48,10 @@ void RenderingSystem::update(ex::EntityManager &es,
           auto tex = texdata->second;
           // If no frame dimensions were provided
           if (spr.FrameDimensions.x == 0) {
-            spr.Sprite = new stella::graphics::Sprite(glm::vec3(pos.x, pos.y, pos.z), *tex, spr.Frame);
+            spr.Sprite = std::shared_ptr<graphics::Sprite>(new graphics::Sprite(glm::vec3(pos.x, pos.y, pos.z), *tex, spr.Frame));
           }
           else {
-            spr.Sprite = new stella::graphics::Sprite(glm::vec3(pos.x, pos.y, pos.z), glm::vec2(spr.FrameDimensions.x, spr.FrameDimensions.y), *tex, spr.Frame);
+            spr.Sprite = std::shared_ptr<graphics::Sprite>(new graphics::Sprite(glm::vec3(pos.x, pos.y, pos.z), glm::vec2(spr.FrameDimensions.x, spr.FrameDimensions.y), *tex, spr.Frame));
           }
 
           // If the texture has a diferent resolution than the actual size we want
@@ -78,7 +66,6 @@ void RenderingSystem::update(ex::EntityManager &es,
           spr.Initialized = true;
         }
         layers[spr.LayerId]->Add(spr.Sprite);
-        //this->TileLayer->Add(spr.Sprite);
       }
       spr.InLayer = true;
     }
@@ -90,7 +77,6 @@ void RenderingSystem::update(ex::EntityManager &es,
     spr.Sprite->Pos.y = (int)pos.y;
   });
 	
-	//this->TileLayer->Render();
   for (auto const& order : layer_order) {
     layers[order.first]->Render();
   }
@@ -108,7 +94,7 @@ void RenderingSystem::receive(
   auto spr = ent.component<components::SpriteComponent>();
 
 	if (spr->InLayer) {
-    this->TileLayer->Remove(spr->Sprite);
+    layers[spr->LayerId]->Remove(spr->Sprite);
     spr->InLayer = false;
   }
 }

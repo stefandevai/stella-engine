@@ -70,7 +70,7 @@ void Game::update_systems(const double &dt)
   systems.update<stella::systems::TransformSystem>(dt);
   //systems.update<stella::systems::TorchSystem>(dt);
   systems.update<stella::systems::AnimationSystem>(dt);
-  systems.update<stella::systems::GuiRenderingSystem>(dt);
+  //systems.update<stella::systems::GuiRenderingSystem>(dt);
 
   //if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
     //std::stringstream fps_string("");
