@@ -22,7 +22,18 @@ void RenderingSystem::update(ex::EntityManager &es,
   es.each<components::LayerComponent>([this](ex::Entity entity,
                                                      components::LayerComponent &layer) {
       if (!layer.Initialized) {
-        layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->Display.GetWidth(), this->Display.GetHeight()));
+        if (layer.ShaderId == "bloom")
+        {
+          layers[layer.Id] = std::shared_ptr<graphics::FireLayer>(new graphics::FireLayer(this->Display));
+        }
+        else if (layer.ShaderId == "ui")
+        {
+          layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->Display.GetWidth(), this->Display.GetHeight()));
+        }
+        else
+        {
+          layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->Display.GetWidth(), this->Display.GetHeight()));
+        }
         layer_order[layer.Id] = layer.Order;
         layer.Initialized = true;
       }
@@ -77,9 +88,11 @@ void RenderingSystem::update(ex::EntityManager &es,
     spr.Sprite->Pos.y = (int)pos.y;
   });
 	
-  for (auto const& order : layer_order) {
-    layers[order.first]->Render();
-  }
+  //for (auto const& order : layer_order) {
+    //layers[order.first]->Render();
+  //}
+  layers["basic"]->Render();
+  layers["particles"]->Render();
 
 };
 

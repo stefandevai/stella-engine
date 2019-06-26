@@ -21,7 +21,7 @@ SceneRenderingSystem::SceneRenderingSystem(int width, int height, std::unordered
   this->TileLayer = new graphics::SceneLayer(this->Shader, proj);
 
   // Initialize fire layer
-	this->ParticleLayer = new graphics::FireLayer(this->Shader, proj, display);
+	this->ParticleLayer = new graphics::FireLayer(display);
 
   // Seed pseudo random number generator
 	std::srand (static_cast <unsigned> (std::time(0)));

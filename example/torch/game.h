@@ -57,17 +57,18 @@ private:
     const int &type = obj["type"];
     const int &index = obj["index"];
     const int &version = obj["version"];
+    const std::string layer_id = obj["layer_id"];
     const std::string &texture_name = obj["texture_name"];
 
     if (type == 0)
     {
-      entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name);
+      entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name, layer_id);
     }
     else if (type == 1)
     {
       const float &framew = obj["frame_dimensions"][1];
       const float &frameh = obj["frame_dimensions"][2];
-      entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name, glm::vec2(framew, frameh));
+      entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name, glm::vec2(framew, frameh), layer_id);
     }
   }
 

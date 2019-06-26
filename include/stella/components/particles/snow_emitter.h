@@ -45,10 +45,10 @@ namespace graphics {
         float rotation = this->GetRandomValue<float>(this->Data.RotationRange);
         double scale = this->GetRandomValue<float>(this->Data.ScaleXRange, true);
 
-        particle.assign<components::PositionComponent>(px, pos->y);
+        particle.assign<components::PositionComponent>(px, pos->y, pos->z);
         particle.assign<components::DimensionComponent>(dim->w, dim->h);
         particle.assign<components::ParticleComponent>(max_life, 16.f, speedx, speedy, 1);
-        particle.assign<components::SpriteComponent>(this->TextureName);
+        particle.assign<components::SpriteComponent>(this->TextureName, "particles");
         particle.assign<components::TransformComponent>(rotation, glm::vec2(scale, scale));
         //particle.assign<components::MovementComponent>(glm::vec2(0.f, 100.f*speedy), false, true);
         //particle.assign<components::Body2DComponent>();

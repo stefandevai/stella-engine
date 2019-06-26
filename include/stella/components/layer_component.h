@@ -3,7 +3,7 @@
 namespace stella {
 namespace components {
 struct LayerComponent {
-  LayerComponent(std::string id, unsigned order, std::string shader_id = "basic_shader") : Id(id), Order(order), ShaderId(shader_id) {}
+  LayerComponent(std::string id, unsigned order, std::string shader_id = "basic") : Id(id), Order(order), ShaderId(shader_id) {}
   std::string Id;
   unsigned Order;
   std::string ShaderId;

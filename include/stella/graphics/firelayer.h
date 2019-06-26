@@ -8,18 +8,20 @@ namespace stella {
 namespace graphics {
 class FireLayer : public stella::graphics::Layer {
 public:
-  FireLayer(stella::graphics::Shader *shader, const glm::mat4 &projection, stella::graphics::Display& display);
+  FireLayer(graphics::Display &display);
   FireLayer(const FireLayer &copied_layer);
   FireLayer& operator=(const FireLayer &layer);
   ~FireLayer();
 
+  void Render() override;
+  void RenderScene();
   void RenderWithFBOs();
 
 protected:
 	GLuint QuadVAO, QuadVBO;
 	Framebuffer *NormalFBO, *ContrastFBO, *BlurFBO[2];
 	stella::graphics::Shader *ShNormal, *ShBlur, *ShContrast, *ShBloom;
-	stella::graphics::Display& Display;
+	graphics::Display& Display;
 };
 } // namespace graphics
 } // namespace stella

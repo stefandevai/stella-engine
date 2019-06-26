@@ -3,6 +3,9 @@
 #include <memory>
 #include <glad/glad.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace {
 void drawQuad(GLuint &VAO, GLuint &VBO) {
 	if (VAO == 0) {
@@ -33,11 +36,20 @@ void drawQuad(GLuint &VAO, GLuint &VBO) {
 
 namespace stella {
 namespace graphics {
-FireLayer::FireLayer(stella::graphics::Shader *shader, const glm::mat4 &projection, stella::graphics::Display& display)
+FireLayer::FireLayer(graphics::Display &display)
 	: Layer(std::shared_ptr<Renderer>(new Renderer())), Display(display) {
 
 	this->QuadVAO = 0;
 	this->QuadVBO = 0;
+
+  // Initialize shader and textures IDs
+  this->Shad = std::shared_ptr<Shader>(new Shader("assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag"));
+  GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+  this->Shad->Enable();
+  const auto projection = glm::ortho(0.0f, (float)display.GetWidth(), (float)display.GetHeight(), 0.0f, -20.0f, 10.0f);
+  this->Shad->SetMat4("proj", projection);
+  this->Shad->SetIntv("textures", tex_ids, 21);
+  this->Shad->Disable();
 
 	this->ShNormal = new stella::graphics::Shader("assets/shaders/no_effect.vert", "assets/shaders/no_effect.frag");
 	this->ShContrast = new stella::graphics::Shader("assets/shaders/no_effect.vert", "assets/shaders/contrast.frag");
@@ -107,17 +119,46 @@ FireLayer::~FireLayer() {
 	delete this->BlurFBO[1];
 }
 
-void FireLayer::RenderWithFBOs() {
-		this->NormalFBO->Bind();
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-		this->Render();
-    this->ContrastFBO->Bind();
-		this->ShNormal->Enable();
-		this->NormalFBO->ActivateTexture(GL_TEXTURE0);
-		drawQuad(this->QuadVAO, this->QuadVBO);
+void FireLayer::Render() {
+  this->RenderWithFBOs();
+}
 
-		this->BlurFBO[0]->Bind();
+void FireLayer::RenderScene() {
+  this->Shad->Enable();
+  this->Ren->Begin();
+
+  //glm::mat4 trans;
+  //trans = glm::translate(trans, glm::vec3(360.0f, 202.0f, 0.0f));
+  //trans = glm::scale(trans, glm::vec3(0.9f, 0.9f, 1.0f));
+  //trans = glm::rotate(trans, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+  //trans = glm::translate(trans, glm::vec3(-360.0f, -202.0f, 0.0f));
+  //this->Ren->PushTransformation(trans);
+
+  for (auto i : Sprites)
+    this->Ren->Submit(*i);
+  
+  //this->Ren->PopTransformation();
+
+  this->Ren->End();
+  this->Ren->Draw();
+	this->Shad->Disable();
+}
+
+void FireLayer::RenderWithFBOs() {
+    //glDisable(GL_DEPTH_TEST);
+    this->NormalFBO->Bind();
+    glEnable(GL_DEPTH_TEST);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //glClear(GL_COLOR_BUFFER_BIT);
+		this->RenderScene();
+    glDisable(GL_DEPTH_TEST);
+    this->ContrastFBO->Bind();
+    this->ShNormal->Enable();
+    this->NormalFBO->ActivateTexture(GL_TEXTURE0);
+    drawQuad(this->QuadVAO, this->QuadVBO);
+
+    this->BlurFBO[0]->Bind();
     this->ShContrast->Enable();
     this->ContrastFBO->ActivateTexture(GL_TEXTURE0);
     drawQuad(this->QuadVAO, this->QuadVBO);
@@ -137,7 +178,7 @@ void FireLayer::RenderWithFBOs() {
     this->ShBloom->Enable();
     this->NormalFBO->ActivateTexture(GL_TEXTURE0);
     this->BlurFBO[!horizontal]->ActivateTexture(GL_TEXTURE1);
-		drawQuad(this->QuadVAO, this->QuadVBO);
+    drawQuad(this->QuadVAO, this->QuadVBO);
     //glViewport(0.0f, 0.0f, this->Display.GetWidth(), this->Display.GetHeight());
 }
 } // namespace graphics

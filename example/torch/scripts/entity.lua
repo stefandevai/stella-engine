@@ -6,12 +6,14 @@ local function add_sprite(self, args)
   obj["index"] = self.index
   obj["version"] = self.version
   obj["texture_name"] = args[1]
-  if args[2] == nil then
+  obj["layer_id"] = args[2]
+  --obj["layer_id"] = "particles"
+  if args[3] == nil then
     obj["type"] = 0
     e_add_sprite_component(obj)
   else
     obj["type"] = 1
-    obj["frame_dimensions"] = args[2]
+    obj["frame_dimensions"] = args[3]
     e_add_sprite_component(obj)
   end
 end

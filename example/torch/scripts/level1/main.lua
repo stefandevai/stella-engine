@@ -26,11 +26,11 @@ local function load_assets()
 end
 
 local function load_background()
-  sky:add_component("sprite", {"sky"})
+  sky:add_component("sprite", {"sky", "basic"})
   sky:add_component("position", {0, 0, -10})
   sky:add_component("dimension", {720, 405})
 
-  moon:add_component("sprite", {"moon", {85, 85, -9}})
+  moon:add_component("sprite", {"moon", "basic", {85, 85, -9}})
   moon:add_component("position", {478, 78}) 
   moon:add_component("dimension", {85, 85}) 
 
@@ -65,7 +65,7 @@ local function load_background()
       speed = {-15,0}
     end
     mountains[i] = Entity:create_entity()
-    mountains[i]:add_component("sprite", {tex_name})
+    mountains[i]:add_component("sprite", {tex_name, "basic"})
     mountains[i]:add_component("position", {0 + ((i+1)%2)*720, y, z}) 
     mountains[i]:add_component("dimension", {720, height})
     mountains[i]:add_component("tileview")
@@ -79,7 +79,7 @@ local function load_blocks()
 
   for i=0,22 do
     blocks[i] = Entity:create_entity()
-    blocks[i]:add_component("sprite", {"tiles", {32,32}})
+    blocks[i]:add_component("sprite", {"tiles", "basic", {32,32}})
     blocks[i]:add_component("position", {32*i, 405-32, 1}) 
     blocks[i]:add_component("dimension", {32, 32})
     blocks[i]:add_component("body")
@@ -87,7 +87,7 @@ local function load_blocks()
 
   for i=1,2 do
     over_blocks[i] = Entity:create_entity()
-    over_blocks[i]:add_component("sprite", {"over-block"})
+    over_blocks[i]:add_component("sprite", {"over-block", "basic"})
     over_blocks[i]:add_component("position", {0 + ((i+1)%2)*720, 405-44, 1}) 
     over_blocks[i]:add_component("dimension", {720, 12})
     over_blocks[i]:add_component("tileview")
@@ -98,7 +98,7 @@ end
 local function load_player(x, y)
   local player = Entity:create_entity()
   player:add_component("player")
-  player:add_component("sprite", {"guanaco", {80,60,0}})
+  player:add_component("sprite", {"guanaco", "basic", {80,60,0}})
   player:add_component("position", {x, y, 0}) 
   player:add_component("dimension", {80, 60})
   player:add_component("movement", {650, 400})
@@ -117,10 +117,10 @@ local function load_particles()
   snow_emitter:add_component("position", {0, -64, 3}) 
   snow_emitter:add_component("dimension", {32, 32})
 
-  --local fire_emitter = Entity:create_entity()
-  --fire_emitter:add_component("particle_emitter", {"fire", 10})
-  --fire_emitter:add_component("position", {350, 290}) 
-  --fire_emitter:add_component("dimension", {16, 16})
+  local fire_emitter = Entity:create_entity()
+  fire_emitter:add_component("particle_emitter", {"fire", 10})
+  fire_emitter:add_component("position", {350, 290}) 
+  fire_emitter:add_component("dimension", {16, 16})
 end
 
 --local function load_text()

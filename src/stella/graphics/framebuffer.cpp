@@ -3,6 +3,8 @@
 
 #include <glad/glad.h>
 
+#include <iostream>
+
 Framebuffer::Framebuffer(stella::graphics::Display &display) : Display(display) {
 	this->init();
 }
@@ -23,7 +25,7 @@ void Framebuffer::Bind() {
   float TexW = this->CurrentTextureResolution.x;
   float TexH = this->CurrentTextureResolution.y;
 
-  // Updates FBO's texture resolusion on window resizing
+  // Updates FBO's texture resolution on window resizing
   if (TexW != this->Display.GetWidth() || TexH != this->Display.GetHeight())
     this->RefreshTextureResolution();
 
@@ -65,8 +67,15 @@ void Framebuffer::init() {
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->FBOtex, 0);
 
-	//if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		//std::cout << "Error: Framebuffer is not complete." << std::endl;
+  unsigned int RBO;
+  glGenRenderbuffers(1, &RBO);
+  glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+  glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, this->CurrentTextureResolution.x, this->CurrentTextureResolution.y);
+  //glBindRenderbuffer(GL_RENDERBUFFER, 0);
+  //glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+    std::cout << "Error: Framebuffer is not complete." << std::endl;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

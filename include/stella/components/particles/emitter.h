@@ -62,10 +62,10 @@ namespace graphics {
         // therefore we check if scaley is -1.f, as it is the default value
         if (scaley == -1.f) scaley = scalex;
 
-        particle.assign<components::PositionComponent>(px, py);
+        particle.assign<components::PositionComponent>(px, py, pos->z);
         particle.assign<components::DimensionComponent>(dim->w, dim->h);
         particle.assign<components::ParticleComponent>(max_life, scalex, speedx, speedy);
-        particle.assign<components::SpriteComponent>(this->TextureName);
+        particle.assign<components::SpriteComponent>(this->TextureName, "particles");
         particle.assign<components::TransformComponent>(rotation, glm::vec2(scalex, scaley));
         //particle.assign<components::MovementComponent>(glm::vec2(speedx, speedy), false);
         //particle.assign<components::Body2DComponent>();
