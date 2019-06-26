@@ -16,11 +16,15 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->scriptApi.vm.set_function("e_add_dimension_component", &Game::add_dimension_component, this);
   this->scriptApi.vm.set_function("e_add_position_component", &Game::add_position_component, this);
   this->scriptApi.vm.set_function("e_add_animation_component", &Game::add_animation_component, this);
+  this->scriptApi.vm.set_function("e_add_tileview_component", &Game::add_tileview_component, this);
+  this->scriptApi.vm.set_function("e_add_movement_component", &Game::add_movement_component, this);
+  this->scriptApi.vm.set_function("e_add_player_component", &Game::add_player_component, this);
+  this->scriptApi.vm.set_function("e_add_body_component", &Game::add_body_component, this);
   this->scriptApi.RunScript("scripts/main.lua");
   this->scriptApi.RunLoad();
 
   // Load game entities
-  this->load_background();
+  //this->load_background();
   //this->load_player(100, 200);
   //this->load_particles();
   //this->load_blocks();
@@ -29,11 +33,11 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   // Add systems
   //systems.add<stella::systems::CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
   //systems.add<stella::systems::ParticleSystem>();
-  //systems.add<stella::systems::PhysicsSystem>();
-  //systems.add<stella::systems::SimpleMovementSystem>();
+  systems.add<stella::systems::PhysicsSystem>();
+  systems.add<stella::systems::SimpleMovementSystem>();
   systems.add<stella::systems::SceneRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
-  //systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
-  //systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display);
+  systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
+  systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   //systems.add<stella::systems::TransformSystem>();
   //systems.add<stella::systems::TorchSystem>(player, entities);
   systems.add<stella::systems::AnimationSystem>();
@@ -55,11 +59,11 @@ void Game::update_systems(const double &dt)
 {
   //systems.update<stella::systems::CollisionSystem>(dt);
   //systems.update<stella::systems::ParticleSystem>(dt);
-  //systems.update<stella::systems::PhysicsSystem>(dt);
-  //systems.update<stella::systems::SimpleMovementSystem>(dt);
+  systems.update<stella::systems::PhysicsSystem>(dt);
+  systems.update<stella::systems::SimpleMovementSystem>(dt);
   systems.update<stella::systems::SceneRenderingSystem>(dt);
-  //systems.update<stella::systems::TileviewSystem>(dt);
-  //systems.update<stella::systems::PlayerMovementSystem>(dt);
+  systems.update<stella::systems::TileviewSystem>(dt);
+  systems.update<stella::systems::PlayerMovementSystem>(dt);
   //systems.update<stella::systems::TransformSystem>(dt);
   //systems.update<stella::systems::TorchSystem>(dt);
   systems.update<stella::systems::AnimationSystem>(dt);

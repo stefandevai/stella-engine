@@ -110,4 +110,46 @@ private:
     moon_anims.emplace_back("glow", std::vector<unsigned int>{3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
     entities.assign<stella::components::AnimationsComponent>(ex::Entity::Id(index, version), animations, glm::vec2(framew, frameh));
   }
+
+  inline void add_tileview_component(const sol::table &obj)
+  {
+    const int &index = obj["index"];
+    const int &version = obj["version"];
+    entities.assign<stella::components::TileviewComponent>(ex::Entity::Id(index, version));
+  }
+
+  inline void add_movement_component(const sol::table &obj)
+  {
+    const int &index = obj["index"];
+    const int &version = obj["version"];
+    const double &speedx = obj["speedx"];
+    const double &speedy = obj["speedy"];
+    entities.assign<stella::components::MovementComponent>(ex::Entity::Id(index, version), glm::vec2(speedx, speedy));
+  }
+
+  inline void add_player_component(const sol::table &obj)
+  {
+    const int &index = obj["index"];
+    const int &version = obj["version"];
+    entities.assign<stella::components::PlayerComponent>(ex::Entity::Id(index, version));
+  }
+
+  inline void add_body_component(const sol::table &obj)
+  {
+    const int &index = obj["index"];
+    const int &version = obj["version"];
+    const double &dragx = obj["dragx"];
+    const double &dragy = obj["dragy"];
+    if (dragx == 0 && dragx == 0)
+    {
+      entities.assign<stella::components::Body2DComponent>(ex::Entity::Id(index, version));
+      //std::cout << "hero\n";
+    }
+    else
+    {
+      //entities.assign<stella::components::Body2DComponent>(ex::Entity::Id(index, version));
+      //std::cout << "here\n";
+      entities.assign<stella::components::Body2DComponent>(ex::Entity::Id(index, version), std::vector<double>((double)dragx, (double)dragy));
+    }
+  }
 };

@@ -14,7 +14,7 @@ void SimpleMovementSystem::update(ex::EntityManager &es, ex::EventManager &event
   es.each<components::MovementComponent, components::PositionComponent>([&dt](ex::Entity entity,
                                                       components::MovementComponent &mov,
                                                       components::PositionComponent &pos) {
-      if (!entity.has_component<components::Body2DComponent>()) {
+      if (!entity.has_component<components::Body2DComponent>() && !entity.has_component<components::PlayerComponent>()) {
         pos.x += mov.TargetVelocity.x*dt;
         pos.y += mov.TargetVelocity.y*dt;
       }

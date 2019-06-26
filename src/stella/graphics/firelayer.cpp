@@ -137,7 +137,7 @@ void FireLayer::RenderWithFBOs() {
     this->NormalFBO->ActivateTexture(GL_TEXTURE0);
     this->BlurFBO[!horizontal]->ActivateTexture(GL_TEXTURE1);
 		drawQuad(this->QuadVAO, this->QuadVBO);
-    glViewport(0.0f, 0.0f, this->Display.GetWidth(), this->Display.GetHeight());
+    //glViewport(0.0f, 0.0f, this->Display.GetWidth(), this->Display.GetHeight());
 }
 } // namespace graphics
 } // namespace stella

@@ -50,8 +50,8 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
     std::cout << "It was not possible to initialize SDL2" << std::endl;
 	
-	//this->Window = SDL_CreateWindow(this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-	this->Window = SDL_CreateWindow(this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+  this->Window = SDL_CreateWindow(this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+	//this->Window = SDL_CreateWindow(this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 	SDL_ShowCursor(SDL_DISABLE);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -157,32 +157,37 @@ void Display::updateInput() {
   while (SDL_PollEvent(&event))
   {
     //this->DGUI.GetInput(event);
-    if (event.type == SDL_QUIT)
-      this->Running = false;
-    if (event.type == SDL_KEYDOWN)
+    switch(event.type)
     {
-      switch (event.key.keysym.sym)
-      {
-      case SDLK_ESCAPE:
+      case SDL_QUIT:
         this->Running = false;
         break;
-      default:
+      case SDL_KEYDOWN:
+        switch (event.key.keysym.sym)
+        {
+        case SDLK_ESCAPE:
+          this->Running = false;
+          break;
+        default:
+          break;
+        }
         break;
-      }
-    }
-    if (event.type == SDL_WINDOWEVENT) {
-      switch (event.window.event) {
-        case SDL_WINDOWEVENT_RESIZED:
-          glViewport(0, 0, event.window.data1, event.window.data2);
-          break;
-        case SDL_WINDOWEVENT_SIZE_CHANGED:
-          glViewport(0, 0, event.window.data1, event.window.data2);
-          break;
-      }
-    }
-    if (event.type == SDL_MOUSEMOTION) {
-      MouseX = event.motion.x;
-      MouseY = event.motion.y;
+      case SDL_WINDOWEVENT:
+        switch (event.window.event) {
+          case SDL_WINDOWEVENT_RESIZED:
+            checkViewportProportions();
+            //glViewport(0, 0, event.window.data1, event.window.data2);
+            break;
+          case SDL_WINDOWEVENT_SIZE_CHANGED:
+            checkViewportProportions();
+            //glViewport(0, 0, event.window.data1, event.window.data2);
+            break;
+        }
+        break;
+      case SDL_MOUSEMOTION:
+        MouseX = event.motion.x;
+        MouseY = event.motion.y;
+        break;
     }
   }
 }
