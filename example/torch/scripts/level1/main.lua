@@ -18,6 +18,11 @@ local function load_assets()
   load_texture("over-block", "assets/sprites/over_block.png")
 
   load_texture("guanaco", "assets/sprites/guanaco-anim.png")
+
+  load_texture("fire-particle", "assets/sprites/fire-particle.png")
+  load_texture("snowflake", "assets/snowflakes/flake2-small.png")
+
+  load_font("font-cursive", "assets/sprites/cursive.png");
 end
 
 local function load_background()
@@ -97,21 +102,42 @@ local function load_player(x, y)
   player:add_component("sprite", {"guanaco", {80,60}})
   player:add_component("position", {x, y}) 
   player:add_component("dimension", {80, 60})
-  player:add_component("movement", {450, 400})
-  player:add_component("body", {500, 500})
+  player:add_component("movement", {650, 400})
+  player:add_component("body", {900, 900})
 
   animation_args = {}
   animation_args["frame_dimensions"] = {80, 60}
   animation_args["animations"] = {}
-  animation_args["animations"][1] = {"run", {0,1,2,3,4}, 10}
+  animation_args["animations"][1] = {"run", {0,1,2,3,4}, 5}
   player:add_component("animation", animation_args) 
 end
+
+local function load_particles()
+  local snow_emitter = Entity:create_entity()
+  snow_emitter:add_component("particle_emitter", {"snow", 10})
+  snow_emitter:add_component("position", {0, -64}) 
+  snow_emitter:add_component("dimension", {32, 32})
+
+  local fire_emitter = Entity:create_entity()
+  fire_emitter:add_component("particle_emitter", {"fire", 10})
+  fire_emitter:add_component("position", {350, 290}) 
+  fire_emitter:add_component("dimension", {16, 16})
+end
+
+--local function load_text()
+  --local title = Entity:create_entity()
+  --title:add_component("position", {30, 30}) 
+  --title:add_component("dimension", {9, 9})
+  --title:add_component("text", {"- TORCH -", "font-cursive", true})
+--end
 
 local function load()
   load_assets()
   load_background()
-  load_blocks()
   load_player(100, 405-64-61)
+  load_blocks()
+  load_particles()
+  --load_text()
 end
 
 local function update(dt)

@@ -62,6 +62,25 @@ local function add_body(self, drag)
   e_add_body_component(obj)
 end
 
+local function add_text(self, args)
+  local obj = {}
+  obj["index"] = self.index
+  obj["version"] = self.version
+  obj["text"] = args[1]
+  obj["font_name"] = args[2]
+  obj["is_static"] = args[3]
+  e_add_text_component(obj)
+end
+
+local function add_particle_emitter(self, args)
+  local obj = {}
+  obj["index"] = self.index
+  obj["version"] = self.version
+  obj["type"] = args[1]
+  obj["quantity"] = args[2]
+  e_add_particle_emitter_component(obj)
+end
+
 function Entity:add_component (type, args)
   if type == "sprite" then
     add_sprite(self, args)
@@ -79,6 +98,10 @@ function Entity:add_component (type, args)
     add_playerc(self)
   elseif type == "body" then
     add_body(self, args)
+  elseif type == "text" then
+    add_text(self, args)
+  elseif type == "particle_emitter" then
+    add_particle_emitter(self, args)
   else
     print("ERROR: There is no component called "..type)
   end

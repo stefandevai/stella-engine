@@ -39,7 +39,7 @@ private:
 	void load_particles();
 	void load_background();
 	void load_foreground();
-	void load_text();
+	void load_game_info();
 
   void update_systems(const double &dt);
 
@@ -143,13 +143,39 @@ private:
     if (dragx == 0 && dragx == 0)
     {
       entities.assign<stella::components::Body2DComponent>(ex::Entity::Id(index, version));
-      //std::cout << "hero\n";
     }
     else
     {
-      //entities.assign<stella::components::Body2DComponent>(ex::Entity::Id(index, version));
-      //std::cout << "here\n";
       entities.assign<stella::components::Body2DComponent>(ex::Entity::Id(index, version), std::vector<double>((double)dragx, (double)dragy));
     }
   }
+
+  inline void add_text_component(const sol::table &obj)
+  {
+    const int &index = obj["index"];
+    const int &version = obj["version"];
+    const std::string &text = obj["text"];
+    const std::string &font_name = obj["font_name"];
+    const bool &is_static = obj["is_static"];
+    entities.assign<stella::components::TextComponent>(ex::Entity::Id(index, version), text, font_name, is_static);
+  }
+
+  inline void add_particle_emitter_component(const sol::table &obj)
+  {
+    const int &index = obj["index"];
+    const int &version = obj["version"];
+    const std::string &type = obj["type"];
+    const unsigned int &quantity = obj["quantity"];
+    stella::components::ParticleEmitter::Type emitter_type;
+    if (type == "fire")
+    {
+      emitter_type = stella::components::ParticleEmitter::Type::FIRE_EMITTER;
+    }
+    else if (type == "snow")
+    {
+      emitter_type = stella::components::ParticleEmitter::Type::SNOW_EMITTER;
+    }
+    entities.assign<stella::components::ParticleEmitter>(ex::Entity::Id(index, version), emitter_type, quantity);
+  }
 };
+
