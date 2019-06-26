@@ -22,6 +22,8 @@ public:
   Sprite(GLint x, GLint y, Texture &texture, GLuint frame = 0);
   Sprite(GLint x, GLint y, GLint w, GLint h, Texture &texture,
          GLuint frame = 0);
+  Sprite(glm::vec3 position, glm::vec2 frame_dimensions, Texture &texture, GLuint frame = 0);
+  Sprite(glm::vec3 position, Texture &texture, GLuint frame = 0);
   Sprite(const Sprite &copied_sprite);
   Sprite& operator=(const Sprite &sprite);
   ~Sprite();

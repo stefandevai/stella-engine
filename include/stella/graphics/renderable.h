@@ -15,15 +15,17 @@ class Texture;
 
 class Renderable {
 public:
-  glm::vec2 Pos, Dimensions, RealDimensions;
+  glm::vec2 Dimensions, RealDimensions;
+  glm::vec3 Pos;
 
+  Renderable(glm::vec3 position, glm::vec2 dimensions, Texture &texture, GLboolean visible = 1);
+  Renderable(glm::vec3 position, Texture &texture);
   Renderable(GLint x, GLint y, GLint w, GLint h, Texture &texture, GLboolean visible = 1);
   Renderable(GLint x, GLint y, Texture &texture);
-  explicit Renderable(Texture &texture);
   virtual ~Renderable();
 
   // Getters
-  inline glm::vec2 GetPos() const { return Pos; }
+  inline glm::vec3 GetPos() const { return Pos; }
   inline glm::vec2 GetDimensions() const { return Dimensions; }
   inline GLfloat GetWidth() const { return Dimensions.x; }
   inline GLfloat GetHeight() const { return Dimensions.y; }

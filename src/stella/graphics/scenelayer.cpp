@@ -1,10 +1,12 @@
 #include "stella/graphics/scenelayer.h"
 
+#include <memory>
+
 namespace stella {
 namespace graphics {
 SceneLayer::SceneLayer(stella::graphics::Shader *shader,
                        const glm::mat4 &projection)
-    : Layer(new stella::graphics::Renderer(), shader, projection) {}
+    : Layer(std::unique_ptr<Renderer>(new Renderer()), shader, projection) {}
 
 SceneLayer::~SceneLayer() {}
 } // namespace graphics

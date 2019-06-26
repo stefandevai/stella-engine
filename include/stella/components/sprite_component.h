@@ -16,6 +16,7 @@ struct SpriteComponent {
   glm::vec2 FrameDimensions = glm::vec2(0.f, 0.f);
   unsigned int Frame = 0;
   bool InLayer = false, Initialized = false, HasScaled = false;
+  std::string LayerId = "background-layer";
 };
 } // namespace components
 } // namespace stella

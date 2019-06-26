@@ -3,9 +3,9 @@
 namespace stella {
 namespace components {
 struct PositionComponent {
-  PositionComponent(float x, float y)
-      : x(x), y(y) {}
-  float x, y;
+  PositionComponent(float x, float y, float z = 0.f)
+      : x(x), y(y), z(z) {}
+  float x, y, z;
 };
 } // namespace components
 } // namespace stella

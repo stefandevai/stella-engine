@@ -28,6 +28,8 @@ private:
   sol::state lua;
   stella::ScriptApi scriptApi;
 
+  ex::Entity layer1, layer2, layer3;
+
 	std::unordered_map<std::string, stella::graphics::Texture*> Textures;
 	std::unordered_map<std::string, stella::graphics::Texture*> Fonts;
 
@@ -74,9 +76,9 @@ private:
     entities.assign<stella::components::DimensionComponent>(ex::Entity::Id(index, version), w, h);
   }
 
-  inline void add_position_component(const unsigned int &index, const unsigned int &version, const int x, const int y)
+  inline void add_position_component(const unsigned int &index, const unsigned int &version, const int x, const int y, const int z)
   {
-    entities.assign<stella::components::PositionComponent>(ex::Entity::Id(index, version), x, y);
+    entities.assign<stella::components::PositionComponent>(ex::Entity::Id(index, version), x, y, z);
   }
    
   inline void add_animation_component(const sol::table &obj)

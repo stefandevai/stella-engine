@@ -1,5 +1,6 @@
 #include "stella/graphics/firelayer.h"
 
+#include <memory>
 #include <glad/glad.h>
 
 namespace {
@@ -33,7 +34,7 @@ void drawQuad(GLuint &VAO, GLuint &VBO) {
 namespace stella {
 namespace graphics {
 FireLayer::FireLayer(stella::graphics::Shader *shader, const glm::mat4 &projection, stella::graphics::Display& display)
-	: Layer(new stella::graphics::Renderer(), shader, projection), Display(display) {
+	: Layer(std::shared_ptr<Renderer>(new Renderer()), shader, projection), Display(display) {
 
 	this->QuadVAO = 0;
 	this->QuadVBO = 0;

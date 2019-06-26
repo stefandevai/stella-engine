@@ -13,4 +13,5 @@
 #include "text_component.h"
 #include "tileview_component.h"
 #include "torch_component.h"
+#include "layer_component.h"
 

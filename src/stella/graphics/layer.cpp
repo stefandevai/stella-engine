@@ -5,7 +5,7 @@
 
 namespace stella {
 namespace graphics {
-Layer::Layer(Renderer *renderer, Shader *shader, glm::mat4 projection)
+Layer::Layer(std::shared_ptr<Renderer> renderer, Shader *shader, glm::mat4 projection)
     : Ren(renderer), Shad(shader), Projection(projection) {
   this->Shad->Enable();
   this->Shad->SetMat4("proj", projection);
@@ -16,7 +16,7 @@ Layer::~Layer() {
   this->Shad->Disable();
   for (auto i : this->Sprites)
     delete i;
-  delete Ren;
+  //delete Ren;
 }
 
 void Layer::Add(Sprite *sprite) { this->Sprites.push_back(sprite); }

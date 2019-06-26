@@ -36,6 +36,30 @@ Sprite::Sprite(GLint x, GLint y, GLint w, GLint h, Texture &texture,
       new SpriteSheet(texture, this->Dimensions.x, this->Dimensions.y);
 }
 
+Sprite::Sprite(glm::vec3 position, Texture &texture, GLuint frame)
+  : Renderable(position, texture)
+{
+  this->Color = 4294967295; // r = 255, g = 255, b = 255, a = 255
+  this->NumberOfFrames = 1;
+  this->Frame = frame;
+
+  this->Sprites =
+      new SpriteSheet(texture, this->Dimensions.x, this->Dimensions.y);
+
+}
+
+Sprite::Sprite(glm::vec3 position, glm::vec2 frame_dimensions, Texture &texture, GLuint frame)
+  : Renderable(position, frame_dimensions, texture)
+{
+  this->Color = 4294967295; // r = 255, g = 255, b = 255, a = 255
+  this->NumberOfFrames = 1;
+  this->Frame = frame;
+
+  this->Sprites =
+      new SpriteSheet(texture, this->Dimensions.x, this->Dimensions.y);
+
+}
+
 Sprite::Sprite(const Sprite &copied_sprite)
     : Renderable(copied_sprite.Pos.x, copied_sprite.Pos.y, copied_sprite.Dimensions.x, copied_sprite.Dimensions.y, copied_sprite.Tex, copied_sprite.Visible), Animations(copied_sprite.Animations), Frames(copied_sprite.Frames) {
   Color = copied_sprite.Color;

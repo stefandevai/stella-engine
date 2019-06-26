@@ -46,7 +46,7 @@ double MouseX, MouseY;
 
 Display::Display(GLuint width, GLuint height, const std::string &title)
     : Width(width), Height(height), Title(title) {
-  // GLFW initialization
+  // SDL initialization
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
     std::cout << "It was not possible to initialize SDL2" << std::endl;
 	
@@ -73,7 +73,8 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
   // OpenGL Viewport settings
   glViewport(0, 0, this->Width, this->Height);
   glEnable(GL_BLEND);
-  glDisable(GL_DEPTH_TEST);
+  //glDisable(GL_DEPTH_TEST);
+  glEnable(GL_DEPTH_TEST);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   // Set default Clear Color
@@ -88,13 +89,13 @@ Display::~Display() {
   SDL_Quit();
 }
 
-GLuint Display::GetWidth() {
+GLuint Display::GetWidth() const {
   int width, height;
   SDL_GetWindowSize(this->Window, &width, &height);
   return width;
 }
 
-GLuint Display::GetHeight() {
+GLuint Display::GetHeight() const {
   int width, height;
   SDL_GetWindowSize(this->Window, &width, &height);
   return height;
@@ -149,7 +150,7 @@ void Display::SetClearColor(GLfloat x, GLfloat y, GLfloat z) {
 
 void Display::Clear() {
   glClearColor(this->ClearColor.x, this->ClearColor.y, this->ClearColor.z, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Display::updateInput() {

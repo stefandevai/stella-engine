@@ -26,8 +26,8 @@ public:
   void Clear();
   void SetClearColor(int r, int g, int b);
   void SetClearColor(GLfloat x, GLfloat y, GLfloat z);
-  GLuint GetWidth();
-  GLuint GetHeight();
+  GLuint GetWidth() const;
+  GLuint GetHeight() const;
   static GLfloat GetTime() { return (GLfloat)SDL_GetTicks(); }
   GLuint GetFrame() const { return Frame; }
   GLfloat GetDT() const { return DT; }

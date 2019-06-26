@@ -9,6 +9,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <iostream>
+
 namespace stella {
 namespace graphics {
 Renderer::Renderer() {
@@ -83,7 +85,7 @@ void Renderer::Begin() {
 }
 
 void Renderer::Submit(const Sprite &sprite) {
-  const glm::vec2 &position = sprite.GetPos();
+  const glm::vec3 &position = sprite.GetPos();
   const glm::vec2 &dimensions = sprite.GetDimensions();
   const float &rotation = sprite.GetRotation();
   const glm::vec2 &scale = sprite.GetScale();
@@ -107,7 +109,7 @@ void Renderer::Submit(const Sprite &sprite) {
 
   auto particular_transform = *this->TransformationBack;
   //particular_transform = glm::translate(particular_transform, glm::vec3(position + dimensions/2.f, 0.f)); // Translating half dimension to set the point of rotation to the center of the sprite
-  particular_transform = glm::translate(particular_transform, glm::vec3(position, 0.f)); // Translating half dimension to set the point of rotation to the center of the sprite
+  particular_transform = glm::translate(particular_transform, position); // Translating half dimension to set the point of rotation to the center of the sprite
   particular_transform = glm::scale(particular_transform, glm::vec3(scale, 1.f));
   particular_transform = glm::translate(particular_transform, glm::vec3(dimensions/2.f, 0.f)); // Translating half dimension to set the point of rotation to the center of the sprite
   particular_transform = glm::rotate(particular_transform, glm::radians(rotation), glm::vec3(0.f, 0.f, 1.f));

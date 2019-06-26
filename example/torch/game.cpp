@@ -29,12 +29,16 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   // Load game entities
   this->load_game_info();
 
+  layer1 = entities.create();
+  layer1.assign<stella::components::LayerComponent>("background-layer", 0);
+  
+
   // Add systems
   //systems.add<stella::systems::CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
   systems.add<stella::systems::ParticleSystem>();
   systems.add<stella::systems::PhysicsSystem>();
   systems.add<stella::systems::SimpleMovementSystem>();
-  systems.add<stella::systems::SceneRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Textures, this->Display);
+  systems.add<stella::systems::RenderingSystem>(this->Textures, this->Display);
   systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
   systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   systems.add<stella::systems::TransformSystem>();
@@ -60,7 +64,7 @@ void Game::update_systems(const double &dt)
   systems.update<stella::systems::ParticleSystem>(dt);
   systems.update<stella::systems::PhysicsSystem>(dt);
   systems.update<stella::systems::SimpleMovementSystem>(dt);
-  systems.update<stella::systems::SceneRenderingSystem>(dt);
+  systems.update<stella::systems::RenderingSystem>(dt);
   systems.update<stella::systems::TileviewSystem>(dt);
   systems.update<stella::systems::PlayerMovementSystem>(dt);
   systems.update<stella::systems::TransformSystem>(dt);
@@ -68,12 +72,12 @@ void Game::update_systems(const double &dt)
   systems.update<stella::systems::AnimationSystem>(dt);
   systems.update<stella::systems::GuiRenderingSystem>(dt);
 
-  if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
-    std::stringstream fps_string("");
-    fps_string << std::setprecision(4) << 1/dt << " FPS";
-    auto text = this->FPSText.component<stella::components::TextComponent>();
-    text->Text = fps_string.str();
-  }
+  //if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
+    //std::stringstream fps_string("");
+    //fps_string << std::setprecision(4) << 1/dt << " FPS";
+    //auto text = this->FPSText.component<stella::components::TextComponent>();
+    //text->Text = fps_string.str();
+  //}
 }
 
 

@@ -18,12 +18,12 @@ public:
   virtual void Render();
 
 protected:
-  Renderer *Ren;
+  std::shared_ptr<Renderer> Ren;
   Shader *Shad;
   glm::mat4 Projection;
   std::vector<Sprite *> Sprites;
 
-  Layer(Renderer *renderer, Shader *shader, glm::mat4 projection);
+  Layer(std::shared_ptr<Renderer> renderer, Shader *shader, glm::mat4 projection);
 };
 } // namespace graphics
 } // namespace stella

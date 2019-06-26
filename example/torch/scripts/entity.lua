@@ -16,6 +16,14 @@ local function add_sprite(self, args)
   end
 end
 
+local function add_position(self, args)
+  local z = 0
+  if args[3] ~= nil then
+    z = args[3]
+  end
+  e_add_position_component(self.index, self.version, args[1], args[2], z)
+end
+
 local function add_animation(self, args)
   local obj = {}
   obj["index"] = self.index
@@ -85,7 +93,7 @@ function Entity:add_component (type, args)
   if type == "sprite" then
     add_sprite(self, args)
   elseif type == "position" then
-    e_add_position_component(self.index, self.version, args[1], args[2])
+    add_position(self, args)
   elseif type == "dimension" then
     e_add_dimension_component(self.index, self.version, args[1], args[2])
   elseif type == "animation" then

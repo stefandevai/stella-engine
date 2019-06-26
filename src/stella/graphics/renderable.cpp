@@ -6,23 +6,17 @@
 
 namespace stella {
 namespace graphics {
-Renderable::Renderable(GLint x, GLint y, GLint w, GLint h, Texture &texture,
-                       GLboolean visible)
-    : Pos(glm::vec2((GLfloat) x, (GLfloat)y)), Dimensions(glm::vec2((GLfloat)w, (GLfloat)h)), Tex(texture) {
+Renderable::Renderable(glm::vec3 position, glm::vec2 dimensions, Texture &texture, GLboolean visible) : Pos(position), Dimensions(dimensions), Tex(texture), Visible(visible) {
   this->RealDimensions = Dimensions;
-  this->Visible = visible;
+}
+Renderable::Renderable(GLint x, GLint y, GLint w, GLint h, Texture &texture, GLboolean visible) : Renderable(glm::vec3(x,y,0.f), glm::vec2(w,h), texture, visible) {}
+
+Renderable::Renderable(GLint x, GLint y, Texture &texture) : Renderable(glm::vec3(x,y,0.f), glm::vec2(), texture) {
+  this->Dimensions = glm::vec2(texture.GetWidth(), texture.GetHeight());
 }
 
-Renderable::Renderable(GLint x, GLint y, Texture &texture) : Pos(glm::vec2((GLfloat) x, (GLfloat)y)), Tex(texture) {
-  this->Dimensions = glm::vec2(this->Tex.GetWidth(), this->Tex.GetHeight());
-  this->RealDimensions = Dimensions;
-  this->Visible = GL_TRUE;
-}
-
-Renderable::Renderable(Texture &texture) : Pos(glm::vec2(0.f, 0.f)), Tex(texture) {
-  this->Dimensions = glm::vec2(this->Tex.GetWidth(), this->Tex.GetHeight());
-  this->RealDimensions = Dimensions;
-  this->Visible = GL_TRUE;
+Renderable::Renderable(glm::vec3 position, Texture &texture) : Renderable(position, glm::vec2(), texture) {
+  this->Dimensions = glm::vec2(texture.GetWidth(), texture.GetHeight());
 }
 
 Renderable::~Renderable() {}
