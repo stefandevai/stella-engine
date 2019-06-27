@@ -34,13 +34,13 @@ void RenderingSystem::update(ex::EntityManager &es,
         {
           layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->Display.GetWidth(), this->Display.GetHeight()));
         }
-        layer_order[layer.Id] = layer.Order;
+        layer_order[layer.Order] = layer.Id;
         layer.Initialized = true;
       }
       // Update layer order if it has changed
-      else if (layer_order[layer.Id] != layer.Order) {
-        layer_order[layer.Id] = layer.Order;
-      }
+      //else if (layer_order[layer.Id] != layer.Order) {
+        //layer_order[layer.Id] = layer.Order;
+      //}
   });
  
   es.each<components::SpriteComponent, components::PositionComponent, components::DimensionComponent>([this](ex::Entity entity,
@@ -88,12 +88,13 @@ void RenderingSystem::update(ex::EntityManager &es,
     spr.Sprite->Pos.y = (int)pos.y;
   });
 	
-  //for (auto const& order : layer_order) {
-    //layers[order.first]->Render();
-  //}
-  layers["basic"]->Render();
-  layers["particles"]->Render();
-
+  for (auto const& order : layer_order) {
+    layers[order.second]->Render();
+    //std::cout << order.first << '\n';
+    //std::cout << order.second << '\n';
+  }
+  //layers["basic"]->Render();
+  //layers["particles"]->Render();
 };
 
 void RenderingSystem::configure(ex::EventManager &event_manager) {

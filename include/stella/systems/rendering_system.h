@@ -34,7 +34,7 @@ public:
 
 private:
   std::unordered_map<std::string, std::shared_ptr<graphics::Layer>> layers;
-  std::unordered_map<std::string, int> layer_order;
+  std::map<int, std::string> layer_order;
   std::unordered_map<std::string, stella::graphics::Texture*> &Textures;
   graphics::Display &Display;
 };

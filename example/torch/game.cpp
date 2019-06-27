@@ -29,12 +29,12 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   // Load game entities
   this->load_game_info();
 
-  layer1 = entities.create();
-  layer1.assign<stella::components::LayerComponent>("basic", 1, "basic");
   //layer2 = entities.create();
   //layer2.assign<stella::components::LayerComponent>("ui", 1, "text");
+  layer1 = entities.create();
+  layer1.assign<stella::components::LayerComponent>("basic", 0, "basic");
   layer3 = entities.create();
-  layer3.assign<stella::components::LayerComponent>("particles", 0, "bloom");
+  layer3.assign<stella::components::LayerComponent>("particles", 1, "bloom");
   
 
   // Add systems
