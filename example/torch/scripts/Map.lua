@@ -35,7 +35,7 @@ function M.load(map_path)
         tile:add_component("tile")
         tile:add_component("sprite", {
           texture = "tiles",
-          layer = "basic",
+          layer = "scene",
           frame_dimensions = {TILE_DIMENSION,TILE_DIMENSION},
         })
         tile:add_component("position", {tile.x, tile.y, 1}) 
@@ -43,7 +43,7 @@ function M.load(map_path)
         tile:add_component("body")
         tiles[#tiles + 1] = tile
       end
-    ---- If the map height is less than screen height
+    -- If the map height is less than screen height
     elseif (map.height < height) then
       break
     end

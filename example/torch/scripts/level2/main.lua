@@ -13,7 +13,7 @@ local function load_background()
   local moon = Entity:create_entity()
   moon:add_component("sprite", {
     texture = "moon",
-    layer = "basic",
+    layer = "scene",
     frame_dimensions = {85, 85, -9},
   })
   moon:add_component("position", {478, 78, 0}) 
@@ -31,7 +31,7 @@ local function load_player(x, y)
   player:add_component("player")
   player:add_component("sprite", {
     texture = "guanaco",
-    layer = "basic",
+    layer = "scene",
     frame_dimensions = {80,60,0},
   })
   player:add_component("position", {x, y, 0}) 
@@ -50,6 +50,11 @@ local function load_player(x, y)
 end
 
 local function load()
+  create_layer({
+    name = "scene",
+    priority = 0,
+    shader = "basic",
+  })
   load_assets()
   load_background()
   load_player(100, 405-64-61)
