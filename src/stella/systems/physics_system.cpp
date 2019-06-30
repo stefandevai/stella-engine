@@ -7,7 +7,7 @@
 namespace stella {
 namespace systems {
 PhysicsSystem::PhysicsSystem() {
-  this->World.SetGravity(900.f);
+  this->World.SetGravity(2200.f);
 }
 
 PhysicsSystem::~PhysicsSystem() {

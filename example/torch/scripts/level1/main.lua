@@ -2,7 +2,7 @@ local M = {}
 
 local MOUNTAIN_LAYERS = 3
 
-local Entity = require('scripts.entity')
+local Entity = require('scripts.Entity')
 local sky = Entity:create_entity()
 local moon = Entity:create_entity()
 local mountains = {}

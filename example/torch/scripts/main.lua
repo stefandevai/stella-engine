@@ -1,15 +1,15 @@
-local level1 = require('scripts.level1.main')
+local level2 = require('scripts.level2.main')
 
 function load_game()
-  level1.load()
+  level2.load()
 end
 
 function update_game(dt)
-  level1.update(dt)
+  level2.update(dt)
 end
 
 function render_game(dt)
-  level1.render(dt)
+  level2.render(dt)
 end
 
 function quit_game()

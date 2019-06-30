@@ -3,6 +3,8 @@
 #include "stella/components/game_components.h"
 #include "stella/systems/player_movement_system.h"
 
+#define MAX_PLAYER_VELOCITY 200.f
+
 namespace stella {
 namespace systems {
 PlayerMovementSystem::PlayerMovementSystem(const int &boundx, stella::graphics::Display &display)
@@ -18,6 +20,9 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
                                           components::Body2DComponent &body,
                                           components::PositionComponent &pos,
                                           components::DimensionComponent &dim) {
+
+        if (body.Body->Velocity.x > MAX_PLAYER_VELOCITY) body.Body->Velocity.x = MAX_PLAYER_VELOCITY;
+        else if (body.Body->Velocity.x < -MAX_PLAYER_VELOCITY) body.Body->Velocity.x = -MAX_PLAYER_VELOCITY;
         // Handle collision events
         // TODO: Use library events
         // Collided bottom

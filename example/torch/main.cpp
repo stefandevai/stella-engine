@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]) {
 
-  stella::graphics::Display display(720, 405, "T O R C H");
+  stella::graphics::Display display(896, 504, "T O R C H");
   display.SetClearColor(0, 0, 0);
 
   Game game(display);
