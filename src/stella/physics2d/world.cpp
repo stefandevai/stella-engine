@@ -206,8 +206,27 @@ void World::UpdateMovement(float dt) const {
         }
         else body->Velocity.y = 0.f;
       }
-
       body->Position.y += body->Velocity.y*dt;
+    }
+    if (body->CollideWithBorders)
+    {
+      if (body->Position.x < 0.f)
+      {
+        body->Position.x = 0.f;
+      }
+      else if (body->Position.x + body->Dimension.x > this->ScreenWidth)
+      {
+        body->Position.x = this->ScreenWidth - body->Dimension.x;
+      }
+
+      if (body->Position.y < 0.f)
+      {
+        body->Position.y = 0.f;
+      }
+      else if (body->Position.y + body->Dimension.y > this->ScreenHeight)
+      {
+        body->Position.y = this->ScreenHeight - body->Dimension.y;
+      }
     }
   }
 }

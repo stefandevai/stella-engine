@@ -6,6 +6,8 @@ map.tiles = {
   name = "snow-blocks",
   path = "assets/sprites/tiles.png"
 }
+map.x = 10
+map.y = 15
 
 map.data = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

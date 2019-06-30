@@ -33,6 +33,11 @@ private:
 	std::unordered_map<std::string, stella::graphics::Texture*> Textures;
 	std::unordered_map<std::string, stella::graphics::Texture*> Fonts;
 
+  typedef void (*AddComponentFunction)(sol::table);
+  std::unordered_map<std::string, AddComponentFunction> function_map;
+
+  void create_function_map();
+
 	void LoadTexture(std::string tex_name, const char *tex_path);
 	void LoadFont(std::string font_name, const char *font_path);
 
@@ -52,40 +57,47 @@ private:
     return std::tuple<unsigned int, unsigned int>(eid.index(), eid.version());
   }
 
-  inline void add_sprite_component(const sol::table &obj)
+  inline void add_sprite_component(const unsigned &index, const unsigned &version, const sol::table &obj)
   {
-    const int &type = obj["type"];
-    const int &index = obj["index"];
-    const int &version = obj["version"];
-    const std::string layer_id = obj["layer_id"];
-    const std::string &texture_name = obj["texture_name"];
+    const std::string layer_id = obj["layer"] == sol::lua_nil ? std::string() : obj["layer"];
+    const std::string &texture_name = obj["texture"] == sol::lua_nil ? std::string() : obj["texture"];
 
-    if (type == 0)
+    if (!layer_id.empty() && !texture_name.empty())
     {
-      entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name, layer_id);
+      if (obj["frame_dimensions"] == sol::lua_nil)
+      {
+        entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name, layer_id);
+      }
+      else
+      {
+        const float &framew = obj["frame_dimensions"][1];
+        const float &frameh = obj["frame_dimensions"][2];
+        entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name, glm::vec2(framew, frameh), layer_id);
+      }
     }
-    else if (type == 1)
+    else
     {
-      const float &framew = obj["frame_dimensions"][1];
-      const float &frameh = obj["frame_dimensions"][2];
-      entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name, glm::vec2(framew, frameh), layer_id);
+      std::cout << "You must provide a layer and a texture.\n";
     }
   }
 
-  inline void add_dimension_component(const unsigned int &index, const unsigned int &version, const unsigned int w, const unsigned int h)
+  inline void add_position_component(const unsigned &index, const unsigned &version, const sol::table &obj)
   {
-    entities.assign<stella::components::DimensionComponent>(ex::Entity::Id(index, version), w, h);
-  }
-
-  inline void add_position_component(const unsigned int &index, const unsigned int &version, const int x, const int y, const int z)
-  {
+    const int &x = obj[1] == sol::lua_nil ? 0 : obj[1];
+    const int &y = obj[2] == sol::lua_nil ? 0 : obj[2];
+    const int &z = obj[3] == sol::lua_nil ? 0 : obj[3];
     entities.assign<stella::components::PositionComponent>(ex::Entity::Id(index, version), x, y, z);
   }
-   
-  inline void add_animation_component(const sol::table &obj)
+
+  inline void add_dimension_component(const unsigned &index, const unsigned &version, const sol::table &obj)
   {
-    const int &index = obj["index"];
-    const int &version = obj["version"];
+    const unsigned w = obj[1] == sol::lua_nil ? 0 : obj[1];
+    const unsigned h = obj[2] == sol::lua_nil ? 0 : obj[2];
+    entities.assign<stella::components::DimensionComponent>(ex::Entity::Id(index, version), w, h);
+  }
+   
+  inline void add_animation_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+  {
     const float &framew = obj["frame_dimensions"][1];
     const float &frameh = obj["frame_dimensions"][2];
 
@@ -114,59 +126,49 @@ private:
     entities.assign<stella::components::AnimationsComponent>(ex::Entity::Id(index, version), animations, glm::vec2(framew, frameh));
   }
 
-  inline void add_tileview_component(const sol::table &obj)
+  inline void add_tileview_component(const unsigned &index, const unsigned &version, const sol::table &obj)
   {
-    const int &index = obj["index"];
-    const int &version = obj["version"];
     entities.assign<stella::components::TileviewComponent>(ex::Entity::Id(index, version));
   }
 
-  inline void add_movement_component(const sol::table &obj)
+  inline void add_movement_component(const unsigned &index, const unsigned &version, const sol::table &obj)
   {
-    const int &index = obj["index"];
-    const int &version = obj["version"];
-    const double &speedx = obj["speedx"];
-    const double &speedy = obj["speedy"];
-    entities.assign<stella::components::MovementComponent>(ex::Entity::Id(index, version), glm::vec2(speedx, speedy));
+    glm::vec2 speed = obj["speed"] == sol::lua_nil ? glm::vec2() : glm::vec2(obj["speed"][1], obj["speed"][2]);
+    const bool &gravity = obj["has_gravity"] == sol::lua_nil ? true : obj["has_gravity"];
+    const bool &constant_velocity = obj["has_constant_velocity"] == sol::lua_nil ? false : obj["has_constant_velocity"];
+    entities.assign<stella::components::MovementComponent>(ex::Entity::Id(index, version), speed, gravity, constant_velocity);
   }
 
-  inline void add_player_component(const sol::table &obj)
+  inline void add_player_component(const unsigned &index, const unsigned &version, const sol::table &obj)
   {
-    const int &index = obj["index"];
-    const int &version = obj["version"];
     entities.assign<stella::components::PlayerComponent>(ex::Entity::Id(index, version));
   }
 
-  inline void add_body_component(const sol::table &obj)
+  inline void add_body_component(const unsigned &index, const unsigned &version, const sol::table &obj)
   {
-    const int &index = obj["index"];
-    const int &version = obj["version"];
-    const double &dragx = obj["dragx"];
-    const double &dragy = obj["dragy"];
-    if (dragx == 0 && dragx == 0)
+    const bool &collide_with_borders = obj["collide_with_borders"] == sol::lua_nil ? false : obj["collide_with_borders"];
+    if (obj["drag"] == sol::lua_nil)
     {
       entities.assign<stella::components::Body2DComponent>(ex::Entity::Id(index, version));
     }
     else
     {
-      entities.assign<stella::components::Body2DComponent>(ex::Entity::Id(index, version), std::vector<double>((double)dragx, (double)dragy));
+      double dragx = obj["drag"][1];
+      double dragy = obj["drag"][2];
+      entities.assign<stella::components::Body2DComponent>(ex::Entity::Id(index, version), std::vector<double>(dragx, dragy), collide_with_borders);
     }
   }
 
-  inline void add_text_component(const sol::table &obj)
+  inline void add_text_component(const unsigned &index, const unsigned &version, const sol::table &obj)
   {
-    const int &index = obj["index"];
-    const int &version = obj["version"];
     const std::string &text = obj["text"];
     const std::string &font_name = obj["font_name"];
     const bool &is_static = obj["is_static"];
     entities.assign<stella::components::TextComponent>(ex::Entity::Id(index, version), text, font_name, is_static);
   }
 
-  inline void add_particle_emitter_component(const sol::table &obj)
+  inline void add_particle_emitter_component(const unsigned &index, const unsigned &version, const sol::table &obj)
   {
-    const int &index = obj["index"];
-    const int &version = obj["version"];
     const std::string &type = obj["type"];
     const unsigned int &quantity = obj["quantity"];
     stella::components::ParticleEmitter::Type emitter_type;
@@ -180,5 +182,12 @@ private:
     }
     entities.assign<stella::components::ParticleEmitter>(ex::Entity::Id(index, version), emitter_type, quantity);
   }
+
+  inline void add_tile_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+  {
+    entities.assign<stella::components::TileComponent>(ex::Entity::Id(index, version));
+  }
+  
+  void add_component(const sol::table &obj);
 };
 

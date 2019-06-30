@@ -21,6 +21,8 @@ class World {
     float Gravity = 1200.f;
     std::vector<std::shared_ptr<stella::physics2d::Body>> Bodies;
     std::vector<std::shared_ptr<stella::physics2d::Manifold>> Manifolds;
+    float ScreenWidth = 896.f;
+    float ScreenHeight = 504.f;
 
     void UpdateMovement(float dt) const;
     void UpdateCollisions();

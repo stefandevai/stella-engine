@@ -10,5 +10,6 @@
 #include "rendering_system.h"
 #include "simple_movement.h"
 #include "tileview_system.h"
+#include "tiles_system.h"
 #include "torch_system.h"
 #include "transform_system.h"

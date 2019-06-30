@@ -13,16 +13,18 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->scriptApi.vm.set_function("load_texture", &Game::LoadTexture, this);
   this->scriptApi.vm.set_function("load_font", &Game::LoadFont, this);
   this->scriptApi.vm.set_function("e_create_entity", &Game::create_entity, this);
-  this->scriptApi.vm.set_function("e_add_sprite_component", &Game::add_sprite_component, this);
-  this->scriptApi.vm.set_function("e_add_dimension_component", &Game::add_dimension_component, this);
-  this->scriptApi.vm.set_function("e_add_position_component", &Game::add_position_component, this);
-  this->scriptApi.vm.set_function("e_add_animation_component", &Game::add_animation_component, this);
-  this->scriptApi.vm.set_function("e_add_tileview_component", &Game::add_tileview_component, this);
-  this->scriptApi.vm.set_function("e_add_movement_component", &Game::add_movement_component, this);
-  this->scriptApi.vm.set_function("e_add_player_component", &Game::add_player_component, this);
-  this->scriptApi.vm.set_function("e_add_body_component", &Game::add_body_component, this);
-  this->scriptApi.vm.set_function("e_add_text_component", &Game::add_text_component, this);
-  this->scriptApi.vm.set_function("e_add_particle_emitter_component", &Game::add_particle_emitter_component, this);
+  //this->scriptApi.vm.set_function("e_add_sprite_component", &Game::add_sprite_component, this);
+  //this->scriptApi.vm.set_function("e_add_dimension_component", &Game::add_dimension_component, this);
+  //this->scriptApi.vm.set_function("e_add_position_component", &Game::add_position_component, this);
+  //this->scriptApi.vm.set_function("e_add_animation_component", &Game::add_animation_component, this);
+  //this->scriptApi.vm.set_function("e_add_tileview_component", &Game::add_tileview_component, this);
+  //this->scriptApi.vm.set_function("e_add_movement_component", &Game::add_movement_component, this);
+  //this->scriptApi.vm.set_function("e_add_player_component", &Game::add_player_component, this);
+  //this->scriptApi.vm.set_function("e_add_body_component", &Game::add_body_component, this);
+  //this->scriptApi.vm.set_function("e_add_text_component", &Game::add_text_component, this);
+  //this->scriptApi.vm.set_function("e_add_particle_emitter_component", &Game::add_particle_emitter_component, this);
+  //this->scriptApi.vm.set_function("e_add_tile_component", &Game::add_tile_component, this);
+  this->scriptApi.vm.set_function("e_add_component", &Game::add_component, this);
   this->scriptApi.RunScript("scripts/main.lua");
   this->scriptApi.RunLoad();
 
@@ -48,6 +50,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   systems.add<stella::systems::TransformSystem>();
   //systems.add<stella::systems::TorchSystem>(player, entities);
   systems.add<stella::systems::AnimationSystem>();
+  systems.add<stella::systems::TilesSystem>();
   systems.add<stella::systems::GuiRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
   systems.configure();
 
@@ -74,6 +77,7 @@ void Game::update_systems(const double &dt)
   systems.update<stella::systems::TransformSystem>(dt);
   //systems.update<stella::systems::TorchSystem>(dt);
   systems.update<stella::systems::AnimationSystem>(dt);
+  systems.update<stella::systems::TilesSystem>(dt);
   //systems.update<stella::systems::GuiRenderingSystem>(dt);
 
   //if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
@@ -81,6 +85,9 @@ void Game::update_systems(const double &dt)
     //fps_string << std::setprecision(4) << 1/dt << " FPS";
     //auto text = this->FPSText.component<stella::components::TextComponent>();
     //text->Text = fps_string.str();
+  //}
+  //if (this->Display.GetFrame() % 30 == 0) {
+    //std::cout << this->Display.getFPS() << "\n";
   //}
 }
 
@@ -130,5 +137,32 @@ void Game::load_game_info() {
   this->FPSText.assign<stella::components::PositionComponent>(30.f, 90.f);
   this->FPSText.assign<stella::components::DimensionComponent>(9.f, 9.f);
   this->FPSText.assign<stella::components::TextComponent>("", "font-cursive");
+}
+
+void Game::add_component(const sol::table& obj)
+{
+  if (obj["type"] != sol::lua_nil)
+  {
+    const std::string &ct = obj["type"];
+    const unsigned &index = obj["index"];
+    const unsigned &version = obj["version"];
+
+    if (ct == "sprite") add_sprite_component(index, version, obj["args"]);
+    else if (ct == "position") add_position_component(index, version, obj["args"]);
+    else if (ct == "dimension") add_dimension_component(index, version, obj["args"]);
+    else if (ct == "animation") add_animation_component(index, version, obj["args"]);
+    else if (ct == "tile") add_tile_component(index, version, obj["args"]);
+    else if (ct == "body") add_body_component(index, version, obj["args"]);
+    else if (ct == "text") add_text_component(index, version, obj["args"]);
+    else if (ct == "movement") add_movement_component(index, version, obj["args"]);
+    else if (ct == "tileview") add_tileview_component(index, version, obj["args"]);
+    else if (ct == "particle_emitter") add_particle_emitter_component(index, version, obj["args"]);
+    else if (ct == "player") add_player_component(index, version, obj["args"]);
+    else std::cout << "ERROR: No component named " << ct << '\n';
+  }
+  else
+  {
+    std::cout << "ERROR: Please add a non nil component type\n";
+  }
 }
 

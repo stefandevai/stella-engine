@@ -20,7 +20,7 @@ void PhysicsSystem::update(ex::EntityManager &es, ex::EventManager &events, ex::
                                                                   components::PositionComponent &pos,
                                                                   components::DimensionComponent &dim) {
     if (!body.Initialized) {
-      body.Body = std::make_shared<stella::physics2d::Body>(glm::vec2(pos.x, pos.y), glm::vec2(dim.w, dim.h), glm::vec2(body.Drag[0], body.Drag[1]));
+      body.Body = std::make_shared<stella::physics2d::Body>(glm::vec2(pos.x, pos.y), glm::vec2(dim.w, dim.h), glm::vec2(body.Drag[0], body.Drag[1]), body.CollideWithBorders);
       if (entity.has_component<components::MovementComponent>()) {
         auto mov = entity.component<components::MovementComponent>();
         body.Body->TargetVelocity = mov->TargetVelocity;

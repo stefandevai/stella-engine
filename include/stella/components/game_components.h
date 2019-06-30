@@ -14,4 +14,5 @@
 #include "tileview_component.h"
 #include "torch_component.h"
 #include "layer_component.h"
+#include "tile_component.h"
 
