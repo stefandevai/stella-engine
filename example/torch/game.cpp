@@ -10,6 +10,7 @@
 
 Game::Game(stella::graphics::Display &display) : Display(display) {
   this->create_camera(0.f, 0.f, 0.f);
+  srand(time(nullptr));
 
   this->scriptApi.vm.set_function("load_texture", &Game::LoadTexture, this);
   this->scriptApi.vm.set_function("load_font", &Game::LoadFont, this);
@@ -18,6 +19,9 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->scriptApi.vm.set_function("e_add_component", &Game::add_component, this);
   //this->scriptApi.vm.set_function("create_camera", &Game::create_camera, this);
   this->scriptApi.vm.set_function("update_camera", &Game::update_camera, this);
+  this->scriptApi.vm.set_function("get_perlin_int", &Game::get_perlin_int, this);
+  this->scriptApi.vm.set_function("get_perlin_decimal", &Game::get_perlin_double, this);
+  this->scriptApi.vm.set_function("get_random_int", &Game::get_random, this);
   this->scriptApi.RunScript("scripts/main.lua");
   this->scriptApi.RunLoad();
 

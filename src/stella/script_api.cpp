@@ -3,7 +3,7 @@
 namespace stella {
 
 ScriptApi::ScriptApi() {
-  this->vm.open_libraries(sol::lib::base, sol::lib::package);
+  this->vm.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
 }
 
 ScriptApi::~ScriptApi() {
