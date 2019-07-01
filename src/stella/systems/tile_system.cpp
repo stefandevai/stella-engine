@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include "stella/components/game_components.h"
+#include "stella/components.h"
 #include "stella/systems/tiles_system.h"
 
 namespace stella {
@@ -18,7 +18,6 @@ void TilesSystem::update(ex::EntityManager &es, ex::EventManager &events, ex::Ti
         if (entity.valid())
         {
           entity.destroy();
-          std::cout << "deleted \n";
         }
       }
   });

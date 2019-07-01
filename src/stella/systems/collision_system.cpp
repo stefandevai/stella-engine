@@ -3,7 +3,7 @@
 
 #include "stella/systems/collision_system.h"
 #include "stella/events/collision.h"
-#include "stella/components/game_components.h"
+#include "stella/components.h"
 
 namespace stella {
 namespace systems {

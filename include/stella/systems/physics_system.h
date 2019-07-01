@@ -2,7 +2,7 @@
 
 #include <stella/physics2d/world.h>
 #include <entityx/entityx.h>
-#include "../components/game_components.h"
+#include "../components.h"
 
 namespace ex = entityx;
 

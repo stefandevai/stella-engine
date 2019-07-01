@@ -6,8 +6,7 @@
 #include <iomanip>
 #include <functional>
 
-#include <stella/components/game_components.h>
-#include <stella/systems/game_systems.h>
+#include <stella/systems.h>
 
 Game::Game(stella::graphics::Display &display) : Display(display) {
   this->scriptApi.vm.set_function("load_texture", &Game::LoadTexture, this);
@@ -27,13 +26,17 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   //layer1.assign<stella::components::LayerComponent>("basic", 0, "basic");
   //layer3 = entities.create();
   //layer3.assign<stella::components::LayerComponent>("particles", 1, "bloom");
+ 
+  this->camera = entities.create();
+  this->camera.assign<stella::components::PositionComponent>(100.f, 0.f, 0.f);
+  this->camera.assign<stella::components::CameraComponent>();
   
 
   // Add systems
   //systems.add<stella::systems::CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
   systems.add<stella::systems::ParticleSystem>();
   systems.add<stella::systems::PhysicsSystem>();
-  systems.add<stella::systems::SimpleMovementSystem>();
+  systems.add<stella::systems::ScrollSystem>();
   systems.add<stella::systems::RenderingSystem>(this->Textures, this->Display);
   systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
   systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display);
@@ -57,10 +60,12 @@ Game::~Game() {
 
 void Game::update_systems(const double &dt)
 {
+  auto camerapos = this->camera.component<stella::components::PositionComponent>();
+  camerapos->x += 40.f*dt;
   //systems.update<stella::systems::CollisionSystem>(dt);
   systems.update<stella::systems::ParticleSystem>(dt);
   systems.update<stella::systems::PhysicsSystem>(dt);
-  systems.update<stella::systems::SimpleMovementSystem>(dt);
+  systems.update<stella::systems::ScrollSystem>(dt);
   systems.update<stella::systems::RenderingSystem>(dt);
   systems.update<stella::systems::TileviewSystem>(dt);
   systems.update<stella::systems::PlayerMovementSystem>(dt);
@@ -276,6 +281,12 @@ void Game::add_tile_component(const unsigned &index, const unsigned &version, co
   entities.assign<stella::components::TileComponent>(ex::Entity::Id(index, version));
 }
 
+void Game::add_scroll_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+{
+  glm::vec2 speed = obj == sol::lua_nil ? glm::vec2(0.f, 0.f) : glm::vec2(obj[1], obj[2]);
+  entities.assign<stella::components::ScrollComponent>(ex::Entity::Id(index, version), speed);
+}
+
 void Game::add_component(const sol::table& obj)
 {
   if (obj["type"] != sol::lua_nil)
@@ -294,6 +305,7 @@ void Game::add_component(const sol::table& obj)
     else if (ct == "movement") add_movement_component(index, version, obj["args"]);
     else if (ct == "tileview") add_tileview_component(index, version, obj["args"]);
     else if (ct == "particle_emitter") add_particle_emitter_component(index, version, obj["args"]);
+    else if (ct == "scroll") add_scroll_component(index, version, obj["args"]);
     else if (ct == "player") add_player_component(index, version, obj["args"]);
     else std::cout << "ERROR: No component named " << ct << '\n';
   }

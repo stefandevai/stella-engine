@@ -1,7 +1,7 @@
 #include <memory>
 #include <glm/glm.hpp>
 
-#include "stella/components/game_components.h"
+#include "stella/components.h"
 #include "stella/systems/physics_system.h"
 
 namespace stella {

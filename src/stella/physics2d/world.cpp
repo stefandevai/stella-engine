@@ -74,7 +74,7 @@ bool World::AABBvsAABB(std::shared_ptr<stella::physics2d::Body> ba, std::shared_
     // TODO: Resolve collisions for static bodies
   }
 
-  // There was an collision
+  // There was a collision
   return true;
 }
 
@@ -208,6 +208,7 @@ void World::UpdateMovement(float dt) const {
       }
       body->Position.y += body->Velocity.y*dt;
     }
+
     if (body->CollideWithBorders)
     {
       if (body->Position.x < 0.f)
@@ -230,6 +231,5 @@ void World::UpdateMovement(float dt) const {
     }
   }
 }
-
 }}
 

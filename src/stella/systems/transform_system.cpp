@@ -1,4 +1,4 @@
-#include "stella/components/game_components.h"
+#include "stella/components.h"
 #include "stella/systems/transform_system.h"
 
 namespace stella {

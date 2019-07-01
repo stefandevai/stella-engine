@@ -1,7 +1,7 @@
 #include <glm/glm.hpp>
 
 #include "stella/systems/animation_system.h"
-#include "stella/components/game_components.h"
+#include "stella/components.h"
 
 namespace stella {
 namespace systems {

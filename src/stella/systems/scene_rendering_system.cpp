@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "stella/components/game_components.h"
+#include "stella/components.h"
 #include "stella/systems/scene_rendering_system.h"
 
 namespace stella {

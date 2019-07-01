@@ -7,6 +7,7 @@ local function load_assets()
   load_texture("moon", "assets/sprites/moon_anim.png")
   load_texture("tiles", "assets/sprites/tiles.png")
   load_texture("guanaco", "assets/sprites/guanaco-anim.png")
+  load_texture("mountain", "assets/sprites/mountain3-bg.png")
 end
 
 local function load_background()
@@ -24,6 +25,16 @@ local function load_background()
   animation_args["animations"] = {}
   animation_args["animations"][1] = {"glow", {3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20}
   moon:add_component("animation", animation_args) 
+
+  --local mountain = Entity:create_entity()
+  --mountain:add_component("sprite", {
+    --texture = "mountain",
+    --layer = "scene"
+  --})
+  --mountain:add_component("position", {0, 175, -6}) 
+  --mountain:add_component("dimension", {720, 230})
+  --mountain:add_component("tileview")
+  --mountain:add_component("scroll", {-100,0})
 end
 
 local function load_player(x, y)
@@ -57,7 +68,7 @@ local function load()
   })
   load_assets()
   load_background()
-  load_player(100, 405-64-61)
+  load_player(300, 405-64-61)
   Map.load('scripts.level2.map')
 end
 

@@ -5,14 +5,12 @@
 
 namespace stella {
 namespace graphics {
-Layer::Layer(std::shared_ptr<Renderer> renderer)
-    : Ren(renderer) {
+Layer::Layer(std::shared_ptr<Renderer> renderer, bool fixed)
+    : Ren(renderer), Fixed(fixed), ViewMatrix(glm::mat4()) {
 }
 
 Layer::~Layer() {
   this->Shad->Disable();
-  //for (auto i : this->Sprites)
-    //delete i;
 }
 
 void Layer::Add(std::shared_ptr<Sprite> sprite) { this->Sprites.push_back(sprite); }
@@ -25,6 +23,10 @@ void Layer::Remove(std::shared_ptr<Sprite> sprite) {
 void Layer::Render() {
 
   this->Shad->Enable();
+  if (!this->Fixed)
+  {
+    this->Shad->SetMat4("view", this->ViewMatrix);
+  }
   this->Ren->Begin();
 
   //glm::mat4 trans;
@@ -42,6 +44,12 @@ void Layer::Render() {
   this->Ren->End();
   this->Ren->Draw();
 	this->Shad->Disable();
+}
+
+
+void Layer::SetViewMatrix(glm::mat4 view)
+{
+  this->ViewMatrix = view;
 }
 } // namespace graphics
 } // namespace stella

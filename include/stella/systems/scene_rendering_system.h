@@ -7,7 +7,7 @@
 #include "stella/graphics/firelayer.h"
 #include "stella/graphics/layers/basic_layer.h"
 
-#include "../components/game_components.h"
+#include "../components.h"
 
 namespace ex = entityx;
 

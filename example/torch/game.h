@@ -5,7 +5,7 @@
 
 #include <entityx/entityx.h>
 #include <stella/stella.h>
-#include <stella/components/game_components.h>
+#include <stella/components.h>
 
 #define SOL_ALL_SAFETIES_ON 1
 #define SOL_CHECK_ARGUMENTS 1
@@ -24,7 +24,7 @@ public:
 private:
   enum States {NONE, GAME_LOADING, GAME_LOADED, GAME_NOT_LOADED, MAIN_MENU, GAME_LOOP, GAME_PAUSED, GAME_OVER};
 	stella::graphics::Display &Display;
-	ex::Entity FPSText, Fire;
+	ex::Entity FPSText, Fire, camera;
   sol::state lua;
   stella::ScriptApi scriptApi;
 
@@ -64,6 +64,7 @@ private:
   void add_text_component(const unsigned &index, const unsigned &version, const sol::table &obj);
   void add_particle_emitter_component(const unsigned &index, const unsigned &version, const sol::table &obj);
   void add_tile_component(const unsigned &index, const unsigned &version, const sol::table &obj);
+  void add_scroll_component(const unsigned &index, const unsigned &version, const sol::table &obj);
   void add_component(const sol::table &obj);
 };
 

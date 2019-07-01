@@ -1,6 +1,6 @@
 #include <SDL2/SDL.h>
 
-#include "stella/components/game_components.h"
+#include "stella/components.h"
 #include "stella/systems/player_movement_system.h"
 
 #define MAX_PLAYER_VELOCITY 200.f

@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "stella/components/game_components.h"
+#include "stella/components.h"
 #include "stella/systems/rendering_system.h"
 #include "stella/graphics/texture.h"
 
@@ -19,8 +19,7 @@ RenderingSystem::~RenderingSystem() { }
 void RenderingSystem::update(ex::EntityManager &es,
                           ex::EventManager &events,
                           ex::TimeDelta dt) {
-  es.each<components::LayerComponent>([this](ex::Entity entity,
-                                                     components::LayerComponent &layer) {
+  es.each<components::LayerComponent>([this](ex::Entity entity, components::LayerComponent &layer) {
       if (!layer.Initialized) {
         if (layer.ShaderId == "bloom")
         {
@@ -28,11 +27,11 @@ void RenderingSystem::update(ex::EntityManager &es,
         }
         else if (layer.ShaderId == "ui")
         {
-          layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->Display.GetWidth(), this->Display.GetHeight()));
+          layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->Display.GetWidth(), this->Display.GetHeight(), layer.Fixed));
         }
         else
         {
-          layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->Display.GetWidth(), this->Display.GetHeight()));
+          layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->Display.GetWidth(), this->Display.GetHeight(), layer.Fixed));
         }
         layer_order[layer.Order] = layer.Id;
         layer.Initialized = true;
@@ -89,6 +88,13 @@ void RenderingSystem::update(ex::EntityManager &es,
   });
 	
   for (auto const& order : layer_order) {
+    if (!layers[order.second]->Fixed)
+    {
+        es.each<components::CameraComponent, components::PositionComponent>([this, order](ex::Entity entity, components::CameraComponent &camera, components::PositionComponent &pos)
+        {
+          layers[order.second]->SetViewMatrix(glm::lookAt(glm::vec3(pos.x, pos.y, pos.z), glm::vec3(pos.x, pos.y, pos.z - 1.f), glm::vec3(0.f, 1.f, 0.f)));
+        });
+    }
     layers[order.second]->Render();
     //std::cout << order.first << '\n';
     //std::cout << order.second << '\n';

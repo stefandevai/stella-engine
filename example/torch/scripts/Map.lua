@@ -41,6 +41,7 @@ function M.load(map_path)
         tile:add_component("position", {tile.x, tile.y, 1}) 
         tile:add_component("dimension", {TILE_DIMENSION, TILE_DIMENSION})
         tile:add_component("body")
+        --tile:add_component("scroll", {-100,0})
         tiles[#tiles + 1] = tile
       end
     -- If the map height is less than screen height

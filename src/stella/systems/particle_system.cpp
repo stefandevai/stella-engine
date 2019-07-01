@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "stella/components/game_components.h"
+#include "stella/components.h"
 #include "stella/systems/particle_system.h"
 
 namespace stella {

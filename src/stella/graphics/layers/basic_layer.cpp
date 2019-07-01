@@ -5,8 +5,8 @@
 
 namespace stella {
 namespace graphics {
-BasicLayer::BasicLayer(float width, float height)
-  : Layer(std::shared_ptr<Renderer>(new Renderer())) {
+BasicLayer::BasicLayer(float width, float height, bool fixed)
+  : Layer(std::shared_ptr<Renderer>(new Renderer()), fixed) {
     // Initialize shader and textures IDs
     this->Shad = std::shared_ptr<Shader>(new Shader("assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag"));
     GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};

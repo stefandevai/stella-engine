@@ -8,6 +8,7 @@ struct LayerComponent {
   unsigned Order;
   std::string ShaderId;
   bool Initialized = false;
+  bool Fixed = false;
 };
 } // namespace components
 } // namespace stella

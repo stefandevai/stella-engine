@@ -7,7 +7,7 @@ namespace stella {
 namespace graphics {
 class BasicLayer : public Layer {
 public:
-  BasicLayer(float width, float height);
+  BasicLayer(float width, float height, bool fixed = true);
   ~BasicLayer();
 };
 } // namespace graphics
