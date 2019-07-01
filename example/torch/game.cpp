@@ -38,12 +38,12 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   systems.add<stella::systems::PhysicsSystem>(this->Camera);
   //systems.add<stella::systems::ScrollSystem>();
   systems.add<stella::systems::RenderingSystem>(this->Textures, this->Display);
-  //systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
+  systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
   systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display);
   //systems.add<stella::systems::TransformSystem>();
   //systems.add<stella::systems::TorchSystem>(player, entities);
   systems.add<stella::systems::AnimationSystem>();
-  systems.add<stella::systems::TilesSystem>();
+  systems.add<stella::systems::TilesSystem>(this->Camera);
   //systems.add<stella::systems::GuiRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
   systems.configure();
 
@@ -60,14 +60,14 @@ Game::~Game() {
 
 void Game::update_systems(const double &dt)
 {
-  const auto& camera_pos = this->Camera.component<stella::components::PositionComponent>();
+  //const auto& camera_pos = this->Camera.component<stella::components::PositionComponent>();
 
   //systems.update<stella::systems::CollisionSystem>(dt);
   //systems.update<stella::systems::ParticleSystem>(dt);
   systems.update<stella::systems::PhysicsSystem>(dt);
   //systems.update<stella::systems::ScrollSystem>(dt);
   systems.update<stella::systems::RenderingSystem>(dt);
-  //systems.update<stella::systems::TileviewSystem>(dt);
+  systems.update<stella::systems::TileviewSystem>(dt);
   systems.update<stella::systems::PlayerMovementSystem>(dt);
   //systems.update<stella::systems::TransformSystem>(dt);
   //systems.update<stella::systems::TorchSystem>(dt);

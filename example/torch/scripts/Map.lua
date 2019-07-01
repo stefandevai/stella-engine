@@ -17,8 +17,11 @@ M.offset.y = 0
 local map
 local tiles = {}
 
-function M.load(map_path)
+function M.load(map_path, offset)
   map = require(map_path)
+  if offset == nil then
+    offset = {0.0, 0.0}
+  end
   for i = 0, SCREEN_WIDTH_TILES_WITH_OFFSET * SCREEN_HEIGHT_TILES_WITH_OFFSET do
     local height = i // SCREEN_WIDTH_TILES_WITH_OFFSET
     local width = i % SCREEN_WIDTH_TILES_WITH_OFFSET
@@ -38,7 +41,7 @@ function M.load(map_path)
           layer = "scene",
           frame_dimensions = {TILE_DIMENSION,TILE_DIMENSION},
         })
-        tile:add_component("position", {tile.x, tile.y, 1}) 
+        tile:add_component("position", {offset[1] + tile.x, offset[2] + tile.y, 1}) 
         tile:add_component("dimension", {TILE_DIMENSION, TILE_DIMENSION})
         tile:add_component("body")
         --tile:add_component("scroll", {-100,0})

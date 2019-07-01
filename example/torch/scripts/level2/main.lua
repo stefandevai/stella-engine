@@ -1,7 +1,7 @@
 local M = {}
 
 local Entity = require('scripts.Entity')
-local Map = require('scripts.Map')
+local Map = require('scripts.ProceduralMap')
 
 local function load_assets()
   load_texture("moon", "assets/sprites/moon_anim.png")
@@ -70,13 +70,15 @@ local function load()
   load_background()
   load_player(300, 405-64-61)
   Map.load('scripts.level2.map')
+  --Map.load('scripts.level2.map', {1000, 0})
 end
 
 local camerax = 0.0
 
 local function update(dt)
-  camerax = camerax + 40.0*dt
+  camerax = camerax + 50.0*dt
   update_camera(camerax, 0.0, 0.0)
+  Map.update(camerax)
 end
 
 local function render(dt)

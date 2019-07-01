@@ -96,11 +96,7 @@ void RenderingSystem::update(ex::EntityManager &es,
         });
     }
     layers[order.second]->Render();
-    //std::cout << order.first << '\n';
-    //std::cout << order.second << '\n';
   }
-  //layers["basic"]->Render();
-  //layers["particles"]->Render();
 };
 
 void RenderingSystem::configure(ex::EventManager &event_manager) {
