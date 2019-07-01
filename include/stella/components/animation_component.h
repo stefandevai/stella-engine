@@ -16,6 +16,8 @@ struct AnimationsComponent {
 	bool Initialized;
 	std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> Frames;
   glm::vec2 FrameDimensions;
+  std::string current_animation = std::string();
+  std::string old_animation = std::string();
 };
 }
 }

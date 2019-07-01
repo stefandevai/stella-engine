@@ -18,10 +18,18 @@ void AnimationSystem::update(ex::EntityManager &es,
 			for (auto& anim: animations.Frames) {
 			  spr.Sprite->SetDimensions(animations.FrameDimensions);
 				spr.Sprite->Animations.Add(std::get<0>(anim), std::get<1>(anim), std::get<2>(anim));
-				spr.Sprite->Animations.Play(std::get<0>(anim));
 			}
+			animations.current_animation = std::get<0>(animations.Frames[0]);
+			animations.old_animation = animations.current_animation;
+			spr.Sprite->Animations.Play(animations.current_animation);
 			animations.Initialized = true;
 		}
+
+		if (animations.current_animation != animations.old_animation)
+    {
+			spr.Sprite->Animations.Play(animations.current_animation);
+			animations.old_animation = animations.current_animation;
+    }
 
 		spr.Sprite->Update();
   });

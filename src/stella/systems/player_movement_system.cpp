@@ -28,12 +28,14 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
         // Collided bottom
         if (body.Body->Collisions.test(2)) {
           player.InAir = false;
+          this->current_state = IDLE;
         }
 
         // Handle input
         body.Body->Acceleration.x = 0.f;
         if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
           body.Body->Acceleration.x -= player.Acceleration;
+          this->current_state = RUNNING;
 
           //body.Body->Velocity.y = -player.JumpForce;
           //body.Body->Acceleration.y = 0.0f;
@@ -46,6 +48,7 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
         }
         if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
           body.Body->Acceleration.x += player.Acceleration;
+          this->current_state = RUNNING;
 
           //body.Body->Velocity.y = -player.JumpForce;
           //body.Body->Acceleration.y = 0.0f;
@@ -65,7 +68,42 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
             player.InAir = true;
           }
         }
+
+        if (body.Body->Velocity.y < 0.0)
+        {
+          this->current_state = JUMPING;
+        }
+        else if (body.Body->Velocity.y > 0.0)
+        {
+          this->current_state = FALLING;
+        }
+
+        auto anims = entity.component<components::AnimationsComponent>();
+        this->SetState(this->current_state, anims);
       });
 }
+
+void PlayerMovementSystem::SetState(PlayerMovementSystem::State state, entityx::ComponentHandle<stella::components::AnimationsComponent, entityx::EntityManager> anims)
+{
+  switch(state)
+  {
+    case RUNNING:
+      anims->current_animation = "run";
+      break;
+    case JUMPING:
+      anims->current_animation = "jump";
+      break;
+    case FALLING:
+      anims->current_animation = "fall";
+      break;
+    case IDLE:
+      anims->current_animation = "idle";
+      break;
+    default:
+      break;
+  }
+}
+
+
 } // namespace systems
 } // namespace stella

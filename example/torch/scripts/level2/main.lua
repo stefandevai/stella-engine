@@ -6,7 +6,7 @@ local Map = require('scripts.ProceduralMap')
 local function load_assets()
   load_texture("moon", "assets/sprites/moon_anim.png")
   load_texture("tiles", "assets/sprites/tiles.png")
-  load_texture("guanaco", "assets/sprites/guanaco-anim.png")
+  load_texture("guanaco", "assets/sprites/guanaco_frames2.png")
   load_texture("mountain", "assets/sprites/mountain3-bg.png")
 end
 
@@ -56,7 +56,10 @@ local function load_player(x, y)
   animation_args = {}
   animation_args["frame_dimensions"] = {80, 60}
   animation_args["animations"] = {}
-  animation_args["animations"][1] = {"run", {0,1,2,3,4}, 5}
+  animation_args["animations"][1] = {"idle", {5,7,6,7,5,6,5,7,9,8}, 10}
+  animation_args["animations"][2] = {"run", {0,1,2,3,4}, 5}
+  animation_args["animations"][3] = {"jump", {3}, 5}
+  animation_args["animations"][4] = {"fall", {1}, 5}
   player:add_component("animation", animation_args) 
 end
 
