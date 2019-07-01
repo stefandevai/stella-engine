@@ -4,10 +4,13 @@ local Entity = require('scripts.Entity')
 local Map = require('scripts.ProceduralMap')
 
 local function load_assets()
+  load_texture("sky", "assets/sprites/starry_sky.png")
   load_texture("moon", "assets/sprites/moon_anim.png")
   load_texture("tiles", "assets/sprites/tiles.png")
   load_texture("guanaco", "assets/sprites/guanaco_frames2.png")
-  load_texture("mountain", "assets/sprites/mountain3-bg.png")
+  load_texture("mountains1", "assets/sprites/mountains1.png")
+  load_texture("mountains2", "assets/sprites/mountains2.png")
+  load_texture("mountains3", "assets/sprites/mountains3.png")
 end
 
 local function load_background()
@@ -17,7 +20,7 @@ local function load_background()
     layer = "background",
     frame_dimensions = {85, 85, -9},
   })
-  moon:add_component("position", {678, 78, 0}) 
+  moon:add_component("position", {678, 78, -9}) 
   moon:add_component("dimension", {85, 85}) 
 
   animation_args = {}
@@ -26,15 +29,43 @@ local function load_background()
   animation_args["animations"][1] = {"glow", {3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20}
   moon:add_component("animation", animation_args) 
 
-  --local mountain = Entity:create_entity()
-  --mountain:add_component("sprite", {
-    --texture = "mountain",
-    --layer = "scene"
-  --})
-  --mountain:add_component("position", {0, 175, -6}) 
-  --mountain:add_component("dimension", {720, 230})
-  --mountain:add_component("tileview")
-  --mountain:add_component("scroll", {-100,0})
+  local sky = Entity:create_entity()
+  sky:add_component("sprite", {
+    texture = "sky",
+    layer = "background"
+  })
+  sky:add_component("position", {0, 0, -10}) 
+  sky:add_component("dimension", {896, 504}) 
+
+  local mountains = {}
+  for i=1,3*2 do
+    local y, z = nil, nil
+    local tex_name = nil
+    local height, scroll = nil, nil, nil, nil
+
+    if i <= 2 then
+      tex_name = "mountains3"
+      z = -8
+      scroll = {-2.0,0}
+    elseif i <= 4 then
+      tex_name = "mountains2"
+      z = -7
+      scroll = {-5.0,0}
+    else
+      tex_name = "mountains1"
+      z = -6
+      scroll = {-12.0,0}
+    end
+    mountains[i] = Entity:create_entity()
+    mountains[i]:add_component("sprite", {
+      texture = tex_name,
+      layer = "background",
+    })
+    mountains[i]:add_component("position", {0 + ((i+1)%2)*896, 0, z}) 
+    mountains[i]:add_component("dimension", {896, 504})
+    mountains[i]:add_component("tileview")
+    mountains[i]:add_component("scroll", scroll)
+  end
 end
 
 local function load_player(x, y)
@@ -84,19 +115,19 @@ local function load()
 end
 
 local camerax = 0.0
-local speedx = 50.0
+local speedx = 70.0
 local frame_counter = 1
 local function update(dt)
   camerax = camerax + speedx*dt
   update_camera(camerax, 0.0, 0.0)
   Map.update(camerax)
 
-  if frame_counter % 450 == 0 and speedx < 300.0 then
-    speedx = speedx + 7.0
-    print('Distance: ' .. camerax)
-    print('Speed: ' .. speedx)
-  end
-  frame_counter = frame_counter + 1
+  --if frame_counter % 450 == 0 and speedx < 300.0 then
+    --speedx = speedx + 7.0
+    --print('Distance: ' .. camerax)
+    --print('Speed: ' .. speedx)
+  --end
+  --frame_counter = frame_counter + 1
 end
 
 local function render(dt)
