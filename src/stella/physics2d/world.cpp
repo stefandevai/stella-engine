@@ -220,14 +220,14 @@ void World::UpdateMovement(float dt) const {
         body->Position.x = this->CameraOffset.x + this->ScreenWidth - body->Dimension.x;
       }
 
-      if (body->Position.y < 0.f + this->CameraOffset.y)
-      {
-        body->Position.y = 0.f + this->CameraOffset.y;
-      }
-      else if (body->Position.y + body->Dimension.y > this->CameraOffset.y + this->ScreenHeight)
-      {
-        body->Position.y = this->CameraOffset.y + this->ScreenHeight - body->Dimension.y;
-      }
+      //if (body->Position.y < 0.f + this->CameraOffset.y)
+      //{
+        //body->Position.y = 0.f + this->CameraOffset.y;
+      //}
+      //else if (body->Position.y + body->Dimension.y > this->CameraOffset.y + this->ScreenHeight)
+      //{
+        //body->Position.y = this->CameraOffset.y + this->ScreenHeight - body->Dimension.y;
+      //}
     }
   }
 }

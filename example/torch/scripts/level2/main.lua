@@ -14,10 +14,10 @@ local function load_background()
   local moon = Entity:create_entity()
   moon:add_component("sprite", {
     texture = "moon",
-    layer = "scene",
+    layer = "background",
     frame_dimensions = {85, 85, -9},
   })
-  moon:add_component("position", {478, 78, 0}) 
+  moon:add_component("position", {678, 78, 0}) 
   moon:add_component("dimension", {85, 85}) 
 
   animation_args = {}
@@ -42,7 +42,7 @@ local function load_player(x, y)
   player:add_component("player")
   player:add_component("sprite", {
     texture = "guanaco",
-    layer = "scene",
+    layer = "tiles",
     frame_dimensions = {80,60,0},
   })
   player:add_component("position", {x, y, 0}) 
@@ -62,23 +62,38 @@ end
 
 local function load()
   create_layer({
-    name = "scene",
+    name = "background",
+    priority = 1,
+    shader = "basic",
+    fixed = true,
+  })
+
+  create_layer({
+    name = "tiles",
     priority = 0,
     shader = "basic",
+    fixed = false,
   })
   load_assets()
   load_background()
   load_player(300, 405-64-61)
   Map.load('scripts.level2.map')
-  --Map.load('scripts.level2.map', {1000, 0})
 end
 
 local camerax = 0.0
-
+local speedx = 50.0
+local frame_counter = 1
 local function update(dt)
-  camerax = camerax + 50.0*dt
+  camerax = camerax + speedx*dt
   update_camera(camerax, 0.0, 0.0)
   Map.update(camerax)
+
+  if frame_counter % 450 == 0 and speedx < 300.0 then
+    speedx = speedx + 7.0
+    print('Distance: ' .. camerax)
+    print('Speed: ' .. speedx)
+  end
+  frame_counter = frame_counter + 1
 end
 
 local function render(dt)

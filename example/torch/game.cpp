@@ -162,9 +162,10 @@ void Game::create_layer(const sol::table &obj)
 {
   const std::string &layer_name = obj["name"] == sol::lua_nil ? std::string() : obj["name"];
   const unsigned &priority = obj["priority"] == sol::lua_nil ? 0 : obj["priority"];
-  std::string shader_id = obj["shader"] == sol::lua_nil ? std::string("basic") : obj["shader"];
+  const std::string &shader_id = obj["shader"] == sol::lua_nil ? std::string("basic") : obj["shader"];
+  const bool &fixed = obj["fixed"] == sol::lua_nil ? true : obj["fixed"];
   auto layer = entities.create();
-  layer.assign<stella::components::LayerComponent>(layer_name, priority, shader_id);
+  layer.assign<stella::components::LayerComponent>(layer_name, priority, shader_id, fixed);
 }
 
 void Game::add_sprite_component(const unsigned &index, const unsigned &version, const sol::table &obj)

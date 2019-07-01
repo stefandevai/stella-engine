@@ -28,7 +28,7 @@ local function add_tile(x, y)
   tile:add_component("tile")
   tile:add_component("sprite", {
     texture = "tiles",
-    layer = "scene",
+    layer = "tiles",
     frame_dimensions = {TILE_DIMENSION,TILE_DIMENSION},
   })
   tile:add_component("position", {tile.x, tile.y, 1}) 
@@ -131,7 +131,7 @@ function M.load()
     tile:add_component("tile")
     tile:add_component("sprite", {
       texture = "tiles",
-      layer = "scene",
+      layer = "tiles",
       frame_dimensions = {TILE_DIMENSION,TILE_DIMENSION},
     })
     tile:add_component("position", {tile.x, tile.y, 1}) 
