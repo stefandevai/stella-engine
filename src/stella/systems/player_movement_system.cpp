@@ -42,8 +42,10 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
 
           if (!player.SpriteDirection.test(0)) {
             player.SpriteDirection.flip();
-            auto player_sprite = entity.component<components::SpriteComponent>();
-            player_sprite->Sprite->SetDirectFrame(1);
+            auto sprite = entity.component<components::SpriteComponent>();
+            sprite->Sprite->SetScale(glm::vec2(-1.0,1.0));
+            //auto player_sprite = entity.component<components::SpriteComponent>();
+            //player_sprite->Sprite->SetDirectFrame(1);
           }
         }
         if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
@@ -55,8 +57,10 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
 
           if (!player.SpriteDirection.test(1)) {
             player.SpriteDirection.flip();
-            auto player_sprite = entity.component<components::SpriteComponent>();
-            player_sprite->Sprite->SetDirectFrame(0);
+            auto sprite = entity.component<components::SpriteComponent>();
+            sprite->Sprite->SetScale(glm::vec2(1.0,1.0));
+            //auto player_sprite = entity.component<components::SpriteComponent>();
+            //player_sprite->Sprite->SetDirectFrame(0);
           }
         }
 

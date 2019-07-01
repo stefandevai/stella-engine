@@ -108,10 +108,10 @@ void Renderer::Submit(const Sprite &sprite) {
   GLfloat uvoffsetY = dimensions.y / (GLfloat)stH;
 
   auto particular_transform = *this->TransformationBack;
-  //particular_transform = glm::translate(particular_transform, glm::vec3(position + dimensions/2.f, 0.f)); // Translating half dimension to set the point of rotation to the center of the sprite
-  particular_transform = glm::translate(particular_transform, position); // Translating half dimension to set the point of rotation to the center of the sprite
+  particular_transform = glm::translate(particular_transform, glm::vec3(position + glm::vec3(dimensions, 0.f)/2.f)); // Translating half dimension to set the point of rotation to the center of the sprite
+  //particular_transform = glm::translate(particular_transform, position); // Translating half dimension to set the point of rotation to the center of the sprite
   particular_transform = glm::scale(particular_transform, glm::vec3(scale, 1.f));
-  particular_transform = glm::translate(particular_transform, glm::vec3(dimensions/2.f, 0.f)); // Translating half dimension to set the point of rotation to the center of the sprite
+  //particular_transform = glm::translate(particular_transform, glm::vec3(dimensions/2.f, 0.f)); // Translating half dimension to set the point of rotation to the center of the sprite
   particular_transform = glm::rotate(particular_transform, glm::radians(rotation), glm::vec3(0.f, 0.f, 1.f));
   particular_transform = glm::translate(particular_transform, glm::vec3(-dimensions/2.f, 0.f)); // Removing the added half dimension
 

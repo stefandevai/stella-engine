@@ -20,7 +20,7 @@ local map
 local tiles = {}
 local current_tile_height = 1
 
-local function add_tile(x, y)
+local function add_tile(x, y, body)
   local tile = Entity:create_entity()
   tile.x = x*TILE_DIMENSION + M.offset.x
   tile.y = SCREEN_HEIGHT - (y+1)*TILE_DIMENSION + M.offset.y
@@ -33,7 +33,10 @@ local function add_tile(x, y)
   })
   tile:add_component("position", {tile.x, tile.y, 1}) 
   tile:add_component("dimension", {TILE_DIMENSION, TILE_DIMENSION})
-  tile:add_component("body")
+
+  if body == true then
+    tile:add_component("body")
+  end
 end
 
 local function plain(chunk_size, gap)
@@ -43,7 +46,14 @@ local function plain(chunk_size, gap)
   current_tile_height = height
 
   for x = gap, chunk_size+gap do
-    add_tile(x, height)
+    for y=0,height-1 do
+      if x == gap or x == chunk_size+gap then
+        add_tile(x, y, true)
+      else
+        add_tile(x, y, false)
+      end
+    end
+    add_tile(x, height, true)
   end
 
   return chunk_size + gap
@@ -56,9 +66,20 @@ local function elevate()
 
   local counter = 1
   for y = 1, height do
+
+    for y2 = 0, current_tile_height + y do
+      if y == height then
+        add_tile(counter, y2, false)
+        add_tile(counter+1, y2, true)
+      else
+        add_tile(counter, y2, false)
+        add_tile(counter+1, y2, false)
+      end
+    end
+
     local step = current_tile_height + y
-    add_tile(counter, step)
-    add_tile(counter+1, step)
+    add_tile(counter, step, true)
+    add_tile(counter+1, step, true)
     counter = counter + 2
   end
 
@@ -73,9 +94,20 @@ local function descend()
 
   local counter = 1
   for y = 1, height do
+
+    for y2 = 0, current_tile_height - y do
+      if y == height then
+        add_tile(counter, y2, false)
+        add_tile(counter+1, y2, true)
+      else
+        add_tile(counter, y2, false)
+        add_tile(counter+1, y2, false)
+      end
+    end
+
     local step = current_tile_height - y
-    add_tile(counter, step)
-    add_tile(counter+1, step)
+    add_tile(counter, step, true)
+    add_tile(counter+1, step, true)
     counter = counter + 2
   end
 
@@ -97,7 +129,9 @@ local function towers()
     for x = 1, tower_length do
       for y = 0, tower_height do
         if x == 1 or x == tower_length or y == tower_height then
-          add_tile(i+x, y)
+          add_tile(i+x, y, true)
+        else
+          add_tile(i+x, y, false)
         end
       end
     end
@@ -123,23 +157,18 @@ local function generate_chunk(xoffset, yoffset)
 end
 
 function M.load()
-  for i = 0, SCREEN_WIDTH_TILES-4 do
+  for i = 0, SCREEN_WIDTH_TILES-6 do
     local tile = Entity:create_entity()
-    tile.x = i*TILE_DIMENSION
-    tile.y = SCREEN_HEIGHT - 2*TILE_DIMENSION
 
-    tile:add_component("tile")
-    tile:add_component("sprite", {
-      texture = "tiles",
-      layer = "tiles",
-      frame_dimensions = {TILE_DIMENSION,TILE_DIMENSION},
-    })
-    tile:add_component("position", {tile.x, tile.y, 1}) 
-    tile:add_component("dimension", {TILE_DIMENSION, TILE_DIMENSION})
-    tile:add_component("body")
+    add_tile(i, 1, true)
+    if i == SCREEN_WIDTH_TILES-6 then
+      add_tile(i, 0, true)
+    else
+      add_tile(i, 0, false)
+    end
   end
 
-  M.offset.x = M.offset.x + (SCREEN_WIDTH_TILES-4)*32
+  M.offset.x = M.offset.x + (SCREEN_WIDTH_TILES-6)*32
 
   generate_chunk()
 end
