@@ -72,7 +72,11 @@ local function load()
   Map.load('scripts.level2.map')
 end
 
+local camerax = 0.0
+
 local function update(dt)
+  camerax = camerax + 40.0*dt
+  update_camera(camerax, 0.0, 0.0)
 end
 
 local function render(dt)

@@ -9,11 +9,15 @@
 #include <stella/systems.h>
 
 Game::Game(stella::graphics::Display &display) : Display(display) {
+  this->create_camera(0.f, 0.f, 0.f);
+
   this->scriptApi.vm.set_function("load_texture", &Game::LoadTexture, this);
   this->scriptApi.vm.set_function("load_font", &Game::LoadFont, this);
   this->scriptApi.vm.set_function("create_layer", &Game::create_layer, this);
   this->scriptApi.vm.set_function("e_create_entity", &Game::create_entity, this);
   this->scriptApi.vm.set_function("e_add_component", &Game::add_component, this);
+  //this->scriptApi.vm.set_function("create_camera", &Game::create_camera, this);
+  this->scriptApi.vm.set_function("update_camera", &Game::update_camera, this);
   this->scriptApi.RunScript("scripts/main.lua");
   this->scriptApi.RunLoad();
 
@@ -27,24 +31,20 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   //layer3 = entities.create();
   //layer3.assign<stella::components::LayerComponent>("particles", 1, "bloom");
  
-  this->camera = entities.create();
-  this->camera.assign<stella::components::PositionComponent>(100.f, 0.f, 0.f);
-  this->camera.assign<stella::components::CameraComponent>();
-  
 
   // Add systems
   //systems.add<stella::systems::CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
-  systems.add<stella::systems::ParticleSystem>();
-  systems.add<stella::systems::PhysicsSystem>();
-  systems.add<stella::systems::ScrollSystem>();
+  //systems.add<stella::systems::ParticleSystem>();
+  systems.add<stella::systems::PhysicsSystem>(this->Camera);
+  //systems.add<stella::systems::ScrollSystem>();
   systems.add<stella::systems::RenderingSystem>(this->Textures, this->Display);
-  systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
+  //systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
   systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display);
-  systems.add<stella::systems::TransformSystem>();
+  //systems.add<stella::systems::TransformSystem>();
   //systems.add<stella::systems::TorchSystem>(player, entities);
   systems.add<stella::systems::AnimationSystem>();
   systems.add<stella::systems::TilesSystem>();
-  systems.add<stella::systems::GuiRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
+  //systems.add<stella::systems::GuiRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
   systems.configure();
 
   //std::function<void(double)> update_function = [=](double dt) {
@@ -60,16 +60,16 @@ Game::~Game() {
 
 void Game::update_systems(const double &dt)
 {
-  auto camerapos = this->camera.component<stella::components::PositionComponent>();
-  camerapos->x += 40.f*dt;
+  const auto& camera_pos = this->Camera.component<stella::components::PositionComponent>();
+
   //systems.update<stella::systems::CollisionSystem>(dt);
-  systems.update<stella::systems::ParticleSystem>(dt);
+  //systems.update<stella::systems::ParticleSystem>(dt);
   systems.update<stella::systems::PhysicsSystem>(dt);
-  systems.update<stella::systems::ScrollSystem>(dt);
+  //systems.update<stella::systems::ScrollSystem>(dt);
   systems.update<stella::systems::RenderingSystem>(dt);
-  systems.update<stella::systems::TileviewSystem>(dt);
+  //systems.update<stella::systems::TileviewSystem>(dt);
   systems.update<stella::systems::PlayerMovementSystem>(dt);
-  systems.update<stella::systems::TransformSystem>(dt);
+  //systems.update<stella::systems::TransformSystem>(dt);
   //systems.update<stella::systems::TorchSystem>(dt);
   systems.update<stella::systems::AnimationSystem>(dt);
   systems.update<stella::systems::TilesSystem>(dt);
@@ -132,6 +132,19 @@ void Game::load_game_info() {
   this->FPSText.assign<stella::components::PositionComponent>(30.f, 90.f);
   this->FPSText.assign<stella::components::DimensionComponent>(9.f, 9.f);
   this->FPSText.assign<stella::components::TextComponent>("", "font-cursive");
+}
+
+void Game::create_camera(double x, double y, double z) {
+  this->Camera = entities.create();
+  this->Camera.assign<stella::components::PositionComponent>(x, y, z);
+  this->Camera.assign<stella::components::CameraComponent>();
+}
+
+void Game::update_camera(double x, double y, double z) {
+  auto pos = this->Camera.component<stella::components::PositionComponent>();
+  pos->x = x;
+  pos->y = y;
+  pos->z = z;
 }
 
 const std::tuple<unsigned int, unsigned int> Game::create_entity()

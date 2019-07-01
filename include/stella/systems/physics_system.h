@@ -10,7 +10,7 @@ namespace stella {
 namespace systems {
 class PhysicsSystem : public ex::System<PhysicsSystem>, public ex::Receiver<PhysicsSystem> {
 	public:
-		PhysicsSystem();
+		PhysicsSystem(ex::Entity &camera);
 		~PhysicsSystem();
 		void update(ex::EntityManager &es, ex::EventManager &events, ex::TimeDelta dt) override;
     void configure(ex::EventManager &events) override {
@@ -22,6 +22,7 @@ class PhysicsSystem : public ex::System<PhysicsSystem>, public ex::Receiver<Phys
 
   private:
     stella::physics2d::World World;
+    ex::Entity &Camera;
 
 };
 } // namespace systems

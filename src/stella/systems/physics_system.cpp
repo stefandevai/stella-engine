@@ -6,7 +6,7 @@
 
 namespace stella {
 namespace systems {
-PhysicsSystem::PhysicsSystem() {
+PhysicsSystem::PhysicsSystem(ex::Entity &camera) : Camera(camera) {
   this->World.SetGravity(2200.f);
 }
 
@@ -43,6 +43,9 @@ void PhysicsSystem::update(ex::EntityManager &es, ex::EventManager &events, ex::
       pos.y = new_position.y;
     }
   });
+
+  const auto &pos = this->Camera.component<components::PositionComponent>();
+  if (pos->x > 0.f || pos->y > 0.f) this->World.SetCameraOffset(pos->x, pos->y);
 
   this->World.Update(dt);
 }

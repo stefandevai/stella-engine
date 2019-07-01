@@ -30,25 +30,6 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
           player.InAir = false;
         }
 
-        //if (pos.x < 0.0)
-        //{
-          //std::cout << "here\n";
-          //pos.x = 0.0;
-        //}
-        //else if (pos.x + dim.w > this->Display.GetWidth())
-        //{
-          //pos.x = this->Display.GetWidth() - dim.w;
-        //}
-
-        //if (pos.y < 0.0)
-        //{
-          //pos.y = 0.0;
-        //}
-        //else if (pos.y + dim.h > this->Display.GetHeight())
-        //{
-          //pos.y = this->Display.GetHeight() - dim.h;
-        //}
-
         // Handle input
         body.Body->Acceleration.x = 0.f;
         if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {

@@ -24,11 +24,11 @@ public:
 private:
   enum States {NONE, GAME_LOADING, GAME_LOADED, GAME_NOT_LOADED, MAIN_MENU, GAME_LOOP, GAME_PAUSED, GAME_OVER};
 	stella::graphics::Display &Display;
-	ex::Entity FPSText, Fire, camera;
+	ex::Entity FPSText, Fire;
   sol::state lua;
   stella::ScriptApi scriptApi;
 
-  ex::Entity layer1, layer2, layer3;
+  ex::Entity Camera;
 
 	std::unordered_map<std::string, stella::graphics::Texture*> Textures;
 	std::unordered_map<std::string, stella::graphics::Texture*> Fonts;
@@ -36,7 +36,8 @@ private:
   typedef void (*AddComponentFunction)(sol::table);
   std::unordered_map<std::string, AddComponentFunction> function_map;
 
-  void create_function_map();
+  void create_camera(double x, double y, double z);
+  void update_camera(double x, double y, double z);
 
 	void LoadTexture(std::string tex_name, const char *tex_path);
 	void LoadFont(std::string font_name, const char *font_path);
