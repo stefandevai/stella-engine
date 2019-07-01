@@ -31,67 +31,61 @@ local function add_tile(x, y)
     layer = "scene",
     frame_dimensions = {TILE_DIMENSION,TILE_DIMENSION},
   })
-  --tile:add_component("position", {tile.x, tile.y, 1}) 
   tile:add_component("position", {tile.x, tile.y, 1}) 
   tile:add_component("dimension", {TILE_DIMENSION, TILE_DIMENSION})
   tile:add_component("body")
 end
 
 local function plain(chunk_size, gap)
-  for i = gap, chunk_size+gap do
-    local tile = Entity:create_entity()
-    tile.x = i*TILE_DIMENSION + M.offset.x
-    tile.y = SCREEN_HEIGHT - 2*TILE_DIMENSION + M.offset.y
+  local chunk_size = get_perlin_int(8, SCREEN_WIDTH_TILES/2, M.chunk_counter)
+  local gap = get_perlin_int(1, 4, chunk_size*47)
+  local height = get_random_int(1, current_tile_height+2)
+  current_tile_height = height
 
-    tile:add_component("tile")
-    tile:add_component("sprite", {
-      texture = "tiles",
-      layer = "scene",
-      frame_dimensions = {TILE_DIMENSION,TILE_DIMENSION},
-    })
-    tile:add_component("position", {tile.x, tile.y, 1}) 
-    tile:add_component("dimension", {TILE_DIMENSION, TILE_DIMENSION})
-    tile:add_component("body")
+  for x = gap, chunk_size+gap do
+    add_tile(x, height)
   end
+
+  return chunk_size + gap
 end
 
-local function elevate(chunk_size, gap)
-  for i = gap, chunk_size+gap do
-    local tile = Entity:create_entity()
-    tile.x = i*TILE_DIMENSION + M.offset.x
-    tile.y = SCREEN_HEIGHT - 2*TILE_DIMENSION + M.offset.y
+local function elevate()
+  local gap = 0
+  local height = get_random_int(1, 5)
+  local chunk_size = height*2
 
-    tile:add_component("tile")
-    tile:add_component("sprite", {
-      texture = "tiles",
-      layer = "scene",
-      frame_dimensions = {TILE_DIMENSION,TILE_DIMENSION},
-    })
-    tile:add_component("position", {tile.x, tile.y, 1}) 
-    tile:add_component("dimension", {TILE_DIMENSION, TILE_DIMENSION})
-    tile:add_component("body")
+  local counter = 1
+  for y = 1, height do
+    local step = current_tile_height + y
+    add_tile(counter, step)
+    add_tile(counter+1, step)
+    counter = counter + 2
   end
+
+  current_tile_height = current_tile_height + height
+  return chunk_size + gap
 end
 
-local function descend(chunk_size, gap)
-  for i = gap, chunk_size+gap do
-    local tile = Entity:create_entity()
-    tile.x = i*TILE_DIMENSION + M.offset.x
-    tile.y = SCREEN_HEIGHT - 2*TILE_DIMENSION + M.offset.y
+local function descend()
+  local gap = 0
+  local height = get_random_int(1, 5)
+  local chunk_size = height*2
 
-    tile:add_component("tile")
-    tile:add_component("sprite", {
-      texture = "tiles",
-      layer = "scene",
-      frame_dimensions = {TILE_DIMENSION,TILE_DIMENSION},
-    })
-    tile:add_component("position", {tile.x, tile.y, 1}) 
-    tile:add_component("dimension", {TILE_DIMENSION, TILE_DIMENSION})
-    tile:add_component("body")
+  local counter = 1
+  for y = 1, height do
+    local step = current_tile_height - y
+    add_tile(counter, step)
+    add_tile(counter+1, step)
+    counter = counter + 2
   end
+
+  current_tile_height = current_tile_height - height
+  return chunk_size + gap
 end
 
-local function towers(chunk_size, gap)
+local function towers()
+  local chunk_size = get_perlin_int(10, SCREEN_WIDTH_TILES, M.chunk_counter)
+  local gap = get_perlin_int(0, 3, chunk_size*47)
   local i = gap
 
   while (i < chunk_size+gap) do
@@ -110,6 +104,8 @@ local function towers(chunk_size, gap)
 
     i = i + tower_length + tower_gap
   end
+
+  return chunk_size + gap
 end
 
 local chunk_generators = {
@@ -120,13 +116,9 @@ local chunk_generators = {
 }
 
 local function generate_chunk(xoffset, yoffset)
-  local chunk_size = get_perlin_int(10, SCREEN_WIDTH_TILES, M.chunk_counter)
-  local gap = get_perlin_int(0, 3, chunk_size*47)
-  local t = 4
-
-  chunk_generators[t](chunk_size, gap)
-
-  M.offset.x = M.offset.x + chunk_size*TILE_DIMENSION + gap*TILE_DIMENSION
+  local t = get_random_int(1, 4)
+  local chunk_offset = chunk_generators[t]()
+  M.offset.x = M.offset.x + chunk_offset*TILE_DIMENSION
   M.chunk_counter = M.chunk_counter + 1
 end
 
