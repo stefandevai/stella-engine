@@ -170,7 +170,7 @@ void Game::create_layer(const sol::table &obj)
 
 void Game::add_sprite_component(const unsigned &index, const unsigned &version, const sol::table &obj)
 {
-  const std::string layer_id = obj["layer"] == sol::lua_nil ? std::string() : obj["layer"];
+  const std::string &layer_id = obj["layer"] == sol::lua_nil ? std::string() : obj["layer"];
   const std::string &texture_name = obj["texture"] == sol::lua_nil ? std::string() : obj["texture"];
 
   if (!layer_id.empty() && !texture_name.empty())
@@ -183,7 +183,8 @@ void Game::add_sprite_component(const unsigned &index, const unsigned &version, 
     {
       const float &framew = obj["frame_dimensions"][1];
       const float &frameh = obj["frame_dimensions"][2];
-      entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name, glm::vec2(framew, frameh), layer_id);
+      const unsigned &frame = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
+      entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name, glm::vec2(framew, frameh), layer_id, frame);
     }
   }
   else
