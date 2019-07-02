@@ -2,6 +2,7 @@ local M = {}
 
 local Entity = require('scripts.Entity')
 local Map = require('scripts.ProceduralMap')
+local Player = Entity:create_entity()
 
 local function load_assets()
   load_texture("sky", "assets/sprites/starry_sky.png")
@@ -69,17 +70,16 @@ local function load_background()
 end
 
 local function load_player(x, y)
-  local player = Entity:create_entity()
-  player:add_component("player")
-  player:add_component("sprite", {
+  Player:add_component("player")
+  Player:add_component("sprite", {
     texture = "guanaco",
     layer = "tiles",
     frame_dimensions = {80,60,0},
   })
-  player:add_component("position", {x, y, 0}) 
-  player:add_component("dimension", {80, 60})
-  player:add_component("movement", { speed = {650, 400} })
-  player:add_component("body", {
+  Player:add_component("position", {x, y, 3}) 
+  Player:add_component("dimension", {80, 60})
+  Player:add_component("movement", { speed = {650, 400} })
+  Player:add_component("body", {
     drag = {900, 900},
     collide_with_borders = true,
   })
@@ -91,7 +91,7 @@ local function load_player(x, y)
   animation_args["animations"][2] = {"run", {0,1,2,3,4}, 5}
   animation_args["animations"][3] = {"jump", {3}, 5}
   animation_args["animations"][4] = {"fall", {1}, 5}
-  player:add_component("animation", animation_args) 
+  Player:add_component("animation", animation_args) 
 end
 
 local function load()
@@ -115,19 +115,24 @@ local function load()
 end
 
 local camerax = 0.0
-local speedx = 70.0
+local speedx = 50.0
 local frame_counter = 1
 local function update(dt)
+  local player_position = {get_player_position(Player.index, Player.version)}
+  local camera position = 0.0
+  if player_position[2] - 250 < 0.0 then
+    camera_position = player_position[2] - 250
+  end
   camerax = camerax + speedx*dt
-  update_camera(camerax, 0.0, 0.0)
+  update_camera(camerax, camera_position, 0.0)
   Map.update(camerax)
 
-  --if frame_counter % 450 == 0 and speedx < 300.0 then
-    --speedx = speedx + 7.0
-    --print('Distance: ' .. camerax)
-    --print('Speed: ' .. speedx)
-  --end
-  --frame_counter = frame_counter + 1
+  if frame_counter % 450 == 0 and speedx < 300.0 then
+    speedx = speedx + 7.0
+    print('Distance: ' .. camerax)
+    print('Speed: ' .. speedx)
+  end
+  frame_counter = frame_counter + 1
 end
 
 local function render(dt)

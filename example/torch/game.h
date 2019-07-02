@@ -37,6 +37,7 @@ private:
 
   void create_camera(double x, double y, double z);
   void update_camera(double x, double y, double z);
+  std::tuple<int,int,int> get_player_position(int index, int version);
 
 	void LoadTexture(std::string tex_name, const char *tex_path);
 	void LoadFont(std::string font_name, const char *font_path);

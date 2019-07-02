@@ -20,7 +20,7 @@ local map
 local tiles = {}
 local current_tile_height = 1
 
-local function add_tile(x, y, body, frame)
+local function add_tile(x, y, z, body, frame)
   local tile = Entity:create_entity()
   tile.x = x*TILE_DIMENSION + M.offset.x
   tile.y = SCREEN_HEIGHT - (y+1)*TILE_DIMENSION + M.offset.y
@@ -32,7 +32,7 @@ local function add_tile(x, y, body, frame)
     frame_dimensions = {TILE_DIMENSION,TILE_DIMENSION},
     frame = frame
   })
-  tile:add_component("position", {tile.x, tile.y, 1}) 
+  tile:add_component("position", {tile.x, tile.y, z}) 
   tile:add_component("dimension", {TILE_DIMENSION, TILE_DIMENSION})
 
   if body == true then
@@ -80,7 +80,9 @@ end
 local stone_tile_groups = {}
 stone_tile_groups[1] = {1,10,16,24,27}
 stone_tile_groups[2] = {{1,0,9,8}, {5,4,13,12}, {18,17,26,25}, {21,1,29,28}}
-stone_tile_groups[3] = {{11,3,2,19,18,17,27,26,25},  {3,2,11,5,4,19,26,25,1}}
+--stone_tile_groups[3] = {{11,3,2,19,18,17,27,26,25},  {3,2,11,5,4,19,26,25,1}, {11,3,2,19,23,22,27,31,30}, {11,3,2,19,7,6,27,15,14}}
+stone_tile_groups[3] = {{11,3,2,19,18,17,27,26,25},  {3,2,11,5,4,19,26,25,1}, {11,3,2,19,23,22,27,31,30}}
+stone_tile_groups["snow-top"] = {56,57,58,59,60,61,62}
 
 local function build_nxn_tile(side, frames, width, nsearches)
   for i = 1, nsearches do
@@ -128,10 +130,19 @@ local function build_stone_tiles(bounding_matrix, width, height, gap)
 
       if frames[i] == -1 then
         local frame = stone_tile_groups[1][get_perlin_int(1,#stone_tile_groups[1],x + y*width)]
-        add_tile(gap+x, y, has_body, frame)
+        add_tile(gap+x, y, 1, has_body, frame)
       else
-        add_tile(gap+x, y, has_body, frames[i])
+        add_tile(gap+x, y, 1, has_body, frames[i])
       end
+
+      if y == height then
+        -- Add snow on top of tile
+        add_tile(gap+x, y, 2, false, 48)
+
+        local snow_top = stone_tile_groups["snow-top"][get_random_int(1,#stone_tile_groups["snow-top"])]
+        add_tile(gap+x, y+1, 2, false, snow_top)
+      end
+
     end
   end
 end
@@ -151,10 +162,15 @@ local function build_stair_tiles(bounding_matrix, width, height, gap)
       end
 
       if y == height then
-        add_tile(gap+x, y, has_body, 20)
+        add_tile(gap+x, y, 1, has_body, 20)
+
+        -- Add snow on top of tile
+        add_tile(gap+x, y, 2, true, 48)
+        local snow_top = stone_tile_groups["snow-top"][get_random_int(1,#stone_tile_groups["snow-top"])]
+        add_tile(gap+x, y+1, 2, false, snow_top)
       else
         local frame = stone_tile_groups[1][get_perlin_int(1,#stone_tile_groups[1],1+x + y*width)]
-        add_tile(gap+x, y, has_body, frame)
+        add_tile(gap+x, y, 1, has_body, frame)
       end
     end
   end
@@ -293,12 +309,11 @@ local function generate_chunk(chunk_type)
   if t == nil then
     t = get_random_int(1, 4)
     --t = 2
+    if t == 3 and current_tile_height < 6 then
+      t = 2
+    end
   end
   local chunk_offset = chunk_generators[t]()
-  M.offset.x = M.offset.x + chunk_offset*TILE_DIMENSION
-  M.chunk_counter = M.chunk_counter + 1
-
-  chunk_offset = chunk_generators[3]()
   M.offset.x = M.offset.x + chunk_offset*TILE_DIMENSION
   M.chunk_counter = M.chunk_counter + 1
 end

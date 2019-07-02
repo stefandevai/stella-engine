@@ -19,6 +19,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   this->scriptApi.vm.set_function("e_add_component", &Game::add_component, this);
   //this->scriptApi.vm.set_function("create_camera", &Game::create_camera, this);
   this->scriptApi.vm.set_function("update_camera", &Game::update_camera, this);
+  this->scriptApi.vm.set_function("get_player_position", &Game::get_player_position, this);
   this->scriptApi.vm.set_function("get_perlin_int", &Game::get_perlin_int, this);
   this->scriptApi.vm.set_function("get_perlin_decimal", &Game::get_perlin_double, this);
   this->scriptApi.vm.set_function("get_random_int", &Game::get_random, this);
@@ -149,6 +150,20 @@ void Game::update_camera(double x, double y, double z) {
   pos->x = x;
   pos->y = y;
   pos->z = z;
+}
+
+std::tuple<int,int,int> Game::get_player_position(int index, int version)
+{
+  auto player = entities.get(ex::Entity::Id(index, version));
+  if (player.has_component<stella::components::PlayerComponent>())
+  {
+    auto position = player.component<stella::components::PositionComponent>();
+    return std::make_tuple(position->x, position->y, position->z);
+  }
+  else
+  {
+    return std::make_tuple(0,0,0);
+  }
 }
 
 const std::tuple<unsigned int, unsigned int> Game::create_entity()
