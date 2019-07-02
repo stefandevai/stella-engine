@@ -7,8 +7,12 @@
 
 namespace stella {
 namespace systems {
-PlayerMovementSystem::PlayerMovementSystem(const int &boundx, stella::graphics::Display &display)
-    : BoundX(boundx), Display(display) {}
+PlayerMovementSystem::PlayerMovementSystem(const int &boundx, stella::graphics::Display &display, std::shared_ptr<stella::audio::SoundPlayer> sound_player)
+  : BoundX(boundx), Display(display), SoundPlayer(sound_player) {
+    this->SoundPlayer->AddSound("jump", "assets/audio/jump.ogg");
+    this->SoundPlayer->AddSound("land", "assets/audio/land.ogg");
+    this->SoundPlayer->AddStream("run", "assets/audio/run.ogg");
+  }
 
 PlayerMovementSystem::~PlayerMovementSystem() {}
 
@@ -21,12 +25,17 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
                                           components::PositionComponent &pos,
                                           components::DimensionComponent &dim) {
 
+        auto previous_state = this->current_state;
+
         if (body.Body->Velocity.x > MAX_PLAYER_VELOCITY) body.Body->Velocity.x = MAX_PLAYER_VELOCITY;
         else if (body.Body->Velocity.x < -MAX_PLAYER_VELOCITY) body.Body->Velocity.x = -MAX_PLAYER_VELOCITY;
         // Handle collision events
         // TODO: Use library events
         // Collided bottom
         if (body.Body->Collisions.test(2)) {
+          if (player.InAir) {
+            this->SoundPlayer->Play("land");
+          }
           player.InAir = false;
           this->current_state = IDLE;
         }
@@ -70,6 +79,8 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
             body.Body->Acceleration.y = 0.0f;
 
             player.InAir = true;
+
+            this->SoundPlayer->Play("jump");
           }
         }
 
@@ -83,16 +94,22 @@ void PlayerMovementSystem::update(ex::EntityManager &es,
         }
 
         auto anims = entity.component<components::AnimationsComponent>();
-        this->SetState(this->current_state, anims);
+        this->SetState(this->current_state, anims, previous_state);
       });
 }
 
-void PlayerMovementSystem::SetState(PlayerMovementSystem::State state, entityx::ComponentHandle<stella::components::AnimationsComponent, entityx::EntityManager> anims)
+void PlayerMovementSystem::SetState(PlayerMovementSystem::State state, entityx::ComponentHandle<stella::components::AnimationsComponent, entityx::EntityManager> anims, PlayerMovementSystem::State previous_state)
 {
+  if (previous_state != this->current_state && previous_state == RUNNING)
+  {
+    this->SoundPlayer->Stop("run");
+  }
+
   switch(state)
   {
     case RUNNING:
       anims->current_animation = "run";
+      this->SoundPlayer->Play("run");
       break;
     case JUMPING:
       anims->current_animation = "jump";

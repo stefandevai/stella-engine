@@ -13,6 +13,7 @@ public:
 
   void Play(const bool &loop = false) override;
   void Pause(const bool &fadeOut = false) override;
+  void Resume(const bool &fadeOut = false) override;
   void Stop(const bool &fadeOut = false) override;
   void Update() override;
   //virtual bool IsInitialized() override;

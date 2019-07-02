@@ -55,9 +55,30 @@ void OggStream::Play(const bool &loop) {
   this->Reseted = false;
 }
 
-void OggStream::Pause(const bool &fadeOut) {}
+void OggStream::Pause(const bool &fadeOut) {
+    if (IsPlaying())
+    {
+      alSourcePause(this->Source);
+    }
+}
 
-void OggStream::Stop(const bool &fadeOut) {}
+void OggStream::Resume(const bool &fadeOut) {
+  if (IsPaused())
+  {
+    alSourcePlay(this->Source);
+  }
+}
+
+void OggStream::Stop(const bool &fadeOut) {
+  if (IsPlaying() || IsPaused())
+  {
+    alSourceStop(this->Source);
+    ov_raw_seek(&this->StreamData, 0);
+    this->Reseted = true;
+    this->StreamOpened = false;
+    this->emptyQueue();
+  }
+}
 
 void OggStream::Update() {
   ALenum state;
@@ -93,8 +114,32 @@ void OggStream::Update() {
 }
 
 //bool OggStream::IsInitialized() const { return this->StreamOpened; }
+//
+bool OggStream::IsPaused()
+{
+  if (!this->StreamOpened)
+  {
+    return false;
+  }
+  ALenum state;
+  alGetSourcei(this->Source, AL_SOURCE_STATE, &state);
+  return (state == AL_PAUSED);
+}
 
-bool OggStream::IsPlaying() {
+bool OggStream::IsStoped()
+{
+  if (!this->StreamOpened)
+  {
+    return true;
+  }
+  ALenum state;
+  alGetSourcei(this->Source, AL_SOURCE_STATE, &state);
+  return (state == AL_STOPPED || state == AL_INITIAL);
+
+}
+
+bool OggStream::IsPlaying()
+{
   if (!this->StreamOpened)
     return false;
   ALenum state;
@@ -131,7 +176,7 @@ void OggStream::openFile(const char *filepath) {
   alSourcef(this->Source, AL_ROLLOFF_FACTOR, 0.0);
   alSourcei(this->Source, AL_SOURCE_RELATIVE, AL_TRUE);
 
-  this->displayInfo();
+  //this->displayInfo();
 }
 
 const void OggStream::displayInfo() const {

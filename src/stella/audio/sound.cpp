@@ -48,6 +48,8 @@ void Sound::Play(const bool &loop) { alSourcePlay(this->Source); }
 
 void Sound::Pause(const bool &fadeOut) {}
 
+void Sound::Resume(const bool &fadeOut) {}
+
 void Sound::Stop(const bool &fadeOut) {}
 
 void Sound::Update() {

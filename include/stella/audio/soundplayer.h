@@ -17,6 +17,7 @@ public:
   void AddSound(std::string name, const char *filepath);
   void AddStream(std::string name, const char *filepath);
   void Play(std::string name, bool loop = false);
+  void Stop(std::string name);
   void Update();
 
 private:

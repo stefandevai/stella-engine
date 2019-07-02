@@ -32,6 +32,14 @@ void SoundPlayer::Play(std::string name, bool loop) {
     entry->second->Play(loop);
 }
 
+void SoundPlayer::Stop(std::string name) {
+  auto entry = this->Playables.find(name);
+  if (entry == this->Playables.end())
+    std::cout << "Couldn't find playable '" << name << "'" << std::endl;
+  else
+    entry->second->Stop();
+}
+
 void SoundPlayer::Update() {
   for (auto i = this->Playables.begin(); i != this->Playables.end(); ++i) {
     if (i->second->IsInitialized())

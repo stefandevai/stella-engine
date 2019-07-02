@@ -19,9 +19,12 @@ public:
 
   void Play(const bool &loop) override;
   void Pause(const bool &fadeOut = false) override;
+  void Resume(const bool &fadeOut = false) override;
   void Stop(const bool &fadeOut = false) override;
   void Update() override;
   bool IsPlaying();
+  bool IsStoped();
+  bool IsPaused();
   //virtual bool IsInitialized() const override;
   inline bool IsInitialized() override { return this->StreamOpened; }
 

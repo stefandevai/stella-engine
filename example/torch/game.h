@@ -16,17 +16,16 @@ namespace ex = entityx;
 
 class Game : public ex::EntityX {
 public:
-  Game(stella::graphics::Display &display);
+  Game(stella::graphics::Display &display, int argc, char *argv[]);
   ~Game();
 
   void Update(ex::TimeDelta dt);
 
 private:
-  enum States {NONE, GAME_LOADING, GAME_LOADED, GAME_NOT_LOADED, MAIN_MENU, GAME_LOOP, GAME_PAUSED, GAME_OVER};
 	stella::graphics::Display &Display;
-	ex::Entity FPSText, Fire;
-  sol::state lua;
+	ex::Entity FPSText;
   stella::ScriptApi scriptApi;
+  std::shared_ptr<stella::audio::SoundPlayer> SoundPlayer;
 
   ex::Entity Camera;
 

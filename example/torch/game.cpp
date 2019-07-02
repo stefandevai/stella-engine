@@ -8,7 +8,11 @@
 
 #include <stella/systems.h>
 
-Game::Game(stella::graphics::Display &display) : Display(display) {
+Game::Game(stella::graphics::Display &display, int argc, char *argv[]) : Display(display) {
+  this->SoundPlayer = std::make_shared<stella::audio::SoundPlayer>(&argc, argv);
+  this->SoundPlayer->AddStream("dawn-pollen", "assets/audio/st-dawn_pollen.ogg");
+  this->SoundPlayer->Play("dawn-pollen", true);
+
   this->create_camera(0.f, 0.f, 0.f);
   srand(time(nullptr));
 
@@ -44,7 +48,7 @@ Game::Game(stella::graphics::Display &display) : Display(display) {
   systems.add<stella::systems::ScrollSystem>();
   systems.add<stella::systems::RenderingSystem>(this->Textures, this->Display);
   systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
-  systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display);
+  systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display, this->SoundPlayer);
   //systems.add<stella::systems::TransformSystem>();
   //systems.add<stella::systems::TorchSystem>(player, entities);
   systems.add<stella::systems::AnimationSystem>();
@@ -95,6 +99,7 @@ void Game::update_systems(const double &dt)
 void Game::Update(ex::TimeDelta dt) { 
   this->scriptApi.RunUpdate(dt);
   this->scriptApi.RunRender(dt);
+  this->SoundPlayer->Update();
   this->update_systems(dt);
 }
 
