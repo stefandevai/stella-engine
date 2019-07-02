@@ -4,7 +4,7 @@ local Entity = require('scripts.Entity')
 
 local SCREEN_WIDTH = 896
 local SCREEN_HEIGHT = 504
-local TILE_DIMENSION = 16
+local TILE_DIMENSION = 32
 local SCREEN_WIDTH_TILES = SCREEN_WIDTH/TILE_DIMENSION
 local SCREEN_HEIGHT_TILES = SCREEN_HEIGHT/TILE_DIMENSION 
 local SCREEN_WIDTH_TILES_WITH_OFFSET = SCREEN_WIDTH_TILES + 1
@@ -19,11 +19,8 @@ M.chunk_counter = 0
 local map
 local tiles = {}
 local current_tile_height = 1
-local stone_tile_groups = {}
-stone_tile_groups[1] = {0,1,8,9}
-stone_tile_groups[2] = {4,5,12,13}
 
-local function add_tile(x, y, body)
+local function add_tile(x, y, body, frame)
   local tile = Entity:create_entity()
   tile.x = x*TILE_DIMENSION + M.offset.x
   tile.y = SCREEN_HEIGHT - (y+1)*TILE_DIMENSION + M.offset.y
@@ -33,7 +30,7 @@ local function add_tile(x, y, body)
     texture = "tiles",
     layer = "tiles",
     frame_dimensions = {TILE_DIMENSION,TILE_DIMENSION},
-    frame = 10
+    frame = frame
   })
   tile:add_component("position", {tile.x, tile.y, 1}) 
   tile:add_component("dimension", {TILE_DIMENSION, TILE_DIMENSION})
@@ -43,18 +40,122 @@ local function add_tile(x, y, body)
   end
 end
 
+local function get_available_matrix_index(matrix)
+  local index = get_random_int(1, #matrix)
+  while matrix[index] ~= -1 do
+    index = get_random_int(1, #matrix, index)
+  end
+  return index
+end
+
+local function search_place(side, matrix, index, width)
+  local available = true
+  local index_height = index // width
+  
+  for y = 1, side do
+    for x = 1, side do
+      if matrix[index + x + (index_height+y)*width] ~= -1 then
+        available = false
+        break
+      end
+    end
+  end
+
+  -- tile is available for this index
+  if available == true then
+    local indexes = {}
+    for y = 1, side do
+      for x = 1, side do
+        indexes[#indexes+1] = index + x + (index_height+y)*width
+      end
+    end
+    return indexes
+  end
+
+  -- tile is not available for this index
+  return {}
+end
+
+-- List indexes from top right to bottom left
+local stone_tile_groups = {}
+stone_tile_groups[1] = {1,10,16,24,27}
+stone_tile_groups[2] = {{1,0,9,8}, {5,4,13,12}, {18,17,26,25}, {21,1,29,28}}
+stone_tile_groups[3] = {{11,3,2,19,18,17,27,26,25},  {3,2,11,5,4,19,26,25,1}}
+
+local function build_nxn_tile(side, frames, width, nsearches)
+  for i = 1, nsearches do
+    local index = get_available_matrix_index(frames)
+    local indexes = search_place(side, frames, index, width)
+    if #indexes > 0 then
+      local group = stone_tile_groups[side][get_perlin_int(1,#stone_tile_groups[side],i)]
+      for n = 1, #indexes do
+        frames[indexes[n]] = group[#indexes + 1 - n]
+      end
+    end
+  end
+  return frames
+end
+
 local function build_stone_tiles(bounding_matrix, width, height, gap)
+  local y = 0
+  local x = 1
+  local frames = {}
+
+  -- -1 means that the tile is available for adding other tiles
+  for i = 1, #bounding_matrix do
+    if bounding_matrix[i] ~= 0 then
+      frames[i] = -1
+    end
+  end
+
+  if height >= 3 and width >= 3 then
+    frames = build_nxn_tile(3, frames, width, 10)
+  end
+
+  if height >= 2 and width >= 2 then
+    frames = build_nxn_tile(2, frames, width, 10)
+  end
+
+  for i = 1, #bounding_matrix do
+    if bounding_matrix[i] > 0 then
+      x = (i-1) % width
+      y = (i-1) // width
+
+      local has_body = false
+      if bounding_matrix[i] == 1 then
+        has_body = true
+      end
+
+      if frames[i] == -1 then
+        local frame = stone_tile_groups[1][get_perlin_int(1,#stone_tile_groups[1],x + y*width)]
+        add_tile(gap+x, y, has_body, frame)
+      else
+        add_tile(gap+x, y, has_body, frames[i])
+      end
+    end
+  end
+end
+
+local function build_stair_tiles(bounding_matrix, width, height, gap)
   local y = 0
   local x = 1
 
   for i = 1, #bounding_matrix do
-    x = i % width
-    y = (i-1) // width
+    if bounding_matrix[i] > 0 then
+      x = (i-1) % width
+      y = (i-1) // width
 
-    if bounding_matrix[i] == 1 then
-        add_tile(gap+x, y, true)
-    elseif bounding_matrix[i] == 2 then
-        add_tile(gap+x, y, false)
+      local has_body = false
+      if bounding_matrix[i] == 1 then
+        has_body = true
+      end
+
+      if y == height then
+        add_tile(gap+x, y, has_body, 20)
+      else
+        local frame = stone_tile_groups[1][get_perlin_int(1,#stone_tile_groups[1],1+x + y*width)]
+        add_tile(gap+x, y, has_body, frame)
+      end
     end
   end
 end
@@ -70,107 +171,82 @@ local function plain(chunk_size, gap)
   for y = 0, height do
     for x = 1, chunk_size do
       if x == 1 or x == chunk_size or y == height then
-        --io.write('1 ')
         bounding_matrix[x + y*chunk_size] = 1
       else
-        --io.write('2 ')
         bounding_matrix[x + y*chunk_size] = 2
       end
     end
-    --io.write('\n')
   end
 
   build_stone_tiles(bounding_matrix, chunk_size, height, gap)
-
-  --for i = 1, #bounding_matrix do
-    --if i % chunk_size-1 == 0 then
-      --io.write('\n')
-    --end
-    --io.write(bounding_matrix[i])
-    --io.write(' ')
-  --end
-  --io.write('\n')
-
-  --for x = 1, chunk_size do
-    --for y=0,height-1 do
-      --if x == 1 or x == chunk_size then
-        --bounding_matrix[x + y*chunk_size] = 1
-      --else
-        --bounding_matrix[x + y*chunk_size] = 2
-      --end
-    --end
-    --bounding_matrix[x + height*chunk_size] = 1
-  --end
-
-
-  --for x = gap, chunk_size+gap do
-    --for y=0,height-1 do
-      --if x == gap or x == chunk_size+gap then
-        --add_tile(x, y, true)
-      --else
-        --add_tile(x, y, false)
-      --end
-    --end
-    --add_tile(x, height, true)
-  --end
 
   return chunk_size + gap
 end
 
 local function elevate()
-  local gap = 0
   local height = get_random_int(1, 5)
   local chunk_size = height*2
 
-  local counter = 1
+  local counter = 0
   for y = 1, height do
+
+    local bounding_matrix = {}
 
     for y2 = 0, current_tile_height + y do
       if y == height then
-        add_tile(counter, y2, false)
-        add_tile(counter+1, y2, true)
+        bounding_matrix[0 + y2*2] = 2
+        bounding_matrix[1 + y2*2] = 1
       else
-        add_tile(counter, y2, false)
-        add_tile(counter+1, y2, false)
+        bounding_matrix[0 + y2*2] = 2
+        bounding_matrix[1 + y2*2] = 2
       end
     end
 
     local step = current_tile_height + y
-    add_tile(counter, step, true)
-    add_tile(counter+1, step, true)
+
+    bounding_matrix[1 + step*2] = 1
+    bounding_matrix[2 + step*2] = 1
+
+    build_stair_tiles(bounding_matrix, 2, current_tile_height+y, counter)
+
     counter = counter + 2
   end
 
   current_tile_height = current_tile_height + height
-  return chunk_size + gap
+  return chunk_size
 end
 
 local function descend()
-  local gap = 0
   local height = get_random_int(1, 5)
   local chunk_size = height*2
 
-  local counter = 1
+  local counter = 0
   for y = 1, height do
+
+    local bounding_matrix = {}
 
     for y2 = 0, current_tile_height - y do
       if y == height then
-        add_tile(counter, y2, false)
-        add_tile(counter+1, y2, true)
+        bounding_matrix[0 + y2*2] = 2
+        bounding_matrix[1 + y2*2] = 1
       else
-        add_tile(counter, y2, false)
-        add_tile(counter+1, y2, false)
+        bounding_matrix[0 + y2*2] = 2
+        bounding_matrix[1 + y2*2] = 2
       end
     end
 
     local step = current_tile_height - y
-    add_tile(counter, step, true)
-    add_tile(counter+1, step, true)
+
+    bounding_matrix[1 + step*2] = 1
+    bounding_matrix[2 + step*2] = 1
+
+    build_stair_tiles(bounding_matrix, 2, current_tile_height-y, counter)
+
     counter = counter + 2
   end
 
   current_tile_height = current_tile_height - height
-  return chunk_size + gap
+  return chunk_size
 end
 
 local function towers()
@@ -178,7 +254,9 @@ local function towers()
   local gap = get_perlin_int(0, 3, chunk_size*47)
   local i = gap
 
+  local gap_accumulation = gap
   while (i < chunk_size+gap) do
+    local bounding_matrix = {}
     local tower_length = get_random_int(2, 4)
     local tower_gap = get_random_int(2, 4)
     local tower_height = get_random_int(1, current_tile_height+4)
@@ -187,14 +265,17 @@ local function towers()
     for x = 1, tower_length do
       for y = 0, tower_height do
         if x == 1 or x == tower_length or y == tower_height then
-          add_tile(i+x, y, true)
+          bounding_matrix[x + y*tower_length] = 1
         else
-          add_tile(i+x, y, false)
+          bounding_matrix[x + y*tower_length] = 2
         end
       end
     end
 
+    build_stone_tiles(bounding_matrix, tower_length, tower_height, gap_accumulation)
+
     i = i + tower_length + tower_gap
+    gap_accumulation = gap_accumulation + tower_length + tower_gap
   end
 
   return chunk_size + gap
@@ -210,10 +291,14 @@ local chunk_generators = {
 local function generate_chunk(chunk_type)
   local t = chunk_type
   if t == nil then
-    --t = get_random_int(1, 4)
-    t = 1
+    t = get_random_int(1, 4)
+    --t = 2
   end
   local chunk_offset = chunk_generators[t]()
+  M.offset.x = M.offset.x + chunk_offset*TILE_DIMENSION
+  M.chunk_counter = M.chunk_counter + 1
+
+  chunk_offset = chunk_generators[3]()
   M.offset.x = M.offset.x + chunk_offset*TILE_DIMENSION
   M.chunk_counter = M.chunk_counter + 1
 end
