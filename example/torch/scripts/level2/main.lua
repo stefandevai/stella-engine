@@ -119,12 +119,12 @@ local speedx = 50.0
 local frame_counter = 1
 local function update(dt)
   local player_position = {get_player_position(Player.index, Player.version)}
-  local camera position = 0.0
-  if player_position[2] - 250 < 0.0 then
+  local camera_position = 0
+  if player_position[2] - 250 < 0 then
     camera_position = player_position[2] - 250
   end
   camerax = camerax + speedx*dt
-  update_camera(camerax, camera_position, 0.0)
+  update_camera(camerax, camera_position, 0)
   Map.update(camerax)
 
   if frame_counter % 450 == 0 and speedx < 300.0 then

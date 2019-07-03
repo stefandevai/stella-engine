@@ -16,7 +16,7 @@ endif()
 set(STELLA_LIBRARY_NAME "stella")
 
 # Debug mode
-option(STELLA_DEBUG_MODE "Build in debug mode" OFF)
+option(STELLA_DEBUG_MODE "Build in debug mode" ON)
 
 # Turn this option on to build a targeted example
 option(BUILD_STELLA_EXAMPLE "Build example" ON)

@@ -6,7 +6,11 @@ function Entity:add_component(type, args)
   obj.index = self.index
   obj.version = self.version
   obj.type = type
-  obj.args = args
+  if args == nil then
+    obj.args = {}
+  else
+    obj.args = args
+  end
   e_add_component(obj)
 end
 
