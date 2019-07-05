@@ -32,7 +32,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Turn on these options to use the libraries contained in your machine.
 option(USE_SHARED_SDL2 "Use shared SDL2 library" ON)
-option(USE_SHARED_SOIL "Use shared SOIL library" OFF)
+#option(USE_SHARED_SOIL "Use shared SOIL library" OFF)
 option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" ON)
 option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" ON)
 #option(USE_SHARED_ENTITYX "Use shared EntityX library" OFF)
@@ -63,13 +63,16 @@ include_directories(${GLAD_INCLUDE_DIRS})
 include_directories(${DEPENDENCIES_DIR}/glm)
 
 # SOIL - Handles image loading in various formats.
-if (USE_SHARED_SOIL)
-	find_package(SOIL REQUIRED)
-else()
-	set(SOIL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/soil/code)
-	set(SOIL_LIBRARIES soil)
-endif()
-include_directories(${SOIL_INCLUDE_DIRS})
+#if (USE_SHARED_SOIL)
+	#find_package(SOIL REQUIRED)
+#else()
+	#set(SOIL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/soil/code)
+	#set(SOIL_LIBRARIES soil)
+#endif()
+#include_directories(${SOIL_INCLUDE_DIRS})
+
+# stb_image - Handles image loading in various formats.
+include_directories(${DEPENDENCIES_DIR}/stb_image)
 
 # OpenAL - Audio library (Using OpenAL-Soft for static library).
 # ALut - Utility Toolkit for OpenAL.
@@ -229,7 +232,7 @@ file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${STELLA_LIBRARY_NAME} ${STELLA_SOURCES})
 
-target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
+target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES}
   ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTT_LIBRARIES} ${LUA_LIBRARIES} ${PLATFORM_LIBRARIES})
 
 # Build examples if specified

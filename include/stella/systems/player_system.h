@@ -25,14 +25,13 @@ class PlayerSystem : public System
   public:
     enum State {IDLE, RUNNING, JUMPING, FALLING};
   private:
-    const int BoundX;
     stella::graphics::Display &Display;
     State current_state = IDLE;
     stella::audio::SoundPlayer &SoundPlayer;
 
   public:
-    PlayerSystem(const int &boundx, stella::graphics::Display &display, stella::audio::SoundPlayer &sound_player) 
-      : BoundX(boundx), Display(display), SoundPlayer(sound_player)
+    PlayerSystem(stella::graphics::Display &display, stella::audio::SoundPlayer &sound_player) 
+      : Display(display), SoundPlayer(sound_player)
     { 
       this->SoundPlayer.AddSound("jump", "assets/audio/jump.ogg");
       this->SoundPlayer.AddSound("land", "assets/audio/land.ogg");

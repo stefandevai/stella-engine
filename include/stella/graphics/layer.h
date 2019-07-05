@@ -11,6 +11,12 @@
 namespace stella {
 namespace graphics {
 class Layer {
+protected:
+  std::shared_ptr<Renderer> Ren;
+  std::shared_ptr<Shader> Shad;
+  std::vector<std::shared_ptr<Sprite>> Sprites;
+  glm::mat4 ViewMatrix;
+
 public:
   bool Fixed;
 
@@ -21,11 +27,6 @@ public:
   virtual void SetViewMatrix(glm::mat4 view);
 
 protected:
-  std::shared_ptr<Renderer> Ren;
-  std::shared_ptr<Shader> Shad;
-  std::vector<std::shared_ptr<Sprite>> Sprites;
-  glm::mat4 ViewMatrix;
-
   Layer(std::shared_ptr<Renderer> renderer, bool fixed = true);
 };
 } // namespace graphics

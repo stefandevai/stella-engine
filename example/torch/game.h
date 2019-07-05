@@ -13,15 +13,15 @@
 #include <sol.hpp>
 
 #include <entt/entity/registry.hpp>
-#include <stella/systemss/render_system.h>
-#include <stella/systemss/animation_system.h>
-#include <stella/systemss/physics_system.h>
-#include <stella/systemss/player_system.h>
-#include <stella/systemss/scroll_system.h>
-#include <stella/systemss/tiled_scroll_system.h>
-#include <stella/systemss/tile_system.h>
-#include <stella/systemss/transform_system.h>
-#include <stella/systemss/particle_system.h>
+#include <stella/systems/render_system.h>
+#include <stella/systems/animation_system.h>
+#include <stella/systems/physics_system.h>
+#include <stella/systems/player_system.h>
+#include <stella/systems/scroll_system.h>
+#include <stella/systems/tiled_scroll_system.h>
+#include <stella/systems/tile_system.h>
+#include <stella/systems/transform_system.h>
+#include <stella/systems/particle_system.h>
 
 //namespace ex = entityx;
 
@@ -47,14 +47,14 @@ private:
 	std::unordered_map<std::string, stella::graphics::Texture*> Fonts;
 
   stella::systems::RenderSystem m_render_system{Registry, Textures, Display};
-  stella::systems::AnimationSystemm m_animation_system;
-  stella::systems::PhysicsSystemm m_physics_system{Registry, m_camera};
-  stella::systems::PlayerSystem m_player_system{(int)Display.GetWidth(), Display, SoundPlayer};
-  stella::systems::ScrollSystemm m_scroll_system;
+  stella::systems::AnimationSystem m_animation_system;
+  stella::systems::PhysicsSystem m_physics_system{Registry, m_camera};
+  stella::systems::PlayerSystem m_player_system{Display, SoundPlayer};
+  stella::systems::ScrollSystem m_scroll_system;
   stella::systems::TiledScrollSystem m_tiled_scroll_system{(int)Display.GetWidth()};
   stella::systems::TileSystem m_tile_system{m_camera};
-  stella::systems::TransformSystemm m_transform_system;
-  stella::systems::ParticleSystemm m_particle_system;
+  stella::systems::TransformSystem m_transform_system;
+  stella::systems::ParticleSystem m_particle_system;
 
   stella::PerlinNoise NoiseGenerator = stella::PerlinNoise(47);
 

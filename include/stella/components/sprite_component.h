@@ -17,9 +17,9 @@ struct SpriteComponent {
   std::shared_ptr<stella::graphics::Sprite> Sprite = nullptr;
 	std::string TexName;
   glm::vec2 FrameDimensions = glm::vec2(0.f, 0.f);
+  std::string LayerId;
   unsigned int Frame = 0;
   bool InLayer = false, Initialized = false, HasScaled = false;
-  std::string LayerId;
 };
 } // namespace components
 } // namespace stella

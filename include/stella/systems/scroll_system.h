@@ -9,14 +9,14 @@ namespace stella
 {
 namespace systems
 {
-class ScrollSystemm : public System
+class ScrollSystem : public System
 {
   private:
     glm::vec2 GlobalScrollingSpeed = glm::vec2(0.f, 0.f);
   public:
-    ScrollSystemm() { }
+    ScrollSystem() { }
 
-    ~ScrollSystemm() override { }
+    ~ScrollSystem() override { }
 
     void update(entt::registry &registry, const double dt) override
     {

@@ -1,7 +1,14 @@
 #include "stella/graphics/texture.h"
 
 #include <glad/glad.h>
-#include <soil.h>
+#include <iostream>
+
+extern "C"
+{
+  #define STBI_ONLY_PNG
+  #define STB_IMAGE_IMPLEMENTATION
+  #include "stb_image.h"
+}
 
 namespace stella {
 namespace graphics {
@@ -18,11 +25,10 @@ void Texture::Bind() { glBindTexture(GL_TEXTURE_2D, this->ID); }
 void Texture::Unbind() { glBindTexture(GL_TEXTURE_2D, 0); }
 
 void Texture::load(const char *texPath) {
-  int width, height;
-  unsigned char *img =
-      SOIL_load_image(texPath, &width, &height, 0, SOIL_LOAD_RGBA);
-  //if (img == nullptr)
-    //std::cout << "It wasn't possible to load " << texPath << std::endl;
+  int width, height, channels;
+  unsigned char *img = stbi_load(texPath, &width, &height, &channels, 0);
+  if (img == nullptr)
+    std::cout << "It wasn't possible to load " << texPath << std::endl;
 
   this->Width = (unsigned int)width;
   this->Height = (unsigned int)height;
@@ -37,7 +43,7 @@ void Texture::load(const char *texPath) {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   glGenerateMipmap(GL_TEXTURE_2D);
 
-  SOIL_free_image_data(img);
+  stbi_image_free(img);
   glBindTexture(GL_TEXTURE_2D, 0);
 }
 } // namespace graphics

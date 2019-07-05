@@ -7,12 +7,12 @@ namespace stella
 {
 namespace systems
 {
-class TransformSystemm : public System
+class TransformSystem : public System
 {
   public:
-    TransformSystemm() { }
+    TransformSystem() { }
 
-    ~TransformSystemm() override { }
+    ~TransformSystem() override { }
 
     void update(entt::registry &registry, const double dt) override
     {

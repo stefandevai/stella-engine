@@ -15,8 +15,8 @@ class Texture;
 
 class Renderable {
 public:
-  glm::vec2 Dimensions, RealDimensions;
   glm::vec3 Pos;
+  glm::vec2 Dimensions, RealDimensions;
 
   Renderable(glm::vec3 position, glm::vec2 dimensions, Texture &texture, GLboolean visible = 1);
   Renderable(glm::vec3 position, Texture &texture);

@@ -7,7 +7,6 @@
 #include <functional>
 
 #include <stella/systems.h>
-#include <stella/systemss/render_system.h>
 #include <stella/components.h>
 
 

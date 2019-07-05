@@ -8,21 +8,21 @@ namespace stella
 {
 namespace systems
 {
-class PhysicsSystemm : public System
+class PhysicsSystem : public System
 {
   private:
     stella::physics2d::World m_world;
     entt::registry::entity_type m_camera;
 
   public:
-    PhysicsSystemm(entt::registry &registry, entt::registry::entity_type camera) : m_camera(camera)
+    PhysicsSystem(entt::registry &registry, entt::registry::entity_type camera) : m_camera(camera)
     { 
       // TODO: Post an issue about not being able to add the listener
-      //registry.on_destroy<components::Body2DComponent>().connect<&PhysicsSystemm::remove_body_from_world>(this);
+      //registry.on_destroy<components::Body2DComponent>().connect<&PhysicsSystem::remove_body_from_world>(this);
       this->m_world.SetGravity(2200.f);
     }
 
-    ~PhysicsSystemm() override { }
+    ~PhysicsSystem() override { }
 
     void update(entt::registry &registry, const double dt) override
     {
@@ -65,7 +65,7 @@ class PhysicsSystemm : public System
     }
 
   private:
-    PhysicsSystemm() = delete;
+    PhysicsSystem() = delete;
 
     void remove_body_from_world(entt::registry &registry, entt::entity entity, components::Body2DComponent &body)
     {

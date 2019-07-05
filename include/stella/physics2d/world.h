@@ -6,7 +6,7 @@
 
 namespace stella {
 namespace physics2d {
-class Manifold;
+struct Manifold;
 class Body;
 
 class World {
