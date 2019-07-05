@@ -4,9 +4,7 @@
 
 #include "playable.h"
 
-#include <ogg/ogg.h>
-#include <vorbis/codec.h>
-#include <vorbis/vorbisfile.h>
+#include "vorbisogg.h"
 
 #define STREAM_BUFFERS 4
 

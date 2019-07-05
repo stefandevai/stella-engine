@@ -1,12 +1,14 @@
 #pragma once
 
 #include <string>
+#include "stella/core/resource.h"
 
 namespace stella {
 namespace graphics {
 class Texture {
 public:
-  Texture(const std::string &name, const char *texPath);
+  //Texture(const std::string &name, const char *texPath);
+  Texture(const char *texPath);
   ~Texture();
   void Bind();
   static void Unbind();
@@ -15,7 +17,7 @@ public:
   inline unsigned int GetHeight() const { return (int)Height; }
   inline unsigned int GetID() const { return ID; }
   inline unsigned int GetCacheID() const { return CacheID; }
-  inline const std::string &GetName() const { return Name; }
+  //inline const std::string &GetName() const { return Name; }
   inline bool IsCached() const { return this->Cached; }
 
   inline void SetCached(float cache_id) {
@@ -26,7 +28,7 @@ public:
 private:
   unsigned int ID, Width, Height;
   float CacheID;
-  std::string Name;
+  //std::string Name;
   bool Cached;
   void load(const char *texPath);
 };

@@ -9,14 +9,16 @@
 
 namespace stella
 {
+namespace script
+{
 
-class ScriptApi
+class Api
 {
   public:
     sol::state vm;
 
-    explicit ScriptApi();
-    ~ScriptApi();
+    explicit Api();
+    ~Api();
 
     void RunScript(const std::string &script_path);
     void RunFunction(const std::string &function_name);
@@ -47,5 +49,6 @@ class ScriptApi
     const std::string render_function_name = "render_game";
 };
 
+} // namespace script
 } // namespace stella
 

@@ -13,13 +13,12 @@ namespace audio {
 class Playable {
 public:
   inline virtual ~Playable() {}
-  inline virtual void Play(const bool &loop = false) = 0;
-  inline virtual void Pause(const bool &fadeOut = false) = 0;
-  inline virtual void Resume(const bool &fadeOut = false) = 0;
-  inline virtual void Stop(const bool &fadeOut = false) = 0;
-  inline virtual void Update() = 0;
-
-  inline virtual bool IsInitialized() = 0;
+  virtual void Play(const bool &loop = false) = 0;
+  virtual void Pause(const bool &fadeOut = false) = 0;
+  virtual void Resume(const bool &fadeOut = false) = 0;
+  virtual void Stop(const bool &fadeOut = false) = 0;
+  virtual void Update() = 0;
+  virtual bool IsInitialized() = 0;
 
 protected:
   ALuint Source;

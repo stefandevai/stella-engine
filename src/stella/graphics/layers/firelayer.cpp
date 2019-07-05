@@ -1,4 +1,4 @@
-#include "stella/graphics/firelayer.h"
+#include "stella/graphics/layers/firelayer.h"
 
 #include <memory>
 #include <glad/glad.h>

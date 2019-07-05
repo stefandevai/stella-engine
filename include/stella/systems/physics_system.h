@@ -17,8 +17,7 @@ class PhysicsSystem : public System
   public:
     PhysicsSystem(entt::registry &registry, entt::registry::entity_type camera) : m_camera(camera)
     { 
-      // TODO: Post an issue about not being able to add the listener
-      //registry.on_destroy<components::Body2DComponent>().connect<&PhysicsSystem::remove_body_from_world>(this);
+      registry.on_destroy<components::Body2DComponent>().connect<&PhysicsSystem::remove_body_from_world>(this);
       this->m_world.SetGravity(2200.f);
     }
 
@@ -67,8 +66,9 @@ class PhysicsSystem : public System
   private:
     PhysicsSystem() = delete;
 
-    void remove_body_from_world(entt::registry &registry, entt::entity entity, components::Body2DComponent &body)
+    void remove_body_from_world(entt::registry &registry, entt::entity entity)
     {
+      auto& body = registry.get<components::Body2DComponent>(entity);
       m_world.RemoveBody(body.Body);
     }
 };

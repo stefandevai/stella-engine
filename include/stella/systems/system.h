@@ -10,7 +10,7 @@ class System
 {
   public:
     virtual ~System() = default;
-    virtual void update(entt::registry &registry, const double dt) = 0;
+    virtual void update(entt::registry &registry, const double dt) {};
 
   protected:
     System() = default;

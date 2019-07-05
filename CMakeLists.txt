@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.8)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_C_COMPILER /usr/local/Cellar/gcc/9.1.0/bin/gcc-9)
+set(CMAKE_CXX_COMPILER /usr/local/Cellar/gcc/9.1.0/bin/g++-9)
 
 project(STELLA C CXX)
 
@@ -41,6 +43,7 @@ option(USE_SHARED_ENTT "Use shared entt library" OFF)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(SYSTEM)
 
 find_package(OpenGL REQUIRED)
 

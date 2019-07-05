@@ -1,4 +1,4 @@
-#include "stella/graphics/layer.h"
+#include "stella/graphics/layers/layer.h"
 
 #include <algorithm>
 #include <glm/gtc/matrix_transform.hpp>

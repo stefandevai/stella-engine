@@ -1,8 +1,9 @@
 #pragma once
 
+#include <memory>
+#include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <vector>
 
 #include "stella/graphics/shader.h"
 #include "stella/graphics/sprite.h"

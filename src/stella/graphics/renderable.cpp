@@ -13,7 +13,7 @@ Renderable::Renderable(glm::vec3 position, Texture &texture) : Renderable(positi
 Renderable::~Renderable() {}
 
 GLuint Renderable::GetTexID() const { return Tex.GetID(); }
-const std::string& Renderable::GetTexName() const { return Tex.GetName(); }
+//const std::string& Renderable::GetTexName() const { return Tex.GetName(); }
 Texture* Renderable::GetTexture() const { return &Tex; }
 
 } // namespace graphics

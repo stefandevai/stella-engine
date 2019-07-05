@@ -51,7 +51,7 @@ namespace graphics {
         registry.assign<components::ParticleComponent>(particle, max_life, 16.f, speedx, speedy, 1);
         registry.assign<components::SpriteComponent>(particle, this->TextureName, "particles");
         registry.assign<components::TransformComponent>(particle, rotation, glm::vec2(scale, scale));
-        //particle.assign<components::MovementComponent>(glm::vec2(0.f, 100.f*speedy), false, true);
+        registry.assign<components::MovementComponent>(particle, glm::vec2(0.f, 100.f*speedy), false, true);
         //particle.assign<components::Body2DComponent>();
         return particle;
 			}

@@ -1,6 +1,5 @@
 #include "stella/audio/sound.h"
-
-#include <vorbis/vorbisfile.h>
+#include "stella/audio/vorbisogg.h"
 
 namespace {
 void loadOGG(const char *filepath, std::vector<char> &buffer,

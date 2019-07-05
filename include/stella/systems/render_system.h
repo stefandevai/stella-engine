@@ -2,8 +2,7 @@
 
 #include "./system.h"
 #include "../components.h"
-#include "stella/graphics/scenelayer.h"
-#include "stella/graphics/firelayer.h"
+#include "stella/graphics/layers/firelayer.h"
 #include "stella/graphics/layers/basic_layer.h"
 
 namespace stella
@@ -12,12 +11,17 @@ namespace systems
 {
 class RenderSystem : public System
 {
+  private:
+    std::unordered_map<std::string, stella::graphics::Texture*> &m_textures;
+    graphics::Display &m_display;
+    std::unordered_map<std::string, std::shared_ptr<graphics::Layer>> m_layers;
+    std::map<int, std::string> m_ordered_layers;
+
   public:
     RenderSystem(entt::registry &registry, std::unordered_map<std::string, graphics::Texture*> &textures, graphics::Display& display)
       : m_textures(textures), m_display(display)
     {
-      // TODO: Post an issue about not being able to add the listener
-      //registry.on_destroy<components::SpriteComponent>().connect<&RenderSystem::remove_sprite_from_layer>(this);
+      registry.on_destroy<components::SpriteComponent>().connect<&RenderSystem::remove_sprite_from_layer>(this);
       std::srand (static_cast <unsigned> (std::time(0)));
     }
 
@@ -104,17 +108,12 @@ class RenderSystem : public System
         m_layers[order.second]->Render();
       }
     }
-
   private:
-    std::unordered_map<std::string, stella::graphics::Texture*> &m_textures;
-    graphics::Display &m_display;
-    std::unordered_map<std::string, std::shared_ptr<graphics::Layer>> m_layers;
-    std::map<int, std::string> m_ordered_layers;
-
     RenderSystem() = delete;
 
-    void remove_sprite_from_layer(entt::registry &registry, entt::entity entity, components::SpriteComponent &sprite)
+    void remove_sprite_from_layer(entt::registry &registry, entt::entity entity)
     {
+      auto& sprite = registry.get<components::SpriteComponent>(entity);
       if (sprite.InLayer)
       {
         m_layers[sprite.LayerId]->Remove(sprite.Sprite);

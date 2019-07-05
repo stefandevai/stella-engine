@@ -99,17 +99,29 @@ end
 local function load()
   create_layer({
     name = "background",
-    priority = 1,
+    priority = 0,
     shader = "basic",
     fixed = true,
   })
 
   create_layer({
     name = "tiles",
-    priority = 0,
+    priority = 1,
     shader = "basic",
     fixed = false,
   })
+
+  --create_layer({
+    --name = "particles",
+    --priority = 2,
+    --shader = "bloom",
+    --fixed = true,
+  --})
+
+  --local fire_emitter = Entity:create_entity()
+  --fire_emitter:add_component("particle_emitter", {type = "fire", quantity = 10})
+  --fire_emitter:add_component("position", {350, 290}) 
+  --fire_emitter:add_component("dimension", {16, 16})
 
   load_assets()
   load_background()

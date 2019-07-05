@@ -1,8 +1,8 @@
 #pragma once
 
-#include "layer.h"
-#include "shader.h"
-#include "framebuffer.h"
+#include "./layer.h"
+#include "../shader.h"
+#include "../framebuffer.h"
 
 namespace stella {
 namespace graphics {
