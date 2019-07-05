@@ -24,26 +24,26 @@ namespace graphics {
 			inline ~FireEmitter() {
 			}
 
-      inline void UpdateParticle(ex::Entity particle) override {
-        auto particle_par = particle.component<components::ParticleComponent>();
+      inline void UpdateParticle(entt::registry &registry, entt::registry::entity_type particle) override {
+        auto particle_par = registry.get<components::ParticleComponent>(particle);
 
-        if (particle.has_component<components::PositionComponent>()) {
-          auto particle_pos = particle.component<components::PositionComponent>();
-          if ((int)particle_par->SpeedX % 3 == 0)
-            particle_pos->x -= cos(particle_par->SpeedX*particle_par->Life*PI/180)*3 - 1;
-          else if ((int)particle_par->SpeedY % 2 == 0)
-            particle_pos->x += sin(particle_par->SpeedX*particle_par->Life*PI/180)*3;
+        if (registry.has<components::PositionComponent>(particle)) {
+          auto particle_pos = registry.get<components::PositionComponent>(particle);
+          if ((int)particle_par.SpeedX % 3 == 0)
+            particle_pos.x -= cos(particle_par.SpeedX*particle_par.Life*PI/180)*3 - 1;
+          else if ((int)particle_par.SpeedY % 2 == 0)
+            particle_pos.x += sin(particle_par.SpeedX*particle_par.Life*PI/180)*3;
 
-          particle_pos->y += particle_par->SpeedY;
+          particle_pos.y += particle_par.SpeedY;
         }
 
-        if (particle.has_component<components::TransformComponent>() && particle_par->Life % 5 == 0) {
-          auto particle_trans = particle.component<components::TransformComponent>();
-          particle_trans->Scale.x *= 0.8f;
-          particle_trans->Scale.x = std::max(0.001f, particle_trans->Scale.x);
-          particle_trans->Scale.y = particle_trans->Scale.x;
+        if (registry.has<components::TransformComponent>(particle) && particle_par.Life % 5 == 0) {
+          auto particle_trans = registry.get<components::TransformComponent>(particle);
+          particle_trans.Scale.x *= 0.8f;
+          particle_trans.Scale.x = std::max(0.001f, particle_trans.Scale.x);
+          particle_trans.Scale.y = particle_trans.Scale.x;
         }
-        ++particle_par->Life;
+        ++particle_par.Life;
       }
 	};
 }}

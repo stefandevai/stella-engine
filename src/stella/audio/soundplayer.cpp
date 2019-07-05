@@ -5,7 +5,7 @@
 
 namespace stella {
 namespace audio {
-SoundPlayer::SoundPlayer(int *argcp, char **argv) { alutInit(argcp, argv); }
+SoundPlayer::SoundPlayer() { alutInit(nullptr, nullptr); }
 
 SoundPlayer::~SoundPlayer() {
   for (auto i = this->Playables.begin(); i != this->Playables.end(); ++i)

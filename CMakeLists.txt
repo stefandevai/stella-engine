@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.0)
-set(CMAKE_CXX_STANDARD 14)
+cmake_minimum_required(VERSION 3.8)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -35,7 +35,8 @@ option(USE_SHARED_SDL2 "Use shared SDL2 library" ON)
 option(USE_SHARED_SOIL "Use shared SOIL library" OFF)
 option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" ON)
 option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" ON)
-option(USE_SHARED_ENTITYX "Use shared EntityX library" OFF)
+#option(USE_SHARED_ENTITYX "Use shared EntityX library" OFF)
+option(USE_SHARED_ENTT "Use shared entt library" OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -114,14 +115,23 @@ include_directories(${OGG_INCLUDE_DIRS})
 include_directories(${VORBIS_INCLUDE_DIR})
 
 # EntityX - Library implementing an Entity-Component-System architecture
-if (USE_SHARED_ENTITYX)
-	find_package(entityx)
+#if (USE_SHARED_ENTITYX)
+	#find_package(entityx)
+#else()
+	#set(ENTITYX_INCLUDE_DIR ${DEPENDENCIES_DIR}/entityx)
+	#set(ENTITYX_LIBRARIES entityx)
+  #set(ENTITYX_BUILD_TESTING false CACHE BOOL "Enable building of tests.")
+#endif()
+#include_directories(${ENTITYX_INCLUDE_DIR})
+
+# Entt - Entity Component System
+if (USE_SHARED_ENTT)
+	find_package(entt)
 else()
-	set(ENTITYX_INCLUDE_DIR ${DEPENDENCIES_DIR}/entityx)
-	set(ENTITYX_LIBRARIES entityx)
-  set(ENTITYX_BUILD_TESTING false CACHE BOOL "Enable building of tests.")
+	set(ENTT_INCLUDE_DIR ${DEPENDENCIES_DIR}/entt/src)
+	#set(ENTT_LIBRARIES entt)
 endif()
-include_directories(${ENTITYX_INCLUDE_DIR})
+include_directories(${ENTT_INCLUDE_DIR})
 
 # Lua - Lua scripting language
 set(LUA_INCLUDE_DIR ${DEPENDENCIES_DIR}/lua)
@@ -129,10 +139,6 @@ if(APPLE)
 set(LUA_LIBRARIES ${DEPENDENCIES_DIR}/lua/liblua53.a)
 endif()
 include_directories(${LUA_INCLUDE_DIR})
-
-# LuaBridge - Library for binding Lua to C++
-#set(LUABRIDGE_INCLUDE_DIR ${DEPENDENCIES_DIR}/LuaBridge/Source)
-#include_directories(${LUABRIDGE_INCLUDE_DIR})
 
 # Sol3 - Lua API wrapper
 set(SOL_INCLUDE_DIR ${DEPENDENCIES_DIR}/sol2)
@@ -202,13 +208,14 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
 		"${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
 			"${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
 	if (STELLA_DEBUG_MODE)
-    set(CXX_COMPILE_FLAGS "-std=gnu++1z -Wall -g -O0")
+    #set(CXX_COMPILE_FLAGS "-std=gnu++1z -Wall -g -O0")
+    set(CXX_COMPILE_FLAGS "-std=c++17 -Wall -g -O0")
 
     # Uncomment for profiling
 		#set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -pg -g -O0 -no-pie")
 		#set(CXX_LINK_FLAGS "-pg")
 	else()
-		set(CXX_COMPILE_FLAGS "-std=c++1z -O2")
+		set(CXX_COMPILE_FLAGS "-std=c++17 -O2")
 	endif()
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	message(STATUS "Using MSVC")
@@ -223,7 +230,7 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${STELLA_LIBRARY_NAME} ${STELLA_SOURCES})
 
 target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES}
-  ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTITYX_LIBRARIES} ${LUA_LIBRARIES} ${PLATFORM_LIBRARIES})
+  ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTT_LIBRARIES} ${LUA_LIBRARIES} ${PLATFORM_LIBRARIES})
 
 # Build examples if specified
 if (BUILD_STELLA_EXAMPLE)

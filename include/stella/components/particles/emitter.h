@@ -2,18 +2,12 @@
 
 #include <vector>
 #include <string>
-#include <entityx/entityx.h>
-
-namespace ex = entityx;
-
-namespace stella {
-namespace components {
-struct PositionComponent;
-struct DimensionComponent;
-struct ParticleComponent;
-struct SpriteComponent;
-struct TransformComponent;
-}}
+#include <entt/entity/registry.hpp>
+#include "../particle_component.h"
+#include "../position_component.h"
+#include "../dimension_component.h"
+#include "../sprite_component.h"
+#include "../transform_component.h"
 
 namespace stella {
 namespace graphics {
@@ -31,27 +25,27 @@ namespace graphics {
 	class Emitter {
 		public:
 			inline virtual ~Emitter() {};
-      virtual void UpdateParticle(ex::Entity particle) {
-        auto particle_par = particle.component<components::ParticleComponent>();
+      virtual void UpdateParticle(entt::registry &registry, entt::registry::entity_type particle) {
+        auto particle_par = registry.get<components::ParticleComponent>(particle);
 
-        if (particle.has_component<components::PositionComponent>()) {
-          auto particle_pos = particle.component<components::PositionComponent>();
-          particle_pos->x += particle_par->SpeedX;
-          particle_pos->y += particle_par->SpeedY;
+        if (registry.has<components::PositionComponent>(particle)) {
+          auto particle_pos = registry.get<components::PositionComponent>(particle);
+          particle_pos.x += particle_par.SpeedX;
+          particle_pos.y += particle_par.SpeedY;
         }
 
-        ++particle_par->Life;
+        ++particle_par.Life;
       }
 
-			virtual ex::Entity Emit(ex::Entity generator, ex::EntityManager& es) {
-        auto pos = generator.component<components::PositionComponent>();
-        auto dim = generator.component<components::DimensionComponent>();
+			virtual entt::registry::entity_type Emit(entt::registry &registry, entt::registry::entity_type emitter) {
+        auto pos = registry.get<components::PositionComponent>(emitter);
+        auto dim = registry.get<components::DimensionComponent>(emitter);
 
-        auto particle = es.create();
+        auto particle = registry.create();
         
         unsigned int max_life = this->GetRandomValue<unsigned int>(this->Data.MaxLifeRange);
-        int px = pos->x + this->GetRandomValue<int>(this->Data.PositionXRange);
-        int py = pos->y + this->GetRandomValue<int>(this->Data.PositionYRange);
+        int px = pos.x + this->GetRandomValue<int>(this->Data.PositionXRange);
+        int py = pos.y + this->GetRandomValue<int>(this->Data.PositionYRange);
         double speedx = this->GetRandomValue<float>(this->Data.SpeedXRange, true);
         double speedy = this->GetRandomValue<float>(this->Data.SpeedYRange, true);
         float rotation = this->GetRandomValue<float>(this->Data.RotationRange);
@@ -62,11 +56,11 @@ namespace graphics {
         // therefore we check if scaley is -1.f, as it is the default value
         if (scaley == -1.f) scaley = scalex;
 
-        particle.assign<components::PositionComponent>(px, py, pos->z);
-        particle.assign<components::DimensionComponent>(dim->w, dim->h);
-        particle.assign<components::ParticleComponent>(max_life, scalex, speedx, speedy);
-        particle.assign<components::SpriteComponent>(this->TextureName, "particles");
-        particle.assign<components::TransformComponent>(rotation, glm::vec2(scalex, scaley));
+        registry.assign<components::PositionComponent>(particle, px, py, pos.z);
+        registry.assign<components::DimensionComponent>(particle, dim.w, dim.h);
+        registry.assign<components::ParticleComponent>(particle, max_life, scalex, speedx, speedy);
+        registry.assign<components::SpriteComponent>(particle, this->TextureName, "particles");
+        registry.assign<components::TransformComponent>(particle, rotation, glm::vec2(scalex, scaley));
         //particle.assign<components::MovementComponent>(glm::vec2(speedx, speedy), false);
         //particle.assign<components::Body2DComponent>();
         return particle;

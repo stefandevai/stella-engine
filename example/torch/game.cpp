@@ -7,11 +7,30 @@
 #include <functional>
 
 #include <stella/systems.h>
+#include <stella/systemss/render_system.h>
+#include <stella/components.h>
+
+
+//namespace {
+  //struct PositionComponent {
+    //double x, y;
+  //};
+  //struct BoundingBoxComponent {
+    //double tl, bt;
+  //};
+  //struct SpriteComponent {
+    //stella::graphics::Sprite sprite;
+  //};
+//}
 
 Game::Game(stella::graphics::Display &display, int argc, char *argv[]) : Display(display) {
-  this->SoundPlayer = std::make_shared<stella::audio::SoundPlayer>(&argc, argv);
-  this->SoundPlayer->AddStream("dawn-pollen", "assets/audio/st-dawn_pollen.ogg");
-  this->SoundPlayer->Play("dawn-pollen", true);
+  //this->SoundPlayer = std::make_shared<stella::audio::SoundPlayer>(&argc, argv);
+  //int smo = 0;
+  //char *smor[0];
+  //this->SoundPlayer = std::make_shared<stella::audio::SoundPlayer>();
+  //m_player_system = std::make_shared<stella::systems::PlayerSystem>((int)Display.GetWidth(), Display, SoundPlayer);
+  this->SoundPlayer.AddStream("dawn-pollen", "assets/audio/st-dawn_pollen.ogg");
+  this->SoundPlayer.Play("dawn-pollen", true);
 
   this->create_camera(0.f, 0.f, 0.f);
   srand(time(nullptr));
@@ -23,43 +42,43 @@ Game::Game(stella::graphics::Display &display, int argc, char *argv[]) : Display
   this->scriptApi.vm.set_function("e_add_component", &Game::add_component, this);
   //this->scriptApi.vm.set_function("create_camera", &Game::create_camera, this);
   this->scriptApi.vm.set_function("update_camera", &Game::update_camera, this);
-  this->scriptApi.vm.set_function("get_player_position", &Game::get_player_position, this);
+  this->scriptApi.vm.set_function("get_position", &Game::get_position, this);
   this->scriptApi.vm.set_function("get_perlin_int", &Game::get_perlin_int, this);
-  this->scriptApi.vm.set_function("get_perlin_decimal", &Game::get_perlin_double, this);
+  ////this->scriptApi.vm.set_function("get_perlin_decimal", &Game::get_perlin_double, this);
   this->scriptApi.vm.set_function("get_random_int", &Game::get_random, this);
   this->scriptApi.RunScript("scripts/main.lua");
   this->scriptApi.RunLoad();
 
-  // Load game entities
-  //this->load_game_info();
+  //// Load game entities
+  ////this->load_game_info();
 
-  //layer2 = entities.create();
-  //layer2.assign<stella::components::LayerComponent>("ui", 1, "text");
-  //layer1 = entities.create();
-  //layer1.assign<stella::components::LayerComponent>("basic", 0, "basic");
-  //layer3 = entities.create();
-  //layer3.assign<stella::components::LayerComponent>("particles", 1, "bloom");
+  ////layer2 = entities.create();
+  ////layer2.assign<stella::components::LayerComponent>("ui", 1, "text");
+  ////layer1 = entities.create();
+  ////layer1.assign<stella::components::LayerComponent>("basic", 0, "basic");
+  ////layer3 = entities.create();
+  ////layer3.assign<stella::components::LayerComponent>("particles", 1, "bloom");
  
 
-  // Add systems
-  //systems.add<stella::systems::CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
-  //systems.add<stella::systems::ParticleSystem>();
-  systems.add<stella::systems::PhysicsSystem>(this->Camera);
-  systems.add<stella::systems::ScrollSystem>();
-  systems.add<stella::systems::RenderingSystem>(this->Textures, this->Display);
-  systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
-  systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display, this->SoundPlayer);
-  //systems.add<stella::systems::TransformSystem>();
-  //systems.add<stella::systems::TorchSystem>(player, entities);
-  systems.add<stella::systems::AnimationSystem>();
-  systems.add<stella::systems::TilesSystem>(this->Camera);
-  //systems.add<stella::systems::GuiRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
-  systems.configure();
+  //// Add systems
+  ////systems.add<stella::systems::CollisionSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight());
+  ////systems.add<stella::systems::ParticleSystem>();
+  //systems.add<stella::systems::PhysicsSystem>(this->Camera);
+  //systems.add<stella::systems::ScrollSystem>();
+  //systems.add<stella::systems::RenderingSystem>(this->Textures, this->Display);
+  //systems.add<stella::systems::TileviewSystem>((int)this->Display.GetWidth());
+  //systems.add<stella::systems::PlayerMovementSystem>((int)this->Display.GetWidth(), display, this->SoundPlayer);
+  ////systems.add<stella::systems::TransformSystem>();
+  ////systems.add<stella::systems::TorchSystem>(player, entities);
+  //systems.add<stella::systems::AnimationSystem>();
+  //systems.add<stella::systems::TilesSystem>(this->Camera);
+  ////systems.add<stella::systems::GuiRenderingSystem>((int)this->Display.GetWidth(), (int)this->Display.GetHeight(), this->Fonts);
+  //systems.configure();
 
-  //std::function<void(double)> update_function = [=](double dt) {
-    //this->update_systems(dt);
-  //};
-  //this->scriptApi.SetFunction<double, void>("update_game", update_function);
+  ////std::function<void(double)> update_function = [=](double dt) {
+    ////this->update_systems(dt);
+  ////};
+  ////this->scriptApi.SetFunction<double, void>("update_game", update_function);
 }
 
 Game::~Game() {
@@ -69,38 +88,47 @@ Game::~Game() {
 
 void Game::update_systems(const double &dt)
 {
-  //const auto& camera_pos = this->Camera.component<stella::components::PositionComponent>();
+  ////const auto& camera_pos = this->Camera.component<stella::components::PositionComponent>();
 
-  //systems.update<stella::systems::CollisionSystem>(dt);
-  //systems.update<stella::systems::ParticleSystem>(dt);
-  systems.update<stella::systems::PhysicsSystem>(dt);
-  systems.update<stella::systems::ScrollSystem>(dt);
-  systems.update<stella::systems::RenderingSystem>(dt);
-  systems.update<stella::systems::TileviewSystem>(dt);
-  systems.update<stella::systems::PlayerMovementSystem>(dt);
-  //systems.update<stella::systems::TransformSystem>(dt);
-  //systems.update<stella::systems::TorchSystem>(dt);
-  systems.update<stella::systems::AnimationSystem>(dt);
-  systems.update<stella::systems::TilesSystem>(dt);
-  //systems.update<stella::systems::GuiRenderingSystem>(dt);
+  ////systems.update<stella::systems::CollisionSystem>(dt);
+  ////systems.update<stella::systems::ParticleSystem>(dt);
+  //systems.update<stella::systems::PhysicsSystem>(dt);
+  //systems.update<stella::systems::ScrollSystem>(dt);
+  //systems.update<stella::systems::RenderingSystem>(dt);
+  //systems.update<stella::systems::TileviewSystem>(dt);
+  //systems.update<stella::systems::PlayerMovementSystem>(dt);
+  ////systems.update<stella::systems::TransformSystem>(dt);
+  ////systems.update<stella::systems::TorchSystem>(dt);
+  //systems.update<stella::systems::AnimationSystem>(dt);
+  //systems.update<stella::systems::TilesSystem>(dt);
+  ////systems.update<stella::systems::GuiRenderingSystem>(dt);
 
-  //if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
-    //std::stringstream fps_string("");
-    //fps_string << std::setprecision(4) << 1/dt << " FPS";
-    //auto text = this->FPSText.component<stella::components::TextComponent>();
-    //text->Text = fps_string.str();
-  //}
-  //if (this->Display.GetFrame() % 30 == 0) {
-    //std::cout << this->Display.getFPS() << "\n";
-  //}
+  ////if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
+    ////std::stringstream fps_string("");
+    ////fps_string << std::setprecision(4) << 1/dt << " FPS";
+    ////auto text = this->FPSText.component<stella::components::TextComponent>();
+    ////text->Text = fps_string.str();
+  ////}
+  ////if (this->Display.GetFrame() % 30 == 0) {
+    ////std::cout << this->Display.getFPS() << "\n";
+  ////}
 }
 
 
-void Game::Update(ex::TimeDelta dt) { 
-  this->scriptApi.RunUpdate(dt);
-  this->scriptApi.RunRender(dt);
-  this->SoundPlayer->Update();
-  this->update_systems(dt);
+void Game::Update(double dt) { 
+  this->scriptApi.RunUpdate(static_cast<double>(dt));
+  this->scriptApi.RunRender(static_cast<double>(dt));
+  m_render_system.update(this->Registry, static_cast<double>(dt));
+  m_animation_system.update(this->Registry, static_cast<double>(dt));
+  m_physics_system.update(this->Registry, static_cast<double>(dt));
+  m_player_system.update(this->Registry, static_cast<double>(dt));
+  m_scroll_system.update(this->Registry, static_cast<double>(dt));
+  m_tiled_scroll_system.update(this->Registry, static_cast<double>(dt));
+  m_tile_system.update(this->Registry, static_cast<double>(dt));
+  m_transform_system.update(this->Registry, static_cast<double>(dt));
+  m_particle_system.update(this->Registry, static_cast<double>(dt));
+  this->SoundPlayer.Update();
+  //this->update_systems(dt);
 }
 
 void Game::LoadTexture(std::string tex_name, const char *tex_path) {
@@ -117,65 +145,67 @@ void Game::LoadFont(std::string font_name, const char *font_path) {
 
 void Game::load_game_info() {
   // Fonts
-	auto title_text = entities.create();
-  title_text.assign<stella::components::PositionComponent>(30.f, 30.f);
-  title_text.assign<stella::components::DimensionComponent>(9.f, 9.f);
-	title_text.assign<stella::components::TextComponent>("- TORCH -", "font-cursive", true);
+	//auto title_text = entities.create();
+  //title_text.assign<stella::components::PositionComponent>(30.f, 30.f);
+  //title_text.assign<stella::components::DimensionComponent>(9.f, 9.f);
+	//title_text.assign<stella::components::TextComponent>("- TORCH -", "font-cursive", true);
 
-  const unsigned char* renderer = this->Display.GetGlRenderer();
-  std::stringstream renderer_string("");
-  renderer_string << renderer;
-  auto renderer_info = entities.create();
-  renderer_info.assign<stella::components::PositionComponent>(30.f, 60.f);
-  renderer_info.assign<stella::components::DimensionComponent>(9.f, 9.f);
-  renderer_info.assign<stella::components::TextComponent>(renderer_string.str(), "font-cursive", true);
+  //const unsigned char* renderer = this->Display.GetGlRenderer();
+  //std::stringstream renderer_string("");
+  //renderer_string << renderer;
+  //auto renderer_info = entities.create();
+  //renderer_info.assign<stella::components::PositionComponent>(30.f, 60.f);
+  //renderer_info.assign<stella::components::DimensionComponent>(9.f, 9.f);
+  //renderer_info.assign<stella::components::TextComponent>(renderer_string.str(), "font-cursive", true);
 
-  const unsigned char* version = this->Display.GetGlVersion();
-  std::stringstream version_string("");
-  version_string << "OpenGL " << version;
-  auto opengl_info = entities.create();
-  opengl_info.assign<stella::components::PositionComponent>(30.f, 75.f);
-  opengl_info.assign<stella::components::DimensionComponent>(9.f, 9.f);
-  opengl_info.assign<stella::components::TextComponent>(version_string.str(), "font-cursive", true);
+  //const unsigned char* version = this->Display.GetGlVersion();
+  //std::stringstream version_string("");
+  //version_string << "OpenGL " << version;
+  //auto opengl_info = entities.create();
+  //opengl_info.assign<stella::components::PositionComponent>(30.f, 75.f);
+  //opengl_info.assign<stella::components::DimensionComponent>(9.f, 9.f);
+  //opengl_info.assign<stella::components::TextComponent>(version_string.str(), "font-cursive", true);
 
-  this->FPSText = entities.create();
-  this->FPSText.assign<stella::components::PositionComponent>(30.f, 90.f);
-  this->FPSText.assign<stella::components::DimensionComponent>(9.f, 9.f);
-  this->FPSText.assign<stella::components::TextComponent>("", "font-cursive");
+  //this->FPSText = entities.create();
+  //this->FPSText.assign<stella::components::PositionComponent>(30.f, 90.f);
+  //this->FPSText.assign<stella::components::DimensionComponent>(9.f, 9.f);
+  //this->FPSText.assign<stella::components::TextComponent>("", "font-cursive");
 }
 
 void Game::create_camera(double x, double y, double z) {
-  this->Camera = entities.create();
-  this->Camera.assign<stella::components::PositionComponent>(x, y, z);
-  this->Camera.assign<stella::components::CameraComponent>();
+  this->Registry.assign<stella::components::CameraComponent>(m_camera);
+  this->Registry.assign<stella::components::PositionComponent>(m_camera, x, y, z);
 }
 
 void Game::update_camera(double x, double y, double z) {
-  auto pos = this->Camera.component<stella::components::PositionComponent>();
-  pos->x = x;
-  pos->y = y;
-  pos->z = z;
+  auto &pos = this->Registry.get<stella::components::PositionComponent>(m_camera);
+  pos.x = x;
+  pos.y = y;
+  pos.z = z;
 }
 
-std::tuple<int,int,int> Game::get_player_position(int index, int version)
+std::tuple<int,int,int> Game::get_position(entt::registry::entity_type entity)
 {
-  auto player = entities.get(ex::Entity::Id(index, version));
-  if (player.has_component<stella::components::PlayerComponent>())
+  if (this->Registry.has<stella::components::PositionComponent>(entity))
   {
-    auto position = player.component<stella::components::PositionComponent>();
-    return std::make_tuple(position->x, position->y, position->z);
+    const auto &position = this->Registry.get<stella::components::PositionComponent>(entity);
+    return std::make_tuple(position.x, position.y, position.z);
   }
   else
   {
+    std::cout << "Entity has no PositionComponent\n";
     return std::make_tuple(0,0,0);
   }
 }
 
-const std::tuple<unsigned int, unsigned int> Game::create_entity()
+const entt::registry::entity_type Game::create_entity()
 {
-  auto entity = entities.create();
-  auto eid = entity.id();
-  return std::tuple<unsigned int, unsigned int>(eid.index(), eid.version());
+  auto entity = this->Registry.create();
+  return entity;
+
+  //auto entity = entities.create();
+  //auto eid = entity.id();
+  //return std::tuple<unsigned int, unsigned int>(eid.index(), eid.version());
 }
 
 void Game::create_layer(const sol::table &obj)
@@ -184,11 +214,11 @@ void Game::create_layer(const sol::table &obj)
   const unsigned &priority = obj["priority"] == sol::lua_nil ? 0 : obj["priority"];
   const std::string &shader_id = obj["shader"] == sol::lua_nil ? std::string("basic") : obj["shader"];
   const bool &fixed = obj["fixed"] == sol::lua_nil ? true : obj["fixed"];
-  auto layer = entities.create();
-  layer.assign<stella::components::LayerComponent>(layer_name, priority, shader_id, fixed);
+  auto layer = this->Registry.create();
+  this->Registry.assign<stella::components::LayerComponent>(layer, layer_name, priority, shader_id, fixed);
 }
 
-void Game::add_sprite_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+void Game::add_sprite_component(entt::registry::entity_type id, const sol::table &obj)
 {
   const std::string &layer_id = obj["layer"] == sol::lua_nil ? std::string() : obj["layer"];
   const std::string &texture_name = obj["texture"] == sol::lua_nil ? std::string() : obj["texture"];
@@ -197,14 +227,14 @@ void Game::add_sprite_component(const unsigned &index, const unsigned &version, 
   {
     if (obj["frame_dimensions"] == sol::lua_nil)
     {
-      entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name, layer_id);
+      this->Registry.assign<stella::components::SpriteComponent>(id, texture_name, layer_id);
     }
     else
     {
       const float &framew = obj["frame_dimensions"][1];
       const float &frameh = obj["frame_dimensions"][2];
       const unsigned &frame = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
-      entities.assign<stella::components::SpriteComponent>(ex::Entity::Id(index, version), texture_name, glm::vec2(framew, frameh), layer_id, frame);
+      this->Registry.assign<stella::components::SpriteComponent>(id, texture_name, glm::vec2(framew, frameh), layer_id, frame);
     }
   }
   else
@@ -213,22 +243,22 @@ void Game::add_sprite_component(const unsigned &index, const unsigned &version, 
   }
 }
 
-void Game::add_position_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+void Game::add_position_component(entt::registry::entity_type id, const sol::table &obj)
 {
   const int &x = obj[1] == sol::lua_nil ? 0 : obj[1];
   const int &y = obj[2] == sol::lua_nil ? 0 : obj[2];
   const int &z = obj[3] == sol::lua_nil ? 0 : obj[3];
-  entities.assign<stella::components::PositionComponent>(ex::Entity::Id(index, version), x, y, z);
+  this->Registry.assign<stella::components::PositionComponent>(id, x, y, z);
 }
 
-void Game::add_dimension_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+void Game::add_dimension_component(entt::registry::entity_type id, const sol::table &obj)
 {
   const unsigned w = obj[1] == sol::lua_nil ? 0 : obj[1];
   const unsigned h = obj[2] == sol::lua_nil ? 0 : obj[2];
-  entities.assign<stella::components::DimensionComponent>(ex::Entity::Id(index, version), w, h);
+  this->Registry.assign<stella::components::DimensionComponent>(id, w, h);
 }
  
-void Game::add_animation_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+void Game::add_animation_component(entt::registry::entity_type id, const sol::table &obj)
 {
   const float &framew = obj["frame_dimensions"][1];
   const float &frameh = obj["frame_dimensions"][2];
@@ -253,56 +283,56 @@ void Game::add_animation_component(const unsigned &index, const unsigned &versio
     animations.emplace_back(name, frames, speed);
   }
 
-  std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> moon_anims;
-  moon_anims.emplace_back("glow", std::vector<unsigned int>{3, 0, 4, 2, 1, 4, 3, 0, 2, 4, 3}, 20);
-  entities.assign<stella::components::AnimationsComponent>(ex::Entity::Id(index, version), animations, glm::vec2(framew, frameh));
+  this->Registry.assign<stella::components::AnimationsComponent>(id, animations, glm::vec2(framew, frameh));
 }
 
-void Game::add_tileview_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+void Game::add_tileview_component(entt::registry::entity_type id, const sol::table &obj)
 {
-  entities.assign<stella::components::TileviewComponent>(ex::Entity::Id(index, version));
+  this->Registry.assign<stella::components::TileviewComponent>(id);
 }
 
-void Game::add_movement_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+void Game::add_movement_component(entt::registry::entity_type id, const sol::table &obj)
 {
   glm::vec2 speed = obj["speed"] == sol::lua_nil ? glm::vec2() : glm::vec2(obj["speed"][1], obj["speed"][2]);
   const bool &gravity = obj["has_gravity"] == sol::lua_nil ? true : obj["has_gravity"];
   const bool &constant_velocity = obj["has_constant_velocity"] == sol::lua_nil ? false : obj["has_constant_velocity"];
-  entities.assign<stella::components::MovementComponent>(ex::Entity::Id(index, version), speed, gravity, constant_velocity);
+  this->Registry.assign<stella::components::MovementComponent>(id, speed, gravity, constant_velocity);
 }
 
-void Game::add_player_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+void Game::add_player_component(entt::registry::entity_type id, const sol::table &obj)
 {
-  entities.assign<stella::components::PlayerComponent>(ex::Entity::Id(index, version));
+  this->Registry.assign<stella::components::PlayerComponent>(id);
 }
 
-void Game::add_body_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+void Game::add_body_component(entt::registry::entity_type id, const sol::table &obj)
 {
   const bool &collide_with_borders = obj["collide_with_borders"] == sol::lua_nil ? false : obj["collide_with_borders"];
   if (obj["drag"] == sol::lua_nil)
   {
-    entities.assign<stella::components::Body2DComponent>(ex::Entity::Id(index, version));
+    this->Registry.assign<stella::components::Body2DComponent>(id);
   }
   else
   {
     double dragx = obj["drag"][1];
     double dragy = obj["drag"][2];
-    entities.assign<stella::components::Body2DComponent>(ex::Entity::Id(index, version), std::vector<double>(dragx, dragy), collide_with_borders);
+    this->Registry.assign<stella::components::Body2DComponent>(id, std::vector<double>(dragx, dragy), collide_with_borders);
   }
 }
 
-void Game::add_text_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+void Game::add_text_component(entt::registry::entity_type id, const sol::table &obj)
 {
   const std::string &text = obj["text"];
   const std::string &font_name = obj["font_name"];
   const bool &is_static = obj["is_static"];
-  entities.assign<stella::components::TextComponent>(ex::Entity::Id(index, version), text, font_name, is_static);
+  this->Registry.assign<stella::components::TextComponent>(id, text, font_name, is_static);
 }
 
-void Game::add_particle_emitter_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+void Game::add_particle_emitter_component(entt::registry::entity_type id, const sol::table &obj)
 {
   const std::string &type = obj["type"];
   const unsigned int &quantity = obj["quantity"];
+  std::cout << type << '\n';
+  std::cout << quantity << '\n';
   stella::components::ParticleEmitter::Type emitter_type;
   if (type == "fire")
   {
@@ -312,18 +342,18 @@ void Game::add_particle_emitter_component(const unsigned &index, const unsigned 
   {
     emitter_type = stella::components::ParticleEmitter::Type::SNOW_EMITTER;
   }
-  entities.assign<stella::components::ParticleEmitter>(ex::Entity::Id(index, version), emitter_type, quantity);
+  this->Registry.assign<stella::components::ParticleEmitter>(id, emitter_type, quantity);
 }
 
-void Game::add_tile_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+void Game::add_tile_component(entt::registry::entity_type id, const sol::table &obj)
 {
-  entities.assign<stella::components::TileComponent>(ex::Entity::Id(index, version));
+  this->Registry.assign<stella::components::TileComponent>(id);
 }
 
-void Game::add_scroll_component(const unsigned &index, const unsigned &version, const sol::table &obj)
+void Game::add_scroll_component(entt::registry::entity_type id, const sol::table &obj)
 {
   glm::vec2 speed = obj == sol::lua_nil ? glm::vec2(0.f, 0.f) : glm::vec2(obj[1], obj[2]);
-  entities.assign<stella::components::ScrollComponent>(ex::Entity::Id(index, version), speed);
+  this->Registry.assign<stella::components::ScrollComponent>(id, speed);
 }
 
 void Game::add_component(const sol::table& obj)
@@ -331,21 +361,20 @@ void Game::add_component(const sol::table& obj)
   if (obj["type"] != sol::lua_nil)
   {
     const std::string &ct = obj["type"];
-    const unsigned &index = obj["index"];
-    const unsigned &version = obj["version"];
+    entt::registry::entity_type id = obj["id"];
 
-    if (ct == "sprite") add_sprite_component(index, version, obj["args"]);
-    else if (ct == "position") add_position_component(index, version, obj["args"]);
-    else if (ct == "dimension") add_dimension_component(index, version, obj["args"]);
-    else if (ct == "animation") add_animation_component(index, version, obj["args"]);
-    else if (ct == "tile") add_tile_component(index, version, obj["args"]);
-    else if (ct == "body") add_body_component(index, version, obj["args"]);
-    else if (ct == "text") add_text_component(index, version, obj["args"]);
-    else if (ct == "movement") add_movement_component(index, version, obj["args"]);
-    else if (ct == "tileview") add_tileview_component(index, version, obj["args"]);
-    else if (ct == "particle_emitter") add_particle_emitter_component(index, version, obj["args"]);
-    else if (ct == "scroll") add_scroll_component(index, version, obj["args"]);
-    else if (ct == "player") add_player_component(index, version, obj["args"]);
+    if (ct == "sprite") add_sprite_component(id, obj["args"]);
+    else if (ct == "position") add_position_component(id, obj["args"]);
+    else if (ct == "dimension") add_dimension_component(id, obj["args"]);
+    else if (ct == "animation") add_animation_component(id, obj["args"]);
+    else if (ct == "tile") add_tile_component(id, obj["args"]);
+    else if (ct == "body") add_body_component(id, obj["args"]);
+    else if (ct == "text") add_text_component(id, obj["args"]);
+    else if (ct == "movement") add_movement_component(id, obj["args"]);
+    else if (ct == "tileview") add_tileview_component(id, obj["args"]);
+    else if (ct == "particle_emitter") add_particle_emitter_component(id, obj["args"]);
+    else if (ct == "scroll") add_scroll_component(id, obj["args"]);
+    else if (ct == "player") add_player_component(id, obj["args"]);
     else std::cout << "ERROR: No component named " << ct << '\n';
   }
   else

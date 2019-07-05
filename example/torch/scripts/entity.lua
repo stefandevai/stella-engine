@@ -3,8 +3,7 @@ Entity.__index = Entity
 
 function Entity:add_component(type, args)
   local obj = {}
-  obj.index = self.index
-  obj.version = self.version
+  obj.id = self.id
   obj.type = type
   if args == nil then
     obj.args = {}
@@ -17,7 +16,7 @@ end
 function Entity:create_entity()
   local e = {}
   setmetatable(e, Entity)
-  e.index, e.version = e_create_entity()
+  e.id = e_create_entity()
   return e
 end
 

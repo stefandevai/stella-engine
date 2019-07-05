@@ -11,7 +11,7 @@ namespace stella {
 namespace audio {
 class SoundPlayer {
 public:
-  SoundPlayer(int *argcp, char **argv);
+  SoundPlayer();
   ~SoundPlayer();
 
   void AddSound(std::string name, const char *filepath);

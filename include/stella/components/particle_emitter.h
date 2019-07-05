@@ -4,17 +4,15 @@
 #include <string>
 
 #include "particles/particles.h"
-#include <entityx/entityx.h>
-
-namespace ex = entityx;
+#include <entt/entity/registry.hpp>
 
 namespace stella {
 namespace components {
 struct ParticleEmitter {
 	public:
 	  enum Type { FIRE_EMITTER, SNOW_EMITTER };
-		std::vector<ex::Entity> Particles;
-	  int Velocity;
+		std::vector<entt::registry::entity_type> Particles;
+	  uint32_t Velocity = 1;
 		stella::graphics::Emitter *Emitter;
 
 		inline ParticleEmitter(Type type, unsigned int max_particles) {
@@ -28,7 +26,7 @@ struct ParticleEmitter {
           this->Emitter = new stella::graphics::SnowEmitter(0, 0, max_particles, "snowflake");
           break;
         default:
-          this->Velocity = 0;
+          std::cout << "ERROR: Undefined particle type.\n";
           this->Emitter = nullptr;
           break;
       }
