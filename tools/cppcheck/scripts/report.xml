@@ -2,6 +2,14 @@
 <results version="2">
     <cppcheck version="1.87"/>
     <errors>
+        <error id="unusedFunction" severity="style" msg="The function &apos;Add&apos; is never used." verbose="The function &apos;Add&apos; is never used." cwe="561">
+            <location file="../../src/stella/graphics/animator.cpp" line="14"/>
+            <symbol>Add</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;AddBody&apos; is never used." verbose="The function &apos;AddBody&apos; is never used." cwe="561">
+            <location file="../../src/stella/physics2d/world.cpp" line="20"/>
+            <symbol>AddBody</symbol>
+        </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;AddSound&apos; is never used." verbose="The function &apos;AddSound&apos; is never used." cwe="561">
             <location file="../../src/stella/audio/soundplayer.cpp" line="17"/>
             <symbol>AddSound</symbol>
@@ -11,67 +19,111 @@
             <symbol>AddStream</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;BindAsRenderTarget&apos; is never used." verbose="The function &apos;BindAsRenderTarget&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/renderer.cpp" line="27"/>
+            <location file="../../src/stella/graphics/renderer.cpp" line="29"/>
             <symbol>BindAsRenderTarget</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;GetGlRenderer&apos; is never used." verbose="The function &apos;GetGlRenderer&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/display.cpp" line="193"/>
+            <location file="../../src/stella/graphics/display.cpp" line="216"/>
             <symbol>GetGlRenderer</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;GetGlVersion&apos; is never used." verbose="The function &apos;GetGlVersion&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/display.cpp" line="189"/>
+            <location file="../../src/stella/graphics/display.cpp" line="212"/>
             <symbol>GetGlVersion</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;GetMousePos&apos; is never used." verbose="The function &apos;GetMousePos&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/display.cpp" line="184"/>
+            <location file="../../src/stella/graphics/display.cpp" line="207"/>
             <symbol>GetMousePos</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;GetTexID&apos; is never used." verbose="The function &apos;GetTexID&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/renderable.cpp" line="30"/>
+            <location file="../../src/stella/graphics/renderable.cpp" line="15"/>
             <symbol>GetTexID</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;GetTexName&apos; is never used." verbose="The function &apos;GetTexName&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/renderable.cpp" line="31"/>
+            <location file="../../src/stella/graphics/renderable.cpp" line="16"/>
             <symbol>GetTexName</symbol>
         </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;IsKeyDown&apos; is never used." verbose="The function &apos;IsKeyDown&apos; is never used." cwe="561">
+            <location file="../../src/stella/graphics/display.cpp" line="196"/>
+            <symbol>IsKeyDown</symbol>
+        </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;IsRunning&apos; is never used." verbose="The function &apos;IsRunning&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/display.cpp" line="96"/>
+            <location file="../../src/stella/graphics/display.cpp" line="104"/>
             <symbol>IsRunning</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;IsStoped&apos; is never used." verbose="The function &apos;IsStoped&apos; is never used." cwe="561">
+            <location file="../../src/stella/audio/ogg_stream.cpp" line="129"/>
+            <symbol>IsStoped</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;Pause&apos; is never used." verbose="The function &apos;Pause&apos; is never used." cwe="561">
             <location file="../../src/stella/audio/ogg_stream.cpp" line="58"/>
             <symbol>Pause</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;PopTransformation&apos; is never used." verbose="The function &apos;PopTransformation&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/renderer.cpp" line="178"/>
+            <location file="../../src/stella/graphics/renderer.cpp" line="180"/>
             <symbol>PopTransformation</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;PushTransformation&apos; is never used." verbose="The function &apos;PushTransformation&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/renderer.cpp" line="168"/>
+            <location file="../../src/stella/graphics/renderer.cpp" line="170"/>
             <symbol>PushTransformation</symbol>
         </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;Remove&apos; is never used." verbose="The function &apos;Remove&apos; is never used." cwe="561">
+            <location file="../../src/stella/graphics/layer.cpp" line="18"/>
+            <symbol>Remove</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;RemoveBody&apos; is never used." verbose="The function &apos;RemoveBody&apos; is never used." cwe="561">
+            <location file="../../src/stella/physics2d/world.cpp" line="24"/>
+            <symbol>RemoveBody</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;Render&apos; is never used." verbose="The function &apos;Render&apos; is never used." cwe="561">
+            <location file="../../src/stella/graphics/firelayer.cpp" line="122"/>
+            <symbol>Render</symbol>
+        </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;Reset&apos; is never used." verbose="The function &apos;Reset&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/animator.cpp" line="59"/>
+            <location file="../../src/stella/graphics/animator.cpp" line="64"/>
             <symbol>Reset</symbol>
         </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;Resume&apos; is never used." verbose="The function &apos;Resume&apos; is never used." cwe="561">
+            <location file="../../src/stella/audio/ogg_stream.cpp" line="65"/>
+            <symbol>Resume</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;RunLoad&apos; is never used." verbose="The function &apos;RunLoad&apos; is never used." cwe="561">
+            <location file="../../src/stella/script_api.cpp" line="23"/>
+            <symbol>RunLoad</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;RunRender&apos; is never used." verbose="The function &apos;RunRender&apos; is never used." cwe="561">
+            <location file="../../src/stella/script_api.cpp" line="33"/>
+            <symbol>RunRender</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;RunScript&apos; is never used." verbose="The function &apos;RunScript&apos; is never used." cwe="561">
+            <location file="../../src/stella/script_api.cpp" line="13"/>
+            <symbol>RunScript</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;RunUpdate&apos; is never used." verbose="The function &apos;RunUpdate&apos; is never used." cwe="561">
+            <location file="../../src/stella/script_api.cpp" line="28"/>
+            <symbol>RunUpdate</symbol>
+        </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;SetAlpha&apos; is never used." verbose="The function &apos;SetAlpha&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/sprite.cpp" line="72"/>
+            <location file="../../src/stella/graphics/sprite.cpp" line="98"/>
             <symbol>SetAlpha</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;SetColorRGB&apos; is never used." verbose="The function &apos;SetColorRGB&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/sprite.cpp" line="66"/>
+            <location file="../../src/stella/graphics/sprite.cpp" line="92"/>
             <symbol>SetColorRGB</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;SetColorRGBA&apos; is never used." verbose="The function &apos;SetColorRGBA&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/sprite.cpp" line="69"/>
+            <location file="../../src/stella/graphics/sprite.cpp" line="95"/>
             <symbol>SetColorRGBA</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;SetDirectFrame&apos; is never used." verbose="The function &apos;SetDirectFrame&apos; is never used." cwe="561">
+            <location file="../../src/stella/graphics/sprite.cpp" line="90"/>
+            <symbol>SetDirectFrame</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;SetFloat&apos; is never used." verbose="The function &apos;SetFloat&apos; is never used." cwe="561">
             <location file="../../src/stella/graphics/shader.cpp" line="69"/>
             <symbol>SetFloat</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;SetFrame&apos; is never used." verbose="The function &apos;SetFrame&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/sprite.cpp" line="62"/>
+            <location file="../../src/stella/graphics/sprite.cpp" line="88"/>
             <symbol>SetFrame</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;SetVec2f&apos; is never used." verbose="The function &apos;SetVec2f&apos; is never used." cwe="561">
@@ -86,34 +138,18 @@
             <location file="../../src/stella/graphics/shader.cpp" line="102"/>
             <symbol>SetVec4f</symbol>
         </error>
-        <error id="unusedFunction" severity="style" msg="The function &apos;Stop&apos; is never used." verbose="The function &apos;Stop&apos; is never used." cwe="561">
-            <location file="../../src/stella/audio/ogg_stream.cpp" line="60"/>
-            <symbol>Stop</symbol>
+        <error id="unusedFunction" severity="style" msg="The function &apos;SetViewMatrix&apos; is never used." verbose="The function &apos;SetViewMatrix&apos; is never used." cwe="561">
+            <location file="../../src/stella/graphics/layer.cpp" line="50"/>
+            <symbol>SetViewMatrix</symbol>
         </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;TogglePause&apos; is never used." verbose="The function &apos;TogglePause&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/animator.cpp" line="57"/>
+            <location file="../../src/stella/graphics/animator.cpp" line="62"/>
             <symbol>TogglePause</symbol>
         </error>
-        <error id="unusedFunction" severity="style" msg="The function &apos;checkViewportProportions&apos; is never used." verbose="The function &apos;checkViewportProportions&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/display.cpp" line="11"/>
-            <symbol>checkViewportProportions</symbol>
-        </error>
-        <error id="unusedFunction" severity="style" msg="The function &apos;configure&apos; is never used." verbose="The function &apos;configure&apos; is never used." cwe="561">
-            <location file="../../src/stella/systems/scene_rendering_system.cpp" line="90"/>
-            <symbol>configure</symbol>
-        </error>
         <error id="unusedFunction" severity="style" msg="The function &apos;getFPS&apos; is never used." verbose="The function &apos;getFPS&apos; is never used." cwe="561">
-            <location file="../../src/stella/graphics/display.cpp" line="197"/>
+            <location file="../../src/stella/graphics/display.cpp" line="220"/>
             <symbol>getFPS</symbol>
         </error>
-        <error id="unusedFunction" severity="style" msg="The function &apos;receive&apos; is never used." verbose="The function &apos;receive&apos; is never used." cwe="561">
-            <location file="../../src/stella/systems/scene_rendering_system.cpp" line="95"/>
-            <symbol>receive</symbol>
-        </error>
-        <error id="unusedFunction" severity="style" msg="The function &apos;update&apos; is never used." verbose="The function &apos;update&apos; is never used." cwe="561">
-            <location file="../../src/stella/systems/animation_system.cpp" line="13"/>
-            <symbol>update</symbol>
-        </error>
-        <error id="missingIncludeSystem" severity="information" msg="Cppcheck cannot find all the include files (use --check-config for details)" verbose="Cppcheck cannot find all the include files. Cppcheck can check the code without the include files found. But the results will probably be more accurate if all the include files are found. Please check your project&apos;s include directories and add all of them as include directories for Cppcheck. To see what files Cppcheck cannot find use --check-config."/>
+        <error id="missingInclude" severity="information" msg="Cppcheck cannot find all the include files (use --check-config for details)" verbose="Cppcheck cannot find all the include files. Cppcheck can check the code without the include files found. But the results will probably be more accurate if all the include files are found. Please check your project&apos;s include directories and add all of them as include directories for Cppcheck. To see what files Cppcheck cannot find use --check-config."/>
     </errors>
 </results>

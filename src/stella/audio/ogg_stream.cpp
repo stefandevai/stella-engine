@@ -179,13 +179,13 @@ void OggStream::openFile(const char *filepath) {
   //this->displayInfo();
 }
 
-const void OggStream::displayInfo() const {
-  std::cout << "version: " << this->VorbisInfo->version
-            << "channels: " << this->VorbisInfo->channels << "rate (hz) "
-            << this->VorbisInfo->rate << std::endl;
-  for (int i = 0; i < this->VorbisComment->comments; i++)
-    std::cout << this->VorbisComment->user_comments[i] << std::endl;
-}
+//const void OggStream::displayInfo() const {
+  //std::cout << "version: " << this->VorbisInfo->version
+            //<< "channels: " << this->VorbisInfo->channels << "rate (hz) "
+            //<< this->VorbisInfo->rate << std::endl;
+  //for (int i = 0; i < this->VorbisComment->comments; i++)
+    //std::cout << this->VorbisComment->user_comments[i] << std::endl;
+//}
 
 bool OggStream::streamBuffer(ALuint buffer) {
   char data[AUDIO_BUFFER_SIZE];

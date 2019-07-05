@@ -89,7 +89,9 @@ local function build_nxn_tile(side, frames, width, nsearches)
     local index = get_available_matrix_index(frames)
     local indexes = search_place(side, frames, index, width)
     if #indexes > 0 then
-      local group = stone_tile_groups[side][get_perlin_int(1,#stone_tile_groups[side],i)]
+      --local group = stone_tile_groups[side][get_perlin_int(1,#stone_tile_groups[side],i)]
+      --local group = stone_tile_groups[side][get_perlin_int(1,#stone_tile_groups[side])]
+      local group = stone_tile_groups[side][get_random_int(1,#stone_tile_groups[side])]
       for n = 1, #indexes do
         frames[indexes[n]] = group[#indexes + 1 - n]
       end
@@ -177,12 +179,13 @@ local function build_stair_tiles(bounding_matrix, width, height, gap)
 end
 
 local function plain(chunk_size, gap)
-  local chunk_size = get_perlin_int(8, SCREEN_WIDTH_TILES/2, M.chunk_counter)
-  local gap = get_perlin_int(1, 4, chunk_size*47)
   local height = get_random_int(1, current_tile_height+2)
+  local chunk_size = get_random_int(15, SCREEN_WIDTH_TILES)
+  local gap = get_perlin_int(1, 4, chunk_size*47)
   current_tile_height = height
 
   local bounding_matrix = {}
+  
 
   for y = 0, height do
     for x = 1, chunk_size do

@@ -92,7 +92,7 @@ class RenderSystem : public System
         sprite.Sprite->Pos.y = (int)pos.y;
 
       });
-      
+
       for (auto const& order : m_ordered_layers) {
         if (!m_layers[order.second]->Fixed)
         {

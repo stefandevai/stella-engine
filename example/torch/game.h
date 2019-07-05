@@ -8,9 +8,9 @@
 #include <stella/components.h>
 #include <stella/perlin.h>
 
-#define SOL_ALL_SAFETIES_ON 1
-#define SOL_CHECK_ARGUMENTS 1
-#include <sol.hpp>
+//#define SOL_ALL_SAFETIES_ON 1
+//#define SOL_CHECK_ARGUMENTS 1
+//#include <sol.hpp>
 
 #include <entt/entity/registry.hpp>
 #include <stella/systems/render_system.h>
@@ -91,19 +91,21 @@ private:
   void add_scroll_component(entt::registry::entity_type id, const sol::table &obj);
   void add_component(const sol::table &obj);
 
-  double get_perlin_double(double x, double y)
+  inline double get_perlin_double(double x, double y)
   {
     return NoiseGenerator.get_double(x, y);
   }
-  int get_perlin_int(int min, int max, int pos)
+  //inline int get_perlin_int(int min, int max, int pos)
+  inline int get_perlin_int(double min, double max)
   {
+    int pos = 0;
     double x = static_cast<double>(pos % 256);
     double y = static_cast<double>((pos / 256) % 256);
-    return NoiseGenerator.get_int(min, max, x/100.f, y/100.f);
+    return NoiseGenerator.get_int(static_cast<int>(min), static_cast<int>(max), x/100.f, y/100.f);
   }
-  int get_random(int min, int max)
+  inline int get_random(double min, double max)
   {
-    return min + rand() % (( max + 1 ) - min);
+    return static_cast<int>(min) + rand() % (( static_cast<int>(max) + 1 ) - static_cast<int>(min));
   }
 };
 

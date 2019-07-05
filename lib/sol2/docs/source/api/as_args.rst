@@ -15,10 +15,10 @@ as_args
 ``sol::as_args`` is a function that that takes an iterable and turns it into multiple arguments to a function call. It forwards its arguments, and is meant to be used as shown below:
 
 
-.. literalinclude:: ../../../examples/args_from_container.cpp
+.. literalinclude:: ../../../examples/source/args_from_container.cpp
 	:caption: args_from_container.cpp
 	:linenos:
 
-It is basically implemented as a `one-way customization point`_. For more information about customization points, see the :doc:`tutorial on how to customize Sol to work with your types<../tutorial/customization>`.
+It is basically implemented as a `one-way customization point`_. For more information about customization points, see the :doc:`tutorial on how to customize sol to work with your types<../tutorial/customization>`.
 
 .. _one-way customization point: https://github.com/ThePhD/sol2/blob/develop/sol/as_args.hpp

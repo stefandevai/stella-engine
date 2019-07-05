@@ -38,7 +38,7 @@ private:
   ALuint Buffers[STREAM_BUFFERS];
 
   void openFile(const char *filepath);
-  const void displayInfo() const;
+  //const void displayInfo() const;
   bool streamBuffer(ALuint buffer);
   void emptyQueue();
   void clean();

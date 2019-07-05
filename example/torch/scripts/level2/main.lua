@@ -111,30 +111,10 @@ local function load()
     fixed = false,
   })
 
-  --create_layer({
-    --name = "particles",
-    --priority = 2,
-    --shader = "bloom",
-    --fixed = true,
-  --})
   load_assets()
   load_background()
   load_player(300, 405-64-61)
-  Map.load('scripts.level2.map')
-
-  --local snow_emitter = Entity:create_entity()
-  --snow_emitter:add_component("particle_emitter", {type = "snow", quantity = 10})
-  --snow_emitter:add_component("position", {0, -64, 3}) 
-  --snow_emitter:add_component("position", {0, 64, 3}) 
-  --snow_emitter:add_component("dimension", {32, 32})
-
-  --local fire_emitter = Entity:create_entity()
-  --fire_emitter:add_component("particle_emitter", {
-    --type = "fire",
-    --quantity = 10}
-  --)
-  --fire_emitter:add_component("position", {350, 290}) 
-  --fire_emitter:add_component("dimension", {16, 16})
+  Map.load()
 end
 
 local camerax = 0.0

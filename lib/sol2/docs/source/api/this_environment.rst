@@ -3,13 +3,13 @@ this_environment
 *retrieving the environment of the calling function*
 
 
-Sometimes in C++ it's useful to know where a Lua call is coming from and what :doc:`environment<environment>` it is from. The former is covered by Lua's Debug API, which is extensive and is not fully wrapped up by sol2. But, sol2 covers the latter in letting you get the environment of the calling script / function, if it has one. ``sol::this_environment`` is a *transparent argument* and does not need to be passed in Lua scripts or provided when using :doc:`sol::function<function>`, similar to :doc:`sol::this_state<this_state>`:
+Sometimes in C++ it's useful to know where a Lua call is coming from and what :doc:`environment<environment>` it is from. The former is covered by Lua's Debug API, which is extensive and is not fully wrapped up by sol3. But, sol3 covers the latter in letting you get the environment of the calling script / function, if it has one. ``sol::this_environment`` is a *transparent argument* and does not need to be passed in Lua scripts or provided when using :doc:`sol::function<function>`, similar to :doc:`sol::this_state<this_state>`:
 
 .. code-block:: cpp
 	:linenos:
 
-	#define SOL_CHECK_ARGUMENTS
-	#include <sol.hpp>
+	#define SOL_ALL_SAFETIES_ON
+	#include <sol/sol.hpp>
 
 	#include <iostream>
 
@@ -43,4 +43,4 @@ Sometimes in C++ it's useful to know where a Lua call is coming from and what :d
 
 Also see `this example`_ for more details.
 
-.. _this example: https://github.com/ThePhD/sol2/blob/develop/examples/environment_snooping.cpp
+.. _this example: https://github.com/ThePhD/sol2/blob/develop/examples/source/environment_snooping.cpp

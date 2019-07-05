@@ -8,7 +8,7 @@ namespace stella {
 namespace graphics {
 class FireLayer : public stella::graphics::Layer {
 public:
-  FireLayer(graphics::Display &display);
+  explicit FireLayer(graphics::Display &display);
   FireLayer(const FireLayer &copied_layer);
   FireLayer& operator=(const FireLayer &layer);
   ~FireLayer();

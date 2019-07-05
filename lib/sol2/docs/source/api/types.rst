@@ -2,7 +2,7 @@ types
 =====
 *nil, lua_primitive type traits, and other fundamentals*
 
-The ``types.hpp`` header contains various fundamentals and utilities of Sol.
+The ``types.hpp`` header contains various fundamentals and utilities of sol.
 
 
 enumerations
@@ -70,7 +70,7 @@ This enumeration contains the status of a load operation from :ref:`state::load(
 
 	enum class type : int {
 	    none          = LUA_TNONE,
-	    nil           = LUA_TNIL,
+	    lua_nil       = LUA_TNIL,
 	    string        = LUA_TSTRING,
 	    number        = LUA_TNUMBER,
 	    thread        = LUA_TTHREAD,
@@ -80,10 +80,12 @@ This enumeration contains the status of a load operation from :ref:`state::load(
 	    lightuserdata = LUA_TLIGHTUSERDATA,
 	    table         = LUA_TTABLE,
 	    poly          = none   | nil     | string   | number   | thread          |
-	                    table  | boolean | function | userdata | lightuserdata
+	                    table  | boolean | function | userdata | lightuserdata,
+	    // if not in Objective C land...
+	    nil           = LUA_TNIL
 	};
 
-The base types that Lua natively communicates in and understands. Note that "poly" isn't really a true type, it's just a symbol used in Sol for something whose type hasn't been checked (and you should almost never see it).
+The base types that Lua natively communicates in and understands. Note that "poly" isn't really a true type, it's just a symbol used in sol for something whose type hasn't been checked (and you should almost never see it).
 
 
 type traits
@@ -118,10 +120,15 @@ special types
 	:caption: nil
 	:name: nil
 
-	strunil_t {};
-	const nil_t nil {};
-	bool operator==(nil_t, nil_t);
-	bool operator!=(nil_t, nil_t);
+	struct lua_nil_t {};
+	constexpr lua_nil_t lua_nil {};
+	bool operator==(lua_nil_t, lua_nil_t);
+	bool operator!=(lua_nil_t, lua_nil_t);
+
+	// if not in Objective-C land
+	using nil_t = lua_nil_t;
+	constexpr nil_t nil {};
+	
 
 ``nil`` is a constant used to signify Lua's ``nil``, which is a type and object that something does not exist. It is comparable to itself, :doc:`sol::object<object>` and :doc:`proxy values<proxy>`.
 
@@ -142,7 +149,7 @@ A tag type that, when used with :doc:`stack::get\<non_null\<T*>><stack>`, does n
 	template <typename... Args>
 	struct types;
 
-A type list that, unlike ``std::tuple<Args...>``, does not actually contain anything. Used to indicate types and groups of types all over Sol.
+A type list that, unlike ``std::tuple<Args...>``, does not actually contain anything. Used to indicate types and groups of types all over sol.
 
 
 functions

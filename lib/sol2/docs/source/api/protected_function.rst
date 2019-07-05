@@ -11,13 +11,13 @@ Inspired by a request from `starwing`_ in the :doc:`old sol repository<../origin
 
 When called without the return types being specified by either a ``sol::types<...>`` list or a ``call<Ret...>( ... )`` template type list, it generates a :doc:`protected_function_result<proxy>` class that gets implicitly converted to the requested return type. For example:
 
-.. literalinclude:: ../../../examples/error_handler.cpp
+.. literalinclude:: ../../../examples/source/error_handler.cpp
 	:linenos:
 	:lines: 10-28
 
 The following C++ code will call this function from this file and retrieve the return value, unless an error occurs, in which case you can bind an error handling function like so:
 
-.. literalinclude:: ../../../examples/error_handler.cpp
+.. literalinclude:: ../../../examples/source/error_handler.cpp
 	:linenos:
 	:lines: 1-6,30-66
 
@@ -26,7 +26,7 @@ This code is much more long-winded than its :doc:`function<function>` counterpar
 
 Alternatively, with a bad or good function call, you can use ``sol::optional`` to check if the call succeeded or failed:
 
-.. literalinclude:: ../../../examples/error_handler.cpp
+.. literalinclude:: ../../../examples/source/error_handler.cpp
 	:linenos:
 	:lines: 67-
 
@@ -107,7 +107,7 @@ Get and set the Lua entity that is used as the default error handler. The defaul
 
 	reference error_handler;
 
-The error-handler that is called should a runtime error that Lua can detect occurs. The error handler function needs to take a single string argument (use type std::string if you want to use a C++ function bound to lua as the error handler) and return a single string argument (again, return a std::string or string-alike argument from the C++ function if you're using one as the error handler). If :doc:`exceptions<../exceptions>` are enabled, Sol will attempt to convert the ``.what()`` argument of the exception into a string and then call the error handling function. It is a :doc:`reference<reference>`, as it must refer to something that exists in the lua registry or on the Lua stack. This is automatically set to the default error handler when ``protected_function`` is constructed.
+The error-handler that is called should a runtime error that Lua can detect occurs. The error handler function needs to take a single string argument (use type std::string if you want to use a C++ function bound to lua as the error handler) and return a single string argument (again, return a std::string or string-alike argument from the C++ function if you're using one as the error handler). If :doc:`exceptions<../exceptions>` are enabled, sol will attempt to convert the ``.what()`` argument of the exception into a string and then call the error handling function. It is a :doc:`reference<reference>`, as it must refer to something that exists in the lua registry or on the Lua stack. This is automatically set to the default error handler when ``protected_function`` is constructed.
 
 .. note::
 

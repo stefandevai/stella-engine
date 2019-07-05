@@ -12,7 +12,7 @@ function
 	class unsafe_function : public reference;
 	typedef unsafe_function function;
 
-Function is a correct-assuming version of :doc:`protected_function<protected_function>`, omitting the need for typechecks and error handling (thus marginally increasing speed in some cases). It is the default function type of Sol. Grab a function directly off the stack using the constructor:
+Function is a correct-assuming version of :doc:`protected_function<protected_function>`, omitting the need for typechecks and error handling (thus marginally increasing speed in some cases). It is the default function type of sol. Grab a function directly off the stack using the constructor:
 
 .. code-block:: cpp
 	:caption: constructor: unsafe_function
@@ -22,14 +22,14 @@ Function is a correct-assuming version of :doc:`protected_function<protected_fun
 
 Calls the constructor and creates this type, straight from the stack. For example:
 
-.. literalinclude:: ../../../examples/tie.cpp
+.. literalinclude:: ../../../examples/source/tie.cpp
 	:caption: funcs.lua
 	:lines: 9-13
 	:linenos:
 
 The following C++ code will call this function from this file and retrieve the return value:
 
-.. literalinclude:: ../../../examples/tie.cpp
+.. literalinclude:: ../../../examples/source/tie.cpp
 	:lines: 1-7,16-22
 	:linenos:
 
@@ -37,7 +37,7 @@ The call ``woof(20)`` generates a :ref:`unsafe_function_result<unsafe-function-r
 
 You can also return multiple values by using ``std::tuple``, or if you need to bind them to pre-existing variables use ``sol::tie``:
 
-.. literalinclude:: ../../../examples/tie.cpp
+.. literalinclude:: ../../../examples/source/tie.cpp
 	:lines: 24-
 	:linenos:
 

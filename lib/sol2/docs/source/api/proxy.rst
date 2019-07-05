@@ -27,19 +27,19 @@ proxy
 
 ``proxy`` is returned by lookups into :doc:`sol::table<table>` and table-like entities. Because it is templated on key and table type, it would be hard to spell: you can capture it using the word ``auto`` if you feel like you need to carry it around for some reason before using it. ``proxy`` evaluates its arguments lazily, when you finally call ``get`` or ``set`` on it. Here are some examples given the following lua script:
 
-.. literalinclude:: ../../../examples/table_proxy.cpp
+.. literalinclude:: ../../../examples/source/table_proxy.cpp
 	:linenos:
 	:lines: 11-15
 
 After loading that file in or putting it in a string and reading the string directly in lua (see :doc:`state`), you can start kicking around with it in C++ like so:
 
-.. literalinclude:: ../../../examples/table_proxy.cpp
+.. literalinclude:: ../../../examples/source/table_proxy.cpp
 	:linenos:
 	:lines: 1-8,18-40
 
 We don't recommend using ``proxy`` lazy evaluation the above to be used across classes or between function: it's more of something you can do to save a reference to a value you like, call a script or run a lua function, and then get it afterwards. You can also set functions (and function objects) this way, and retrieve them as well:
 
-.. literalinclude:: ../../../examples/table_proxy.cpp
+.. literalinclude:: ../../../examples/source/table_proxy.cpp
 	:linenos:
 	:lines: 41-
 
@@ -171,5 +171,5 @@ on function objects and proxies
 
 .. note::
 
-	As of recent versions of sol2 (2.18.2 and above), this is no longer an issue, as even bound classes will have any detectable function call operator automatically bound to the object, to allow this to work without having to use ``.set`` or ``.set_function``. The note here is kept for posterity and information for older versions. There are only some small caveats, see: :ref:`this note here<binding-callable-objects>`.
+	As of recent versions of sol3 (2.18.2 and above), this is no longer an issue, as even bound classes will have any detectable function call operator automatically bound to the object, to allow this to work without having to use ``.set`` or ``.set_function``. The note here is kept for posterity and information for older versions. There are only some small caveats, see: :ref:`this note here<binding-callable-objects>`.
 

@@ -109,14 +109,11 @@ void Renderer::Submit(const Sprite &sprite) {
 
   auto particular_transform = *this->TransformationBack;
   particular_transform = glm::translate(particular_transform, glm::vec3(position + glm::vec3(dimensions, 0.f)/2.f)); // Translating half dimension to set the point of rotation to the center of the sprite
-  //particular_transform = glm::translate(particular_transform, position); // Translating half dimension to set the point of rotation to the center of the sprite
   particular_transform = glm::scale(particular_transform, glm::vec3(scale, 1.f));
-  //particular_transform = glm::translate(particular_transform, glm::vec3(dimensions/2.f, 0.f)); // Translating half dimension to set the point of rotation to the center of the sprite
   particular_transform = glm::rotate(particular_transform, glm::radians(rotation), glm::vec3(0.f, 0.f, 1.f));
   particular_transform = glm::translate(particular_transform, glm::vec3(-dimensions/2.f, 0.f)); // Removing the added half dimension
 
   auto transformation_result = particular_transform * glm::vec4(0.f, 0.f, 1.f, 1.f); 
-  //auto transformation_result = particular_transform * glm::vec4(position, 1.f, 1.f); 
   this->VertexBuffer->vertex = glm::vec3(transformation_result.x, transformation_result.y, transformation_result.z);
   this->VertexBuffer->uv = glm::vec2(uv.x, uv.y);
   this->VertexBuffer->tid = texture->GetCacheID();
@@ -124,7 +121,6 @@ void Renderer::Submit(const Sprite &sprite) {
   this->VertexBuffer++;
 
   transformation_result = particular_transform * glm::vec4(dimensions.x, 0.f, 1.f, 1.f); 
-  //transformation_result = particular_transform * glm::vec4(position.x + dimensions.x, position.y, 1.f, 1.f); 
   this->VertexBuffer->vertex = glm::vec3(transformation_result.x, transformation_result.y, transformation_result.z);
   this->VertexBuffer->uv = glm::vec2(uv.x + uvoffsetX, uv.y);
   this->VertexBuffer->tid = texture->GetCacheID();
@@ -132,7 +128,6 @@ void Renderer::Submit(const Sprite &sprite) {
   this->VertexBuffer++;
 
   transformation_result = particular_transform * glm::vec4(dimensions.x, dimensions.y, 1.f, 1.f);
-	//transformation_result = particular_transform * glm::vec4(position.x + dimensions.x, position.y + dimensions.y, 1.f, 1.f);
   this->VertexBuffer->vertex = glm::vec3(transformation_result.x, transformation_result.y, transformation_result.z);
   this->VertexBuffer->uv = glm::vec2(uv.x + uvoffsetX, uv.y - uvoffsetY);
   this->VertexBuffer->tid = texture->GetCacheID();
@@ -140,7 +135,6 @@ void Renderer::Submit(const Sprite &sprite) {
   this->VertexBuffer++;
 
   transformation_result = particular_transform * glm::vec4(0.f, dimensions.y, 1.f, 1.f);
-	//transformation_result = particular_transform * glm::vec4(position.x, position.y + dimensions.y, 1.f, 1.f);
   this->VertexBuffer->vertex = glm::vec3(transformation_result.x, transformation_result.y, transformation_result.z);
   this->VertexBuffer->uv = glm::vec2(uv.x, uv.y - uvoffsetY);
   this->VertexBuffer->tid = texture->GetCacheID();

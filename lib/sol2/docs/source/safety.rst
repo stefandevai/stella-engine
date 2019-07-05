@@ -1,7 +1,7 @@
 config and safety
 =================
 
-Sol was designed to be correct and fast, and in the pursuit of both uses the regular ``lua_to{x}`` functions of Lua rather than the checking versions (``lua_check{X}``) functions. The API defaults to paranoidly-safe alternatives if you have a ``#define SOL_CHECK_ARGUMENTS`` before you include Sol, or if you pass the ``SOL_CHECK_ARGUMENTS`` define on the build command for your build system. By default, it is off and remains off unless you define this, even in debug mode.
+sol was designed to be correct and fast, and in the pursuit of both uses the regular ``lua_to{x}`` functions of Lua rather than the checking versions (``lua_check{X}``) functions. The API defaults to paranoidly-safe alternatives if you have a ``#define SOL_ALL_SAFETIES_ON`` before you include sol, or if you pass the ``SOL_ALL_SAFETIES_ON`` define on the build command for your build system. By default, it is off and remains off unless you define this, even in debug mode.
 
 .. _config:
 
@@ -10,7 +10,7 @@ config
 
 Note that you can obtain safety with regards to functions you bind by using the :doc:`protect<api/protect>` wrapper around function/variable bindings you set into Lua. Additionally, you can have basic boolean checks when using the API by just converting to a :doc:`sol::optional\<T><api/optional>` when necessary for getting things out of Lua and for function arguments.
 
-Also note that you can have your own states use sol2's safety panics and similar to protect your code from crashes. See :ref:`sol::state automatic handlers<state-automatic-handlers>` for more details.
+Also note that you can have your own states use sol3's safety panics and similar to protect your code from crashes. See :ref:`sol::state automatic handlers<state-automatic-handlers>` for more details.
 
 .. _config-safety:
 
@@ -47,6 +47,10 @@ Safety Config
 	* Affects nearly the entire library for safety (with some blind spots covered by the other definitions)
 	* **Not** turned on by default under any settings: *this MUST be turned on manually*
 
+``SOL_ALL_SAFETIES_ON`` triggers the following changes:
+	* If ``SOL_SAFE_USERTYPE``, ``SOL_SAFE_REFERENCES``, ``SOL_SAFE_FUNCTION``, ``SOL_SAFE_NUMERICS``, ``SOL_SAFE_GETTER``, and ``SOL_SAFE_FUNCTION_CALLS`` are not defined, they get defined and the effects described above kick in
+	* **Not** turned on by default under any settings: *this MUST be turned on manually*
+
 ``SOL_DEFAULT_PASS_ON_ERROR`` triggers the following changes:
 	* The default error handler for ``sol::state_view::script_`` functions is ``sol::script_pass_on_error`` rather than ``sol::script_throw_on_error``
 	* Passes errors on through: **very dangerous** as you can ignore or never be warned about errors if you don't catch the return value of specific functions
@@ -54,23 +58,23 @@ Safety Config
 	* Don't turn this on unless you have an extremely good reason
 	* *DON'T TURN THIS ON UNLESS YOU HAVE AN EXTREMELY GOOD REASON*
 
-``SOL_CHECK_ARGUMENTS`` triggers the following changes:
-	* If ``SOL_SAFE_USERTYPE``, ``SOL_SAFE_REFERENCES``, ``SOL_SAFE_FUNCTION``, ``SOL_SAFE_NUMERICS``, ``SOL_SAFE_GETTER``, and ``SOL_SAFE_FUNCTION_CALLS`` are not defined, they get defined and the effects described above kick in
-	* **Not** turned on by default under any settings: *this MUST be turned on manually*
-
 ``SOL_NO_CHECK_NUMBER_PRECISION`` triggers the following changes:
 	* If ``SOL_SAFE_NUMERICS`` is defined, turns off number precision and integer precision fitting when pushing numbers into sol2
 	* **Not** turned on by default under any settings: *this MUST be turned on manually*
 
 ``SOL_STRINGS_ARE_NUMBERS`` triggers the following changes:
 	* Allows automatic to-string conversions for numbers
-		- ``lua_tolstring`` conversions are not permitted on numbers through sol2 by default: only actual strings are allowed
+		- ``lua_tolstring`` conversions are not permitted on numbers through sol3 by default: only actual strings are allowed
 		- This is necessary to allow :doc:`sol::overload<api/overload>` to work properly
 	* ``sol::stack::get`` and ``sol::stack::check_get`` will allow anything that Lua thinks is number-worthy to be number-worthy
 	* This includes: integers, floating-point numbers, and strings
 	* This **does not** include: booleans, types with ``__tostring`` enabled, and everything else
 	* Overrides safety and always applies if it is turned on
 	* **Not** turned on by default under any settings: *this MUST be turned on manually*
+
+``SOL_CHECK_ARGUMENTS`` is a deprecated define that will be removed soon:
+	* It is simply an alias for ``SOL_ALL_SAFETIES_ON``
+	* Please change all your code to use ``SOL_ALL_SAFETIES_ON``
 
 .. _config-feature:
 
@@ -142,7 +146,7 @@ Memory safety can be tricky. Lua is handled by a garbage-collected runtime, mean
 
 The usertype memory layout for all Lua-instantiated userdata and for all objects pushed/set into the Lua Runtime is also described :doc:`here<api/usertype_memory>`. Things before or after that specified memory slot is implementation-defined and no assumptions are to be made about it.
 
-Please be wary of alignment issues. sol2 **aligns memory** by default. If you need to access underlying userdata memory from sol, please see the :doc:`usertype memory documentation<api/usertype_memory>`
+Please be wary of alignment issues. sol3 **aligns memory** by default. If you need to access underlying userdata memory from sol, please see the :doc:`usertype memory documentation<api/usertype_memory>`
 
 functions
 ---------

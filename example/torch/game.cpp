@@ -9,25 +9,7 @@
 #include <stella/systems.h>
 #include <stella/components.h>
 
-
-//namespace {
-  //struct PositionComponent {
-    //double x, y;
-  //};
-  //struct BoundingBoxComponent {
-    //double tl, bt;
-  //};
-  //struct SpriteComponent {
-    //stella::graphics::Sprite sprite;
-  //};
-//}
-
 Game::Game(stella::graphics::Display &display, int argc, char *argv[]) : Display(display) {
-  //this->SoundPlayer = std::make_shared<stella::audio::SoundPlayer>(&argc, argv);
-  //int smo = 0;
-  //char *smor[0];
-  //this->SoundPlayer = std::make_shared<stella::audio::SoundPlayer>();
-  //m_player_system = std::make_shared<stella::systems::PlayerSystem>((int)Display.GetWidth(), Display, SoundPlayer);
   this->SoundPlayer.AddStream("dawn-pollen", "assets/audio/st-dawn_pollen.ogg");
   this->SoundPlayer.Play("dawn-pollen", true);
 

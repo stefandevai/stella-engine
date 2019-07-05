@@ -1,19 +1,19 @@
 functions and You
 =================
 
-Sol can register all kinds of functions. Many are shown in the :doc:`quick 'n' dirty<all-the-things>`, but here we will discuss many of the additional ways you can register functions into a sol-wrapped Lua system.
+sol can register all kinds of functions. Many are shown in the :doc:`quick 'n' dirty<all-the-things>`, but here we will discuss many of the additional ways you can register functions into a sol-wrapped Lua system.
 
 Setting a new function
 ----------------------
 
-Given a C++ function, you can drop it into Sol in several equivalent ways, working similar to how :ref:`setting variables<writing-variables-demo>` works:
+Given a C++ function, you can drop it into sol in several equivalent ways, working similar to how :ref:`setting variables<writing-variables-demo>` works:
 
 .. code-block:: cpp
 	:linenos:
 	:caption: Registering C++ functions
 	:name: writing-functions
 
-	#include <sol.hpp>
+	#include <sol/sol.hpp>
 
 	std::string my_function( int a, std::string b ) {
 		// Create a string with the letter 'D' "a" times,
@@ -318,7 +318,7 @@ It can be used like so, inconjunction with ``sol::this_state``:
 			bool do_triple = a.as<bool>();
 			return sol::make_object(lua, b.as<double>() * ( do_triple ? 3 : 1 ) );
 		}
-		return sol::make_object(lua, sol::nil);
+		return sol::make_object(lua, sol::lua_nil);
 	}
 
 	int main () {
@@ -338,4 +338,4 @@ It can be used like so, inconjunction with ``sol::this_state``:
 	}
 
 
-This covers almost everything you need to know about Functions and how they interact with Sol. For some advanced tricks and neat things, check out :doc:`sol::this_state<../api/this_state>` and :doc:`sol::variadic_args<../api/variadic_args>`. The next stop in this tutorial is about :doc:`C++ types (usertypes) in Lua<cxx-in-lua>`! If you need a bit more information about functions in the C++ side and how to best utilize arguments from C++, see :ref:`this note<function-argument-handling>`.
+This covers almost everything you need to know about Functions and how they interact with sol. For some advanced tricks and neat things, check out :doc:`sol::this_state<../api/this_state>` and :doc:`sol::variadic_args<../api/variadic_args>`. The next stop in this tutorial is about :doc:`C++ types (usertypes) in Lua<cxx-in-lua>`! If you need a bit more information about functions in the C++ side and how to best utilize arguments from C++, see :ref:`this note<function-argument-handling>`.

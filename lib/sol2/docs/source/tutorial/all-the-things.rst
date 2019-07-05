@@ -9,16 +9,20 @@ These are all the things. Use your browser's search to find things you want.
 
 .. note::
 	
-	All of the code below is available at the `sol2 tutorial examples`_.
+	All of the code below is available at the `sol3 tutorial examples`_.
+
+.. note::
+	
+	Make sure to add ``SOL_ALL_SAFETIES_ON`` preprocessor define to your build configuration to turn safety on.
 
 asserts / prerequisites
 -----------------------
 
-You'll need to ``#include <sol.hpp>``/``#include "sol.hpp"`` somewhere in your code. Sol is header-only, so you don't need to compile anything. However, **Lua must be compiled and available**. See the :doc:`getting started tutorial<getting-started>` for more details.
+You'll need to ``#include <sol/sol.hpp>`` somewhere in your code. sol is header-only, so you don't need to compile anything. However, **Lua must be compiled and available**. See the :doc:`getting started tutorial<getting-started>` for more details.
 
 The implementation for ``assert.hpp`` with ``c_assert`` looks like so:
 
-.. literalinclude:: ../../../examples/assert.hpp
+.. literalinclude:: ../../../examples/include/assert.hpp
 	:linenos:
 	:lines: 1-3, 19-
 
@@ -27,19 +31,19 @@ This is the assert used in the quick code below.
 opening a state
 ---------------
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/opening_a_state.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/opening_a_state.cpp
 	:linenos:
 
 
 .. _sol-state-on-lua-state:
 
-using sol2 on a lua_State\*
+using sol3 on a lua_State\*
 ---------------------------
 
-For your system/game that already has Lua or uses an in-house or pre-rolled Lua system (LuaBridge, kaguya, Luwra, etc.), but you'd still like sol2 and nice things:
+For your system/game that already has Lua or uses an in-house or pre-rolled Lua system (LuaBridge, kaguya, Luwra, etc.), but you'd still like sol3 and nice things:
 
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/opening_state_on_raw_lua.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/opening_state_on_raw_lua.cpp
 	:linenos:
 
 .. _running-lua-code:
@@ -47,15 +51,22 @@ For your system/game that already has Lua or uses an in-house or pre-rolled Lua 
 running lua code
 ----------------
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/running_lua_code.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/running_lua_code.cpp
 	:linenos:
 	:lines: 1-10, 16-26
 
 To run Lua code but have an error handler in case things go wrong:
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/running_lua_code.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/running_lua_code.cpp
 	:linenos:
 	:lines: 28-39,47-
+
+You can see more use of safety by employing the use of `.safe_script`_, which returns a protected result you can use to properly check for errors and similar.
+
+
+.. note::
+
+	If you have the safety definitions on, `.script` will call into the `.safe_script` versions automatically. Otherwise, it will call into the `.unsafe_script` versions.
 
 
 running lua code (low-level)
@@ -68,46 +79,67 @@ You can use the individual load and function call operator to load, check, and t
 	This is ONLY if you need some sort of fine-grained control: for 99% of cases, :ref:`running lua code<running-lua-code>` is preferred and avoids pitfalls in not understanding the difference between script/load and needing to run a chunk after loading it.
 
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/running_lua_code_low_level.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/running_lua_code_low_level.cpp
 	:linenos:
 	:lines: 1-10, 16-40, 47-49
+
+You can also `develop custom loaders`_ that pull from things that are not strings or files.
+
+
+passing arguments to scripts
+----------------------------
+
+Arguments to Lua scripts can be passed by first loading the file or script blob, and then calling it using sol's abstractions. Then, in the script, access the variables with a `...` on the left hand side of an assignment:
+
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/arguments_to_scripts.cpp
+	:linenos:
+
+
+transferring functions (dumping bytecode)
+-----------------------------------------
+
+You can dump the bytecode of a function, which allows you to transfer it to another state (or save it, or load it). Note that bytecode is *typically specific to the Lua version*!
+
+.. literalinclude:: ../../../examples/source//dump.cpp
+	:linenos:
+
 
 set and get variables
 ---------------------
 
 You can set/get everything using table-like syntax.
 	
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/set_and_get_variables.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/set_and_get_variables.cpp
 	:linenos:
 	:lines: 1-19
 
 Equivalent to loading lua values like so:
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/set_and_get_variables.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/set_and_get_variables.cpp
 	:linenos:
 	:lines: 22-34
 
 You can show they are equivalent:
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/set_and_get_variables.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/set_and_get_variables.cpp
 	:linenos:
 	:lines: 36-44
 
 Retrieve these variables using this syntax:
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/set_and_get_variables.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/set_and_get_variables.cpp
 	:linenos:
 	:lines: 45-64
 
 Retrieve Lua types using ``object`` and other ``sol::`` types.
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/set_and_get_variables.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/set_and_get_variables.cpp
 	:linenos:
 	:lines: 66-
 
 You can erase things by setting it to ``nullptr`` or ``sol::lua_nil``.
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/set_and_get_variables_exists.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/set_and_get_variables_exists.cpp
 	:linenos:
 
 Note that if its a :doc:`userdata/usertype<../api/usertype>` for a C++ type, the destructor will run only when the garbage collector deems it appropriate to destroy the memory. If you are relying on the destructor being run when its set to ``sol::lua_nil``, you're probably committing a mistake.
@@ -117,13 +149,13 @@ tables
 
 Tables can be manipulated using accessor-syntax. Note that :doc:`sol::state<../api/state>` is a table and all the methods shown here work with ``sol::state``, too.
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/tables_and_nesting.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/tables_and_nesting.cpp
 	:linenos:
 	:lines: 1-34
 
 If you're going deep, be safe: 
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/tables_and_nesting.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/tables_and_nesting.cpp
 	:linenos:
 	:lines: 35-
 
@@ -132,13 +164,13 @@ make tables
 
 There are many ways to make a table. Here's an easy way for simple ones:
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/make_tables.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/make_tables.cpp
 	:linenos:
 	:lines: 1-21
 
 Equivalent Lua code, and check that they're equivalent:
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/make_tables.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/make_tables.cpp
 	:linenos:
 	:lines: 22-
 
@@ -152,7 +184,7 @@ functions
 
 They're easy to use, from Lua and from C++:
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/functions_easy.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/functions_easy.cpp
 	:linenos:
 	:lines: 1-
 
@@ -160,13 +192,13 @@ If you need to protect against errors and parser problems and you're not ready t
 
 You can bind member variables as functions too, as well as all KINDS of function-like things:
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/functions_all.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/functions_all.cpp
 	:linenos:
 	:lines: 1-50
 
 The lua code to call these things is:
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/functions_all.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/functions_all.cpp
 	:linenos:
 	:lines: 51-
 
@@ -178,7 +210,7 @@ self call
 
 You can pass the ``self`` argument through C++ to emulate 'member function' calls in Lua.
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/self_call.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/self_call.cpp
 	:linenos:
 	:lines: 1-
 
@@ -186,7 +218,7 @@ You can pass the ``self`` argument through C++ to emulate 'member function' call
 multiple returns from lua
 -------------------------
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/multiple_returns_from_lua.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/multiple_returns_from_lua.cpp
 	:linenos:
 	:lines: 1-
 
@@ -194,7 +226,7 @@ multiple returns from lua
 multiple returns to lua
 -----------------------
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/multiple_returns_to_lua.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/multiple_returns_to_lua.cpp
 	:linenos:
 	:lines: 1-
 
@@ -214,7 +246,7 @@ Everything that is not a:
 Is set as a :doc:`userdata + usertype<../api/usertype>`.
 
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/userdata.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/userdata.cpp
 	:linenos:
 	:lines: 1-57,97-
 
@@ -222,13 +254,13 @@ Is set as a :doc:`userdata + usertype<../api/usertype>`.
 
 If you want it to refer to something, whose memory you know won't die in C++ while it is used/exists in Lua, do the following:
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/userdata_memory_reference.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/userdata_memory_reference.cpp
 	:linenos:
 	:lines: 1-45
 
 You can retrieve the userdata in the same way as everything else. Importantly, note that you can change the data of usertype variables and it will affect things in lua if you get a pointer or a reference:
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/userdata_memory_reference.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/userdata_memory_reference.cpp
 	:linenos:
 	:lines: 46-
 
@@ -246,19 +278,19 @@ namespacing
 
 You can emulate namespacing by having a table and giving it the namespace names you want before registering enums or usertypes:
 
-.. literalinclude:: ../../../examples/tutorials/quick_n_dirty/namespacing.cpp
+.. literalinclude:: ../../../examples/source/tutorials/quick_n_dirty/namespacing.cpp
 	:linenos:
 	:lines: 1-
 
 
-This technique can be used to register namespace-like functions and classes. It can be as deep as you want. Just make a table and name it appropriately, in either Lua script or using the equivalent Sol code. As long as the table FIRST exists (e.g., make it using a script or with one of Sol's methods or whatever you like), you can put anything you want specifically into that table using :doc:`sol::table's<../api/table>` abstractions.
+This technique can be used to register namespace-like functions and classes. It can be as deep as you want. Just make a table and name it appropriately, in either Lua script or using the equivalent sol code. As long as the table FIRST exists (e.g., make it using a script or with one of sol's methods or whatever you like), you can put anything you want specifically into that table using :doc:`sol::table's<../api/table>` abstractions.
 
 there is a LOT more
 -------------------
 
 Some more things you can do/read about:
 	* :doc:`the usertypes page<../usertypes>` lists the huge amount of features for functions
-		- :doc:`unique usertype traits<../api/unique_usertype_traits>` allows you to specialize handle/RAII types from other libraries frameworks, like boost and Unreal, to work with Sol. Allows custom smart pointers, custom handles and others
+		- :doc:`unique usertype traits<../api/unique_usertype_traits>` allows you to specialize handle/RAII types from other libraries frameworks, like boost and Unreal, to work with sol. Allows custom smart pointers, custom handles and others
 	* :doc:`the containers page<../containers>` gives full information about handling everything about container-like usertypes
 	* :doc:`the functions page<../functions>` lists a myriad of features for functions
 		- :doc:`variadic arguments<../api/variadic_args>` in functions with ``sol::variadic_args``.
@@ -268,10 +300,12 @@ Some more things you can do/read about:
 	* :doc:`ownership semantics<ownership>` are described for how Lua deals with its own internal references and (raw) pointers.
 	* :doc:`stack manipulation<../api/stack>` to safely play with the stack. You can also define customization points for ``stack::get``/``stack::check``/``stack::push`` for your type.
 	* :doc:`make_reference/make_object convenience function<../api/make_reference>` to get the same benefits and conveniences as the low-level stack API but put into objects you can specify.
-	* :doc:`stack references<../api/stack_reference>` to have zero-overhead Sol abstractions while not copying to the Lua registry.
+	* :doc:`stack references<../api/stack_reference>` to have zero-overhead sol abstractions while not copying to the Lua registry.
 	* :doc:`resolve<../api/resolve>` overloads in case you have overloaded functions; a cleaner casting utility. You must use this to emulate default parameters.
 
-.. _basic example: https://github.com/ThePhD/sol2/blob/develop/examples/usertype.cpp
-.. _special functions example: https://github.com/ThePhD/sol2/blob/develop/examples/usertype_special_functions.cpp
-.. _initializers example: https://github.com/ThePhD/sol2/blob/develop/examples/usertype_initializers.cpp
-.. _sol2 tutorial examples: https://github.com/ThePhD/sol2/tree/develop/examples/tutorials/quick_n_dirty
+.. _.safe_script: https://github.com/ThePhD/sol2/tree/develop/examples/source/tutorials/quick_n_dirty/running_lua_code_safely.cpp
+.. _develop custom loaders: https://github.com/ThePhD/sol2/blob/develop/examples/source/custom_reader.cpp
+.. _basic example: https://github.com/ThePhD/sol2/blob/develop/examples/source/usertype.cpp
+.. _special functions example: https://github.com/ThePhD/sol2/blob/develop/examples/source/usertype_special_functions.cpp
+.. _initializers example: https://github.com/ThePhD/sol2/blob/develop/examples/source/usertype_initializers.cpp
+.. _sol3 tutorial examples: https://github.com/ThePhD/sol2/tree/develop/examples/source/tutorials/quick_n_dirty
