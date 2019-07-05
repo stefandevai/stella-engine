@@ -1,6 +1,3 @@
-[submodule "lib/glfw"]
-	path = lib/glfw
-	url = https://github.com/glfw/glfw
 [submodule "lib/openal-soft"]
 	path = lib/openal-soft
 	url = https://github.com/kcat/openal-soft
@@ -16,12 +13,6 @@
 [submodule "lib/ogg"]
 	path = lib/ogg
 	url = https://github.com/xiph/ogg
-[submodule "lib/glew"]
-	path = lib/glew
-	url = https://github.com/LuaDist/glew
-[submodule "lib/portaudio"]
-	path = lib/portaudio
-	url = git://git.assembla.com/portaudio.git
 [submodule "lib/entt"]
 	path = lib/entt
 	url = https://github.com/skypjack/entt
