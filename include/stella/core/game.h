@@ -42,12 +42,6 @@ namespace core
       void load_font(const std::string &name, const std::string &path);
       void update_systems(const double dt);
 
-      //template <typename T>
-      //void add_system(std::shared_ptr<T> game_system)
-      //{
-        //m_systems.push_back(game_system);
-      //}
-
       template <typename T, typename ... Params>
       void add_system(Params &... params)
       {

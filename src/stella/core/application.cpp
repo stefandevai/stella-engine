@@ -10,6 +10,7 @@ namespace core
     : m_initial_width(width), m_initial_height(height), m_initial_title(title)
   {
     m_display.SetClearColor(0, 0, 0);
+    srand(time(nullptr));
   }
 
   Application::~Application() { }

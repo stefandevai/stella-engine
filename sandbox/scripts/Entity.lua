@@ -20,4 +20,11 @@ function Entity:create_entity()
   return e
 end
 
+function Entity:create_player()
+  local e = {}
+  setmetatable(e, Entity)
+  e.id = e_get_player_id()
+  return e
+end
+
 return Entity

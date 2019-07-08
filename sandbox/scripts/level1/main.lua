@@ -2,7 +2,7 @@ local M = {}
 
 local Entity = require('scripts.Entity')
 local Map = require('scripts.ProceduralMap')
-local Player = Entity:create_entity()
+local Player = Entity:create_player()
 
 local function load_assets()
   load_texture("sky", "assets/sprites/starry_sky.png")

@@ -77,9 +77,8 @@ namespace script
         return m_noise_generator.get_double(x, y);
       }
 
-      inline int get_perlin_int(double min, double max)
+      inline int get_perlin_int(double min, double max, int pos)
       {
-        int pos = 0;
         double x = static_cast<double>(pos % 256);
         double y = static_cast<double>((pos / 256) % 256);
         return m_noise_generator.get_int(static_cast<int>(min), static_cast<int>(max), x/100.f, y/100.f);
