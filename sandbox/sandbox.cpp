@@ -17,6 +17,9 @@ Sandbox::Sandbox()
   
   m_sound_player.AddStream("dawn-pollen", "assets/audio/st-dawn_pollen.ogg");
   m_sound_player.Play("dawn-pollen", true);
+
+  // Update once to configure systems
+  this->update_systems(0.0);
 }
 
 Sandbox::~Sandbox()

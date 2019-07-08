@@ -270,15 +270,15 @@ end
 
 local function towers()
   local chunk_size = get_perlin_int(10, SCREEN_WIDTH_TILES, M.chunk_counter)
-  local gap = get_perlin_int(0, 3, chunk_size*47)
+  local gap = get_perlin_int(0, 2, chunk_size*47)
   local i = gap
 
   local gap_accumulation = gap
   while (i < chunk_size+gap) do
     local bounding_matrix = {}
     local tower_length = get_random_int(2, 4)
-    local tower_gap = get_random_int(2, 4)
-    local tower_height = get_random_int(1, current_tile_height+4)
+    local tower_gap = get_random_int(1, 5)
+    local tower_height = get_random_int(1, current_tile_height+2)
     current_tile_height = tower_height
 
     for x = 1, tower_length do
@@ -297,7 +297,7 @@ local function towers()
     gap_accumulation = gap_accumulation + tower_length + tower_gap
   end
 
-  return chunk_size + gap
+  return gap_accumulation
 end
 
 local chunk_generators = {
@@ -311,7 +311,6 @@ local function generate_chunk(chunk_type)
   local t = chunk_type
   if t == nil then
     t = get_random_int(1, 4)
-    --t = 2
     if t == 3 and current_tile_height < 6 then
       t = 2
     end
