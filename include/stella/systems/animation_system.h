@@ -28,7 +28,6 @@ class AnimationSystem : public System
           sprite.Sprite->Animations.Play(animations.current_animation);
           animations.Initialized = true;
         }
-
         if (animations.current_animation != animations.old_animation)
         {
           sprite.Sprite->Animations.Play(animations.current_animation);

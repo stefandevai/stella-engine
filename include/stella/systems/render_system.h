@@ -30,6 +30,7 @@ class RenderSystem : public System
     RenderSystem(entt::registry &registry, core::ResourceManager<graphics::Texture> &textures, graphics::Display& display)
       : m_textures(textures), m_display(display)
     {
+      registry.on_construct<components::LayerComponent>().connect<&RenderSystem::initialize_layer>(this);
       registry.on_destroy<components::SpriteComponent>().connect<&RenderSystem::remove_sprite_from_layer>(this);
       std::srand (static_cast <unsigned> (std::time(nullptr)));
     }
@@ -38,30 +39,6 @@ class RenderSystem : public System
 
     void update(entt::registry &registry, const double dt) override
     {
-      registry.view<components::LayerComponent>().each([this](auto entity, auto &layer)
-      {
-        if (!layer.Initialized) {
-          if (layer.ShaderId == "bloom")
-          {
-            m_layers[layer.Id] = std::shared_ptr<graphics::FireLayer>(new graphics::FireLayer(this->m_display));
-          }
-          else if (layer.ShaderId == "ui")
-          {
-            m_layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->m_display.GetWidth(), this->m_display.GetHeight(), layer.Fixed));
-          }
-          else
-          {
-            m_layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->m_display.GetWidth(), this->m_display.GetHeight(), layer.Fixed));
-          }
-          m_ordered_layers[layer.Order] = layer.Id;
-          layer.Initialized = true;
-        }
-        // Update layer order if it has changed
-        //else if (m_ordered_layers[layer.Id] != layer.Order) {
-          //m_ordered_layers[layer.Id] = layer.Order;
-        //}
-      });
-
       registry.group<components::SpriteComponent>(entt::get<components::PositionComponent, components::DimensionComponent>).each([this, &registry](auto entity, auto &sprite, auto &pos, auto &dim)
       {
         // Adds sprite to layer
@@ -131,6 +108,23 @@ class RenderSystem : public System
         m_layers[sprite.LayerId]->Remove(sprite.Sprite);
         sprite.InLayer = false;
       }
+    }
+
+    void initialize_layer(entt::registry &registry, entt::entity entity, components::LayerComponent &layer)
+    {
+      if (layer.ShaderId == "bloom")
+      {
+        m_layers[layer.Id] = std::shared_ptr<graphics::FireLayer>(new graphics::FireLayer(this->m_display));
+      }
+      else if (layer.ShaderId == "ui")
+      {
+        m_layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->m_display.GetWidth(), this->m_display.GetHeight(), layer.Fixed));
+      }
+      else
+      {
+        m_layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->m_display.GetWidth(), this->m_display.GetHeight(), layer.Fixed));
+      }
+      m_ordered_layers[layer.Order] = layer.Id;
     }
 };
 } // namespace systems
