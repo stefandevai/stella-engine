@@ -9,12 +9,7 @@ namespace core
   Game::Game(unsigned width, unsigned height, const std::string &title)
     : Application(width, height, title)
   {
-    m_script_api.set_function("update_camera", [this](const double x, const double y, const double z) {
-      auto &pos = m_registry.get<stella::components::PositionComponent>(m_camera);
-      pos.x = x;
-      pos.y = y;
-      pos.z = z;
-    });
+    m_script_api.set_function("update_camera", &Game::update_camera, this);
     m_script_api.set_function("load_texture", &Game::load_texture, this);
     this->create_camera(0.0, 0.0, 0.0);
   }
