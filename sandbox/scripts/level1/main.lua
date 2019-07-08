@@ -111,17 +111,17 @@ local function load()
     fixed = false,
   })
 
-  --create_layer({
-    --name = "particles",
-    --priority = 2,
-    --shader = "bloom",
-    --fixed = true,
-  --})
+  create_layer({
+    name = "particles",
+    priority = 2,
+    shader = "bloom",
+    fixed = true,
+  })
 
-  --local fire_emitter = Entity:create_entity()
-  --fire_emitter:add_component("particle_emitter", {type = "fire", quantity = 10})
-  --fire_emitter:add_component("position", {350, 290}) 
-  --fire_emitter:add_component("dimension", {16, 16})
+  local fire_emitter = Entity:create_entity()
+  fire_emitter:add_component("particle_emitter", {type = "fire", quantity = 1})
+  fire_emitter:add_component("position", {350, 290}) 
+  fire_emitter:add_component("dimension", {16, 16})
 
   load_assets()
   load_background()
@@ -129,25 +129,25 @@ local function load()
   Map.load()
 end
 
-local camerax = 0.0
-local speedx = 50.0
-local frame_counter = 1
+--local camerax = 0.0
+--local speedx = 100.0
+--local frame_counter = 1
 local function update(dt)
-  local player_position = {get_position(Player.id)}
-  local camera_position = 0
-  if player_position[2] - 250 < 0 then
-    camera_position = player_position[2] - 250
-  end
-  camerax = camerax + speedx*dt
-  update_camera(camerax, camera_position, 0)
-  Map.update(camerax)
+  --local player_position = {get_position(Player.id)}
+  --local camera_position = 0
+  --if player_position[2] - 250 < 0 then
+    --camera_position = player_position[2] - 250
+  --end
+  --camerax = camerax + speedx*dt
+  --update_camera(camerax, camera_position, 0)
+  --Map.update(camerax)
 
-  if frame_counter % 450 == 0 and speedx < 300.0 then
-    speedx = speedx + 7.0
-    print('Distance: ' .. camerax)
-    print('Speed: ' .. speedx)
-  end
-  frame_counter = frame_counter + 1
+  --if frame_counter % 450 == 0 and speedx < 300.0 then
+    --speedx = speedx + 7.0
+    --print('Distance: ' .. camerax)
+    --print('Speed: ' .. speedx)
+  --end
+  --frame_counter = frame_counter + 1
 end
 
 local function render(dt)

@@ -2,7 +2,7 @@
 #include "stella/graphics/sprite.h"
 #include "stella/graphics/texture.h"
 
-#include <glad/glad.h>
+#include "stella/graphics/opengl.h"
 
 #include <algorithm>
 #include <cstddef>
@@ -87,14 +87,14 @@ void Renderer::Begin() {
 void Renderer::Submit(const Sprite &sprite) {
   const glm::vec3 &position = sprite.GetPos();
   const glm::vec2 &dimensions = sprite.GetDimensions();
-  const float &rotation = sprite.GetRotation();
+  const float rotation = sprite.GetRotation();
   const glm::vec2 &scale = sprite.GetScale();
-	const unsigned int &c = sprite.GetColor();
+	const unsigned int c = sprite.GetColor();
 
   const glm::vec2 &uv = sprite.GetFrameCoords();
   const SpriteSheet &spritesheet = sprite.GetSpriteSheet();
-  const GLuint &stW = spritesheet.GetWidth();
-  const GLuint &stH = spritesheet.GetHeight();
+  const GLuint stW = spritesheet.GetWidth();
+  const GLuint stH = spritesheet.GetHeight();
 
   Texture *texture = sprite.GetTexture();
 

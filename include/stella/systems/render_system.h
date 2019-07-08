@@ -26,7 +26,6 @@ class RenderSystem : public System
     std::map<int, std::string> m_ordered_layers{{256, DEFAULT_LAYER_NAME}};
 
   public:
-    //RenderSystem(entt::registry &registry, std::unordered_map<std::string, graphics::Texture*> &textures, graphics::Display& display)
     RenderSystem(entt::registry &registry, core::ResourceManager<graphics::Texture> &textures, graphics::Display& display)
       : m_textures(textures), m_display(display)
     {
@@ -63,13 +62,14 @@ class RenderSystem : public System
               }
 
               // If the texture has a diferent resolution than the actual size we want
-              if ((int)sprite.Sprite->Dimensions.x != dim.w || (int)sprite.Sprite->Dimensions.y != dim.h) {
+              //if ((int)sprite.Sprite->Dimensions.x != dim.w || (int)sprite.Sprite->Dimensions.y != dim.h) {
                 if (registry.has<components::TransformComponent>(entity)) {
                   const auto &trans = registry.get<components::TransformComponent>(entity);
                   sprite.Sprite->SetDirectScale(glm::vec2((float)dim.w*trans.Scale.x, (float)dim.h*trans.Scale.y));
+                  sprite.Sprite->SetRotation(trans.Rotation);
                 }
                 else sprite.Sprite->SetDirectScale(glm::vec2((float)dim.w, (float)dim.h));
-              }
+              //}
 
               sprite.Initialized = true;
             }

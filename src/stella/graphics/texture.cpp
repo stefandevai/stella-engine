@@ -1,6 +1,6 @@
 #include "stella/graphics/texture.h"
 
-#include <glad/glad.h>
+#include "stella/graphics/opengl.h"
 #include <iostream>
 
 extern "C"
@@ -27,7 +27,7 @@ void Texture::Unbind() { glBindTexture(GL_TEXTURE_2D, 0); }
 
 void Texture::load(const char *texPath) {
   int width, height, channels;
-  unsigned char *img = stbi_load(texPath, &width, &height, &channels, 0);
+  unsigned char *img = stbi_load(texPath, &width, &height, &channels, STBI_rgb_alpha);
   if (img == nullptr)
     std::cout << "It wasn't possible to load " << texPath << std::endl;
 

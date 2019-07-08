@@ -5,10 +5,10 @@
 namespace stella {
 namespace components {
 struct TransformComponent {
-  TransformComponent(float rotation, glm::vec2 scale) : Rotation(rotation), Scale(scale) {}
+  TransformComponent(const double rotation = 0.0f, const glm::vec2 scale = glm::vec2(1.f, 1.f)) : Rotation(rotation), Scale(scale) {}
 
-  float Rotation = 0.f;
-  glm::vec2 Scale = glm::vec2(1.f, 1.f);
+  double Rotation;
+  glm::vec2 Scale;
   bool ResizedX = false, ResizedY = false;
 };
 } // namespace components

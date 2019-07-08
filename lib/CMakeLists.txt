@@ -4,7 +4,9 @@ if (NOT USE_SHARED_SDL2)
   add_subdirectory(sdl2)
 endif()
 
-add_subdirectory(glad)
+if (NOT BUILD_EMSCRIPTEN)
+  add_subdirectory(glad)
+endif()
 
 if (NOT USE_SHARED_OPENAL)
   if (NOT APPLE) # Apple already comes with OpenAL

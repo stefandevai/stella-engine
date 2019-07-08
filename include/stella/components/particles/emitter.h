@@ -26,10 +26,10 @@ namespace graphics {
 		public:
 			inline virtual ~Emitter() {};
       virtual void UpdateParticle(entt::registry &registry, entt::registry::entity_type particle) {
-        auto particle_par = registry.get<components::ParticleComponent>(particle);
+        auto &particle_par = registry.get<components::ParticleComponent>(particle);
 
         if (registry.has<components::PositionComponent>(particle)) {
-          auto particle_pos = registry.get<components::PositionComponent>(particle);
+          auto &particle_pos = registry.get<components::PositionComponent>(particle);
           particle_pos.x += particle_par.SpeedX;
           particle_pos.y += particle_par.SpeedY;
         }
@@ -38,8 +38,8 @@ namespace graphics {
       }
 
 			virtual entt::registry::entity_type Emit(entt::registry &registry, entt::registry::entity_type emitter) {
-        auto pos = registry.get<components::PositionComponent>(emitter);
-        auto dim = registry.get<components::DimensionComponent>(emitter);
+        auto &pos = registry.get<components::PositionComponent>(emitter);
+        auto &dim = registry.get<components::DimensionComponent>(emitter);
 
         auto particle = registry.create();
         

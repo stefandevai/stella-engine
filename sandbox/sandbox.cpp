@@ -7,7 +7,9 @@ Sandbox::Sandbox()
   this->add_system<stella::systems::ScrollSystem>();
   this->add_system<stella::systems::TiledScrollSystem>(m_initial_width);
   this->add_system<stella::systems::TileSystem>(m_camera);
+  this->add_system<stella::systems::ParticleSystem>();
   this->add_system<stella::systems::MovementSystem>();
+  this->add_system<stella::systems::TransformSystem>();
 
   m_script_api.set_function("e_get_player_id", [this]() {
       return m_player.entity;

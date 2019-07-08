@@ -13,7 +13,7 @@ struct ParticleEmitter {
 	  enum Type { FIRE_EMITTER, SNOW_EMITTER };
 		std::vector<entt::registry::entity_type> Particles;
 	  uint32_t Velocity = 1;
-		stella::graphics::Emitter *Emitter;
+		stella::graphics::Emitter *Emitter = nullptr;
 
 		inline ParticleEmitter(Type type, unsigned int max_particles) {
       switch(type) {

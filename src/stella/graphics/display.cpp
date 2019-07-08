@@ -1,6 +1,6 @@
 #include "stella/graphics/display.h"
 
-#include <glad/glad.h>
+#include "stella/graphics/opengl.h"
 #include <SDL2/SDL.h>
 
 #include <sstream>

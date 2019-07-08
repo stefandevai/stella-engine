@@ -175,8 +175,6 @@ namespace script
   {
     const std::string &type = obj["type"];
     const unsigned int &quantity = obj["quantity"];
-    std::cout << type << '\n';
-    std::cout << quantity << '\n';
     stella::components::ParticleEmitter::Type emitter_type;
     if (type == "fire")
     {

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <glm/glm.hpp>
+#include <iostream>
 
 typedef float GLfloat;
 typedef unsigned int GLuint;
@@ -31,26 +32,26 @@ public:
   inline GLfloat GetHeight() const { return Dimensions.y; }
   inline GLfloat GetRotation() const { return Rotation; }
   inline glm::vec2 GetScale() const { return Scale; }
-  GLuint GetTexID() const;
-  const std::string &GetTexName() const;
+  inline GLuint GetTexID() const;
+  inline const std::string &GetTexName() const;
   Texture *GetTexture() const;
   inline const GLboolean& IsVisible() const { return Visible; }
 
   // Setters
-  void SetVisible(GLboolean vis) { Visible = vis; }
-  void ToggleVisible() { Visible = !Visible; }
-  void SetDimensions(glm::vec2 dimensions) { Dimensions = dimensions; }
-  void SetRotation(float rotation) { Rotation = rotation; }
-  void SetRelativeScale(glm::vec2 scale) { Scale = scale; }
-  void SetScale(glm::vec2 scale) { Scale = scale; }
+  inline void SetVisible(GLboolean vis) { Visible = vis; }
+  inline void ToggleVisible() { Visible = !Visible; }
+  inline void SetDimensions(glm::vec2 dimensions) { Dimensions = dimensions; }
+  inline void SetRotation(const GLfloat rotation) { Rotation = rotation; }
+  inline void SetRelativeScale(glm::vec2 scale) { Scale = scale; }
+  inline void SetScale(glm::vec2 scale) { Scale = scale; }
   
-  void SetDirectScale(glm::vec2 scale) { Scale = scale/(this->Dimensions);  }
+  inline void SetDirectScale(glm::vec2 scale) { Scale = scale/(this->Dimensions);  }
   //void SetDirectScale(glm::vec2 scale) { Scale = scale/(this->Dimensions); this->Dimensions *= this->Scale; }
 
 protected:
   Texture &Tex;
   GLboolean Visible;
-  float Rotation = 0.f;
+  GLfloat Rotation = 0.0;
   glm::vec2 Scale = glm::vec2(1.f,1.f);
 };
 } // namespace graphics

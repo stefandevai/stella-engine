@@ -2,8 +2,16 @@ cmake_minimum_required(VERSION 3.8)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_C_COMPILER /usr/local/Cellar/gcc/9.1.0/bin/gcc-9)
-set(CMAKE_CXX_COMPILER /usr/local/Cellar/gcc/9.1.0/bin/g++-9)
+
+# Build emscripten version
+option(BUILD_EMSCRIPTEN "Build emscripten" OFF)
+if (BUILD_EMSCRIPTEN)
+  set(CMAKE_C_COMPILER /usr/local/bin/emcc)
+  set(CMAKE_CXX_COMPILER /usr/local/bin/em++)
+else()
+  set(CMAKE_C_COMPILER /usr/local/Cellar/gcc/9.1.0/bin/gcc-9)
+  set(CMAKE_CXX_COMPILER /usr/local/Cellar/gcc/9.1.0/bin/g++-9)
+endif()
 
 project(STELLA C CXX)
 
@@ -30,7 +38,7 @@ endif()
 option(BUILD_STELLA_TESTS "Build tests" OFF)
 
 # Generate compile_commands.json
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS OFF)
 
 # Turn on these options to use the libraries contained in your machine.
 option(USE_SHARED_SDL2 "Use shared SDL2 library" ON)
@@ -58,9 +66,11 @@ endif()
 include_directories(${SDL2_INCLUDE_DIRS})
 
 # GLAD
-set(GLAD_INCLUDE_DIRS ${DEPENDENCIES_DIR}/glad/include)
-set(GLAD_LIBRARIES glad)
-include_directories(${GLAD_INCLUDE_DIRS})
+if (NOT BUILD_EMSCRIPTEN)
+  set(GLAD_INCLUDE_DIRS ${DEPENDENCIES_DIR}/glad/include)
+  set(GLAD_LIBRARIES glad)
+  include_directories(${GLAD_INCLUDE_DIRS})
+endif()
 
 # GLM - OpenGL maths library
 include_directories(${DEPENDENCIES_DIR}/glm)

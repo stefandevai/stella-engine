@@ -2,7 +2,7 @@
 #include "stella/graphics/texture.h"
 
 #include <vector>
-#include <glad/glad.h>
+#include "stella/graphics/opengl.h"
 
 namespace stella {
 namespace graphics {

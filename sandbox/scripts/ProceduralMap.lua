@@ -178,7 +178,7 @@ local function build_stair_tiles(bounding_matrix, width, height, gap)
   end
 end
 
-local function plain(chunk_size, gap)
+local function plain()
   local height = get_random_int(1, current_tile_height+2)
   local chunk_size = get_random_int(15, SCREEN_WIDTH_TILES)
   local gap = get_perlin_int(1, 4, chunk_size*47)

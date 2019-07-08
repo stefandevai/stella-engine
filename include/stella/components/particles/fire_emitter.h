@@ -25,10 +25,10 @@ namespace graphics {
 			}
 
       inline void UpdateParticle(entt::registry &registry, entt::registry::entity_type particle) override {
-        auto particle_par = registry.get<components::ParticleComponent>(particle);
+        auto &particle_par = registry.get<components::ParticleComponent>(particle);
 
         if (registry.has<components::PositionComponent>(particle)) {
-          auto particle_pos = registry.get<components::PositionComponent>(particle);
+          auto &particle_pos = registry.get<components::PositionComponent>(particle);
           if ((int)particle_par.SpeedX % 3 == 0)
             particle_pos.x -= cos(particle_par.SpeedX*particle_par.Life*PI/180)*3 - 1;
           else if ((int)particle_par.SpeedY % 2 == 0)
@@ -38,7 +38,7 @@ namespace graphics {
         }
 
         if (registry.has<components::TransformComponent>(particle) && particle_par.Life % 5 == 0) {
-          auto particle_trans = registry.get<components::TransformComponent>(particle);
+          auto &particle_trans = registry.get<components::TransformComponent>(particle);
           particle_trans.Scale.x *= 0.8f;
           particle_trans.Scale.x = std::max(0.001f, particle_trans.Scale.x);
           particle_trans.Scale.y = particle_trans.Scale.x;
