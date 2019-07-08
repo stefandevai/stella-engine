@@ -94,34 +94,45 @@ local function load_player(x, y)
   animation_args["animations"][3] = {"jump", {3}, 5}
   animation_args["animations"][4] = {"fall", {1}, 5}
   Player:add_component("animation", animation_args) 
+  
 end
 
 local function load()
   create_layer({
-    name = "background",
-    priority = 0,
-    shader = "basic",
-    fixed = true,
-  })
-
-  create_layer({
     name = "tiles",
-    priority = 1,
+    priority = 0,
     shader = "basic",
     fixed = false,
   })
 
   create_layer({
-    name = "particles",
+    name = "background",
     priority = 2,
+    shader = "basic",
+    fixed = true,
+  })
+
+  create_layer({
+    name = "particles",
+    priority = 3,
     shader = "bloom",
     fixed = true,
   })
 
   local fire_emitter = Entity:create_entity()
-  fire_emitter:add_component("particle_emitter", {type = "fire", quantity = 1})
-  fire_emitter:add_component("position", {350, 290}) 
+  fire_emitter:add_component("particle_emitter", {type = "fire", quantity = 10})
+  fire_emitter:add_component("position", {32, 390, 3}) 
   fire_emitter:add_component("dimension", {16, 16})
+
+  local anotherem = Entity:create_entity()
+  anotherem:add_component("particle_emitter", {type = "fire", quantity = 10})
+  anotherem:add_component("position", {400, 390, 3}) 
+  anotherem:add_component("dimension", {16, 16})
+
+  local fire_emitter3 = Entity:create_entity()
+  fire_emitter3:add_component("particle_emitter", {type = "fire", quantity = 1})
+  fire_emitter3:add_component("position", {128, 390, 3}) 
+  fire_emitter3:add_component("dimension", {16, 16})
 
   load_assets()
   load_background()

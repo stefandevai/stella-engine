@@ -174,8 +174,8 @@ namespace script
   void LuaInterface::add_particle_emitter_component(entt::registry::entity_type id, const sol::table &obj)
   {
     const std::string &type = obj["type"];
-    const unsigned int &quantity = obj["quantity"];
-    stella::components::ParticleEmitter::Type emitter_type;
+    const unsigned int quantity = obj["quantity"];
+    stella::components::ParticleEmitter::Type emitter_type = stella::components::ParticleEmitter::FIRE_EMITTER;
     if (type == "fire")
     {
       emitter_type = stella::components::ParticleEmitter::Type::FIRE_EMITTER;

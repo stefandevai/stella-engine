@@ -100,7 +100,7 @@ namespace graphics {
       bool Initialized = false;
       ParticleVariationData Data;
 
-			inline Emitter(int posx, int posy, unsigned int max_particles, const std::string& tex_name) : PosX(posx), PosY(posy), MaxParticles(max_particles), TextureName(tex_name) {}
+      inline Emitter(int posx, int posy, unsigned int max_particles, const std::string& tex_name) : PosX(posx), PosY(posy), MaxParticles(max_particles), TextureName(tex_name) {}
 	};
 }}
 
