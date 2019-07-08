@@ -1,6 +1,7 @@
 #pragma once
 
 #include <entt/entity/registry.hpp>
+#include <iostream>
 
 namespace stella
 {
@@ -10,7 +11,7 @@ class System
 {
   public:
     virtual ~System() = default;
-    virtual void update(entt::registry &registry, const double dt) {};
+    virtual void update(entt::registry &registry, const double dt) {}
 
   protected:
     System() = default;

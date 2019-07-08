@@ -8,4 +8,5 @@
 #include "stella/systems/scroll_system.h"
 #include "stella/systems/tiled_scroll_system.h"
 #include "stella/systems/transform_system.h"
+#include "stella/systems/movement_system.h"
 #include "stella/systems/tile_system.h"

@@ -1,7 +1,14 @@
 #pragma once
 
+#include <ctime>
+#include "../core/resource.h"
 #include "./system.h"
-#include "../components.h"
+#include "../components/layer_component.h"
+#include "../components/sprite_component.h"
+#include "../components/position_component.h"
+#include "../components/dimension_component.h"
+#include "../components/transform_component.h"
+#include "../components/camera_component.h"
 #include "stella/graphics/layers/firelayer.h"
 #include "stella/graphics/layers/basic_layer.h"
 
@@ -12,17 +19,19 @@ namespace systems
 class RenderSystem : public System
 {
   private:
-    std::unordered_map<std::string, stella::graphics::Texture*> &m_textures;
+    const std::string DEFAULT_LAYER_NAME = "basic";
+    core::ResourceManager<graphics::Texture> &m_textures;
     graphics::Display &m_display;
-    std::unordered_map<std::string, std::shared_ptr<graphics::Layer>> m_layers;
-    std::map<int, std::string> m_ordered_layers;
+    std::unordered_map<std::string, std::shared_ptr<graphics::Layer>> m_layers{{DEFAULT_LAYER_NAME, std::make_shared<graphics::BasicLayer>(m_display.GetWidth(), m_display.GetHeight(), false)}};
+    std::map<int, std::string> m_ordered_layers{{256, DEFAULT_LAYER_NAME}};
 
   public:
-    RenderSystem(entt::registry &registry, std::unordered_map<std::string, graphics::Texture*> &textures, graphics::Display& display)
+    //RenderSystem(entt::registry &registry, std::unordered_map<std::string, graphics::Texture*> &textures, graphics::Display& display)
+    RenderSystem(entt::registry &registry, core::ResourceManager<graphics::Texture> &textures, graphics::Display& display)
       : m_textures(textures), m_display(display)
     {
       registry.on_destroy<components::SpriteComponent>().connect<&RenderSystem::remove_sprite_from_layer>(this);
-      std::srand (static_cast <unsigned> (std::time(0)));
+      std::srand (static_cast <unsigned> (std::time(nullptr)));
     }
 
     ~RenderSystem() override { }
@@ -57,14 +66,17 @@ class RenderSystem : public System
       {
         // Adds sprite to layer
         if (!sprite.InLayer) {
-          auto texdata = this->m_textures.find(sprite.TexName);
-          if (texdata == this->m_textures.end()) {
+          auto tex = m_textures.load(sprite.TexName);
+          if (tex == nullptr) {
             std::cout << "It was not possible to find " << sprite.TexName << " in loaded textures." << std::endl;
           }
+          //auto texdata = this->m_textures.find(sprite.TexName);
+          //if (texdata == this->m_textures.end()) {
+            //std::cout << "It was not possible to find " << sprite.TexName << " in loaded textures." << std::endl;
+          //}
           else {
             // Creates sprite if it doesn't exist yet
             if (!sprite.Initialized) {
-              auto tex = texdata->second;
               // If no frame dimensions were provided
               if (sprite.FrameDimensions.x == 0) {
                 sprite.Sprite = std::shared_ptr<graphics::Sprite>(new graphics::Sprite(glm::vec3(pos.x, pos.y, pos.z), *tex, sprite.Frame));

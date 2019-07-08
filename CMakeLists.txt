@@ -240,7 +240,7 @@ target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${SDL2_LIBRARIES}
 
 # Build examples if specified
 if (BUILD_STELLA_EXAMPLE)
-  add_subdirectory(example)
+  add_subdirectory(sandbox)
 endif()
 
 # Build tests if specified

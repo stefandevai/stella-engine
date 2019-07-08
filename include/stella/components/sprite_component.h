@@ -3,7 +3,7 @@
 #include <string>
 
 #include <glm/glm.hpp>
-#include <stella/stella.h>
+#include "../graphics/sprite.h"
 
 namespace stella {
 namespace components {

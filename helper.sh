@@ -15,7 +15,7 @@ fi
 
 # Variables
 BUILD_DIR="build"
-TARGET_DIR="example"
+TARGET_DIR="sandbox"
 TARGET="game"
 OPT1=$1
 OPT2=$2
@@ -65,7 +65,7 @@ function exec_func {
 		cd $BUILD_DIR
 	fi
 
-	cp -r ../example/torch/assets example
+	cp -r ../sandbox/assets example
 
 	cd $TARGET_DIR
 	./"$TARGET"
@@ -143,11 +143,11 @@ function format_code {
 }
 
 function copy_assets {
-	cp -r example/torch/assets $BUILD_DIR/example
+	cp -r sandbox/assets $BUILD_DIR/sandbox
 }
 
 function copy_scripts {
-	cp -r example/torch/scripts $BUILD_DIR/example
+	cp -r sandbox/scripts $BUILD_DIR/sandbox
 }
 
 # Args evalutation

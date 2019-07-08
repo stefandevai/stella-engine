@@ -8,6 +8,9 @@
 #include "../systems/system.h"
 #include "../systems/render_system.h"
 #include "../systems/animation_system.h"
+#include "./resource.h"
+#include "../graphics/texture.h"
+#include "../scripting/script_api.h"
 
 namespace stella
 {
@@ -18,13 +21,13 @@ namespace core
   {
     protected:
       entt::registry m_registry;
+      script::ScriptApi m_script_api{m_registry};
       audio::SoundPlayer m_sound_player;
-      std::unordered_map<std::string, graphics::Texture*> m_textures;
-      std::unordered_map<std::string, graphics::Texture*> m_fonts;
+      ResourceManager<graphics::Texture> m_textures;
       entt::registry::entity_type m_camera = m_registry.create();
-      std::vector<systems::System> m_systems{
-        systems::RenderSystem{m_registry, m_textures, m_display},
-        systems::AnimationSystem{}
+      std::vector<std::shared_ptr<systems::System>> m_systems{
+        std::make_shared<systems::RenderSystem>(m_registry, m_textures, m_display),
+        std::make_shared<systems::AnimationSystem>()
       };
 
     public:
@@ -33,11 +36,17 @@ namespace core
 
     protected:
       void load() override;
-      void update(const double dt) override;
+      void create_camera(const double x, const double y, const double z);
+      void update_camera(const double x, const double y, const double z);
+      void load_texture(const std::string &name, const std::string &path);
+      void load_font(const std::string &name, const std::string &path);
       void update_systems(const double dt);
-      void add_system(systems::System& game_system);
-      void load_texture(std::string texture_id, const char *texture_path);
-      void load_font(std::string font_id, const char *font_path);
+      template <typename T>
+      void add_system(std::shared_ptr<T> game_system)
+      {
+        m_systems.push_back(game_system);
+      }
+
   };
 
 } // namespace script
