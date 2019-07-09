@@ -10,3 +10,4 @@
 #include "stella/systems/transform_system.h"
 #include "stella/systems/movement_system.h"
 #include "stella/systems/tile_system.h"
+#include "stella/systems/text_system.h"

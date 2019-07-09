@@ -3,14 +3,14 @@
 #include <string>
 #include <vector>
 
-#include <stella/stella.h>
+#include <entt/entity/registry.hpp>
 
 namespace stella {
 namespace components {
 struct TextComponent {
   TextComponent(const std::string &text, const std::string &font_tex_name, bool is_static = false) : Text(text), Name(font_tex_name), IsStatic(is_static) { this->InLayer = false; }
 	std::string Text, Name;
-	std::vector<std::shared_ptr<stella::graphics::Sprite>> Sprites;
+	std::vector<entt::registry::entity_type> char_entities;
 	bool InLayer, IsStatic;
   int Spaces = 0;
 };

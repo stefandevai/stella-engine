@@ -11,6 +11,8 @@
 #include "./resource.h"
 #include "../graphics/texture.h"
 #include "../scripting/script_api.h"
+#include "../audio/soundplayer.h"
+#include "../physics2d/world.h"
 
 namespace stella
 {

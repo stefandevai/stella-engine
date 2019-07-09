@@ -14,6 +14,7 @@ local function load_assets()
   load_texture("mountains3", "assets/sprites/mountains3.png")
   load_texture("fire-particle", "assets/sprites/fire-particle.png")
   load_texture("snowflake", "assets/snowflakes/flake2-small.png")
+  load_texture("font-cursive", "assets/sprites/cursive.png")
 end
 
 local function load_background()
@@ -116,12 +117,28 @@ local function load()
     name = "particles",
     priority = 3,
     shader = "bloom",
+    fixed = false,
+  })
+
+  create_layer({
+    name = "text",
+    priority = 4,
+    shader = "basic",
     fixed = true,
+  })
+
+  local title = Entity:create_entity()
+  title:add_component("dimension", {9, 9})
+  title:add_component("position", {30, 30, 0}) 
+  title:add_component("text", {
+    text = "- STELLA ENGINE -",
+    font_name = "font-cursive", 
+    is_static = true
   })
 
   local fire_emitter = Entity:create_entity()
   fire_emitter:add_component("particle_emitter", {type = "fire", quantity = 10})
-  fire_emitter:add_component("position", {32, 390, 3}) 
+  fire_emitter:add_component("position", {500, 390, 3}) 
   fire_emitter:add_component("dimension", {16, 16})
 
   local anotherem = Entity:create_entity()
@@ -140,25 +157,24 @@ local function load()
   Map.load()
 end
 
---local camerax = 0.0
---local speedx = 100.0
---local frame_counter = 1
-local function update(dt)
-  --local player_position = {get_position(Player.id)}
-  --local camera_position = 0
-  --if player_position[2] - 250 < 0 then
-    --camera_position = player_position[2] - 250
-  --end
-  --camerax = camerax + speedx*dt
-  --update_camera(camerax, camera_position, 0)
-  --Map.update(camerax)
+local camerax = 0.0
+local speedx = 100.0
+local frame_counter = 1
+local camera_position = {0.0, 0.0}
+local last_camera_x = 0.0
 
-  --if frame_counter % 450 == 0 and speedx < 300.0 then
-    --speedx = speedx + 7.0
-    --print('Distance: ' .. camerax)
-    --print('Speed: ' .. speedx)
-  --end
-  --frame_counter = frame_counter + 1
+local function update(dt)
+  local player_position = {get_position(Player.id)}
+  if player_position[2] - 250 < 0 then
+    camera_position[2] = player_position[2] - 250
+  end
+  camera_position[1] = player_position[1] - 896/5
+  camera_position[1] = math.max(camera_position[1], last_camera_x)
+  if camera_position[1] ~= last_camera_x then
+    last_camera_x = camera_position[1]
+  end
+  update_camera(camera_position[1], camera_position[2], 0)
+  Map.update(camera_position[1])
 end
 
 local function render(dt)

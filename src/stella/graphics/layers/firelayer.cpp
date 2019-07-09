@@ -37,7 +37,7 @@ void drawQuad(GLuint &VAO, GLuint &VBO) {
 namespace stella {
 namespace graphics {
 FireLayer::FireLayer(graphics::Display &display)
-	: Layer(std::shared_ptr<Renderer>(new Renderer())), Display(display) {
+	: Layer(std::shared_ptr<Renderer>(new Renderer()), false), Display(display) {
 
 	this->QuadVAO = 0;
 	this->QuadVBO = 0;
@@ -125,6 +125,10 @@ void FireLayer::Render() {
 
 void FireLayer::RenderScene() {
   this->Shad->Enable();
+  if (!this->Fixed)
+  {
+    this->Shad->SetMat4("view", this->ViewMatrix);
+  }
   this->Ren->Begin();
 
   //glm::mat4 trans;
