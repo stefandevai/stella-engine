@@ -50,7 +50,7 @@ class Player
       // Collided bottom
       if (body.Body->Collisions.test(2)) {
         if (player.InAir) {
-          this->SoundPlayer.Play("land");
+          //this->SoundPlayer.Play("land");
         }
         player.InAir = false;
         this->current_state = IDLE;
@@ -86,7 +86,7 @@ class Player
 
           player.InAir = true;
 
-          this->SoundPlayer.Play("jump");
+          //this->SoundPlayer.Play("jump");
         }
       }
 
@@ -108,14 +108,14 @@ class Player
     {
       if (previous_state != this->current_state && previous_state == RUNNING)
       {
-        this->SoundPlayer.Stop("run");
+        //this->SoundPlayer.Stop("run");
       }
 
       switch(state)
       {
         case RUNNING:
           anims.current_animation = "run";
-          this->SoundPlayer.Play("run");
+          //this->SoundPlayer.Play("run");
           break;
         case JUMPING:
           anims.current_animation = "jump";

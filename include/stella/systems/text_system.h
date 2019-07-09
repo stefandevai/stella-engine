@@ -70,7 +70,7 @@ class TextSystem : public System
           // If the text is smaller than the last printed
           else if (char_entity != text.char_entities.end()) {
             auto iterator_copy = char_entity;
-            //for (; spr != text.char_entities.end(); ++spr) this->TextLayer->Remove(*spr);
+            for (; char_entity != text.char_entities.end(); ++char_entity) registry.destroy(*char_entity);
 
             text.char_entities.erase(iterator_copy, text.char_entities.end());
           }

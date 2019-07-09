@@ -3,6 +3,7 @@
 #include "./system.h"
 #include "../components.h"
 #include <iostream>
+#include "../physics2d/grid_world.h"
 
 namespace stella
 {
@@ -11,7 +12,7 @@ namespace systems
 class PhysicsSystem : public System
 {
   private:
-    stella::physics2d::World m_world;
+    stella::physics2d::GridWorld m_world;
     entt::registry::entity_type m_camera;
 
   public:

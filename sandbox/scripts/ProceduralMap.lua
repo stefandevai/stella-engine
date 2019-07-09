@@ -20,6 +20,19 @@ local map
 local tiles = {}
 local current_tile_height = 1
 
+collision_data = {}
+collision_data.width = 0
+collision_data.height = 0
+collision_data.grid = {}
+
+local function concat(table1, table2)
+  local result = {}
+  local n = 0
+  for _,v in ipairs(table1) do n=n+1; result[n]=v end
+  for _,v in ipairs(table2) do n=n+1; result[n]=v end
+  return result
+end
+
 local function add_tile(x, y, z, body, frame)
   local tile = Entity:create_entity()
   tile.x = x*TILE_DIMENSION + M.offset.x
@@ -197,6 +210,9 @@ local function plain()
     end
   end
 
+  collision_data.grid = concat(collision_data.grid, bounding_matrix)
+  collision_data.height = math.max(collision_data.height, height+1)
+  collision_data.width = collision_data.width + gap + chunk_size
   build_stone_tiles(bounding_matrix, chunk_size, height, gap)
 
   return chunk_size + gap
@@ -321,13 +337,33 @@ local function generate_chunk(chunk_type)
 end
 
 function M.load()
-  generate_chunk(1)
+  --generate_chunk(1)
+  --print(collision_data.width)
+  --print(collision_data.height)
+
+  --for i=1,#collision_data.grid do
+    --if i % (collision_data.width+1) == 0 then
+      --io.write('\n')
+    --end
+    --io.write(collision_data.grid[i]..' ')
+  --end
+  --io.write('\n')
+
 end
 
 function M.update(camerax)
-  if camerax + SCREEN_WIDTH*1.5 > M.offset.x then
-    generate_chunk()
-  end
+  --if camerax + SCREEN_WIDTH*1.5 > M.offset.x then
+    --collision_data = {}
+    --generate_chunk()
+    --generate_chunk()
+    --generate_chunk()
+    --generate_chunk()
+    --generate_chunk()
+    --generate_chunk()
+    --generate_chunk()
+    --generate_chunk()
+    --generate_chunk()
+  --end
 end
 
 return M

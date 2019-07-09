@@ -21,8 +21,8 @@ Sandbox::Sandbox()
   m_script_api.run_script("./scripts/main.lua");
   m_script_api.run_function("load_game");
   
-  m_sound_player.AddStream("dawn-pollen", "assets/audio/st-dawn_pollen.ogg");
-  m_sound_player.Play("dawn-pollen", true);
+  //m_sound_player.AddStream("dawn-pollen", "assets/audio/st-dawn_pollen.ogg");
+  //m_sound_player.Play("dawn-pollen", true);
 
   const unsigned char* renderer = m_display.GetGlRenderer();
   std::stringstream renderer_string("");
@@ -63,16 +63,18 @@ void Sandbox::update(const double dt)
   m_player.update();
   m_script_api.run_function("update_game", dt);
   m_script_api.run_function("render_game", dt);
-  m_sound_player.Update();
+  //m_sound_player.Update();
 
-  if (m_registry.valid(m_fps_text) && m_display.GetFrame() % 10 == 0) {
+  if (m_registry.valid(m_fps_text) && m_display.GetFrame() % 10 == 0)
+  {
     std::stringstream fps_string("");
     fps_string << std::fixed << std::setprecision(6) << m_display.getFPS() << " FPS";
     auto &text = m_registry.get<stella::components::TextComponent>(m_fps_text);
     text.Text = fps_string.str();
   }
 
-  if (m_registry.valid(m_ms_text) && m_display.GetFrame() % 10 == 0) {
+  if (m_registry.valid(m_ms_text) && m_display.GetFrame() % 10 == 0)
+  {
     std::stringstream ms_string("");
     ms_string << std::fixed << std::setprecision(8) << dt << " ms";
     auto &text = m_registry.get<stella::components::TextComponent>(m_ms_text);
