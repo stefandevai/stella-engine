@@ -140,19 +140,19 @@ end
 
 local function load_player(x, y)
   Player:add_component("player")
-  Player:add_component("sprite", {
-    texture = "guanaco",
-    layer = "tiles",
-    frame_dimensions = {80,60,0},
-  })
   --Player:add_component("sprite", {
-    --texture = "fire-particle",
+    --texture = "guanaco",
     --layer = "tiles",
-    --frame_dimensions = {32,32,0},
+    --frame_dimensions = {80,60,0},
   --})
+  Player:add_component("sprite", {
+    texture = "fire-particle",
+    layer = "tiles",
+    frame_dimensions = {32,32,0},
+  })
   Player:add_component("position", {x, y, 3}) 
-  Player:add_component("dimension", {80, 60})
-  --Player:add_component("dimension", {32, 32})
+  --Player:add_component("dimension", {80, 60})
+  Player:add_component("dimension", {32, 32})
   Player:add_component("movement", { speed = {650, 400} })
   Player:add_component("body", {
     drag = {900, 900},
@@ -160,8 +160,8 @@ local function load_player(x, y)
   })
 
   animation_args = {}
-  --animation_args["frame_dimensions"] = {32, 32}
-  animation_args["frame_dimensions"] = {80, 60}
+  animation_args["frame_dimensions"] = {32, 32}
+  --animation_args["frame_dimensions"] = {80, 60}
   animation_args["animations"] = {}
   animation_args["animations"][1] = {"idle", {5,7,6,7,5,6,5,7,9,8}, 10}
   animation_args["animations"][2] = {"run", {0,1,2,3,4}, 5}

@@ -45,20 +45,14 @@ namespace physics2d {
       body->Collisions.reset();
       if (!body->IsStatic)
       {
-        Collision collision = is_colliding_with(body);
-        if (collision.tile.type != 0)
-        {
-          resolve_collision(collision);
-        }
+        resolve_collisions(body);
       }
     }
   }
 
-  GridWorld::Collision GridWorld::is_colliding_with(const std::shared_ptr<Body> body)
+  void GridWorld::resolve_collisions(const std::shared_ptr<Body> body)
   {
     Collision collision{body, Tile{0,0,0}};
-    Collision final_collision{body, Tile{0,0,0}};
-    double intersection_area = 0.0;
 
     const int bx = body->Position.x / TILE_DIMENSIONS;
     const int by = body->Position.y / TILE_DIMENSIONS;
@@ -75,19 +69,15 @@ namespace physics2d {
           collision.tile.x = i;
           collision.tile.y = j;
           const auto intersection = get_tile_intersection(collision);
-          //if (abs(intersection.x*intersection.y) > intersection_area)
-          if (abs(intersection.x*intersection.y) > 0)
+          if (intersection.x*intersection.y > 0)
           {
-            intersection_area = intersection.x*intersection.y;
             collision.tile.type = tile_value;
             collision.intersection = intersection;
             resolve_collision(collision);
-            //final_collision = collision;
           }
         }
       }
     }
-    return final_collision;
   }
 
   glm::vec2 GridWorld::get_tile_intersection(const GridWorld::Collision &collision)
@@ -114,15 +104,11 @@ namespace physics2d {
     else if (bw > tw && bx < tw)
     {
       intersection_x = tw - bx;
-      //std::cout << intersection_x << '\n';
-      //std::cout << collision.body->LastPosition.x << '\n';
-      //std::cout << collision.body->LastPosition.y << '\n';
-      //std::cout << '\n';
     }
     // Bottom intersection
     if (by <= ty && bh >= ty)
     {
-      intersection_y = bh - ty;
+      intersection_y = bh - ty + 1;
     }
     // Top intersection
     else if (bh >= th && by <= th)
@@ -140,6 +126,9 @@ namespace physics2d {
       case 1:
         resolve_aabb(collision);
         break;
+      //case 2:
+        //resolve_tb_slope45(collision);
+        //break;
     }
   }
 
@@ -163,123 +152,108 @@ namespace physics2d {
     const int ix = collision.intersection.x;
     const int iy = collision.intersection.y;
     // Right intersection
-    //if (bx <= tx && bw >= tx && lw <= tx)
-    //if (bx <= tx && bw >= tx && lw <= tx && (lh >= ty && ly <= th))
-    //if (lw <= tx && (lh >= ty && ly <= th))
     if (lw <= tw && lw <= bw && iy > ix)
     {
       collision.body->Collisions.set(1);
+
+      collision.body->Position.x -= collision.intersection.x;
+      collision.body->Velocity.x = 0;
+      collision.body->Acceleration.x = 0;
     }
     // Left intersection
-    //else if (bw >= tw && bx <= tw && lx >= tw)
-    //else if (bw >= tw && bx <= tw && lx >= tw && (lh >= ty && ly <= th))
-    //else if (lx >= tw && (lh >= ty && ly <= th))
     else if (lx >= tx && lx > bx && iy > ix)
     {
       collision.body->Collisions.set(3);
+
+      collision.body->Position.x += collision.intersection.x;
+      collision.body->Velocity.x = 0;
+      collision.body->Acceleration.x = 0;
     }
     // Bottom intersection
-    //else if (by <= ty && bh >= ty && lh <= ty)
-    //else if (by <= ty && bh >= ty && lh <= ty && (lw >= tx && lx <= tw))
-    //else if (by <= ty && bh >= ty)
-    //else if (lh <= ty && (lw >= tx && lx <= tw))
-    else if (lh <= th && lh < bh && ix > iy)
+    else if (lh <= th && lh <= bh && ix > iy)
     {
-      //std::cout << ix << ' ' << iy << '\n';
       collision.body->Collisions.set(2);
+
+      collision.body->Position.y -= collision.intersection.y - 1;
+      collision.body->Velocity.y = 0;
+      collision.body->Acceleration.y = 0;
     }
     // Top intersection
-    //else if (bh >= th && by <= th && ly >= th)
-    //else if (bh >= th && by <= th && ly >= th && (lw >= tx && lx <= tw))
-    //else if (bh >= th && by <= th)
-    //else if (ly >= th && (lw >= tx && lx <= tw))
     else if (ly >= ty && ly > by && ix > iy)
     {
       collision.body->Collisions.set(0);
+
+      collision.body->Position.y += collision.intersection.y;
+      collision.body->Velocity.y = 0;
+      collision.body->Acceleration.y = 0;
     }
     else
     {
       std::cout << "here\n";
-      //std::cout << collision.intersection.x << '\n';
-      //std::cout << collision.intersection.y << '\n';
-      //std::cout << "here\n";
     }
-    //if (collision.intersection.x > 0.f && collision.intersection.y > 0.f)
+
+    // Bottom collision
+    //if (collision.body->Collisions.test(2))
     //{
-      //if (abs(collision.intersection.x) > abs(collision.intersection.y))
+      //if (ix > iy)
       //{
-        //collision.body->Collisions.reset(1);
-        //collision.body->Collisions.reset(3);
-
-        // Bottom collision
-        if (collision.body->Collisions.test(2))
-        {
-          if (ix > iy)
-          {
-            collision.body->Position.y -= collision.intersection.y;
-            collision.body->Velocity.y = 0;
-            collision.body->Acceleration.y = 0;
-          }
-          else
-          {
-            std::cout << ix << ' ' << iy << '\n';
-          }
-          //std::cout << "bottom collision\n";
-        }
-        // Top collision
-        else if (collision.body->Collisions.test(0))
-        {
-          if (ix > iy)
-          {
-            collision.body->Position.y += collision.intersection.y;
-            collision.body->Velocity.y = 0;
-            collision.body->Acceleration.y = 0;
-          }
-          else
-          {
-            std::cout << ix << ' ' << iy << '\n';
-          }
-          //std::cout << "top collision\n";
-        }
+        //collision.body->Position.y -= collision.intersection.y - 1;
+        //collision.body->Velocity.y = 0;
+        //collision.body->Acceleration.y = 0;
       //}
-      //else 
+      //else
       //{
-        //collision.body->Collisions.reset(0);
-        //collision.body->Collisions.reset(2);
-
-        // Right collision
-        if (collision.body->Collisions.test(1))
-        {
-          if (iy > ix)
-          {
-            collision.body->Position.x -= collision.intersection.x;
-            //std::cout << "right collision\n";
-            collision.body->Velocity.x = 0;
-            collision.body->Acceleration.x = 0;
-          }
-          else
-          {
-            std::cout << ix << ' ' << iy << '\n';
-          }
-        }
-        // Left collision
-        else if (collision.body->Collisions.test(3))
-        {
-          if (iy > ix)
-          {
-            collision.body->Position.x += collision.intersection.x;
-            //std::cout << "left collision\n";
-            collision.body->Velocity.x = 0;
-            collision.body->Acceleration.x = 0;
-          }
-          else
-          {
-            std::cout << ix << ' ' << iy << '\n';
-          }
-        }
+        //std::cout << 2 << '\n';
+      //}
+    //}
+    //// Top collision
+    //else if (collision.body->Collisions.test(0))
+    //{
+      //if (ix > iy)
+      //{
+        //collision.body->Position.y += collision.intersection.y;
+        //collision.body->Velocity.y = 0;
+        //collision.body->Acceleration.y = 0;
+      //}
+      //else
+      //{
+        //std::cout << 0 << '\n';
+      //}
+    //}
+    //// Right collision
+    //if (collision.body->Collisions.test(1))
+    //{
+      //if (iy > ix)
+      //{
+        //collision.body->Position.x -= collision.intersection.x;
+        //collision.body->Velocity.x = 0;
+        //collision.body->Acceleration.x = 0;
+      //}
+      //else
+      //{
+        //std::cout << 1 << '\n';
+      //}
+    //}
+    //// Left collision
+    //else if (collision.body->Collisions.test(3))
+    //{
+      //if (iy > ix)
+      //{
+        //collision.body->Position.x += collision.intersection.x;
+        //collision.body->Velocity.x = 0;
+        //collision.body->Acceleration.x = 0;
+      //}
+      //else
+      //{
+        //std::cout << 3 << '\n';
       //}
     //}
   }
+
+  //void GridWorld::resolve_tb_slope45(const GridWorld::Collision &collision)
+  //{
+
+  //}
 
   void GridWorld::UpdateMovement(float dt) const {
     for (auto& body: this->Bodies) {

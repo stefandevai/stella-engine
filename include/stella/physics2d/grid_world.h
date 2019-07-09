@@ -48,7 +48,7 @@ namespace physics2d {
     private:
       void UpdateMovement(float dt) const;
       void UpdateCollisions();
-      Collision is_colliding_with(const std::shared_ptr<Body> body);
+      void resolve_collisions(const std::shared_ptr<Body> body);
       glm::vec2 get_tile_intersection(const GridWorld::Collision &collision);
       void resolve_collision(const GridWorld::Collision &collision);
       void resolve_aabb(const GridWorld::Collision &collision);
