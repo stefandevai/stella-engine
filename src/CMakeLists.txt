@@ -1,14 +1,12 @@
 include_directories(../lib)
 
 if (STELLA_BUILD_EDITOR)
-  message("HEREE")
   file(GLOB_RECURSE SOURCE ${PROJECT_SOURCE_DIR}/src/*.cpp)
 else()
-  message("HEROOO")
   file(GLOB_RECURSE SOURCE ${PROJECT_SOURCE_DIR}/src/stella/*.cpp)
 elseif()
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-add_executable(stella ../game.cpp ${SOURCE})
+add_executable(stella ../stella.cpp ${SOURCE})
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
     "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR

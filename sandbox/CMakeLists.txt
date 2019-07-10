@@ -10,6 +10,6 @@ endmacro()
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/scripts DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-build_example("game" ${EXAMPLE_DIR})
+build_example("StellaEngine" ${EXAMPLE_DIR})
 
 

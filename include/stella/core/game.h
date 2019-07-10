@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <entt/entity/registry.hpp>
 #include "./application.h"
 #include "../systems/system.h"
 #include "../systems/render_system.h"
@@ -22,7 +21,6 @@ namespace core
   class Game : public Application
   {
     protected:
-      entt::registry m_registry;
       script::ScriptApi m_script_api{m_registry};
       audio::SoundPlayer m_sound_player;
       ResourceManager<graphics::Texture> m_textures;

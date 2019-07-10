@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <entt/entity/registry.hpp>
 #include "../graphics/display.h"
 
 namespace stella
@@ -11,6 +12,7 @@ namespace core
   class Application
   {
     protected:
+      entt::registry m_registry;
       const unsigned m_initial_width, m_initial_height;
       const std::string &m_initial_title;
       graphics::Display m_display{m_initial_width, m_initial_height, m_initial_title};

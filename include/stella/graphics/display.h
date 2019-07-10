@@ -47,6 +47,10 @@ public:
   static const unsigned char* GetGlRenderer();
 	static bool IsKeyDown(int key);
 
+#ifdef STELLA_BUILD_EDITOR
+  void UpdateEditor(entt::registry &registry);
+#endif
+
 private:
   GLuint Width, Height, Frame, LastFrame;
 

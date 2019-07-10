@@ -170,12 +170,15 @@ void Display::Update() {
     this->Frame = 0;
 
   this->updateInput();
-#ifdef STELLA_BUILD_EDITOR
-  m_editor.render(GetWindowWidth(), GetWindowHeight(), Width, Height);
-#endif
-
   SDL_GL_SwapWindow(this->Window);
 }
+
+#ifdef STELLA_BUILD_EDITOR
+void Display::UpdateEditor(entt::registry &registry) {
+  m_editor.update(registry);
+  m_editor.render(GetWindowWidth(), GetWindowHeight(), Width, Height);
+}
+#endif
 
 void Display::SetClearColor(int r, int g, int b) {
   this->ClearColor.x = r / 255.0f;

@@ -16,7 +16,7 @@ fi
 # Variables
 BUILD_DIR="build"
 TARGET_DIR="sandbox"
-TARGET="game"
+TARGET="StellaEngine"
 OPT1=$1
 OPT2=$2
 

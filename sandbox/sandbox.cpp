@@ -1,10 +1,10 @@
 #include "sandbox.h"
 
-#include <sstream>
-#include <iomanip>
+//#include <sstream>
+//#include <iomanip>
 
 Sandbox::Sandbox()
-  : stella::core::Game(896, 504, "stella engine")
+  : stella::core::Game(896, 504, "Stella Engine")
 {
   this->add_system<stella::systems::PhysicsSystem>(m_registry, m_camera);
   this->add_system<stella::systems::ScrollSystem>();

@@ -1,5 +1,4 @@
 #include "editor/editor_gui.h"
-#include "editor/applog.h"
 
 namespace stella
 {
@@ -23,6 +22,8 @@ namespace editor
 
     m_font_sans_regular = io.Fonts->AddFontFromFileTTF("assets/fonts/Lato/Lato-Regular.ttf", 16.0f, &config);
     m_font_sans_bold = io.Fonts->AddFontFromFileTTF("assets/fonts/Lato/Lato-Bold.ttf", 16.0f, &config);
+    //m_font_sans_regular = io.Fonts->AddFontFromFileTTF("assets/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf", 13.0f);
+    //m_font_sans_bold = io.Fonts->AddFontFromFileTTF("assets/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf", 13.0f);
     m_font_mono = io.Fonts->AddFontFromFileTTF("assets/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf", 13.0f);
 
     this->init_style();
@@ -34,6 +35,11 @@ namespace editor
   void EditorGui::configure_input(SDL_Event &event)
   {
     ImGui_ImplSDL2_ProcessEvent(&event);
+  }
+
+  void EditorGui::update(entt::registry &registry)
+  {
+    m_log_system.update(registry, 0.0);
   }
 
   void EditorGui::render(const float window_width, const float window_height, const float game_width, const float game_height)
@@ -137,8 +143,7 @@ namespace editor
     ImGui::SetNextWindowSize(size, ImGuiCond_Always);
     ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f,0.5f,0.5f,1.0f));
-    static AppLog log(m_window_flags, m_font_mono);
-    log.Draw("Console Log");
+    m_log.Draw("Console Log");
     ImGui::PopStyleColor();
   }
 

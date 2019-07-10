@@ -4,7 +4,7 @@
 
 namespace
 {
-  struct AppLog
+  struct GuiLog
   {
       ImGuiTextBuffer     Buf;
       ImGuiTextFilter     Filter;
@@ -12,9 +12,9 @@ namespace
       bool                AutoScroll;
       bool                ScrollToBottom;
       const ImGuiWindowFlags WindowFlags;
-      ImFont *MonoFont;
+      ImFont *&MonoFont;
 
-      AppLog(const ImGuiWindowFlags window_flags, ImFont *mono_font)
+      GuiLog(const ImGuiWindowFlags window_flags, ImFont *&mono_font)
         : WindowFlags(window_flags), MonoFont(mono_font)
       {
           AutoScroll = true;
