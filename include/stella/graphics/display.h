@@ -12,7 +12,10 @@
 // Set to 1 to disable vsync
 #define DISABLE_VSYNC 0
 
-#define BUILD_EDITOR 1
+//#define STELLA_BUILD_EDITOR
+#ifdef STELLA_BUILD_EDITOR
+#include "editor/editor_gui.h"
+#endif
 
 // Forward declarations
 struct SDL_Window;
@@ -33,6 +36,8 @@ public:
   void SetClearColor(GLfloat x, GLfloat y, GLfloat z);
   GLuint GetWidth() const;
   GLuint GetHeight() const;
+  GLuint GetWindowWidth() const;
+  GLuint GetWindowHeight() const;
   static GLfloat GetTime() { return (GLfloat)SDL_GetTicks(); }
   GLuint GetFrame() const { return Frame; }
   GLfloat GetDT() const { return DT; }
@@ -52,7 +57,9 @@ private:
   bool Running;
   glm::vec3 ClearColor;
 
-  //DebugGui DGUI;
+#ifdef STELLA_BUILD_EDITOR
+  editor::EditorGui m_editor;
+#endif
 
   void updateInput();
   void getDT();

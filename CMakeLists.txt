@@ -28,6 +28,9 @@ set(STELLA_LIBRARY_NAME "stella")
 # Debug mode
 option(STELLA_DEBUG_MODE "Build in debug mode" ON)
 
+# Debug mode
+option(STELLA_BUILD_EDITOR "Build engine editor" OFF)
+
 # Turn this option on to build a targeted example
 option(BUILD_STELLA_EXAMPLE "Build example" ON)
 if (BUILD_STELLA_EXAMPLE)
@@ -66,7 +69,8 @@ endif()
 include_directories(${SDL2_INCLUDE_DIRS})
 
 # Dear ImGui
-if (STELLA_DEBUG_MODE)
+if (STELLA_BUILD_EDITOR)
+  add_compile_definitions(STELLA_BUILD_EDITOR)
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/editor/imgui)
 endif()
 
@@ -246,7 +250,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COMPILE_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CXX_LINK_FLAGS}")
 
 # Build main library
-file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+if(STELLA_BUILD_EDITOR)
+  file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+else()
+  file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/stella/*.cpp)
+endif()
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${STELLA_LIBRARY_NAME} ${STELLA_SOURCES})
 

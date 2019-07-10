@@ -13,12 +13,7 @@
 #endif
 #endif
 
-#if BUILD_EDITOR == 1
-#include <imgui.h>
-#include <imgui_impl_sdl.h>
-#include <imgui_impl_opengl3.h>
-#endif
-
+#ifndef STELLA_BUILD_EDITOR
 namespace {
 // Adjust viewport proportions on fullscreen to match 16:9 proportions
 void checkViewportProportions() {
@@ -45,6 +40,7 @@ void checkViewportProportions() {
   }
 }
 }
+#endif
 
 namespace stella {
 namespace graphics {
@@ -56,21 +52,29 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
     std::cout << "It was not possible to initialize SDL2" << std::endl;
 	
-	SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+#ifdef STELLA_BUILD_EDITOR
+	const SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_MAXIMIZED | SDL_WINDOW_RESIZABLE |  SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+#else
+	const SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+#endif
   this->Window = SDL_CreateWindow(this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, window_flags);
 	//this->Window = SDL_CreateWindow(this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 	SDL_ShowCursor(SDL_DISABLE);
 
 #if __APPLE__
+#ifdef STELLA_BUILD_EDITOR
   // GL 3.2 Core + GLSL 150
   const char* glsl_version = "#version 150";
+#endif
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG); // Always required on Mac
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 #else
+#ifdef STELLA_BUILD_EDITOR
   // GL 3.0 + GLSL 130
   const char* glsl_version = "#version 130";
+#endif
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -108,20 +112,15 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
 
   // Init debug GUI
   //this->DGUI.Init(this->Window);
-  IMGUI_CHECKVERSION();
-  ImGui::CreateContext();
-  ImGuiIO& io = ImGui::GetIO(); (void)io;
-  ImGui::StyleColorsDark();
-  ImGui_ImplSDL2_InitForOpenGL(this->Window, m_gl_context);
-  ImGui_ImplOpenGL3_Init(glsl_version);
+#ifdef STELLA_BUILD_EDITOR
+  m_editor.init(this->Window, m_gl_context, glsl_version);
+#endif
 }
 
 Display::~Display() {
-  // IMGUI
-  ImGui_ImplOpenGL3_Shutdown();
-  ImGui_ImplSDL2_Shutdown();
-  ImGui::DestroyContext();
-  // IMGUI
+#ifdef STELLA_BUILD_EDITOR
+  m_editor.clean();
+#endif
 
   SDL_GL_DeleteContext(m_gl_context);
   SDL_DestroyWindow(this->Window);
@@ -129,12 +128,20 @@ Display::~Display() {
 }
 
 GLuint Display::GetWidth() const {
+  return this->Width;
+}
+
+GLuint Display::GetWindowWidth() const {
   int width, height;
   SDL_GetWindowSize(this->Window, &width, &height);
   return width;
 }
 
 GLuint Display::GetHeight() const {
+  return this->Height;
+}
+
+GLuint Display::GetWindowHeight() const {
   int width, height;
   SDL_GetWindowSize(this->Window, &width, &height);
   return height;
@@ -162,30 +169,10 @@ void Display::Update() {
   if (this->Frame >= 10000000)
     this->Frame = 0;
 
-
   this->updateInput();
-  //this->DGUI.Update();
-  ImGui_ImplOpenGL3_NewFrame();
-  ImGui_ImplSDL2_NewFrame(this->Window);
-  ImGui::NewFrame();
-  {
-    static float f = 0.0f;
-    static int counter = 0;
-
-    ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-    ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-
-    if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        counter++;
-    ImGui::SameLine();
-    ImGui::Text("counter = %d", counter);
-
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    ImGui::End();
-  }
-  ImGui::Render();
-  ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+#ifdef STELLA_BUILD_EDITOR
+  m_editor.render();
+#endif
 
   SDL_GL_SwapWindow(this->Window);
 }
@@ -218,8 +205,10 @@ void Display::updateInput() {
   SDL_Event event;
   while (SDL_PollEvent(&event))
   {
-    //this->DGUI.GetInput(event);
-    ImGui_ImplSDL2_ProcessEvent(&event);
+#ifdef STELLA_BUILD_EDITOR
+    m_editor.configure_input(event);
+#endif
+
     switch(event.type)
     {
       case SDL_QUIT:
@@ -238,12 +227,18 @@ void Display::updateInput() {
       case SDL_WINDOWEVENT:
         switch (event.window.event) {
           case SDL_WINDOWEVENT_RESIZED:
+#ifndef STELLA_BUILD_EDITOR
             checkViewportProportions();
-            //glViewport(0, 0, event.window.data1, event.window.data2);
+#else
+            glViewport(GetWindowWidth()/2 - Width/2, GetWindowHeight() - Height - 21, this->Width, this->Height);
+#endif
             break;
           case SDL_WINDOWEVENT_SIZE_CHANGED:
+#ifndef STELLA_BUILD_EDITOR
             checkViewportProportions();
-            //glViewport(0, 0, event.window.data1, event.window.data2);
+#else
+            glViewport(GetWindowWidth()/2 - Width/2, GetWindowHeight() - Height - 21, this->Width, this->Height);
+#endif
             break;
         }
         break;
