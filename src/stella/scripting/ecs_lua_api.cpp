@@ -1,28 +1,28 @@
-#include "stella/scripting/lua_interface.h"
+#include "stella/scripting/ecs_lua_api.h"
 #include "stella/components.h"
 
 namespace stella
 {
 namespace script
 {
-  LuaInterface::LuaInterface(entt::registry &registry)
+  ECSLuaApi::ECSLuaApi(entt::registry &registry)
     : BasicLuaApi(), m_registry(registry)
   {
     m_lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math, sol::lib::io);
-    m_lua.set_function("create_layer", &LuaInterface::create_layer, this);
-    m_lua.set_function("e_create_entity", &LuaInterface::create_entity, this);
-    m_lua.set_function("e_add_component", &LuaInterface::add_component, this);
-    m_lua.set_function("get_position", &LuaInterface::get_position, this);
-    m_lua.set_function("get_perlin_int", &LuaInterface::get_perlin_int, this);
-    m_lua.set_function("get_random_int", &LuaInterface::get_random, this);
+    m_lua.set_function("create_layer", &ECSLuaApi::create_layer, this);
+    m_lua.set_function("e_create_entity", &ECSLuaApi::create_entity, this);
+    m_lua.set_function("e_add_component", &ECSLuaApi::add_component, this);
+    m_lua.set_function("get_position", &ECSLuaApi::get_position, this);
+    m_lua.set_function("get_perlin_int", &ECSLuaApi::get_perlin_int, this);
+    m_lua.set_function("get_random_int", &ECSLuaApi::get_random, this);
   }
 
-  LuaInterface::~LuaInterface()
+  ECSLuaApi::~ECSLuaApi()
   {
 
   }
 
-  std::tuple<int,int,int> LuaInterface::get_position(entt::registry::entity_type entity)
+  std::tuple<int,int,int> ECSLuaApi::get_position(entt::registry::entity_type entity)
   {
     if (m_registry.has<stella::components::PositionComponent>(entity))
     {
@@ -36,13 +36,13 @@ namespace script
     }
   }
 
-  const entt::registry::entity_type LuaInterface::create_entity()
+  const entt::registry::entity_type ECSLuaApi::create_entity()
   {
     auto entity = m_registry.create();
     return entity;
   }
 
-  void LuaInterface::create_layer(const sol::table &obj)
+  void ECSLuaApi::create_layer(const sol::table &obj)
   {
     const std::string &layer_name = obj["name"] == sol::lua_nil ? std::string() : obj["name"];
     const unsigned &priority = obj["priority"] == sol::lua_nil ? 0 : obj["priority"];
@@ -52,7 +52,7 @@ namespace script
     m_registry.assign<stella::components::LayerComponent>(layer, layer_name, priority, shader_id, fixed);
   }
 
-  void LuaInterface::add_sprite_component(entt::registry::entity_type id, const sol::table &obj)
+  void ECSLuaApi::add_sprite_component(entt::registry::entity_type id, const sol::table &obj)
   {
     const std::string &layer_id = obj["layer"] == sol::lua_nil ? std::string() : obj["layer"];
     const std::string &texture_name = obj["texture"] == sol::lua_nil ? std::string() : obj["texture"];
@@ -77,7 +77,7 @@ namespace script
     }
   }
 
-  void LuaInterface::add_position_component(entt::registry::entity_type id, const sol::table &obj)
+  void ECSLuaApi::add_position_component(entt::registry::entity_type id, const sol::table &obj)
   {
     const int &x = obj[1] == sol::lua_nil ? 0 : obj[1];
     const int &y = obj[2] == sol::lua_nil ? 0 : obj[2];
@@ -85,14 +85,14 @@ namespace script
     m_registry.assign<stella::components::PositionComponent>(id, x, y, z);
   }
 
-  void LuaInterface::add_dimension_component(entt::registry::entity_type id, const sol::table &obj)
+  void ECSLuaApi::add_dimension_component(entt::registry::entity_type id, const sol::table &obj)
   {
     const unsigned w = obj[1] == sol::lua_nil ? 0 : obj[1];
     const unsigned h = obj[2] == sol::lua_nil ? 0 : obj[2];
     m_registry.assign<stella::components::DimensionComponent>(id, w, h);
   }
    
-  void LuaInterface::add_animation_component(entt::registry::entity_type id, const sol::table &obj)
+  void ECSLuaApi::add_animation_component(entt::registry::entity_type id, const sol::table &obj)
   {
     const float &framew = obj["frame_dimensions"][1];
     const float &frameh = obj["frame_dimensions"][2];
@@ -120,12 +120,12 @@ namespace script
     m_registry.assign<stella::components::AnimationsComponent>(id, animations, glm::vec2(framew, frameh));
   }
 
-  void LuaInterface::add_tileview_component(entt::registry::entity_type id, const sol::table &obj)
+  void ECSLuaApi::add_tileview_component(entt::registry::entity_type id, const sol::table &obj)
   {
     m_registry.assign<stella::components::TileviewComponent>(id);
   }
 
-  void LuaInterface::add_movement_component(entt::registry::entity_type id, const sol::table &obj)
+  void ECSLuaApi::add_movement_component(entt::registry::entity_type id, const sol::table &obj)
   {
     glm::vec2 speed = obj["speed"] == sol::lua_nil ? glm::vec2() : glm::vec2(obj["speed"][1], obj["speed"][2]);
     const bool &gravity = obj["has_gravity"] == sol::lua_nil ? true : obj["has_gravity"];
@@ -133,12 +133,12 @@ namespace script
     m_registry.assign<stella::components::MovementComponent>(id, speed, gravity, constant_velocity);
   }
 
-  void LuaInterface::add_player_component(entt::registry::entity_type id, const sol::table &obj)
+  void ECSLuaApi::add_player_component(entt::registry::entity_type id, const sol::table &obj)
   {
     m_registry.assign<stella::components::PlayerComponent>(id);
   }
 
-  void LuaInterface::add_body_component(entt::registry::entity_type id, const sol::table &obj)
+  void ECSLuaApi::add_body_component(entt::registry::entity_type id, const sol::table &obj)
   {
     const bool &collide_with_borders = obj["collide_with_borders"] == sol::lua_nil ? false : obj["collide_with_borders"];
     if (obj["drag"] == sol::lua_nil)
@@ -153,7 +153,7 @@ namespace script
     }
   }
 
-  void LuaInterface::add_text_component(entt::registry::entity_type id, const sol::table &obj)
+  void ECSLuaApi::add_text_component(entt::registry::entity_type id, const sol::table &obj)
   {
     const std::string &text = obj["text"];
     const std::string &font_name = obj["font_name"];
@@ -161,7 +161,7 @@ namespace script
     m_registry.assign<stella::components::TextComponent>(id, text, font_name, is_static);
   }
 
-  void LuaInterface::add_particle_emitter_component(entt::registry::entity_type id, const sol::table &obj)
+  void ECSLuaApi::add_particle_emitter_component(entt::registry::entity_type id, const sol::table &obj)
   {
     const std::string &type = obj["type"];
     const unsigned int quantity = obj["quantity"];
@@ -177,18 +177,18 @@ namespace script
     m_registry.assign<stella::components::ParticleEmitter>(id, emitter_type, quantity);
   }
 
-  void LuaInterface::add_tile_component(entt::registry::entity_type id, const sol::table &obj)
+  void ECSLuaApi::add_tile_component(entt::registry::entity_type id, const sol::table &obj)
   {
     m_registry.assign<stella::components::TileComponent>(id);
   }
 
-  void LuaInterface::add_scroll_component(entt::registry::entity_type id, const sol::table &obj)
+  void ECSLuaApi::add_scroll_component(entt::registry::entity_type id, const sol::table &obj)
   {
     glm::vec2 speed = obj == sol::lua_nil ? glm::vec2(0.f, 0.f) : glm::vec2(obj[1], obj[2]);
     m_registry.assign<stella::components::ScrollComponent>(id, speed);
   }
 
-  void LuaInterface::add_component(const sol::table& obj)
+  void ECSLuaApi::add_component(const sol::table& obj)
   {
     if (obj["type"] != sol::lua_nil)
     {

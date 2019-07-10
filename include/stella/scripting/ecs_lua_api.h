@@ -8,15 +8,15 @@ namespace stella
 {
 namespace script
 {
-  class LuaInterface : public BasicLuaApi
+  class ECSLuaApi : public BasicLuaApi
   {
     private:
       entt::registry &m_registry;
       stella::PerlinNoise m_noise_generator;
 
     public:
-      LuaInterface(entt::registry &registry);
-      ~LuaInterface() override;
+      ECSLuaApi(entt::registry &registry);
+      ~ECSLuaApi() override;
 
     private:
       std::tuple<int,int,int> get_position(entt::registry::entity_type entity);
