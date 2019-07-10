@@ -54,6 +54,7 @@ namespace physics2d {
 
       void resolve_aabb(const GridWorld::Collision &collision);
       void resolve_tb_slope45(const GridWorld::Collision &collision);
+      void resolve_bt_slope45(const GridWorld::Collision &collision);
 
   };
 

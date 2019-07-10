@@ -84,27 +84,18 @@ local function load_background()
   end
 
   local entity1 = Entity:create_entity()
-  entity1:add_component("position", {0 + 2*32, 13*32, 1}) 
+  entity1:add_component("position", {0 + 5*32, 13*32, 1}) 
   entity1:add_component("dimension", {32, 32})
   entity1:add_component("sprite", {
     texture = "tiles",
     layer = "tiles",
     frame_dimensions = {32,32},
-    frame = 36
+    frame = 38
   })
   local entity2 = Entity:create_entity()
   entity2:add_component("position", {0 + 6*32, 13*32, 1}) 
   entity2:add_component("dimension", {32, 32})
   entity2:add_component("sprite", {
-    texture = "tiles",
-    layer = "tiles",
-    frame_dimensions = {32,32},
-    frame = 36
-  })
-  local entity8 = Entity:create_entity()
-  entity8:add_component("position", {0 + 6*32, 12*32, 1}) 
-  entity8:add_component("dimension", {32, 32})
-  entity8:add_component("sprite", {
     texture = "tiles",
     layer = "tiles",
     frame_dimensions = {32,32},
@@ -123,15 +114,6 @@ local function load_background()
   entity4:add_component("position", {0 + 8*32, 13*32, 1}) 
   entity4:add_component("dimension", {32, 32})
   entity4:add_component("sprite", {
-    texture = "tiles",
-    layer = "tiles",
-    frame_dimensions = {32,32},
-    frame = 37
-  })
-  local entity7 = Entity:create_entity()
-  entity7:add_component("position", {0 + 7*32, 12*32, 1}) 
-  entity7:add_component("dimension", {32, 32})
-  entity7:add_component("sprite", {
     texture = "tiles",
     layer = "tiles",
     frame_dimensions = {32,32},
