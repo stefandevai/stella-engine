@@ -8,9 +8,9 @@ option(BUILD_EMSCRIPTEN "Build emscripten" OFF)
 if (BUILD_EMSCRIPTEN)
   set(CMAKE_C_COMPILER /usr/local/bin/emcc)
   set(CMAKE_CXX_COMPILER /usr/local/bin/em++)
-else()
-  set(CMAKE_C_COMPILER /usr/local/Cellar/gcc/9.1.0/bin/gcc-9)
-  set(CMAKE_CXX_COMPILER /usr/local/Cellar/gcc/9.1.0/bin/g++-9)
+#else()
+  #set(CMAKE_C_COMPILER /usr/local/Cellar/gcc/9.1.0/bin/gcc-9)
+  #set(CMAKE_CXX_COMPILER /usr/local/Cellar/gcc/9.1.0/bin/g++-9)
 endif()
 
 project(STELLA C CXX)
@@ -64,6 +64,11 @@ else()
   set(SDL2_LIBRARIES SDL2)
 endif()
 include_directories(${SDL2_INCLUDE_DIRS})
+
+# Dear ImGui
+if (STELLA_DEBUG_MODE)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/editor/imgui)
+endif()
 
 # GLAD
 if (NOT BUILD_EMSCRIPTEN)

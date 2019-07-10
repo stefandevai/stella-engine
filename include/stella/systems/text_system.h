@@ -22,7 +22,7 @@ class TextSystem : public System
 
     void update(entt::registry &registry, const double dt) override
     {
-      registry.group<components::TextComponent>(entt::get<components::PositionComponent, components::DimensionComponent>).each([this, &registry](auto entity, auto &text, auto &pos, auto &dim)
+      registry.group<components::TextComponent>(entt::get<components::PositionComponent, components::DimensionComponent>).each([&registry](auto entity, auto &text, auto &pos, auto &dim)
       {
         if (!text.IsStatic) {
           int stride = 0;

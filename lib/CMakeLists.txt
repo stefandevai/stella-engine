@@ -20,3 +20,8 @@ if (NOT USE_SHARED_VORBIS)
   add_subdirectory(vorbis)
 endif()
 
+if (STELLA_DEBUG_MODE)
+  include_directories(imgui)
+  #add_subdirectory(imgui)
+endif()
+

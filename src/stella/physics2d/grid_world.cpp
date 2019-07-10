@@ -244,8 +244,8 @@ namespace physics2d {
   {
     const int bx = collision.body->Position.x;
     const int tx = collision.tile.x * TILE_DIMENSIONS;
-    const int bw = collision.body->Position.x + collision.body->Dimension.x;
-    const int tw = collision.tile.x * TILE_DIMENSIONS + TILE_DIMENSIONS;
+    //const int bw = collision.body->Position.x + collision.body->Dimension.x;
+    //const int tw = collision.tile.x * TILE_DIMENSIONS + TILE_DIMENSIONS;
 
     if (bx >= tx)
     {
