@@ -108,7 +108,7 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   // Set default Clear Color
-  this->ClearColor = glm::vec3(0.0f, 0.0f, 0.0f);
+  this->ClearColor = glm::vec3(0.5f, 0.5f, 0.5f);
 
   // Init debug GUI
   //this->DGUI.Init(this->Window);
@@ -171,7 +171,7 @@ void Display::Update() {
 
   this->updateInput();
 #ifdef STELLA_BUILD_EDITOR
-  m_editor.render();
+  m_editor.render(GetWindowWidth(), GetWindowHeight(), Width, Height);
 #endif
 
   SDL_GL_SwapWindow(this->Window);
@@ -230,14 +230,14 @@ void Display::updateInput() {
 #ifndef STELLA_BUILD_EDITOR
             checkViewportProportions();
 #else
-            glViewport(GetWindowWidth()/2 - Width/2, GetWindowHeight() - Height - 21, this->Width, this->Height);
+            glViewport(GetWindowWidth() - Width, GetWindowHeight() - Height - 23, this->Width, this->Height);
 #endif
             break;
           case SDL_WINDOWEVENT_SIZE_CHANGED:
 #ifndef STELLA_BUILD_EDITOR
             checkViewportProportions();
 #else
-            glViewport(GetWindowWidth()/2 - Width/2, GetWindowHeight() - Height - 21, this->Width, this->Height);
+            glViewport(GetWindowWidth() - Width, GetWindowHeight() - Height - 23, this->Width, this->Height);
 #endif
             break;
         }

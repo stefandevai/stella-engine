@@ -201,14 +201,14 @@ local function load()
     fixed = true,
   })
 
-  local title = Entity:create_entity()
-  title:add_component("dimension", {9, 9})
-  title:add_component("position", {30, 30, 0}) 
-  title:add_component("text", {
-    text = "- STELLA ENGINE -",
-    font_name = "font-cursive", 
-    is_static = true
-  })
+  --local title = Entity:create_entity()
+  --title:add_component("dimension", {9, 9})
+  --title:add_component("position", {30, 30, 0}) 
+  --title:add_component("text", {
+    --text = "- STELLA ENGINE -",
+    --font_name = "font-cursive", 
+    --is_static = true
+  --})
 
   --local fire_emitter = Entity:create_entity()
   --fire_emitter:add_component("particle_emitter", {type = "fire", quantity = 10})

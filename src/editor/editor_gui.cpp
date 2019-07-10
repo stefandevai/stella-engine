@@ -1,22 +1,14 @@
 #include "editor/editor_gui.h"
-
-#include <imgui.h>
-#include <imgui_impl_sdl.h>
-#include <imgui_impl_opengl3.h>
+#include "editor/applog.h"
 
 namespace stella
 {
 namespace editor
 {
 
-  EditorGui::EditorGui()
-  {
+  EditorGui::EditorGui() { }
 
-  }
-
-  EditorGui::~EditorGui()
-  {
-  }
+  EditorGui::~EditorGui() { }
 
   void EditorGui::init(SDL_Window *window, SDL_GLContext gl_context, const char *glsl_version)
   {
@@ -24,7 +16,17 @@ namespace editor
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    ImGui::StyleColorsDark();
+    ImFontConfig config;
+    config.OversampleH = 2;
+    config.OversampleV = 1;
+    config.GlyphExtraSpacing.x = 0.5f;
+
+    m_font_sans_regular = io.Fonts->AddFontFromFileTTF("assets/fonts/Lato/Lato-Regular.ttf", 16.0f, &config);
+    m_font_sans_bold = io.Fonts->AddFontFromFileTTF("assets/fonts/Lato/Lato-Bold.ttf", 16.0f, &config);
+    m_font_mono = io.Fonts->AddFontFromFileTTF("assets/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf", 13.0f);
+
+    this->init_style();
+
     ImGui_ImplSDL2_InitForOpenGL(m_window, gl_context);
     ImGui_ImplOpenGL3_Init(glsl_version);
   }
@@ -34,60 +36,28 @@ namespace editor
     ImGui_ImplSDL2_ProcessEvent(&event);
   }
 
-  void EditorGui::render()
+  void EditorGui::render(const float window_width, const float window_height, const float game_width, const float game_height)
   {
     if (m_window != nullptr)
     {
-      //ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-      ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoMove;
+      const float section_spacing = 1.0f;
+      const float top_menu_height = 22.0f + section_spacing;
 
       ImGui_ImplOpenGL3_NewFrame();
       ImGui_ImplSDL2_NewFrame(m_window);
       ImGui::NewFrame();
-      {
-        static int counter = 0;
 
-        ImGui::SetNextWindowSize(ImVec2(200,200), ImGuiCond_Once);
-        ImGui::SetNextWindowPos(ImVec2(0,21), ImGuiCond_Once);
-        ImGui::Begin("Hello, world!", nullptr, window_flags);                          // Create a window called "Hello, world!" and append into it.
+      const ImVec2 editor_size{window_width - game_width - section_spacing, window_height - top_menu_height};
+      const ImVec2 editor_pos{0.0f, top_menu_height};
+      const ImVec2 console_size{game_width, window_height - game_height - top_menu_height - section_spacing};
+      const ImVec2 console_pos{window_width - game_width, game_height + top_menu_height + section_spacing};
+      const ImVec2 info_pos{window_width - game_width + top_menu_height, top_menu_height*2};
+      
+      this->draw_editor(editor_size, editor_pos);
+      this->draw_console(console_size, console_pos);
+      this->draw_info(info_pos);
+      this->draw_menu_bar();
 
-        {
-            if (ImGui::BeginMainMenuBar())
-            {
-              if (ImGui::BeginMenu("File"))
-              {
-                if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-                if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-                ImGui::Separator();
-                if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-                if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-                if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-                ImGui::EndMenu();
-              }
-            if (ImGui::BeginMenu("Edit"))
-            {
-                if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-                if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-                ImGui::Separator();
-                if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-                if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-                if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-                ImGui::EndMenu();
-            }
-            ImGui::EndMainMenuBar();
-          }
-        }
-
-        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::End();
-      }
       ImGui::Render();
       ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
@@ -100,6 +70,130 @@ namespace editor
     ImGui::DestroyContext();
   }
 
+  void EditorGui::init_style()
+  {
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.WindowPadding = ImVec2(18.0f, 12.0f);
+    style.WindowBorderSize = 0.f;
+    style.WindowRounding = 3.0f;
+    style.ScrollbarSize = 11.0f;
+    style.ScrollbarRounding = 10.0f;
+
+    style.Colors[ImGuiCol_Text]                   = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+    style.Colors[ImGuiCol_TextDisabled]           = ImVec4(0.50f, 0.50f, 0.50f, 1.00f);
+    style.Colors[ImGuiCol_WindowBg]               = ImVec4(0.06f, 0.06f, 0.06f, 0.94f);
+    style.Colors[ImGuiCol_ChildBg]                = ImVec4(1.00f, 1.00f, 1.00f, 0.00f);
+    style.Colors[ImGuiCol_PopupBg]                = ImVec4(0.08f, 0.08f, 0.08f, 0.94f);
+    style.Colors[ImGuiCol_Border]                 = ImVec4(0.43f, 0.43f, 0.50f, 0.50f);
+    style.Colors[ImGuiCol_BorderShadow]           = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+    style.Colors[ImGuiCol_FrameBg]                = ImVec4(0.20f, 0.21f, 0.22f, 0.54f);
+    style.Colors[ImGuiCol_FrameBgHovered]         = ImVec4(0.40f, 0.40f, 0.40f, 0.40f);
+    style.Colors[ImGuiCol_FrameBgActive]          = ImVec4(0.18f, 0.18f, 0.18f, 0.67f);
+    style.Colors[ImGuiCol_TitleBg]                = ImVec4(0.04f, 0.04f, 0.04f, 1.00f);
+    style.Colors[ImGuiCol_TitleBgActive]          = ImVec4(0.29f, 0.29f, 0.29f, 1.00f);
+    style.Colors[ImGuiCol_TitleBgCollapsed]       = ImVec4(0.00f, 0.00f, 0.00f, 0.51f);
+    style.Colors[ImGuiCol_MenuBarBg]              = ImVec4(0.14f, 0.14f, 0.14f, 1.00f);
+    style.Colors[ImGuiCol_ScrollbarBg]            = ImVec4(0.02f, 0.02f, 0.02f, 0.53f);
+    style.Colors[ImGuiCol_ScrollbarGrab]          = ImVec4(0.31f, 0.31f, 0.31f, 1.00f);
+    style.Colors[ImGuiCol_ScrollbarGrabHovered]   = ImVec4(0.41f, 0.41f, 0.41f, 1.00f);
+    style.Colors[ImGuiCol_ScrollbarGrabActive]    = ImVec4(0.51f, 0.51f, 0.51f, 1.00f);
+    style.Colors[ImGuiCol_CheckMark]              = ImVec4(0.94f, 0.94f, 0.94f, 1.00f);
+    style.Colors[ImGuiCol_SliderGrab]             = ImVec4(0.51f, 0.51f, 0.51f, 1.00f);
+    style.Colors[ImGuiCol_SliderGrabActive]       = ImVec4(0.86f, 0.86f, 0.86f, 1.00f);
+    style.Colors[ImGuiCol_Button]                 = ImVec4(0.44f, 0.44f, 0.44f, 0.40f);
+    style.Colors[ImGuiCol_ButtonHovered]          = ImVec4(0.46f, 0.47f, 0.48f, 1.00f);
+    style.Colors[ImGuiCol_ButtonActive]           = ImVec4(0.42f, 0.42f, 0.42f, 1.00f);
+    style.Colors[ImGuiCol_Header]                 = ImVec4(0.70f, 0.70f, 0.70f, 0.31f);
+    style.Colors[ImGuiCol_HeaderHovered]          = ImVec4(0.70f, 0.70f, 0.70f, 0.80f);
+    style.Colors[ImGuiCol_HeaderActive]           = ImVec4(0.48f, 0.50f, 0.52f, 1.00f);
+    style.Colors[ImGuiCol_Separator]              = ImVec4(0.43f, 0.43f, 0.50f, 0.50f);
+    style.Colors[ImGuiCol_SeparatorHovered]       = ImVec4(0.72f, 0.72f, 0.72f, 0.78f);
+    style.Colors[ImGuiCol_SeparatorActive]        = ImVec4(0.51f, 0.51f, 0.51f, 1.00f);
+    style.Colors[ImGuiCol_ResizeGrip]             = ImVec4(0.91f, 0.91f, 0.91f, 0.25f);
+    style.Colors[ImGuiCol_ResizeGripHovered]      = ImVec4(0.81f, 0.81f, 0.81f, 0.67f);
+    style.Colors[ImGuiCol_ResizeGripActive]       = ImVec4(0.46f, 0.46f, 0.46f, 0.95f);
+    style.Colors[ImGuiCol_PlotLines]              = ImVec4(0.61f, 0.61f, 0.61f, 1.00f);
+    style.Colors[ImGuiCol_PlotLinesHovered]       = ImVec4(1.00f, 0.43f, 0.35f, 1.00f);
+    style.Colors[ImGuiCol_PlotHistogram]          = ImVec4(0.73f, 0.60f, 0.15f, 1.00f);
+    style.Colors[ImGuiCol_PlotHistogramHovered]   = ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
+    style.Colors[ImGuiCol_TextSelectedBg]         = ImVec4(0.87f, 0.87f, 0.87f, 0.35f);
+    style.Colors[ImGuiCol_ModalWindowDarkening]   = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
+    style.Colors[ImGuiCol_DragDropTarget]         = ImVec4(1.00f, 1.00f, 0.00f, 0.90f);
+    style.Colors[ImGuiCol_NavHighlight]           = ImVec4(0.60f, 0.60f, 0.60f, 1.00f);
+    style.Colors[ImGuiCol_NavWindowingHighlight]  = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
+  }
+
+  void EditorGui::draw_editor(const ImVec2 &size, const ImVec2 &pos)
+  {
+    ImGui::SetNextWindowSize(size, ImGuiCond_Always);
+    ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
+    ImGui::Begin("Editor", nullptr, m_window_flags);
+    ImGui::Text("Add tool panels here.");
+    ImGui::End();
+  }
+
+  void EditorGui::draw_console(const ImVec2 &size, const ImVec2 &pos)
+  {
+    ImGui::SetNextWindowSize(size, ImGuiCond_Always);
+    ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f,0.5f,0.5f,1.0f));
+    static AppLog log(m_window_flags, m_font_mono);
+    log.Draw("Console Log");
+    ImGui::PopStyleColor();
+  }
+
+  void EditorGui::draw_info(const ImVec2 &pos)
+  {
+    ImGui::SetNextWindowBgAlpha(0.4);
+    ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
+    ImGui::Begin("Info", nullptr, m_window_flags | ImGuiWindowFlags_AlwaysAutoResize);
+    ImGui::PushFont(m_font_sans_bold);
+    ImGui::Text("  - Stella Engine -  ");
+    ImGui::PopFont();
+    ImGui::Dummy(ImVec2(0.0f, 3.0f));
+    ImGui::Separator();
+    ImGui::Dummy(ImVec2(0.0f, 6.0f));
+    ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
+    ImGui::Text("%.3f ms/frame", 1000.0f / ImGui::GetIO().Framerate);
+    ImGui::Dummy(ImVec2(0.0f, 3.0f));
+    ImGui::End();
+  }
+
+  void EditorGui::draw_menu_bar()
+  {
+    if (ImGui::BeginMainMenuBar())
+    {
+      if (ImGui::BeginMenu("File"))
+      {
+        if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+        ImGui::Separator();
+        if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+        ImGui::EndMenu();
+      }
+      if (ImGui::BeginMenu("Edit"))
+      {
+          if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+          ImGui::Separator();
+          if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+          ImGui::EndMenu();
+      }
+      if (ImGui::BeginMenu("View"))
+      {
+          if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+          ImGui::Separator();
+          if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+          ImGui::EndMenu();
+      }
+      if (ImGui::BeginMenu("Tools"))
+      {
+          if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+          ImGui::Separator();
+          if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+          ImGui::EndMenu();
+      }
+      ImGui::EndMainMenuBar();
+    }
+  }
 }
 }
 
