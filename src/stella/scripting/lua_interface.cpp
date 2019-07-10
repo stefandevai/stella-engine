@@ -6,7 +6,7 @@ namespace stella
 namespace script
 {
   LuaInterface::LuaInterface(entt::registry &registry)
-    : m_registry(registry)
+    : BasicLuaApi(), m_registry(registry)
   {
     m_lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math, sol::lib::io);
     m_lua.set_function("create_layer", &LuaInterface::create_layer, this);
@@ -20,16 +20,6 @@ namespace script
   LuaInterface::~LuaInterface()
   {
 
-  }
-
-  void LuaInterface::run_script(const std::string &script_path)
-  {
-    m_lua.script_file(script_path);
-  }
-
-  void LuaInterface::run_function(const std::string &function_name)
-  {
-    m_lua[function_name]();
   }
 
   std::tuple<int,int,int> LuaInterface::get_position(entt::registry::entity_type entity)
