@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <iomanip>
+#include <ctime>
 #include <vector>
 #include <string>
 
@@ -24,8 +25,8 @@ namespace components {
     {
       std::string type_str = get_type_str(type);
       std::stringstream log_value{type_str};
-      log_value << value << '\n';
-      log_queue.push_back(log_value.str());
+      log_value << value;
+      add_to_queue(log_value.str());
     }
 
     template <typename T>
@@ -33,13 +34,22 @@ namespace components {
     {
       std::string type_str = get_type_str(type);
       std::stringstream log_value{type_str};
-      log_value << message << value << '\n';
-      log_queue.push_back(log_value.str());
+      log_value << message << value;
+      add_to_queue(log_value.str());
     }
 
     void log(const std::string &message)
     {
-      log_queue.push_back(message + '\n');
+      add_to_queue(message);
+    }
+
+    void add_to_queue(const std::string &message)
+    {
+      auto t = std::time(nullptr);
+      auto tm = *std::localtime(&t);
+      std::stringstream log_value;
+      log_value << std::put_time(&tm, "%d-%m-%Y %H-%M-%S: ") << message << '\n';
+      log_queue.push_back(log_value.str());
     }
 
     std::string get_type_str(LogType type)
