@@ -51,7 +51,9 @@ namespace physics2d {
       void resolve_collisions(const std::shared_ptr<Body> body);
       glm::vec2 get_tile_intersection(const GridWorld::Collision &collision);
       void resolve_collision(const GridWorld::Collision &collision);
+
       void resolve_aabb(const GridWorld::Collision &collision);
+      void resolve_tb_slope45(const GridWorld::Collision &collision);
 
   };
 

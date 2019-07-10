@@ -12,9 +12,11 @@ namespace physics2d {
     for (auto i = 0; i < 28; ++ i)
       m_grid.set_value(i, 14, 1);
     m_grid.set_value(2, 13, 1);
-    m_grid.set_value(4, 13, 1);
+    m_grid.set_value(6, 13, 1);
+    m_grid.set_value(6, 12, 1);
     m_grid.set_value(7, 13, 1);
-    m_grid.set_value(8, 13, 1);
+    m_grid.set_value(8, 13, 2);
+    m_grid.set_value(7, 12, 2);
     m_grid.set_value(10, 12, 1);
     m_grid.set_value(11, 11, 1);
   }
@@ -126,9 +128,12 @@ namespace physics2d {
       case 1:
         resolve_aabb(collision);
         break;
-      //case 2:
-        //resolve_tb_slope45(collision);
-        //break;
+      case 2:
+        resolve_tb_slope45(collision);
+        break;
+      case 3:
+        resolve_tb_slope45(collision);
+        break;
     }
   }
 
@@ -151,11 +156,11 @@ namespace physics2d {
 
     const int ix = collision.intersection.x;
     const int iy = collision.intersection.y;
+
     // Right intersection
     if (lw <= tw && lw <= bw && iy > ix)
     {
       collision.body->Collisions.set(1);
-
       collision.body->Position.x -= collision.intersection.x;
       collision.body->Velocity.x = 0;
       collision.body->Acceleration.x = 0;
@@ -164,7 +169,6 @@ namespace physics2d {
     else if (lx >= tx && lx > bx && iy > ix)
     {
       collision.body->Collisions.set(3);
-
       collision.body->Position.x += collision.intersection.x;
       collision.body->Velocity.x = 0;
       collision.body->Acceleration.x = 0;
@@ -173,7 +177,6 @@ namespace physics2d {
     else if (lh <= th && lh <= bh && ix > iy)
     {
       collision.body->Collisions.set(2);
-
       collision.body->Position.y -= collision.intersection.y - 1;
       collision.body->Velocity.y = 0;
       collision.body->Acceleration.y = 0;
@@ -182,7 +185,6 @@ namespace physics2d {
     else if (ly >= ty && ly > by && ix > iy)
     {
       collision.body->Collisions.set(0);
-
       collision.body->Position.y += collision.intersection.y;
       collision.body->Velocity.y = 0;
       collision.body->Acceleration.y = 0;
@@ -191,69 +193,73 @@ namespace physics2d {
     {
       std::cout << "here\n";
     }
-
-    // Bottom collision
-    //if (collision.body->Collisions.test(2))
-    //{
-      //if (ix > iy)
-      //{
-        //collision.body->Position.y -= collision.intersection.y - 1;
-        //collision.body->Velocity.y = 0;
-        //collision.body->Acceleration.y = 0;
-      //}
-      //else
-      //{
-        //std::cout << 2 << '\n';
-      //}
-    //}
-    //// Top collision
-    //else if (collision.body->Collisions.test(0))
-    //{
-      //if (ix > iy)
-      //{
-        //collision.body->Position.y += collision.intersection.y;
-        //collision.body->Velocity.y = 0;
-        //collision.body->Acceleration.y = 0;
-      //}
-      //else
-      //{
-        //std::cout << 0 << '\n';
-      //}
-    //}
-    //// Right collision
-    //if (collision.body->Collisions.test(1))
-    //{
-      //if (iy > ix)
-      //{
-        //collision.body->Position.x -= collision.intersection.x;
-        //collision.body->Velocity.x = 0;
-        //collision.body->Acceleration.x = 0;
-      //}
-      //else
-      //{
-        //std::cout << 1 << '\n';
-      //}
-    //}
-    //// Left collision
-    //else if (collision.body->Collisions.test(3))
-    //{
-      //if (iy > ix)
-      //{
-        //collision.body->Position.x += collision.intersection.x;
-        //collision.body->Velocity.x = 0;
-        //collision.body->Acceleration.x = 0;
-      //}
-      //else
-      //{
-        //std::cout << 3 << '\n';
-      //}
-    //}
   }
 
-  //void GridWorld::resolve_tb_slope45(const GridWorld::Collision &collision)
-  //{
+  void GridWorld::resolve_tb_slope45(const GridWorld::Collision &collision)
+  {
+    const int bx = collision.body->Position.x;
+    const int tx = collision.tile.x * TILE_DIMENSIONS;
 
-  //}
+    if (bx >= tx)
+    {
+      const int bh = collision.body->Position.y + collision.body->Dimension.y;
+      const int th = collision.tile.y * TILE_DIMENSIONS + TILE_DIMENSIONS;
+      const int ix = collision.intersection.x;
+
+      if (bh >= th - ix)
+      {
+        const int delta = bh - th + ix;
+        collision.body->Collisions.set(2);
+        collision.body->Position.y -= delta;
+
+        // Checks if there isn't a same slope tile to the left, otherwise keep max velocity and acceleration
+        // This is needed to allow a smooth walk through the tile
+        if (ix == 32 && m_grid.get_value(collision.tile.x - 1, collision.tile.y - 1) != 2)
+        {
+          collision.body->Velocity.y = 0;
+          collision.body->Acceleration.y = 0;
+        }
+        else
+        {
+          collision.body->Acceleration.y = this->Gravity;
+          collision.body->Velocity.y = collision.body->TargetVelocity.y;
+        }
+      }
+    }
+  }
+
+  void GridWorld::resolve_bt_slope45(const GridWorld::Collision &collision)
+  {
+    const int bx = collision.body->Position.x;
+    const int tx = collision.tile.x * TILE_DIMENSIONS;
+
+    if (bx >= tx)
+    {
+      const int bh = collision.body->Position.y + collision.body->Dimension.y;
+      const int th = collision.tile.y * TILE_DIMENSIONS + TILE_DIMENSIONS;
+      const int ix = collision.intersection.x;
+
+      if (bh >= th - ix)
+      {
+        const int delta = bh - th + ix;
+        collision.body->Collisions.set(2);
+        collision.body->Position.y -= delta;
+
+        // Checks if there isn't a same slope tile to the left, otherwise keep max velocity and acceleration
+        // This is needed to allow a smooth walk through the tile
+        if (ix == 32 && m_grid.get_value(collision.tile.x - 1, collision.tile.y - 1) != 2)
+        {
+          collision.body->Velocity.y = 0;
+          collision.body->Acceleration.y = 0;
+        }
+        else
+        {
+          collision.body->Acceleration.y = this->Gravity;
+          collision.body->Velocity.y = collision.body->TargetVelocity.y;
+        }
+      }
+    }
+  }
 
   void GridWorld::UpdateMovement(float dt) const {
     for (auto& body: this->Bodies) {
@@ -281,6 +287,7 @@ namespace physics2d {
 
         // Y movement
         if (body->Gravity) body->Acceleration.y += this->Gravity*dt;
+        if (body->Gravity && body->Acceleration.y > this->Gravity) body->Acceleration.y = this->Gravity;
 
         if (fabs(body->Acceleration.y) > 0.f) {
           if (fabs(body->Velocity.y) < body->TargetVelocity.y) {
