@@ -6,7 +6,7 @@ namespace stella
 namespace script
 {
   ECSLuaApi::ECSLuaApi(entt::registry &registry)
-    : BasicLuaApi(), m_registry(registry)
+    : m_registry(registry)
   {
     m_lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math, sol::lib::io);
     m_lua.set_function("create_layer", &ECSLuaApi::create_layer, this);

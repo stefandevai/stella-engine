@@ -2,6 +2,7 @@
 
 #include <stella/stella.h>
 #include <stella/systems.h>
+#include <stella/core/tile_map.h>
 
 #include "player.h"
 
@@ -11,6 +12,8 @@ class Sandbox : public stella::core::Game
     Player m_player{m_registry, m_display, m_sound_player};
     entt::registry::entity_type m_fps_text = m_registry.create();
     entt::registry::entity_type m_ms_text = m_registry.create();
+    //std::shared_ptr<stella::core::TileMap> m_tile_map = nullptr;
+    stella::core::TileMap m_tile_map{"scripts/level1/test_map.lua"};
 
   public:
     Sandbox();

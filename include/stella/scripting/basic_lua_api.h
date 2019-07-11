@@ -15,8 +15,12 @@ namespace script
       sol::state m_lua;
 
     public:
-      BasicLuaApi() {};
-      virtual ~BasicLuaApi() {};
+      BasicLuaApi()
+      {
+        m_lua.open_libraries(sol::lib::base);
+      }
+
+      virtual ~BasicLuaApi() { }
 
       inline void run_script(const std::string &script_path)
       {

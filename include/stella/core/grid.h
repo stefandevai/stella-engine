@@ -11,7 +11,7 @@ namespace core
 
   class Grid
   {
-    private:
+    protected:
       std::vector<int> m_grid;
       unsigned m_width, m_height;
 

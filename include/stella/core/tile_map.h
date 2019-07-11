@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./grid.h"
+#include "./map_grid.h"
 #include "../scripting/basic_lua_api.h"
 
 namespace stella
@@ -11,9 +11,14 @@ namespace core
   class TileMap
   {
     public:
-      std::vector<Grid> layers;
+      std::vector<std::shared_ptr<MapGrid>> layers;
+
     private:
-      ScriptApi m_script_api{};
+      script::BasicLuaApi m_script_api;
+      std::string m_name;
+      unsigned m_number_of_layers = 0;
+      unsigned m_width = 0;
+      unsigned m_height = 0;
 
     public:
       TileMap(const std::string &path);
@@ -23,10 +28,7 @@ namespace core
       inline unsigned height() const { return m_height; }
 
     private:
-      load(const std::string &path);
-      unsigned m_number_of_layers = 0;
-      unsigned m_width = 0;
-      unsigned m_height = 0;
+      void load(const std::string &path);
   };
 
 }

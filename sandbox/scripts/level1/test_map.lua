@@ -1,8 +1,9 @@
 Map = {
+  name = "Test Map",
   size = {
     width = 60,
     height = 30,
-  }
+  },
   number_of_layers = 2,
   layers = {},
 }
