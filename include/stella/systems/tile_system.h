@@ -15,14 +15,15 @@ class TileSystem : public System
     entt::registry::entity_type m_camera;
     const unsigned m_tile_dimension = m_tile_map.tile_dimension();
     bool m_first_position_check = true;
-    int m_last_camera_tile_x = 0;
-    int m_last_camera_tile_y = 0;
+    int m_last_camera_x = 0;
+    int m_last_camera_y = 0;
+    const unsigned m_frustrum_culling_offset = 2;
 
   public:
-    TileSystem(core::TileMap &tilemap, entt::registry::entity_type camera)
+    TileSystem(core::TileMap &tilemap, entt::registry::entity_type camera, entt::registry &registry)
       : m_tile_map(tilemap), m_camera(camera)
     {
-
+      registry.on_destroy<components::TileComponent>().connect<&TileSystem::remove_tile_visibility>(this);
     }
 
     ~TileSystem() override { }
@@ -31,62 +32,37 @@ class TileSystem : public System
     {
       const auto &camera_position = registry.get<components::PositionComponent>(m_camera);
       const auto &camera_dimension = registry.get<components::DimensionComponent>(m_camera);
-      const int camera_tile_x = camera_position.x / m_tile_dimension;
-      const int camera_tile_y = camera_position.y / m_tile_dimension;
 
       if (m_first_position_check)
       {
-        m_last_camera_tile_x = camera_tile_x;
-        m_last_camera_tile_y = camera_tile_y;
-
+        m_last_camera_x = camera_position.x;
+        m_last_camera_y = camera_position.y;
         m_first_position_check = false;
       }
 
-      // Checks last and current camera positions
-      // to determine if we should build tile entities.
-      // If the last camera's tile horizontal position is different from the current camera's tile horizontal position
-      if (m_last_camera_tile_x != camera_tile_x)
+      if (m_last_camera_x != camera_position.x || m_last_camera_y != camera_position.y)
       {
-        // Camera is moving to the left
-        if (m_last_camera_tile_x > camera_tile_x)
-        {
-          // Create tiles to the left
-          m_tile_map.create_tile_entities(camera_position.x, camera_position.x + m_tile_dimension, camera_position.y, camera_position.y + camera_dimension.h);
-        }
-        // Camera is moving to the right
-        else
-        {
-          // Create tiles to the right
-          m_tile_map.create_tile_entities(camera_position.x + camera_dimension.w - m_tile_dimension, camera_position.x + camera_dimension.w + m_tile_dimension, camera_position.y, camera_position.y + camera_dimension.h);
-        }
-
-        m_last_camera_tile_x = camera_tile_x;
+        m_tile_map.create_tile_entities(camera_position.x + 32*m_frustrum_culling_offset, camera_position.x + camera_dimension.w - 32*m_frustrum_culling_offset, camera_position.y + 32*m_frustrum_culling_offset, camera_position.y + camera_dimension.h - 32*m_frustrum_culling_offset);
+        m_last_camera_x = camera_position.x;
+        m_last_camera_y = camera_position.y;
       }
 
-      // If the last camera's tile vertical position is different from the current camera's tile vertical position
-      if (m_last_camera_tile_y != camera_tile_y)
+      registry.group<components::TileComponent>(entt::get<components::PositionComponent, components::DimensionComponent>).each([this, &registry, &camera_position, &camera_dimension](auto entity, auto &tile, auto &pos, auto &dim)
       {
-        // Camera is moving up
-        if (m_last_camera_tile_y > camera_tile_y)
+        // Fix to weird bug where camera values suddenly get messed up
+        // I still don't understand why this happens.
+        auto camera_pos = camera_position;
+        auto camera_dim = camera_dimension;
+        if (camera_dim.w < 1 || camera_dim.h < 1 || camera_pos.x < 0 || camera_pos.y < 0)
         {
-          // Create tiles to the top
-          m_tile_map.create_tile_entities(camera_position.x, camera_position.x + camera_dimension.w, camera_position.y, camera_position.y + m_tile_dimension);
-        }
-        // Camera is moving down
-        else
-        {
-          // Create tiles to the bottom
-          m_tile_map.create_tile_entities(camera_position.x, camera_position.x + camera_dimension.w, camera_position.y + camera_dimension.h, camera_position.y + camera_dimension.h + m_tile_dimension);
+          std::cout << "Camera values messed up. Requesting its components again.\n";
+          camera_pos = registry.get<components::PositionComponent>(m_camera);
+          camera_dim = registry.get<components::DimensionComponent>(m_camera);
         }
 
-        m_last_camera_tile_y = camera_tile_y;
-      }
-  
-      registry.group<components::TileComponent>(entt::get<components::PositionComponent, components::DimensionComponent>).each([&registry, &camera_position, &camera_dimension](auto entity, auto &tile, auto &pos, auto &dim)
-      {
-        // Destroy tile if offbounds and create another on the opposite side
+        // Destroy tile entityt if it is outside of the camera view (frustrum culling)
         // Is hidden on the left
-        if (pos.x + dim.w < camera_position.x)
+        if (pos.x + dim.w < camera_pos.x + dim.w*m_frustrum_culling_offset)
         {
           if (registry.valid(entity))
           {
@@ -94,7 +70,7 @@ class TileSystem : public System
           }
         }
         // Is hidden on the right
-        else if (pos.x > camera_position.x + camera_dimension.w)
+        else if (pos.x > camera_pos.x + camera_dim.w - dim.w*m_frustrum_culling_offset)
         {
           if (registry.valid(entity))
           {
@@ -102,7 +78,7 @@ class TileSystem : public System
           }
         }
         // Is hidden on the top
-        else if (pos.y + dim.h < camera_position.y)
+        else if (pos.y + dim.h < camera_pos.y + dim.h*m_frustrum_culling_offset)
         {
           if (registry.valid(entity))
           {
@@ -110,7 +86,7 @@ class TileSystem : public System
           }
         }
         // Is hidden on the bottom
-        else if (pos.y > camera_position.y + camera_dimension.h)
+        else if (pos.y > camera_pos.y + camera_dim.h - dim.h*m_frustrum_culling_offset)
         {
           if (registry.valid(entity))
           {
@@ -118,6 +94,20 @@ class TileSystem : public System
           }
         }
       });
+    }
+
+    void remove_tile_visibility(entt::registry &registry, entt::entity entity)
+    {
+      const auto& tile = registry.get<components::TileComponent>(entity);
+      const auto& pos = registry.get<components::PositionComponent>(entity);
+      if (tile.collidable)
+      {
+        m_tile_map.collision_layers[tile.layer_id]->set_visibility(pos.x/m_tile_dimension, pos.y/m_tile_dimension, false);
+      }
+      else
+      {
+        m_tile_map.tile_layers[tile.layer_id]->set_visibility(pos.x/m_tile_dimension, pos.y/m_tile_dimension, false);
+      }
     }
 };
 } // namespace systems

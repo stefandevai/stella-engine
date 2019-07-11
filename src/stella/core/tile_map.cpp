@@ -3,6 +3,7 @@
 #include "stella/components/position_component.h"
 #include "stella/components/dimension_component.h"
 #include "stella/components/tile_component.h"
+#include "stella/components/log_component.h"
 
 #include <cmath>
 #include <glm/glm.hpp>
@@ -51,7 +52,7 @@ namespace core
         for (auto x = 1; x <= m_width; ++x)
         {
           int value = map_table["layers"][i]["grid"][x + y*m_width];
-          layer->set_value(x-1, y, value);
+          layer->set_value(x-1, y, Tile{value});
         }
       }
 
@@ -75,7 +76,10 @@ namespace core
 
     if (collidable)
     {
-      if (collision_layers[layer_id]->get_value(tx, ty) > 0)
+      const auto &layer_tile = collision_layers[layer_id]->get_value(tx, ty);
+      collision_layers[layer_id]->set_visibility(tx, ty, true);
+      //layer_tile.visible = true;
+      if (layer_tile.value > 0)
       {
         auto tile = m_registry.create();
         m_registry.assign<components::TileComponent>(tile, layer_id, true);
@@ -86,9 +90,12 @@ namespace core
     }
     else
     {
-      if (tile_layers[layer_id]->get_value(tx, ty) > 0)
+      const auto &layer_tile = tile_layers[layer_id]->get_value(tx, ty);
+      tile_layers[layer_id]->set_visibility(tx, ty, true);
+      if (layer_tile.value > 0)
       {
         auto tile = m_registry.create();
+        //layer_tile.visible = true;
         m_registry.assign<components::TileComponent>(tile, layer_id, false);
         m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), tile_layers[layer_id]->get_render_layer_name(), 0);
         m_registry.assign<components::PositionComponent>(tile, tx*32, ty*32);
@@ -103,9 +110,10 @@ namespace core
     assert(beginx < endx);
     assert(beginy < endy);
     int left = beginx / m_tile_dimension;
+    //int right = ceil(endx / static_cast<double>(m_tile_dimension));
     int right = endx / m_tile_dimension;
     int top = beginy / m_tile_dimension;
-    int bottom = endy / m_tile_dimension;
+    int bottom = ceil(endy / static_cast<double>(m_tile_dimension));
     int counter = 0;
 
     for (const auto &layer : this->tile_layers)
@@ -114,14 +122,20 @@ namespace core
       {
         for (auto x = left; x < right; ++x)
         {
-          const auto value = layer->get_value(x, y);
-          if (value > 0)
+          const auto &layer_tile = layer->get_value(x, y);
+
+          if (!layer_tile.visible && layer_tile.value > 0)
           {
+            layer->set_visibility(x, y, true);
             auto tile = m_registry.create();
             m_registry.assign<components::TileComponent>(tile, counter, false);
             m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), 0);
             m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension);
             m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
+          }
+          else if (!layer_tile.visible)
+          {
+            layer->set_visibility(x, y, true);
           }
         }
       }
@@ -135,24 +149,40 @@ namespace core
       {
         for (auto x = left; x < right; ++x)
         {
-          const auto value = layer->get_value(x, y);
-          if (value > 0)
+          const auto &layer_tile = layer->get_value(x, y);
+          if (!layer_tile.visible && layer_tile.value > 0)
           {
-            int frame = 36;
-            if (value == 2) frame = 37;
-            else if (value == 3) frame = 38;
+            layer->set_visibility(x, y, true);
+            int frame = 0;
+            if (layer_tile.value == 2) frame = 37;
+            else if (layer_tile.value == 3) frame = 38;
             auto tile = m_registry.create();
             m_registry.assign<components::TileComponent>(tile, counter, true);
             m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), frame);
             m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension);
             m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
+            m_registry.assign<components::LogComponent>(tile);
+          }
+          else if (!layer_tile.visible)
+          {
+            layer->set_visibility(x, y, true);
           }
         }
       }
       ++counter;
     }
-
   }
+
+  //void TileMap::update_viewport(const int x, const int y, const int w, const int h)
+  //{
+    //frustrum_tile_x = x / m_tile_dimension;
+    //frustrum_tile_y = y / m_tile_dimension;
+    //frustrum_tile_w = (x + w) / m_tile_dimension;
+    //frustrum_tile_h = (y + h) / m_tile_dimension;
+
+
+
+  //}
 
 }
 }

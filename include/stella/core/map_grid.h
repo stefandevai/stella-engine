@@ -5,13 +5,14 @@
 #include <iostream>
 
 #include "./grid.h"
+#include "./tile.h"
 
 namespace stella
 {
 namespace core
 {
 
-  class MapGrid : public Grid
+  class MapGrid : public Grid<Tile>
   {
     private:
       std::string m_render_layer_name = "basic";
@@ -20,7 +21,7 @@ namespace core
 
     public:
       MapGrid(unsigned width, unsigned height)
-        : Grid(width, height)
+        : Grid<Tile>(width, height)
       { }
       ~MapGrid() {}
 
@@ -32,6 +33,18 @@ namespace core
       inline void set_render_layer_name(const std::string &name)
       {
         m_render_layer_name = name;
+      }
+
+      inline void set_visibility(const int x, const int y, const bool visibility)
+      {
+        if (x >= 0 && x < m_width && y >= 0 && y < m_height)
+        {
+          m_grid[x + y*m_width].visible = visibility;
+        }
+        else
+        {
+          std::cout << "Trying to reach a grid value out of bounds.\n";
+        }
       }
 
       inline void set_collision(const bool is_collision_grid)

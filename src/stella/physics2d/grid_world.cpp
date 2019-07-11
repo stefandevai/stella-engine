@@ -68,7 +68,8 @@ namespace physics2d {
       {
         for (auto j = beginy;;)
         {
-          const int tile_value = layer->get_value(i, j);
+          const auto &tile = layer->get_value(i, j);
+          const int tile_value = tile.value;
           if (tile_value != 0 && tile_value != -1)
           {
             Collision collision{body, Tile{tile_value,i,j}};
