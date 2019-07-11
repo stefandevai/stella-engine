@@ -12,11 +12,12 @@ namespace systems
 class PhysicsSystem : public System
 {
   private:
-    stella::physics2d::GridWorld m_world;
+    const core::TileMap &m_tile_map;
+    stella::physics2d::GridWorld m_world{m_tile_map};
     entt::registry::entity_type m_camera;
 
   public:
-    PhysicsSystem(entt::registry &registry, entt::registry::entity_type camera) : m_camera(camera)
+    PhysicsSystem(const core::TileMap &tile_map, entt::registry &registry, entt::registry::entity_type camera) : m_tile_map(tile_map), m_camera(camera)
     { 
       registry.on_destroy<components::Body2DComponent>().connect<&PhysicsSystem::remove_body_from_world>(this);
       this->m_world.SetGravity(2200.f);

@@ -6,7 +6,7 @@
 Sandbox::Sandbox()
   : stella::core::Game(896, 504, "Stella Engine")
 {
-  this->add_system<stella::systems::PhysicsSystem>(m_registry, m_camera);
+  this->add_system<stella::systems::PhysicsSystem>(m_tile_map, m_registry, m_camera);
   this->add_system<stella::systems::ScrollSystem>();
   this->add_system<stella::systems::TiledScrollSystem>(m_initial_width);
   this->add_system<stella::systems::TileSystem>(m_tile_map, m_camera);

@@ -7,7 +7,8 @@
 namespace stella {
 namespace physics2d {
 
-  GridWorld::GridWorld()
+  GridWorld::GridWorld(const core::TileMap &tile_map)
+    : m_tile_map(tile_map)
   {
     for (auto i = 0; i < 28; ++ i)
       m_grid.set_value(i, 14, 1);
@@ -69,43 +70,46 @@ namespace physics2d {
 
   void GridWorld::check_collisions(const std::shared_ptr<Body> &body, int beginx, int endx, int beginy, int endy)
   {
-    for (auto i = beginx;;)
+    for (const auto &layer : m_tile_map.collision_layers)
     {
-      for (auto j = beginy;;)
+      for (auto i = beginx;;)
       {
-        const int tile_value = m_grid.get_value(i, j);
-        if (tile_value != 0 && tile_value != -1)
+        for (auto j = beginy;;)
         {
-          Collision collision{body, Tile{tile_value,i,j}};
-          const auto intersection = get_tile_intersection(collision);
-          if (intersection.x*intersection.y > 0)
+          const int tile_value = layer->get_value(i, j);
+          if (tile_value != 0 && tile_value != -1)
           {
-            collision.intersection = intersection;
-            resolve_collision(collision);
+            Collision collision{body, Tile{tile_value,i,j}};
+            const auto intersection = get_tile_intersection(collision);
+            if (intersection.x*intersection.y > 0)
+            {
+              collision.intersection = intersection;
+              resolve_collision(collision);
+            }
+          }
+
+          if (beginy <= endy)
+          {
+            ++j;
+            if (j > endy) break;
+          }
+          else
+          {
+            --j;
+            if (j < endy) break;
           }
         }
 
-        if (beginy <= endy)
+        if (beginx <= endx)
         {
-          ++j;
-          if (j > endy) break;
+          ++i;
+          if (i > endx) break;
         }
         else
         {
-          --j;
-          if (j < endy) break;
+          --i;
+          if (i < endx) break;
         }
-      }
-
-      if (beginx <= endx)
-      {
-        ++i;
-        if (i > endx) break;
-      }
-      else
-      {
-        --i;
-        if (i < endx) break;
       }
     }
   }
@@ -295,17 +299,17 @@ namespace physics2d {
         //std::cout << ix << '\n';
         //std::cout << '\n';
         //std::cout << '\n';
-        if (ix == TILE_DIMENSIONS && m_grid.get_value(collision.tile.x - 1, collision.tile.y - 1) != 2)
-        {
+        //if (ix == TILE_DIMENSIONS && m_grid.get_value(collision.tile.x - 1, collision.tile.y - 1) != 2)
+        //{
           //std::cout << delta << '\n';
           //collision.body->Velocity.y = 0;
           //collision.body->Acceleration.y = 0;
-        }
-        else
-        {
+        //}
+        //else
+        //{
           //collision.body->Acceleration.y = this->Gravity;
           //collision.body->Velocity.y = collision.body->TargetVelocity.y;
-        }
+        //}
       }
     }
     else
@@ -336,16 +340,16 @@ namespace physics2d {
 
         // Checks if there isn't a same slope tile to the right, otherwise keep max velocity and acceleration
         // This is needed to allow a smooth walk through the tile
-        if (ix == TILE_DIMENSIONS && m_grid.get_value(collision.tile.x + 1, collision.tile.y + 1) != 2)
-        {
+        //if (ix == TILE_DIMENSIONS && m_grid.get_value(collision.tile.x + 1, collision.tile.y + 1) != 2)
+        //{
           //collision.body->Velocity.y = 0;
           //collision.body->Acceleration.y = 0;
-        }
-        else
-        {
+        //}
+        //else
+        //{
           //collision.body->Acceleration.y = this->Gravity;
           //collision.body->Velocity.y = collision.body->TargetVelocity.y;
-        }
+        //}
       }
     }
     else

@@ -20,6 +20,7 @@ namespace physics2d {
       float ScreenHeight = 504.f;
       const unsigned TILE_DIMENSIONS = 32;
       core::Grid m_grid{static_cast<unsigned>(ScreenWidth)/TILE_DIMENSIONS, static_cast<unsigned>(ScreenHeight)/TILE_DIMENSIONS};
+      const core::TileMap &m_tile_map;
 
       struct Tile
       {
@@ -36,7 +37,7 @@ namespace physics2d {
       };
 
     public:
-      GridWorld();
+      explicit GridWorld(const core::TileMap &tile_map);
       ~GridWorld();
       void AddBody(std::shared_ptr<stella::physics2d::Body> body);
       void RemoveBody(std::shared_ptr<stella::physics2d::Body> body);
