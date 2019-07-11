@@ -179,7 +179,7 @@ namespace script
 
   void ECSLuaApi::add_tile_component(entt::registry::entity_type id, const sol::table &obj)
   {
-    m_registry.assign<stella::components::TileComponent>(id);
+    m_registry.assign<stella::components::TileComponent>(id, 0);
   }
 
   void ECSLuaApi::add_scroll_component(entt::registry::entity_type id, const sol::table &obj)

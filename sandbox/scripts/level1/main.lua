@@ -71,72 +71,72 @@ local function load_background()
     mountains[i]:add_component("scroll", scroll)
   end
 
-  for i=0,27 do
-    local entity = Entity:create_entity()
-    entity:add_component("position", {0 + i*32, 14*32, 1}) 
-    entity:add_component("dimension", {32, 32})
-    entity:add_component("sprite", {
-      texture = "tiles",
-      layer = "tiles",
-      frame_dimensions = {32,32},
-      frame = 36
-    })
-  end
+  --for i=0,27 do
+    --local entity = Entity:create_entity()
+    --entity:add_component("position", {0 + i*32, 14*32, 1}) 
+    --entity:add_component("dimension", {32, 32})
+    --entity:add_component("sprite", {
+      --texture = "tiles",
+      --layer = "tiles",
+      --frame_dimensions = {32,32},
+      --frame = 36
+    --})
+  --end
 
-  local entity1 = Entity:create_entity()
-  entity1:add_component("position", {0 + 5*32, 13*32, 1}) 
-  entity1:add_component("dimension", {32, 32})
-  entity1:add_component("sprite", {
-    texture = "tiles",
-    layer = "tiles",
-    frame_dimensions = {32,32},
-    frame = 38
-  })
-  local entity2 = Entity:create_entity()
-  entity2:add_component("position", {0 + 6*32, 13*32, 1}) 
-  entity2:add_component("dimension", {32, 32})
-  entity2:add_component("sprite", {
-    texture = "tiles",
-    layer = "tiles",
-    frame_dimensions = {32,32},
-    frame = 36
-  })
-  local entity3 = Entity:create_entity()
-  entity3:add_component("position", {0 + 7*32, 13*32, 1}) 
-  entity3:add_component("dimension", {32, 32})
-  entity3:add_component("sprite", {
-    texture = "tiles",
-    layer = "tiles",
-    frame_dimensions = {32,32},
-    frame = 36
-  })
-  local entity4 = Entity:create_entity()
-  entity4:add_component("position", {0 + 8*32, 13*32, 1}) 
-  entity4:add_component("dimension", {32, 32})
-  entity4:add_component("sprite", {
-    texture = "tiles",
-    layer = "tiles",
-    frame_dimensions = {32,32},
-    frame = 37
-  })
-  local entity5 = Entity:create_entity()
-  entity5:add_component("position", {0 + 10*32, 12*32, 1}) 
-  entity5:add_component("dimension", {32, 32})
-  entity5:add_component("sprite", {
-    texture = "tiles",
-    layer = "tiles",
-    frame_dimensions = {32,32},
-    frame = 36
-  })
-  local entity6 = Entity:create_entity()
-  entity6:add_component("position", {0 + 11*32, 11*32, 1}) 
-  entity6:add_component("dimension", {32, 32})
-  entity6:add_component("sprite", {
-    texture = "tiles",
-    layer = "tiles",
-    frame_dimensions = {32,32},
-    frame = 36
-  })
+  --local entity1 = Entity:create_entity()
+  --entity1:add_component("position", {0 + 5*32, 13*32, 1}) 
+  --entity1:add_component("dimension", {32, 32})
+  --entity1:add_component("sprite", {
+    --texture = "tiles",
+    --layer = "tiles",
+    --frame_dimensions = {32,32},
+    --frame = 38
+  --})
+  --local entity2 = Entity:create_entity()
+  --entity2:add_component("position", {0 + 6*32, 13*32, 1}) 
+  --entity2:add_component("dimension", {32, 32})
+  --entity2:add_component("sprite", {
+    --texture = "tiles",
+    --layer = "tiles",
+    --frame_dimensions = {32,32},
+    --frame = 36
+  --})
+  --local entity3 = Entity:create_entity()
+  --entity3:add_component("position", {0 + 7*32, 13*32, 1}) 
+  --entity3:add_component("dimension", {32, 32})
+  --entity3:add_component("sprite", {
+    --texture = "tiles",
+    --layer = "tiles",
+    --frame_dimensions = {32,32},
+    --frame = 36
+  --})
+  --local entity4 = Entity:create_entity()
+  --entity4:add_component("position", {0 + 8*32, 13*32, 1}) 
+  --entity4:add_component("dimension", {32, 32})
+  --entity4:add_component("sprite", {
+    --texture = "tiles",
+    --layer = "tiles",
+    --frame_dimensions = {32,32},
+    --frame = 37
+  --})
+  --local entity5 = Entity:create_entity()
+  --entity5:add_component("position", {0 + 10*32, 12*32, 1}) 
+  --entity5:add_component("dimension", {32, 32})
+  --entity5:add_component("sprite", {
+    --texture = "tiles",
+    --layer = "tiles",
+    --frame_dimensions = {32,32},
+    --frame = 36
+  --})
+  --local entity6 = Entity:create_entity()
+  --entity6:add_component("position", {0 + 11*32, 11*32, 1}) 
+  --entity6:add_component("dimension", {32, 32})
+  --entity6:add_component("sprite", {
+    --texture = "tiles",
+    --layer = "tiles",
+    --frame_dimensions = {32,32},
+    --frame = 36
+  --})
 end
 
 local function load_player(x, y)
@@ -227,7 +227,7 @@ local function load()
 
   load_assets()
   load_background()
-  load_player(300, 405-64-61)
+  load_player(32, 32)
   --Map.load()
 end
 
@@ -249,6 +249,16 @@ local function update(dt)
   --end
   --update_camera(camera_position[1], camera_position[2], 0)
   --Map.update(camera_position[1])
+
+  local player_position = {get_position(Player.id)}
+  --camera_position[1] = player_position[1] - 896/5
+  --camera_position[1] = math.max(camera_position[1], last_camera_x)
+  --if camera_position[1] ~= last_camera_x then
+    --last_camera_x = camera_position[1]
+  --end
+  camera_position[1] = math.max(0, player_position[1] - 896/2)
+  camera_position[2] = math.max(0, player_position[2] - 504/2)
+  update_camera(camera_position[1], camera_position[2], 0)
 end
 
 local function render(dt)

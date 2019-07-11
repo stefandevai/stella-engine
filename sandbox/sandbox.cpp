@@ -9,7 +9,7 @@ Sandbox::Sandbox()
   this->add_system<stella::systems::PhysicsSystem>(m_registry, m_camera);
   this->add_system<stella::systems::ScrollSystem>();
   this->add_system<stella::systems::TiledScrollSystem>(m_initial_width);
-  this->add_system<stella::systems::TileSystem>(m_camera);
+  this->add_system<stella::systems::TileSystem>(m_tile_map, m_camera);
   this->add_system<stella::systems::ParticleSystem>();
   this->add_system<stella::systems::MovementSystem>();
   this->add_system<stella::systems::TransformSystem>();
@@ -20,6 +20,8 @@ Sandbox::Sandbox()
   });
   m_script_api.run_script("./scripts/main.lua");
   m_script_api.run_function("load_game");
+
+  m_tile_map.create_tile_entities(0, m_display.GetWidth(), 0, m_display.GetHeight());
   
   //m_sound_player.AddStream("dawn-pollen", "assets/audio/st-dawn_pollen.ogg");
   //m_sound_player.Play("dawn-pollen", true);

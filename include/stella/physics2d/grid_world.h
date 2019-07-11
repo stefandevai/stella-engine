@@ -4,6 +4,7 @@
 #include <memory>
 #include <glm/glm.hpp>
 #include "../core/grid.h"
+#include "../core/tile_map.h"
 
 namespace stella {
 namespace physics2d {

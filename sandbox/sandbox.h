@@ -13,7 +13,7 @@ class Sandbox : public stella::core::Game
     entt::registry::entity_type m_fps_text = m_registry.create();
     entt::registry::entity_type m_ms_text = m_registry.create();
     //std::shared_ptr<stella::core::TileMap> m_tile_map = nullptr;
-    stella::core::TileMap m_tile_map{"scripts/level1/test_map.lua"};
+    stella::core::TileMap m_tile_map{"scripts/level1/test_map.lua", m_registry};
 
   public:
     Sandbox();

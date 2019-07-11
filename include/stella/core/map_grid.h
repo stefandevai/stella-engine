@@ -39,17 +39,17 @@ namespace core
         m_is_collision_grid = is_collision_grid;
       }
 
-      inline const std::string get_texture_name(const std::string &name)
+      inline const std::string get_texture_name()
       {
         return m_texture_name;
       }
 
-      inline const std::string get_render_layer_name(const std::string &name)
+      inline const std::string get_render_layer_name()
       {
         return m_render_layer_name;
       }
 
-      inline const bool get_collision(const bool is_collision_grid)
+      inline const bool is_collision_grid()
       {
         return m_is_collision_grid;
       }

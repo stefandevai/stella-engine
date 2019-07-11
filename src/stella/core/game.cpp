@@ -33,6 +33,7 @@ namespace core
   {
     m_registry.assign<stella::components::CameraComponent>(m_camera);
     m_registry.assign<stella::components::PositionComponent>(m_camera, x, y, z);
+    m_registry.assign<stella::components::DimensionComponent>(m_camera, m_display.GetWidth() + x, m_display.GetHeight() + y);
   }
 
   void Game::update_camera(const double x, const double y, const double z)

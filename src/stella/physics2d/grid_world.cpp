@@ -401,24 +401,33 @@ namespace physics2d {
 
       if (body->CollideWithBorders)
       {
-        if (body->Position.x < 0.f + this->CameraOffset.x)
+        if (body->Position.x < 0.f)
         {
-          body->Position.x = 0.f + this->CameraOffset.x;
+          body->Position.x = 0.f;
         }
-        else if (body->Position.x + body->Dimension.x > this->CameraOffset.x + this->ScreenWidth)
+        else if (body->Position.y < 0.f)
         {
-          body->Position.x = this->CameraOffset.x + this->ScreenWidth - body->Dimension.x;
+          body->Position.y = 0.f;
         }
 
-        if (body->Position.y < 0.f + this->CameraOffset.y)
-        {
-          body->Position.y = 0.f + this->CameraOffset.y;
-        }
-        else if (body->Position.y + body->Dimension.y > this->CameraOffset.y + this->ScreenHeight)
-        {
-          body->Position.y = this->CameraOffset.y + this->ScreenHeight - body->Dimension.y;
-          //body->Collisions.set(2);
-        }
+        //if (body->Position.x < 0.f + this->CameraOffset.x)
+        //{
+          //body->Position.x = 0.f + this->CameraOffset.x;
+        //}
+        //else if (body->Position.x + body->Dimension.x > this->CameraOffset.x + this->ScreenWidth)
+        //{
+          //body->Position.x = this->CameraOffset.x + this->ScreenWidth - body->Dimension.x;
+        //}
+
+        //if (body->Position.y < 0.f + this->CameraOffset.y)
+        //{
+          //body->Position.y = 0.f + this->CameraOffset.y;
+        //}
+        //else if (body->Position.y + body->Dimension.y > this->CameraOffset.y + this->ScreenHeight)
+        //{
+          //body->Position.y = this->CameraOffset.y + this->ScreenHeight - body->Dimension.y;
+          ////body->Collisions.set(2);
+        //}
       }
     }
   }

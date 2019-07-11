@@ -5,6 +5,7 @@ Map = {
     height = 30,
   },
   number_of_layers = 2,
+  tile_dimension = 32,
   layers = {},
 }
 
