@@ -16,10 +16,7 @@ namespace physics2d {
       float Gravity = 1200.f;
       std::vector<std::shared_ptr<stella::physics2d::Body>> Bodies;
       glm::vec2 CameraOffset = glm::vec2(0.f, 0.f);
-      float ScreenWidth = 896.f;
-      float ScreenHeight = 504.f;
       const unsigned TILE_DIMENSIONS = 32;
-      core::Grid m_grid{static_cast<unsigned>(ScreenWidth)/TILE_DIMENSIONS, static_cast<unsigned>(ScreenHeight)/TILE_DIMENSIONS};
       const core::TileMap &m_tile_map;
 
       struct Tile

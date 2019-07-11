@@ -10,14 +10,6 @@ namespace physics2d {
   GridWorld::GridWorld(const core::TileMap &tile_map)
     : m_tile_map(tile_map)
   {
-    for (auto i = 0; i < 28; ++ i)
-      m_grid.set_value(i, 14, 1);
-    m_grid.set_value(5, 13, 3);
-    m_grid.set_value(6, 13, 1);
-    m_grid.set_value(7, 13, 1);
-    m_grid.set_value(8, 13, 2);
-    m_grid.set_value(10, 12, 1);
-    m_grid.set_value(11, 11, 1);
   }
 
   GridWorld::~GridWorld() {

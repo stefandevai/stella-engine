@@ -62,8 +62,8 @@ class PhysicsSystem : public System
         }
       });
 
-      const auto &pos = registry.get<components::PositionComponent>(m_camera);
-      if (pos.x > 0.f || pos.y > 0.f) this->m_world.SetCameraOffset(pos.x, pos.y);
+      //const auto &pos = registry.get<components::PositionComponent>(m_camera);
+      //if (pos.x > 0.f || pos.y > 0.f) this->m_world.SetCameraOffset(pos.x, pos.y);
 
       this->m_world.Update(dt);
     }

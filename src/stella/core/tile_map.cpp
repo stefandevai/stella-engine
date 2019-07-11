@@ -4,6 +4,7 @@
 #include "stella/components/dimension_component.h"
 #include "stella/components/tile_component.h"
 
+#include <cmath>
 #include <glm/glm.hpp>
 
 namespace stella
@@ -67,17 +68,45 @@ namespace core
     std::cout << "Loaded TileMap: " << m_name << '\n';
   }
 
-  void TileMap::create_tile_entity(const int x, const int y, const unsigned layer_id)
+  void TileMap::create_tile_entity(const int x, const int y, const unsigned layer_id, const bool collidable)
   {
+    int tx = x/32;
+    int ty = y/32;
+
+    if (collidable)
+    {
+      if (collision_layers[layer_id]->get_value(tx, ty) > 0)
+      {
+        auto tile = m_registry.create();
+        m_registry.assign<components::TileComponent>(tile, layer_id, true);
+        m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), collision_layers[layer_id]->get_render_layer_name(), 0);
+        m_registry.assign<components::PositionComponent>(tile, tx*32, ty*32);
+        m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
+      }
+    }
+    else
+    {
+      if (tile_layers[layer_id]->get_value(tx, ty) > 0)
+      {
+        auto tile = m_registry.create();
+        m_registry.assign<components::TileComponent>(tile, layer_id, false);
+        m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), tile_layers[layer_id]->get_render_layer_name(), 0);
+        m_registry.assign<components::PositionComponent>(tile, tx*32, ty*32);
+        m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
+      }
+    }
 
   }
 
   void TileMap::create_tile_entities(const int beginx, const int endx, const int beginy, const int endy)
   {
+    assert(beginx < endx);
+    assert(beginy < endy);
     int left = beginx / m_tile_dimension;
     int right = endx / m_tile_dimension;
     int top = beginy / m_tile_dimension;
     int bottom = endy / m_tile_dimension;
+    int counter = 0;
 
     for (const auto &layer : this->tile_layers)
     {
@@ -89,14 +118,17 @@ namespace core
           if (value > 0)
           {
             auto tile = m_registry.create();
+            m_registry.assign<components::TileComponent>(tile, counter, false);
             m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), 0);
             m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension);
             m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
           }
         }
       }
+      ++counter;
     }
 
+    counter = 0;
     for (const auto &layer : this->collision_layers)
     {
       for (auto y = top; y < bottom; ++y)
@@ -106,13 +138,18 @@ namespace core
           const auto value = layer->get_value(x, y);
           if (value > 0)
           {
+            int frame = 36;
+            if (value == 2) frame = 37;
+            else if (value == 3) frame = 38;
             auto tile = m_registry.create();
-            m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), 0);
+            m_registry.assign<components::TileComponent>(tile, counter, true);
+            m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), frame);
             m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension);
             m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
           }
         }
       }
+      ++counter;
     }
 
   }

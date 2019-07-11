@@ -30,7 +30,8 @@ namespace core
       inline unsigned number_of_layers() const { return m_number_of_layers; }
       inline unsigned width() const { return m_width; }
       inline unsigned height() const { return m_height; }
-      void create_tile_entity(const int x, const int y, const unsigned layer_id);
+      inline unsigned tile_dimension() const { return m_tile_dimension; }
+      void create_tile_entity(const int x, const int y, const unsigned layer_id, const bool collidable);
       void create_tile_entities(const int beginx, const int endx, const int beginy, const int endy);
 
     private:
