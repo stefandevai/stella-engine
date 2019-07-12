@@ -67,8 +67,8 @@ local function load_background()
     })
     mountains[i]:add_component("position", {0 + ((i+1)%2)*896, 0, z}) 
     mountains[i]:add_component("dimension", {896, 504})
-    mountains[i]:add_component("tileview")
-    mountains[i]:add_component("scroll", scroll)
+    --mountains[i]:add_component("tileview")
+    --mountains[i]:add_component("scroll", scroll)
   end
 
   --for i=0,27 do
@@ -175,14 +175,14 @@ end
 local function load()
   create_layer({
     name = "tiles",
-    priority = 0,
+    priority = 1,
     shader = "basic",
     fixed = false,
   })
 
   create_layer({
     name = "background",
-    priority = 2,
+    priority = 0,
     shader = "basic",
     fixed = true,
   })
@@ -196,7 +196,7 @@ local function load()
 
   create_layer({
     name = "text",
-    priority = 4,
+    priority = 2,
     shader = "basic",
     fixed = true,
   })

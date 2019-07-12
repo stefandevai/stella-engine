@@ -1,11 +1,25 @@
 #include "editor/editor_gui.h"
 
+#include "stella/components/layer_component.h"
+#include "stella/components/sprite_component.h"
+#include "stella/components/position_component.h"
+#include "stella/components/dimension_component.h"
+
 namespace stella
 {
 namespace editor
 {
 
-  EditorGui::EditorGui() { }
+  EditorGui::EditorGui(entt::registry &registry)
+    : m_registry(registry)
+  {
+    auto debug_layer = m_registry.create();
+    m_registry.assign<stella::components::LayerComponent>(debug_layer, "debug", 8, "basic", true);
+    auto debug_sprite = m_registry.create();
+    m_registry.assign<stella::components::SpriteComponent>(debug_sprite, "guanaco", "debug");
+    m_registry.assign<stella::components::PositionComponent>(debug_sprite, 100.f, 100.f);
+    m_registry.assign<stella::components::DimensionComponent>(debug_sprite, 300.f, 300.f);
+  }
 
   EditorGui::~EditorGui() { }
 
@@ -37,9 +51,9 @@ namespace editor
     ImGui_ImplSDL2_ProcessEvent(&event);
   }
 
-  void EditorGui::update(entt::registry &registry)
+  void EditorGui::update()
   {
-    m_log_system.update(registry, 0.0);
+    m_log_system.update(m_registry, 0.0);
   }
 
   void EditorGui::render(const float window_width, const float window_height, const float game_width, const float game_height)

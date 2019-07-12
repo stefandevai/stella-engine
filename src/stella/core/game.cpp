@@ -9,6 +9,10 @@ namespace core
   Game::Game(unsigned width, unsigned height, const std::string &title)
     : Application(width, height, title)
   {
+#ifdef STELLA_BUILD_EDITOR
+    m_display.SetEditor(&m_editor);
+
+#endif
     m_script_api.set_function("update_camera", &Game::update_camera, this);
     m_script_api.set_function("load_texture", &Game::load_texture, this);
     this->create_camera(0.0, 0.0, 0.0);
@@ -34,7 +38,6 @@ namespace core
     m_registry.assign<stella::components::CameraComponent>(m_camera);
     m_registry.assign<stella::components::PositionComponent>(m_camera, x, y, z);
     m_registry.assign<stella::components::DimensionComponent>(m_camera, m_initial_width + x, m_initial_height + y);
-    std::cout << m_initial_width << ' ' << m_display.GetWidth() << '\n';
   }
 
   void Game::update_camera(const double x, const double y, const double z)

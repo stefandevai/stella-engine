@@ -22,7 +22,7 @@ Sandbox::Sandbox()
   m_script_api.run_function("load_game");
 
   m_tile_map.create_tile_entities(0, m_display.GetWidth(), 0, m_display.GetHeight());
-  
+
   //m_sound_player.AddStream("dawn-pollen", "assets/audio/st-dawn_pollen.ogg");
   //m_sound_player.Play("dawn-pollen", true);
 

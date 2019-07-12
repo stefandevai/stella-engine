@@ -13,6 +13,11 @@
 #include "../audio/soundplayer.h"
 #include "../physics2d/world.h"
 
+#ifdef STELLA_BUILD_EDITOR
+#include "editor/editor_gui.h"
+#endif
+
+
 namespace stella
 {
 namespace core
@@ -29,6 +34,11 @@ namespace core
         std::make_shared<systems::RenderSystem>(m_registry, m_textures, m_display),
         std::make_shared<systems::AnimationSystem>()
       };
+
+#ifdef STELLA_BUILD_EDITOR
+      //std::shared_ptr<editor::EditorGui> m_editor = std::shared_ptr<editor::EditorGui>(new editor::EditorGui(m_registry));
+      editor::EditorGui m_editor{m_registry};
+#endif
 
     public:
       Game(const unsigned width, const unsigned height, const std::string &title);

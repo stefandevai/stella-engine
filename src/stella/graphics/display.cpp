@@ -62,19 +62,11 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
 	SDL_ShowCursor(SDL_DISABLE);
 
 #if __APPLE__
-#ifdef STELLA_BUILD_EDITOR
-  // GL 3.2 Core + GLSL 150
-  const char* glsl_version = "#version 150";
-#endif
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG); // Always required on Mac
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 #else
-#ifdef STELLA_BUILD_EDITOR
-  // GL 3.0 + GLSL 130
-  const char* glsl_version = "#version 130";
-#endif
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -109,17 +101,14 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
 
   // Set default Clear Color
   this->ClearColor = glm::vec3(0.5f, 0.5f, 0.5f);
-
-  // Init debug GUI
-  //this->DGUI.Init(this->Window);
-#ifdef STELLA_BUILD_EDITOR
-  m_editor.init(this->Window, m_gl_context, glsl_version);
-#endif
 }
 
 Display::~Display() {
 #ifdef STELLA_BUILD_EDITOR
-  m_editor.clean();
+  if (m_editor)
+  {
+    m_editor->clean();
+  }
 #endif
 
   SDL_GL_DeleteContext(m_gl_context);
@@ -175,8 +164,11 @@ void Display::Update() {
 
 #ifdef STELLA_BUILD_EDITOR
 void Display::UpdateEditor(entt::registry &registry) {
-  m_editor.update(registry);
-  m_editor.render(GetWindowWidth(), GetWindowHeight(), Width, Height);
+  if (m_editor)
+  {
+    m_editor->update();
+    m_editor->render(GetWindowWidth(), GetWindowHeight(), Width, Height);
+  }
 }
 #endif
 
@@ -202,6 +194,8 @@ void Display::SetClearColor(GLfloat x, GLfloat y, GLfloat z) {
 void Display::Clear() {
   glClearColor(this->ClearColor.x, this->ClearColor.y, this->ClearColor.z, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  //glClear(GL_COLOR_BUFFER_BIT);
+  //glEnable(GL_DEPTH_TEST);
 }
 
 void Display::updateInput() {
@@ -209,7 +203,10 @@ void Display::updateInput() {
   while (SDL_PollEvent(&event))
   {
 #ifdef STELLA_BUILD_EDITOR
-    m_editor.configure_input(event);
+    if (m_editor)
+    {
+      m_editor->configure_input(event);
+    }
 #endif
 
     switch(event.type)

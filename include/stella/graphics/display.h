@@ -8,14 +8,12 @@
 #include <SDL2/SDL_timer.h>
 #include <glm/glm.hpp>
 
-//#include "stella/graphics/debug_gui.h"
-// Set to 1 to disable vsync
-#define DISABLE_VSYNC 0
-
-//#define STELLA_BUILD_EDITOR
 #ifdef STELLA_BUILD_EDITOR
 #include "editor/editor_gui.h"
 #endif
+
+// Set to 1 to disable vsync
+#define DISABLE_VSYNC 0
 
 // Forward declarations
 struct SDL_Window;
@@ -49,6 +47,11 @@ public:
 
 #ifdef STELLA_BUILD_EDITOR
   void UpdateEditor(entt::registry &registry);
+  inline void SetEditor(editor::EditorGui *editor)
+  {
+    m_editor = editor;
+    m_editor->init(this->Window, m_gl_context, m_glsl_version);
+  }
 #endif
 
 private:
@@ -60,9 +63,15 @@ private:
   SDL_GLContext m_gl_context;
   bool Running;
   glm::vec3 ClearColor;
-
 #ifdef STELLA_BUILD_EDITOR
-  editor::EditorGui m_editor;
+  editor::EditorGui *m_editor = nullptr;
+#if __APPLE__
+  // GL 3.2 Core + GLSL 150
+  const char* m_glsl_version = "#version 150";
+#else
+  // GL 3.0 + GLSL 130
+  const char* m_glsl_version = "#version 130";
+#endif
 #endif
 
   void updateInput();

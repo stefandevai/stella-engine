@@ -12,6 +12,10 @@
 #include "stella/graphics/layers/firelayer.h"
 #include "stella/graphics/layers/basic_layer.h"
 
+#ifdef STELLA_BUILD_EDITOR
+#include "editor/debug_layer.h"
+#endif
+
 namespace stella
 {
 namespace systems
@@ -112,6 +116,9 @@ class RenderSystem : public System
 
     void initialize_layer(entt::registry &registry, entt::entity entity, components::LayerComponent &layer)
     {
+      assert(m_ordered_layers.find(layer.Order) == m_ordered_layers.end() && "You should assign different orders for layers.");
+      assert(m_layers.find(layer.Id) == m_layers.end() && "You should assign different IDs for layers.");
+
       if (layer.ShaderId == "bloom")
       {
         m_layers[layer.Id] = std::shared_ptr<graphics::FireLayer>(new graphics::FireLayer(this->m_display));
@@ -120,6 +127,12 @@ class RenderSystem : public System
       {
         m_layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->m_display.GetWidth(), this->m_display.GetHeight(), layer.Fixed));
       }
+#ifdef STELLA_BUILD_EDITOR
+      else if (layer.Id == "debug")
+      {
+        m_layers[layer.Id] = std::shared_ptr<editor::DebugLayer>(new editor::DebugLayer(this->m_display.GetWidth(), this->m_display.GetHeight(), layer.Fixed));
+      }
+#endif
       else
       {
         m_layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->m_display.GetWidth(), this->m_display.GetHeight(), layer.Fixed));

@@ -14,8 +14,8 @@
 namespace stella {
 namespace graphics {
 Renderer::Renderer() {
-	this->TransformationStack.push_back(glm::mat4());
-	this->TransformationBack = &this->TransformationStack.back();
+  this->TransformationStack.push_back(glm::mat4());
+  this->TransformationBack = &this->TransformationStack.back();
   this->TexturesBinded = false;
   this->init();
 }
