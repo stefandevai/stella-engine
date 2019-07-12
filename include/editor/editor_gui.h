@@ -6,6 +6,7 @@
 #include <entt/entity/registry.hpp>
 #include "./log_system.h"
 #include "./gui_log.h"
+#include "./debug_layer.h"
 
 struct SDL_Window;
 union SDL_Event;
@@ -24,6 +25,7 @@ namespace editor
       GuiLog m_log{m_window_flags, m_font_mono};
       LogSystem m_log_system{m_log};
       entt::registry &m_registry;
+      DebugLayer m_debug_layer{896, 504, true};
 
     public:
       EditorGui(entt::registry &registry);

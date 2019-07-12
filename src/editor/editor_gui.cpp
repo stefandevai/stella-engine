@@ -5,6 +5,8 @@
 #include "stella/components/position_component.h"
 #include "stella/components/dimension_component.h"
 
+#include "editor/debug_layer.h"
+
 namespace stella
 {
 namespace editor
@@ -13,12 +15,9 @@ namespace editor
   EditorGui::EditorGui(entt::registry &registry)
     : m_registry(registry)
   {
-    auto debug_layer = m_registry.create();
-    m_registry.assign<stella::components::LayerComponent>(debug_layer, "debug", 8, "basic", true);
-    auto debug_sprite = m_registry.create();
-    m_registry.assign<stella::components::SpriteComponent>(debug_sprite, "fire-particle", "debug");
-    m_registry.assign<stella::components::PositionComponent>(debug_sprite, 350.f, 350.f);
-    m_registry.assign<stella::components::DimensionComponent>(debug_sprite, 300.f, 300.f);
+    auto texture = graphics::Texture("assets/sprites/fire-particle.png");
+    auto sprite = std::make_shared<graphics::Sprite>(100, 100, 100, 100, texture);
+    m_debug_layer.Add(sprite);
   }
 
   EditorGui::~EditorGui() { }
@@ -80,6 +79,8 @@ namespace editor
 
       ImGui::Render();
       ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+      m_debug_layer.Render();
     }
   }
 
