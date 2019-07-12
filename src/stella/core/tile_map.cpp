@@ -52,7 +52,33 @@ namespace core
         for (auto x = 1; x <= m_width; ++x)
         {
           int value = map_table["layers"][i]["grid"][x + y*m_width];
-          layer->set_value(x-1, y, Tile{value});
+          Tile tile{value};
+          tile.x = x-1;
+          tile.y = y;
+
+          // Checks surrounding tiles to set active tile edges
+          // Checks tile to the top
+          if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][x + (y-1)*m_width] == 0)
+          {
+            tile.active_edges.set(0);
+          }
+          // Checks tile to the right
+          if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x+1) + y*m_width] == 0)
+          {
+            tile.active_edges.set(1);
+          }
+          // Checks tile to the bottom
+          if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x) + (y+1)*m_width] == 0)
+          {
+            tile.active_edges.set(2);
+          }
+          // Checks tile to the left
+          if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x-1) + y*m_width] == 0)
+          {
+            tile.active_edges.set(3);
+          }
+          
+          layer->set_value(x-1, y, tile);
         }
       }
 

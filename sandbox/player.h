@@ -94,7 +94,8 @@ class Player
       {
         this->current_state = JUMPING;
       }
-      else if (body.Body->Velocity.y > 0.0)
+      // If player's going down and not colliding with the bottom
+      else if (body.Body->Velocity.y > 0.0 && !body.Body->Collisions.test(2))
       {
         this->current_state = FALLING;
       }

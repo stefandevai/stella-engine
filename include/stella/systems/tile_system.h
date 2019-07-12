@@ -17,7 +17,7 @@ class TileSystem : public System
     bool m_first_position_check = true;
     int m_last_camera_x = 0;
     int m_last_camera_y = 0;
-    const unsigned m_frustrum_culling_offset = 2;
+    const int m_frustrum_culling_offset = 0;
 
   public:
     TileSystem(core::TileMap &tilemap, entt::registry::entity_type camera, entt::registry &registry)
@@ -42,7 +42,7 @@ class TileSystem : public System
 
       if (m_last_camera_x != camera_position.x || m_last_camera_y != camera_position.y)
       {
-        m_tile_map.create_tile_entities(camera_position.x + 32*m_frustrum_culling_offset, camera_position.x + camera_dimension.w - 32*m_frustrum_culling_offset, camera_position.y + 32*m_frustrum_culling_offset, camera_position.y + camera_dimension.h - 32*m_frustrum_culling_offset);
+        m_tile_map.create_tile_entities(camera_position.x + m_tile_dimension*m_frustrum_culling_offset, camera_position.x + camera_dimension.w + m_tile_dimension - m_tile_dimension*m_frustrum_culling_offset, camera_position.y + m_tile_dimension*m_frustrum_culling_offset, camera_position.y + camera_dimension.h + m_tile_dimension - m_tile_dimension*m_frustrum_culling_offset);
         m_last_camera_x = camera_position.x;
         m_last_camera_y = camera_position.y;
       }

@@ -4,6 +4,7 @@
 #include <memory>
 #include <glm/glm.hpp>
 #include "../core/grid.h"
+#include "../core/tile.h"
 #include "../core/tile_map.h"
 
 namespace stella {
@@ -19,17 +20,17 @@ namespace physics2d {
       const unsigned TILE_DIMENSIONS = 32;
       const core::TileMap &m_tile_map;
 
-      struct Tile
-      {
-        Tile(int type, int x, int y) : type(type), x(x), y(y) {}
-        int type, x, y;
-      };
+      //struct Tile
+      //{
+        //Tile(int type, int x, int y) : type(type), x(x), y(y) {}
+        //int type, x, y;
+      //};
 
       struct Collision
       {
-        Collision(std::shared_ptr<Body> body, Tile tile) : body(body), tile(tile) {}
+        Collision(std::shared_ptr<Body> body, core::Tile tile) : body(body), tile(tile) {}
         std::shared_ptr<Body> body;
-        Tile tile;
+        core::Tile tile;
         glm::vec2 intersection = glm::vec2(0.f,0.f);
       };
 
@@ -49,6 +50,9 @@ namespace physics2d {
       void UpdateCollisions();
       void resolve_collisions(const std::shared_ptr<Body> &body);
       void check_collisions(const std::shared_ptr<Body> &body, int beginx, int endx, int beginy, int endy);
+      bool intersects(const std::shared_ptr<Body> &body, const core::Tile &tile);
+      void resolve_aabb_collision(const std::shared_ptr<Body> &body, const core::Tile &tile);
+      void resolve_square_collision(const std::shared_ptr<Body> &body, const core::Tile &tile);
       glm::vec2 get_tile_intersection(const GridWorld::Collision &collision);
       void resolve_collision(const GridWorld::Collision &collision);
 

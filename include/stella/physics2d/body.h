@@ -18,6 +18,7 @@ class Body {
 
     glm::vec2 Position, Dimension, LastPosition = glm::vec2(0.f, 0.f), Velocity = glm::vec2(0.f, 0.f), TargetVelocity = glm::vec2(0.f, 0.f), Acceleration = glm::vec2(0.f, 0.f), Drag = glm::vec2(0.f, 0.f), CollisionVector = glm::vec2(0.f, 0.f);
     bool IsStatic = false, Gravity = false, CollideWithBorders;
+    // Top, right, bottom, left collisions
     std::bitset<4> Collisions;
 };
 }}

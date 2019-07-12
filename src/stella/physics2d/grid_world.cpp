@@ -60,6 +60,20 @@ namespace physics2d {
     }
   }
 
+  bool GridWorld::intersects(const std::shared_ptr<Body> &body, const core::Tile &tile)
+  {
+    const auto ax = body->Position.x;
+    const auto ay = body->Position.y;
+    const auto aw = body->Dimension.x;
+    const auto ah = body->Dimension.y;
+    const auto bx = tile.x*TILE_DIMENSIONS;
+    const auto by = tile.y*TILE_DIMENSIONS;
+    const auto bw = TILE_DIMENSIONS;
+    const auto bh = TILE_DIMENSIONS;
+
+    return (abs(ax - bx) < (aw + bw)) && (abs(ay - by) < (ah + bh - TILE_DIMENSIONS));
+  }
+
   void GridWorld::check_collisions(const std::shared_ptr<Body> &body, int beginx, int endx, int beginy, int endy)
   {
     for (const auto &layer : m_tile_map.collision_layers)
@@ -68,17 +82,24 @@ namespace physics2d {
       {
         for (auto j = beginy;;)
         {
-          const auto &tile = layer->get_value(i, j);
-          const int tile_value = tile.value;
+          const auto &layer_tile= layer->get_value(i, j);
+          const int tile_value = layer_tile.value;
           if (tile_value != 0 && tile_value != -1)
           {
-            Collision collision{body, Tile{tile_value,i,j}};
-            const auto intersection = get_tile_intersection(collision);
-            if (intersection.x*intersection.y > 0)
+            //const auto tile = Tile{tile_value, i, j};
+
+            if (intersects(body, layer_tile))
             {
+              //resolve_aabb_collision(body, layer_tile);
+              Collision collision{body, layer_tile};
+              const auto intersection = get_tile_intersection(collision);
               collision.intersection = intersection;
               resolve_collision(collision);
             }
+
+            //if (intersection.x*intersection.y > 0)
+            //{
+            //}
           }
 
           if (beginy <= endy)
@@ -105,6 +126,115 @@ namespace physics2d {
         }
       }
     }
+  }
+
+  void GridWorld::resolve_aabb_collision(const std::shared_ptr<Body> &body, const core::Tile &tile)
+  {
+    switch(tile.value)
+    {
+      case 1:
+        resolve_square_collision(body, tile);
+        break;
+      //case 2:
+        //resolve_tb_slope45(collision);
+        //break;
+      //case 3:
+        //resolve_bt_slope45(collision);
+        //break;
+    }
+  }
+
+  void GridWorld::resolve_square_collision(const std::shared_ptr<Body> &body, const core::Tile &tile)
+  {
+    const auto bcx = body->Position.x + body->Dimension.x*0.5f;
+    const auto bcy = body->Position.y + body->Dimension.y*0.5f;
+    const auto tcx = static_cast<float>(tile.x*TILE_DIMENSIONS) + TILE_DIMENSIONS*0.5f;
+    const auto tcy = static_cast<float>(tile.y*TILE_DIMENSIONS) + TILE_DIMENSIONS*0.5f;
+
+    auto const hd = abs(bcx*bcx + tcx*tcx);
+    auto const vd = abs(bcy*bcy + tcy*tcy);
+
+    if (hd < vd)
+    {
+      // Right collision
+      if (bcx < tcx)
+      {
+        std::cout << "collided right\n";
+        //body->Collisions.set(1);
+        //body->Position.x -= ((body->Position.x + body->Dimension.x) - tile.x*TILE_DIMENSIONS);
+      }
+      // Left collision
+      else
+      {
+        std::cout << "collided left\n";
+        //body->Collisions.set(3);
+        //body->Position.x += ((tile.x*TILE_DIMENSIONS + TILE_DIMENSIONS) - (body->Position.x));
+      }
+    }
+    else if (vd < hd)
+    {
+      // Bottom collision
+      if (bcy < tcy)
+      {
+        std::cout << "collided bottom\n";
+        //body->Collisions.set(2);
+        //body->Position.y -= ((body->Position.y + body->Dimension.y) - tile.y*TILE_DIMENSIONS);
+      }
+      // Top collision
+      else
+      {
+        std::cout << "collided top\n";
+        //body->Collisions.set(0);
+        //body->Position.y -= ((tile.y*TILE_DIMENSIONS + TILE_DIMENSIONS) - (body->Position.y));
+      }
+    }
+
+    //const auto player_bottom = body->Position.y + body->Dimension.y;
+    //const auto tiles_bottom = tile.y*TILE_DIMENSIONS + TILE_DIMENSIONS;
+    //const auto player_right = body->Position.x + body->Dimension.x;
+    //const auto tiles_right = tile.x*TILE_DIMENSIONS + TILE_DIMENSIONS;
+
+    //const auto b_collision = tiles_bottom - body->Position.y;
+    //const auto t_collision = player_bottom - tile.y*TILE_DIMENSIONS;
+    //const auto l_collision = player_right - tile.x*TILE_DIMENSIONS;
+    //const auto r_collision = tiles_right - body->Position.x;
+
+    //if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision )
+    //{                           
+      ////Top collision
+      //std::cout << "collided top\n";
+      //body->Collisions.set(2);
+      //body->Position.y -= t_collision;
+      //body->Velocity.y = 0;
+      //body->Acceleration.y = 0;
+    //}
+    //if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision)                        
+    //{
+      ////bottom collision
+      //std::cout << "collided bottom\n";
+      //body->Collisions.set(0);
+      //body->Position.y += b_collision;
+      //body->Velocity.y = 0;
+      //body->Acceleration.y = 0;
+    //}
+    //if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision)
+    //{
+      ////Left collision
+      //std::cout << "collided left\n";
+      //body->Collisions.set(1);
+      //body->Position.x -= l_collision;
+      //body->Velocity.x = 0;
+      //body->Acceleration.x = 0;
+    //}
+    //if (r_collision < l_collision && r_collision < t_collision && r_collision < b_collision )
+    //{
+      ////Right collision
+      //std::cout << "collided right\n";
+      //body->Collisions.set(3);
+      //body->Position.x += r_collision;
+      //body->Velocity.x = 0;
+      //body->Acceleration.x = 0;
+    //}
   }
 
   glm::vec2 GridWorld::get_tile_intersection(const GridWorld::Collision &collision)
@@ -151,7 +281,7 @@ namespace physics2d {
 
   void GridWorld::resolve_collision(const GridWorld::Collision &collision)
   {
-    switch(collision.tile.type)
+    switch(collision.tile.value)
     {
       case 1:
         resolve_aabb(collision);
@@ -188,24 +318,37 @@ namespace physics2d {
     // Right collision
     if (lw <= tw && lw <= bw && iy > ix)
     {
-      collision.body->Collisions.set(1);
-      collision.body->Position.x -= collision.intersection.x;
-      //collision.body->Velocity.x = 0;
-      //collision.body->Acceleration.x = 0;
+      // If tile has a active edge in the opposite direction of the body (left)
+      if (collision.tile.active_edges.test(3))
+      {
+        collision.body->Collisions.set(1);
+        collision.body->Position.x -= collision.intersection.x;
+        std::cout << "colliding right\n";
+      }
     }
     // Left collision
     else if (lx >= tx && lx > bx && iy > ix)
     {
-      collision.body->Collisions.set(3);
-      collision.body->Position.x += collision.intersection.x;
+      // If tile has a active edge in the opposite direction of the body (right)
+      if (collision.tile.active_edges.test(1))
+      {
+        collision.body->Collisions.set(3);
+        collision.body->Position.x += collision.intersection.x;
+        std::cout << "colliding left\n";
+      }
       //collision.body->Velocity.x = 0;
       //collision.body->Acceleration.x = 0;
     }
     // Bottom collision
     else if (lh <= th && lh <= bh && ix > iy)
     {
-      collision.body->Collisions.set(2);
-      collision.body->Position.y -= collision.intersection.y - 1;
+      // If tile has a active edge in the opposite direction of the body (top)
+      if (collision.tile.active_edges.test(0))
+      {
+        collision.body->Collisions.set(2);
+        collision.body->Position.y -= collision.intersection.y - 1;
+        std::cout << "colliding bottom\n";
+      }
 
       //if (m_grid.get_value(collision.tile.x-1, collision.tile.y) != 1 && lx > bx)
       //{
@@ -226,44 +369,50 @@ namespace physics2d {
     // Top collision
     else if (ly >= ty && ly > by && ix > iy)
     {
-      collision.body->Collisions.set(0);
-      collision.body->Position.y += collision.intersection.y;
-      collision.body->Velocity.y = 0;
-      collision.body->Acceleration.y = 0;
+      // If tile has a active edge in the opposite direction of the body (bottom)
+      if (collision.tile.active_edges.test(2))
+      {
+        collision.body->Collisions.set(0);
+        collision.body->Position.y += collision.intersection.y;
+        collision.body->Velocity.y = 0;
+        collision.body->Acceleration.y = 0;
+        std::cout << "colliding top\n";
+      }
     }
     else
     {
+      //std::cout << "whyyyy\n";
       // Particular cases
       // I still don't understand why they occur
-      if (ix == iy)
-      {
+      //if (ix == iy)
+      //{
         // Do nothing
-      }
-      else if (ly < by)
-      {
-        collision.body->Position.y -= iy-1;
-        collision.body->Collisions.set(2);
+      //}
+      //else if (ly < by)
+      //{
+        //collision.body->Position.y -= iy-1;
+        //collision.body->Collisions.set(2);
         //collision.body->Velocity.y = 0;
         //collision.body->Acceleration.y = 0;
         //std::cout << "goes wronggggg\n";
-      }
-      else if (ly > by)
-      {
-        collision.body->Position.y += iy;
-        collision.body->Collisions.set(0);
+      //}
+      //else if (ly > by)
+      //{
+        //collision.body->Position.y += iy;
+        //collision.body->Collisions.set(0);
         //collision.body->Velocity.y = 0;
         //collision.body->Acceleration.y = 0;
         //std::cout << "wronggggg\n";
-      }
-      else
-      {
-        std::cout << "Uncaught collision: Should not be here\n";
-        std::cout << "intersections: " << ix << ' ' << iy << '\n';
-        std::cout << "right: " << (lw <= tw) << '\n';
-        std::cout << "left: " << (lx >= tx) << '\n';
-        std::cout << "bottom: " << (lh <= th) << '\n';
-        std::cout << "top: " << (ly >= ty) << '\n';
-      }
+      //}
+      //else
+      //{
+        //std::cout << "Uncaught collision: Should not be here\n";
+        //std::cout << "intersections: " << ix << ' ' << iy << '\n';
+        //std::cout << "right: " << (lw <= tw) << '\n';
+        //std::cout << "left: " << (lx >= tx) << '\n';
+        //std::cout << "bottom: " << (lh <= th) << '\n';
+        //std::cout << "top: " << (ly >= ty) << '\n';
+      //}
     }
   }
 
@@ -376,7 +525,7 @@ namespace physics2d {
         body->Position.x += body->Velocity.x*dt;
 
         // Y movement
-        if (body->Gravity) body->Acceleration.y += this->Gravity*dt;
+        if (body->Gravity && !body->Collisions.test(2)) body->Acceleration.y += this->Gravity*dt;
         if (body->Gravity && body->Acceleration.y > this->Gravity) body->Acceleration.y = this->Gravity;
 
         if (fabs(body->Acceleration.y) > 0.f) {
