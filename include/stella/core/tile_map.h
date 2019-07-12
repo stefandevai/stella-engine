@@ -34,8 +34,6 @@ namespace core
       inline unsigned tile_dimension() const { return m_tile_dimension; }
       void create_tile_entity(const int x, const int y, const unsigned layer_id, const bool collidable);
       void create_tile_entities(const int beginx, const int endx, const int beginy, const int endy);
-      //void update_viewport(const int x, const int y, const int w, const int h);
-      //void set_tile_visibility(const bool visibility, const int x, const int y, const bool collidable, const unsigned layer_id);
 
     private:
       void load(const std::string &path);

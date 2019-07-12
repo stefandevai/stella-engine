@@ -50,15 +50,12 @@ namespace physics2d {
       void UpdateCollisions();
       void resolve_collisions(const std::shared_ptr<Body> &body);
       void check_collisions(const std::shared_ptr<Body> &body, int beginx, int endx, int beginy, int endy);
-      bool intersects(const std::shared_ptr<Body> &body, const core::Tile &tile);
-      void resolve_aabb_collision(const std::shared_ptr<Body> &body, const core::Tile &tile);
-      void resolve_square_collision(const std::shared_ptr<Body> &body, const core::Tile &tile);
       glm::vec2 get_tile_intersection(const GridWorld::Collision &collision);
       void resolve_collision(const GridWorld::Collision &collision);
-
       void resolve_aabb(const GridWorld::Collision &collision);
       void resolve_tb_slope45(const GridWorld::Collision &collision);
       void resolve_bt_slope45(const GridWorld::Collision &collision);
+      //bool intersects(const std::shared_ptr<Body> &body, const core::Tile &tile);
 
   };
 

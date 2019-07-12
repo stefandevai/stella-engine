@@ -32,8 +32,8 @@ namespace core
     m_number_of_layers = map_table["number_of_layers"];
     m_tile_dimension = map_table["tile_dimension"];
     assert(map_table["size"] != sol::lua_nil);
-    const unsigned m_width = map_table["size"]["width"];
-    const unsigned m_height = map_table["size"]["height"];
+    m_width = map_table["size"]["width"];
+    m_height = map_table["size"]["height"];
     assert(m_number_of_layers > 0);
     assert(map_table["layers"] != sol::lua_nil);
     assert(m_width > 0);
