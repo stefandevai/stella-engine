@@ -91,15 +91,15 @@ namespace physics2d {
             if (intersects(body, layer_tile))
             {
               //resolve_aabb_collision(body, layer_tile);
+            }
+
               Collision collision{body, layer_tile};
               const auto intersection = get_tile_intersection(collision);
+            if (intersection.x*intersection.y > 0)
+            {
               collision.intersection = intersection;
               resolve_collision(collision);
             }
-
-            //if (intersection.x*intersection.y > 0)
-            //{
-            //}
           }
 
           if (beginy <= endy)
@@ -159,14 +159,14 @@ namespace physics2d {
       // Right collision
       if (bcx < tcx)
       {
-        std::cout << "collided right\n";
+        //std::cout << "collided right\n";
         //body->Collisions.set(1);
         //body->Position.x -= ((body->Position.x + body->Dimension.x) - tile.x*TILE_DIMENSIONS);
       }
       // Left collision
       else
       {
-        std::cout << "collided left\n";
+        //std::cout << "collided left\n";
         //body->Collisions.set(3);
         //body->Position.x += ((tile.x*TILE_DIMENSIONS + TILE_DIMENSIONS) - (body->Position.x));
       }
@@ -176,14 +176,14 @@ namespace physics2d {
       // Bottom collision
       if (bcy < tcy)
       {
-        std::cout << "collided bottom\n";
+        //std::cout << "collided bottom\n";
         //body->Collisions.set(2);
         //body->Position.y -= ((body->Position.y + body->Dimension.y) - tile.y*TILE_DIMENSIONS);
       }
       // Top collision
       else
       {
-        std::cout << "collided top\n";
+        //std::cout << "collided top\n";
         //body->Collisions.set(0);
         //body->Position.y -= ((tile.y*TILE_DIMENSIONS + TILE_DIMENSIONS) - (body->Position.y));
       }
@@ -323,7 +323,7 @@ namespace physics2d {
       {
         collision.body->Collisions.set(1);
         collision.body->Position.x -= collision.intersection.x;
-        std::cout << "colliding right\n";
+        //std::cout << "colliding right\n";
       }
     }
     // Left collision
@@ -334,7 +334,7 @@ namespace physics2d {
       {
         collision.body->Collisions.set(3);
         collision.body->Position.x += collision.intersection.x;
-        std::cout << "colliding left\n";
+        //std::cout << "colliding left\n";
       }
       //collision.body->Velocity.x = 0;
       //collision.body->Acceleration.x = 0;
@@ -347,7 +347,7 @@ namespace physics2d {
       {
         collision.body->Collisions.set(2);
         collision.body->Position.y -= collision.intersection.y - 1;
-        std::cout << "colliding bottom\n";
+        //std::cout << "colliding bottom\n";
       }
 
       //if (m_grid.get_value(collision.tile.x-1, collision.tile.y) != 1 && lx > bx)
@@ -376,7 +376,7 @@ namespace physics2d {
         collision.body->Position.y += collision.intersection.y;
         collision.body->Velocity.y = 0;
         collision.body->Acceleration.y = 0;
-        std::cout << "colliding top\n";
+        //std::cout << "colliding top\n";
       }
     }
     else
@@ -479,27 +479,12 @@ namespace physics2d {
         const int delta = bh - th + ix;
         collision.body->Collisions.set(2);
         collision.body->Position.y -= delta;
-
-        // Checks if there isn't a same slope tile to the right, otherwise keep max velocity and acceleration
-        // This is needed to allow a smooth walk through the tile
-        //if (ix == TILE_DIMENSIONS && m_grid.get_value(collision.tile.x + 1, collision.tile.y + 1) != 2)
-        //{
-          //collision.body->Velocity.y = 0;
-          //collision.body->Acceleration.y = 0;
-        //}
-        //else
-        //{
-          //collision.body->Acceleration.y = this->Gravity;
-          //collision.body->Velocity.y = collision.body->TargetVelocity.y;
-        //}
       }
     }
     else
     {
       const int iy = collision.intersection.y;
       collision.body->Position.y -= iy-1;
-      //collision.body->Acceleration.y = this->Gravity;
-      //collision.body->Velocity.y = collision.body->TargetVelocity.y;
     }
   }
 
