@@ -16,8 +16,8 @@ namespace editor
     auto debug_layer = m_registry.create();
     m_registry.assign<stella::components::LayerComponent>(debug_layer, "debug", 8, "basic", true);
     auto debug_sprite = m_registry.create();
-    m_registry.assign<stella::components::SpriteComponent>(debug_sprite, "guanaco", "debug");
-    m_registry.assign<stella::components::PositionComponent>(debug_sprite, 100.f, 100.f);
+    m_registry.assign<stella::components::SpriteComponent>(debug_sprite, "fire-particle", "debug");
+    m_registry.assign<stella::components::PositionComponent>(debug_sprite, 350.f, 350.f);
     m_registry.assign<stella::components::DimensionComponent>(debug_sprite, 300.f, 300.f);
   }
 
