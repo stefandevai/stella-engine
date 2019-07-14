@@ -20,12 +20,6 @@ namespace physics2d {
       const unsigned TILE_DIMENSIONS = 32;
       const core::TileMap &m_tile_map;
 
-      //struct Tile
-      //{
-        //Tile(int type, int x, int y) : type(type), x(x), y(y) {}
-        //int type, x, y;
-      //};
-
       struct Collision
       {
         Collision(std::shared_ptr<Body> body, core::Tile tile) : body(body), tile(tile) {}

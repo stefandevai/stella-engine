@@ -19,27 +19,19 @@ class Sprite;
 class Texture;
 struct VertexData;
 
-
-class Renderer {
+class ShapeRenderer {
 public:
-  Renderer();
-  ~Renderer();
+  ShapeRenderer();
+  ~ShapeRenderer();
   void Begin();
   void Submit(const Sprite &sprite);
   static void End();
   void Draw();
 
-  static void BindAsRenderTarget(int width = 720, int height = 405);
-
-  void PushTransformation(glm::mat4& mat, bool override = false);
-	void PopTransformation();
-
 private:
   enum Index { VERTEX_INDEX, UV_INDEX, TID_INDEX, COLOR_INDEX };
   VertexData *VertexBuffer;
   GLuint VAO, VBO, EBO;
-	std::vector<glm::mat4> TransformationStack;
-	glm::mat4* TransformationBack;
   GLsizei IndexCount;
   std::vector<Texture *> Textures;
   bool TexturesBinded;
@@ -48,3 +40,4 @@ private:
 };
 } // namespace graphics
 } // namespace stella
+

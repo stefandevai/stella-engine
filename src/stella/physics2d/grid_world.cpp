@@ -1,5 +1,6 @@
 #include "stella/physics2d/grid_world.h"
 #include "stella/physics2d/body.h"
+#include "stella/physics2d/water_surface.h"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -354,17 +355,17 @@ namespace physics2d {
         {
           body->Position.x = 0.f;
         }
-        else if (body->Position.x + body->Dimension.x > m_tile_map.width()*TILE_DIMENSIONS)
+        else if (body->Position.x + body->Dimension.x > (m_tile_map.width()-1)*TILE_DIMENSIONS)
         {
-          body->Position.x = m_tile_map.width() * TILE_DIMENSIONS - body->Dimension.x;
+          body->Position.x = (m_tile_map.width()-1) * TILE_DIMENSIONS - body->Dimension.x;
         }
         if (body->Position.y < 0.f)
         {
           body->Position.y = 0.f;
         }
-        else if (body->Position.y + body->Dimension.y > m_tile_map.height()*TILE_DIMENSIONS)
+        else if (body->Position.y + body->Dimension.y > (m_tile_map.height()-1)*TILE_DIMENSIONS)
         {
-          body->Position.y = m_tile_map.height() * TILE_DIMENSIONS;
+          body->Position.y = (m_tile_map.height()-1) * TILE_DIMENSIONS - body->Dimension.y;
         }
       }
     }

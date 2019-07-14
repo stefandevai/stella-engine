@@ -15,9 +15,7 @@ namespace editor
   EditorGui::EditorGui(entt::registry &registry)
     : m_registry(registry)
   {
-    auto texture = graphics::Texture("assets/sprites/fire-particle.png");
-    auto sprite = std::make_shared<graphics::Sprite>(100, 100, 100, 100, texture);
-    m_debug_layer.Add(sprite);
+    m_debug_layer.Add(sprite_placeholder);
   }
 
   EditorGui::~EditorGui() { }
@@ -80,7 +78,10 @@ namespace editor
       ImGui::Render();
       ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-      m_debug_layer.Render();
+      if (m_view_physics_debug_layer)
+      {
+        m_debug_layer.Render();
+      }
     }
   }
 
@@ -199,10 +200,13 @@ namespace editor
       }
       if (ImGui::BeginMenu("View"))
       {
-          if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-          ImGui::Separator();
-          if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-          ImGui::EndMenu();
+        auto item_text = "View Physics debug layer";
+        if (m_view_physics_debug_layer) item_text = "Hide Physics debug layer";
+        if (ImGui::MenuItem(item_text, "CTRL+D"))
+        {
+          m_view_physics_debug_layer = !m_view_physics_debug_layer;
+        }
+        ImGui::EndMenu();
       }
       if (ImGui::BeginMenu("Tools"))
       {

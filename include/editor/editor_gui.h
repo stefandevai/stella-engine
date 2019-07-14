@@ -27,6 +27,12 @@ namespace editor
       entt::registry &m_registry;
       DebugLayer m_debug_layer{896, 504, true};
 
+      graphics::Texture texture_placeholder{"assets/sprites/player.png"};
+      std::shared_ptr<graphics::Sprite> sprite_placeholder = std::make_shared<graphics::Sprite>(300, 300, 100, 100, texture_placeholder);
+
+      // View options
+      bool m_view_physics_debug_layer = false;
+
     public:
       EditorGui(entt::registry &registry);
       ~EditorGui();

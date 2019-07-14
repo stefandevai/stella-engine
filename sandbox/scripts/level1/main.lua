@@ -149,11 +149,11 @@ local function load_player(x, y)
   Player:add_component("sprite", {
     texture = "fire-particle",
     layer = "tiles",
-    frame_dimensions = {32,32,0},
+    frame_dimensions = {32,64,0},
   })
   Player:add_component("position", {x, y, 3}) 
   --Player:add_component("dimension", {80, 60})
-  Player:add_component("dimension", {32, 32})
+  Player:add_component("dimension", {32, 64})
   Player:add_component("movement", { speed = {650, 400} })
   Player:add_component("body", {
     drag = {900, 900},
@@ -161,7 +161,7 @@ local function load_player(x, y)
   })
 
   animation_args = {}
-  animation_args["frame_dimensions"] = {32, 32}
+  animation_args["frame_dimensions"] = {32, 64}
   --animation_args["frame_dimensions"] = {80, 60}
   animation_args["animations"] = {}
   animation_args["animations"][1] = {"idle", {5,7,6,7,5,6,5,7,9,8}, 10}
@@ -256,8 +256,8 @@ local function update(dt)
   --if camera_position[1] ~= last_camera_x then
     --last_camera_x = camera_position[1]
   --end
-  camera_position[1] = math.max(0, player_position[1] - 896/2)
-  camera_position[2] = math.max(0, player_position[2] - 504/2)
+  camera_position[1] = math.min(59*32 - 896, math.max(0, player_position[1] - 896/2))
+  camera_position[2] = math.min(29*32 - 504, math.max(0, player_position[2] - 504/2))
   update_camera(camera_position[1], camera_position[2], 0)
 end
 

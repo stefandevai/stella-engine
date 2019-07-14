@@ -3,11 +3,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "stella/graphics/opengl.h"
+#include "stella/graphics/shape_renderer.h"
 
 namespace stella {
 namespace editor {
 DebugLayer::DebugLayer(float width, float height, bool fixed)
-  : Layer(std::make_shared<graphics::Renderer>(), fixed) {
+  : ShapeLayer(std::make_shared<graphics::ShapeRenderer>(), fixed) {
     // Initialize shader and textures IDs
     this->Shad = std::make_shared<graphics::Shader>("assets/shaders/debug_shader.vert", "assets/shaders/debug_shader.frag");
     GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
