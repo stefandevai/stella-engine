@@ -6,22 +6,35 @@
 Sandbox::Sandbox()
   : stella::core::Game(896, 504, "Stella Engine")
 {
-  this->add_system<stella::systems::PhysicsSystem>(m_tile_map, m_registry);
-  this->add_system<stella::systems::ScrollSystem>();
-  this->add_system<stella::systems::TiledScrollSystem>(m_initial_width);
-  this->add_system<stella::systems::TileSystem>(m_tile_map, m_camera, m_registry);
-  this->add_system<stella::systems::ParticleSystem>();
-  this->add_system<stella::systems::MovementSystem>();
-  this->add_system<stella::systems::TransformSystem>();
-  this->add_system<stella::systems::TextSystem>(m_registry);
+  //this->add_system<stella::systems::PhysicsSystem>(m_tile_map, m_registry);
+  //this->add_system<stella::systems::ScrollSystem>();
+  //this->add_system<stella::systems::TiledScrollSystem>(m_initial_width);
+  //this->add_system<stella::systems::TileSystem>(m_tile_map, m_camera, m_registry);
+  //this->add_system<stella::systems::ParticleSystem>();
+  //this->add_system<stella::systems::MovementSystem>();
+  //this->add_system<stella::systems::TransformSystem>();
+  //this->add_system<stella::systems::TextSystem>(m_registry);
 
-  m_script_api.set_function("e_get_player_id", [this]() {
-      return m_player.entity;
-  });
-  m_script_api.run_script("./scripts/main.lua");
-  m_script_api.run_function("load_game");
+  test_world.add_water_surface(water_surface);
+  for (unsigned i = 0; i < water_surface->number_of_columns(); ++i)
+  {
+    auto shape = std::make_shared<stella::graphics::Shape>(std::vector<glm::vec2>{glm::vec2(0.f,0.f), glm::vec2(water_surface->column_width(), 0.f), glm::vec2(water_surface->column_width(), water_surface->height()), glm::vec2(0.f, water_surface->height())},
+                                                                glm::vec3(10.f + water_surface->column_width()*i, 200.f, 1.f),
+                                                                glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+    water_layer.Add(shape);
+    water_shapes.emplace_back(shape);
+  }
+  water_surface->set_column_height(water_surface->number_of_columns()/2, 16.0);
+  //water_surface->set_column_height(0, 64.0);
+  //water_surface->set_column_height(3, 64.0);
+  
+  //m_script_api.set_function("e_get_player_id", [this]() {
+      //return m_player.entity;
+  //});
+  //m_script_api.run_script("./scripts/main.lua");
+  //m_script_api.run_function("load_game");
 
-  m_tile_map.create_tile_entities(0, m_display.GetWidth(), 0, m_display.GetHeight());
+  //m_tile_map.create_tile_entities(0, m_display.GetWidth(), 0, m_display.GetHeight());
 
   //m_sound_player.AddStream("dawn-pollen", "assets/audio/st-dawn_pollen.ogg");
   //m_sound_player.Play("dawn-pollen", true);
@@ -62,8 +75,19 @@ Sandbox::~Sandbox()
 void Sandbox::update(const double dt)
 {
   this->update_systems(dt);
-  m_player.update();
-  m_script_api.run_function("update_game", dt);
+  test_world.Update(dt);
+
+  for (unsigned i = 0; i < water_surface->number_of_columns() - 1; ++i)
+  {
+    const auto first_height = water_surface->column_height(i);
+    const auto second_height = water_surface->column_height(i+1);
+    water_shapes[i]->set_vertex(0, 0.f, -first_height);
+    water_shapes[i]->set_vertex(1, water_surface->column_width(), -second_height);
+  }
+  water_layer.Render();
+
+  //m_player.update();
+  //m_script_api.run_function("update_game", dt);
   m_script_api.run_function("render_game", dt);
   //m_sound_player.Update();
 

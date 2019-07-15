@@ -4,39 +4,41 @@
 
 #include <glm/glm.hpp>
 
-#define MAX_SPRITES 10000
-#define VERTEX_SIZE sizeof(VertexData)
-#define SPRITE_SIZE 4 * VERTEX_SIZE
-#define BUFFER_SIZE MAX_SPRITES * SPRITE_SIZE
-#define INDICES_SIZE 6 * MAX_SPRITES
-
 typedef unsigned int GLuint;
 typedef int GLsizei;
 
 namespace stella {
 namespace graphics {
-class Sprite;
-class Texture;
-struct VertexData;
+class Shape;
+
+struct ShapeVertexData {
+  glm::vec3 vertex;
+  unsigned int color;
+};
 
 class ShapeRenderer {
-public:
-  ShapeRenderer();
-  ~ShapeRenderer();
-  void Begin();
-  void Submit(const Sprite &sprite);
-  static void End();
-  void Draw();
+  private:
+    const unsigned S_MAX_SHAPES = 10000;
+    const unsigned S_VERTEX_SIZE = sizeof(ShapeVertexData);
+    // TODO: expand to draw shapes with more than 4 vertices
+    const unsigned S_SHAPE_SIZE = 4 * S_VERTEX_SIZE;
+    const unsigned S_BUFFER_SIZE = S_MAX_SHAPES * S_SHAPE_SIZE;
+    const unsigned S_INDICES_SIZE = 6 * S_MAX_SHAPES;
+  public:
+    ShapeRenderer();
+    ~ShapeRenderer();
+    void Begin();
+    void Submit(const Shape &shape);
+    static void End();
+    void Draw();
 
-private:
-  enum Index { VERTEX_INDEX, UV_INDEX, TID_INDEX, COLOR_INDEX };
-  VertexData *VertexBuffer;
-  GLuint VAO, VBO, EBO;
-  GLsizei IndexCount;
-  std::vector<Texture *> Textures;
-  bool TexturesBinded;
+  private:
+    enum Index { VERTEX_INDEX, COLOR_INDEX };
+    ShapeVertexData *m_vertex_buffer;
+    GLuint VAO, VBO, EBO;
+    GLsizei IndexCount;
 
-  void init();
+    void init();
 };
 } // namespace graphics
 } // namespace stella

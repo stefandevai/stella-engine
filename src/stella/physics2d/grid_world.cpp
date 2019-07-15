@@ -20,6 +20,12 @@ namespace physics2d {
   void GridWorld::Update(float dt) {
     this->UpdateMovement(dt);
     this->UpdateCollisions();
+
+    for (auto &water_surface : m_water_surfaces)
+    {
+      water_surface->update(dt);
+    }
+
   }
 
   void GridWorld::AddBody(std::shared_ptr<stella::physics2d::Body> body) {
@@ -30,6 +36,16 @@ namespace physics2d {
     auto it = std::find(this->Bodies.begin(), this->Bodies.end(), body);
     if (it != this->Bodies.end())
       this->Bodies.erase(it);
+  }
+
+  void GridWorld::add_water_surface(const std::shared_ptr<stella::physics2d::WaterSurface> &water_surface) {
+    m_water_surfaces.emplace_back(water_surface);
+  }
+
+  void GridWorld::remove_water_surface(const std::shared_ptr<stella::physics2d::WaterSurface> &water_surface) {
+    auto it = std::find(m_water_surfaces.begin(), m_water_surfaces.end(), water_surface);
+    if (it != m_water_surfaces.end())
+      m_water_surfaces.erase(it);
   }
 
   void GridWorld::UpdateCollisions()

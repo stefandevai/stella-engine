@@ -15,7 +15,7 @@ namespace editor
   EditorGui::EditorGui(entt::registry &registry)
     : m_registry(registry)
   {
-    m_debug_layer.Add(sprite_placeholder);
+    m_debug_layer.Add(shape);
   }
 
   EditorGui::~EditorGui() { }

@@ -2,7 +2,6 @@
 #include "stella/graphics/opengl.h"
 
 #include <algorithm>
-#include <glm/gtc/matrix_transform.hpp>
 
 namespace stella {
 namespace graphics {
@@ -14,11 +13,11 @@ ShapeLayer::~ShapeLayer() {
   this->Shad->Disable();
 }
 
-void ShapeLayer::Add(std::shared_ptr<Sprite> sprite) { this->Sprites.push_back(sprite); }
+void ShapeLayer::Add(std::shared_ptr<Shape> shape) { this->Shapes.push_back(shape); }
 
-void ShapeLayer::Remove(std::shared_ptr<Sprite> sprite) {
-  auto it = std::find(this->Sprites.begin(), this->Sprites.end(), sprite);
-  this->Sprites.erase(it);
+void ShapeLayer::Remove(std::shared_ptr<Shape> shape) {
+  auto it = std::find(this->Shapes.begin(), this->Shapes.end(), shape);
+  this->Shapes.erase(it);
 }
 
 void ShapeLayer::Render() {
@@ -30,7 +29,7 @@ void ShapeLayer::Render() {
   }
   this->Ren->Begin();
 
-  for (auto i : Sprites)
+  for (auto i : Shapes)
     this->Ren->Submit(*i);
   
   this->Ren->End();

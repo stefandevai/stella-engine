@@ -11,6 +11,7 @@ namespace stella {
 namespace physics2d {
 
   class Body;
+  class WaterSurface;
 
   class GridWorld {
     private:
@@ -19,6 +20,7 @@ namespace physics2d {
       glm::vec2 CameraOffset = glm::vec2(0.f, 0.f);
       const unsigned TILE_DIMENSIONS = 32;
       const core::TileMap &m_tile_map;
+      std::vector<std::shared_ptr<stella::physics2d::WaterSurface>> m_water_surfaces;
 
       struct Collision
       {
@@ -38,6 +40,8 @@ namespace physics2d {
       inline void SetCameraOffset(float x, float y) {
         this->CameraOffset = glm::vec2(x,y);
       }
+      void add_water_surface(const std::shared_ptr<stella::physics2d::WaterSurface> &water_surface);
+      void remove_water_surface(const std::shared_ptr<stella::physics2d::WaterSurface> &water_surface);
 
     private:
       void UpdateMovement(float dt) const;

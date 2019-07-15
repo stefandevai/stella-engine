@@ -7,6 +7,7 @@
 #include "./log_system.h"
 #include "./gui_log.h"
 #include "./debug_layer.h"
+#include "../stella/graphics/shape.h"
 
 struct SDL_Window;
 union SDL_Event;
@@ -26,9 +27,11 @@ namespace editor
       LogSystem m_log_system{m_log};
       entt::registry &m_registry;
       DebugLayer m_debug_layer{896, 504, true};
-
-      graphics::Texture texture_placeholder{"assets/sprites/player.png"};
-      std::shared_ptr<graphics::Sprite> sprite_placeholder = std::make_shared<graphics::Sprite>(300, 300, 100, 100, texture_placeholder);
+ 
+      //graphics::Texture texture_placeholder{"assets/sprites/player.png"};
+      std::vector<glm::vec2> vertices{glm::vec2{0.0f, 20.0f}, glm::vec2{128.0f, 80.0f}, glm::vec2{128.0f, 128.0f}, glm::vec2{0.0f, 128.0f}};
+      std::shared_ptr<graphics::Shape> shape = std::make_shared<graphics::Shape>(vertices, glm::vec3{200.f, 100.f, 1.f});
+      //std::shared_ptr<graphics::Sprite> sprite_placeholder = std::make_shared<graphics::Sprite>(300, 300, 100, 100, texture_placeholder);
 
       // View options
       bool m_view_physics_debug_layer = false;

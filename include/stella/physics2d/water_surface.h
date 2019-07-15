@@ -13,6 +13,9 @@ namespace physics2d
     private:
       // Width of the water surface
       const double m_width;
+      
+      // Height of each water column
+      const double m_height = 32.0;
 
       // Max width of each water column
       // It can be a smaller value if m_width is not a multiple of 8.
@@ -24,25 +27,38 @@ namespace physics2d
 
       // Number of columns based on m_width provided and a const
       // m_max_column_width value
-      const unsigned number_of_columns = static_cast<unsigned>(ceil(m_width/m_max_column_width));
+      const unsigned m_number_of_columns = static_cast<unsigned>(ceil(m_width/m_max_column_width));
 
       // Actual width of each column
-      const double m_column_width = m_width/number_of_columns;
+      const double m_column_width = m_width/m_number_of_columns;
 
       // Height of water columns (values clamped to [0.5, 1.5])
-      std::vector<double> m_U = std::vector<double>(number_of_columns, 1.0);
+      std::vector<double> m_U = std::vector<double>(m_number_of_columns, 1.0);
 
       // Vertical velocity of water columns
-      std::vector<double> m_V = std::vector<double>(number_of_columns, 0.0);
+      std::vector<double> m_V = std::vector<double>(m_number_of_columns, 0.0);
 
     public:
       WaterSurface(const double width);
       ~WaterSurface();
+      
+      void update(const double dt);
 
       inline const double width() const { return m_width; }
+      inline const double height() const { return m_height; }
+      inline const unsigned number_of_columns() const { return m_number_of_columns; }
       inline const double column_width() const { return m_column_width; }
-      inline const std::vector<double> u_vector() const { return m_U; }
-      inline const std::vector<double> v_vector() const { return m_V; }
+      inline const double column_height(const unsigned x)
+      {
+        assert(x < m_number_of_columns);
+        return m_U[x];
+      }
+
+      inline void set_column_height(const unsigned x, const double height)
+      {
+        assert(x < m_number_of_columns);
+        m_U[x] = height;
+      }
 
   };
 
