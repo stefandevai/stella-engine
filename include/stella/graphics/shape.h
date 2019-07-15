@@ -18,7 +18,7 @@ namespace graphics {
       inline Shape(const std::vector<glm::vec2> &vertices, const glm::vec3 &position, const glm::vec4 &color = glm::vec4{1.f, 1.f, 1.f, 1.f})
         : m_vertices(vertices), m_position(position)
       {
-        m_color = static_cast<unsigned>(color.r * 255) << 24 | static_cast<unsigned>(color.g * 255) << 16 | static_cast<unsigned>(color.b * 255) << 8 | static_cast<unsigned>(color.a * 255);
+        m_color = static_cast<unsigned>(color.a * 255) << 24 | static_cast<unsigned>(color.b * 255) << 16 | static_cast<unsigned>(color.g * 255) << 8 | static_cast<unsigned>(color.r * 255);
       }
       ~Shape() {}
 

@@ -20,17 +20,11 @@ Sandbox::Sandbox()
   {
     auto shape = std::make_shared<stella::graphics::Shape>(std::vector<glm::vec2>{glm::vec2(0.f,0.f), glm::vec2(water_surface->column_width(), 0.f), glm::vec2(water_surface->column_width(), water_surface->height()), glm::vec2(0.f, water_surface->height())},
                                                                 glm::vec3(10.f + water_surface->column_width()*i, 200.f, 1.f),
-                                                                glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+                                                                glm::vec4(0.2f, 0.4f, 0.9f, 0.6f));
     water_layer.Add(shape);
     water_shapes.emplace_back(shape);
   }
-  water_surface->set_column_height(water_surface->number_of_columns()/2, -6.0);
-  water_surface->set_column_height(water_surface->number_of_columns()/2 - 1, -5.0);
-  water_surface->set_column_height(water_surface->number_of_columns()/2 + 1, -5.0);
-  water_surface->set_column_height(water_surface->number_of_columns()/2 - 2, -3.0);
-  water_surface->set_column_height(water_surface->number_of_columns()/2 + 2, -3.0);
-  //water_surface->set_column_height(0, 64.0);
-  //water_surface->set_column_height(3, 64.0);
+  water_surface->perturbate(water_surface->width()/2 -20, -6.0);
   
   //m_script_api.set_function("e_get_player_id", [this]() {
       //return m_player.entity;

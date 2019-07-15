@@ -41,6 +41,14 @@ void ShapeRenderer::init() {
                         (GLvoid *)offsetof(ShapeVertexData, color));
   glEnableVertexAttribArray(COLOR_INDEX);
 
+  glVertexAttribPointer(BARYCENTRIC_INDEX, 3, GL_FLOAT, GL_FALSE, S_VERTEX_SIZE,
+                        (GLvoid *)offsetof(ShapeVertexData, barycentric));
+  glEnableVertexAttribArray(BARYCENTRIC_INDEX);
+
+  glVertexAttribPointer(IS_TOP_INDEX, 1, GL_UNSIGNED_BYTE, GL_TRUE, S_VERTEX_SIZE,
+                        (GLvoid *)offsetof(ShapeVertexData, is_top));
+  glEnableVertexAttribArray(IS_TOP_INDEX);
+
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   GLint offset = 0;
@@ -81,11 +89,33 @@ void ShapeRenderer::Submit(const Shape &shape) {
   //particular_transform = glm::rotate(particular_transform, glm::radians(rotation), glm::vec3(0.f, 0.f, 1.f));
   //particular_transform = glm::translate(particular_transform, glm::vec3(-dimensions/2.f, 0.f)); // Removing the added half dimension
 
+  unsigned counter = 1;
   for (auto &vertex : vertices)
   {
     m_vertex_buffer->vertex = glm::vec3(position.x + vertex.x, position.y + vertex.y, position.z);
     m_vertex_buffer->color = c;
+    m_vertex_buffer->is_top = 0;
+
+    if (counter % 4 == 0)
+    {
+      m_vertex_buffer->barycentric = glm::vec3(0.f, 1.f, 0.f);
+    }
+    else if (counter % 3 == 0)
+    {
+      m_vertex_buffer->barycentric = glm::vec3(0.f, 0.f, 1.f);
+      m_vertex_buffer->is_top = 1;
+    }
+    else if (counter % 2 == 0)
+    {
+      m_vertex_buffer->barycentric = glm::vec3(0.f, 1.f, 0.f);
+    }
+    else
+    {
+      m_vertex_buffer->barycentric = glm::vec3(1.f, 0.f, 0.f);
+    }
+
     ++m_vertex_buffer;
+    ++counter;
   }
 
   // TODO: Update when allowing shapes with more than 4 vertices
