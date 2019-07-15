@@ -24,7 +24,7 @@ Sandbox::Sandbox()
     water_layer.Add(shape);
     water_shapes.emplace_back(shape);
   }
-  water_surface->perturbate(water_surface->width()/2 -20, -6.0);
+  water_surface->perturbate(water_surface->width()/2 -20, -20.0);
   
   //m_script_api.set_function("e_get_player_id", [this]() {
       //return m_player.entity;
@@ -75,13 +75,17 @@ void Sandbox::update(const double dt)
   this->update_systems(dt);
   test_world.Update(dt);
 
-  for (unsigned i = 0; i < water_surface->number_of_columns() - 1; ++i)
+  const auto number_of_columns = water_surface->number_of_columns();
+  for (unsigned i = 0; i < number_of_columns - 1; ++i)
   {
     const auto first_height = water_surface->column_height(i);
     const auto second_height = water_surface->column_height(i+1);
     water_shapes[i]->set_vertex(0, 0.f, -first_height);
     water_shapes[i]->set_vertex(1, water_surface->column_width(), -second_height);
   }
+
+  const auto last_height = water_surface->column_height(number_of_columns-1);
+  water_shapes[number_of_columns-1]->set_vertex(0, 0.f, -last_height);
   water_layer.Render();
 
   //m_player.update();
