@@ -24,7 +24,11 @@ Sandbox::Sandbox()
     water_layer.Add(shape);
     water_shapes.emplace_back(shape);
   }
-  water_surface->set_column_height(water_surface->number_of_columns()/2, 16.0);
+  water_surface->set_column_height(water_surface->number_of_columns()/2, -6.0);
+  water_surface->set_column_height(water_surface->number_of_columns()/2 - 1, -5.0);
+  water_surface->set_column_height(water_surface->number_of_columns()/2 + 1, -5.0);
+  water_surface->set_column_height(water_surface->number_of_columns()/2 - 2, -3.0);
+  water_surface->set_column_height(water_surface->number_of_columns()/2 + 2, -3.0);
   //water_surface->set_column_height(0, 64.0);
   //water_surface->set_column_height(3, 64.0);
   

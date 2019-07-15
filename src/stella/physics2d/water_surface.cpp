@@ -20,23 +20,33 @@ namespace physics2d
 
     void WaterSurface::update(const double dt)
     {
+      auto updated_U = std::vector<double>(m_number_of_columns);
+
       for (unsigned i = 0; i < m_number_of_columns; ++i)
       {
+        double height_variation = 0.0;
+
         if (i == 0)
         {
-          m_V[i] = (1.0 + m_U[i+1])/2.0 - m_U[i];
+          height_variation = (1.0 + m_U[i+1])/2.0 - 2.0*m_U[i];
         }
         else if (i + 1 >= m_number_of_columns)
         {
-          m_V[i] = (m_U[i-1] + 1.0)/2.0 - m_U[i];
+           height_variation = (m_U[i-1] + 1.0)/2.0 - 2.0*m_U[i];
         }
         else
         {
-          m_V[i] = (m_U[i-1] + m_U[i+1])/2.0 - m_U[i];
+           height_variation = (m_U[i-1] + m_U[i+1])/2.0 - 2.0*m_U[i];
         }
 
+        m_V[i] += height_variation*dt;
         m_V[i] *= 0.99;
-        m_U[i] += m_V[i];
+        updated_U[i] = m_U[i] + m_V[i];
+      }
+
+      for (unsigned i = 0; i < m_number_of_columns; ++i)
+      {
+        m_U[i] = updated_U[i];
       }
     }
 
