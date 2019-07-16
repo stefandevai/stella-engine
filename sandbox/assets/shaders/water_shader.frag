@@ -6,14 +6,18 @@ in DATA
   vec2 pos;
   vec3 barymetric;
   flat float is_top;
+  flat vec3 shape_position;
+  flat vec2 shape_dimensions;
 } f_in;
 
 out vec4 color;
 
 void main()
 {
-  float globaly = 200.0;
-  float height = globaly + 128.0;
+  //float globaly = 200.0;
+  float globaly = f_in.shape_position.y;
+  //float height = globaly + 128.0;
+  float height = globaly + f_in.shape_dimensions.y;
   float posy = f_in.pos.y;
   float highlight_edge_height = 0.03;
   vec4 final_color = f_in.color;

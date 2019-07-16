@@ -45,9 +45,13 @@ void ShapeRenderer::init() {
                         (GLvoid *)offsetof(ShapeVertexData, barycentric));
   glEnableVertexAttribArray(BARYCENTRIC_INDEX);
 
-  glVertexAttribPointer(IS_TOP_INDEX, 1, GL_UNSIGNED_BYTE, GL_TRUE, S_VERTEX_SIZE,
-                        (GLvoid *)offsetof(ShapeVertexData, is_top));
-  glEnableVertexAttribArray(IS_TOP_INDEX);
+  glVertexAttribPointer(POSITION_INDEX, 3, GL_FLOAT, GL_FALSE, S_VERTEX_SIZE,
+                        (GLvoid *)offsetof(ShapeVertexData, position));
+  glEnableVertexAttribArray(POSITION_INDEX);
+
+  glVertexAttribPointer(DIMENSIONS_INDEX, 2, GL_FLOAT, GL_FALSE, S_VERTEX_SIZE,
+                        (GLvoid *)offsetof(ShapeVertexData, dimensions));
+  glEnableVertexAttribArray(DIMENSIONS_INDEX);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -94,7 +98,8 @@ void ShapeRenderer::Submit(const Shape &shape) {
   {
     m_vertex_buffer->vertex = glm::vec3(position.x + vertex.x, position.y + vertex.y, position.z);
     m_vertex_buffer->color = c;
-    m_vertex_buffer->is_top = 0;
+    m_vertex_buffer->position = position;
+    m_vertex_buffer->dimensions = glm::vec2(shape.width(), shape.height());
 
     if (counter % 4 == 0)
     {
@@ -103,7 +108,6 @@ void ShapeRenderer::Submit(const Shape &shape) {
     else if (counter % 3 == 0)
     {
       m_vertex_buffer->barycentric = glm::vec3(0.f, 0.f, 1.f);
-      m_vertex_buffer->is_top = 1;
     }
     else if (counter % 2 == 0)
     {

@@ -19,7 +19,8 @@ Sandbox::Sandbox()
   for (unsigned i = 0; i < water_surface->number_of_columns(); ++i)
   {
     auto shape = std::make_shared<stella::graphics::Shape>(std::vector<glm::vec2>{glm::vec2(0.f,0.f), glm::vec2(water_surface->column_width(), 0.f), glm::vec2(water_surface->column_width(), water_surface->height()), glm::vec2(0.f, water_surface->height())},
-                                                                glm::vec3(10.f + water_surface->column_width()*i, 200.f, 1.f),
+                                                                //glm::vec3(10 + water_surface->column_width()*i, 200.f, 1.f),
+                                                                glm::vec3(water_surface->column_width()*i, 504.f - 128.f, 1.f),
                                                                 glm::vec4(0.2f, 0.4f, 0.9f, 0.6f));
     water_layer.Add(shape);
     water_shapes.emplace_back(shape);

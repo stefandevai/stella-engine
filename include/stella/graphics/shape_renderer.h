@@ -15,7 +15,8 @@ struct ShapeVertexData {
   glm::vec3 vertex;
   unsigned int color;
   glm::vec3 barycentric;
-  unsigned int is_top;
+  glm::vec3 position;
+  glm::vec2 dimensions;
 };
 
 class ShapeRenderer {
@@ -35,7 +36,7 @@ class ShapeRenderer {
     void Draw();
 
   private:
-    enum Index { VERTEX_INDEX, COLOR_INDEX, BARYCENTRIC_INDEX, IS_TOP_INDEX };
+    enum Index { VERTEX_INDEX, COLOR_INDEX, BARYCENTRIC_INDEX, POSITION_INDEX, DIMENSIONS_INDEX };
     ShapeVertexData *m_vertex_buffer;
     GLuint VAO, VBO, EBO;
     GLsizei IndexCount;

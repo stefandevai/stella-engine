@@ -61,8 +61,8 @@ namespace physics2d
           offset *= dt;
 
           // Clampling too high or too low values
-          if (offset > m_max_slope) offset = m_height + m_max_slope;
-          else if (offset < -m_max_slope) offset = m_height - m_max_slope;
+          if (offset > m_max_slope) offset = m_max_slope;
+          else if (offset < -m_max_slope) offset = -m_max_slope;
 
           m_V[i] += offset;
           m_V[i] *= 0.99;
@@ -71,7 +71,7 @@ namespace physics2d
 
         // If height variation in columns is less than 0.9
         // we deactivate the water surface
-        if (max_offset - min_offset < 0.9)
+        if (max_offset - min_offset < 0.1)
         {
           m_active = false;
         }

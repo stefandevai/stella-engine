@@ -18,7 +18,7 @@ class Sandbox : public stella::core::Game
     stella::core::TileMap m_tile_map{"scripts/level1/test_map.lua", m_registry};
 
     stella::physics2d::GridWorld test_world{m_tile_map};
-    std::shared_ptr<stella::physics2d::WaterSurface> water_surface = std::make_shared<stella::physics2d::WaterSurface>(300.0);
+    std::shared_ptr<stella::physics2d::WaterSurface> water_surface = std::make_shared<stella::physics2d::WaterSurface>(896.0);
     stella::graphics::WaterLayer water_layer{(float)m_display.GetWidth(), (float)m_display.GetHeight(), true};
     std::vector<std::shared_ptr<stella::graphics::Shape>> water_shapes;
 
