@@ -149,7 +149,7 @@ local function load_player(x, y)
   Player:add_component("sprite", {
     texture = "fire-particle",
     layer = "tiles",
-    frame_dimensions = {32,64,0},
+    frame_dimensions = {32, 64, 0},
   })
   Player:add_component("position", {x, y, 3}) 
   --Player:add_component("dimension", {80, 60})
@@ -227,6 +227,7 @@ local function load()
 
   load_assets()
   load_background()
+  --load_player(32, 384)
   load_player(32, 32)
   --Map.load()
 end
