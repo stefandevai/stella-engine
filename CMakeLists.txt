@@ -159,11 +159,15 @@ endif()
 include_directories(${ENTT_INCLUDE_DIR})
 
 # Lua - Lua scripting language
-set(LUA_INCLUDE_DIR ${DEPENDENCIES_DIR}/lua)
 if(APPLE)
-set(LUA_LIBRARIES ${DEPENDENCIES_DIR}/lua/liblua53.a)
+	set(LUA_LIBRARIES ${DEPENDENCIES_DIR}/lua/macos/liblua53.a)
+	set(LUA_INCLUDE_DIR ${DEPENDENCIES_DIR}/lua/macos)
+elseif(LINUX)
+	set(LUA_LIBRARIES ${DEPENDENCIES_DIR}/lua/linux/liblua.a)
+	set(LUA_INCLUDE_DIR ${DEPENDENCIES_DIR}/lua/linux)
 endif()
 include_directories(${LUA_INCLUDE_DIR})
+message(${LUA_LIBRARIES})
 
 # Sol3 - Lua API wrapper
 set(SOL_INCLUDE_DIR ${DEPENDENCIES_DIR}/sol2/include)

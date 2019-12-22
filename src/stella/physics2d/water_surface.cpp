@@ -88,7 +88,7 @@ namespace physics2d
     void WaterSurface::perturbate(const double x, const double amount)
     {
       assert(x <= m_width);
-      const int column = x/m_column_width;
+      const unsigned int column = x/m_column_width;
 
       this->set_column_height(column, amount);
       if (column + 1 < m_number_of_columns) this->set_column_height(column+1, amount*0.8);

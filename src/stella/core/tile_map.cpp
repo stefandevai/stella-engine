@@ -39,7 +39,7 @@ namespace core
     assert(m_width > 0);
     assert(m_height > 0);
 
-    for (auto i = 1; i <= m_number_of_layers; ++i)
+    for (unsigned int i = 1; i <= m_number_of_layers; ++i)
     {
       assert(map_table["layers"][i] != sol::lua_nil);
       auto layer = std::make_shared<MapGrid>(m_width, m_height);
@@ -47,9 +47,9 @@ namespace core
       layer->set_render_layer_name(map_table["layers"][i]["render_layer"]);
       layer->set_collision(map_table["layers"][i]["collision"]);
 
-      for (auto y = 0; y < m_height; ++y)
+      for (uint y = 0; y < m_height; ++y)
       {
-        for (auto x = 1; x <= m_width; ++x)
+        for (uint x = 1; x <= m_width; ++x)
         {
           int value = map_table["layers"][i]["grid"][x + y*m_width];
           Tile tile{value};

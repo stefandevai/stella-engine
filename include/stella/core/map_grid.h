@@ -35,7 +35,7 @@ namespace core
         m_render_layer_name = name;
       }
 
-      inline void set_visibility(const int x, const int y, const bool visibility)
+      inline void set_visibility(const uint x, const uint y, const bool visibility)
       {
         if (x >= 0 && x < m_width && y >= 0 && y < m_height)
         {

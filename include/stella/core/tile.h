@@ -1,5 +1,7 @@
 #pragma once
 
+#include <bitset>
+
 namespace stella
 {
 namespace core
