@@ -53,18 +53,15 @@ class TileSystem : public System
         // I still don't understand why this happens.
         auto camera_pos = camera_position;
         auto camera_dim = camera_dimension;
-        std::cout << "W: " << camera_dim.w;
-        std::cout << " H: " << camera_dim.h;
-        std::cout << " X: " << camera_pos.x;
-        std::cout << " Y: " << camera_pos.y << '\n';
-        if (camera_dim.w < 1 || camera_dim.h < 1 || camera_pos.x < 0 || camera_pos.y < 0)
-        {
-          // std::cout << "Camera values messed up. Requesting its components again.\n";
-          camera_pos = registry.get<components::PositionComponent>(m_camera);
-          camera_dim = registry.get<components::DimensionComponent>(m_camera);
-        }
+        
+        // if (camera_dim.w < 1 || camera_dim.h < 1 || camera_pos.x < 0 || camera_pos.y < 0)
+        // {
+        //   std::cout << "Camera values messed up. Requesting its components again.\n";
+        //   camera_pos = registry.get<components::PositionComponent>(m_camera);
+        //   camera_dim = registry.get<components::DimensionComponent>(m_camera);
+        // }
 
-        // Destroy tile entityt if it is outside of the camera view (frustrum culling)
+        // Destroy tile entity if it is outside of the camera view (frustrum culling)
         // Is hidden on the left
         if (pos.x + dim.w < camera_pos.x + dim.w*m_frustrum_culling_offset)
         {

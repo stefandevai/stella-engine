@@ -228,7 +228,7 @@ local function load()
   load_assets()
   load_background()
   --load_player(32, 384)
-  load_player(32, 32)
+  load_player(300, 32)
   --Map.load()
 end
 
