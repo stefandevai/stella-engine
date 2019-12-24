@@ -149,9 +149,9 @@ local function load_player(x, y)
   Player:add_component("sprite", {
     texture = "fire-particle",
     layer = "tiles",
-    frame_dimensions = {32, 64, 0},
+    frame_dimensions = {32, 64, -5},
   })
-  Player:add_component("position", {x, y, 3}) 
+  Player:add_component("position", {x, y, -5}) 
   --Player:add_component("dimension", {80, 60})
   Player:add_component("dimension", {32, 64})
   Player:add_component("movement", { speed = {650, 400} })

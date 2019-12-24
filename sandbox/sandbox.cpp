@@ -90,6 +90,7 @@ void Sandbox::update(const double dt)
   const auto last_height = water_surface->column_height(number_of_columns-1);
   water_shapes[number_of_columns-1]->set_vertex(0, 0.f, -last_height);
   water_layer.Render();
+  
   // END WATER
 
   m_player.update();
