@@ -15,8 +15,8 @@ fi
 
 # Variables
 BUILD_DIR="build"
-TARGET_DIR="sandbox"
-TARGET="StellaEngine"
+TARGET_DIR="nikte"
+TARGET="Nikte"
 OPT1=$1
 OPT2=$2
 
@@ -65,7 +65,7 @@ function exec_func {
 		cd $BUILD_DIR
 	fi
 
-	cp -r ../sandbox/assets example
+	cp -r ../nikte/assets example
 
 	cd $TARGET_DIR
 	./"$TARGET"
@@ -143,11 +143,11 @@ function format_code {
 }
 
 function copy_assets {
-	cp -r sandbox/assets $BUILD_DIR/sandbox
+	cp -r nikte/assets $BUILD_DIR/nikte
 }
 
 function copy_scripts {
-	cp -r sandbox/scripts $BUILD_DIR/sandbox
+	cp -r nikte/scripts $BUILD_DIR/nikte
 }
 
 # Args evalutation

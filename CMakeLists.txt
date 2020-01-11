@@ -268,7 +268,7 @@ target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${SDL2_LIBRARIES}
 
 # Build examples if specified
 if (BUILD_STELLA_EXAMPLE)
-  add_subdirectory(sandbox)
+  add_subdirectory(nikte)
 endif()
 
 # Build tests if specified
