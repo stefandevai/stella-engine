@@ -16,7 +16,7 @@ Sandbox::Sandbox()
   //this->add_system<stella::systems::TextSystem>(m_registry);
 
   // WATER
-  test_world.add_water_surface(water_surface);
+  /*test_world.add_water_surface(water_surface);
   for (unsigned i = 0; i < water_surface->number_of_columns(); ++i)
   {
     auto shape = std::make_shared<stella::graphics::Shape>(std::vector<glm::vec2>{glm::vec2(0.f,0.f), glm::vec2(water_surface->column_width(), 0.f), glm::vec2(water_surface->column_width(), water_surface->height()), glm::vec2(0.f, water_surface->height())},
@@ -26,7 +26,7 @@ Sandbox::Sandbox()
     water_layer.Add(shape);
     water_shapes.emplace_back(shape);
   }
-  water_surface->perturbate(water_surface->width()/2 -20, -20.0);
+  water_surface->perturbate(water_surface->width()/2 -20, -20.0);*/
   // END WATER
 
   m_script_api.set_function("e_get_player_id", [this]() {
@@ -75,9 +75,10 @@ Sandbox::~Sandbox()
 void Sandbox::update(const double dt)
 {
   this->update_systems(dt);
-  test_world.Update(dt);
+  // test_world.Update(dt);
 
   // WATER
+  /*
   const auto number_of_columns = water_surface->number_of_columns();
   for (unsigned i = 0; i < number_of_columns - 1; ++i)
   {
@@ -89,7 +90,7 @@ void Sandbox::update(const double dt)
 
   const auto last_height = water_surface->column_height(number_of_columns-1);
   water_shapes[number_of_columns-1]->set_vertex(0, 0.f, -last_height);
-  water_layer.Render();
+  water_layer.Render();*/
   
   // END WATER
 
