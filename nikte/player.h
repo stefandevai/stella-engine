@@ -3,8 +3,6 @@
 #include <stella/components.h>
 #include <SDL2/SDL.h>
 
-#define MAX_PLAYER_VELOCITY 200.f
-
 namespace stella
 {
 namespace graphics
@@ -40,7 +38,6 @@ class Player
       auto previous_state = this->current_state;
 
       // Handle input
-      
       if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
         this->current_state = RUNNING;
 
@@ -61,6 +58,11 @@ class Player
       }
 
       if (this->Display.IsKeyDown(SDL_SCANCODE_UP)) {
+        this->current_state = RUNNING;
+      }
+
+      if (this->Display.IsKeyDown(SDL_SCANCODE_DOWN)) {
+        this->current_state = RUNNING;
       }
 
       //auto &anims = m_registry.get<stella::components::AnimationsComponent>(entity);

@@ -5,9 +5,11 @@ local Player = Entity:create_player()
 
 local function load_assets()
   load_texture("player", "assets/sprites/player.png")
+  load_texture("tiles", "assets/sprites/tiles32x32.png")
 end
 
 local function load_player(x, y)
+  Player:add_component("player")
   Player:add_component("sprite", {
     texture = "player",
     layer = "tiles",
@@ -25,20 +27,6 @@ local function load()
     fixed = false,
   })
 
-  create_layer({
-    name = "background",
-    priority = 0,
-    shader = "basic",
-    fixed = true,
-  })
-
-  create_layer({
-    name = "text",
-    priority = 2,
-    shader = "basic",
-    fixed = true,
-  })
-
   load_assets()
   load_player(300, 32)
 end
@@ -50,27 +38,10 @@ local camera_position = {0.0, 0.0}
 local last_camera_x = 0.0
 
 local function update(dt)
-  --local player_position = {get_position(Player.id)}
-  --if player_position[2] - 250 < 0 then
-    --camera_position[2] = player_position[2] - 250
-  --end
-  --camera_position[1] = player_position[1] - 896/5
-  --camera_position[1] = math.max(camera_position[1], last_camera_x)
-  --if camera_position[1] ~= last_camera_x then
-    --last_camera_x = camera_position[1]
-  --end
-  --update_camera(camera_position[1], camera_position[2], 0)
-  --Map.update(camera_position[1])
-
-  ----local player_position = {get_position(Player.id)}
-  --camera_position[1] = player_position[1] - 896/5
-  --camera_position[1] = math.max(camera_position[1], last_camera_x)
-  --if camera_position[1] ~= last_camera_x then
-    --last_camera_x = camera_position[1]
-  --end
-  ----camera_position[1] = math.min(59*32 - 896, math.max(0, player_position[1] - 896/2))
-  ----camera_position[2] = math.min(29*32 - 504, math.max(0, player_position[2] - 504/2))
-  ----update_camera(camera_position[1], camera_position[2], 0)
+  local player_position = {get_position(Player.id)}
+  camera_position[1] = math.min(59*32 - 896, math.max(0, player_position[1] - 896/2))
+  camera_position[2] = math.min(29*32 - 504, math.max(0, player_position[2] - 504/2))
+  update_camera(camera_position[1], camera_position[2], 0)
 end
 
 local function render(dt)
