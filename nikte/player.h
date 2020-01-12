@@ -22,8 +22,6 @@ class Player
   private:
     stella::graphics::Display &Display;
     State current_state = IDLE;
-    //unsigned m_walk_delay = 0;
-    //unsigned WALK_DELAY = 10;
 
   public:
     Player(entt::registry &registry, stella::graphics::Display &display) 
@@ -36,66 +34,29 @@ class Player
 
     void update()
     {
-      auto &player = m_registry.get<stella::components::PlayerComponent>(entity);
       auto &body = m_registry.get<stella::components::Body2DComponent>(entity);
-      //auto &pos = m_registry.get<stella::components::PositionComponent>(entity);
-      auto previous_state = this->current_state;
+      
+      //auto previous_state = this->current_state;
 
       // Handle input
-      /*if (m_walk_delay > 0)
+      if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) 
       {
-        --m_walk_delay;
-      }*/
-
-      if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
-        if (!body.Body->WillMove())
-        {
-          body.Body->MoveLeft();
-        }
-
-        /*if (m_walk_delay == 0)
-        {
-          pos.x -= 32.f;
-          m_walk_delay = WALK_DELAY;
-        }*/
-      }
-      if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
-        /*if (m_walk_delay == 0)
-        {
-          pos.x += 32.f;
-          m_walk_delay = WALK_DELAY;
-        }*/
-
-        if (!body.Body->WillMove())
-        {
-          body.Body->MoveRight();
-        }
+        body.Body->MoveLeft();
       }
 
-      if (this->Display.IsKeyDown(SDL_SCANCODE_UP)) {
-        if (!body.Body->WillMove())
-        {
-          body.Body->MoveTop();
-        }
-
-        /*if (m_walk_delay == 0)
-        {
-          pos.y -= 32.f;
-          m_walk_delay = WALK_DELAY;
-        }*/
+      if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT))
+      {
+        body.Body->MoveRight();
       }
 
-      if (this->Display.IsKeyDown(SDL_SCANCODE_DOWN)) {
-        if (!body.Body->WillMove())
-        {
-          body.Body->MoveBottom();
-        }
+      if (this->Display.IsKeyDown(SDL_SCANCODE_UP))
+      {
+        body.Body->MoveTop();
+      }
 
-        /*if (m_walk_delay == 0)
-        {
-          pos.y += 32.f;
-          m_walk_delay = WALK_DELAY;
-        }*/
+      if (this->Display.IsKeyDown(SDL_SCANCODE_DOWN))
+      {
+        body.Body->MoveBottom();
       }
 
       //auto &anims = m_registry.get<stella::components::AnimationsComponent>(entity);
