@@ -136,7 +136,6 @@ namespace core
     assert(beginx < endx);
     assert(beginy < endy);
     int left = beginx / m_tile_dimension;
-    //int right = ceil(endx / static_cast<double>(m_tile_dimension));
     int right = endx / m_tile_dimension;
     int top = beginy / m_tile_dimension;
     int bottom = ceil(endy / static_cast<double>(m_tile_dimension));
@@ -179,9 +178,6 @@ namespace core
           if (!layer_tile.visible && layer_tile.value > 0)
           {
             layer->set_visibility(x, y, true);
-            //int frame = 0;
-            //if (layer_tile.value == 2) frame = 37;
-            //else if (layer_tile.value == 3) frame = 38;
             auto tile = m_registry.create();
             m_registry.assign<components::TileComponent>(tile, counter, true);
             m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), layer_tile.value);
@@ -198,18 +194,6 @@ namespace core
       ++counter;
     }
   }
-
-  //void TileMap::update_viewport(const int x, const int y, const int w, const int h)
-  //{
-    //frustrum_tile_x = x / m_tile_dimension;
-    //frustrum_tile_y = y / m_tile_dimension;
-    //frustrum_tile_w = (x + w) / m_tile_dimension;
-    //frustrum_tile_h = (y + h) / m_tile_dimension;
-
-
-
-  //}
-
 }
 }
 

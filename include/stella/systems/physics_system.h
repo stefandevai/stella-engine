@@ -3,7 +3,7 @@
 #include "./system.h"
 #include "../components.h"
 #include <iostream>
-#include "../physics2d/grid_world.h"
+#include "stella/topdown/world.h"
 
 namespace stella
 {
@@ -13,14 +13,12 @@ class PhysicsSystem : public System
 {
   private:
     const core::TileMap &m_tile_map;
-    stella::physics2d::GridWorld m_world{m_tile_map};
-    //entt::registry::entity_type m_camera;
+    stella::topdown::World m_world{m_tile_map};
 
   public:
-    explicit PhysicsSystem(const core::TileMap &tile_map, entt::registry &registry/*, entt::registry::entity_type camera*/) : m_tile_map(tile_map)//, m_camera(camera)
+    explicit PhysicsSystem(const core::TileMap &tile_map, entt::registry &registry) : m_tile_map(tile_map)
     { 
       registry.on_destroy<components::Body2DComponent>().connect<&PhysicsSystem::remove_body_from_world>(this);
-      this->m_world.SetGravity(2200.f);
     }
 
     ~PhysicsSystem() override { }
@@ -34,12 +32,12 @@ class PhysicsSystem : public System
           auto &log_component = get_log_component(registry, entity);
           log_component.log("Initialized body");
 
-          body.Body = std::make_shared<stella::physics2d::Body>(glm::vec2(pos.x, pos.y), glm::vec2(dim.w, dim.h), glm::vec2(body.Drag[0], body.Drag[1]), body.CollideWithBorders);
+          body.Body = std::make_shared<stella::topdown::Body>(glm::vec2(pos.x, pos.y), glm::vec2(dim.w, dim.h), glm::vec2(body.Drag[0], body.Drag[1]), body.CollideWithBorders);
           if (registry.has<components::MovementComponent>(entity))
           {
             auto mov = registry.get<components::MovementComponent>(entity);
             body.Body->TargetVelocity = mov.TargetVelocity;
-            body.Body->Gravity = mov.Gravity;
+            //body.Body->Gravity = mov.Gravity;
 
             if (mov.ConstantVelocity)
             {
@@ -61,9 +59,6 @@ class PhysicsSystem : public System
           pos.y = new_position.y;
         }
       });
-
-      //const auto &pos = registry.get<components::PositionComponent>(m_camera);
-      //if (pos.x > 0.f || pos.y > 0.f) this->m_world.SetCameraOffset(pos.x, pos.y);
 
       this->m_world.Update(dt);
     }

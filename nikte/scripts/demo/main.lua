@@ -17,6 +17,11 @@ local function load_player(x, y)
   })
   Player:add_component("position", {x, y, -5})
   Player:add_component("dimension", {32, 32})
+  Player:add_component("movement")
+  Player:add_component("body", {
+    drag = {900, 900},
+    collide_with_borders = true,
+  })
 end
 
 local function load()
