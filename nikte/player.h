@@ -48,7 +48,7 @@ class Player
       }*/
 
       if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
-        if (!body.Body->Moving())
+        if (!body.Body->WillMove())
         {
           body.Body->MoveLeft();
         }
@@ -66,14 +66,14 @@ class Player
           m_walk_delay = WALK_DELAY;
         }*/
 
-        if (!body.Body->Moving())
+        if (!body.Body->WillMove())
         {
           body.Body->MoveRight();
         }
       }
 
       if (this->Display.IsKeyDown(SDL_SCANCODE_UP)) {
-        if (!body.Body->Moving())
+        if (!body.Body->WillMove())
         {
           body.Body->MoveTop();
         }
@@ -86,7 +86,7 @@ class Player
       }
 
       if (this->Display.IsKeyDown(SDL_SCANCODE_DOWN)) {
-        if (!body.Body->Moving())
+        if (!body.Body->WillMove())
         {
           body.Body->MoveBottom();
         }

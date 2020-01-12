@@ -42,10 +42,6 @@ namespace topdown {
       void UpdateCollisions();
       bool check_tile_collision(int x, int y);
       void resolve_collisions(const std::shared_ptr<Body> &body);
-      void check_collisions(const std::shared_ptr<Body> &body, int beginx, int endx, int beginy, int endy);
-      glm::vec2 get_tile_intersection(const World::Collision &collision);
-      void resolve_collision(const World::Collision &collision);
-      void resolve_aabb(const World::Collision &collision);
   };
 
 }

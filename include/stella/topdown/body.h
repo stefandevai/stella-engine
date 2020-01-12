@@ -20,7 +20,7 @@ class Body {
     inline bool MovingRight() const { return this->Movement.test(1); }
     inline bool MovingBottom() const { return this->Movement.test(2); }
     inline bool MovingLeft() const { return this->Movement.test(3); }
-    inline bool Moving() const { return (this->Movement.test(0) || this->Movement.test(1) || this->Movement.test(2) || this->Movement.test(3)); }
+    inline bool WillMove() const { return (this->Movement.test(0) || this->Movement.test(1) || this->Movement.test(2) || this->Movement.test(3)); }
 
     inline void ResetMovement() { this->Movement.reset(); }
     inline void MoveTop() { this->Movement.set(0); }
@@ -32,7 +32,8 @@ class Body {
     bool IsStatic = false, CollideWithBorders;
     // Top, right, bottom, left collisions
     std::bitset<4> Collisions;
-    
+    float Transition = 0.f, TransitionTime = 10.f;
+
   private:
     std::bitset<4> Movement;
 };
