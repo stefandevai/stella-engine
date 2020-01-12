@@ -35,11 +35,13 @@ class Player
     void update()
     {
       auto &player = m_registry.get<stella::components::PlayerComponent>(entity);
+      auto &pos = m_registry.get<stella::components::PositionComponent>(entity);
       auto previous_state = this->current_state;
 
       // Handle input
       if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
         this->current_state = RUNNING;
+        pos.x -= 32.f;
 
         if (!player.SpriteDirection.test(0)) {
           player.SpriteDirection.flip();
@@ -49,6 +51,7 @@ class Player
       }
       if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
         this->current_state = RUNNING;
+        pos.x += 32.f;
 
         if (!player.SpriteDirection.test(1)) {
           player.SpriteDirection.flip();
@@ -59,10 +62,12 @@ class Player
 
       if (this->Display.IsKeyDown(SDL_SCANCODE_UP)) {
         this->current_state = RUNNING;
+        pos.y -= 32.f;
       }
 
       if (this->Display.IsKeyDown(SDL_SCANCODE_DOWN)) {
         this->current_state = RUNNING;
+        pos.y += 32.f;
       }
 
       //auto &anims = m_registry.get<stella::components::AnimationsComponent>(entity);

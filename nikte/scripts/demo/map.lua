@@ -12,7 +12,7 @@ Map = {
 Map.layers[1] = {
   render_layer = "tiles",
   texture = "assets/sprites/tiles32x32.png",
-  collision = false,
+  collision = true,
 
   grid = {
     1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

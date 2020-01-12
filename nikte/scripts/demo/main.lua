@@ -28,7 +28,7 @@ local function load()
   })
 
   load_assets()
-  load_player(300, 32)
+  load_player(128, 32)
 end
 
 local camerax = 0.0
