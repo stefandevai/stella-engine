@@ -22,6 +22,8 @@ class Player
   private:
     stella::graphics::Display &Display;
     State current_state = IDLE;
+    unsigned m_walk_delay = 0;
+    unsigned WALK_DELAY = 10;
 
   public:
     Player(entt::registry &registry, stella::graphics::Display &display) 
@@ -39,9 +41,19 @@ class Player
       auto previous_state = this->current_state;
 
       // Handle input
+      if (m_walk_delay > 0)
+      {
+        --m_walk_delay;
+      }
+
       if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) {
         this->current_state = RUNNING;
-        pos.x -= 32.f;
+
+        if (m_walk_delay == 0)
+        {
+          pos.x -= 32.f;
+          m_walk_delay = WALK_DELAY;
+        }
 
         if (!player.SpriteDirection.test(0)) {
           player.SpriteDirection.flip();
@@ -51,7 +63,12 @@ class Player
       }
       if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT)) {
         this->current_state = RUNNING;
-        pos.x += 32.f;
+
+        if (m_walk_delay == 0)
+        {
+          pos.x += 32.f;
+          m_walk_delay = WALK_DELAY;
+        }
 
         if (!player.SpriteDirection.test(1)) {
           player.SpriteDirection.flip();
@@ -62,12 +79,22 @@ class Player
 
       if (this->Display.IsKeyDown(SDL_SCANCODE_UP)) {
         this->current_state = RUNNING;
-        pos.y -= 32.f;
+
+        if (m_walk_delay == 0)
+        {
+          pos.y -= 32.f;
+          m_walk_delay = WALK_DELAY;
+        }
       }
 
       if (this->Display.IsKeyDown(SDL_SCANCODE_DOWN)) {
         this->current_state = RUNNING;
-        pos.y += 32.f;
+
+        if (m_walk_delay == 0)
+        {
+          pos.y += 32.f;
+          m_walk_delay = WALK_DELAY;
+        }
       }
 
       //auto &anims = m_registry.get<stella::components::AnimationsComponent>(entity);

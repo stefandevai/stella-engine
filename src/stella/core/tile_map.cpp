@@ -155,7 +155,7 @@ namespace core
             layer->set_visibility(x, y, true);
             auto tile = m_registry.create();
             m_registry.assign<components::TileComponent>(tile, counter, false);
-            m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), 0);
+            m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), layer_tile.value);
             m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension);
             m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
           }
@@ -179,12 +179,12 @@ namespace core
           if (!layer_tile.visible && layer_tile.value > 0)
           {
             layer->set_visibility(x, y, true);
-            int frame = 0;
-            if (layer_tile.value == 2) frame = 37;
-            else if (layer_tile.value == 3) frame = 38;
+            //int frame = 0;
+            //if (layer_tile.value == 2) frame = 37;
+            //else if (layer_tile.value == 3) frame = 38;
             auto tile = m_registry.create();
             m_registry.assign<components::TileComponent>(tile, counter, true);
-            m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), frame);
+            m_registry.assign<components::SpriteComponent>(tile, "tiles", glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), layer_tile.value);
             m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension);
             m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
             m_registry.assign<components::LogComponent>(tile);
