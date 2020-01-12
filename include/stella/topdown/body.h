@@ -28,11 +28,11 @@ class Body {
     inline void MoveBottom() { this->Movement.set(2); }
     inline void MoveLeft() { this->Movement.set(3); }
     
-    glm::vec2 Position, Dimension, LastPosition = glm::vec2(0.f, 0.f), Velocity = glm::vec2(0.f, 0.f), TargetVelocity = glm::vec2(0.f, 0.f), Acceleration = glm::vec2(0.f, 0.f), Drag = glm::vec2(0.f, 0.f), CollisionVector = glm::vec2(0.f, 0.f);
+    glm::vec2 Position, Dimension, Target, LastPosition = glm::vec2(0.f, 0.f), Velocity = glm::vec2(0.f, 0.f), TargetVelocity = glm::vec2(0.f, 0.f), Acceleration = glm::vec2(0.f, 0.f), Drag = glm::vec2(0.f, 0.f), CollisionVector = glm::vec2(0.f, 0.f);
     bool IsStatic = false, CollideWithBorders;
     // Top, right, bottom, left collisions
     std::bitset<4> Collisions;
-    float Transition = 0.f, TransitionTime = 10.f;
+    float Transition = 0.f, MovementDelay = 10.f;
 
   private:
     std::bitset<4> Movement;
