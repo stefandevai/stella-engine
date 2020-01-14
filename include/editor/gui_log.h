@@ -2,7 +2,9 @@
 
 #include "./imgui/imgui.h"
 
-namespace
+namespace stella
+{
+namespace editor
 {
   struct GuiLog
   {
@@ -141,5 +143,5 @@ namespace
       }
   };
 }
-
+}
 

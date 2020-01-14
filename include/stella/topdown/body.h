@@ -33,7 +33,7 @@ class Body {
     bool IsStatic = false, CollideWithBorders;
     // Top, right, bottom, left collisions
     std::bitset<4> Collisions;
-    float Transition = 0.f, LastTransition = 0.f, MovementDelay = 10.f;
+    float Transition = 0.f, LastTransition = 0.f, MovementDelay = 20.f;
 
   private:
     std::bitset<4> Movement;

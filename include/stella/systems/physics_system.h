@@ -29,8 +29,8 @@ class PhysicsSystem : public System
       {
         if (!body.Initialized)
         {
-          auto &log_component = get_log_component(registry, entity);
-          log_component.log("Initialized body");
+          //auto &log_component = get_log_component(registry, entity);
+          //log_component.log("Initialized body");
 
           body.Body = std::make_shared<stella::topdown::Body>(glm::vec2(pos.x, pos.y), glm::vec2(dim.w, dim.h), glm::vec2(body.Drag[0], body.Drag[1]), body.CollideWithBorders);
           if (registry.has<components::MovementComponent>(entity))

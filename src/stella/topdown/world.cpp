@@ -75,31 +75,29 @@ namespace topdown {
       {
         if (body->Transition <= 0)
         {
-          
-            // Vertical movement
-            if (body->MovingTop() && !body->MovingBottom())
-            {
-              body->Target.y = body->Position.y - TILE_DIMENSIONS;
-              body->Transition += body->MovementDelay;
-            }
-            else if (body->MovingBottom() && !body->MovingTop())
-            {
-              body->Target.y = body->Position.y + TILE_DIMENSIONS;
-              body->Transition += body->MovementDelay;
-            }
+          // Vertical movement
+          if (body->MovingTop() && !body->MovingBottom())
+          {
+            body->Target.y = body->Position.y - TILE_DIMENSIONS;
+            body->Transition = body->MovementDelay;
+          }
+          else if (body->MovingBottom() && !body->MovingTop())
+          {
+            body->Target.y = body->Position.y + TILE_DIMENSIONS;
+            body->Transition = body->MovementDelay;
+          }
 
-            // Horizontal movement
-            if (body->MovingRight() && !body->MovingLeft())
-            {
-              body->Target.x = body->Position.x + TILE_DIMENSIONS;
-              body->Transition += body->MovementDelay;
-            }
-            else if (body->MovingLeft() && !body->MovingRight())
-            {
-              body->Target.x = body->Position.x - TILE_DIMENSIONS;
-              body->Transition += body->MovementDelay;
-            }
-          
+          // Horizontal movement
+          if (body->MovingRight() && !body->MovingLeft())
+          {
+            body->Target.x = body->Position.x + TILE_DIMENSIONS;
+            body->Transition = body->MovementDelay;
+          }
+          else if (body->MovingLeft() && !body->MovingRight())
+          {
+            body->Target.x = body->Position.x - TILE_DIMENSIONS;
+            body->Transition = body->MovementDelay;
+          }
 
           body->LastPosition = body->Position;
           body->LastTransition = body->Transition;
@@ -130,6 +128,5 @@ namespace topdown {
       body->ResetMovement();
     }
   }
-
 }
 }
