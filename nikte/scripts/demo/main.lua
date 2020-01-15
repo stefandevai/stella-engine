@@ -27,9 +27,10 @@ local function load_player(x, y)
   animation_args = {}
   animation_args["frame_dimensions"] = {32, 64}
   animation_args["animations"] = {}
-  animation_args["animations"][1] = {"idle-h", {4}, 5}
-  animation_args["animations"][2] = {"idle-u", {1}, 5}
-  animation_args["animations"][3] = {"idle-d", {0}, 5}
+  animation_args["animations"][1] = {"idle-l", {5}, 5}
+  animation_args["animations"][2] = {"idle-r", {4}, 5}
+  animation_args["animations"][3] = {"idle-u", {1}, 5}
+  animation_args["animations"][4] = {"idle-d", {0}, 5}
   Player:add_component("animation", animation_args) 
 end
 

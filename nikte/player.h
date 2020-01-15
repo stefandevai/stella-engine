@@ -17,7 +17,7 @@ class Player
 {
   public:
     entt::registry &m_registry;
-    enum State {IDLE_U, IDLE_D, IDLE_H};
+    enum State {IDLE_U, IDLE_D, IDLE_L, IDLE_R};
     const entt::registry::entity_type entity = m_registry.create();
   private:
     stella::graphics::Display &Display;
@@ -34,7 +34,7 @@ class Player
 
     void update()
     {
-      auto &player = m_registry.get<stella::components::PlayerComponent>(entity);
+      //auto &player = m_registry.get<stella::components::PlayerComponent>(entity);
       auto &body = m_registry.get<stella::components::Body2DComponent>(entity);
       auto previous_state = this->current_state;
 
@@ -42,25 +42,13 @@ class Player
       if (this->Display.IsKeyDown(SDL_SCANCODE_LEFT)) 
       {
         body.Body->MoveLeft();
-        this->current_state = IDLE_H;
-
-        if (!player.SpriteDirection.test(0)) {
-          player.SpriteDirection.flip();
-          auto sprite = m_registry.get<stella::components::SpriteComponent>(entity);
-          sprite.Sprite->SetScale(glm::vec2(-1.0,1.0));
-        }
+        this->current_state = IDLE_L;
       }
 
       if (this->Display.IsKeyDown(SDL_SCANCODE_RIGHT))
       {
         body.Body->MoveRight();
-        this->current_state = IDLE_H;
-
-        if (!player.SpriteDirection.test(1)) {
-          player.SpriteDirection.flip();
-          auto sprite = m_registry.get<stella::components::SpriteComponent>(entity);
-          sprite.Sprite->SetScale(glm::vec2(1.0,1.0));
-        }
+        this->current_state = IDLE_R;
       }
 
       if (this->Display.IsKeyDown(SDL_SCANCODE_UP))
@@ -82,11 +70,6 @@ class Player
   private:
     void SetState(Player::State state, stella::components::AnimationsComponent &anims, Player::State previous_state)
     {
-      //if (previous_state != this->current_state && previous_state == IDLE_)
-      //{
-        
-      //}
-
       switch(state)
       {
         case IDLE_U:
@@ -95,8 +78,11 @@ class Player
         case IDLE_D:
           anims.current_animation = "idle-d";
           break;
-        case IDLE_H:
-          anims.current_animation = "idle-h";
+        case IDLE_L:
+          anims.current_animation = "idle-l";
+          break;
+        case IDLE_R:
+          anims.current_animation = "idle-r";
           break;
         default:
           break;
