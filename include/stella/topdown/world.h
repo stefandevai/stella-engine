@@ -33,9 +33,6 @@ namespace topdown {
       void AddBody(std::shared_ptr<stella::topdown::Body> body);
       void RemoveBody(std::shared_ptr<stella::topdown::Body> body);
       void Update(float dt);
-      //inline void SetCameraOffset(float x, float y) {
-        //this->CameraOffset = glm::vec2(x,y);
-      //}
 
     private:
       void UpdateMovement(float dt) const;

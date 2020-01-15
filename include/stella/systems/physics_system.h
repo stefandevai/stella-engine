@@ -30,9 +30,14 @@ class PhysicsSystem : public System
         if (!body.Initialized)
         {
           //auto &log_component = get_log_component(registry, entity);
-          //log_component.log("Initialized body");
 
-          body.Body = std::make_shared<stella::topdown::Body>(glm::vec2(pos.x, pos.y), glm::vec2(dim.w, dim.h), glm::vec2(body.Drag[0], body.Drag[1]), body.CollideWithBorders);
+          double bbw = body.BoundingBox[0] != dim.w  ? body.BoundingBox[0] : dim.w;
+          double bbh = body.BoundingBox[1] != dim.h  ? body.BoundingBox[1] : dim.h;
+
+          //std::cout << pos.y + body.BoundingBoxPosition[1] << '\n';
+          //std::cout << pos.y << '\n';
+
+          body.Body = std::make_shared<stella::topdown::Body>(glm::vec2(pos.x + body.BoundingBoxPosition[0], pos.y + body.BoundingBoxPosition[1]), glm::vec2(bbw, bbh), glm::vec2(body.Drag[0], body.Drag[1]), body.CollideWithBorders);
           if (registry.has<components::MovementComponent>(entity))
           {
             auto mov = registry.get<components::MovementComponent>(entity);
@@ -56,7 +61,7 @@ class PhysicsSystem : public System
         {
           const glm::vec2& new_position = body.Body->GetPosition();
           pos.x = new_position.x;
-          pos.y = new_position.y;
+          pos.y = new_position.y - body.BoundingBoxPosition[1];
         }
       });
 

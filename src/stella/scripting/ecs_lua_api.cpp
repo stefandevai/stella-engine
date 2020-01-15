@@ -141,16 +141,28 @@ namespace script
   void ECSLuaApi::add_body_component(entt::registry::entity_type id, const sol::table &obj)
   {
     const bool &collide_with_borders = obj["collide_with_borders"] == sol::lua_nil ? false : obj["collide_with_borders"];
-    if (obj["drag"] == sol::lua_nil)
+    std::vector<double> drag = {0.f, 0.f};
+    std::vector<double> bb = {0.f, 0.f};
+    std::vector<double> bbpos = {0.f, 0.f};
+
+    if (obj["drag"] != sol::lua_nil)
     {
-      m_registry.assign<stella::components::Body2DComponent>(id);
+      drag[0] = obj["drag"][1];
+      drag[1] = obj["drag"][2];
     }
-    else
+    if (obj["bounding_box"] != sol::lua_nil)
     {
-      double dragx = obj["drag"][1];
-      double dragy = obj["drag"][2];
-      m_registry.assign<stella::components::Body2DComponent>(id, std::vector<double>(dragx, dragy), collide_with_borders);
+      bb[0] = obj["bounding_box"][1];
+      bb[1] = obj["bounding_box"][2];
     }
+    if (obj["bounding_box_position"] != sol::lua_nil)
+    {
+      bbpos[0] = obj["bounding_box_position"][1];
+      bbpos[1] = obj["bounding_box_position"][2];
+    }
+    //std::cout << bbpos[0] << '\n';
+    //std::cout << bbpos[1] << '\n';
+    m_registry.assign<stella::components::Body2DComponent>(id, drag, bb, bbpos, collide_with_borders);
   }
 
   void ECSLuaApi::add_text_component(entt::registry::entity_type id, const sol::table &obj)

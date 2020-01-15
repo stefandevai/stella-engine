@@ -5,23 +5,32 @@ local Player = Entity:create_player()
 
 local function load_assets()
   load_texture("player", "assets/sprites/player.png")
+  load_texture("nikte", "assets/sprites/nikte.png")
   load_texture("tiles", "assets/sprites/tiles32x32.png")
 end
 
 local function load_player(x, y)
   Player:add_component("player")
   Player:add_component("sprite", {
-    texture = "player",
+    texture = "nikte",
     layer = "tiles",
-    frame_dimensions = {32, 32, -5},
+    frame_dimensions = {32, 64, 0},
   })
-  Player:add_component("position", {x, y, -5})
-  Player:add_component("dimension", {32, 32})
+  Player:add_component("position", {x, y, 0})
+  Player:add_component("dimension", {32, 64})
   Player:add_component("movement")
   Player:add_component("body", {
-    drag = {900, 900},
-    collide_with_borders = true,
+    bounding_box = {32, 32},
+    bounding_box_position = {0, 32},
   })
+
+  animation_args = {}
+  animation_args["frame_dimensions"] = {32, 64}
+  animation_args["animations"] = {}
+  animation_args["animations"][1] = {"idle-h", {4}, 5}
+  animation_args["animations"][2] = {"idle-u", {1}, 5}
+  animation_args["animations"][3] = {"idle-d", {0}, 5}
+  Player:add_component("animation", animation_args) 
 end
 
 local function load()
@@ -33,7 +42,7 @@ local function load()
   })
 
   load_assets()
-  load_player(128, 32)
+  load_player(512, 128)
 end
 
 local camerax = 0.0
