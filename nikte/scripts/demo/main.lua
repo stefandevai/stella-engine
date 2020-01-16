@@ -7,6 +7,7 @@ local function load_assets()
   load_texture("player", "assets/sprites/player.png")
   load_texture("nikte", "assets/sprites/nikte.png")
   load_texture("tiles", "assets/sprites/tiles32x32.png")
+  load_texture("tileset", "assets/sprites/tileset.png")
 end
 
 local function load_player(x, y)
@@ -29,7 +30,7 @@ local function load_player(x, y)
   animation_args["animations"] = {}
   animation_args["animations"][1] = {"walking-l", {46,47,48,49,50,51,52,53}, 5}
   animation_args["animations"][2] = {"walking-r", {19,20,21,22,23,24,25,26}, 5}
-  animation_args["animations"][3] = {"walking-u", {27}, 5}
+  animation_args["animations"][3] = {"walking-u", {28,29,30,31,32,33,34,35}, 5}
   animation_args["animations"][4] = {"walking-d", {1,2,3,4,5,6,7,8}, 5}
   animation_args["animations"][5] = {"idle-l", {45}, 5}
   animation_args["animations"][6] = {"idle-r", {18}, 5}
