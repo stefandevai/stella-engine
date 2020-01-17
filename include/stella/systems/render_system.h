@@ -42,7 +42,12 @@ class RenderSystem : public System
       registry.group<components::SpriteComponent>(entt::get<components::PositionComponent, components::DimensionComponent>).each([this, &registry](auto entity, auto &sprite, auto &pos, auto &dim)
       {
         // Adds sprite to layer
-        if (!sprite.InLayer) {
+        if (!sprite.InLayer && sprite.Initialized)
+        {
+          m_layers[sprite.LayerId]->Add(sprite.Sprite);
+          sprite.InLayer = true;
+        }
+        else if (!sprite.InLayer) {
           auto tex = m_textures.load(sprite.TexName);
           if (tex == nullptr) {
             std::cout << "It was not possible to find " << sprite.TexName << " in loaded textures." << std::endl;

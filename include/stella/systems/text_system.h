@@ -5,6 +5,7 @@
 #include "../components/position_component.h"
 #include "../components/dimension_component.h"
 #include "../components/sprite_component.h"
+#include "stella/graphics/font.h"
 
 namespace stella
 {
@@ -12,9 +13,13 @@ namespace systems
 {
 class TextSystem : public System
 {
+  private:
+    std::map<std::string, std::shared_ptr<graphics::Font>> m_fonts;
+
   public:
     TextSystem(entt::registry &registry)
     {
+      m_fonts.insert(std::pair<std::string, std::shared_ptr<graphics::Font>>("1980", std::make_shared<graphics::Font>("assets/fonts/1980.ttf")));
       registry.on_construct<components::TextComponent>().connect<&TextSystem::initialize_text>(this);
     }
 
@@ -22,86 +27,43 @@ class TextSystem : public System
 
     void update(entt::registry &registry, const double dt) override
     {
-      registry.group<components::TextComponent>(entt::get<components::PositionComponent, components::DimensionComponent>).each([&registry](auto entity, auto &text, auto &pos, auto &dim)
-      {
-        if (!text.IsStatic) {
-          int stride = 0;
-          auto char_entity = text.char_entities.begin();
-          auto c = text.Text.begin();
-          text.Spaces = 0;
-
-          for (; c != text.Text.end(); ++c) {
-            if (char_entity == text.char_entities.end()) 
-              break;
-            int frame = (int)*c - 33;
-            if (frame == -1) {
-              stride += 1;
-              text.Spaces += 1;
-            }
-            else {
-              auto &char_pos = registry.get<components::PositionComponent>(*char_entity);
-              auto &char_spr = registry.get<components::SpriteComponent>(*char_entity);
-              char_pos.x = pos.x + dim.w*stride;
-              char_spr.Sprite->SetDirectFrame(frame);	
-              ++char_entity;
-              ++stride;
-            }
-          }
-
-          // If the text is bigger than the last printed
-          if (c != text.Text.end()) {
-            for (; c != text.Text.end(); ++c) {
-              int frame = (int)*c - 33;
-              if (frame == -1) {
-                ++stride;
-                ++text.Spaces;
-              }
-              else {
-                auto new_char_entity = registry.create();
-                registry.assign<components::SpriteComponent>(new_char_entity, text.Name, glm::vec2(dim.w, dim.h), "text", frame);
-                registry.assign<components::PositionComponent>(new_char_entity, pos.x + dim.w*stride, pos.y);
-                registry.assign<components::DimensionComponent>(new_char_entity, dim.w, dim.h);
-                text.char_entities.push_back(new_char_entity);
-                ++stride;
-              }
-            }
-          }
-
-          // If the text is smaller than the last printed
-          else if (char_entity != text.char_entities.end()) {
-            auto iterator_copy = char_entity;
-            for (; char_entity != text.char_entities.end(); ++char_entity) registry.destroy(*char_entity);
-
-            text.char_entities.erase(iterator_copy, text.char_entities.end());
-          }
-        }
-      });
+    //   registry.group<components::TextComponent>(entt::get<components::PositionComponent, components::DimensionComponent>).each([&registry](auto entity, auto &text, auto &pos, auto &dim)
+    //   {
+    //     if (!text.IsStatic)
+    //     {
+      
+    //     }
+    //   });
     }
   private:
     TextSystem() = delete;
     
     void initialize_text(entt::registry &registry, entt::entity entity, components::TextComponent &text)
     {
-      text.Spaces = 0;
-      int stride = 0;
       auto pos = registry.get<components::PositionComponent>(entity);
-      auto dim = registry.get<components::DimensionComponent>(entity);
+      //auto dim = registry.get<components::DimensionComponent>(entity);
+      float scale = 1.f;
+      float char_posx = (float)pos.x;
 
-      for (auto c: text.Text) {
-        int frame = (int)c - 33;
-        if (frame == -1) {
-          ++stride;
-          ++text.Spaces;
-        }
-        else {
+      for (auto c : text.Text)
+      {
           auto char_entity = registry.create();
-          registry.assign<components::SpriteComponent>(char_entity, text.Name, glm::vec2(dim.w, dim.h), "text", frame);
-          registry.assign<components::PositionComponent>(char_entity, pos.x + dim.w*stride, pos.y);
-          registry.assign<components::DimensionComponent>(char_entity, dim.w, dim.h);
-          text.char_entities.push_back(char_entity);
-          ++stride;
-        }
-      }
+          auto ch = m_fonts[text.FontName]->get_char_data(c);
+          GLfloat xpos = char_posx + ch.bl * scale;
+          GLfloat ypos = pos.y - ch.bt * scale;
+          GLfloat w = ch.bw * scale;
+          GLfloat h = ch.bh * scale;
+          
+          if (w > 0.f && h > 0.f)
+          {
+            registry.assign<components::SpriteComponent>(char_entity, glm::vec3(xpos, ypos, 0.f), glm::vec2(w, h), glm::vec2(ch.tx, 0.f), *m_fonts[text.FontName]->get_atlas(), "text");
+            registry.assign<components::PositionComponent>(char_entity, xpos, ypos);
+            registry.assign<components::DimensionComponent>(char_entity, w, h);
+            text.char_entities.push_back(char_entity);
+          }
+
+          char_posx += (ch.ax >> 6) * scale;
+     }
     }
 };
 } // namespace systems

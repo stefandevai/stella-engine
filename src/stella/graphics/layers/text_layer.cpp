@@ -22,37 +22,37 @@ TextLayer::TextLayer(float width, float height, bool fixed)
 
 TextLayer::~TextLayer() {}
 
-void TextLayer::Render() {
-  this->Shad->Enable();
-  this->Ren->Begin();
+// void TextLayer::Render() {
+//   this->Shad->Enable();
+//   this->Ren->Begin();
 
-  std::string text = "Zahra Ouahbi, je t'aime beaucoup!";
-  GLfloat scale = 1.f;
-  GLfloat x = 32.f;
-  GLfloat y = 32.f;
-  std::string::const_iterator c;
+//   std::string text = "Zahra Ouahbi, je t'aime beaucoup!";
+//   GLfloat scale = 1.f;
+//   GLfloat x = 32.f;
+//   GLfloat y = 32.f;
+//   std::string::const_iterator c;
 
-  for (c = text.begin(); c != text.end(); c++)
-  {
-      CharacterData ch = m_font.get_char_data(*c);
+//   for (c = text.begin(); c != text.end(); c++)
+//   {
+//       CharacterData ch = m_font.get_char_data(*c);
       
-      GLfloat xpos = x + ch.bl * scale;
-      GLfloat ypos = y - ch.bt * scale;
-      GLfloat w = ch.bw * scale;
-      GLfloat h = ch.bh * scale;
+//       GLfloat xpos = x + ch.bl * scale;
+//       GLfloat ypos = y - ch.bt * scale;
+//       GLfloat w = ch.bw * scale;
+//       GLfloat h = ch.bh * scale;
 
-      if (w > 0.f && h > 0.f)
-      {
-        Sprite sprite = Sprite{glm::vec3(xpos, ypos, 0.f), glm::vec2(w, h), glm::vec2(ch.tx, 0.f), *m_font.get_atlas()};
-        this->Ren->Submit(sprite);
-      }
+//       if (w > 0.f && h > 0.f)
+//       {
+//         Sprite sprite = Sprite{glm::vec3(xpos, ypos, 0.f), glm::vec2(w, h), glm::vec2(ch.tx, 0.f), *m_font.get_atlas()};
+//         this->Ren->Submit(sprite);
+//       }
       
-      x += (ch.ax >> 6) * scale;
-  }
+//       x += (ch.ax >> 6) * scale;
+//   }
 
-  this->Ren->End();
-  this->Ren->Draw();
-}
+//   this->Ren->End();
+//   this->Ren->Draw();
+// }
 
 } // namespace graphics
 } // namespace stella

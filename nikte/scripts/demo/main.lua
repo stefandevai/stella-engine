@@ -42,20 +42,29 @@ end
 local function load()
   create_layer({
     name = "tiles",
-    priority = 1,
+    priority = 2,
     shader = "basic",
     fixed = false,
   })
 
   create_layer({
     name = "text",
-    priority = 2,
+    priority = 1,
     shader = "text",
     fixed = true,
   })
 
   load_assets()
   load_player(512, 128)
+
+  local test_text = Entity:create_entity()
+  test_text:add_component("position", {150, 32, 0})
+  test_text:add_component("dimension", {32, 100})
+  test_text:add_component("text", {
+    text = "Hola!",
+    font_name = "1980",
+    is_static = true
+  })
 end
 
 local camerax = 0.0

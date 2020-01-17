@@ -7,13 +7,17 @@
 
 namespace stella {
 namespace components {
+
 struct TextComponent {
-  TextComponent(const std::string &text, const std::string &font_tex_name, bool is_static = false) : Text(text), Name(font_tex_name), IsStatic(is_static) { this->InLayer = false; }
-	std::string Text, Name;
-	std::vector<entt::registry::entity_type> char_entities;
-	bool InLayer, IsStatic;
+  TextComponent(const std::string text, const std::string font_name, bool is_static = false) : Text(text), FontName(font_name), IsStatic(is_static)
+  {
+    
+  }
+  std::string Text, FontName;
+  std::vector<entt::registry::entity_type> char_entities;
+  bool InLayer = false, IsStatic;
   int Spaces = 0;
 };
+
 } // namespace components
 } // namespace stella
-

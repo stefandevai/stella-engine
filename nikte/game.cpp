@@ -5,6 +5,7 @@ Game::Game()
 {
   this->add_system<stella::systems::PhysicsSystem>(m_tile_map, m_registry);
   this->add_system<stella::systems::TileSystem>(m_tile_map, m_camera, m_registry);
+  this->add_system<stella::systems::TextSystem>(m_registry);
   m_tile_map.create_tile_entities(0, m_display.GetWidth(), 0, m_display.GetHeight());
 
   m_script_api.set_function("e_get_player_id", [this]() {

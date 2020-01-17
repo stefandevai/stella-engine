@@ -12,6 +12,12 @@ struct SpriteComponent {
   //inline SpriteComponent(const std::string &tex_name, glm::vec2 frame_dimensions, unsigned int frame = 0) : TexName(tex_name), FrameDimensions(frame_dimensions), Frame(frame) { }
   SpriteComponent(const std::string &tex_name, glm::vec2 frame_dimensions, std::string layer_id = "basic", unsigned frame = 0) : TexName(tex_name), FrameDimensions(frame_dimensions), LayerId(layer_id), Frame(frame) { }
   SpriteComponent(const std::string &tex_name, std::string layer_id = "basic") : TexName(tex_name), LayerId(layer_id) { }
+  SpriteComponent(const glm::vec3 position, const glm::vec2 dimensions, const glm::vec2 offset, graphics::Texture &texture, std::string layer_id = "basic")
+    : LayerId(layer_id)
+  {
+    this->Sprite = std::shared_ptr<graphics::Sprite>(new graphics::Sprite(position, dimensions, offset, texture));
+    this->Initialized = true;
+  }
   //inline SpriteComponent(const std::string &tex_name, glm::vec2 frame_dimensions, std::string layer_id = "basic") : TexName(tex_name), FrameDimensions(frame_dimensions), LayerId(layer_id) { }
 
   std::shared_ptr<stella::graphics::Sprite> Sprite = nullptr;

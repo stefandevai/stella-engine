@@ -10,7 +10,7 @@
 #include "./layer.h"
 #include "../shader.h"
 #include "stella/graphics/texture.h"
-#include "stella/graphics/font.h"
+//#include "stella/graphics/font.h"
 
 namespace stella {
 namespace graphics {
@@ -19,9 +19,8 @@ class TextLayer : public Layer {
   public:
     TextLayer(float width, float height, bool fixed = true);
     ~TextLayer();
-    void Render() override;
-  private:
-    Font m_font{"assets/fonts/1980.ttf"};
+  // private:
+  //   Font m_font{"assets/fonts/1980.ttf"};
 };
 } // namespace graphics
 } // namespace stella

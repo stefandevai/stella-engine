@@ -11,6 +11,7 @@
 #include "stella/components/player_component.h"
 #include "stella/components/sprite_component.h"
 #include "stella/components/text_component.h"
+#include "stella/components/bitmap_text_component.h"
 #include "stella/components/tileview_component.h"
 #include "stella/components/layer_component.h"
 #include "stella/components/tile_component.h"
