@@ -19,6 +19,25 @@ Texture::Texture(const std::string &path) : Resource(path) {
   this->load(path.c_str());
 }
 
+Texture::Texture() : Resource("") {
+  this->Cached = false;
+  glGenTextures(1, &this->ID);
+}
+
+void Texture::LoadChar(GLuint w, GLuint h, unsigned char *data)
+{
+    this->Width = w;
+    this->Height = h;
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // Disable byte-alignment restriction
+    glBindTexture(GL_TEXTURE_2D, this->ID);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, this->Width, this->Height, 0, GL_RED, GL_UNSIGNED_BYTE, data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 Texture::~Texture() { glDeleteTextures(1, &this->ID); }
 
 void Texture::Bind() { glBindTexture(GL_TEXTURE_2D, this->ID); }

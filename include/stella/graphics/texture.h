@@ -10,7 +10,9 @@ namespace graphics {
     public:
       //Texture(const std::string &name, const char *texPath);
       Texture(const std::string &path);
+      Texture();
       ~Texture();
+      void LoadChar(unsigned w, unsigned h, unsigned char *data);
       void Bind();
       static void Unbind();
 

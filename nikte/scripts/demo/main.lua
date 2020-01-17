@@ -47,6 +47,13 @@ local function load()
     fixed = false,
   })
 
+  create_layer({
+    name = "text",
+    priority = 2,
+    shader = "text",
+    fixed = true,
+  })
+
   load_assets()
   load_player(512, 128)
 end

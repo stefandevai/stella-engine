@@ -30,7 +30,7 @@ set(STELLA_LIBRARY_NAME "stella")
 option(STELLA_DEBUG_MODE "Build in debug mode" ON)
 
 # Debug mode
-option(STELLA_BUILD_EDITOR "Build engine editor" ON)
+option(STELLA_BUILD_EDITOR "Build engine editor" OFF)
 
 # Turn this option on to build a targeted example
 option(BUILD_STELLA_EXAMPLE "Build example" ON)
@@ -51,7 +51,7 @@ option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" ON)
 option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" ON)
 #option(USE_SHARED_ENTITYX "Use shared EntityX library" OFF)
 option(USE_SHARED_ENTT "Use shared entt library" OFF)
-option(USE_SHARED_FREETYPE "Use shared FreeType2 library" ON)
+option(USE_SHARED_FREETYPE "Use shared FreeType2 library" OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -163,8 +163,8 @@ include_directories(${ENTT_INCLUDE_DIR})
 if (USE_SHARED_FREETYPE)
 	find_package(Freetype)
 else()
-	set(FREETYPE_INCLUDE_DIRS ${DEPENDENCIES_DIR}/freetype/src)
-	#set(ENTT_LIBRARIES entt)
+	set(FREETYPE_INCLUDE_DIRS ${DEPENDENCIES_DIR}/freetype2/include)
+	set(FREETYPE_LIBRARIES freetype)
 endif()
 include_directories(${FREETYPE_INCLUDE_DIRS})
 
@@ -273,7 +273,7 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${STELLA_LIBRARY_NAME} ${STELLA_SOURCES})
 
 target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES}
-  ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTT_LIBRARIES} ${LUA_LIBRARIES} ${PLATFORM_LIBRARIES})
+  ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTT_LIBRARIES} ${FREETYPE_LIBRARIES} ${LUA_LIBRARIES} ${PLATFORM_LIBRARIES})
 
 # Build examples if specified
 if (BUILD_STELLA_EXAMPLE)
