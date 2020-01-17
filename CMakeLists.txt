@@ -51,6 +51,7 @@ option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" ON)
 option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" ON)
 #option(USE_SHARED_ENTITYX "Use shared EntityX library" OFF)
 option(USE_SHARED_ENTT "Use shared entt library" OFF)
+option(USE_SHARED_FREETYPE "Use shared FreeType2 library" ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -158,6 +159,14 @@ else()
 	#set(ENTT_LIBRARIES entt)
 endif()
 include_directories(${ENTT_INCLUDE_DIR})
+
+if (USE_SHARED_FREETYPE)
+	find_package(Freetype)
+else()
+	set(FREETYPE_INCLUDE_DIRS ${DEPENDENCIES_DIR}/freetype/src)
+	#set(ENTT_LIBRARIES entt)
+endif()
+include_directories(${FREETYPE_INCLUDE_DIRS})
 
 # Lua - Lua scripting language
 if(APPLE)
