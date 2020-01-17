@@ -8,6 +8,9 @@ local function load_assets()
   load_texture("nikte", "assets/sprites/nikte.png")
   load_texture("tiles", "assets/sprites/tiles32x32.png")
   load_texture("tileset", "assets/sprites/tileset.png")
+
+  load_font("1980", "assets/fonts/1980.ttf")
+  load_font("lato", "assets/fonts/Lato/Lato-Black.ttf")
 end
 
 local function load_player(x, y)
@@ -61,7 +64,16 @@ local function load()
   test_text:add_component("position", {32, 64, 0})
   test_text:add_component("dimension", {32, 100})
   test_text:add_component("text", {
-    text = "Zahrita, je t'aime beaucoup ma vie !",
+    text = "Nikte's journey",
+    font_name = "lato",
+    is_static = true
+  })
+
+  local npc_text = Entity:create_entity()
+  npc_text:add_component("position", {32, 128, 0})
+  npc_text:add_component("dimension", {32, 100})
+  npc_text:add_component("text", {
+    text = "This will be a long long journey",
     font_name = "1980",
     is_static = true
   })

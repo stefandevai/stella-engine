@@ -14,12 +14,14 @@ namespace systems
 class TextSystem : public System
 {
   private:
-    std::map<std::string, std::shared_ptr<graphics::Font>> m_fonts;
+    //std::map<std::string, std::shared_ptr<graphics::Font>> m_fonts;
+    core::ResourceManager<graphics::Font> &m_fonts;
 
   public:
-    TextSystem(entt::registry &registry)
+    TextSystem(entt::registry &registry, core::ResourceManager<graphics::Font> &fonts)
+      : m_fonts(fonts)
     {
-      m_fonts.insert(std::pair<std::string, std::shared_ptr<graphics::Font>>("1980", std::make_shared<graphics::Font>("assets/fonts/1980.ttf")));
+      //m_fonts.insert(std::pair<std::string, std::shared_ptr<graphics::Font>>("1980", std::make_shared<graphics::Font>("assets/fonts/1980.ttf")));
       registry.on_construct<components::TextComponent>().connect<&TextSystem::initialize_text>(this);
     }
 
@@ -44,11 +46,12 @@ class TextSystem : public System
       //auto dim = registry.get<components::DimensionComponent>(entity);
       float scale = 1.f;
       float char_posx = (float)pos.x;
+      auto font = m_fonts.load(text.FontName);
 
       for (auto c : text.Text)
       {
           auto char_entity = registry.create();
-          auto ch = m_fonts[text.FontName]->get_char_data(c);
+          auto ch = font->get_char_data(c);
           GLfloat xpos = char_posx + ch.bl * scale;
           GLfloat ypos = pos.y - ch.bt * scale;
           GLfloat w = ch.bw * scale;
@@ -56,7 +59,7 @@ class TextSystem : public System
           
           if (w > 0.f && h > 0.f)
           {
-            registry.assign<components::SpriteComponent>(char_entity, glm::vec3(xpos, ypos, 0.f), glm::vec2(w, h), glm::vec2(ch.tx, 0.f), *m_fonts[text.FontName]->get_atlas(), "text");
+            registry.assign<components::SpriteComponent>(char_entity, glm::vec3(xpos, ypos, 0.f), glm::vec2(w, h), glm::vec2(ch.tx, 0.f), *font->get_atlas(), "text");
             registry.assign<components::PositionComponent>(char_entity, xpos, ypos);
             registry.assign<components::DimensionComponent>(char_entity, w, h);
             text.char_entities.push_back(char_entity);

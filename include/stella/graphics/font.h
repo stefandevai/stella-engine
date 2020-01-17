@@ -21,10 +21,10 @@ struct CharacterData
   float tx; // x offset of glyph in texture coordinates
 };
 
-class Font 
+class Font : public core::Resource
 {
   public:
-    Font(const char *path, unsigned size = 48);
+    Font(const std::string &path, unsigned size = 48);
     ~Font();
     CharacterData get_char_data(GLchar c) {return m_chars[c];};
     inline Texture *get_atlas() const {return m_texture_atlas;};

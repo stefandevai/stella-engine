@@ -15,6 +15,7 @@ namespace core
 #endif
     m_script_api.set_function("update_camera", &Game::update_camera, this);
     m_script_api.set_function("load_texture", &Game::load_texture, this);
+    m_script_api.set_function("load_font", &Game::load_font, this);
     this->create_camera(0.0, 0.0, 0.0);
   }
 
@@ -55,7 +56,7 @@ namespace core
 
   void Game::load_font(const std::string &name, const std::string &path)
   {
-
+    m_fonts.load(name, path);
   }
 } // namespace script
 } // namespace st

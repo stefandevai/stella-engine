@@ -55,7 +55,7 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
 #ifdef STELLA_BUILD_EDITOR
 	const SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_MAXIMIZED | SDL_WINDOW_RESIZABLE |  SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
 #else
-	const SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+	const SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
 #endif
   this->Window = SDL_CreateWindow(this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, window_flags);
 	//this->Window = SDL_CreateWindow(this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);

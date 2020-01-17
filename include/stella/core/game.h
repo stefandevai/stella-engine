@@ -9,6 +9,7 @@
 #include "../systems/animation_system.h"
 #include "./resource.h"
 #include "../graphics/texture.h"
+#include "../graphics/font.h"
 #include "../scripting/ecs_lua_api.h"
 #include "../audio/soundplayer.h"
 #include "../physics2d/world.h"
@@ -29,6 +30,7 @@ namespace core
       script::ECSLuaApi m_script_api{m_registry};
       audio::SoundPlayer m_sound_player;
       ResourceManager<graphics::Texture> m_textures;
+      ResourceManager<graphics::Font> m_fonts;
       entt::registry::entity_type m_camera = m_registry.create();
       std::vector<std::shared_ptr<systems::System>> m_systems{
         std::make_shared<systems::RenderSystem>(m_registry, m_textures, m_display),

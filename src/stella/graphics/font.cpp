@@ -9,8 +9,8 @@ namespace stella
 namespace graphics
 {
 
-Font::Font(const char *path, unsigned size)
-    : m_path(path), m_size(size)
+Font::Font(const std::string &path, unsigned size)
+    : Resource(path), m_path(path.c_str()), m_size(size)
 {
     if (FT_Init_FreeType(&m_ft))
   {
