@@ -22,6 +22,19 @@ struct Character {
   Texture    *Tex;
 };
 
+struct character_info {
+  long int ax; // advance.x
+  long int ay; // advance.y
+  
+  unsigned bw; // bitmap.width;
+  unsigned bh; // bitmap.rows;
+  
+  int bl; // bitmap_left;
+  int bt; // bitmap_top;
+  
+  float tx; // x offset of glyph in texture coordinates
+};
+
 class TextLayer : public Layer {
   public:
     TextLayer(float width, float height, bool fixed = true);
@@ -31,6 +44,9 @@ class TextLayer : public Layer {
     FT_Library m_ft;
     FT_Face m_face;
     std::map<GLchar, Character> m_chars;
+    std::map<GLchar, character_info> m_char_infos;
+    Texture *m_texture_atlas;
+    unsigned int m_atlas_width, m_atlas_height;
 };
 } // namespace graphics
 } // namespace stella

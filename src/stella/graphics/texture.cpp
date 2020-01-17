@@ -19,6 +19,20 @@ Texture::Texture(const std::string &path) : Resource(path) {
   this->load(path.c_str());
 }
 
+Texture::Texture(const unsigned w, const unsigned h) : Resource(""), Width(w), Height(h)
+{
+  this->Cached = false;
+  glGenTextures(1, &this->ID);
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+  glBindTexture(GL_TEXTURE_2D, this->ID);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_ALPHA, GL_UNSIGNED_BYTE, nullptr);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 Texture::Texture() : Resource("") {
   this->Cached = false;
   glGenTextures(1, &this->ID);

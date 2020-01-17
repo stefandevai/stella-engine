@@ -11,8 +11,6 @@ SpriteSheet::SpriteSheet(const Texture &texture, unsigned int framex,
       NumOfFrames(number_of_frames) {
   this->SizeInFramesX = Frames.GetWidth() / this->FrameX;
   this->SizeInFramesY = Frames.GetHeight() / this->FrameY;
-  this->OffsetX = 0;
-  this->OffsetY = 0;
 
   if (!number_of_frames) {
     this->NumOfFrames = this->SizeInFramesX * this->SizeInFramesY;
@@ -22,7 +20,7 @@ SpriteSheet::SpriteSheet(const Texture &texture, unsigned int framex,
 SpriteSheet::~SpriteSheet() {}
 
 glm::vec2 SpriteSheet::GetUV(unsigned int frame) {
-  if (this->NumOfFrames <= 1) {
+  if (this->NumOfFrames <= 1 && this->UVOffsetX == 0.f && this->UVOffsetY == 0.f) {
     return glm::vec2(0.0f, 1.0f);
   }
   frame += 1;
@@ -43,8 +41,8 @@ glm::vec2 SpriteSheet::GetUV(unsigned int frame) {
   }
   unsigned int coordY = ceil(frame / (float)this->SizeInFramesX) - 1;
 
-  float uvX = coordX * this->FrameX / w;
-  float uvY = 1.0f - coordY * this->FrameY / h;
+  float uvX =  this->UVOffsetX + coordX * this->FrameX / w;
+  float uvY =  this->UVOffsetY + 1.0f - coordY * this->FrameY / h;
 
   return glm::vec2(uvX, uvY);
 }

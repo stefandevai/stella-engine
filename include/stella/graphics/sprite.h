@@ -24,6 +24,7 @@ public:
          GLuint frame = 0);
   Sprite(glm::vec3 position, glm::vec2 frame_dimensions, Texture &texture, GLuint frame = 0);
   Sprite(glm::vec3 position, Texture &texture, GLuint frame = 0);
+  Sprite(const glm::vec3 position, const glm::vec2 dimensions, const glm::vec2 offset, Texture &texture);
   Sprite(const Sprite &copied_sprite);
   Sprite& operator=(const Sprite &sprite);
   ~Sprite();
@@ -34,7 +35,7 @@ public:
 	inline unsigned int GetColor() const { return Color; }
   inline GLuint GetCurrentFrame() const { return Frame; }
   inline SpriteSheet GetSpriteSheet() const { return *Sprites; }
-  inline glm::vec2 GetFrameCoords() const { return Sprites->GetUV(this->Frame); }
+  inline glm::vec2 GetFrameCoords() const {return Sprites->GetUV(this->Frame); }
 
   // Setters
   void SetFrame(GLuint frame);
