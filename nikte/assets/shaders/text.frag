@@ -55,13 +55,12 @@ void main()
       break;
   }
 
-  if (final_color.a < 0.1)
+  if (final_color.r < 0.1)
   {
     discard;
   }
 
-  vec4 sampled = vec4(1.0, 1.0, 1.0, final_color.r);
-  color = vec4(f_in.color.xyz, 1.0) * sampled;
+  color = vec4(f_in.color.xyz, final_color.r);
   //color = vec4(1.0, 1.0, 1.0, 1.0) * sampled;
 }
 

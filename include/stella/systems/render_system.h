@@ -1,17 +1,16 @@
 #pragma once
 
 #include <ctime>
-#include "../core/resource.h"
-#include "./system.h"
-#include "../components/layer_component.h"
-#include "../components/sprite_component.h"
-#include "../components/position_component.h"
-#include "../components/dimension_component.h"
-#include "../components/transform_component.h"
-#include "../components/camera_component.h"
+#include "stella/core/resource.h"
+#include "stella/systems/system.h"
+#include "stella/components/layer_component.h"
+#include "stella/components/sprite_component.h"
+#include "stella/components/position_component.h"
+#include "stella/components/dimension_component.h"
+#include "stella/components/transform_component.h"
+#include "stella/components/camera_component.h"
 #include "stella/graphics/layers/firelayer.h"
 #include "stella/graphics/layers/basic_layer.h"
-#include "stella/graphics/layers/text_layer.h"
 
 namespace stella
 {
@@ -23,7 +22,7 @@ class RenderSystem : public System
     const std::string DEFAULT_LAYER_NAME = "basic";
     core::ResourceManager<graphics::Texture> &m_textures;
     graphics::Display &m_display;
-    std::unordered_map<std::string, std::shared_ptr<graphics::Layer>> m_layers{{DEFAULT_LAYER_NAME, std::make_shared<graphics::BasicLayer>(m_display.GetWidth(), m_display.GetHeight(), false)}};
+    std::unordered_map<std::string, std::shared_ptr<graphics::Layer>> m_layers{{DEFAULT_LAYER_NAME, std::make_shared<graphics::BasicLayer>(m_display.GetWidth(), m_display.GetHeight(), "assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag", false)}};
     std::map<int, std::string> m_ordered_layers{{256, DEFAULT_LAYER_NAME}};
 
   public:
@@ -125,17 +124,13 @@ class RenderSystem : public System
       {
         m_layers[layer.Id] = std::shared_ptr<graphics::FireLayer>(new graphics::FireLayer(this->m_display));
       }
-      else if (layer.ShaderId == "ui")
+      else if (!layer.frag_shader_source.empty() && !layer.vert_shader_source.empty())
       {
-        m_layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->m_display.GetWidth(), this->m_display.GetHeight(), layer.Fixed));
-      }
-      else if (layer.ShaderId == "text")
-      {
-        m_layers[layer.Id] = std::shared_ptr<graphics::TextLayer>(new graphics::TextLayer(this->m_display.GetWidth(), this->m_display.GetHeight(), layer.Fixed));
+        m_layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->m_display.GetWidth(), this->m_display.GetHeight(), layer.vert_shader_source.c_str(), layer.frag_shader_source.c_str(), layer.Fixed));
       }
       else
       {
-        m_layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->m_display.GetWidth(), this->m_display.GetHeight(), layer.Fixed));
+        m_layers[layer.Id] = std::shared_ptr<graphics::BasicLayer>(new graphics::BasicLayer(this->m_display.GetWidth(), this->m_display.GetHeight(), "assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag", layer.Fixed));
       }
       m_ordered_layers[layer.Order] = layer.Id;
     }

@@ -47,9 +47,11 @@ namespace script
     const std::string &layer_name = obj["name"] == sol::lua_nil ? std::string() : obj["name"];
     const unsigned &priority = obj["priority"] == sol::lua_nil ? 0 : obj["priority"];
     const std::string &shader_id = obj["shader"] == sol::lua_nil ? std::string("basic") : obj["shader"];
+    std::string vert_shader_source = obj["vert_source"] == sol::lua_nil ? std::string() : obj["vert_source"];
+    std::string frag_shader_source = obj["frag_source"] == sol::lua_nil ? std::string() : obj["frag_source"];
     const bool &fixed = obj["fixed"] == sol::lua_nil ? true : obj["fixed"];
     auto layer = m_registry.create();
-    m_registry.assign<stella::components::LayerComponent>(layer, layer_name, priority, shader_id, fixed);
+    m_registry.assign<stella::components::LayerComponent>(layer, layer_name, priority, shader_id, vert_shader_source, frag_shader_source, fixed);
   }
 
   void ECSLuaApi::add_sprite_component(entt::registry::entity_type id, const sol::table &obj)

@@ -43,14 +43,14 @@ local function load()
   create_layer({
     name = "tiles",
     priority = 2,
-    shader = "basic",
     fixed = false,
   })
 
   create_layer({
     name = "text",
     priority = 1,
-    shader = "text",
+    vert_source = "assets/shaders/sprite_batch.vert",
+    frag_source = "assets/shaders/text.frag",
     fixed = true,
   })
 
@@ -58,10 +58,10 @@ local function load()
   load_player(512, 128)
 
   local test_text = Entity:create_entity()
-  test_text:add_component("position", {150, 32, 0})
+  test_text:add_component("position", {32, 64, 0})
   test_text:add_component("dimension", {32, 100})
   test_text:add_component("text", {
-    text = "Hola!",
+    text = "Zahrita, je t'aime beaucoup ma vie !",
     font_name = "1980",
     is_static = true
   })

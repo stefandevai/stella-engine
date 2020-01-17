@@ -1,10 +1,10 @@
 #pragma once
 
-#include "./system.h"
-#include "../components/text_component.h"
-#include "../components/position_component.h"
-#include "../components/dimension_component.h"
-#include "../components/sprite_component.h"
+#include "stella/systems/system.h"
+#include "stella/components/text_component.h"
+#include "stella/components/position_component.h"
+#include "stella/components/dimension_component.h"
+#include "stella/components/sprite_component.h"
 #include "stella/graphics/font.h"
 
 namespace stella
