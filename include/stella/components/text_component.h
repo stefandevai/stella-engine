@@ -9,7 +9,7 @@ namespace stella {
 namespace components {
 
 struct TextComponent {
-  TextComponent(const std::string text, const std::string font_name, const std::string color = "#ffffffff", bool is_static = false)
+  TextComponent(const std::string text, const std::string font_name, const std::string color = "#ffffffff", bool is_static = true)
     : Text(text), FontName(font_name), color(color), IsStatic(is_static)
   {
     

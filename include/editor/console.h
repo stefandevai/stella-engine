@@ -1,8 +1,14 @@
 #pragma once
 
 #include <string>
+#include <iostream>
+#include <entt/entity/registry.hpp>
 
 #include "./imgui/imgui.h"
+#include "stella/components/text_component.h"
+#include "stella/components/position_component.h"
+#include "stella/components/dimension_component.h"
+#include "stella/components/timer_component.h"
 
 namespace stella
 {
@@ -18,10 +24,11 @@ namespace editor
       ImFont *&MonoFont;
       ImGuiTextBuffer Buf;
       char editable_buffer[512];
+      entt::registry &m_registry;
 
     public:
-      Console(const ImGuiWindowFlags window_flags, ImFont *&mono_font)
-        : WindowFlags(window_flags), MonoFont(mono_font)
+      Console(const ImGuiWindowFlags window_flags, ImFont *&mono_font, entt::registry &registry)
+        : WindowFlags(window_flags), MonoFont(mono_font), m_registry(registry)
       {
           Clear();
       }
@@ -44,9 +51,11 @@ namespace editor
           for (int new_size = Buf.size(); old_size < new_size; old_size++)
               if (Buf[old_size] == '\n')
                   LineOffsets.push_back(old_size + 1);
+          if (AutoScroll)
+              ScrollToBottom = true;
       }
       
-      void Draw(std::string title, bool* p_open = NULL)
+      void Draw(std::string title, entt::registry &registry, bool* p_open = NULL)
       {
           if (!ImGui::Begin(title.c_str(), p_open, WindowFlags))
           {
@@ -71,7 +80,7 @@ namespace editor
         //       Clear();
         //   }
           
-          ImGui::BeginChild("scrolling", ImVec2(0,0), false, ImGuiWindowFlags_HorizontalScrollbar);
+          ImGui::BeginChild("scrolling", ImVec2(0,-60.f), false, ImGuiWindowFlags_HorizontalScrollbar);
           ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
           ImGui::PushFont(MonoFont);
 
@@ -112,9 +121,19 @@ namespace editor
           
           if(ImGui::InputText("", editable_buffer, IM_ARRAYSIZE(editable_buffer), ImGuiInputTextFlags_EnterReturnsTrue))
           {
-              AddLog(editable_buffer);
-              AddLog("\n");
-              strcpy(editable_buffer,"");
+              if (strlen(editable_buffer) > 0)
+              {
+                std::cout << strlen(editable_buffer) << '\n';
+                AddLog(editable_buffer);
+                AddLog("\n");
+                auto text_entity = registry.create();
+                registry.assign<stella::components::PositionComponent>(text_entity, 32.f, 32.f);
+                registry.assign<stella::components::DimensionComponent>(text_entity, 100.f, 100.f);
+                registry.assign<stella::components::TextComponent>(text_entity, std::string(editable_buffer), "1980");
+                registry.assign<stella::components::TimerComponent>(text_entity, components::TimerComponent::TimerEvent::Destroy, 3000);
+                // Clears the text buffer
+                strcpy(editable_buffer, "");
+              }
           }
 
           ImGui::PopStyleVar();

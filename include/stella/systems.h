@@ -13,3 +13,4 @@
 #include "stella/systems/text_system.h"
 #include "stella/systems/bitmap_text_system.h"
 #include "stella/systems/color_system.h"
+#include "stella/systems/timer_system.h"

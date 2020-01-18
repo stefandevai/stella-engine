@@ -15,6 +15,7 @@
 #include "stella/components/tileview_component.h"
 #include "stella/components/layer_component.h"
 #include "stella/components/tile_component.h"
+#include "stella/components/timer_component.h"
 #include "stella/components/scroll_component.h"
 #include "stella/components/camera_component.h"
 #include "stella/components/color_component.h"

@@ -8,6 +8,7 @@
 #include "../systems/render_system.h"
 #include "../systems/animation_system.h"
 #include "../systems/color_system.h"
+#include "../systems/timer_system.h"
 #include "./resource.h"
 #include "../graphics/texture.h"
 #include "../graphics/font.h"
@@ -36,6 +37,7 @@ namespace core
       std::vector<std::shared_ptr<systems::System>> m_systems{
         std::make_shared<systems::RenderSystem>(m_registry, m_textures, m_display),
         std::make_shared<systems::ColorSystem>(m_registry),
+        std::make_shared<systems::TimerSystem>(m_registry),
         std::make_shared<systems::AnimationSystem>()
       };
 

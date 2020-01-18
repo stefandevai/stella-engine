@@ -161,7 +161,7 @@ namespace editor
     ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f,0.5f,0.5f,1.0f));
     //m_log.Draw("Console Log");
-    m_console.Draw("Console Log");
+    m_console.Draw("Console Log", m_registry);
     ImGui::PopStyleColor();
   }
 

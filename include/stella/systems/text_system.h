@@ -24,6 +24,7 @@ class TextSystem : public System
     {
       //m_fonts.insert(std::pair<std::string, std::shared_ptr<graphics::Font>>("1980", std::make_shared<graphics::Font>("assets/fonts/1980.ttf")));
       registry.on_construct<components::TextComponent>().connect<&TextSystem::initialize_text>(this);
+      registry.on_destroy<components::TextComponent>().connect<&TextSystem::delete_text>(this);
     }
 
     ~TextSystem() override { }
@@ -51,7 +52,6 @@ class TextSystem : public System
 
       for (auto c : text.Text)
       {
-          auto char_entity = registry.create();
           auto ch = font->get_char_data(c);
           GLfloat xpos = char_posx + ch.bl * scale;
           GLfloat ypos = pos.y - ch.bt * scale;
@@ -60,6 +60,7 @@ class TextSystem : public System
           
           if (w > 0.f && h > 0.f)
           {
+            auto char_entity = registry.create();
             registry.assign<components::SpriteComponent>(char_entity, glm::vec3(xpos, ypos, 0.f), glm::vec2(w, h), glm::vec2(ch.tx, 0.f), *font->get_atlas(), "text");
             registry.assign<components::PositionComponent>(char_entity, xpos, ypos);
             registry.assign<components::DimensionComponent>(char_entity, w, h);
@@ -69,6 +70,16 @@ class TextSystem : public System
 
           char_posx += (ch.ax >> 6) * scale;
      }
+    }
+
+    void delete_text(entt::registry &registry, entt::entity entity)
+    {
+      auto& text = registry.get<components::TextComponent>(entity);
+      //std::cout << "here\n";
+      for (auto &ch : text.char_entities)
+      {
+        registry.destroy(ch);
+      }
     }
 };
 } // namespace systems
