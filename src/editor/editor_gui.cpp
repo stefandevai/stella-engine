@@ -68,7 +68,8 @@ namespace editor
       const ImVec2 editor_pos{0.0f, top_menu_height};
       const ImVec2 console_size{game_width, window_height - game_height - top_menu_height - section_spacing};
       const ImVec2 console_pos{window_width - game_width, game_height + top_menu_height + section_spacing};
-      const ImVec2 info_pos{window_width - game_width + top_menu_height, top_menu_height*2};
+      //const ImVec2 info_pos{window_width - game_width + top_menu_height, top_menu_height*2};
+      const ImVec2 info_pos{window_width - 148.f - top_menu_height, top_menu_height*2};
       
       this->draw_editor(editor_size, editor_pos);
       this->draw_console(console_size, console_pos);
@@ -159,7 +160,8 @@ namespace editor
     ImGui::SetNextWindowSize(size, ImGuiCond_Always);
     ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f,0.5f,0.5f,1.0f));
-    m_log.Draw("Console Log");
+    //m_log.Draw("Console Log");
+    m_console.Draw("Console Log");
     ImGui::PopStyleColor();
   }
 

@@ -30,7 +30,7 @@ set(STELLA_LIBRARY_NAME "stella")
 option(STELLA_DEBUG_MODE "Build in debug mode" ON)
 
 # Debug mode
-option(STELLA_BUILD_EDITOR "Build engine editor" OFF)
+option(STELLA_BUILD_EDITOR "Build engine editor" ON)
 
 # Turn this option on to build a targeted example
 option(BUILD_STELLA_EXAMPLE "Build example" ON)

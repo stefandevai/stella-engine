@@ -6,6 +6,7 @@
 #include <entt/entity/registry.hpp>
 #include "./log_system.h"
 #include "./gui_log.h"
+#include "./console.h"
 #include "./debug_layer.h"
 #include "../stella/graphics/shape.h"
 
@@ -24,6 +25,7 @@ namespace editor
       ImFont *m_font_mono = nullptr, *m_font_sans_regular = nullptr, *m_font_sans_bold = nullptr;
       const ImGuiWindowFlags m_window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
       GuiLog m_log{m_window_flags, m_font_mono};
+      Console m_console{m_window_flags, m_font_mono};
       LogSystem m_log_system{m_log};
       entt::registry &m_registry;
       DebugLayer m_debug_layer{896, 504, true};

@@ -60,22 +60,22 @@ local function load()
   load_assets()
   load_player(512, 128)
 
-  local test_text = Entity:create_entity()
-  test_text:add_component("position", {32, 64, 0})
-  test_text:add_component("dimension", {32, 100})
-  test_text:add_component("text", {
-    text = "Nikte's journey",
-    font_name = "lato",
-  })
+  -- local test_text = Entity:create_entity()
+  -- test_text:add_component("position", {32, 64, 0})
+  -- test_text:add_component("dimension", {32, 100})
+  -- test_text:add_component("text", {
+  --   text = "Nikte's journey",
+  --   font_name = "lato",
+  -- })
 
-  local npc_text = Entity:create_entity()
-  npc_text:add_component("position", {32, 128, 0})
-  npc_text:add_component("dimension", {32, 100})
-  npc_text:add_component("text", {
-    text = "This will be a long long journey",
-    font_name = "1980",
-    color = "#ff0033ff",
-  })
+  -- local npc_text = Entity:create_entity()
+  -- npc_text:add_component("position", {32, 128, 0})
+  -- npc_text:add_component("dimension", {32, 100})
+  -- npc_text:add_component("text", {
+  --   text = "This will be a long long journey",
+  --   font_name = "1980",
+  --   color = "#ff0033ff",
+  -- })
 end
 
 local camerax = 0.0
