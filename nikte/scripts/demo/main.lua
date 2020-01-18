@@ -66,7 +66,6 @@ local function load()
   test_text:add_component("text", {
     text = "Nikte's journey",
     font_name = "lato",
-    color = "#c932a1ff",
   })
 
   local npc_text = Entity:create_entity()
@@ -75,7 +74,7 @@ local function load()
   npc_text:add_component("text", {
     text = "This will be a long long journey",
     font_name = "1980",
-    color = "#fcba03ff",
+    color = "#ff0033ff",
   })
 end
 
