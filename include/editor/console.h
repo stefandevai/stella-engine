@@ -123,11 +123,10 @@ namespace editor
           {
               if (strlen(editable_buffer) > 0)
               {
-                std::cout << strlen(editable_buffer) << '\n';
                 AddLog(editable_buffer);
                 AddLog("\n");
                 auto text_entity = registry.create();
-                registry.assign<stella::components::PositionComponent>(text_entity, 32.f, 32.f);
+                registry.assign<stella::components::PositionComponent>(text_entity, 350.f, 268.f);
                 registry.assign<stella::components::DimensionComponent>(text_entity, 100.f, 100.f);
                 registry.assign<stella::components::TextComponent>(text_entity, std::string(editable_buffer), "1980");
                 registry.assign<stella::components::TimerComponent>(text_entity, components::TimerComponent::TimerEvent::Destroy, 3000);
