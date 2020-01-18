@@ -54,9 +54,9 @@ namespace core
     m_textures.load(name, path);
   }
 
-  void Game::load_font(const std::string &name, const std::string &path)
+  void Game::load_font(const std::string &name, const std::string &path, const unsigned size)
   {
-    m_fonts.load(name, path);
+    m_fonts.load(name, path, size);
   }
 } // namespace script
 } // namespace st

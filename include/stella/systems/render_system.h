@@ -20,13 +20,13 @@ class RenderSystem : public System
 {
   private:
     const std::string DEFAULT_LAYER_NAME = "basic";
-    core::ResourceManager<graphics::Texture> &m_textures;
+    core::ResourceManager<graphics::Texture, const std::string> &m_textures;
     graphics::Display &m_display;
     std::unordered_map<std::string, std::shared_ptr<graphics::Layer>> m_layers{{DEFAULT_LAYER_NAME, std::make_shared<graphics::BasicLayer>(m_display.GetWidth(), m_display.GetHeight(), "assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag", false)}};
     std::map<int, std::string> m_ordered_layers{{256, DEFAULT_LAYER_NAME}};
 
   public:
-    RenderSystem(entt::registry &registry, core::ResourceManager<graphics::Texture> &textures, graphics::Display& display)
+    RenderSystem(entt::registry &registry, core::ResourceManager<graphics::Texture, const std::string> &textures, graphics::Display& display)
       : m_textures(textures), m_display(display)
     {
       registry.on_construct<components::LayerComponent>().connect<&RenderSystem::initialize_layer>(this);

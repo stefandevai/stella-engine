@@ -57,7 +57,7 @@ void ShapeRenderer::init() {
 
   GLint offset = 0;
   GLuint indices[S_INDICES_SIZE];
-  for (GLint i = 0; i < S_INDICES_SIZE; i += 6) {
+  for (GLuint i = 0; i < S_INDICES_SIZE; i += 6) {
     indices[i] = offset;
     indices[i + 1] = offset + 1;
     indices[i + 2] = offset + 2;

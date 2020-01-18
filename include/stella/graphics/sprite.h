@@ -38,11 +38,12 @@ public:
   inline glm::vec2 GetFrameCoords() const {return Sprites->GetUV(this->Frame); }
 
   // Setters
-  void SetFrame(GLuint frame);
-  void SetDirectFrame(GLuint frame);
-	void SetColorRGB(int r, int g, int b);
-  void SetColorRGBA(unsigned int r, unsigned int g, unsigned int b, unsigned int a);
-	void SetAlpha(int a);
+  void SetFrame(const GLuint frame);
+  void SetDirectFrame(const GLuint frame);
+  void SetDirectColor(const unsigned color);
+	void SetColorRGB(const unsigned r, const unsigned g, const unsigned b) ;
+  void SetColorRGBA(const unsigned r, const unsigned int g, const unsigned b, const unsigned a);
+	void SetAlpha(const unsigned a);
 	void Flip() { this->SetScale(glm::vec2(-1.f, 0.f)); }
 
 private:

@@ -179,8 +179,9 @@ namespace script
   {
     const std::string &text = obj["text"];
     const std::string &font_name = obj["font_name"];
-    const bool &is_static = obj["is_static"];
-    m_registry.assign<stella::components::TextComponent>(id, text, font_name, is_static);
+    const std::string &color = obj["color"] == sol::lua_nil ? std::string("#ffffffff") : obj["color"];
+    const bool &is_static = obj["is_static"] == sol::lua_nil ? true : obj["is_static"];
+    m_registry.assign<stella::components::TextComponent>(id, text, font_name, color, is_static);
   }
 
   void ECSLuaApi::add_particle_emitter_component(entt::registry::entity_type id, const sol::table &obj)

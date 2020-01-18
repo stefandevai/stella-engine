@@ -5,6 +5,7 @@
 #include "stella/components/position_component.h"
 #include "stella/components/dimension_component.h"
 #include "stella/components/sprite_component.h"
+#include "stella/components/color_component.h"
 #include "stella/graphics/font.h"
 
 namespace stella
@@ -15,10 +16,10 @@ class TextSystem : public System
 {
   private:
     //std::map<std::string, std::shared_ptr<graphics::Font>> m_fonts;
-    core::ResourceManager<graphics::Font> &m_fonts;
+    core::ResourceManager<graphics::Font, const std::string, unsigned> &m_fonts;
 
   public:
-    TextSystem(entt::registry &registry, core::ResourceManager<graphics::Font> &fonts)
+    TextSystem(entt::registry &registry, core::ResourceManager<graphics::Font, const std::string, unsigned> &fonts)
       : m_fonts(fonts)
     {
       //m_fonts.insert(std::pair<std::string, std::shared_ptr<graphics::Font>>("1980", std::make_shared<graphics::Font>("assets/fonts/1980.ttf")));
@@ -62,6 +63,7 @@ class TextSystem : public System
             registry.assign<components::SpriteComponent>(char_entity, glm::vec3(xpos, ypos, 0.f), glm::vec2(w, h), glm::vec2(ch.tx, 0.f), *font->get_atlas(), "text");
             registry.assign<components::PositionComponent>(char_entity, xpos, ypos);
             registry.assign<components::DimensionComponent>(char_entity, w, h);
+            registry.assign<components::ColorComponent>(char_entity, text.color);
             text.char_entities.push_back(char_entity);
           }
 

@@ -1,7 +1,7 @@
 #include "game.h"
 
 Game::Game()
-  : stella::core::Game(896, 504, "Stella Engine")
+  : stella::core::Game(896, 504, "Nikte")
 {
   this->add_system<stella::systems::PhysicsSystem>(m_tile_map, m_registry);
   this->add_system<stella::systems::TileSystem>(m_tile_map, m_camera, m_registry);

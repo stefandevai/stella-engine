@@ -97,17 +97,21 @@ Sprite::~Sprite() { delete Sprites; }
 
 void Sprite::Update() { this->Frame = Animations.Update(); }
 
-void Sprite::SetFrame(GLuint frame) { Frame = frame % this->NumberOfFrames; }
+void Sprite::SetFrame(const GLuint frame) { Frame = frame % this->NumberOfFrames; }
 
-void Sprite::SetDirectFrame(GLuint frame) { Frame = frame; }
+void Sprite::SetDirectFrame(const GLuint frame) { Frame = frame; }
 
-void Sprite::SetColorRGB(int r, int g, int b) {
+void Sprite::SetDirectColor(const unsigned color) {
+	this->Color = color;
+}
+
+void Sprite::SetColorRGB(const unsigned r, const unsigned g, const unsigned b) {
 	this->Color = 255 << 24 | b << 16 | g << 8 | r;
 }
-void Sprite::SetColorRGBA(unsigned int r, unsigned int g, unsigned int b, unsigned int a) {
+void Sprite::SetColorRGBA(const unsigned r, const unsigned g, const unsigned b, const unsigned a) {
 	this->Color = a << 24 | b << 16 | g << 8 | r;
 }
-void Sprite::SetAlpha(int a) {
+void Sprite::SetAlpha(unsigned a) {
 	this->Color = a << 24;
 }
 } // namespace graphics

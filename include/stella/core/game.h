@@ -7,6 +7,7 @@
 #include "../systems/system.h"
 #include "../systems/render_system.h"
 #include "../systems/animation_system.h"
+#include "../systems/color_system.h"
 #include "./resource.h"
 #include "../graphics/texture.h"
 #include "../graphics/font.h"
@@ -29,11 +30,12 @@ namespace core
     protected:
       script::ECSLuaApi m_script_api{m_registry};
       audio::SoundPlayer m_sound_player;
-      ResourceManager<graphics::Texture> m_textures;
-      ResourceManager<graphics::Font> m_fonts;
+      ResourceManager<graphics::Texture, const std::string> m_textures;
+      ResourceManager<graphics::Font, const std::string, unsigned> m_fonts;
       entt::registry::entity_type m_camera = m_registry.create();
       std::vector<std::shared_ptr<systems::System>> m_systems{
         std::make_shared<systems::RenderSystem>(m_registry, m_textures, m_display),
+        std::make_shared<systems::ColorSystem>(m_registry),
         std::make_shared<systems::AnimationSystem>()
       };
 
@@ -51,7 +53,7 @@ namespace core
       void create_camera(const double x, const double y, const double z);
       void update_camera(const double x, const double y, const double z);
       void load_texture(const std::string &name, const std::string &path);
-      void load_font(const std::string &name, const std::string &path);
+      void load_font(const std::string &name, const std::string &path, const unsigned size);
       void update_systems(const double dt);
 
       template <typename T, typename ... Params>
