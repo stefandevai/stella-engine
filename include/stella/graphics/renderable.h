@@ -33,7 +33,6 @@ public:
   inline GLfloat GetRotation() const { return Rotation; }
   inline glm::vec2 GetScale() const { return Scale; }
   inline GLuint GetTexID() const;
-  inline const std::string &GetTexName() const;
   Texture *GetTexture() const;
   inline const GLboolean& IsVisible() const { return Visible; }
 

@@ -20,7 +20,7 @@ local function load_player(x, y)
     layer = "tiles",
     frame_dimensions = {32, 64, 0},
   })
-  Player:add_component("position", {x, y, 0})
+  Player:add_component("position", {x, y, 10})
   Player:add_component("dimension", {32, 64})
   Player:add_component("movement")
   Player:add_component("body", {
@@ -45,13 +45,13 @@ end
 local function load()
   create_layer({
     name = "tiles",
-    priority = 2,
+    priority = 1,
     fixed = false,
   })
 
   create_layer({
     name = "text",
-    priority = 1,
+    priority = 2,
     vert_source = "assets/shaders/sprite_batch.vert",
     frag_source = "assets/shaders/text.frag",
     fixed = true,
@@ -59,6 +59,15 @@ local function load()
 
   load_assets()
   load_player(512, 128)
+
+  -- local test_spr = Entity:create_entity()
+  -- test_spr:add_component("sprite", {
+  --   texture = "nikte",
+  --   layer = "tiles",
+  --   frame_dimensions = {32, 64, 0},
+  -- })
+  -- test_spr:add_component("position", {512, 128, 3})
+  -- test_spr:add_component("dimension", {32, 64})
 
   -- local test_text = Entity:create_entity()
   -- test_text:add_component("position", {32, 64, 0})

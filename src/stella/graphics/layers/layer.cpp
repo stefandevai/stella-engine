@@ -14,11 +14,15 @@ Layer::~Layer() {
   this->Shad->Disable();
 }
 
-void Layer::Add(std::shared_ptr<Sprite> sprite) { this->Sprites.push_back(sprite); }
+void Layer::Add(std::shared_ptr<Sprite> sprite) {
+  m_sprites.insert(sprite);
+  //this->Sprites.push_back(sprite);
+}
 
 void Layer::Remove(std::shared_ptr<Sprite> sprite) {
-  auto it = std::find(this->Sprites.begin(), this->Sprites.end(), sprite);
-  this->Sprites.erase(it);
+  auto it = std::find(m_sprites.begin(), m_sprites.end(), sprite);
+  m_sprites.erase(it);
+
 }
 
 void Layer::Render() {
@@ -37,7 +41,7 @@ void Layer::Render() {
   //trans = glm::translate(trans, glm::vec3(-360.0f, -202.0f, 0.0f));
   //this->Ren->PushTransformation(trans);
 
-  for (auto i : Sprites)
+  for (auto i : m_sprites)
     this->Ren->Submit(*i);
   
   //this->Ren->PopTransformation();

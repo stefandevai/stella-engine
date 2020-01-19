@@ -55,10 +55,10 @@ void main()
       break;
   } 
 
-  if (final_color.a < 0.1)
+  /*if (final_color.a < 0.1)
   {
     discard;
-  }
+  }*/
   color = vec4(final_color.xyz, final_color.a);
 }
 

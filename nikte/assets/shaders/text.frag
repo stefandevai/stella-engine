@@ -54,12 +54,7 @@ void main()
       final_color = texture(textures[10], f_in.uv);
       break;
   }
-
-  if (f_in.color.w*final_color.r < 0.1)
-  {
-    discard;
-  }
-
+  
   color = vec4(f_in.color.xyz, f_in.color.w*final_color.r);
   //color = vec4(1.0, 1.0, 1.0, 1.0) * sampled;
 }

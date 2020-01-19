@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <set>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -12,11 +13,23 @@
 namespace stella {
 namespace graphics {
 class Layer {
+private:
+  struct CompSpriteZ
+  {
+    bool operator()(const std::shared_ptr<Sprite>& lhs, const std::shared_ptr<Sprite>& rhs) const noexcept
+    {
+      return (lhs->Pos.z < rhs->Pos.z);
+    }
+  };
+
 protected:
   std::shared_ptr<Renderer> Ren;
   std::shared_ptr<Shader> Shad;
   std::vector<std::shared_ptr<Sprite>> Sprites;
   glm::mat4 ViewMatrix;
+
+  std::multiset<std::shared_ptr<Sprite>, CompSpriteZ> m_sprites;
+
 
 public:
   bool Fixed;

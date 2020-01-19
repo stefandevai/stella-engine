@@ -29,6 +29,8 @@ public:
   Sprite& operator=(const Sprite &sprite);
   ~Sprite();
 
+  bool operator < (const Sprite& other) const { return (this->Pos.z < other.Pos.z); }
+
   void Update();
 
   // Getters

@@ -96,7 +96,7 @@ Display::Display(GLuint width, GLuint height, const std::string &title)
   glViewport(0, 0, this->Width, this->Height);
   glEnable(GL_BLEND);
   //glDisable(GL_DEPTH_TEST);
-  glEnable(GL_DEPTH_TEST);
+  //glEnable(GL_DEPTH_TEST);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   // Set default Clear Color
@@ -193,8 +193,8 @@ void Display::SetClearColor(GLfloat x, GLfloat y, GLfloat z) {
 
 void Display::Clear() {
   glClearColor(this->ClearColor.x, this->ClearColor.y, this->ClearColor.z, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  //glClear(GL_COLOR_BUFFER_BIT);
+  //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT);
   //glEnable(GL_DEPTH_TEST);
 }
 
