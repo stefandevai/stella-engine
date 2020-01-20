@@ -83,16 +83,21 @@ class TextSystem : public System
           const GLfloat w = ch.bw * scale;
           const GLfloat h = ch.bh * scale;
           
+          auto char_entity = registry.create();
           if (w > 0.f && h > 0.f)
           {
-            auto char_entity = registry.create();
             registry.assign<components::CharcodeComponent>(char_entity, c);
             registry.assign<components::SpriteComponent>(char_entity, glm::vec3(xpos, ypos, 0.f), glm::vec2(w, h), glm::vec2(ch.tx, 0.f), *font->get_atlas(), "text");
             registry.assign<components::PositionComponent>(char_entity, xpos, ypos);
             registry.assign<components::DimensionComponent>(char_entity, w, h);
             registry.assign<components::ColorComponent>(char_entity, text.color);
-            text.char_entities.push_back(char_entity);
           }
+          else
+          {
+            registry.assign<components::CharcodeComponent>(char_entity, c);
+            registry.assign<components::PositionComponent>(char_entity, xpos, ypos);
+          }
+          text.char_entities.push_back(char_entity);
 
           char_posx += (ch.ax >> 6) * scale;
           char_maxh = std::max(char_maxh, h);
