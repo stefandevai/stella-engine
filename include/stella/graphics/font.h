@@ -26,7 +26,10 @@ class Font : public core::Resource
   public:
     Font(const std::string &path, unsigned size = 48);
     ~Font();
-    CharacterData get_char_data(wchar_t c) {return m_chars[c];};
+    inline CharacterData get_char_data(wchar_t c)
+    {
+      return ((c >= CHAR_BOTTOM_LIMIT && c < CHAR_TOP_LIMIT) ? m_chars[c] : m_empty_char_data);
+    };
     inline Texture *get_atlas() const {return m_texture_atlas;};
   private:
     const char *m_path;
@@ -40,6 +43,9 @@ class Font : public core::Resource
     // Limit codes for obtaining characters in the ttf font
     static const int CHAR_BOTTOM_LIMIT = 32;
     static const int CHAR_TOP_LIMIT = 253;
+
+    // Empty data used in case the input is not within the range of loaded chars
+    CharacterData m_empty_char_data = { 0, 0, 0, 0, 0, 0, 0.f };
 };
 
 }

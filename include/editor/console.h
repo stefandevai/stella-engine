@@ -33,7 +33,8 @@ namespace editor
       Console(const ImGuiWindowFlags window_flags, ImFont *&mono_font, entt::registry &registry)
         : WindowFlags(window_flags), MonoFont(mono_font), m_registry(registry)
       {
-          Clear();
+        strcpy(editable_buffer, "");
+        Clear();
       }
       ~Console() {}
 
