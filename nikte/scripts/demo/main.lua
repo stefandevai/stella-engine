@@ -48,10 +48,20 @@ local function load()
     priority = 1,
     fixed = false,
   })
+  create_layer({
+    name = "collision",
+    priority = 2,
+    fixed = false,
+  })
+  create_layer({
+    name = "foreground",
+    priority = 3,
+    fixed = false,
+  })
 
   create_layer({
     name = "text",
-    priority = 2,
+    priority = 10,
     vert_source = "assets/shaders/sprite_batch.vert",
     frag_source = "assets/shaders/text.frag",
     fixed = false,
