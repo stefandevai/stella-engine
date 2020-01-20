@@ -54,7 +54,7 @@ local function load()
     priority = 2,
     vert_source = "assets/shaders/sprite_batch.vert",
     frag_source = "assets/shaders/text.frag",
-    fixed = true,
+    fixed = false,
   })
 
   load_assets()

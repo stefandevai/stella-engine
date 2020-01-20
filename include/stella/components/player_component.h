@@ -1,10 +1,11 @@
 #pragma once
 
+#include <bitset>
+
 namespace stella {
 namespace components {
 struct PlayerComponent {
   PlayerComponent() {}
-  bool HasTorch = true;
   bool InAir = false;
   float JumpForce     = 250.f,
         Acceleration  = 4400.f,

@@ -19,6 +19,7 @@ class Player
     entt::registry &m_registry;
     enum State {IDLE, WALKING};
     const entt::registry::entity_type entity = m_registry.create();
+    
   private:
     stella::graphics::Display &Display;
     State current_state = IDLE;

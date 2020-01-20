@@ -19,4 +19,5 @@
 #include "stella/components/scroll_component.h"
 #include "stella/components/camera_component.h"
 #include "stella/components/color_component.h"
+#include "stella/components/charcode_component.h"
 

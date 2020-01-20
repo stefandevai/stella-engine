@@ -14,3 +14,4 @@
 #include "stella/systems/bitmap_text_system.h"
 #include "stella/systems/color_system.h"
 #include "stella/systems/timer_system.h"
+#include "stella/systems/speech_system.h"
