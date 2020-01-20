@@ -50,7 +50,7 @@ class TextSystem : public System
       float char_posx = (float)pos.x;
       auto font = m_fonts.load(text.FontName);
 
-      for (auto c : text.Text)
+      for (wchar_t c : text.Text)
       {
           auto ch = font->get_char_data(c);
           GLfloat xpos = char_posx + ch.bl * scale;

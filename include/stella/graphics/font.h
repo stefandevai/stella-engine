@@ -26,16 +26,20 @@ class Font : public core::Resource
   public:
     Font(const std::string &path, unsigned size = 48);
     ~Font();
-    CharacterData get_char_data(GLchar c) {return m_chars[c];};
+    CharacterData get_char_data(wchar_t c) {return m_chars[c];};
     inline Texture *get_atlas() const {return m_texture_atlas;};
   private:
     const char *m_path;
-    unsigned m_size = 12;
+    unsigned m_size;
     FT_Library m_ft;
     FT_Face m_face;
-    std::map<GLchar, CharacterData> m_chars;
+    std::map<wchar_t, CharacterData> m_chars;
     Texture *m_texture_atlas;
     unsigned int m_atlas_width, m_atlas_height;
+
+    // Limit codes for obtaining characters in the ttf font
+    static const int CHAR_BOTTOM_LIMIT = 32;
+    static const int CHAR_TOP_LIMIT = 253;
 };
 
 }

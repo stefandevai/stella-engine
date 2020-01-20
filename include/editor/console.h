@@ -4,6 +4,8 @@
 #include <iostream>
 #include <entt/entity/registry.hpp>
 
+#include <codecvt>
+
 #include "./imgui/imgui.h"
 #include "stella/components/text_component.h"
 #include "stella/components/position_component.h"
@@ -25,6 +27,7 @@ namespace editor
       ImGuiTextBuffer Buf;
       char editable_buffer[512];
       entt::registry &m_registry;
+      std::wstring_convert<std::codecvt_utf8<wchar_t>,wchar_t> m_converter;
 
     public:
       Console(const ImGuiWindowFlags window_flags, ImFont *&mono_font, entt::registry &registry)
@@ -125,10 +128,11 @@ namespace editor
               {
                 AddLog(editable_buffer);
                 AddLog("\n");
+
                 auto text_entity = registry.create();
                 registry.assign<stella::components::PositionComponent>(text_entity, 350.f, 268.f);
                 registry.assign<stella::components::DimensionComponent>(text_entity, 100.f, 100.f);
-                registry.assign<stella::components::TextComponent>(text_entity, std::string(editable_buffer), "1980");
+                registry.assign<stella::components::TextComponent>(text_entity, m_converter.from_bytes(std::string(editable_buffer)), "1980");
                 registry.assign<stella::components::TimerComponent>(text_entity, components::TimerComponent::TimerEvent::Destroy, 3000);
                 // Clears the text buffer
                 strcpy(editable_buffer, "");

@@ -177,7 +177,7 @@ namespace script
 
   void ECSLuaApi::add_text_component(entt::registry::entity_type id, const sol::table &obj)
   {
-    const std::string &text = obj["text"];
+    const std::wstring &text = obj["text"];
     const std::string &font_name = obj["font_name"];
     const std::string &color = obj["color"] == sol::lua_nil ? std::string("#ffffffff") : obj["color"];
     const bool &is_static = obj["is_static"] == sol::lua_nil ? true : obj["is_static"];

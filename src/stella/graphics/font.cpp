@@ -12,7 +12,7 @@ namespace graphics
 Font::Font(const std::string &path, unsigned size)
     : Resource(path), m_path(path.c_str()), m_size(size)
 {
-    if (FT_Init_FreeType(&m_ft))
+  if (FT_Init_FreeType(&m_ft))
   {
     std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
   }
@@ -20,10 +20,15 @@ Font::Font(const std::string &path, unsigned size)
   {
     std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
   }
+  if (FT_Select_Charmap(m_face, FT_ENCODING_UNICODE))
+  {
+    std::cout << "ERROR::FREETYPE: Failed to load unicode charmap" << std::endl;
+  }
   FT_Set_Pixel_Sizes(m_face, 0, size);
+  
 
   unsigned int aw = 0, ah = 0;
-  for (GLubyte c = 32; c < 128; c++)
+  for (wchar_t c = CHAR_BOTTOM_LIMIT; c < CHAR_TOP_LIMIT; c++)
   {
     if (FT_Load_Char(m_face, c, FT_LOAD_RENDER))
     {
@@ -42,7 +47,8 @@ Font::Font(const std::string &path, unsigned size)
   int aa = 0;
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
   m_texture_atlas->Bind();
-  for (GLubyte c = 32; c < 128; c++)
+
+  for (wchar_t c = CHAR_BOTTOM_LIMIT; c < CHAR_TOP_LIMIT; c++)
   {
     if (FT_Load_Char(m_face, c, FT_LOAD_RENDER))
     {
@@ -61,7 +67,7 @@ Font::Font(const std::string &path, unsigned size)
         m_face->glyph->bitmap_top,
         (float)aa / m_atlas_width
     };
-    m_chars.insert(std::pair<GLchar, CharacterData>(c, ch_data));
+    m_chars.insert(std::pair<wchar_t, CharacterData>(c, ch_data));
     aa += m_face->glyph->bitmap.width;
   }
   m_texture_atlas->Unbind();

@@ -70,10 +70,10 @@ local function load()
   -- test_spr:add_component("dimension", {32, 64})
 
   -- local test_text = Entity:create_entity()
-  -- test_text:add_component("position", {32, 64, 0})
+  -- test_text:add_component("position", {512, 64, 0})
   -- test_text:add_component("dimension", {32, 100})
   -- test_text:add_component("text", {
-  --   text = "Nikte's journey",
+  --   text = "aaaúñça",
   --   font_name = "lato",
   -- })
 
