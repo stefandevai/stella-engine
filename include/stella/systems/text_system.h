@@ -60,30 +60,31 @@ class TextSystem : public System
     {
       auto font = m_fonts.load(text.FontName);
       const auto& pos = registry.get<components::PositionComponent>(entity);
-      //auto dim = registry.get<components::DimensionComponent>(entity);
-      float scale = 1.f;
       float char_posx = (float)pos.x;
       float char_maxh = 0.f;
 
       double max_text_width = 0.f;
-      double max_text_height = 0.f;
+      //double max_text_height = 0.f;
 
+      // TODO: If there are defined dimensions, the text should remain within its constraints
       if (registry.has<components::DimensionComponent>(entity))
       {
         const auto& dim = registry.get<components::DimensionComponent>(entity);
         max_text_width = dim.w;
-        max_text_height = dim.h;
+        //max_text_height = dim.h;
       }
 
       for (wchar_t c : text.Text)
       {
           const auto& ch = font->get_char_data(c);
-          const GLfloat xpos = char_posx + ch.bl * scale;
-          const GLfloat ypos = pos.y - ch.bt * scale;
-          const GLfloat w = ch.bw * scale;
-          const GLfloat h = ch.bh * scale;
+          const GLfloat xpos = char_posx + ch.bl * text.scale;
+          const GLfloat ypos = pos.y - ch.bt * text.scale;
+          const GLfloat w = ch.bw * text.scale;
+          const GLfloat h = ch.bh * text.scale;
           
           auto char_entity = registry.create();
+
+          // If the character is an space
           if (w > 0.f && h > 0.f)
           {
             registry.assign<components::CharcodeComponent>(char_entity, c);
@@ -92,6 +93,7 @@ class TextSystem : public System
             registry.assign<components::DimensionComponent>(char_entity, w, h);
             registry.assign<components::ColorComponent>(char_entity, text.color);
           }
+          // Else, the character has a graphical representation
           else
           {
             registry.assign<components::CharcodeComponent>(char_entity, c);
@@ -99,10 +101,11 @@ class TextSystem : public System
           }
           text.char_entities.push_back(char_entity);
 
-          char_posx += (ch.ax >> 6) * scale;
+          char_posx += (ch.ax >> 6) * text.scale;
           char_maxh = std::max(char_maxh, h);
       }
-      
+
+      // If there are no defined dimensions, the text will be in one line
       if (max_text_width == 0.f)
       {
         auto& dim = registry.get_or_assign<components::DimensionComponent, float, float>(entity, 0.f, 0.f);

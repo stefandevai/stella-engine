@@ -21,29 +21,27 @@ class SpeechSystem : public System
     {
       registry.view<components::SpeechContainer>().each([&registry](auto entity, auto &container)
       {
-        auto it = container.messages.begin();
-        while(it != container.messages.end())
+        auto it = container.messages.rbegin();
+        double acc_message_spacing = 0.f;
+
+        while(it != container.messages.rend())
         {
             if (registry.valid(*it))
             {
-                
-                //auto message = registry.get<components::TextComponent>(*it);
                 const auto& parent_pos = registry.get<components::PositionComponent>(entity);
                 const auto& parent_dim = registry.get<components::DimensionComponent>(entity);
                 auto& text_pos = registry.get<components::PositionComponent>(*it);
                 auto& text_dim = registry.get<components::DimensionComponent>(*it);
 
-                // std::cout << "bef: " << text_pos.x << '\n';
-                // std::cout << "bef: " << text_pos.y << "\n\n";
                 text_pos.x = parent_pos.x + parent_dim.w/2.f - text_dim.w/2.f;
-                text_pos.y = parent_pos.y - 8.f;
-                // std::cout << "af: " << text_pos.x << '\n';
-                // std::cout << "af: " << text_pos.y << "\n\n";
+                text_pos.y = parent_pos.y - 4.f - acc_message_spacing;
+                acc_message_spacing = acc_message_spacing + text_dim.h + 4.f;
                 ++it;
             }
             else
             {
-                it = container.messages.erase(it);
+                std::advance(it, 1);
+                container.messages.erase(it.base());
             }
         }
       });

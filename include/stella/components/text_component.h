@@ -18,6 +18,7 @@ struct TextComponent {
   std::string FontName, color;
   std::vector<entt::registry::entity_type> char_entities;
   bool InLayer = false, IsStatic;
+  double scale = 1.f;
   int Spaces = 0;
 };
 
