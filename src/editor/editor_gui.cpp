@@ -138,14 +138,17 @@ namespace editor
                 io.MousePos.y < (m_game_height + 23) &&
                 io.MousePos.y > 23)
             {
+              const auto& camera_pos = m_game.get_camera_pos();
+              ImVec2 tile_pos = m_tileset_editor.pos2tile(camera_pos[0] - m_game_width/2 + io.MousePos.x, camera_pos[1] + io.MousePos.y);
+              
+              m_tileset_editor.render_tile_sprite(ImVec2(io.MousePos.x - m_tileset_editor.get_tile_dimensions().x, io.MousePos.y - m_tileset_editor.get_tile_dimensions().y), 0.6f);
+              //m_tileset_editor.render_tile_sprite(ImVec2((tile_pos.x-1), tile_pos.y));
                 if (io.MouseClicked[0])
                 {
                   int new_tile_value = m_tileset_editor.get_selected_tile_id();
-                  const auto& camera_pos = m_game.get_camera_pos();
-                  ImVec2 tile_pos = m_tileset_editor.pos2tile(camera_pos[0] - m_game_width/2 + io.MousePos.x, camera_pos[1] + io.MousePos.y);
 
                   // TODO: Change way of handling layers
-                  (*m_game.m_tile_map.tile_layers.begin())->set_value(tile_pos.x-1, tile_pos.y, new_tile_value);
+                  (*m_game.m_tile_map.tile_layers.begin())->set_value(tile_pos.x-1, tile_pos.y-1, new_tile_value);
                 }
             }
             break;

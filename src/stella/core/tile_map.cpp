@@ -134,10 +134,18 @@ namespace core
     std::cout << "Saved TileMap: " << m_name << " in " << path << '\n';
   }
 
+  void TileMap::update_tile(const int value, const int x, const int y, const unsigned layer_id, const bool collidable)
+  {
+    // TODO
+    //tile_layers[layer_id]->set_value(x/m_tile_dimension, y/m_tile_dimension, value);
+    //create_tile_entity(x, y, layer_id, collidable);
+    
+  }
+
   void TileMap::create_tile_entity(const int x, const int y, const unsigned layer_id, const bool collidable)
   {
-    int tx = x/32;
-    int ty = y/32;
+    int tx = x/m_tile_dimension;
+    int ty = y/m_tile_dimension;
 
     if (collidable)
     {
@@ -163,7 +171,7 @@ namespace core
         //layer_tile.visible = true;
         m_registry.assign<components::TileComponent>(tile, layer_id, false);
         m_registry.assign<components::SpriteComponent>(tile, tile_layers[layer_id]->get_texture_name(), glm::vec2(m_tile_dimension, m_tile_dimension), tile_layers[layer_id]->get_render_layer_name(), 0);
-        m_registry.assign<components::PositionComponent>(tile, tx*32, ty*32);
+        m_registry.assign<components::PositionComponent>(tile, tx*m_tile_dimension, ty*m_tile_dimension);
         m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
       }
     }
