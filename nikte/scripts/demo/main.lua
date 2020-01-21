@@ -13,6 +13,35 @@ local function load_assets()
   load_font("lato", "assets/fonts/Lato/Lato-Black.ttf", 56)
 end
 
+local function load_npc(x, y)
+  local npc = Entity:create_entity()
+  npc:add_component("sprite", {
+    texture = "nikte",
+    layer = "tiles",
+    frame_dimensions = {32, 64, 0},
+  })
+  npc:add_component("position", {x, y, 10})
+  npc:add_component("dimension", {32, 64})
+  npc:add_component("movement")
+  npc:add_component("body", {
+    bounding_box = {32, 32},
+    bounding_box_position = {0, 32},
+  })
+
+  animation_args = {}
+  animation_args["frame_dimensions"] = {32, 64}
+  animation_args["animations"] = {}
+  animation_args["animations"][1] = {"idle-d", {0}, 5}
+  animation_args["animations"][2] = {"walking-r", {19,20,21,22,23,24,25,26}, 5}
+  animation_args["animations"][3] = {"walking-u", {28,29,30,31,32,33,34,35}, 5}
+  animation_args["animations"][4] = {"walking-d", {1,2,3,4,5,6,7,8}, 5}
+  animation_args["animations"][5] = {"idle-l", {45}, 5}
+  animation_args["animations"][6] = {"idle-r", {18}, 5}
+  animation_args["animations"][7] = {"idle-u", {27}, 5}
+  animation_args["animations"][8] = {"walking-l", {46,47,48,49,50,51,52,53}, 5}
+  npc:add_component("animation", animation_args) 
+end
+
 local function load_player(x, y)
   Player:add_component("player")
   Player:add_component("sprite", {
@@ -69,6 +98,7 @@ local function load()
 
   load_assets()
   load_player(512, 128)
+  load_npc(480, 128)
 
   -- local test_spr = Entity:create_entity()
   -- test_spr:add_component("sprite", {
