@@ -8,6 +8,12 @@
 #include <cmath>
 #include <glm/glm.hpp>
 
+#include <cereal/cereal.hpp>
+#include <cereal/archives/xml.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/vector.hpp>
+#include <fstream>
+
 namespace stella
 {
 namespace core
@@ -26,73 +32,110 @@ namespace core
 
   void TileMap::load(const std::string &path)
   {
-    m_script_api.run_script(path);
-    const sol::table &map_table = m_script_api.get_variable<sol::table>("Map");
-    m_name = map_table["name"] == sol::lua_nil ? path : map_table["name"];
-    m_number_of_layers = map_table["number_of_layers"];
-    m_tile_dimension = map_table["tile_dimension"];
-    assert(map_table["size"] != sol::lua_nil);
-    m_width = map_table["size"]["width"];
-    m_height = map_table["size"]["height"];
-    assert(m_number_of_layers > 0);
-    assert(map_table["layers"] != sol::lua_nil);
-    assert(m_width > 0);
-    assert(m_height > 0);
+    // m_script_api.run_script(path);
+    // const sol::table &map_table = m_script_api.get_variable<sol::table>("Map");
+    // m_name = map_table["name"] == sol::lua_nil ? path : map_table["name"];
+    // m_number_of_layers = map_table["number_of_layers"];
+    // m_tile_dimension = map_table["tile_dimension"];
+    // assert(map_table["size"] != sol::lua_nil);
+    // m_width = map_table["size"]["width"];
+    // m_height = map_table["size"]["height"];
+    // assert(m_number_of_layers > 0);
+    // assert(map_table["layers"] != sol::lua_nil);
+    // assert(m_width > 0);
+    // assert(m_height > 0);
 
-    for (unsigned int i = 1; i <= m_number_of_layers; ++i)
-    {
-      assert(map_table["layers"][i] != sol::lua_nil);
-      auto layer = std::make_shared<MapGrid>(m_width, m_height);
-      layer->set_texture_name(map_table["layers"][i]["texture"]);
-      layer->set_render_layer_name(map_table["layers"][i]["render_layer"]);
-      layer->set_collision(map_table["layers"][i]["collision"]);
+    // for (unsigned int i = 1; i <= m_number_of_layers; ++i)
+    // {
+    //   assert(map_table["layers"][i] != sol::lua_nil);
+    //   auto layer = std::make_shared<MapGrid>(m_width, m_height);
+    //   layer->set_texture_name(map_table["layers"][i]["texture"]);
+    //   layer->set_render_layer_name(map_table["layers"][i]["render_layer"]);
+    //   layer->set_collision(map_table["layers"][i]["collision"]);
 
-      for (uint y = 0; y < m_height; ++y)
-      {
-        for (uint x = 1; x <= m_width; ++x)
-        {
-          int value = map_table["layers"][i]["grid"][x + y*m_width];
-          Tile tile{value};
-          tile.x = x-1;
-          tile.y = y;
+    //   for (uint y = 0; y < m_height; ++y)
+    //   {
+    //     for (uint x = 1; x <= m_width; ++x)
+    //     {
+    //       int value = map_table["layers"][i]["grid"][x + y*m_width];
+    //       Tile tile{value};
+    //       tile.x = x-1;
+    //       tile.y = y;
 
-          // Checks surrounding tiles to set active tile edges
-          // Checks tile to the top
-          if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][x + (y-1)*m_width] == 0)
-          {
-            tile.active_edges.set(0);
-          }
-          // Checks tile to the right
-          if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x+1) + y*m_width] == 0)
-          {
-            tile.active_edges.set(1);
-          }
-          // Checks tile to the bottom
-          if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x) + (y+1)*m_width] == 0)
-          {
-            tile.active_edges.set(2);
-          }
-          // Checks tile to the left
-          if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x-1) + y*m_width] == 0)
-          {
-            tile.active_edges.set(3);
-          }
+    //       // Checks surrounding tiles to set active tile edges
+    //       // Checks tile to the top
+    //       if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][x + (y-1)*m_width] == 0)
+    //       {
+    //         tile.active_edges.set(0);
+    //       }
+    //       // Checks tile to the right
+    //       if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x+1) + y*m_width] == 0)
+    //       {
+    //         tile.active_edges.set(1);
+    //       }
+    //       // Checks tile to the bottom
+    //       if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x) + (y+1)*m_width] == 0)
+    //       {
+    //         tile.active_edges.set(2);
+    //       }
+    //       // Checks tile to the left
+    //       if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x-1) + y*m_width] == 0)
+    //       {
+    //         tile.active_edges.set(3);
+    //       }
           
-          layer->set_value(x-1, y, tile);
-        }
-      }
+    //       layer->set_value(x-1, y, tile);
+    //     }
+    //   }
 
-      if (layer->is_collision_grid())
-      {
-        collision_layers.emplace_back(layer);
-      }
-      else
-      {
-        tile_layers.emplace_back(layer);
-      }
-    }
+    //   if (layer->is_collision_grid())
+    //   {
+    //     collision_layers.emplace_back(layer);
+    //   }
+    //   else
+    //   {
+    //     tile_layers.emplace_back(layer);
+    //   }
+    // }
 
-    std::cout << "Loaded TileMap: " << m_name << '\n';
+    // std::cout << "Loaded TileMap: " << m_name << " from " << path << '\n';
+    // save("./testmap.xml");
+
+    load_xml("scripts/demo/testmap.xml");
+  }
+
+  void TileMap::load_xml(const std::string &path)
+  {
+    std::ifstream is(path);
+    cereal::XMLInputArchive archive(is);
+    archive(CEREAL_NVP(m_name),
+            CEREAL_NVP(m_number_of_layers),
+            CEREAL_NVP(m_tile_dimension),
+            CEREAL_NVP(m_width),
+            CEREAL_NVP(m_height),
+            CEREAL_NVP(tile_layers),
+            CEREAL_NVP(collision_layers));
+    
+    // for (auto l : ttile_layers)
+    // {
+    //   std::cout << l->get_value(10, 10).value << '\n';
+    // }
+  }
+  
+  void TileMap::save(const std::string &path)
+  {
+    std::ofstream os(path);
+    cereal::XMLOutputArchive archive(os);
+
+    archive(CEREAL_NVP(m_name),
+            CEREAL_NVP(m_number_of_layers),
+            CEREAL_NVP(m_tile_dimension),
+            CEREAL_NVP(m_width),
+            CEREAL_NVP(m_height),
+            CEREAL_NVP(tile_layers),
+            CEREAL_NVP(collision_layers));
+
+    std::cout << "Saved TileMap: " << m_name << " in " << path << '\n';
   }
 
   void TileMap::create_tile_entity(const int x, const int y, const unsigned layer_id, const bool collidable)

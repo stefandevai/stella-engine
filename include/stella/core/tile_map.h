@@ -37,6 +37,8 @@ namespace core
 
     private:
       void load(const std::string &path);
+      void load_xml(const std::string &path);
+      void save(const std::string &path);
 
   };
 

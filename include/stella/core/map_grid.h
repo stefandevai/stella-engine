@@ -4,6 +4,8 @@
 #include <cmath>
 #include <iostream>
 
+#include <cereal/types/vector.hpp>
+
 #include "./grid.h"
 #include "./tile.h"
 
@@ -23,7 +25,14 @@ namespace core
       MapGrid(unsigned width, unsigned height)
         : Grid<Tile>(width, height)
       { }
+      MapGrid() : Grid<Tile>(0,0) {}
       ~MapGrid() {}
+
+      template<class Archive>
+      void serialize(Archive & archive)
+      {
+        archive(m_grid, m_width, m_height, m_render_layer_name, m_texture_name, m_is_collision_grid);
+      }
 
       inline void set_texture_name(const std::string &name)
       {

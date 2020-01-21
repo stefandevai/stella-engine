@@ -120,8 +120,9 @@ namespace editor
           ImGui::Separator();
           ImGui::PopStyleColor();
           ImGui::Dummy(ImVec2(0.0f, 6.0f));
-
-          ImGui::SetKeyboardFocusHere();
+          
+          // Persistent focus
+          //ImGui::SetKeyboardFocusHere();
           ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 2);
           ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(12.0f, 6.0f));
           

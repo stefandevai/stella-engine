@@ -19,3 +19,6 @@
 [submodule "lib/freetype2"]
 	path = lib/freetype2
 	url = https://github.com/aseprite/freetype2
+[submodule "lib/cereal"]
+	path = lib/cereal
+	url = https://github.com/USCiLab/cereal

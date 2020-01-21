@@ -16,23 +16,10 @@ namespace core
       unsigned m_width, m_height;
 
     public:
-      //Grid(std::vector<int> grid, unsigned width, unsigned height = 0)
-        //: m_grid(grid), m_width(width), m_height(height)
-      //{
-        //if (m_height == 0 && m_width != 0)
-        //{
-          //m_height = ceil(grid.size() / m_width);
-        //}
-      //}
       Grid(unsigned width, unsigned height)
         : m_grid(std::vector<T>(width*height)), m_width(width), m_height(height)
       { }
       ~Grid() {}
-
-      //inline void set(std::vector<int> grid)
-      //{
-        //m_grid = grid;
-      //}
 
       inline void set_value(unsigned x, unsigned y, T value)
       {
@@ -45,11 +32,6 @@ namespace core
           std::cout << "Trying to set grid value out of bounds.\n";
         }
       }
-
-      //inline std::vector<int> &get()
-      //{
-        //return m_grid;
-      //}
 
       inline T get_value(int x, int y)
       {

@@ -7,6 +7,8 @@
 
 #include "editor/debug_layer.h"
 
+#include <cereal/cereal.hpp>
+
 namespace stella
 {
 namespace editor
@@ -68,21 +70,22 @@ namespace editor
       const ImVec2 editor_pos{0.0f, top_menu_height};
       const ImVec2 console_size{game_width, window_height - game_height - top_menu_height - section_spacing};
       const ImVec2 console_pos{window_width - game_width, game_height + top_menu_height + section_spacing};
-      //const ImVec2 info_pos{window_width - game_width + top_menu_height, top_menu_height*2};
       const ImVec2 info_pos{window_width - 148.f - top_menu_height, top_menu_height*2};
       
       this->draw_editor(editor_size, editor_pos);
       this->draw_console(console_size, console_pos);
-      this->draw_info(info_pos);
       this->draw_menu_bar();
+
+      if (m_view_physics_debug_layer)
+      {
+        this->draw_info(info_pos);
+        //m_debug_layer.Render();
+      }
 
       ImGui::Render();
       ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-      if (m_view_physics_debug_layer)
-      {
-        m_debug_layer.Render();
-      }
+
     }
   }
 
@@ -188,17 +191,24 @@ namespace editor
     {
       if (ImGui::BeginMenu("File"))
       {
-        if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+        if (ImGui::MenuItem("New Tilemap", "CTRL+N")) {}
+        if (ImGui::MenuItem("Open Tilemap", "CTRL+O")) {}
+        if (ImGui::MenuItem("Open Tileset", "SHIFT+O")) {}
         ImGui::Separator();
-        if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+        if (ImGui::MenuItem("Save", "CTRL+S")) {}
+        if (ImGui::MenuItem("Save as...", "CTRL+SHIFT+S")) {}
+        ImGui::Separator();
+        if (ImGui::MenuItem("Quit", "CTRL+W")) {}
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu("Edit"))
       {
-          if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-          ImGui::Separator();
-          if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-          ImGui::EndMenu();
+        if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+        ImGui::Separator();
+        if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+        ImGui::Separator();
+        if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+        ImGui::EndMenu();
       }
       if (ImGui::BeginMenu("View"))
       {

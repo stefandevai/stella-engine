@@ -46,10 +46,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS OFF)
 
 # Turn on these options to use the libraries contained in your machine.
 option(USE_SHARED_SDL2 "Use shared SDL2 library" ON)
-#option(USE_SHARED_SOIL "Use shared SOIL library" OFF)
 option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" ON)
 option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" ON)
-#option(USE_SHARED_ENTITYX "Use shared EntityX library" OFF)
 option(USE_SHARED_ENTT "Use shared entt library" OFF)
 option(USE_SHARED_FREETYPE "Use shared FreeType2 library" OFF)
 
@@ -85,15 +83,6 @@ endif()
 
 # GLM - OpenGL maths library
 include_directories(${DEPENDENCIES_DIR}/glm)
-
-# SOIL - Handles image loading in various formats.
-#if (USE_SHARED_SOIL)
-	#find_package(SOIL REQUIRED)
-#else()
-	#set(SOIL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/soil/code)
-	#set(SOIL_LIBRARIES soil)
-#endif()
-#include_directories(${SOIL_INCLUDE_DIRS})
 
 # stb_image - Handles image loading in various formats.
 include_directories(${DEPENDENCIES_DIR}/stb_image)
@@ -141,16 +130,6 @@ endif()
 include_directories(${OGG_INCLUDE_DIRS})
 include_directories(${VORBIS_INCLUDE_DIR})
 
-# EntityX - Library implementing an Entity-Component-System architecture
-#if (USE_SHARED_ENTITYX)
-	#find_package(entityx)
-#else()
-	#set(ENTITYX_INCLUDE_DIR ${DEPENDENCIES_DIR}/entityx)
-	#set(ENTITYX_LIBRARIES entityx)
-  #set(ENTITYX_BUILD_TESTING false CACHE BOOL "Enable building of tests.")
-#endif()
-#include_directories(${ENTITYX_INCLUDE_DIR})
-
 # Entt - Entity Component System
 if (USE_SHARED_ENTT)
 	find_package(entt)
@@ -182,6 +161,10 @@ message(${LUA_LIBRARIES})
 # Sol3 - Lua API wrapper
 set(SOL_INCLUDE_DIR ${DEPENDENCIES_DIR}/sol2/include)
 include_directories(${SOL_INCLUDE_DIR})
+
+# Cereal - Serialization library
+set(CEREAL_INCLUDE_DIR ${DEPENDENCIES_DIR}/cereal/include)
+include_directories(${CEREAL_INCLUDE_DIR})
 
 # Platform specific libraries
 set(PLATFORM_LIBRARIES)
