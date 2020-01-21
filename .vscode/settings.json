@@ -65,6 +65,9 @@
         "typeinfo": "cpp",
         "valarray": "cpp",
         "variant": "cpp",
-        "codecvt": "cpp"
+        "codecvt": "cpp",
+        "complex": "cpp",
+        "csignal": "cpp",
+        "typeindex": "cpp"
     }
 }

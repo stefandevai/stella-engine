@@ -4,20 +4,25 @@
 #include "stella/components/sprite_component.h"
 #include "stella/components/position_component.h"
 #include "stella/components/dimension_component.h"
+#include "../../nikte/game.h"
 
 #include "editor/debug_layer.h"
 
 #include <cereal/cereal.hpp>
+#include <SDL2/SDL.h>
 
 namespace stella
 {
 namespace editor
 {
 
-  EditorGui::EditorGui(entt::registry &registry)
-    : m_registry(registry)
+  // EditorGui::EditorGui(entt::registry& registry)
+  //   : m_registry(registry)
+  EditorGui::EditorGui(nikte::Game& game)
+    : m_game(game), m_registry(game.m_registry)
   {
-    m_debug_layer.Add(shape);
+    m_game.m_display.SetEditor(this);
+    //m_debug_layer.Add(shape);
   }
 
   EditorGui::~EditorGui() { }
@@ -48,6 +53,22 @@ namespace editor
   void EditorGui::configure_input(SDL_Event &event)
   {
     ImGui_ImplSDL2_ProcessEvent(&event);
+    const Uint8 *state = SDL_GetKeyboardState(nullptr);
+
+    // Save game
+    if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_S])
+    { 
+      m_log.AddLog("Saving map...\n");
+      m_game.m_tile_map.save("./editor-map.xml");
+      m_log.AddLog("Saved map...\n");
+    }
+
+    if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_O])
+    {
+      m_log.AddLog("Loading map...\n");
+      m_game.m_tile_map.load("./editor-map.xml");
+      m_log.AddLog("Loaded map...\n");
+    }
   }
 
   void EditorGui::update()
@@ -62,14 +83,24 @@ namespace editor
       const float section_spacing = 1.0f;
       const float top_menu_height = 22.0f + section_spacing;
 
+      m_window_width = window_width;
+      m_window_height = window_height;
+      m_game_width = game_width;
+      m_game_height = game_height;
+
       ImGui_ImplOpenGL3_NewFrame();
       ImGui_ImplSDL2_NewFrame(m_window);
       ImGui::NewFrame();
+
+      ImGuiIO& io = ImGui::GetIO();
+      handle_state(io);
 
       const ImVec2 editor_size{window_width - game_width - section_spacing, window_height - top_menu_height};
       const ImVec2 editor_pos{0.0f, top_menu_height};
       const ImVec2 console_size{game_width, window_height - game_height - top_menu_height - section_spacing};
       const ImVec2 console_pos{window_width - game_width, game_height + top_menu_height + section_spacing};
+      const ImVec2 log_size{window_width - game_width, window_height - game_height - top_menu_height - section_spacing};
+      const ImVec2 log_pos{0.0f, game_height + top_menu_height + section_spacing};
       const ImVec2 info_pos{window_width - 148.f - top_menu_height, top_menu_height*2};
       
       this->draw_editor(editor_size, editor_pos);
@@ -84,8 +115,6 @@ namespace editor
 
       ImGui::Render();
       ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-
     }
   }
 
@@ -94,6 +123,42 @@ namespace editor
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
+  }
+
+  void EditorGui::handle_state(ImGuiIO& io)
+  {
+    switch(m_current_state)
+    {
+      case EDIT:
+        switch (m_current_tool)
+        {
+          case TILE_PEN:
+            if (io.MousePos.x > (m_window_width - m_game_width) &&
+                io.MousePos.x < (m_window_width) &&
+                io.MousePos.y < (m_game_height + 23) &&
+                io.MousePos.y > 23)
+            {
+                if (io.MouseClicked[0])
+                {
+                  int new_tile_value = m_tileset_editor.get_selected_tile_id();
+                  const auto& camera_pos = m_game.get_camera_pos();
+                  ImVec2 tile_pos = m_tileset_editor.pos2tile(camera_pos[0] - m_game_width/2 + io.MousePos.x, camera_pos[1] + io.MousePos.y);
+
+                  // TODO: Change way of handling layers
+                  (*m_game.m_tile_map.tile_layers.begin())->set_value(tile_pos.x-1, tile_pos.y, new_tile_value);
+                }
+            }
+            break;
+          default:
+            break;
+        }
+        break;
+      case PLAY:
+        break;
+      default:
+        break;
+    }
+
   }
 
   void EditorGui::init_style()
@@ -154,7 +219,10 @@ namespace editor
     ImGui::SetNextWindowSize(size, ImGuiCond_Always);
     ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
     ImGui::Begin("Editor", nullptr, m_window_flags);
-    ImGui::Text("Add tool panels here.");
+    
+    m_tileset_editor.render();
+    //this->draw_log();
+    //ImGui::Text("Add tool panels here.");
     ImGui::End();
   }
 
@@ -163,9 +231,15 @@ namespace editor
     ImGui::SetNextWindowSize(size, ImGuiCond_Always);
     ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f,0.5f,0.5f,1.0f));
-    //m_log.Draw("Console Log");
+    //ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 3.0f);
     m_console.Draw("Console Log", m_registry);
+    //ImGui::PopStyleVar();
     ImGui::PopStyleColor();
+  }
+
+  void EditorGui::draw_log()
+  {
+    m_log.Draw("Console Log");
   }
 
   void EditorGui::draw_info(const ImVec2 &pos)

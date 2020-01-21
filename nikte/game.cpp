@@ -1,5 +1,7 @@
 #include "game.h"
 
+namespace nikte
+{
 Game::Game()
   : stella::core::Game(896, 504, "Nikte")
 {
@@ -32,4 +34,5 @@ void Game::update(const double dt)
   m_player.update();
   m_script_api.run_function("update_game", dt);
   m_script_api.run_function("render_game", dt);
+}
 }

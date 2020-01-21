@@ -16,9 +16,9 @@
 #include "../audio/soundplayer.h"
 #include "../physics2d/world.h"
 
-#ifdef STELLA_BUILD_EDITOR
-#include "editor/editor_gui.h"
-#endif
+// #ifdef STELLA_BUILD_EDITOR
+// #include "editor/editor_gui.h"
+// #endif
 
 
 namespace stella
@@ -42,18 +42,19 @@ namespace core
       };
 
 #ifdef STELLA_BUILD_EDITOR
-      //std::shared_ptr<editor::EditorGui> m_editor = std::shared_ptr<editor::EditorGui>(new editor::EditorGui(m_registry));
-      editor::EditorGui m_editor{m_registry};
+      //editor::EditorGui m_editor{m_registry};
 #endif
 
     public:
       Game(const unsigned width, const unsigned height, const std::string &title);
       virtual ~Game();
+      std::vector<float> get_camera_pos();
 
     protected:
       void load() override;
       void create_camera(const double x, const double y, const double z);
       void update_camera(const double x, const double y, const double z);
+      float get_camera_z();
       void load_texture(const std::string &name, const std::string &path);
       void load_font(const std::string &name, const std::string &path, const unsigned size);
       void update_systems(const double dt);

@@ -4,6 +4,10 @@
 #include <entt/entity/registry.hpp>
 #include "../graphics/display.h"
 
+#ifdef STELLA_BUILD_EDITOR
+  #include "../../editor/editor_gui.h"
+#endif
+
 namespace stella
 {
 namespace core
@@ -27,6 +31,10 @@ namespace core
     protected:
       virtual void load() = 0;
       virtual void update(const double dt) = 0;
+
+      #ifdef STELLA_BUILD_EDITOR
+        friend class editor::EditorGui;
+      #endif
   };
 
 } // namespace script

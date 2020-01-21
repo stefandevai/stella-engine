@@ -10,7 +10,7 @@ namespace core
     : Application(width, height, title)
   {
 #ifdef STELLA_BUILD_EDITOR
-    m_display.SetEditor(&m_editor);
+    //m_display.SetEditor(&m_editor);
 
 #endif
     m_script_api.set_function("update_camera", &Game::update_camera, this);
@@ -47,6 +47,12 @@ namespace core
     pos.x = x;
     pos.y = y;
     pos.z = z;
+  }
+
+  std::vector<float> Game::get_camera_pos()
+  {
+    auto &pos = m_registry.get<stella::components::PositionComponent>(m_camera);
+    return std::vector<float>{pos.x, pos.y, pos.z};
   }
 
   void Game::load_texture(const std::string &name, const std::string &path)

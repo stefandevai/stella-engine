@@ -19,6 +19,7 @@ namespace core
     private:
       entt::registry &m_registry;
       script::BasicLuaApi m_script_api;
+      std::string m_path;
       std::string m_name;
       unsigned m_number_of_layers = 0;
       unsigned m_tile_dimension = 0;
@@ -35,10 +36,9 @@ namespace core
       void create_tile_entity(const int x, const int y, const unsigned layer_id, const bool collidable);
       void create_tile_entities(const int beginx, const int endx, const int beginy, const int endy);
 
-    private:
       void load(const std::string &path);
-      void load_xml(const std::string &path);
       void save(const std::string &path);
+      void load_lua(const std::string &path);
 
   };
 
