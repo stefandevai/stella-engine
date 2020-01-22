@@ -30,7 +30,7 @@ namespace core
 
   }
 
-  void TileMap::load(const std::string &path)
+  void TileMap::load_lua(const std::string &path)
   {
     m_script_api.run_script(path);
     const sol::table &map_table = m_script_api.get_variable<sol::table>("Map");
@@ -106,7 +106,7 @@ namespace core
     std::cout << "Loaded TileMap: " << m_name << " from " << path << '\n';
   }
 
-  void TileMap::load_lua(const std::string &path)
+  void TileMap::load(const std::string &path)
   {
     m_path = path;
     std::ifstream is(path);
@@ -128,6 +128,8 @@ namespace core
     m_path = path;
     std::ofstream os(path);
     cereal::XMLOutputArchive archive(os);
+
+    std::cout << layers[0]->get_value(0,0).value << '\n';
 
     archive(CEREAL_NVP(m_name),
             CEREAL_NVP(m_number_of_layers),
@@ -196,7 +198,12 @@ namespace core
           if (!layer_tile.visible && layer_tile.value > 0)
           {
             layer->set_visibility(x, y, true);
-            this->create_tile_entity(layer_tile.value, x, y, counter);
+            auto tile = m_registry.create();
+            m_registry.assign<components::TileComponent>(tile, counter, true);
+            m_registry.assign<components::SpriteComponent>(tile, layer->get_texture_name(), glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), layer_tile.value);
+            m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension);
+            m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
+            //this->create_tile_entity(layer_tile.value, x, y, counter);
           }
           else if (!layer_tile.visible)
           {

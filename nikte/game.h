@@ -16,7 +16,7 @@ class Game : public stella::core::Game
 {
   private:
     Player m_player{m_registry, m_display};
-    stella::core::TileMap m_tile_map{"scripts/demo/map.lua", m_registry};
+    stella::core::TileMap m_tile_map{"scripts/demo/map.xml", m_registry};
 
     #ifdef STELLA_BUILD_EDITOR
       friend class stella::editor::EditorGui;

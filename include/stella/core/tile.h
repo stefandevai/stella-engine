@@ -26,7 +26,7 @@ namespace core
     template<class Archive>
     void serialize(Archive & archive)
     {
-      archive(x, y, z, value, visible, collidable, solid_edges, custom_edges, active_edges);
+      archive(x, y, z, value, collidable, solid_edges, custom_edges, active_edges);
     }
   };
 

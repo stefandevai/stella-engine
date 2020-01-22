@@ -154,7 +154,7 @@ namespace editor
                 if (io.MouseClicked[0])
                 {
                   const auto& camera_pos = m_game.get_camera_pos();
-                  ImVec2 tile_pos = m_tileset_editor.pos2tile(camera_pos[0] - m_game_width/2 + io.MousePos.x, camera_pos[1] + io.MousePos.y);
+                  ImVec2 tile_pos = m_tileset_editor.pos2tile(camera_pos[0] - m_game_width/2.f + io.MousePos.x, camera_pos[1] + io.MousePos.y);
                   int new_tile_value = m_tileset_editor.get_selected_tile_id();
                   bool collidable = m_tileset_editor.get_selected_tile_collidable();
                   int layer_id = 0;
