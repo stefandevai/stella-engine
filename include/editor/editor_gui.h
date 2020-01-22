@@ -6,6 +6,8 @@
 #include <entt/entity/registry.hpp>
 #include "./log_system.h"
 #include "./tileset_editor.h"
+#include "./layer_editor.h"
+#include "./inspector.h"
 #include "./gui_log.h"
 #include "./console.h"
 #include "./debug_layer.h"
@@ -38,12 +40,15 @@ namespace editor
       SDL_Window *m_window = nullptr;
       ImFont *m_font_mono = nullptr, *m_font_sans_regular = nullptr, *m_font_sans_bold = nullptr;
       const ImGuiWindowFlags m_window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
+      //const ImGuiWindowFlags m_window_flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
       GuiLog m_log{m_window_flags, m_font_mono};
       Console m_console{m_window_flags, m_font_mono, m_registry};
       LogSystem m_log_system{m_log};
       entt::registry &m_registry;
       DebugLayer m_debug_layer{896, 504, true};
       TilesetEditor m_tileset_editor{"assets/sprites/tileset.png"};
+      LayerEditor m_layer_editor;
+      Inspector m_inspector;
       float m_window_width = 0.f, m_window_height = 0.f, m_game_width = 0.f, m_game_height = 0.f;
  
       //graphics::Texture texture_placeholder{"assets/sprites/player.png"};

@@ -223,7 +223,9 @@ namespace editor
     ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
     ImGui::Begin("Editor", nullptr, m_window_flags);
     
+    m_inspector.render();
     m_tileset_editor.render();
+    m_layer_editor.render();
     //this->draw_log();
     //ImGui::Text("Add tool panels here.");
     ImGui::End();

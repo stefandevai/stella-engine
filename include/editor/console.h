@@ -63,7 +63,7 @@ namespace editor
       
       void Draw(std::string title, entt::registry &registry, bool* p_open = NULL)
       {
-          if (!ImGui::Begin(title.c_str(), p_open, WindowFlags))
+          if (!ImGui::Begin(title.c_str(), p_open, WindowFlags | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar))
           {
               ImGui::End();
               return;
