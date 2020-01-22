@@ -75,6 +75,18 @@ namespace core
       {
         return m_is_collision_grid;
       }
+
+      inline void set_entity(const uint x, const uint y, const entt::entity entity)
+      {
+        if (x >= 0 && x < m_width && y >= 0 && y < m_height)
+        {
+          m_grid[x + y*m_width].entity = entity;
+        }
+        else
+        {
+          std::cout << "Trying to reach a grid value out of bounds.\n";
+        }
+      }
   };
 
 } // namespace core

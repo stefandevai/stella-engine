@@ -143,47 +143,37 @@ namespace core
 
   void TileMap::update_tile(const int value, const int x, const int y, const unsigned layer_id, const bool collidable)
   {
-    // TODO
-    //tile_layers[layer_id]->set_value(x/m_tile_dimension, y/m_tile_dimension, value);
-    //create_tile_entity(x, y, layer_id, collidable);
+    assert(layer_id < layers.size() && "Your layer ID is out of bounds when updating a tile.");
+    assert(x < (int)m_width && "Your x coord is out of bounds when updating a tile.");
+    assert(std::abs(y) < (int)m_height && "Your y coord is out of bounds when updating a tile.");
+    auto layer = layers[layer_id];
+    auto tile = layer->get_value(x, y);
     
+    tile.value = value;
+    tile.collidable = collidable;
+    layers[layer_id]->set_value(x, y, tile);
+
+    if (tile.entity == entt::null)
+    {
+      this->create_tile_entity(value, x, y, layer_id);
+    }
+    else
+    {
+      auto& spr = m_registry.get<components::SpriteComponent>(tile.entity);
+      spr.Sprite->SetDirectFrame(value);
+      spr.Frame = value;
+    }
   }
 
-  // void TileMap::create_tile_entity(const int x, const int y, const unsigned layer_id, const bool collidable)
-  // {
-  //   int tx = x/m_tile_dimension;
-  //   int ty = y/m_tile_dimension;
-
-  //   if (collidable)
-  //   {
-  //     const auto &layer_tile = collision_layers[layer_id]->get_value(tx, ty);
-  //     collision_layers[layer_id]->set_visibility(tx, ty, true);
-  //     //layer_tile.visible = true;
-  //     if (layer_tile.value > 0)
-  //     {
-  //       auto tile = m_registry.create();
-  //       m_registry.assign<components::TileComponent>(tile, layer_id, true);
-  //       m_registry.assign<components::SpriteComponent>(tile, collision_layers[layer_id]->get_texture_name(), glm::vec2(m_tile_dimension, m_tile_dimension), collision_layers[layer_id]->get_render_layer_name(), 0);
-  //       m_registry.assign<components::PositionComponent>(tile, tx*32, ty*32);
-  //       m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
-  //     }
-  //   }
-  //   else
-  //   {
-  //     const auto &layer_tile = tile_layers[layer_id]->get_value(tx, ty);
-  //     tile_layers[layer_id]->set_visibility(tx, ty, true);
-  //     if (layer_tile.value > 0)
-  //     {
-  //       auto tile = m_registry.create();
-  //       //layer_tile.visible = true;
-  //       m_registry.assign<components::TileComponent>(tile, layer_id, false);
-  //       m_registry.assign<components::SpriteComponent>(tile, tile_layers[layer_id]->get_texture_name(), glm::vec2(m_tile_dimension, m_tile_dimension), tile_layers[layer_id]->get_render_layer_name(), 0);
-  //       m_registry.assign<components::PositionComponent>(tile, tx*m_tile_dimension, ty*m_tile_dimension);
-  //       m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
-  //     }
-  //   }
-
-  // }
+  void TileMap::create_tile_entity(const int value, const int x, const int y, const unsigned layer_id)
+  {
+    auto tile = m_registry.create();
+    m_registry.assign<components::TileComponent>(tile, layer_id, false);
+    m_registry.assign<components::SpriteComponent>(tile, layers[layer_id]->get_texture_name(), glm::vec2(m_tile_dimension, m_tile_dimension), layers[layer_id]->get_render_layer_name(), value);
+    m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension);
+    m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
+    layers[layer_id]->set_entity(x, y, tile);
+  }
 
   void TileMap::create_tile_entities(const int beginx, const int endx, const int beginy, const int endy)
   {
@@ -206,11 +196,7 @@ namespace core
           if (!layer_tile.visible && layer_tile.value > 0)
           {
             layer->set_visibility(x, y, true);
-            auto tile = m_registry.create();
-            m_registry.assign<components::TileComponent>(tile, counter, false);
-            m_registry.assign<components::SpriteComponent>(tile, layer->get_texture_name(), glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), layer_tile.value);
-            m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension);
-            m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
+            this->create_tile_entity(layer_tile.value, x, y, counter);
           }
           else if (!layer_tile.visible)
           {
@@ -220,33 +206,6 @@ namespace core
       }
       ++counter;
     }
-
-    // counter = 0;
-    // for (const auto &layer : this->collision_layers)
-    // {
-    //   for (auto y = top; y < bottom; ++y)
-    //   {
-    //     for (auto x = left; x < right; ++x)
-    //     {
-    //       const auto &layer_tile = layer->get_value(x, y);
-    //       if (!layer_tile.visible && layer_tile.value > 0)
-    //       {
-    //         layer->set_visibility(x, y, true);
-    //         auto tile = m_registry.create();
-    //         m_registry.assign<components::TileComponent>(tile, counter, true);
-    //         m_registry.assign<components::SpriteComponent>(tile, layer->get_texture_name(), glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), layer_tile.value);
-    //         m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension);
-    //         m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
-    //         m_registry.assign<components::LogComponent>(tile);
-    //       }
-    //       else if (!layer_tile.visible)
-    //       {
-    //         layer->set_visibility(x, y, true);
-    //       }
-    //     }
-    //   }
-    //   ++counter;
-    // }
   }
 }
 }

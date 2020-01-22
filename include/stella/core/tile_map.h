@@ -13,8 +13,6 @@ namespace core
   class TileMap
   {
     public:
-      //std::vector<std::shared_ptr<MapGrid>> tile_layers;
-      //std::vector<std::shared_ptr<MapGrid>> collision_layers;
       std::vector<std::shared_ptr<MapGrid>> layers;
 
     private:
@@ -35,7 +33,7 @@ namespace core
       inline unsigned height() const { return m_height; }
       inline unsigned tile_dimension() const { return m_tile_dimension; }
       void update_tile(const int value, const int x, const int y, const unsigned layer_id, const bool collidable);
-      void create_tile_entity(const int x, const int y, const unsigned layer_id, const bool collidable);
+      void create_tile_entity(const int value, const int x, const int y, const unsigned layer_id);
       void create_tile_entities(const int beginx, const int endx, const int beginy, const int endy);
 
       void load(const std::string &path);

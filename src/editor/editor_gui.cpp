@@ -156,9 +156,10 @@ namespace editor
                   const auto& camera_pos = m_game.get_camera_pos();
                   ImVec2 tile_pos = m_tileset_editor.pos2tile(camera_pos[0] - m_game_width/2 + io.MousePos.x, camera_pos[1] + io.MousePos.y);
                   int new_tile_value = m_tileset_editor.get_selected_tile_id();
-
-                  // TODO: Change way of handling layers
-                  (*m_game.m_tile_map.layers.begin())->set_value(tile_pos.x-1, tile_pos.y-1, new_tile_value);
+                  bool collidable = m_tileset_editor.get_selected_tile_collidable();
+                  int layer_id = 0;
+                  
+                  m_game.m_tile_map.update_tile(new_tile_value, tile_pos.x-1, tile_pos.y-1, layer_id, collidable);
                 }
             }
             break;

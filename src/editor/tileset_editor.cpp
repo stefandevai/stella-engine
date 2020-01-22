@@ -16,11 +16,6 @@ namespace editor
       }
 
       TilesetEditor::~TilesetEditor() {}
-
-      int TilesetEditor::get_selected_tile_id()
-      {
-          return m_selected_tile_id;
-      }
       
       void TilesetEditor::render()
       {

@@ -2,6 +2,7 @@
 
 #include <bitset>
 #include <cereal/types/bitset.hpp>
+#include <entt/entity/registry.hpp>
 
 namespace stella
 {
@@ -20,6 +21,7 @@ namespace core
     std::bitset<4> solid_edges;
     std::bitset<4> custom_edges;
     std::bitset<4> active_edges;
+    entt::entity entity = entt::null;
 
     template<class Archive>
     void serialize(Archive & archive)
