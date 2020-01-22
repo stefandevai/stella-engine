@@ -13,8 +13,9 @@ namespace core
   class TileMap
   {
     public:
-      std::vector<std::shared_ptr<MapGrid>> tile_layers;
-      std::vector<std::shared_ptr<MapGrid>> collision_layers;
+      //std::vector<std::shared_ptr<MapGrid>> tile_layers;
+      //std::vector<std::shared_ptr<MapGrid>> collision_layers;
+      std::vector<std::shared_ptr<MapGrid>> layers;
 
     private:
       entt::registry &m_registry;

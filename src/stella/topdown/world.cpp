@@ -61,9 +61,9 @@ namespace topdown {
 
   bool World::check_tile_collision(int x, int y)
   {
-    for (const auto &layer : m_tile_map.collision_layers)
+    for (const auto &layer : m_tile_map.layers)
     {
-      if (layer->get_value(x, y).value > 0) return true;
+      if (layer->get_value(x, y).collidable) return true;
     }
     return false;
   }

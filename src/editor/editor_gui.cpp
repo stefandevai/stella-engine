@@ -138,17 +138,27 @@ namespace editor
                 io.MousePos.y < (m_game_height + 23) &&
                 io.MousePos.y > 23)
             {
-              const auto& camera_pos = m_game.get_camera_pos();
-              ImVec2 tile_pos = m_tileset_editor.pos2tile(camera_pos[0] - m_game_width/2 + io.MousePos.x, camera_pos[1] + io.MousePos.y);
               
-              m_tileset_editor.render_tile_sprite(ImVec2(io.MousePos.x - m_tileset_editor.get_tile_dimensions().x, io.MousePos.y - m_tileset_editor.get_tile_dimensions().y), 0.6f);
-              //m_tileset_editor.render_tile_sprite(ImVec2((tile_pos.x-1), tile_pos.y));
+              
+              //m_tileset_editor.render_tile_sprite(ImVec2(io.MousePos.x - m_tileset_editor.get_tile_dimensions().x, io.MousePos.y - m_tileset_editor.get_tile_dimensions().y), 0.6f);
+              //m_tileset_editor.render_tile_sprite(ImVec2((io.MousePos.x / (int)(m_tileset_editor.get_tile_dimensions().x))*(int)(m_tileset_editor.get_tile_dimensions().x),
+               //                                          (io.MousePos.y / (int)(m_tileset_editor.get_tile_dimensions().y))*(int)(m_tileset_editor.get_tile_dimensions().y)));
+              
+              // TODO: Create a custom layer for the editor and render sprites there
+              float width_padding = m_window_width - m_game_width;
+              float height_padding = 23.f;
+              ImVec2 pos_in_tiles = m_tileset_editor.pos2tile(io.MousePos.x - width_padding, io.MousePos.y - height_padding);
+              m_tileset_editor.render_tile_sprite(ImVec2(width_padding + (pos_in_tiles.x)*m_tileset_editor.get_tile_dimensions().x - m_tileset_editor.get_tile_dimensions().x/2.f - 2.f,
+                                                         height_padding + (pos_in_tiles.y)*m_tileset_editor.get_tile_dimensions().y - m_tileset_editor.get_tile_dimensions().y/2.f + 4.f));
+
                 if (io.MouseClicked[0])
                 {
+                  const auto& camera_pos = m_game.get_camera_pos();
+                  ImVec2 tile_pos = m_tileset_editor.pos2tile(camera_pos[0] - m_game_width/2 + io.MousePos.x, camera_pos[1] + io.MousePos.y);
                   int new_tile_value = m_tileset_editor.get_selected_tile_id();
 
                   // TODO: Change way of handling layers
-                  (*m_game.m_tile_map.tile_layers.begin())->set_value(tile_pos.x-1, tile_pos.y-1, new_tile_value);
+                  (*m_game.m_tile_map.layers.begin())->set_value(tile_pos.x-1, tile_pos.y-1, new_tile_value);
                 }
             }
             break;
@@ -224,8 +234,8 @@ namespace editor
     ImGui::Begin("Editor", nullptr, m_window_flags);
     
     m_inspector.render();
-    m_tileset_editor.render();
     m_layer_editor.render();
+    m_tileset_editor.render();
     //this->draw_log();
     //ImGui::Text("Add tool panels here.");
     ImGui::End();

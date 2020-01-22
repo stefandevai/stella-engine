@@ -97,8 +97,8 @@ local function load()
   })
 
   load_assets()
-  load_player(512, 128)
-  load_npc(480, 128)
+  load_player(32, 64)
+  load_npc(64, 64)
 
   -- local test_spr = Entity:create_entity()
   -- test_spr:add_component("sprite", {

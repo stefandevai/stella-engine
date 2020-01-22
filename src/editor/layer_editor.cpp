@@ -13,7 +13,7 @@ namespace editor
 
     void LayerEditor::render()
     { 
-      if (ImGui::CollapsingHeader("Map", ImGuiTreeNodeFlags_DefaultOpen))
+      if (ImGui::CollapsingHeader("Map"))
       {
         ImGui::Dummy(ImVec2(0.f, 3.f));
 

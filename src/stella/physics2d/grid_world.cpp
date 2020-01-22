@@ -93,7 +93,7 @@ namespace physics2d {
 
   void GridWorld::check_collisions(const std::shared_ptr<Body> &body, int beginx, int endx, int beginy, int endy)
   {
-    for (const auto &layer : m_tile_map.collision_layers)
+    for (const auto &layer : m_tile_map.layers)
     {
       for (auto i = beginx;;)
       {

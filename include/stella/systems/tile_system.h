@@ -101,14 +101,16 @@ class TileSystem : public System
     {
       const auto& tile = registry.get<components::TileComponent>(entity);
       const auto& pos = registry.get<components::PositionComponent>(entity);
-      if (tile.collidable)
-      {
-        m_tile_map.collision_layers[tile.layer_id]->set_visibility(pos.x/m_tile_dimension, pos.y/m_tile_dimension, false);
-      }
-      else
-      {
-        m_tile_map.tile_layers[tile.layer_id]->set_visibility(pos.x/m_tile_dimension, pos.y/m_tile_dimension, false);
-      }
+      m_tile_map.layers[tile.layer_id]->set_visibility(pos.x/m_tile_dimension, pos.y/m_tile_dimension, false);
+      
+      //if (tile.collidable)
+      //{
+        //m_tile_map.collision_layers[tile.layer_id]->set_visibility(pos.x/m_tile_dimension, pos.y/m_tile_dimension, false);
+      //}
+      //else
+      //{
+        //m_tile_map.tile_layers[tile.layer_id]->set_visibility(pos.x/m_tile_dimension, pos.y/m_tile_dimension, false);
+      //}
     }
 };
 } // namespace systems
