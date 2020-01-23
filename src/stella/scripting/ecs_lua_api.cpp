@@ -211,6 +211,18 @@ namespace script
     m_registry.assign<stella::components::ScrollComponent>(id, speed);
   }
 
+  void ECSLuaApi::add_name_component(entt::registry::entity_type id, const sol::table &obj)
+  {
+    const std::string &name = obj == sol::lua_nil ? std::string() : obj[1];
+    m_registry.assign<stella::components::Name>(id, name);
+  }
+
+  void ECSLuaApi::add_npc_component(entt::registry::entity_type id, const sol::table &obj)
+  {
+    const std::string &path = obj["script_path"] == sol::lua_nil ? std::string() : obj["script_path"];
+    m_registry.assign<stella::components::NPC>(id, path);
+  }
+
   void ECSLuaApi::add_component(const sol::table& obj)
   {
     if (obj["type"] != sol::lua_nil)
@@ -218,6 +230,7 @@ namespace script
       const std::string &ct = obj["type"];
       entt::registry::entity_type id = obj["id"];
 
+      // TODO: Change for a map of strings and functions
       if (ct == "sprite") add_sprite_component(id, obj["args"]);
       else if (ct == "position") add_position_component(id, obj["args"]);
       else if (ct == "dimension") add_dimension_component(id, obj["args"]);
@@ -231,6 +244,8 @@ namespace script
       else if (ct == "particle_emitter") add_particle_emitter_component(id, obj["args"]);
       else if (ct == "scroll") add_scroll_component(id, obj["args"]);
       else if (ct == "player") add_player_component(id, obj["args"]);
+      else if (ct == "name") add_name_component(id, obj["args"]);
+      else if (ct == "npc") add_npc_component(id, obj["args"]);
       else std::cout << "ERROR: No component named " << ct << '\n';
     }
     else

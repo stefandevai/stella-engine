@@ -35,6 +35,8 @@ namespace script
       void add_particle_emitter_component(entt::registry::entity_type id, const sol::table &obj);
       void add_tile_component(entt::registry::entity_type id, const sol::table &obj);
       void add_scroll_component(entt::registry::entity_type id, const sol::table &obj);
+      void add_name_component(entt::registry::entity_type id, const sol::table &obj);
+      void add_npc_component(entt::registry::entity_type id, const sol::table &obj);
       void add_component(const sol::table &obj);
 
       inline double get_perlin_double(double x, double y)

@@ -34,7 +34,7 @@ namespace editor
                                                         m_tileset_editor.texture,
                                                         m_tileset_editor.get_tile_dimensions().x,
                                                         m_tileset_editor.get_tile_dimensions().y,
-                                                        36,
+                                                        0,
                                                         "editor");
   }
 

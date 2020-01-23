@@ -9,6 +9,7 @@ Game::Game()
   this->add_system<stella::systems::TileSystem>(m_tile_map, m_camera, m_registry);
   this->add_system<stella::systems::TextSystem>(m_registry, m_fonts);
   this->add_system<stella::systems::SpeechSystem>();
+  this->add_system<stella::systems::NPC>(m_player.entity);
 
   m_tile_map.create_tile_entities(0, m_display.GetWidth(), 0, m_display.GetHeight());
 
@@ -18,6 +19,11 @@ Game::Game()
   
   m_script_api.run_script("./scripts/main.lua");
   m_script_api.run_function("load_game");
+
+  m_script_api.run_script("./scripts/npcs/test.lua");
+  auto func = m_script_api.get_variable<std::function<std::string(std::string)>>("talk");
+  std::string res = func("hi");
+  std::cout << res << '\n';
 
   this->update_systems(0.0);
 }

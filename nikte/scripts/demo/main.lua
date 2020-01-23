@@ -15,6 +15,10 @@ end
 
 local function load_npc(x, y)
   local npc = Entity:create_entity()
+  npc:add_component("npc", {
+    script_path = "scripts/npcs/test.lua"
+  })
+  -- npc:add_component("name", "Test")
   npc:add_component("sprite", {
     texture = "nikte",
     layer = "tiles",

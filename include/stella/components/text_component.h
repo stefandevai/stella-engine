@@ -20,6 +20,7 @@ struct TextComponent {
   bool InLayer = false, IsStatic;
   double scale = 1.f;
   int Spaces = 0;
+  bool read = false; // If the text was already read by a NPC
 };
 
 } // namespace components
