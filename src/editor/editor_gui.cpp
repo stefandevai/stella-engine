@@ -45,17 +45,21 @@ namespace editor
     m_window = window;
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGuiIO& io = ImGui::GetIO();
     ImFontConfig config;
     config.OversampleH = 2;
     config.OversampleV = 1;
     config.GlyphExtraSpacing.x = 0.5f;
 
-    m_font_sans_regular = io.Fonts->AddFontFromFileTTF("assets/fonts/Lato/Lato-Regular.ttf", 16.0f, &config);
-    m_font_sans_bold = io.Fonts->AddFontFromFileTTF("assets/fonts/Lato/Lato-Bold.ttf", 16.0f, &config);
-    //m_font_sans_regular = io.Fonts->AddFontFromFileTTF("assets/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf", 13.0f);
-    //m_font_sans_bold = io.Fonts->AddFontFromFileTTF("assets/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf", 13.0f);
-    m_font_mono = io.Fonts->AddFontFromFileTTF("assets/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf", 13.0f);
+    m_font_sans_bold = io.Fonts->AddFontFromFileTTF("assets/fonts/Lato/Lato-Bold.ttf", 13.0f, &config);
+    m_font_mono = io.Fonts->AddFontFromFileTTF("assets/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf", 14.0f);
+    
+    // Merge font awesome font with Lato-Regular
+    m_font_sans_regular = io.Fonts->AddFontFromFileTTF("assets/fonts/Lato/Lato-Regular.ttf", 13.0f, &config);
+    config.MergeMode = true;
+    config.GlyphMinAdvanceX = 13.0f;
+    static const ImWchar icon_ranges[] = { ICON_FA_MIN, ICON_FA_MAX, 0 };
+    io.Fonts->AddFontFromFileTTF("assets/fonts/fa-solid-900.ttf", 13.0f, &config, icon_ranges);
 
     this->init_style();
 
@@ -106,6 +110,7 @@ namespace editor
       ImGui_ImplOpenGL3_NewFrame();
       ImGui_ImplSDL2_NewFrame(m_window);
       ImGui::NewFrame();
+      ImGui::PushFont(m_font_sans_regular);
 
       ImGuiIO& io = ImGui::GetIO();
       handle_state(io);
@@ -128,6 +133,7 @@ namespace editor
         //m_debug_layer.Render();
       }
 
+      ImGui::PopFont();
       ImGui::Render();
       ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
@@ -147,9 +153,26 @@ namespace editor
       case EDIT:
         switch (m_current_tool)
         {
-          // Sprite preview and drawing
           case TILE_PEN:
-            // If the mouse is within the game screen boundaries
+            this->handle_tile_pen(io);
+            break;
+          case INSPECTOR:
+            this->handle_inspector(io);
+            break;
+          default:
+            break;
+        }
+        break;
+      case PLAY:
+        break;
+      default:
+        break;
+    }
+  }
+
+  void EditorGui::handle_tile_pen(ImGuiIO& io)
+  {
+    // If the mouse is within the game screen boundaries
             if (io.MousePos.x > (m_window_width - m_game_width) &&
                 io.MousePos.x < (m_window_width) &&
                 io.MousePos.y < (m_game_height + 23) &&
@@ -178,17 +201,11 @@ namespace editor
                   m_game.m_tile_map.update_tile(new_tile_value, tile_pos.x, tile_pos.y, layer_id, collidable);
                 }
             }
-            break;
-          default:
-            break;
-        }
-        break;
-      case PLAY:
-        break;
-      default:
-        break;
-    }
+  }
 
+  void EditorGui::handle_inspector(ImGuiIO& io)
+  {
+    std::cout << "Inspector\n";
   }
 
   void EditorGui::init_style()
@@ -250,12 +267,52 @@ namespace editor
     ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
     ImGui::Begin("Editor", nullptr, m_window_flags);
     
+    this->draw_toolbar();
     m_inspector.render();
     m_map_editor.render();
     m_tileset_editor.render();
     //this->draw_log();
     //ImGui::Text("Add tool panels here.");
     ImGui::End();
+  }
+
+  void EditorGui::draw_toolbar()
+  {
+    ImGui::PushFont(m_font_sans_regular);
+
+    ImGui::PushID("inspector-button");
+    if (ImGui::Button(ICON_FA_MOUSE_POINTER))
+    {
+      if (m_current_state != EDIT)
+      {
+        m_current_state = EDIT;
+      }
+      m_current_tool = INSPECTOR;
+    }
+    ImGui::PopID();
+    ImGui::SameLine();
+
+    ImGui::PushID("tile-pen-button");
+    if (ImGui::Button(ICON_FA_EDIT))
+    {
+      if (m_current_state != EDIT)
+      {
+        m_current_state = EDIT;
+      }
+      m_current_tool = TILE_PEN;
+    }
+
+    ImGui::SameLine();
+    ImGui::PopID();
+
+    ImGui::PushID("play-button");
+    if(ImGui::Button(ICON_FA_PLAY))
+    {
+      m_current_state = PLAY;
+    }
+    ImGui::PopID();
+
+    ImGui::PopFont();
   }
 
   void EditorGui::draw_console(const ImVec2 &size, const ImVec2 &pos)

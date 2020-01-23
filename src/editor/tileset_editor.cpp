@@ -34,13 +34,13 @@ namespace editor
 
         ImGui::Dummy(ImVec2(0.0f, 3.0f));
         ImGui::PushID("tileset-slider");
-        ImGui::SliderInt2("   Size", m_tile_dimensions, 2, 128);
+        ImGui::SliderInt2(" Size", m_tile_dimensions, 2, 128);
         ImGui::PopID();
         ImGui::Dummy(ImVec2(0.0f, 3.0f));
         //ImGui::RadioButton("", bool active);
-        ImGui::Checkbox("   Collidable", &m_tile_collidable);
+        ImGui::Checkbox(" Collidable", &m_tile_collidable);
         ImGui::SameLine();
-        ImGui::Checkbox("   Scriptable", &m_tile_scriptable);
+        ImGui::Checkbox(" Scriptable", &m_tile_scriptable);
         ImGui::Dummy(ImVec2(0.0f, 3.0f));
 
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));

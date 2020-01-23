@@ -91,13 +91,13 @@ class RenderSystem : public System
 
       });
 
+      const auto camera_entity = *registry.view<stella::components::CameraComponent>().begin();
+      auto& camera_pos = registry.get<components::PositionComponent>(camera_entity);
+
       for (auto const& order : m_ordered_layers) {
         if (!m_layers[order.second]->Fixed)
         {
-            registry.group<components::CameraComponent>(entt::get<components::PositionComponent>).each([this, &order](auto entity, auto &camera, auto &pos)
-            {
-              m_layers[order.second]->SetViewMatrix(glm::lookAt(glm::vec3(pos.x, pos.y, pos.z), glm::vec3(pos.x, pos.y, pos.z - 1.f), glm::vec3(0.f, 1.f, 0.f)));
-            });
+          m_layers[order.second]->SetViewMatrix(glm::lookAt(glm::vec3(camera_pos.x, camera_pos.y, camera_pos.z), glm::vec3(camera_pos.x, camera_pos.y, camera_pos.z - 1.f), glm::vec3(0.f, 1.f, 0.f)));
         }
         m_layers[order.second]->Render();
       }

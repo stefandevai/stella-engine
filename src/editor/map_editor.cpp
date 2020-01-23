@@ -19,12 +19,12 @@ namespace editor
       {
         ImGui::Dummy(ImVec2(0.f, 3.f));
 
-        ImGui::InputText("   Name", m_map_name, IM_ARRAYSIZE(m_map_name));
+        ImGui::InputText(" Name", m_map_name, IM_ARRAYSIZE(m_map_name));
         ImGui::Dummy(ImVec2(0.f, 3.f));
-        ImGui::InputTextWithHint("   Path", "Map file location.", m_path, IM_ARRAYSIZE(m_path));
+        ImGui::InputTextWithHint(" Path", "Map file location.", m_path, IM_ARRAYSIZE(m_path));
         ImGui::Dummy(ImVec2(0.f, 3.f));
         ImGui::PushID("map-slider");
-        ImGui::SliderInt2("   Size", m_map_size, min_map_size, max_map_size);
+        ImGui::SliderInt2(" Size", m_map_size, min_map_size, max_map_size);
         ImGui::PopID();
         ImGui::Dummy(ImVec2(0.f, 3.f));
 

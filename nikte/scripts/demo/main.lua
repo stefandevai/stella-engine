@@ -135,8 +135,8 @@ local last_camera_x = 0.0
 
 local function update(dt)
   local player_position = {get_position(Player.id)}
-  camera_position[1] = math.min(59*32 - 896, math.max(0, player_position[1] - 896/2))
-  camera_position[2] = math.min(29*32 - 504, math.max(0, player_position[2] - 504/2))
+  camera_position[1] = math.min(30*32 - 896, math.max(0, player_position[1] - 896/2))
+  camera_position[2] = math.min(20*32 - 504, math.max(0, player_position[2] - 504/2))
   update_camera(camera_position[1], camera_position[2], 0)
 end
 

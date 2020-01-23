@@ -14,6 +14,10 @@
 #include "../stella/graphics/shape.h"
 //#include "../stella/core/game.h"
 
+#define ICON_FA_EDIT u8"\uf044"
+#define ICON_FA_PLAY u8"\uf04b"
+#define ICON_FA_MOUSE_POINTER u8"\uf245"
+
 struct SDL_Window;
 union SDL_Event;
 typedef void *SDL_GLContext;
@@ -32,13 +36,16 @@ namespace editor
     private:
       enum State { EDIT, PLAY };
       enum Tool { TILE_PEN, INSPECTOR };
+      
+      static const ImWchar ICON_FA_MIN = 0xf044;
+      static const ImWchar ICON_FA_MAX = 0xf245;
 
       State m_current_state = EDIT;
       Tool m_current_tool = TILE_PEN;
 
       nikte::Game &m_game;
       SDL_Window *m_window = nullptr;
-      ImFont *m_font_mono = nullptr, *m_font_sans_regular = nullptr, *m_font_sans_bold = nullptr;
+      ImFont *m_font_mono = nullptr, *m_font_sans_regular = nullptr, *m_font_sans_bold = nullptr, *m_default_font = nullptr;
       const ImGuiWindowFlags m_window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
       //const ImGuiWindowFlags m_window_flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
       GuiLog m_log{m_window_flags, m_font_mono};
@@ -80,7 +87,10 @@ namespace editor
       void draw_log();
       void draw_info(const ImVec2 &pos);
       void draw_menu_bar();
+      void draw_toolbar();
       void handle_state(ImGuiIO& io);
+      void handle_tile_pen(ImGuiIO& io);
+      void handle_inspector(ImGuiIO& io);
   };
 
 }

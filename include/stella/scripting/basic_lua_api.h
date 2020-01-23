@@ -20,6 +20,12 @@ namespace script
         m_lua.open_libraries(sol::lib::base);
       }
 
+      BasicLuaApi(const std::string &script_path)
+      {
+        m_lua.open_libraries(sol::lib::base);
+        run_script(script_path);
+      }
+
       virtual ~BasicLuaApi() { }
 
       inline void run_script(const std::string &script_path)
