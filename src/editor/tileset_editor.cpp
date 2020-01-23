@@ -19,7 +19,7 @@ namespace editor
       
       void TilesetEditor::render()
       {
-        if (ImGui::CollapsingHeader("Tileset", ImGuiTreeNodeFlags_DefaultOpen))
+        if (ImGui::CollapsingHeader("Tileset"))
         {
         int w_in_tiles = m_texture_w / m_tile_dimensions[0];
         int h_in_tiles = m_texture_h / m_tile_dimensions[1];

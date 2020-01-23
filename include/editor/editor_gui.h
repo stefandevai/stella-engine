@@ -41,7 +41,7 @@ namespace editor
       static const ImWchar ICON_FA_MAX = 0xf245;
 
       State m_current_state = EDIT;
-      Tool m_current_tool = TILE_PEN;
+      Tool m_current_tool = INSPECTOR;
 
       nikte::Game &m_game;
       SDL_Window *m_window = nullptr;

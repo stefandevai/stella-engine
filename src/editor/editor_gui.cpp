@@ -28,7 +28,7 @@ namespace editor
 
     ImVec2 dimensions = m_tileset_editor.get_tile_dimensions();
     m_editor_sprite = game.m_registry.create();
-    game.m_registry.assign<components::PositionComponent>(m_editor_sprite, 100, 100);
+    game.m_registry.assign<components::PositionComponent>(m_editor_sprite, -dimensions.x, -dimensions.y);
     game.m_registry.assign<components::DimensionComponent>(m_editor_sprite, dimensions.x, dimensions.y);
     game.m_registry.assign<components::SpriteComponent>(m_editor_sprite,
                                                         m_tileset_editor.texture,
@@ -294,10 +294,20 @@ namespace editor
 
   void EditorGui::draw_toolbar()
   {
-    ImGui::PushFont(m_font_sans_regular);
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4.f, 4.f));
+    //ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0.f, 0.5f));
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(2.0f, 0.0f));
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.f, 0.f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.2f, 0.2f, 0.2f, 1.f));
 
+    // Handling inspector button hovering and clicks
     ImGui::PushID("inspector-button");
-    if (ImGui::Button(ICON_FA_MOUSE_POINTER))
+    if (m_current_state == EDIT && m_current_tool == INSPECTOR)
+    {
+      ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 1.f));
+    }
+    const bool clicked_inspector = ImGui::Button(ICON_FA_MOUSE_POINTER);
+    if (m_current_tool != INSPECTOR && clicked_inspector)
     {
       if (m_current_state != EDIT)
       {
@@ -305,11 +315,21 @@ namespace editor
       }
       m_current_tool = INSPECTOR;
     }
+    else if (m_current_state == EDIT && m_current_tool == INSPECTOR)
+    {
+      ImGui::PopStyleColor();
+    }
     ImGui::PopID();
     ImGui::SameLine();
 
+    // Handling tile pen button hovering and clicks
     ImGui::PushID("tile-pen-button");
-    if (ImGui::Button(ICON_FA_EDIT))
+    if (m_current_state == EDIT && m_current_tool == TILE_PEN)
+    {
+      ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 1.f));
+    }
+    const bool clicked_tile_pen = ImGui::Button(ICON_FA_EDIT);
+    if (m_current_tool != TILE_PEN && clicked_tile_pen)
     {
       if (m_current_state != EDIT)
       {
@@ -317,18 +337,37 @@ namespace editor
       }
       m_current_tool = TILE_PEN;
     }
-
-    ImGui::SameLine();
+    else if (m_current_state == EDIT && m_current_tool == TILE_PEN)
+    {
+      ImGui::PopStyleColor();
+    }
     ImGui::PopID();
-
+    ImGui::SameLine();
+    
+    // Handling play button hovering and clicks
     ImGui::PushID("play-button");
-    if(ImGui::Button(ICON_FA_PLAY))
+    if (m_current_state == PLAY)
+    {
+      ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 1.f));
+    }
+    const bool clicked_play = ImGui::Button(ICON_FA_PLAY);
+    if(m_current_state != PLAY && clicked_play)
     {
       m_current_state = PLAY;
     }
+    else if (m_current_state == PLAY)
+    {
+      ImGui::PopStyleColor();
+    }
     ImGui::PopID();
 
-    ImGui::PopFont();
+    ImGui::PopStyleColor();
+    ImGui::PopStyleColor();
+    ImGui::PopStyleVar();
+    //ImGui::PopStyleVar();
+    ImGui::PopStyleVar();
+    ImGui::Dummy(ImVec2(0.f, 2.f));
+    ImGui::Separator();
   }
 
   void EditorGui::draw_console(const ImVec2 &size, const ImVec2 &pos)
