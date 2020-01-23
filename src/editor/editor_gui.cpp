@@ -205,7 +205,23 @@ namespace editor
 
   void EditorGui::handle_inspector(ImGuiIO& io)
   {
-    std::cout << "Inspector\n";
+    // If the mouse is within the game screen boundaries
+    if (io.MousePos.x > (m_window_width - m_game_width) &&
+        io.MousePos.x < (m_window_width) &&
+        io.MousePos.y < (m_game_height + 23) &&
+        io.MousePos.y > 23)
+    {
+      if (io.MouseClicked[0])
+      {
+        // Get clicked tile position
+        const auto& camera_pos = m_game.get_camera_pos();
+        float width_padding = m_window_width - m_game_width;
+        float height_padding = 23.f;
+        ImVec2 tile_pos = m_tileset_editor.pos2tile(io.MousePos.x - width_padding + camera_pos[0], io.MousePos.y - height_padding + camera_pos[1]);
+        const auto& tile = m_game.m_tile_map.layers[m_map_editor.get_selected_layer_id()]->get_value(tile_pos.x, tile_pos.y);
+        m_inspector.set_selected_entity(tile.entity);
+      }
+    }
   }
 
   void EditorGui::init_style()
@@ -268,7 +284,7 @@ namespace editor
     ImGui::Begin("Editor", nullptr, m_window_flags);
     
     this->draw_toolbar();
-    m_inspector.render();
+    m_inspector.render(m_game.m_registry);
     m_map_editor.render();
     m_tileset_editor.render();
     //this->draw_log();
