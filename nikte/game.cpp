@@ -20,10 +20,10 @@ Game::Game()
   m_script_api.run_script("./scripts/main.lua");
   m_script_api.run_function("load_game");
 
-  m_script_api.run_script("./scripts/npcs/test.lua");
-  auto func = m_script_api.get_variable<std::function<std::string(std::string)>>("talk");
-  std::string res = func("hi");
-  std::cout << res << '\n';
+  // m_script_api.run_script("./scripts/npcs/test.lua");
+  // auto func = m_script_api.get_variable<std::function<std::string(std::string)>>("talk");
+  // std::string res = func("hi");
+  // std::cout << res << '\n';
 
   this->update_systems(0.0);
 }
