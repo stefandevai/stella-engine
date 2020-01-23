@@ -8,13 +8,7 @@ namespace editor
     MapEditor::MapEditor(nikte::Game& game)
       : m_tile_map(game.m_tile_map)
     {
-      m_selected_layer = m_tile_map.layers.front();
-      std::size_t length = m_tile_map.get_name().copy(m_map_name, 128);
-      m_map_name[length] = '\0';
-      length = m_tile_map.get_path().copy(m_path, 128);
-      m_path[length] = '\0';
-      m_map_size[0] = (int)m_tile_map.width();
-      m_map_size[1] = (int)m_tile_map.height();
+      this->reset_map_settings();
     }
 
     MapEditor::~MapEditor() {}
@@ -60,6 +54,22 @@ namespace editor
         }
         ImGui::Dummy(ImVec2(0.0f, 12.0f));
       }
+    }
+
+    void MapEditor::reset_map_settings()
+    {
+      m_selected_layer = m_tile_map.layers.front();
+      std::size_t length = m_tile_map.get_name().copy(m_map_name, 128);
+      m_map_name[length] = '\0';
+      length = m_tile_map.get_path().copy(m_path, 128);
+      m_path[length] = '\0';
+      m_map_size[0] = (int)m_tile_map.width();
+      m_map_size[1] = (int)m_tile_map.height();
+    }
+
+    void MapEditor::update_map_settings()
+    {
+      m_tile_map.set_name(m_map_name);
     }
 }
 }

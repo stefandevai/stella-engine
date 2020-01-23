@@ -34,9 +34,12 @@ namespace core
       inline unsigned tile_dimension() const { return m_tile_dimension; }
       inline std::string get_name() const { return m_name; }
       inline std::string get_path() const { return m_path; }
+
+      void set_name(const std::string& name) { m_name = name; }
       void update_tile(const int value, const int x, const int y, const unsigned layer_id, const bool collidable);
       void create_tile_entity(const int value, const int x, const int y, const int z, const unsigned layer_id);
       void create_tile_entities(const int beginx, const int endx, const int beginy, const int endy);
+      
 
       void load(const std::string &path);
       void save(const std::string &path);

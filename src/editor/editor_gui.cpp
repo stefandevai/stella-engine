@@ -59,14 +59,16 @@ namespace editor
     if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_S])
     { 
       m_log.AddLog("Saving map...\n");
-      m_game.m_tile_map.save("./editor-map.xml");
+      m_map_editor.update_map_settings();
+      m_game.m_tile_map.save(m_map_editor.get_map_path());
       m_log.AddLog("Saved map...\n");
     }
 
     if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_O])
     {
       m_log.AddLog("Loading map...\n");
-      m_game.m_tile_map.load("./editor-map.xml");
+      m_game.m_tile_map.load(m_map_editor.get_map_path());
+      m_map_editor.reset_map_settings();
       m_log.AddLog("Loaded map...\n");
     }
   }

@@ -28,6 +28,8 @@ namespace editor
       MapEditor(nikte::Game& game);
       ~MapEditor();
       void render();
+      void reset_map_settings();
+      void update_map_settings();
       inline int get_selected_layer_id() const
       {
         if (m_selected_layer)
@@ -38,6 +40,7 @@ namespace editor
       }
 
       inline const std::string get_map_name() const { return std::string(m_map_name); }
+      inline const std::string get_map_path() const { return std::string(m_path); }
   };
 }
 }
