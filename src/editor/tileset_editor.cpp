@@ -9,10 +9,10 @@ namespace stella
 namespace editor
 {
     TilesetEditor::TilesetEditor(const std::string& path)
-        : m_path(path), m_texture(path)
+        : m_path(path), texture(path)
       {
-        m_texture_w = m_texture.GetWidth();
-        m_texture_h = m_texture.GetHeight();
+        m_texture_w = this->texture.GetWidth();
+        m_texture_h = this->texture.GetHeight();
       }
 
       TilesetEditor::~TilesetEditor() {}
@@ -56,7 +56,7 @@ namespace editor
               ImVec2 size = ImVec2(m_tile_dimensions[0], m_tile_dimensions[1]);
               ImVec2 uv1 = ImVec2(i*m_tile_dimensions[0]/(float)m_texture_w, j*m_tile_dimensions[1]/(float)m_texture_h);
               ImVec2 uv2 = ImVec2((m_tile_dimensions[0] + i*m_tile_dimensions[0])/(float)m_texture_w, (m_tile_dimensions[1] + j*m_tile_dimensions[1])/(float)m_texture_h);
-              ImTextureID texture = (void*)(intptr_t)m_texture.GetID();
+              ImTextureID texture = (void*)(intptr_t)this->texture.GetID();
 
               if (i + j*w_in_tiles == m_selected_tile_id)
               {
@@ -105,11 +105,6 @@ namespace editor
       ImVec2 TilesetEditor::pos2tile(const int x, const int y)
       {
         return ImVec2(x/m_tile_dimensions[0], y/m_tile_dimensions[1]);
-      }
-
-      ImVec2 TilesetEditor::get_tile_dimensions()
-      {
-        return ImVec2(m_tile_dimensions[0], m_tile_dimensions[1]);
       }
 
       void TilesetEditor::render_tile_sprite(const ImVec2& pos, const float alpha)

@@ -23,6 +23,19 @@ namespace editor
   {
     m_game.m_display.SetEditor(this);
     //m_debug_layer.Add(shape);
+    m_editor_layer = game.m_registry.create();
+    game.m_registry.assign<components::LayerComponent>(m_editor_layer, "editor", 9999, "", "", "");
+
+    ImVec2 dimensions = m_tileset_editor.get_tile_dimensions();
+    m_editor_sprite = game.m_registry.create();
+    game.m_registry.assign<components::PositionComponent>(m_editor_sprite, 100, 100);
+    game.m_registry.assign<components::DimensionComponent>(m_editor_sprite, dimensions.x, dimensions.y);
+    game.m_registry.assign<components::SpriteComponent>(m_editor_sprite,
+                                                        m_tileset_editor.texture,
+                                                        m_tileset_editor.get_tile_dimensions().x,
+                                                        m_tileset_editor.get_tile_dimensions().y,
+                                                        36,
+                                                        "editor");
   }
 
   EditorGui::~EditorGui() { }
@@ -134,34 +147,35 @@ namespace editor
       case EDIT:
         switch (m_current_tool)
         {
+          // Sprite preview and drawing
           case TILE_PEN:
+            // If the mouse is within the game screen boundaries
             if (io.MousePos.x > (m_window_width - m_game_width) &&
                 io.MousePos.x < (m_window_width) &&
                 io.MousePos.y < (m_game_height + 23) &&
                 io.MousePos.y > 23)
             {
-              
-              
-              //m_tileset_editor.render_tile_sprite(ImVec2(io.MousePos.x - m_tileset_editor.get_tile_dimensions().x, io.MousePos.y - m_tileset_editor.get_tile_dimensions().y), 0.6f);
-              //m_tileset_editor.render_tile_sprite(ImVec2((io.MousePos.x / (int)(m_tileset_editor.get_tile_dimensions().x))*(int)(m_tileset_editor.get_tile_dimensions().x),
-               //                                          (io.MousePos.y / (int)(m_tileset_editor.get_tile_dimensions().y))*(int)(m_tileset_editor.get_tile_dimensions().y)));
-              
-              // TODO: Create a custom layer for the editor and render sprites there
+              // Set dummy sprite position with grid snapping
+              const auto& camera_pos = m_game.get_camera_pos();
               float width_padding = m_window_width - m_game_width;
               float height_padding = 23.f;
-              ImVec2 pos_in_tiles = m_tileset_editor.pos2tile(io.MousePos.x - width_padding, io.MousePos.y - height_padding);
-              m_tileset_editor.render_tile_sprite(ImVec2(width_padding + (pos_in_tiles.x)*m_tileset_editor.get_tile_dimensions().x - m_tileset_editor.get_tile_dimensions().x/2.f - 2.f,
-                                                         height_padding + (pos_in_tiles.y)*m_tileset_editor.get_tile_dimensions().y - m_tileset_editor.get_tile_dimensions().y/2.f + 4.f));
+
+              auto& sprite_pos = m_registry.get<components::PositionComponent>(m_editor_sprite);
+              auto& sprite_spr = m_registry.get<components::SpriteComponent>(m_editor_sprite);
+              ImVec2 tile_pos = m_tileset_editor.pos2tile(io.MousePos.x - width_padding + camera_pos[0], io.MousePos.y - height_padding + camera_pos[1]);
+              int new_tile_value = m_tileset_editor.get_selected_tile_id();
+
+              sprite_pos.x = tile_pos.x*m_tileset_editor.get_tile_dimensions().x;
+              sprite_pos.y = tile_pos.y*m_tileset_editor.get_tile_dimensions().y;
+              sprite_spr.Sprite->SetDirectFrame(new_tile_value);
 
                 if (io.MouseClicked[0])
                 {
-                  const auto& camera_pos = m_game.get_camera_pos();
-                  ImVec2 tile_pos = m_tileset_editor.pos2tile(camera_pos[0] - m_game_width/2.f + io.MousePos.x, camera_pos[1] + io.MousePos.y);
-                  int new_tile_value = m_tileset_editor.get_selected_tile_id();
+                  // Update tile if user clicks
                   bool collidable = m_tileset_editor.get_selected_tile_collidable();
                   int layer_id = m_map_editor.get_selected_layer_id();
                   
-                  m_game.m_tile_map.update_tile(new_tile_value, tile_pos.x-1, tile_pos.y-1, layer_id, collidable);
+                  m_game.m_tile_map.update_tile(new_tile_value, tile_pos.x, tile_pos.y, layer_id, collidable);
                 }
             }
             break;

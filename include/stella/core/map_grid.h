@@ -90,7 +90,6 @@ namespace core
         return m_name;
       }
 
-
       inline const std::string get_texture_name() const
       {
         return m_texture_name;

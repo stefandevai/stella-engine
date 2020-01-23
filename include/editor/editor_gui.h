@@ -46,6 +46,8 @@ namespace editor
       LogSystem m_log_system{m_log};
       entt::registry &m_registry;
       DebugLayer m_debug_layer{896, 504, true};
+      entt::entity m_editor_layer = entt::null;
+      entt::entity m_editor_sprite = entt::null;
       TilesetEditor m_tileset_editor{"assets/sprites/tileset.png"};
       MapEditor m_map_editor{m_game};
       Inspector m_inspector;
