@@ -17,9 +17,11 @@ namespace core
   class MapGrid : public Grid<Tile>
   {
     private:
+      std::string m_name = "Layer";
       std::string m_render_layer_name = "basic";
       std::string m_texture_name = "";
       bool m_is_collision_grid = false;
+      int m_id = -1;
 
     public:
       MapGrid(unsigned width, unsigned height)
@@ -31,7 +33,12 @@ namespace core
       template<class Archive>
       void serialize(Archive & archive)
       {
-        archive(m_grid, m_width, m_height, m_render_layer_name, m_texture_name, m_is_collision_grid);
+        archive(m_name, m_grid, m_width, m_height, m_render_layer_name, m_texture_name, m_is_collision_grid);
+      }
+
+      inline void set_name(const std::string &name)
+      {
+        m_name = name;
       }
 
       inline void set_texture_name(const std::string &name)
@@ -61,21 +68,6 @@ namespace core
         m_is_collision_grid = is_collision_grid;
       }
 
-      inline const std::string get_texture_name()
-      {
-        return m_texture_name;
-      }
-
-      inline const std::string get_render_layer_name()
-      {
-        return m_render_layer_name;
-      }
-
-      inline const bool is_collision_grid()
-      {
-        return m_is_collision_grid;
-      }
-
       inline void set_entity(const uint x, const uint y, const entt::entity entity)
       {
         if (x >= 0 && x < m_width && y >= 0 && y < m_height)
@@ -87,6 +79,38 @@ namespace core
           std::cout << "Trying to reach a grid value out of bounds.\n";
         }
       }
+
+      inline void set_id(const int id)
+      {
+        m_id = id;
+      }
+      
+      inline const std::string get_name()
+      {
+        return m_name;
+      }
+
+
+      inline const std::string get_texture_name() const
+      {
+        return m_texture_name;
+      }
+
+      inline const std::string get_render_layer_name() const
+      {
+        return m_render_layer_name;
+      }
+
+      inline const bool is_collision_grid() const
+      {
+        return m_is_collision_grid;
+      }
+
+      inline int get_id() const
+      {
+        return m_id;
+      }
+      
   };
 
 } // namespace core

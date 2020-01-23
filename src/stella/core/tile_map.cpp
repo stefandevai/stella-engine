@@ -20,7 +20,7 @@ namespace core
 {
 
   TileMap::TileMap(const std::string &path, entt::registry &registry)
-    : m_registry(registry)
+    : m_path(path), m_registry(registry)
   {
     this->load(path);
   }
@@ -28,6 +28,26 @@ namespace core
   TileMap::~TileMap()
   {
 
+  }
+
+  void TileMap::load(const std::string &path)
+  {
+    auto pos = path.find_last_of('.');
+    const std::string extension = path.substr(pos+1);
+    if (extension == "lua")
+    {
+      m_path = path;
+      load_lua(path);
+    }
+    else if (extension == "xml")
+    {
+      m_path = path;
+      load_xml(path);
+    }
+    else
+    {
+      std::cout << "ERROR: Unknown file extension \"" + extension + "\"\n"; 
+    }
   }
 
   void TileMap::load_lua(const std::string &path)
@@ -92,23 +112,13 @@ namespace core
       }
 
       layers.emplace_back(layer);
-
-      // if (layer->is_collision_grid())
-      // {
-      //   collision_layers.emplace_back(layer);
-      // }
-      // else
-      // {
-      //   tile_layers.emplace_back(layer);
-      // }
     }
 
     std::cout << "Loaded TileMap: " << m_name << " from " << path << '\n';
   }
 
-  void TileMap::load(const std::string &path)
+  void TileMap::load_xml(const std::string &path)
   {
-    m_path = path;
     std::ifstream is(path);
     cereal::XMLInputArchive archive(is);
     archive(CEREAL_NVP(m_name),
@@ -117,8 +127,6 @@ namespace core
             CEREAL_NVP(m_width),
             CEREAL_NVP(m_height),
             CEREAL_NVP(layers));
-            // CEREAL_NVP(tile_layers),
-            // CEREAL_NVP(collision_layers));
 
     std::cout << "Loaded TileMap: " << m_name << " from " << path << '\n';
   }
@@ -129,16 +137,12 @@ namespace core
     std::ofstream os(path);
     cereal::XMLOutputArchive archive(os);
 
-    std::cout << layers[0]->get_value(0,0).value << '\n';
-
     archive(CEREAL_NVP(m_name),
             CEREAL_NVP(m_number_of_layers),
             CEREAL_NVP(m_tile_dimension),
             CEREAL_NVP(m_width),
             CEREAL_NVP(m_height),
             CEREAL_NVP(layers));
-            // CEREAL_NVP(tile_layers),
-            // CEREAL_NVP(collision_layers));
 
     std::cout << "Saved TileMap: " << m_name << " in " << path << '\n';
   }
@@ -157,7 +161,7 @@ namespace core
 
     if (tile.entity == entt::null)
     {
-      this->create_tile_entity(value, x, y, layer_id);
+      this->create_tile_entity(value, x, y, tile.z, layer_id);
     }
     else
     {
@@ -167,12 +171,12 @@ namespace core
     }
   }
 
-  void TileMap::create_tile_entity(const int value, const int x, const int y, const unsigned layer_id)
+  void TileMap::create_tile_entity(const int value, const int x, const int y, const int z, const unsigned layer_id)
   {
     auto tile = m_registry.create();
     m_registry.assign<components::TileComponent>(tile, layer_id, false);
     m_registry.assign<components::SpriteComponent>(tile, layers[layer_id]->get_texture_name(), glm::vec2(m_tile_dimension, m_tile_dimension), layers[layer_id]->get_render_layer_name(), value);
-    m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension);
+    m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension, z);
     m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
     layers[layer_id]->set_entity(x, y, tile);
   }
@@ -185,10 +189,11 @@ namespace core
     int right = endx / m_tile_dimension;
     int top = beginy / m_tile_dimension;
     int bottom = ceil(endy / static_cast<double>(m_tile_dimension));
-    int counter = 0;
+    int layer_counter = 0;
 
     for (const auto &layer : this->layers)
     {
+      layer->set_id(layer_counter);
       for (auto y = top; y < bottom; ++y)
       {
         for (auto x = left; x < right; ++x)
@@ -198,12 +203,7 @@ namespace core
           if (!layer_tile.visible && layer_tile.value > 0)
           {
             layer->set_visibility(x, y, true);
-            auto tile = m_registry.create();
-            m_registry.assign<components::TileComponent>(tile, counter, true);
-            m_registry.assign<components::SpriteComponent>(tile, layer->get_texture_name(), glm::vec2(m_tile_dimension, m_tile_dimension), layer->get_render_layer_name(), layer_tile.value);
-            m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension);
-            m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
-            //this->create_tile_entity(layer_tile.value, x, y, counter);
+            this->create_tile_entity(layer_tile.value, x, y, layer_tile.z + layer_counter, layer_counter);
           }
           else if (!layer_tile.visible)
           {
@@ -211,7 +211,7 @@ namespace core
           }
         }
       }
-      ++counter;
+      ++layer_counter;
     }
   }
 }

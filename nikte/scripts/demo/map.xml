@@ -10,7 +10,8 @@
 			<ptr_wrapper>
 				<id>2147483649</id>
 				<data>
-					<value0 size="dynamic">
+					<value0>Layer</value0>
+					<value1 size="dynamic">
 						<value0>
 							<value0>0</value0>
 							<value1>0</value1>
@@ -2428,7 +2429,7 @@
 							<value0>7</value0>
 							<value1>4</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -2447,7 +2448,7 @@
 							<value0>8</value0>
 							<value1>4</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -2466,7 +2467,7 @@
 							<value0>9</value0>
 							<value1>4</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -2485,7 +2486,7 @@
 							<value0>10</value0>
 							<value1>4</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>35</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -2998,7 +2999,7 @@
 							<value0>7</value0>
 							<value1>5</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -3017,7 +3018,7 @@
 							<value0>8</value0>
 							<value1>5</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -3036,7 +3037,7 @@
 							<value0>9</value0>
 							<value1>5</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -3055,7 +3056,7 @@
 							<value0>10</value0>
 							<value1>5</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>35</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -3568,7 +3569,7 @@
 							<value0>7</value0>
 							<value1>6</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -3587,7 +3588,7 @@
 							<value0>8</value0>
 							<value1>6</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -3606,7 +3607,7 @@
 							<value0>9</value0>
 							<value1>6</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -3625,7 +3626,7 @@
 							<value0>10</value0>
 							<value1>6</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>35</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -4119,7 +4120,7 @@
 							<value0>6</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>28</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -4138,7 +4139,7 @@
 							<value0>7</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>36</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -4157,7 +4158,7 @@
 							<value0>8</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>36</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -4176,7 +4177,7 @@
 							<value0>9</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>36</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -4195,7 +4196,7 @@
 							<value0>10</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>1</value3>
+							<value3>29</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -6589,8 +6590,8 @@
 							<value0>16</value0>
 							<value1>11</value1>
 							<value2>1</value2>
-							<value3>1</value3>
-							<value4>false</value4>
+							<value3>28</value3>
+							<value4>true</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -6608,8 +6609,8 @@
 							<value0>17</value0>
 							<value1>11</value1>
 							<value2>1</value2>
-							<value3>1</value3>
-							<value4>false</value4>
+							<value3>36</value3>
+							<value4>true</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -6627,8 +6628,8 @@
 							<value0>18</value0>
 							<value1>11</value1>
 							<value2>1</value2>
-							<value3>1</value3>
-							<value4>false</value4>
+							<value3>36</value3>
+							<value4>true</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -6646,8 +6647,8 @@
 							<value0>19</value0>
 							<value1>11</value1>
 							<value2>1</value2>
-							<value3>1</value3>
-							<value4>false</value4>
+							<value3>36</value3>
+							<value4>true</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -6665,8 +6666,8 @@
 							<value0>20</value0>
 							<value1>11</value1>
 							<value2>1</value2>
-							<value3>1</value3>
-							<value4>false</value4>
+							<value3>36</value3>
+							<value4>true</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -6684,8 +6685,8 @@
 							<value0>21</value0>
 							<value1>11</value1>
 							<value2>1</value2>
-							<value3>1</value3>
-							<value4>false</value4>
+							<value3>29</value3>
+							<value4>true</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -6703,8 +6704,8 @@
 							<value0>22</value0>
 							<value1>11</value1>
 							<value2>1</value2>
-							<value3>1</value3>
-							<value4>false</value4>
+							<value3>29</value3>
+							<value4>true</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -8109,7 +8110,7 @@
 							<value0>6</value0>
 							<value1>14</value1>
 							<value2>1</value2>
-							<value3>40</value3>
+							<value3>1</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -8679,7 +8680,7 @@
 							<value0>6</value0>
 							<value1>15</value1>
 							<value2>1</value2>
-							<value3>34</value3>
+							<value3>1</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -9249,7 +9250,7 @@
 							<value0>6</value0>
 							<value1>16</value1>
 							<value2>1</value2>
-							<value3>26</value3>
+							<value3>1</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -11411,12 +11412,12 @@
 								<data>0</data>
 							</value7>
 						</value599>
-					</value0>
-					<value1>30</value1>
-					<value2>20</value2>
-					<value3>tiles</value3>
-					<value4>tileset</value4>
-					<value5>false</value5>
+					</value1>
+					<value2>30</value2>
+					<value3>20</value3>
+					<value4>tiles</value4>
+					<value5>tileset</value5>
+					<value6>false</value6>
 				</data>
 			</ptr_wrapper>
 		</value0>
@@ -11424,7 +11425,8 @@
 			<ptr_wrapper>
 				<id>2147483650</id>
 				<data>
-					<value0 size="dynamic">
+					<value0>Layer</value0>
+					<value1 size="dynamic">
 						<value0>
 							<value0>0</value0>
 							<value1>0</value1>
@@ -15419,8 +15421,8 @@
 							<value0>0</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>40</value3>
-							<value4>true</value4>
+							<value3>0</value3>
+							<value4>false</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -15723,7 +15725,7 @@
 							<value0>16</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>26</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -15742,7 +15744,7 @@
 							<value0>17</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -15761,7 +15763,7 @@
 							<value0>18</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -15780,7 +15782,7 @@
 							<value0>19</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -15799,7 +15801,7 @@
 							<value0>20</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -15818,7 +15820,7 @@
 							<value0>21</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -15837,7 +15839,7 @@
 							<value0>22</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>27</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -15989,8 +15991,8 @@
 							<value0>0</value0>
 							<value1>8</value1>
 							<value2>1</value2>
-							<value3>40</value3>
-							<value4>true</value4>
+							<value3>0</value3>
+							<value4>false</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -16293,7 +16295,7 @@
 							<value0>16</value0>
 							<value1>8</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>26</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16312,7 +16314,7 @@
 							<value0>17</value0>
 							<value1>8</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16331,7 +16333,7 @@
 							<value0>18</value0>
 							<value1>8</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16350,7 +16352,7 @@
 							<value0>19</value0>
 							<value1>8</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16369,7 +16371,7 @@
 							<value0>20</value0>
 							<value1>8</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16388,7 +16390,7 @@
 							<value0>21</value0>
 							<value1>8</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16407,7 +16409,7 @@
 							<value0>22</value0>
 							<value1>8</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>27</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16559,8 +16561,8 @@
 							<value0>0</value0>
 							<value1>9</value1>
 							<value2>1</value2>
-							<value3>40</value3>
-							<value4>true</value4>
+							<value3>0</value3>
+							<value4>false</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -16863,7 +16865,7 @@
 							<value0>16</value0>
 							<value1>9</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>26</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16882,7 +16884,7 @@
 							<value0>17</value0>
 							<value1>9</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16901,7 +16903,7 @@
 							<value0>18</value0>
 							<value1>9</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16920,7 +16922,7 @@
 							<value0>19</value0>
 							<value1>9</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16939,7 +16941,7 @@
 							<value0>20</value0>
 							<value1>9</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16958,7 +16960,7 @@
 							<value0>21</value0>
 							<value1>9</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -16977,7 +16979,7 @@
 							<value0>22</value0>
 							<value1>9</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>27</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -17433,7 +17435,7 @@
 							<value0>16</value0>
 							<value1>10</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>26</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -17452,7 +17454,7 @@
 							<value0>17</value0>
 							<value1>10</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -17471,7 +17473,7 @@
 							<value0>18</value0>
 							<value1>10</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -17490,7 +17492,7 @@
 							<value0>19</value0>
 							<value1>10</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -17509,7 +17511,7 @@
 							<value0>20</value0>
 							<value1>10</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -17528,7 +17530,7 @@
 							<value0>21</value0>
 							<value1>10</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>25</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -17547,7 +17549,7 @@
 							<value0>22</value0>
 							<value1>10</value1>
 							<value2>1</value2>
-							<value3>0</value3>
+							<value3>27</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -21119,8 +21121,8 @@
 							<value0>0</value0>
 							<value1>17</value1>
 							<value2>1</value2>
-							<value3>40</value3>
-							<value4>true</value4>
+							<value3>0</value3>
+							<value4>false</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -21689,8 +21691,8 @@
 							<value0>0</value0>
 							<value1>18</value1>
 							<value2>1</value2>
-							<value3>40</value3>
-							<value4>true</value4>
+							<value3>0</value3>
+							<value4>false</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -22259,8 +22261,8 @@
 							<value0>0</value0>
 							<value1>19</value1>
 							<value2>1</value2>
-							<value3>40</value3>
-							<value4>true</value4>
+							<value3>0</value3>
+							<value4>false</value4>
 							<value5>
 								<type>0</type>
 								<data>0</data>
@@ -22825,12 +22827,12 @@
 								<data>0</data>
 							</value7>
 						</value599>
-					</value0>
-					<value1>30</value1>
-					<value2>20</value2>
-					<value3>tiles</value3>
-					<value4>tileset</value4>
-					<value5>false</value5>
+					</value1>
+					<value2>30</value2>
+					<value3>20</value3>
+					<value4>tiles</value4>
+					<value5>tileset</value5>
+					<value6>false</value6>
 				</data>
 			</ptr_wrapper>
 		</value1>
@@ -22838,7 +22840,8 @@
 			<ptr_wrapper>
 				<id>2147483651</id>
 				<data>
-					<value0 size="dynamic">
+					<value0>Layer</value0>
+					<value1 size="dynamic">
 						<value0>
 							<value0>0</value0>
 							<value1>0</value1>
@@ -26871,7 +26874,7 @@
 							<value0>2</value0>
 							<value1>7</value1>
 							<value2>1</value2>
-							<value3>40</value3>
+							<value3>0</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -27441,7 +27444,7 @@
 							<value0>2</value0>
 							<value1>8</value1>
 							<value2>1</value2>
-							<value3>40</value3>
+							<value3>0</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -28011,7 +28014,7 @@
 							<value0>2</value0>
 							<value1>9</value1>
 							<value2>1</value2>
-							<value3>40</value3>
+							<value3>0</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -32571,7 +32574,7 @@
 							<value0>2</value0>
 							<value1>17</value1>
 							<value2>1</value2>
-							<value3>40</value3>
+							<value3>0</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -33141,7 +33144,7 @@
 							<value0>2</value0>
 							<value1>18</value1>
 							<value2>1</value2>
-							<value3>40</value3>
+							<value3>0</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -33711,7 +33714,7 @@
 							<value0>2</value0>
 							<value1>19</value1>
 							<value2>1</value2>
-							<value3>40</value3>
+							<value3>0</value3>
 							<value4>false</value4>
 							<value5>
 								<type>0</type>
@@ -34239,12 +34242,12 @@
 								<data>0</data>
 							</value7>
 						</value599>
-					</value0>
-					<value1>30</value1>
-					<value2>20</value2>
-					<value3>tiles</value3>
-					<value4>tileset</value4>
-					<value5>false</value5>
+					</value1>
+					<value2>30</value2>
+					<value3>20</value3>
+					<value4>tiles</value4>
+					<value5>tileset</value5>
+					<value6>false</value6>
 				</data>
 			</ptr_wrapper>
 		</value2>

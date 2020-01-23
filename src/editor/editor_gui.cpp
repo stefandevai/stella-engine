@@ -157,7 +157,7 @@ namespace editor
                   ImVec2 tile_pos = m_tileset_editor.pos2tile(camera_pos[0] - m_game_width/2.f + io.MousePos.x, camera_pos[1] + io.MousePos.y);
                   int new_tile_value = m_tileset_editor.get_selected_tile_id();
                   bool collidable = m_tileset_editor.get_selected_tile_collidable();
-                  int layer_id = 0;
+                  int layer_id = m_map_editor.get_selected_layer_id();
                   
                   m_game.m_tile_map.update_tile(new_tile_value, tile_pos.x-1, tile_pos.y-1, layer_id, collidable);
                 }
@@ -235,7 +235,7 @@ namespace editor
     ImGui::Begin("Editor", nullptr, m_window_flags);
     
     m_inspector.render();
-    m_layer_editor.render();
+    m_map_editor.render();
     m_tileset_editor.render();
     //this->draw_log();
     //ImGui::Text("Add tool panels here.");

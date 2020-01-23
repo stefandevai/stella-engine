@@ -6,7 +6,7 @@
 #include <entt/entity/registry.hpp>
 #include "./log_system.h"
 #include "./tileset_editor.h"
-#include "./layer_editor.h"
+#include "./map_editor.h"
 #include "./inspector.h"
 #include "./gui_log.h"
 #include "./console.h"
@@ -31,7 +31,7 @@ namespace editor
   class EditorGui {
     private:
       enum State { EDIT, PLAY };
-      enum Tool { TILE_PEN };
+      enum Tool { TILE_PEN, INSPECTOR };
 
       State m_current_state = EDIT;
       Tool m_current_tool = TILE_PEN;
@@ -47,7 +47,7 @@ namespace editor
       entt::registry &m_registry;
       DebugLayer m_debug_layer{896, 504, true};
       TilesetEditor m_tileset_editor{"assets/sprites/tileset.png"};
-      LayerEditor m_layer_editor;
+      MapEditor m_map_editor{m_game};
       Inspector m_inspector;
       float m_window_width = 0.f, m_window_height = 0.f, m_game_width = 0.f, m_game_height = 0.f;
  

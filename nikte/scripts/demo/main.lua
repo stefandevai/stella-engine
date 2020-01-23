@@ -49,7 +49,7 @@ local function load_player(x, y)
     layer = "tiles",
     frame_dimensions = {32, 64, 0},
   })
-  Player:add_component("position", {x, y, 10})
+  Player:add_component("position", {x, y, 2})
   Player:add_component("dimension", {32, 64})
   Player:add_component("movement")
   Player:add_component("body", {

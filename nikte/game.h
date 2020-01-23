@@ -6,6 +6,7 @@
 
 #ifdef STELLA_BUILD_EDITOR
   #include <editor/editor_gui.h>
+  #include <editor/map_editor.h>
 #endif
 
 #include "player.h"
@@ -20,6 +21,7 @@ class Game : public stella::core::Game
 
     #ifdef STELLA_BUILD_EDITOR
       friend class stella::editor::EditorGui;
+      friend class stella::editor::MapEditor;
     #endif
 
   public:
