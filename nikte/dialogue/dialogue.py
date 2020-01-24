@@ -12,7 +12,7 @@ def chat():
             answer = npc.itze.answer(sentence)
             if answer:
                 print(npc.itze.name.upper() + ": " + answer + '\n')
-                sentence = input("YOU: ").lower()
+                sentence = input("YOU: ")
         if answer and npc.itze.greeted:
             print(npc.itze.name.upper() + ": " + npc.itze.bye())
 
