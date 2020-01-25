@@ -214,6 +214,14 @@ namespace core
       ++layer_counter;
     }
   }
+
+  void TileMap::resize(const int top, const int right, const int bottom, const int left)
+  {
+    for (auto& layer : layers)
+    {
+      layer->resize(top, right, bottom, left);
+    }
+  }
 }
 }
 

@@ -7,7 +7,6 @@ dialogs["age"] = "I'm 23 years old."
 
 function talk (input)
     local lower_input = string.lower(input)
-    print(lower_input)
     
     if dialogs[lower_input] ~= nil then
         return dialogs[lower_input]

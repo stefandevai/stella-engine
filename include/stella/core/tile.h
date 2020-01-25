@@ -23,6 +23,15 @@ namespace core
     std::bitset<4> active_edges;
     entt::entity entity = entt::null;
 
+    void reset()
+    {
+      this->value = 0;
+      this->solid_edges.reset();
+      this->custom_edges.reset();
+      this->active_edges.reset();
+      this->collidable = false;
+    }
+
     template<class Archive>
     void serialize(Archive & archive)
     {
