@@ -14,6 +14,16 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
                                       ${STELLA_LIBRARY_NAME}::core
                                       ${STELLA_LIBRARY_NAME}::graphics
                                       ${STELLA_LIBRARY_NAME}::physics2d
-                                      ${STELLA_LIBRARY_NAME}::topdown)
+                                      ${STELLA_LIBRARY_NAME}::topdown
+                                      ${GLAD_LIBRARIES}
+                                      ${SDL2_LIBRARIES}
+                                      ${OPENGL_LIBRARIES}
+                                      ${OpenAL_LIBRARIES}
+                                      ${ALUT_LIBRARIES}
+                                      ${VORBIS_LIBRARIES}
+                                      ${ENTT_LIBRARIES}
+                                      ${FREETYPE_LIBRARIES}
+                                      ${LUA_LIBRARIES}
+                                      ${PLATFORM_LIBRARIES})
                                       
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/stella/)

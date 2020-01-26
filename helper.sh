@@ -83,7 +83,10 @@ function clean_func {
 			;;
 		-ca|--clean-all)
 			if [ -d "$BUILD_DIR" ]; then
-				rm -rf $BUILD_DIR
+				rm -rf $BUILD_DIR/example
+				rm -rf $BUILD_DIR/nikte
+				rm -rf $BUILD_DIR/src
+				rm -rf $BUILD_DIR/test
 			fi
 			shift
 			;;

@@ -267,17 +267,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CXX_LINK_FLAGS}")
 
 add_subdirectory(src)
 
-target_link_libraries(${STELLA_LIBRARY_NAME} PRIVATE
-							   ${GLAD_LIBRARIES}
-							   ${SDL2_LIBRARIES}
-							   ${OPENGL_LIBRARIES}
-							   ${OpenAL_LIBRARIES}
-							   ${ALUT_LIBRARIES}
-							   ${VORBIS_LIBRARIES}
-							   ${ENTT_LIBRARIES}
-							   ${FREETYPE_LIBRARIES}
-							   ${LUA_LIBRARIES}
-							   ${PLATFORM_LIBRARIES})
+#target_link_libraries(${STELLA_LIBRARY_NAME} PRIVATE
 
 # Build examples if specified
 if (BUILD_STELLA_EXAMPLE)
