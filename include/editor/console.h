@@ -32,9 +32,7 @@ private:
   std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> m_converter;
 
 public:
-  Console(const ImGuiWindowFlags window_flags,
-          ImFont *&mono_font,
-          entt::registry &registry)
+  Console(const ImGuiWindowFlags window_flags, ImFont *&mono_font)
       : WindowFlags(window_flags), MonoFont(mono_font)
   {
     strcpy(editable_buffer, "");

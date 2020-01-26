@@ -62,7 +62,7 @@ private:
   // const ImGuiWindowFlags m_window_flags = ImGuiWindowFlags_NoMove |
   // ImGuiWindowFlags_NoResize;
   GuiLog m_log{m_window_flags, m_font_mono};
-  Console m_console{m_window_flags, m_font_mono, m_registry};
+  Console m_console{m_window_flags, m_font_mono};
   LogSystem m_log_system{m_log};
   entt::registry &m_registry;
   DebugLayer m_debug_layer{896, 504, true};
