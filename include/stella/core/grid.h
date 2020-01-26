@@ -73,13 +73,15 @@ namespace core
               if (right < 0)
               {
                 // v[i+j*width] = v[i+j*m_width]
-                m_grid[i+j*width] = std::move(m_grid[i+j*m_width]);
+                // m_grid[i+j*width] = std::move(m_grid[i+j*m_width]);
+                m_grid[i+j*width] = m_grid[i+j*m_width];
               }
               // Decrease from left
               else if (left < 0)
               {
                 // v[i+j*width] = v[i+j*m_width-width_diff]
-                m_grid[i+j*width] = std::move(m_grid[i+j*m_width-width_diff]);
+                // m_grid[i+j*width] = std::move(m_grid[i+j*m_width-width_diff]);
+                m_grid[i+j*width] = m_grid[i+j*m_width-width_diff];
               }
             }
           }
@@ -105,7 +107,8 @@ namespace core
                 else
                 {
                   // v[i+j*width] = v[i+j*m_width]
-                  m_grid[i+j*width] = std::move(m_grid[i+j*m_width]);
+                  //m_grid[i+j*width] = std::move(m_grid[i+j*m_width]);
+                  m_grid[i+j*width] = m_grid[i+j*m_width];
                 }
               }
               // Increate to left
@@ -119,7 +122,8 @@ namespace core
                 else
                 {
                   // v[i+j*width] = v[i+j*m_width-l]
-                  m_grid[i+j*width] = std::move(i+j*m_width-left);
+                  //m_grid[i+j*width] = std::move(i+j*m_width-left);
+                  m_grid[i+j*width] = m_grid[i+j*m_width-left];
                 }
                 
               }
@@ -162,7 +166,8 @@ namespace core
             else
             {
               // v[i] = v[i-height_diff*width]
-              m_grid[i] = std::move(m_grid[i-height_diff*width]);
+              // m_grid[i] = std::move(m_grid[i-height_diff*width]);
+              m_grid[i] = m_grid[i-height_diff*width];
             }
             
           }

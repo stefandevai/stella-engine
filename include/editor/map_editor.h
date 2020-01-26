@@ -19,10 +19,12 @@ namespace editor
       std::shared_ptr<core::MapGrid> m_selected_layer = nullptr;
       char m_map_name[128];
       char m_path[128];
-      int m_map_size[2] = {0,0};
+      int m_map_size[4]{0,0,0,0};
+      int m_map_width;
+      int m_map_height;
 
-      static const int min_map_size = 1;
-      static const int max_map_size = 1000;
+      static const int MIN_MAP_SIZE = 0;
+      static const int MAX_MAP_SIZE = 300;
 
     public:
       MapEditor(nikte::Game& game);

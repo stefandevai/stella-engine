@@ -17,16 +17,55 @@ namespace editor
     { 
       if (ImGui::CollapsingHeader("Map"))
       {
+        const float item_width = ImGui::CalcItemWidth();
+
+        // Map Name
+        ImGui::Dummy(ImVec2(0.f, 3.f));
+        ImGui::Text("Map name:");
+        ImGui::InputText("", m_map_name, IM_ARRAYSIZE(m_map_name));
         ImGui::Dummy(ImVec2(0.f, 3.f));
 
-        ImGui::InputText(" Name", m_map_name, IM_ARRAYSIZE(m_map_name));
+        // Map file location
+        ImGui::Text("Map file location:");
+        ImGui::PushItemWidth(item_width - 64.f);
+        ImGui::InputTextWithHint("", "Map file location.", m_path, IM_ARRAYSIZE(m_path));
+        ImGui::PopItemWidth();
+        ImGui::SameLine(0.f, 4.f);
+        ImGui::Button("...", ImVec2(60.f, 0));
         ImGui::Dummy(ImVec2(0.f, 3.f));
-        ImGui::InputTextWithHint(" Path", "Map file location.", m_path, IM_ARRAYSIZE(m_path));
-        ImGui::Dummy(ImVec2(0.f, 3.f));
+        ImGui::Separator();
+        
+        // Map dimensions
+        ImGui::Text("Map dimensions: %d x %d (top, right, bottom, left)", m_map_width, m_map_height);
+        ImGui::PushItemWidth(item_width - 64.f);
         ImGui::PushID("map-slider");
-        ImGui::SliderInt2(" Size", m_map_size, min_map_size, max_map_size);
+        if (ImGui::InputInt4("", m_map_size))
+        {
+          for (int i = 0; i < 4; ++i)
+          {
+            if (m_map_size[i] < MIN_MAP_SIZE)
+            {
+              m_map_size[i] = MIN_MAP_SIZE;
+            }
+            else if (m_map_size[i] > MAX_MAP_SIZE)
+            {
+              m_map_size[i] = MAX_MAP_SIZE;
+            }
+          }
+        }
+        
         ImGui::PopID();
+        ImGui::PopItemWidth();
+        ImGui::SameLine(0.f, 4.f);
+        if(ImGui::Button("Resize", ImVec2(60.f, 0)))
+        {
+          m_tile_map.resize(m_map_size[0], m_map_size[1], m_map_size[2], m_map_size[3]);
+          m_map_width += m_map_size[1] + m_map_size[3];
+          m_map_height += m_map_size[0] + m_map_size[2];
+          m_map_size[0] = m_map_size[1] = m_map_size[2] = m_map_size[3] = 0;
+        }
         ImGui::Dummy(ImVec2(0.f, 3.f));
+        ImGui::Separator();
 
         // Layers
         if (ImGui::TreeNodeEx("Layers", ImGuiTreeNodeFlags_DefaultOpen))
@@ -63,8 +102,8 @@ namespace editor
       m_map_name[length] = '\0';
       length = m_tile_map.get_path().copy(m_path, 128);
       m_path[length] = '\0';
-      m_map_size[0] = (int)m_tile_map.width();
-      m_map_size[1] = (int)m_tile_map.height();
+      m_map_width = (int)m_tile_map.width();
+      m_map_height = (int)m_tile_map.height();
     }
 
     void MapEditor::update_map_settings()
