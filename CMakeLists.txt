@@ -267,14 +267,23 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CXX_LINK_FLAGS}")
 
 # Build main library
 if(STELLA_BUILD_EDITOR)
-  file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-else()
-  file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/stella/*.cpp)
+
+  #set(EDITOR_SOURCES editor_gui.cpp
+	#				 map_editor.cpp
+	#				 inspector.cpp
+	#				 debug_layer.cpp
+	#				 tileset_editor.cpp)
+  #file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+  add_subdirectory(src)
+#else()
+  #add_subdirectory(src)
 endif()
+  file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/stella/*.cpp)
+#endif()
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${STELLA_LIBRARY_NAME} STATIC ${STELLA_SOURCES})
 
-target_link_libraries(${STELLA_LIBRARY_NAME} PUBLIC ${GLAD_LIBRARIES} ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES}
+target_link_libraries(${STELLA_LIBRARY_NAME} PUBLIC editor::editor ${GLAD_LIBRARIES} ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES}
   ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTT_LIBRARIES} ${FREETYPE_LIBRARIES} ${LUA_LIBRARIES} ${PLATFORM_LIBRARIES})
 
 # Build examples if specified
