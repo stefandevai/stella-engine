@@ -1,6 +1,38 @@
 dist: trusty
-sudo: false
+sudo: required
 language: cpp
+compiler: gcc
+
+
+matrix:
+  include:
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="brew install gcc && CC=gcc-7 && CXX=g++-7"
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+  - sudo apt-get -y install libsdl2-dev
+  - sudo apt-get -y install libopenal-dev
+  - sudo apt-get -y install libalut-dev
+  - sudo apt-get -y install libvorbis-dev
+  - sudo apt-get -y install libfreetype-dev
+  - sudo apt-get -y install lua5.3
+
+addons:
+  apt:
+    update: true
 
 script:
   - ./helper.sh -b
