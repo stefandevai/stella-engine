@@ -23,6 +23,7 @@ matrix:
             - sdl2
             - libvorbis
             - lua
+            - freealut
           update: true
 
     - os: linux

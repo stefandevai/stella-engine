@@ -9,7 +9,7 @@ namespace stella
 namespace graphics
 {
 
-Font::Font(const std::string &path, unsigned size)
+Font::Font(const std::string &path, std::size_t size)
     : Resource(path), m_path(path.c_str()), m_size(size)
 {
   if (FT_Init_FreeType(&m_ft))
@@ -24,7 +24,7 @@ Font::Font(const std::string &path, unsigned size)
   {
     std::cout << "ERROR::FREETYPE: Failed to load unicode charmap" << std::endl;
   }
-  FT_Set_Pixel_Sizes(m_face, 0, size);
+  FT_Set_Pixel_Sizes(m_face, 0, m_size);
   
 
   unsigned int aw = 0, ah = 0;
