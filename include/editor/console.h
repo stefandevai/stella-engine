@@ -144,8 +144,8 @@ public:
     {
       if (strlen(editable_buffer) > 0)
       {
-        AddLog(editable_buffer);
-        AddLog("\n");
+        AddLog("%s", editable_buffer);
+        AddLog("%c", '\n');
 
         const auto player_entity =
             *registry.view<stella::components::PlayerComponent>().begin();
