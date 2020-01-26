@@ -1,4 +1,4 @@
-#include "stella/core/game.h"
+#include "stella/game.h"
 #include "stella/systems.h"
 
 namespace stella

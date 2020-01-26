@@ -3,7 +3,7 @@
 #include <entt/entity/registry.hpp>
 #include "./map_grid.h"
 #include "./tile.h"
-#include "../scripting/basic_lua_api.h"
+#include "./basic_lua_api.h"
 
 namespace stella
 {

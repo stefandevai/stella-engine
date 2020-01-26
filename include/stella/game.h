@@ -4,17 +4,17 @@
 #include <vector>
 #include <memory>
 #include "./application.h"
-#include "../systems/system.h"
-#include "../systems/render_system.h"
-#include "../systems/animation_system.h"
-#include "../systems/color_system.h"
-#include "../systems/timer_system.h"
-#include "./resource.h"
-#include "../graphics/texture.h"
-#include "../graphics/font.h"
-#include "../scripting/ecs_lua_api.h"
-#include "../audio/soundplayer.h"
-#include "../physics2d/world.h"
+#include "stella/systems/system.h"
+#include "stella/systems/render_system.h"
+#include "stella/systems/animation_system.h"
+#include "stella/systems/color_system.h"
+#include "stella/systems/timer_system.h"
+#include "stella/core/resource.h"
+#include "stella/graphics/texture.h"
+#include "stella/graphics/font.h"
+#include "stella/core/ecs_lua_api.h"
+#include "stella/audio/soundplayer.h"
+#include "stella/physics2d/world.h"
 
 // #ifdef STELLA_BUILD_EDITOR
 // #include "editor/editor_gui.h"

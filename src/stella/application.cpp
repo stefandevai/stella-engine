@@ -1,4 +1,4 @@
-#include "stella/core/application.h"
+#include "stella/application.h"
 #include <iostream>
 
 namespace stella

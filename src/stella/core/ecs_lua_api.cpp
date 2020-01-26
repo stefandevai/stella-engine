@@ -1,4 +1,4 @@
-#include "stella/scripting/ecs_lua_api.h"
+#include "stella/core/ecs_lua_api.h"
 #include "stella/components.h"
 
 namespace stella
