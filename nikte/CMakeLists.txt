@@ -1,13 +1,9 @@
-# Build Nikte Demo
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/nikte)
+project(nikte)
 
-macro (build_example EXAMPLE_NAME EXAMPLE_SRC_DIR)
-  file(GLOB_RECURSE EXAMPLE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
-  add_executable(${EXAMPLE_NAME} ${EXAMPLE_SOURCES})
-  target_link_libraries(${EXAMPLE_NAME} ${STELLA_LIBRARY_NAME})
-endmacro()
+set(EXAMPLE_SOURCES main.cpp
+                    game.cpp)
+add_executable(${PROJECT_NAME} ${EXAMPLE_SOURCES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${STELLA_LIBRARY_NAME})
 
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/scripts DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
-build_example("Nikte" ${EXAMPLE_DIR})
+file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY scripts DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

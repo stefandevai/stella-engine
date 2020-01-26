@@ -16,7 +16,7 @@ fi
 # Variables
 BUILD_DIR="build"
 TARGET_DIR="nikte"
-TARGET="Nikte"
+TARGET="nikte"
 OPT1=$1
 OPT2=$2
 
@@ -45,8 +45,6 @@ function make_func {
   fi
 
   make -j 4
-  
-  exit 0
 }
 
 # Execute target

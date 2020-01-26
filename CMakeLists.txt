@@ -1,7 +1,16 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.8...3.16)
+
+if(CMP0048 EQUAL OLD)
+	cmake_policy(SET CMP0048 NEW)
+endif()
+
+project(StellaEngine VERSION 0.4
+					 DESCRIPTION "OpenGL 2D game engine"
+					 LANGUAGES CXX)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
-set(CMAKE_CXX_EXTENSIonS off)
+set(CMAKE_CXX_EXTENSIONS off)
 
 # Build emscripten version
 option(BUILD_EMSCRIPTEN "Build emscripten" off)
@@ -13,7 +22,7 @@ if (BUILD_EMSCRIPTEN)
   #set(CMAKE_CXX_COMPILER g++-9)
 endif()
 
-project(STELLA C CXX)
+
 
 if (UNIX AND NOT APPLE)
 	set(OpenGL_GL_PREFERENCE "GLVND")
@@ -263,9 +272,9 @@ else()
   file(GLOB_RECURSE STELLA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/stella/*.cpp)
 endif()
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
-add_library(${STELLA_LIBRARY_NAME} ${STELLA_SOURCES})
+add_library(${STELLA_LIBRARY_NAME} STATIC ${STELLA_SOURCES})
 
-target_link_libraries(${STELLA_LIBRARY_NAME} ${GLAD_LIBRARIES} ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES}
+target_link_libraries(${STELLA_LIBRARY_NAME} PUBLIC ${GLAD_LIBRARIES} ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES}
   ${OpenAL_LIBRARIES} ${ALUT_LIBRARIES} ${VORBIS_LIBRARIES} ${ENTT_LIBRARIES} ${FREETYPE_LIBRARIES} ${LUA_LIBRARIES} ${PLATFORM_LIBRARIES})
 
 # Build examples if specified
