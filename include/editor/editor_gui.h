@@ -55,7 +55,7 @@ private:
   nikte::Game &m_game;
   SDL_Window *m_window = nullptr;
   ImFont *m_font_mono = nullptr, *m_font_sans_regular = nullptr,
-         *m_font_sans_bold = nullptr, *m_default_font = nullptr;
+         *m_font_sans_bold = nullptr;
   const ImGuiWindowFlags m_window_flags =
       ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
       ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
@@ -86,7 +86,6 @@ private:
 
   // View options
   bool m_view_physics_debug_layer = false;
-  bool m_tile_editor              = false;
 
 public:
   // EditorGui(entt::registry& registry);

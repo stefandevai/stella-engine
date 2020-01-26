@@ -29,14 +29,13 @@ private:
   ImFont *&MonoFont;
   ImGuiTextBuffer Buf;
   char editable_buffer[512];
-  entt::registry &m_registry;
   std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> m_converter;
 
 public:
   Console(const ImGuiWindowFlags window_flags,
           ImFont *&mono_font,
           entt::registry &registry)
-      : WindowFlags(window_flags), MonoFont(mono_font), m_registry(registry)
+      : WindowFlags(window_flags), MonoFont(mono_font)
   {
     strcpy(editable_buffer, "");
     Clear();

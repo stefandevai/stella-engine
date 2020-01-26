@@ -46,5 +46,10 @@ matrix:
 before_install:
   - eval "${MATRIX_EVAL}"
 
+before_script:
+  - cd "${TRAVIS_BUILD_DIR}"
+  - mkdir build && cd build
+  - cmake ..
+
 script:
-  - ./helper.sh -b
+  - cmake --build . -- -j 2
