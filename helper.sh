@@ -45,6 +45,7 @@ function make_func {
   fi
 
   make -j 4
+  
   exit 0
 }
 
@@ -141,6 +142,7 @@ function format_code {
 	find include/ -iname "*.h" -o -iname "*.cpp" | xargs clang-format -i -style=file
 	find src/ -iname "*.h" -o -iname "*.cpp" | xargs clang-format -i -style=file
 	find example/ -iname "*.h" -o -iname "*.cpp" | xargs clang-format -i -style=file
+	find test/ -iname "*.h" -o -iname "*.cpp" | xargs clang-format -i -style=file
 }
 
 function copy_assets {
@@ -260,4 +262,3 @@ case $MODE in
 		shift
 		;;
 esac
-

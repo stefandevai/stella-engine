@@ -1,10 +1,30 @@
-dist: xenial
-sudo: required
 language: cpp
-compiler: gcc
+sudo: false
+notifications:
+  email: false
+
+os: linux
+dist: xenial
+
+cache:
+  directories:
+    - ${TRAVIS_BUILD_DIR}/lib
 
 matrix:
   include:
+    - env:
+        - COMPILER=clang++
+        - CXXFLAGS="-std=c++1z"
+      os: osx
+      osx_image: xcode11.3
+      addons:
+        homebrew:
+          packages:
+            - sdl2
+            - libvorbis
+            - lua
+          update: true
+
     - os: linux
       addons:
         apt:
@@ -20,11 +40,11 @@ matrix:
             - libalut-dev
             - libvorbis-dev
             - liblua5.3-dev
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
 before_install:
   - eval "${MATRIX_EVAL}"
 
 script:
-  - export CC=gcc-7
-  - export CXX=g++-7
   - ./helper.sh -b
