@@ -49,7 +49,7 @@ option(USE_SHARED_SDL2 "Use shared SDL2 library" on)
 option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" on)
 option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" on)
 option(USE_SHARED_ENTT "Use shared entt library" off)
-option(USE_SHARED_FREETYPE "Use shared FreeType2 library" on)
+option(USE_SHARED_FREETYPE "Use shared FreeType2 library" off)
 option(USE_SHARED_LUA "Use shared lua" on)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
