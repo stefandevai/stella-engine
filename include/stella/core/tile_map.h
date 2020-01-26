@@ -9,7 +9,6 @@ namespace stella
 {
 namespace core
 {
-
   class TileMap
   {
     public:

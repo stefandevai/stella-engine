@@ -1,6 +1,7 @@
 #pragma once
 
 #include <tuple>
+#include <vector>
 #include <glm/glm.hpp>
 
 typedef float GLfloat;

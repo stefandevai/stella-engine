@@ -113,13 +113,14 @@ local function load()
   -- test_spr:add_component("position", {512, 128, 3})
   -- test_spr:add_component("dimension", {32, 64})
 
-  -- local test_text = Entity:create_entity()
-  -- test_text:add_component("position", {512, 64, 0})
-  -- test_text:add_component("dimension", {32, 100})
-  -- test_text:add_component("text", {
-  --   text = "aaaúñça",
-  --   font_name = "lato",
-  -- })
+  local test_text = Entity:create_entity()
+  test_text:add_component("position", {512, 64, 0})
+  test_text:add_component("dimension", {32, 100})
+  test_text:add_component("text", {
+    text = "aaaúñça",
+    font_name = "lato",
+    color = "#4db88fff",
+  })
 
   -- local npc_text = Entity:create_entity()
   -- npc_text:add_component("position", {32, 128, 0})

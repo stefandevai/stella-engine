@@ -7,53 +7,43 @@ namespace stella
 {
 namespace editor
 {
-  class TilesetEditor
+class TilesetEditor
+{
+private:
+  std::string m_path;
+
+  int m_tile_dimensions[2] = {32, 32};
+  int m_texture_w = 0, m_texture_h = 0;
+
+  bool m_tile_collidable              = false;
+  bool m_tile_scriptable              = false;
+  int m_selected_tile_id              = 0;
+  ImTextureID m_selected_tile_texture = nullptr;
+  ImVec2 m_selected_tile_size;
+  ImVec2 m_selected_tile_uv1;
+  ImVec2 m_selected_tile_uv2;
+
+  bool has_changed_id = false;
+
+public:
+  graphics::Texture texture;
+
+  TilesetEditor(const std::string &path);
+  ~TilesetEditor();
+  void render();
+  ImVec2 pos2tile(const int x, const int y);
+  void render_tile_sprite(const ImVec2 &pos, const float alpha = 1.f);
+
+  inline const ImVec2 get_tile_dimensions() const
   {
-    private:
-        std::string m_path;
-        
-        int m_tile_dimensions[2] = {32,32};
-        int m_texture_w = 0, m_texture_h = 0;
-        
-        bool m_tile_collidable = false;
-        bool m_tile_scriptable = false;
-        int m_selected_tile_id = 0;
-        ImTextureID m_selected_tile_texture = nullptr;
-        ImVec2 m_selected_tile_size;
-        ImVec2 m_selected_tile_uv1;
-        ImVec2 m_selected_tile_uv2;
+    return ImVec2(m_tile_dimensions[0], m_tile_dimensions[1]);
+  }
 
-        bool has_changed_id = false;
+  inline int get_selected_tile_id() { return m_selected_tile_id; }
 
-    public:
-      graphics::Texture texture;
-      
-      TilesetEditor(const std::string& path);
-      ~TilesetEditor();
-      void render();
-      ImVec2 pos2tile(const int x, const int y);
-      void render_tile_sprite(const ImVec2& pos, const float alpha = 1.f);
+  inline bool get_selected_tile_collidable() { return m_tile_collidable; }
 
-      inline const ImVec2 get_tile_dimensions() const
-      {
-          return ImVec2(m_tile_dimensions[0], m_tile_dimensions[1]);
-      }
-
-      inline int get_selected_tile_id()
-      {
-          return m_selected_tile_id;
-      }
-
-      inline bool get_selected_tile_collidable()
-      {
-          return m_tile_collidable;
-      }
-
-      inline bool get_selected_tile_scriptable()
-      {
-          return m_tile_scriptable;
-      }
-  };
-}
-}
-
+  inline bool get_selected_tile_scriptable() { return m_tile_scriptable; }
+};
+} // namespace editor
+} // namespace stella

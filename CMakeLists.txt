@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.8)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED on)
+set(CMAKE_CXX_EXTENSIonS off)
 
 # Build emscripten version
-option(BUILD_EMSCRIPTEN "Build emscripten" OFF)
+option(BUILD_EMSCRIPTEN "Build emscripten" off)
 if (BUILD_EMSCRIPTEN)
   set(CMAKE_C_COMPILER /usr/local/bin/emcc)
   set(CMAKE_CXX_COMPILER /usr/local/bin/em++)
@@ -27,30 +27,30 @@ endif()
 set(STELLA_LIBRARY_NAME "stella")
 
 # Debug mode
-option(STELLA_DEBUG_MODE "Build in debug mode" ON)
+option(STELLA_DEBUG_MODE "Build in debug mode" on)
 
 # Debug mode
-option(STELLA_BUILD_EDITOR "Build engine editor" ON)
+option(STELLA_BUILD_EDITOR "Build engine editor" on)
 
 # Turn this option on to build a targeted example
-option(BUILD_STELLA_EXAMPLE "Build example" ON)
+option(BUILD_STELLA_EXAMPLE "Build example" on)
 if (BUILD_STELLA_EXAMPLE)
 	set(EXAMPLE_DIR "torch")
 endif()
 
 # Build tests
-option(BUILD_STELLA_TESTS "Build tests" OFF)
+option(BUILD_STELLA_TESTS "Build tests" on)
 
 # Generate compile_commands.json
-set(CMAKE_EXPORT_COMPILE_COMMANDS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS off)
 
 # Turn on these options to use the libraries contained in your machine.
-option(USE_SHARED_SDL2 "Use shared SDL2 library" ON)
-option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" ON)
-option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" ON)
-option(USE_SHARED_ENTT "Use shared entt library" OFF)
-option(USE_SHARED_FREETYPE "Use shared FreeType2 library" OFF)
-option(USE_SHARED_LUA "Use shared lua" ON)
+option(USE_SHARED_SDL2 "Use shared SDL2 library" on)
+option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" on)
+option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" on)
+option(USE_SHARED_ENTT "Use shared entt library" off)
+option(USE_SHARED_FREETYPE "Use shared FreeType2 library" off)
+option(USE_SHARED_LUA "Use shared lua" on)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -222,9 +222,9 @@ elseif(APPLE)
 	find_library(COCOA_LIBRARY Cocoa)
 	find_library(IOKIT_LIBRARY IOKit)
 	find_library(COREVIDEO_LIBRARY CoreVideo)
-	find_library(CARBON_LIBRARY Carbon)
+	find_library(CARBon_LIBRARY Carbon)
 
-	list(APPEND PLATFORM_LIBRARIES ${COCOA_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY} ${CARBON_LIBRARY})
+	list(APPEND PLATFORM_LIBRARIES ${COCOA_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY} ${CARBon_LIBRARY})
 elseif(WIN32)
 	set(CXX_LINK_FLAGS "-lopengl32")
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

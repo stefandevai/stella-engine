@@ -21,6 +21,9 @@ namespace core
       { }
       ~Grid() {}
 
+      inline unsigned width() { return m_width; }
+      inline unsigned height() { return m_height; }
+
       inline void set_value(unsigned x, unsigned y, T value)
       {
         if (x >= 0 && x < m_width && y >= 0 && y < m_height)
@@ -50,6 +53,12 @@ namespace core
         assert ((top == 0 || bottom == 0) && "You can't resize a grid to opposite sides at the same time.");
         assert ((right == 0 || left == 0) && "You can't resize a grid to opposite sides at the same time.");
         
+        if ((top != 0 && bottom != 0) || (right != 0 && left != 0))
+        {
+          std::cout << "ERROR: Can't resize a grid to opposite sides at the same time.\n";
+          return;
+        }
+
         const int width = m_width + right + left;
         const int height = m_height + top + bottom;
         const int width_diff = width - m_width; 
