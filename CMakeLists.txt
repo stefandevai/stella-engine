@@ -22,8 +22,6 @@ if (BUILD_EMSCRIPTEN)
   #set(CMAKE_CXX_COMPILER g++-9)
 endif()
 
-
-
 if (UNIX AND NOT APPLE)
 	set(OpenGL_GL_PREFERENCE "GLVND")
   	set (LINUX TRUE)
@@ -38,7 +36,7 @@ set(STELLA_LIBRARY_NAME "stella")
 # Debug mode
 option(STELLA_DEBUG_MODE "Build in debug mode" on)
 
-# Debug mode
+# Build editor
 option(STELLA_BUILD_EDITOR "Build engine editor" on)
 
 # Turn this option on to build a targeted example
