@@ -5,43 +5,36 @@ namespace stella
 {
 namespace core
 {
-
-  Application::Application(unsigned width, unsigned height, const std::string &title)
-    : m_initial_width(width), m_initial_height(height), m_initial_title(title)
+  Application::Application (unsigned width, unsigned height, const std::string& title)
+    : m_initial_width (width), m_initial_height (height), m_initial_title (title)
   {
-    m_display.SetClearColor(0.3f, 0.3f, 0.3f);
-    srand(time(nullptr));
+    m_display.SetClearColor (0.3f, 0.3f, 0.3f);
+    srand (time (nullptr));
   }
 
-  Application::~Application() { }
+  Application::~Application() {}
 
   void Application::run()
   {
-    while (m_display.IsRunning()) {
+    while (m_display.IsRunning())
+    {
       m_display.Clear();
-      this->update(m_display.GetDT());
+      this->update (m_display.GetDT());
 #ifdef STELLA_BUILD_EDITOR
-      m_display.UpdateEditor(m_registry);
+      m_display.UpdateEditor (m_registry);
 #endif
       m_display.Update();
     }
   }
 
-  //void Application::update(const double dt)
+  // void Application::update(const double dt)
   //{
 
   //}
 
-  uint_fast32_t Application::width()
-  {
-    return m_display.GetWidth();
-  }
+  uint_fast32_t Application::width() { return m_display.GetWidth(); }
 
-  uint_fast32_t Application::height()
-  {
-    return m_display.GetHeight();
-  }
+  uint_fast32_t Application::height() { return m_display.GetHeight(); }
 
-} // namespace script
-} // namespace st
-
+} // namespace core
+} // namespace stella

@@ -1,14 +1,15 @@
 #pragma once
 
-#include <sstream>
-#include <iomanip>
 #include <ctime>
-#include <vector>
+#include <iomanip>
+#include <sstream>
 #include <string>
+#include <vector>
 
-namespace stella {
-namespace components {
-
+namespace stella
+{
+namespace components
+{
   enum LogType
   {
     ERROR,
@@ -20,41 +21,38 @@ namespace components {
   {
     std::vector<std::string> log_queue;
 
-    template <typename T>
-    void log(T value, LogType type)
+    template<typename T>
+    void log (T value, LogType type)
     {
-      std::string type_str = get_type_str(type);
+      std::string type_str = get_type_str (type);
       std::stringstream log_value{type_str};
       log_value << value;
-      add_to_queue(log_value.str());
+      add_to_queue (log_value.str());
     }
 
-    template <typename T>
-    void log(const std::string &message, T value, LogType type)
+    template<typename T>
+    void log (const std::string& message, T value, LogType type)
     {
-      std::string type_str = get_type_str(type);
+      std::string type_str = get_type_str (type);
       std::stringstream log_value{type_str};
       log_value << message << value;
-      add_to_queue(log_value.str());
+      add_to_queue (log_value.str());
     }
 
-    void log(const std::string &message)
-    {
-      add_to_queue(message);
-    }
+    void log (const std::string& message) { add_to_queue (message); }
 
-    void add_to_queue(const std::string &message)
+    void add_to_queue (const std::string& message)
     {
-      auto t = std::time(nullptr);
-      auto tm = *std::localtime(&t);
+      auto t  = std::time (nullptr);
+      auto tm = *std::localtime (&t);
       std::stringstream log_value;
-      log_value << std::put_time(&tm, "%d-%m-%Y %H-%M-%S: ") << message << '\n';
-      log_queue.push_back(log_value.str());
+      log_value << std::put_time (&tm, "%d-%m-%Y %H-%M-%S: ") << message << '\n';
+      log_queue.push_back (log_value.str());
     }
 
-    std::string get_type_str(LogType type)
+    std::string get_type_str (LogType type)
     {
-      switch(type)
+      switch (type)
       {
         case ERROR:
           return "ERROR: ";
@@ -69,5 +67,5 @@ namespace components {
     }
   };
 
-}
-}
+} // namespace components
+} // namespace stella

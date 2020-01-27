@@ -5,19 +5,23 @@
 
 #include <entt/entity/registry.hpp>
 
-namespace stella {
-namespace components {
+namespace stella
+{
+namespace components
+{
+  struct TimerComponent
+  {
+    enum TimerEvent
+    {
+      Destroy,
+      Pause
+    };
 
-struct TimerComponent {
-  enum TimerEvent { Destroy, Pause };
-  
-  TimerComponent(TimerEvent event, const int duration)
-    : event(event), duration(duration)
-  {}
+    TimerComponent (TimerEvent event, const int duration) : event (event), duration (duration) {}
 
-  TimerEvent event;
-  int duration;
-};
+    TimerEvent event;
+    int duration;
+  };
 
 } // namespace components
 } // namespace stella

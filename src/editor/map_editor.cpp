@@ -5,84 +5,80 @@ namespace stella
 {
 namespace editor
 {
-    MapEditor::MapEditor(nikte::Game& game)
-      : m_tile_map(game.m_tile_map)
+  MapEditor::MapEditor (nikte::Game& game) : m_tile_map (game.m_tile_map) { this->reset_map_settings(); }
+
+  MapEditor::~MapEditor() {}
+
+  void MapEditor::render()
+  {
+    if (ImGui::CollapsingHeader ("Map"))
     {
-      this->reset_map_settings();
-    }
+      const float item_width = ImGui::CalcItemWidth();
 
-    MapEditor::~MapEditor() {}
+      // Map Name
+      ImGui::Dummy (ImVec2 (0.f, 3.f));
+      ImGui::Text ("Map name:");
+      ImGui::InputText ("", m_map_name, IM_ARRAYSIZE (m_map_name));
+      ImGui::Dummy (ImVec2 (0.f, 3.f));
 
-    void MapEditor::render()
-    { 
-      if (ImGui::CollapsingHeader("Map"))
+      // Map file location
+      ImGui::Text ("Map file location:");
+      ImGui::PushItemWidth (item_width - 64.f);
+      ImGui::InputTextWithHint ("", "Map file location.", m_path, IM_ARRAYSIZE (m_path));
+      ImGui::PopItemWidth();
+      ImGui::SameLine (0.f, 4.f);
+      ImGui::Button ("...", ImVec2 (60.f, 0));
+      ImGui::Dummy (ImVec2 (0.f, 3.f));
+      ImGui::Separator();
+
+      // Map dimensions
+      ImGui::Text ("Map dimensions: %d x %d (top, right, bottom, left)", m_map_width, m_map_height);
+      ImGui::PushItemWidth (item_width - 64.f);
+      ImGui::PushID ("map-slider");
+      if (ImGui::InputInt4 ("", m_map_size))
       {
-        const float item_width = ImGui::CalcItemWidth();
-
-        // Map Name
-        ImGui::Dummy(ImVec2(0.f, 3.f));
-        ImGui::Text("Map name:");
-        ImGui::InputText("", m_map_name, IM_ARRAYSIZE(m_map_name));
-        ImGui::Dummy(ImVec2(0.f, 3.f));
-
-        // Map file location
-        ImGui::Text("Map file location:");
-        ImGui::PushItemWidth(item_width - 64.f);
-        ImGui::InputTextWithHint("", "Map file location.", m_path, IM_ARRAYSIZE(m_path));
-        ImGui::PopItemWidth();
-        ImGui::SameLine(0.f, 4.f);
-        ImGui::Button("...", ImVec2(60.f, 0));
-        ImGui::Dummy(ImVec2(0.f, 3.f));
-        ImGui::Separator();
-        
-        // Map dimensions
-        ImGui::Text("Map dimensions: %d x %d (top, right, bottom, left)", m_map_width, m_map_height);
-        ImGui::PushItemWidth(item_width - 64.f);
-        ImGui::PushID("map-slider");
-        if (ImGui::InputInt4("", m_map_size))
+        for (int i = 0; i < 4; ++i)
         {
-          for (int i = 0; i < 4; ++i)
+          if (m_map_size[i] < MIN_MAP_SIZE)
           {
-            if (m_map_size[i] < MIN_MAP_SIZE)
-            {
-              m_map_size[i] = MIN_MAP_SIZE;
-            }
-            else if (m_map_size[i] > MAX_MAP_SIZE)
-            {
-              m_map_size[i] = MAX_MAP_SIZE;
-            }
+            m_map_size[i] = MIN_MAP_SIZE;
+          }
+          else if (m_map_size[i] > MAX_MAP_SIZE)
+          {
+            m_map_size[i] = MAX_MAP_SIZE;
           }
         }
-        
-        ImGui::PopID();
-        ImGui::PopItemWidth();
-        ImGui::SameLine(0.f, 4.f);
-        if(ImGui::Button("Resize", ImVec2(60.f, 0)))
-        {
-          m_tile_map.resize(m_map_size[0], m_map_size[1], m_map_size[2], m_map_size[3]);
-          m_map_width += m_map_size[1] + m_map_size[3];
-          m_map_height += m_map_size[0] + m_map_size[2];
-          m_map_size[0] = m_map_size[1] = m_map_size[2] = m_map_size[3] = 0;
-        }
-        ImGui::Dummy(ImVec2(0.f, 3.f));
-        ImGui::Separator();
+      }
 
-        // Layers
-        if (ImGui::TreeNodeEx("Layers", ImGuiTreeNodeFlags_DefaultOpen))
-        {
+      ImGui::PopID();
+      ImGui::PopItemWidth();
+      ImGui::SameLine (0.f, 4.f);
+      if (ImGui::Button ("Resize", ImVec2 (60.f, 0)))
+      {
+        m_tile_map.resize (m_map_size[0], m_map_size[1], m_map_size[2], m_map_size[3]);
+        m_map_width += m_map_size[1] + m_map_size[3];
+        m_map_height += m_map_size[0] + m_map_size[2];
+        m_map_size[0] = m_map_size[1] = m_map_size[2] = m_map_size[3] = 0;
+      }
+      ImGui::Dummy (ImVec2 (0.f, 3.f));
+      ImGui::Separator();
+
+      // Layers
+      if (ImGui::TreeNodeEx ("Layers", ImGuiTreeNodeFlags_DefaultOpen))
+      {
         ImGui::BeginGroup();
         for (auto it = m_tile_map.layers.rbegin(); it != m_tile_map.layers.rend(); ++it)
-        //for (auto& layer : m_tile_map.layers)
+        // for (auto& layer : m_tile_map.layers)
         {
-          auto& layer = *it;
+          auto& layer   = *it;
           bool selected = false;
           if (layer->get_id() == get_selected_layer_id())
           {
             selected = true;
           }
 
-          ImGui::PushID(layer->get_id());
-          if(ImGui::Selectable(layer->get_name().c_str(), selected))
+          ImGui::PushID (layer->get_id());
+          if (ImGui::Selectable (layer->get_name().c_str(), selected))
           {
             m_selected_layer = layer;
           }
@@ -90,25 +86,22 @@ namespace editor
         }
         ImGui::EndGroup();
         ImGui::TreePop();
-        }
-        ImGui::Dummy(ImVec2(0.0f, 12.0f));
       }
+      ImGui::Dummy (ImVec2 (0.0f, 12.0f));
     }
+  }
 
-    void MapEditor::reset_map_settings()
-    {
-      m_selected_layer = m_tile_map.layers.front();
-      std::size_t length = m_tile_map.get_name().copy(m_map_name, 128);
-      m_map_name[length] = '\0';
-      length = m_tile_map.get_path().copy(m_path, 128);
-      m_path[length] = '\0';
-      m_map_width = (int)m_tile_map.width();
-      m_map_height = (int)m_tile_map.height();
-    }
+  void MapEditor::reset_map_settings()
+  {
+    m_selected_layer   = m_tile_map.layers.front();
+    std::size_t length = m_tile_map.get_name().copy (m_map_name, 128);
+    m_map_name[length] = '\0';
+    length             = m_tile_map.get_path().copy (m_path, 128);
+    m_path[length]     = '\0';
+    m_map_width        = (int) m_tile_map.width();
+    m_map_height       = (int) m_tile_map.height();
+  }
 
-    void MapEditor::update_map_settings()
-    {
-      m_tile_map.set_name(m_map_name);
-    }
-}
-}
+  void MapEditor::update_map_settings() { m_tile_map.set_name (m_map_name); }
+} // namespace editor
+} // namespace stella

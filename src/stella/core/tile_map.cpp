@@ -1,15 +1,15 @@
 #include "stella/core/tile_map.h"
-#include "stella/components/sprite_component.h"
-#include "stella/components/position_component.h"
 #include "stella/components/dimension_component.h"
-#include "stella/components/tile_component.h"
 #include "stella/components/log_component.h"
+#include "stella/components/position_component.h"
+#include "stella/components/sprite_component.h"
+#include "stella/components/tile_component.h"
 
 #include <cmath>
 #include <glm/glm.hpp>
 
-#include <cereal/cereal.hpp>
 #include <cereal/archives/xml.hpp>
+#include <cereal/cereal.hpp>
 #include <cereal/types/memory.hpp>
 #include <cereal/types/vector.hpp>
 #include <fstream>
@@ -18,196 +18,199 @@ namespace stella
 {
 namespace core
 {
-
-  TileMap::TileMap(const std::string &path, entt::registry &registry)
-    : m_path(path), m_registry(registry)
+  TileMap::TileMap (const std::string& path, entt::registry& registry) : m_path (path), m_registry (registry)
   {
-    this->load(path);
+    this->load (path);
   }
 
-  TileMap::~TileMap()
-  {
+  TileMap::~TileMap() {}
 
-  }
-
-  void TileMap::load(const std::string &path)
+  void TileMap::load (const std::string& path)
   {
-    auto pos = path.find_last_of('.');
-    const std::string extension = path.substr(pos+1);
+    auto pos                    = path.find_last_of ('.');
+    const std::string extension = path.substr (pos + 1);
     if (extension == "lua")
     {
       m_path = path;
-      load_lua(path);
+      load_lua (path);
     }
     else if (extension == "xml")
     {
       m_path = path;
-      load_xml(path);
+      load_xml (path);
     }
     else
     {
-      std::cout << "ERROR: Unknown file extension \"" + extension + "\"\n"; 
+      std::cout << "ERROR: Unknown file extension \"" + extension + "\"\n";
     }
   }
 
-  void TileMap::load_lua(const std::string &path)
+  void TileMap::load_lua (const std::string& path)
   {
-    m_script_api.run_script(path);
-    const sol::table &map_table = m_script_api.get_variable<sol::table>("Map");
-    m_name = map_table["name"] == sol::lua_nil ? path : map_table["name"];
-    m_number_of_layers = map_table["number_of_layers"];
-    m_tile_dimension = map_table["tile_dimension"];
-    assert(map_table["size"] != sol::lua_nil);
-    m_width = map_table["size"]["width"];
+    m_script_api.run_script (path);
+    const sol::table& map_table = m_script_api.get_variable<sol::table> ("Map");
+    m_name                      = map_table["name"] == sol::lua_nil ? path : map_table["name"];
+    m_number_of_layers          = map_table["number_of_layers"];
+    m_tile_dimension            = map_table["tile_dimension"];
+    assert (map_table["size"] != sol::lua_nil);
+    m_width  = map_table["size"]["width"];
     m_height = map_table["size"]["height"];
-    assert(m_number_of_layers > 0);
-    assert(map_table["layers"] != sol::lua_nil);
-    assert(m_width > 0);
-    assert(m_height > 0);
+    assert (m_number_of_layers > 0);
+    assert (map_table["layers"] != sol::lua_nil);
+    assert (m_width > 0);
+    assert (m_height > 0);
 
     for (unsigned int i = 1; i <= m_number_of_layers; ++i)
     {
-      assert(map_table["layers"][i] != sol::lua_nil);
-      auto layer = std::make_shared<MapGrid>(m_width, m_height);
-      layer->set_texture_name(map_table["layers"][i]["texture"]);
-      layer->set_render_layer_name(map_table["layers"][i]["render_layer"]);
-      layer->set_collision(map_table["layers"][i]["collision"]);
+      assert (map_table["layers"][i] != sol::lua_nil);
+      auto layer = std::make_shared<MapGrid> (m_width, m_height);
+      layer->set_texture_name (map_table["layers"][i]["texture"]);
+      layer->set_render_layer_name (map_table["layers"][i]["render_layer"]);
+      layer->set_collision (map_table["layers"][i]["collision"]);
 
       for (uint y = 0; y < m_height; ++y)
       {
         for (uint x = 1; x <= m_width; ++x)
         {
-          int value = map_table["layers"][i]["grid"][x + y*m_width][1];
-          int collidable = map_table["layers"][i]["grid"][x + y*m_width][2];
+          int value      = map_table["layers"][i]["grid"][x + y * m_width][1];
+          int collidable = map_table["layers"][i]["grid"][x + y * m_width][2];
           Tile tile{value};
-          tile.x = x-1;
-          tile.y = y;
-          tile.z = map_table["layers"][i]["grid"][x + y*m_width][3];
-          tile.collidable = (bool)collidable;
+          tile.x          = x - 1;
+          tile.y          = y;
+          tile.z          = map_table["layers"][i]["grid"][x + y * m_width][3];
+          tile.collidable = (bool) collidable;
 
           // Checks surrounding tiles to set active tile edges
           // Checks tile to the top
-          if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][x + (y-1)*m_width][2] == 0)
+          if (map_table["layers"][i]["grid"][(x + 1) + y * m_width] != sol::lua_nil &&
+              map_table["layers"][i]["grid"][x + (y - 1) * m_width][2] == 0)
           {
-            tile.active_edges.set(0);
+            tile.active_edges.set (0);
           }
           // Checks tile to the right
-          if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x+1) + y*m_width][2] == 0)
+          if (map_table["layers"][i]["grid"][(x + 1) + y * m_width] != sol::lua_nil &&
+              map_table["layers"][i]["grid"][(x + 1) + y * m_width][2] == 0)
           {
-            tile.active_edges.set(1);
+            tile.active_edges.set (1);
           }
           // Checks tile to the bottom
-          if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x) + (y+1)*m_width][2] == 0)
+          if (map_table["layers"][i]["grid"][(x + 1) + y * m_width] != sol::lua_nil &&
+              map_table["layers"][i]["grid"][(x) + (y + 1) * m_width][2] == 0)
           {
-            tile.active_edges.set(2);
+            tile.active_edges.set (2);
           }
           // Checks tile to the left
-          if (map_table["layers"][i]["grid"][(x+1) + y*m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x-1) + y*m_width][2] == 0)
+          if (map_table["layers"][i]["grid"][(x + 1) + y * m_width] != sol::lua_nil &&
+              map_table["layers"][i]["grid"][(x - 1) + y * m_width][2] == 0)
           {
-            tile.active_edges.set(3);
+            tile.active_edges.set (3);
           }
-          
-          layer->set_value(x-1, y, tile);
+
+          layer->set_value (x - 1, y, tile);
         }
       }
 
-      layers.emplace_back(layer);
+      layers.emplace_back (layer);
     }
 
     std::cout << "Loaded TileMap: " << m_name << " from " << path << '\n';
   }
 
-  void TileMap::load_xml(const std::string &path)
+  void TileMap::load_xml (const std::string& path)
   {
-    std::ifstream is(path);
-    cereal::XMLInputArchive archive(is);
-    archive(CEREAL_NVP(m_name),
-            CEREAL_NVP(m_number_of_layers),
-            CEREAL_NVP(m_tile_dimension),
-            CEREAL_NVP(m_width),
-            CEREAL_NVP(m_height),
-            CEREAL_NVP(layers));
+    std::ifstream is (path);
+    cereal::XMLInputArchive archive (is);
+    archive (CEREAL_NVP (m_name),
+             CEREAL_NVP (m_number_of_layers),
+             CEREAL_NVP (m_tile_dimension),
+             CEREAL_NVP (m_width),
+             CEREAL_NVP (m_height),
+             CEREAL_NVP (layers));
 
     std::cout << "Loaded TileMap: " << m_name << " from " << path << '\n';
   }
-  
-  void TileMap::save(const std::string &path)
+
+  void TileMap::save (const std::string& path)
   {
     m_path = path;
-    std::ofstream os(path);
-    cereal::XMLOutputArchive archive(os);
+    std::ofstream os (path);
+    cereal::XMLOutputArchive archive (os);
 
-    archive(CEREAL_NVP(m_name),
-            CEREAL_NVP(m_number_of_layers),
-            CEREAL_NVP(m_tile_dimension),
-            CEREAL_NVP(m_width),
-            CEREAL_NVP(m_height),
-            CEREAL_NVP(layers));
+    archive (CEREAL_NVP (m_name),
+             CEREAL_NVP (m_number_of_layers),
+             CEREAL_NVP (m_tile_dimension),
+             CEREAL_NVP (m_width),
+             CEREAL_NVP (m_height),
+             CEREAL_NVP (layers));
 
     std::cout << "Saved TileMap: " << m_name << " in " << path << '\n';
   }
 
-  void TileMap::update_tile(const int value, const int x, const int y, const unsigned layer_id, const bool collidable)
+  void TileMap::update_tile (const int value, const int x, const int y, const unsigned layer_id, const bool collidable)
   {
-    assert(layer_id < layers.size() && "Your layer ID is out of bounds when updating a tile.");
-    assert(x < (int)m_width && "Your x coord is out of bounds when updating a tile.");
-    assert(std::abs(y) < (int)m_height && "Your y coord is out of bounds when updating a tile.");
+    assert (layer_id < layers.size() && "Your layer ID is out of bounds when updating a tile.");
+    assert (x < (int) m_width && "Your x coord is out of bounds when updating a tile.");
+    assert (std::abs (y) < (int) m_height && "Your y coord is out of bounds when updating a tile.");
     auto layer = layers[layer_id];
-    auto tile = layer->get_value(x, y);
-    
-    tile.value = value;
+    auto tile  = layer->get_value (x, y);
+
+    tile.value      = value;
     tile.collidable = collidable;
-    layers[layer_id]->set_value(x, y, tile);
+    layers[layer_id]->set_value (x, y, tile);
 
     if (tile.entity == entt::null)
     {
-      this->create_tile_entity(value, x, y, tile.z, layer_id);
+      this->create_tile_entity (value, x, y, tile.z, layer_id);
     }
     else
     {
-      auto& spr = m_registry.get<components::SpriteComponent>(tile.entity);
-      spr.Sprite->SetDirectFrame(value);
+      auto& spr = m_registry.get<components::SpriteComponent> (tile.entity);
+      spr.Sprite->SetDirectFrame (value);
       spr.Frame = value;
     }
   }
 
-  void TileMap::create_tile_entity(const int value, const int x, const int y, const int z, const unsigned layer_id)
+  void TileMap::create_tile_entity (const int value, const int x, const int y, const int z, const unsigned layer_id)
   {
     auto tile = m_registry.create();
-    m_registry.assign<components::TileComponent>(tile, layer_id, false);
-    m_registry.assign<components::SpriteComponent>(tile, layers[layer_id]->get_texture_name(), glm::vec2(m_tile_dimension, m_tile_dimension), layers[layer_id]->get_render_layer_name(), value);
-    m_registry.assign<components::PositionComponent>(tile, x*m_tile_dimension, y*m_tile_dimension, z);
-    m_registry.assign<components::DimensionComponent>(tile, m_tile_dimension, m_tile_dimension);
-    layers[layer_id]->set_entity(x, y, tile);
+    m_registry.assign<components::TileComponent> (tile, layer_id, false);
+    m_registry.assign<components::SpriteComponent> (tile,
+                                                    layers[layer_id]->get_texture_name(),
+                                                    glm::vec2 (m_tile_dimension, m_tile_dimension),
+                                                    layers[layer_id]->get_render_layer_name(),
+                                                    value);
+    m_registry.assign<components::PositionComponent> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
+    m_registry.assign<components::DimensionComponent> (tile, m_tile_dimension, m_tile_dimension);
+    layers[layer_id]->set_entity (x, y, tile);
   }
 
-  void TileMap::create_tile_entities(const int beginx, const int endx, const int beginy, const int endy)
+  void TileMap::create_tile_entities (const int beginx, const int endx, const int beginy, const int endy)
   {
-    assert(beginx < endx);
-    assert(beginy < endy);
-    int left = beginx / m_tile_dimension;
-    int right = endx / m_tile_dimension;
-    int top = beginy / m_tile_dimension;
-    int bottom = ceil(endy / static_cast<double>(m_tile_dimension));
+    assert (beginx < endx);
+    assert (beginy < endy);
+    int left          = beginx / m_tile_dimension;
+    int right         = endx / m_tile_dimension;
+    int top           = beginy / m_tile_dimension;
+    int bottom        = ceil (endy / static_cast<double> (m_tile_dimension));
     int layer_counter = 0;
 
-    for (const auto &layer : this->layers)
+    for (const auto& layer : this->layers)
     {
-      layer->set_id(layer_counter);
+      layer->set_id (layer_counter);
       for (auto y = top; y < bottom; ++y)
       {
         for (auto x = left; x < right; ++x)
         {
-          const auto &layer_tile = layer->get_value(x, y);
+          const auto& layer_tile = layer->get_value (x, y);
 
           if (!layer_tile.visible && layer_tile.value > 0)
           {
-            layer->set_visibility(x, y, true);
-            this->create_tile_entity(layer_tile.value, x, y, layer_tile.z + layer_counter, layer_counter);
+            layer->set_visibility (x, y, true);
+            this->create_tile_entity (layer_tile.value, x, y, layer_tile.z + layer_counter, layer_counter);
           }
           else if (!layer_tile.visible)
           {
-            layer->set_visibility(x, y, true);
+            layer->set_visibility (x, y, true);
           }
         }
       }
@@ -215,13 +218,12 @@ namespace core
     }
   }
 
-  void TileMap::resize(const int top, const int right, const int bottom, const int left)
+  void TileMap::resize (const int top, const int right, const int bottom, const int left)
   {
     for (auto& layer : layers)
     {
-      layer->resize(top, right, bottom, left);
+      layer->resize (top, right, bottom, left);
     }
   }
-}
-}
-
+} // namespace core
+} // namespace stella

@@ -3,287 +3,307 @@
 #include "stella/graphics/opengl.h"
 #include <SDL2/SDL.h>
 
-#include <sstream>
 #include <iostream>
+#include <sstream>
 
 #if DISABLE_VSYNC == 1
-#ifdef __APPLE__
-#include <OpenCL/opencl.h>
-#include <OpenGL/OpenGL.h>
-#endif
+  #ifdef __APPLE__
+    #include <OpenCL/opencl.h>
+    #include <OpenGL/OpenGL.h>
+  #endif
 #endif
 
 #ifndef STELLA_BUILD_EDITOR
-namespace {
+namespace
+{
 // Adjust viewport proportions on fullscreen to match 16:9 proportions
-void checkViewportProportions() {
+void checkViewportProportions()
+{
   int width, height;
   int vpcoords[4];
-  glGetIntegerv(GL_VIEWPORT, vpcoords);
+  glGetIntegerv (GL_VIEWPORT, vpcoords);
 
-  width = vpcoords[2];
+  width  = vpcoords[2];
   height = vpcoords[3];
 
   // 16/9 = 1.77777. Therefore, we check if the new proportions are greater or
   // lower than that
-  if (width / (float)height > 1.78f) { // Height is max and width is adjusted
+  if (width / (float) height > 1.78f)
+  { // Height is max and width is adjusted
     int newwidth = height * 1.77777f;
-    int left = width - newwidth;
+    int left     = width - newwidth;
     std::cout << newwidth << std::endl;
-    glViewport(left / 2, 0, newwidth, height);
-  } else if (width / (float)height <
-             1.77f) { // Width is max and height is adjusted
-    int newheight = (int)width / 1.77f;
-    int left = height - newheight;
+    glViewport (left / 2, 0, newwidth, height);
+  }
+  else if (width / (float) height < 1.77f)
+  { // Width is max and height is adjusted
+    int newheight = (int) width / 1.77f;
+    int left      = height - newheight;
     std::cout << newheight << std::endl;
-    glViewport(0, left / 2, width, newheight);
+    glViewport (0, left / 2, width, newheight);
   }
 }
-}
+} // namespace
 #endif
 
-namespace stella {
-namespace graphics {
-double MouseX, MouseY;
+namespace stella
+{
+namespace graphics
+{
+  double MouseX, MouseY;
 
-Display::Display(GLuint width, GLuint height, const std::string &title)
-    : Width(width), Height(height), Title(title) {
-  // SDL initialization
-  if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    std::cout << "It was not possible to initialize SDL2" << std::endl;
-	
+  Display::Display (GLuint width, GLuint height, const std::string& title)
+    : Width (width), Height (height), Title (title)
+  {
+    // SDL initialization
+    if (SDL_Init (SDL_INIT_VIDEO) < 0)
+      std::cout << "It was not possible to initialize SDL2" << std::endl;
+
 #ifdef STELLA_BUILD_EDITOR
-	const SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_MAXIMIZED | SDL_WINDOW_RESIZABLE |  SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+    const SDL_WindowFlags window_flags =
+        (SDL_WindowFlags) (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
 #else
-	const SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+    const SDL_WindowFlags window_flags = (SDL_WindowFlags) (SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
 #endif
-  this->Window = SDL_CreateWindow(this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, window_flags);
-	//this->Window = SDL_CreateWindow(this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
-	SDL_ShowCursor(SDL_DISABLE);
+    this->Window = SDL_CreateWindow (
+        this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, window_flags);
+    // this->Window = SDL_CreateWindow(this->Title.c_str(),
+    // SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height,
+    // SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+    SDL_ShowCursor (SDL_DISABLE);
 
 #if __APPLE__
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG); // Always required on Mac
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDL_GL_SetAttribute (SDL_GL_CONTEXT_FLAGS,
+                         SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG); // Always required on Mac
+    SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 3);
 #else
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+    SDL_GL_SetAttribute (SDL_GL_CONTEXT_FLAGS, 0);
+    SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #endif
 
-  //SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-  //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  m_gl_context = SDL_GL_CreateContext(this->Window);
-  SDL_GL_MakeCurrent(this->Window, m_gl_context);
-  SDL_GL_SetSwapInterval(1);
+    // SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
+    // SDL_GL_CONTEXT_PROFILE_CORE);
+    // SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    // SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
+    m_gl_context = SDL_GL_CreateContext (this->Window);
+    SDL_GL_MakeCurrent (this->Window, m_gl_context);
+    SDL_GL_SetSwapInterval (1);
 
-  this->Running = true;
+    this->Running = true;
 
-  // Set initial value for Frame
-  this->Frame = 1; // Setting as 1 to avoid division by 0
-  this->LastFPSCheck = this->LastTime = (float)SDL_GetTicks()/1000.0f;
-  this->LastFrame = 0;
+    // Set initial value for Frame
+    this->Frame        = 1; // Setting as 1 to avoid division by 0
+    this->LastFPSCheck = this->LastTime = (float) SDL_GetTicks() / 1000.0f;
+    this->LastFrame                     = 0;
 
-  if (!gladLoadGLLoader(SDL_GL_GetProcAddress)) {
-    std::cout << "Failed to initialize GLAD" << std::endl;
-  }   
+    if (!gladLoadGLLoader (SDL_GL_GetProcAddress))
+    {
+      std::cout << "Failed to initialize GLAD" << std::endl;
+    }
 
-  // OpenGL Viewport settings
-  glViewport(0, 0, this->Width, this->Height);
-  glEnable(GL_BLEND);
-  //glDisable(GL_DEPTH_TEST);
-  //glEnable(GL_DEPTH_TEST);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // OpenGL Viewport settings
+    glViewport (0, 0, this->Width, this->Height);
+    glEnable (GL_BLEND);
+    // glDisable(GL_DEPTH_TEST);
+    // glEnable(GL_DEPTH_TEST);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  // Set default Clear Color
-  this->ClearColor = glm::vec3(0.5f, 0.5f, 0.5f);
-}
-
-Display::~Display() {
-#ifdef STELLA_BUILD_EDITOR
-  if (m_editor)
-  {
-    m_editor->clean();
+    // Set default Clear Color
+    this->ClearColor = glm::vec3 (0.5f, 0.5f, 0.5f);
   }
-#endif
 
-  SDL_GL_DeleteContext(m_gl_context);
-  SDL_DestroyWindow(this->Window);
-  SDL_Quit();
-}
-
-GLuint Display::GetWidth() const {
-  return this->Width;
-}
-
-GLuint Display::GetWindowWidth() const {
-  int width, height;
-  SDL_GetWindowSize(this->Window, &width, &height);
-  return width;
-}
-
-GLuint Display::GetHeight() const {
-  return this->Height;
-}
-
-GLuint Display::GetWindowHeight() const {
-  int width, height;
-  SDL_GetWindowSize(this->Window, &width, &height);
-  return height;
-}
-
-bool Display::IsRunning() const { return this->Running; }
-
-void Display::Update() {
-
-#if DISABLE_VSYNC == 1
-#ifdef __APPLE__
-  GLint vsync = 0;
-  CGLContextObj ctx = CGLGetCurrentContext();
-  CGLSetParameter(ctx, kCGLCPSwapInterval, &vsync);
-#endif
-
-  // Print FPS 
-  if (this->Frame % 120 == 0) {
-     std::cout << this->getFPS() << '\n';
-  }
-#endif
-
-  this->getDT();
-  this->Frame++;
-  if (this->Frame >= 10000000)
-    this->Frame = 0;
-
-  this->updateInput();
-  SDL_GL_SwapWindow(this->Window);
-}
-
-#ifdef STELLA_BUILD_EDITOR
-void Display::UpdateEditor(entt::registry &registry) {
-  if (m_editor)
-  {
-    m_editor->update();
-    m_editor->render(GetWindowWidth(), GetWindowHeight(), Width, Height);
-  }
-}
-#endif
-
-void Display::SetClearColor(int r, int g, int b) {
-  this->ClearColor.x = r / 255.0f;
-  this->ClearColor.y = g / 255.0f;
-  this->ClearColor.z = b / 255.0f;
-}
-
-void Display::SetClearColor(GLfloat x, GLfloat y, GLfloat z) {
-  if (x > 1.0f)
-    x = 1.0f;
-  if (y > 1.0f)
-    y = 1.0f;
-  if (z > 1.0f)
-    z = 1.0f;
-
-  this->ClearColor.x = x;
-  this->ClearColor.y = y;
-  this->ClearColor.z = z;
-}
-
-void Display::Clear() {
-  glClearColor(this->ClearColor.x, this->ClearColor.y, this->ClearColor.z, 1.0f);
-  //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClear(GL_COLOR_BUFFER_BIT);
-  //glEnable(GL_DEPTH_TEST);
-}
-
-void Display::updateInput() {
-  SDL_Event event;
-  while (SDL_PollEvent(&event))
+  Display::~Display()
   {
 #ifdef STELLA_BUILD_EDITOR
     if (m_editor)
     {
-      m_editor->configure_input(event);
+      m_editor->clean();
     }
 #endif
 
-    switch(event.type)
+    SDL_GL_DeleteContext (m_gl_context);
+    SDL_DestroyWindow (this->Window);
+    SDL_Quit();
+  }
+
+  GLuint Display::GetWidth() const { return this->Width; }
+
+  GLuint Display::GetWindowWidth() const
+  {
+    int width, height;
+    SDL_GetWindowSize (this->Window, &width, &height);
+    return width;
+  }
+
+  GLuint Display::GetHeight() const { return this->Height; }
+
+  GLuint Display::GetWindowHeight() const
+  {
+    int width, height;
+    SDL_GetWindowSize (this->Window, &width, &height);
+    return height;
+  }
+
+  bool Display::IsRunning() const { return this->Running; }
+
+  void Display::Update()
+  {
+#if DISABLE_VSYNC == 1
+  #ifdef __APPLE__
+    GLint vsync       = 0;
+    CGLContextObj ctx = CGLGetCurrentContext();
+    CGLSetParameter (ctx, kCGLCPSwapInterval, &vsync);
+  #endif
+
+    // Print FPS
+    if (this->Frame % 120 == 0)
     {
-      case SDL_QUIT:
-        this->Running = false;
-        break;
-      case SDL_KEYDOWN:
-        switch (event.key.keysym.sym)
-        {
-        case SDLK_ESCAPE:
-          this->Running = false;
-          break;
-        default:
-          break;
-        }
-        break;
-      case SDL_WINDOWEVENT:
-        switch (event.window.event) {
-          case SDL_WINDOWEVENT_RESIZED:
-#ifndef STELLA_BUILD_EDITOR
-            checkViewportProportions();
-#else
-            glViewport(GetWindowWidth() - Width, GetWindowHeight() - Height - 23, this->Width, this->Height);
+      std::cout << this->getFPS() << '\n';
+    }
 #endif
-            break;
-          case SDL_WINDOWEVENT_SIZE_CHANGED:
-#ifndef STELLA_BUILD_EDITOR
-            checkViewportProportions();
-#else
-            glViewport(GetWindowWidth() - Width, GetWindowHeight() - Height - 23, this->Width, this->Height);
-#endif
-            break;
-        }
-        break;
-      case SDL_MOUSEMOTION:
-        MouseX = event.motion.x;
-        MouseY = event.motion.y;
-        break;
+
+    this->getDT();
+    this->Frame++;
+    if (this->Frame >= 10000000)
+      this->Frame = 0;
+
+    this->updateInput();
+    SDL_GL_SwapWindow (this->Window);
+  }
+
+#ifdef STELLA_BUILD_EDITOR
+  void Display::UpdateEditor (entt::registry& registry)
+  {
+    if (m_editor)
+    {
+      m_editor->update();
+      m_editor->render (GetWindowWidth(), GetWindowHeight(), Width, Height);
     }
   }
-}
+#endif
 
-bool Display::IsKeyDown(int key) {
-  const Uint8* keys = SDL_GetKeyboardState(NULL);
-  return keys[key];
-}
+  void Display::SetClearColor (int r, int g, int b)
+  {
+    this->ClearColor.x = r / 255.0f;
+    this->ClearColor.y = g / 255.0f;
+    this->ClearColor.z = b / 255.0f;
+  }
 
-void Display::getDT() {
-  GLfloat currentTime = (float)SDL_GetTicks()/1000.0f;
-  this->DT = currentTime - this->LastTime;
-  this->LastTime = currentTime;
-}
+  void Display::SetClearColor (GLfloat x, GLfloat y, GLfloat z)
+  {
+    if (x > 1.0f)
+      x = 1.0f;
+    if (y > 1.0f)
+      y = 1.0f;
+    if (z > 1.0f)
+      z = 1.0f;
 
-void Display::GetMousePos(double &mx, double &my) {
-  mx = MouseX;
-  my = MouseY;
-}
+    this->ClearColor.x = x;
+    this->ClearColor.y = y;
+    this->ClearColor.z = z;
+  }
 
-const unsigned char* Display::GetGlVersion() {
-  return glGetString(GL_VERSION);
-}
+  void Display::Clear()
+  {
+    glClearColor (this->ClearColor.x, this->ClearColor.y, this->ClearColor.z, 1.0f);
+    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear (GL_COLOR_BUFFER_BIT);
+    // glEnable(GL_DEPTH_TEST);
+  }
 
-const unsigned char* Display::GetGlRenderer() {
-  return glGetString(GL_RENDERER);
-}
+  void Display::updateInput()
+  {
+    SDL_Event event;
+    while (SDL_PollEvent (&event))
+    {
+#ifdef STELLA_BUILD_EDITOR
+      if (m_editor)
+      {
+        m_editor->configure_input (event);
+      }
+#endif
 
-GLfloat Display::getFPS() {
-  GLuint currentFrame = this->Frame;
-  GLuint deltaFrame = currentFrame - this->LastFrame;
-  this->LastFrame = currentFrame;
+      switch (event.type)
+      {
+        case SDL_QUIT:
+          this->Running = false;
+          break;
+        case SDL_KEYDOWN:
+          switch (event.key.keysym.sym)
+          {
+            case SDLK_ESCAPE:
+              this->Running = false;
+              break;
+            default:
+              break;
+          }
+          break;
+        case SDL_WINDOWEVENT:
+          switch (event.window.event)
+          {
+            case SDL_WINDOWEVENT_RESIZED:
+#ifndef STELLA_BUILD_EDITOR
+              checkViewportProportions();
+#else
+              glViewport (GetWindowWidth() - Width, GetWindowHeight() - Height - 23, this->Width, this->Height);
+#endif
+              break;
+            case SDL_WINDOWEVENT_SIZE_CHANGED:
+#ifndef STELLA_BUILD_EDITOR
+              checkViewportProportions();
+#else
+              glViewport (GetWindowWidth() - Width, GetWindowHeight() - Height - 23, this->Width, this->Height);
+#endif
+              break;
+          }
+          break;
+        case SDL_MOUSEMOTION:
+          MouseX = event.motion.x;
+          MouseY = event.motion.y;
+          break;
+      }
+    }
+  }
 
-  GLfloat currentTime = (float)SDL_GetTicks()/1000.0f;
-  GLfloat deltaTime = currentTime - this->LastFPSCheck;
-  this->LastFPSCheck = currentTime;
+  bool Display::IsKeyDown (int key)
+  {
+    const Uint8* keys = SDL_GetKeyboardState (NULL);
+    return keys[key];
+  }
 
-  return deltaFrame / deltaTime;
-}
+  void Display::getDT()
+  {
+    GLfloat currentTime = (float) SDL_GetTicks() / 1000.0f;
+    this->DT            = currentTime - this->LastTime;
+    this->LastTime      = currentTime;
+  }
+
+  void Display::GetMousePos (double& mx, double& my)
+  {
+    mx = MouseX;
+    my = MouseY;
+  }
+
+  const unsigned char* Display::GetGlVersion() { return glGetString (GL_VERSION); }
+
+  const unsigned char* Display::GetGlRenderer() { return glGetString (GL_RENDERER); }
+
+  GLfloat Display::getFPS()
+  {
+    GLuint currentFrame = this->Frame;
+    GLuint deltaFrame   = currentFrame - this->LastFrame;
+    this->LastFrame     = currentFrame;
+
+    GLfloat currentTime = (float) SDL_GetTicks() / 1000.0f;
+    GLfloat deltaTime   = currentTime - this->LastFPSCheck;
+    this->LastFPSCheck  = currentTime;
+
+    return deltaFrame / deltaTime;
+  }
 } // namespace graphics
 } // namespace stella
