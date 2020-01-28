@@ -2,6 +2,7 @@
 
 #include <stella/components.h>
 #include <SDL.h>
+#undef main
 
 namespace stella
 {

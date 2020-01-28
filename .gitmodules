@@ -25,3 +25,6 @@
 [submodule "lib/imgui"]
 	path = lib/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "lib/freetype-windows-binaries"]
+	path = lib/freetype-windows-binaries
+	url = https://github.com/ubawurinna/freetype-windows-binaries

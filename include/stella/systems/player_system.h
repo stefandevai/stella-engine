@@ -3,6 +3,7 @@
 #include "../components.h"
 #include "./system.h"
 #include <SDL.h>
+#undef main
 
 #define MAX_PLAYER_VELOCITY 200.f
 

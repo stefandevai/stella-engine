@@ -17,7 +17,7 @@ Game::Game()
       return m_player.entity;
   });
   
-  m_script_api.run_script("./scripts/main.lua");
+  m_script_api.run_script("C:\\Users\\Visitante\\Documents\\Personal\\stella-engine\\build\\bin\\Debug\\scripts\\main.lua");
   m_script_api.run_function("load_game");
 
   this->update_systems(0.0);
@@ -25,7 +25,7 @@ Game::Game()
 
 Game::~Game()
 {
-  m_script_api.run_function("quit_game");
+  // m_script_api.run_function("quit_game");
 }
 
 void Game::update(const double dt)

@@ -7,6 +7,7 @@
 //#include <SDL2/SDL_opengl.h>
 #include <SDL.h>
 #include <SDL_timer.h>
+#undef main
 #include <glm/glm.hpp>
 
 #ifdef STELLA_BUILD_EDITOR

@@ -9,6 +9,7 @@
 #include "editor/debug_layer.h"
 
 #include <SDL.h>
+#undef main
 #include <cereal/cereal.hpp>
 
 namespace stella
