@@ -68,9 +68,9 @@ namespace core
       layer->set_render_layer_name (map_table["layers"][i]["render_layer"]);
       layer->set_collision (map_table["layers"][i]["collision"]);
 
-      for (uint y = 0; y < m_height; ++y)
+      for (unsigned int y = 0; y < m_height; ++y)
       {
-        for (uint x = 1; x <= m_width; ++x)
+        for (unsigned int x = 1; x <= m_width; ++x)
         {
           int value      = map_table["layers"][i]["grid"][x + y * m_width][1];
           int collidable = map_table["layers"][i]["grid"][x + y * m_width][2];

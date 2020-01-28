@@ -5,7 +5,8 @@
 
 //#include <SDL2/SDL.h>
 //#include <SDL2/SDL_opengl.h>
-#include <SDL2/SDL_timer.h>
+#include <SDL.h>
+#include <SDL_timer.h>
 #include <glm/glm.hpp>
 
 #ifdef STELLA_BUILD_EDITOR

@@ -52,6 +52,7 @@ namespace graphics
     ShapeVertexData* m_vertex_buffer;
     GLuint VAO, VBO, EBO;
     GLsizei IndexCount;
+    std::vector<GLuint> m_indices;
 
     void init();
   };

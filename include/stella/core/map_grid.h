@@ -39,7 +39,7 @@ namespace core
 
     inline void set_render_layer_name (const std::string& name) { m_render_layer_name = name; }
 
-    inline void set_visibility (const uint x, const uint y, const bool visibility)
+    inline void set_visibility (const unsigned int x, const unsigned int y, const bool visibility)
     {
       if (x >= 0 && x < m_width && y >= 0 && y < m_height)
       {
@@ -53,7 +53,7 @@ namespace core
 
     inline void set_collision (const bool is_collision_grid) { m_is_collision_grid = is_collision_grid; }
 
-    inline void set_entity (const uint x, const uint y, const entt::entity entity)
+    inline void set_entity (const unsigned int x, const unsigned int y, const entt::entity entity)
     {
       if (x >= 0 && x < m_width && y >= 0 && y < m_height)
       {
