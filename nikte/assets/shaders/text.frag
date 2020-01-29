@@ -10,7 +10,7 @@ in DATA
 
 out vec4 color;
 
-uniform sampler2D textures[32];
+uniform sampler2D textures[11];
 
 void main()
 {
