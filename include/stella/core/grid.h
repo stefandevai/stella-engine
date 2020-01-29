@@ -93,7 +93,7 @@ namespace core
           }
         }
         // v = v[:width*height]
-        m_grid.erase (m_grid.begin() + width * height, m_grid.end());
+        m_grid.erase (m_grid.begin() + std::abs(width * height), m_grid.end());
       }
 
       // Increase width to left or right
@@ -156,8 +156,7 @@ namespace core
       // Decrease height from top
       if (top < 0)
       {
-        // v = v[abs(height_diff*width):]
-        m_grid.erase (m_grid.begin(), m_grid.begin() + height_diff * width + 1);
+        m_grid.erase (m_grid.begin(), m_grid.begin() + std::abs(height_diff * width) + 1);
       }
       // Increase height to top
       else if (top > 0)

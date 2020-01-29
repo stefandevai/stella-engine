@@ -9,7 +9,7 @@ namespace
 // Display CHECKd to load OpenGL context
 stella::graphics::Display display (0, 0, "");
 
-stella::graphics::Texture texture ("C:\\Users\\Visitante\\Documents\\Personal\\stella-engine\\build\\bin\\Debug\\assets\\texture.png");
+stella::graphics::Texture texture ("assets/texture.png");
 stella::graphics::Sprite sprite1 (0, 0, texture);
 stella::graphics::Sprite sprite2 (0, 0, 10, 10, texture);
 std::vector<GLuint> frames{0, 1, 2, 3, 4};

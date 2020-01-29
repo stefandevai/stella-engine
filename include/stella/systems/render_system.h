@@ -26,8 +26,8 @@ namespace systems
         {DEFAULT_LAYER_NAME,
          std::make_shared<graphics::BasicLayer> (m_display.GetWidth(),
                                                  m_display.GetHeight(),
-                                                 "C:\\Users\\Visitante\\Documents\\Personal\\stella-engine\\build\\bin\\Debug\\assets\\shaders\\sprite_batch.vert",
-                                                 "C:\\Users\\Visitante\\Documents\\Personal\\stella-engine\\build\\bin\\Debug\\assets\\shaders\\sprite_batch.frag",
+                                                 "assets/shaders/sprite_batch.vert",
+                                                 "assets/shaders/sprite_batch.frag",
                                                  false)}};
     std::map<int, std::string> m_ordered_layers{{256, DEFAULT_LAYER_NAME}};
 
