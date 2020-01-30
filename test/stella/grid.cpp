@@ -106,11 +106,10 @@ TEST_CASE ("Operations on the Grid class")
 
     CHECK (grid.width() == 28);
     CHECK (grid.height() == 33);
-    // CHECK (grid.get_value (20, 32).value == 0);
-    CHECK (grid.get_value (27, 32).value == 0);
-    // CHECK (grid.get_value (19, 31).value == 0);
-    // CHECK (grid.get_value (27, 13).value == 0);
-    // CHECK (grid.get_value (26, 22).value == 0);
+    CHECK (grid.get_value (20, 32).value == 0);
+    CHECK (grid.get_value (19, 31).value == 0);
+    CHECK (grid.get_value (27, 13).value == 0);
+    CHECK (grid.get_value (26, 22).value == 0);
 
     //// Trying to resize to opposite sides
     // CHECK(grid.resize(5, 3, 3, 34));
