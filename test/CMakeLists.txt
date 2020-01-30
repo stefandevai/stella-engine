@@ -16,7 +16,7 @@ if (WIN32)
     # Copy DLLS
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/lib/dll"
+        "${CMAKE_SOURCE_DIR}/lib/win/dll-x64"
         $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 else()
     file(COPY stella/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

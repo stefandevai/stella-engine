@@ -17,15 +17,13 @@ option(BUILD_EMSCRIPTEN "Build emscripten" off)
 if (BUILD_EMSCRIPTEN)
   set(CMAKE_C_COMPILER /usr/local/bin/emcc)
   set(CMAKE_CXX_COMPILER /usr/local/bin/em++)
-#elseif(APPLE)
-  #set(CMAKE_C_COMPILER gcc-9)
-  #set(CMAKE_CXX_COMPILER g++-9)
 endif()
 
 if (UNIX AND NOT APPLE)
 	set(OpenGL_GL_PREFERENCE "GLVND")
   	set (LINUX TRUE)
 endif()
+
 if (APPLE)
   set(CMAKE_MACOSX_RPATH 1)
 endif()
@@ -41,9 +39,6 @@ option(STELLA_BUILD_EDITOR "Build engine editor" on)
 
 # Turn this option on to build a targeted example
 option(BUILD_STELLA_EXAMPLE "Build example" on)
-if (BUILD_STELLA_EXAMPLE)
-	set(EXAMPLE_DIR "torch")
-endif()
 
 # Build tests
 option(BUILD_STELLA_TESTS "Build tests" on)
@@ -51,13 +46,13 @@ option(BUILD_STELLA_TESTS "Build tests" on)
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS off)
 
-# Turn on these options to use the libraries contained in your machine.
-option(USE_SHARED_SDL2 "Use shared SDL2 library" on)
-option(USE_SHARED_OPENAL "Use shared OpenAL and ALut libraries" on)
-option(USE_SHARED_VORBIS "Use shared Vorbis and ogg libraries" on)
-option(USE_SHARED_ENTT "Use shared entt library" off)
-option(USE_SHARED_FREETYPE "Use shared FreeType2 library" on)
-option(USE_SHARED_LUA "Use shared lua" on)
+# Turn on these options to use the libraries contained in your machine (Linux and OSX only).
+option(USE_SYSTEM_SDL2 "Search your system for SDL2 library" on)
+option(USE_SYSTEM_OPENAL "Search your system for OpenAL and ALut libraries" on)
+option(USE_SYSTEM_VORBIS "Search your system for ogg and vorbis libraries" on)
+option(USE_SYSTEM_ENTT "Search your system for entt library" off)
+option(USE_SYSTEM_FREETYPE "Search your system for FreeType2 library" on)
+option(USE_SYSTEM_LUA "Search your system for lua" on)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -67,19 +62,19 @@ include_directories(SYSTEM)
 find_package(OpenGL REQUIRED)
 
 # SDL2 - Windowing and input library for OpenGL.
-if (MSVC)
-	set(SDL2_INCLUDE_DIRS ${DEPENDENCIES_DIR}/sdl2-win-vc/include)
-	set(SDL2_LIBRARIES ${DEPENDENCIES_DIR}/sdl2-win-vc/lib/x64/SDL2.lib)
-	include_directories(${SDL2_INCLUDE_DIRS})
-else()
-	if (USE_SHARED_SDL2)
-  		#find_package(PkgConfig REQUIRED)
-  		find_package(SDL2 REQUIRED)
-  		#pkg_search_module(SDL2 REQUIRED sdl2)
-	else()
-  		set(SDL2_INCLUDE_DIRS ${DEPENDENCIES_DIR}/sdl2/include)
-  		set(SDL2_LIBRARIES SDL2)
+if (USE_SYSTEM_SDL2 AND NOT WIN32)
+  	#find_package(PkgConfig REQUIRED)
+  	find_package(SDL2 REQUIRED)
+	  #pkg_search_module(SDL2 REQUIRED sdl2)
+elseif(WIN32)
+	if (MSVC)
+		set(SDL2_INCLUDE_DIRS ${DEPENDENCIES_DIR}/sdl2/include)
+		set(SDL2_LIBRARIES ${DEPENDENCIES_DIR}/win/sdl2-x64/lib/x64/SDL2.lib)
+		include_directories(${SDL2_INCLUDE_DIRS})
 	endif()
+else()
+  	set(SDL2_INCLUDE_DIRS ${DEPENDENCIES_DIR}/sdl2/include)
+  	set(SDL2_LIBRARIES SDL2)
 	include_directories(${SDL2_INCLUDE_DIRS})
 endif()
 
@@ -104,65 +99,55 @@ include_directories(${DEPENDENCIES_DIR}/stb_image)
 
 # OpenAL - Audio library (Using OpenAL-Soft for static library).
 # ALut - Utility Toolkit for OpenAL.
-if (USE_SHARED_OPENAL AND NOT MSVC)
+if (USE_SYSTEM_OPENAL AND NOT WIN32)
 	find_package(OpenAL REQUIRED)
-  find_package(ALUT REQUIRED)
-	#if (APPLE)
-		#set(OpenAL_LIBRARIES ${OPENAL_LIBRARY})
-    #set(ALUT_INCLUDE_DIRS ${DEPENDENCIES_DIR}/freealut/include)
-    #set(ALUT_LIBRARIES alut)
-  #elseif (UNIX AND NOT APPLE)
-	#endif()
+	find_package(ALUT REQUIRED)
+elseif (WIN32)
+	if (MINGW)
+		add_definitions(-D_TIMESPEC_DEFINED)
+		set(OpenAL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/openal-soft/include)
+		set(OpenAL_LIBRARIES OpenAL32)
+	elseif(MSVC)
+		set(OpenAL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/openal-soft/include)
+		set(OpenAL_LIBRARIES ${DEPENDENCIES_DIR}/win/openal-soft-x64/OpenAL32.lib)
+
+		set(ALUT_LIBRARIES ${DEPENDENCIES_DIR}/win/freealut-x64/alut.lib
+						   ${DEPENDENCIES_DIR}/win/freealut-x64/alut_static.lib)
+		set(ALUT_INCLUDE_DIRS ${DEPENDENCIES_DIR}/freealut/include)
+	endif()
 else()
 	if (APPLE) # Apple already comes with OpenAL
 		find_library(OPENAL_LIBRARY OpenAL)
 		set(OpenAL_LIBRARIES ${OPENAL_LIBRARY})
-	elseif (WIN32)
-		if (MINGW)
-			 add_definitions(-D_TIMESPEC_DEFINED)
-			 set(OpenAL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/openal-soft/include)
-			 set(OpenAL_LIBRARIES OpenAL32)
-		elseif(MSVC)
-			#find_library(OPENAL_LIBRARY OpenAL)
-			set(OpenAL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/openal-soft/include)
-			set(OpenAL_LIBRARIES ${DEPENDENCIES_DIR}/openal-soft-win-64/OpenAL32.lib)
-
-			#find_library(ALUT_LIBRARIES ALUT)
-			set(ALUT_LIBRARIES ${DEPENDENCIES_DIR}/freealut-win-64/alut.lib
-							   ${DEPENDENCIES_DIR}/freealut-win-64/alut_static.lib)
-			set(ALUT_INCLUDE_DIRS ${DEPENDENCIES_DIR}/freealut/include)
-		endif()
 	else()
 		set(OpenAL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/openal-soft/include)
 		set(OpenAL_LIBRARIES openal)
 	endif()
 	
-	if (NOT MSVC)
-		set(ALUT_INCLUDE_DIRS ${DEPENDENCIES_DIR}/freealut/include)
-		set(ALUT_LIBRARIES alut)
-	endif()
+	set(ALUT_INCLUDE_DIRS ${DEPENDENCIES_DIR}/freealut/include)
+	set(ALUT_LIBRARIES alut)
 endif()
 include_directories(${OpenAL_INCLUDE_DIRS})
 include_directories(${ALUT_INCLUDE_DIRS})
 
 # Ogg Vorbis - Libraries for handling .ogg audio format.
-if (USE_SHARED_VORBIS AND NOT MSVC)
+if (USE_SYSTEM_VORBIS AND NOT MSVC)
 	find_package(Ogg REQUIRED)
 	find_package(Vorbis REQUIRED)
 elseif(MSVC)
 	set(OGG_INCLUDE_DIRS ${DEPENDENCIES_DIR}/ogg/include)
-	set(OGG_LIBRARIES ${DEPENDENCIES_DIR}/ogg-win-64/libogg.lib)
+	set(OGG_LIBRARIES ${DEPENDENCIES_DIR}/win/ogg-x64/libogg.lib)
 
 	set(VORBIS_INCLUDE_DIR ${DEPENDENCIES_DIR}/vorbis/include)
-	set(VORBIS_LIBRARIES ${DEPENDENCIES_DIR}/vorbis-win-64/vorbis.lib
-						 ${DEPENDENCIES_DIR}/vorbis-win-64/vorbisfile.lib
-						 ${DEPENDENCIES_DIR}/vorbis-win-64/vorbisenc.lib)
+	set(VORBIS_LIBRARIES ${DEPENDENCIES_DIR}/win/vorbis-x64/vorbis.lib
+						 ${DEPENDENCIES_DIR}/win/vorbis-x64/vorbisfile.lib
+						 ${DEPENDENCIES_DIR}/win/vorbis-x64/vorbisenc.lib)
 endif()
 include_directories(${OGG_INCLUDE_DIRS})
 include_directories(${VORBIS_INCLUDE_DIR})
 
 # Entt - Entity Component System
-if (USE_SHARED_ENTT)
+if (USE_SYSTEM_ENTT)
 	find_package(entt)
 else()
 	set(ENTT_INCLUDE_DIR ${DEPENDENCIES_DIR}/entt/src)
@@ -170,16 +155,16 @@ else()
 endif()
 include_directories(${ENTT_INCLUDE_DIR})
 
-if (USE_SHARED_FREETYPE AND NOT MSVC)
+if (USE_SYSTEM_FREETYPE AND NOT MSVC)
 	find_package(Freetype)
 else()
-	set(FREETYPE_INCLUDE_DIRS ${DEPENDENCIES_DIR}/freetype-windows-binaries/include)
-	set(FREETYPE_LIBRARIES ${DEPENDENCIES_DIR}/freetype-windows-binaries/win64/freetype.lib)
+	set(FREETYPE_INCLUDE_DIRS ${DEPENDENCIES_DIR}/win/freetype-x64/include)
+	set(FREETYPE_LIBRARIES ${DEPENDENCIES_DIR}/win/freetype-x64/win64/freetype.lib)
 endif()
 include_directories(${FREETYPE_INCLUDE_DIRS})
 
 # Lua - Lua scripting language
-if(USE_SHARED_LUA AND NOT MSVC)
+if(USE_SYSTEM_LUA AND NOT MSVC)
 	find_package(Lua REQUIRED)
 else()
 	if(APPLE)
@@ -209,7 +194,7 @@ include_directories(${CEREAL_INCLUDE_DIR})
 set(PLATFORM_LIBRARIES)
 
 if (LINUX) 
-  	if (NOT USE_SHARED_SDL2)
+  	if (NOT USE_SYSTEM_SDL2)
 		find_package(X11 REQUIRED)
 		include_directories(${X11_INCLUDE_DIR})
 		list(APPEND PLATFORM_LIBRARIES ${X11_X11_LIB})
@@ -258,9 +243,6 @@ elseif(APPLE)
 	find_library(CARBon_LIBRARY Carbon)
 
 	list(APPEND PLATFORM_LIBRARIES ${COCOA_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY} ${CARBon_LIBRARY})
-elseif(WIN32)
-	#set(CXX_LINK_FLAGS OpenGL::OpenGL)
-	#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif()
 
 add_subdirectory(${DEPENDENCIES_DIR}) # Dependencies folder
@@ -269,10 +251,10 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
 		"${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
 			"${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
 	if (STELLA_DEBUG_MODE)
-    #set(CXX_COMPILE_FLAGS "-std=gnu++1z -Wall -g -O0")
-    set(CXX_COMPILE_FLAGS "-std=c++17 -Wall -g -O0")
+    	#set(CXX_COMPILE_FLAGS "-std=gnu++1z -Wall -g -O0")
+    	set(CXX_COMPILE_FLAGS "-std=c++17 -Wall -g -O0")
 
-    # Uncomment for profiling
+    	# Uncomment for profiling
 		#set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -pg -g -O0 -no-pie")
 		#set(CXX_LINK_FLAGS "-pg")
 	else()
@@ -287,8 +269,6 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CXX_LINK_FLAGS}")
 
 add_subdirectory(src)
 
-#target_link_libraries(${STELLA_LIBRARY_NAME} PRIVATE
-
 # Build examples if specified
 if (BUILD_STELLA_EXAMPLE)
   add_subdirectory(nikte)
@@ -298,4 +278,3 @@ endif()
 if (BUILD_STELLA_TESTS)
   add_subdirectory(test)
 endif()
-
