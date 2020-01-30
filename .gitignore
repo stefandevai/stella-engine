@@ -2,4 +2,6 @@ build/
 *.o
 .DS_Store
 tools/cppcheck/html
+nikte/dialogue/__pycache__/
+.vscode/
 
