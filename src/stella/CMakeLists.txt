@@ -25,6 +25,10 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
                                       
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/stella/ ${OPENGL_INCLUDE_DIR})
 
+#if (UNIX AND STELLA_DEBUG_MODE)
+  #target_compile_options(${PROJECT_NAME} PRIVATE "-Wold-style-cast")
+#endif()
+
 #if(MSVC)
   #target_compile_options(${PROJECT_NAME} PRIVATE "-wd4068")
 #endif()
