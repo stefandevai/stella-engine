@@ -8,7 +8,7 @@
 
 #include "editor/debug_layer.h"
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #undef main
 #include <cereal/cereal.hpp>
 

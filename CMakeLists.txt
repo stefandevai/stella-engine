@@ -247,11 +247,9 @@ endif()
 
 add_subdirectory(${DEPENDENCIES_DIR}) # Dependencies folder
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
-		"${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
-			"${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-	if (STELLA_DEBUG_MODE)
-    	#set(CXX_COMPILE_FLAGS "-std=gnu++1z -Wall -g -O0")
+if (UNIX)
+	if(STELLA_DEBUG_MODE)
+		#set(CXX_COMPILE_FLAGS "-std=gnu++1z -Wall -g -O0")
     	set(CXX_COMPILE_FLAGS "-std=c++17 -Wall -g -O0")
 
     	# Uncomment for profiling
@@ -260,8 +258,8 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
 	else()
 		set(CXX_COMPILE_FLAGS "-std=c++17 -O2")
 	endif()
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-	message(STATUS "Using MSVC")
+elseif(WIN32)
+	set(CXX_COMPILE_FLAGS "/wd4068")
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COMPILE_FLAGS}")

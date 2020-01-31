@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stella/components.h>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #undef main
 
 namespace stella
