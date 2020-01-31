@@ -16,7 +16,7 @@ namespace graphics
       : Emitter (posx, posy, max_particles, tex_name)
     {
       this->SetMaxLifeRange (std::make_pair (100, 200));
-      this->SetPositionXRange (std::make_pair (0.0f, 32.0f));
+      this->SetPositionXRange (std::make_pair (0, 32));
       this->SetPositionYRange (std::make_pair (0, 0));
       this->SetSpeedXRange (std::make_pair (-10.0f, -5.0f));
       this->SetSpeedYRange (std::make_pair (5.f, 10.f));
