@@ -51,12 +51,14 @@ namespace graphics
     static bool IsKeyDown (int key);
 
 #ifdef STELLA_BUILD_EDITOR
-    void UpdateEditor (entt::registry& registry);
-    inline void SetEditor (editor::EditorGui* editor)
-    {
-      m_editor = editor;
-      m_editor->init (this->Window, m_gl_context, m_glsl_version);
-    }
+    // void UpdateEditor (entt::registry& registry);
+    // inline void SetEditor (editor::EditorGui* editor)
+    // {
+    //   this->editor = editor;
+    //   this->editor->init (this->Window, m_gl_context, m_glsl_version);
+    // }
+
+    
 #endif
 
   private:
@@ -69,7 +71,10 @@ namespace graphics
     bool Running;
     glm::vec3 ClearColor;
 #ifdef STELLA_BUILD_EDITOR
-    editor::EditorGui* m_editor = nullptr;
+    friend class stella::editor::EditorGui;
+    // editor::EditorGui* editor = nullptr;
+#endif
+
   #if __APPLE__
     // GL 3.2 Core + GLSL 150
     const char* m_glsl_version = "#version 150";
@@ -77,7 +82,7 @@ namespace graphics
     // GL 3.0 + GLSL 130
     const char* m_glsl_version = "#version 130";
   #endif
-#endif
+
 
     void updateInput();
     void getDT();

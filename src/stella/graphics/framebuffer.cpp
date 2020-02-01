@@ -5,6 +5,10 @@
 
 #include <iostream>
 
+namespace stella
+{
+namespace graphics
+{
 Framebuffer::Framebuffer (stella::graphics::Display& display) : Display (display) { this->init(); }
 
 Framebuffer::~Framebuffer()
@@ -114,4 +118,6 @@ void Framebuffer::init()
   glVertexAttribPointer (0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof (float), (void*) 0);
   glEnableVertexAttribArray (1);
   glVertexAttribPointer (1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof (float), (void*) (2 * sizeof (float)));
+}
+}
 }

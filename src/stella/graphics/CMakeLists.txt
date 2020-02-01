@@ -17,6 +17,9 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    layers/shape_layer.cpp)
                                    
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME} PRIVATE editor::editor)
+
+if (STELLA_BUILD_EDITOR)
+    target_link_libraries(${PROJECT_NAME} PRIVATE editor::editor)
+endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/stella/${PROJECT_NAME})

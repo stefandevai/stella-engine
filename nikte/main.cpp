@@ -9,8 +9,10 @@ int main(int argc, char *argv[]) {
 
 #ifdef STELLA_BUILD_EDITOR
   stella::editor::EditorGui editor{game};
-#endif
-
+  editor.run();
+#else
   game.run();
+#endif
+  
   return 0;
 }

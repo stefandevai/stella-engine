@@ -1,4 +1,5 @@
 #include "editor/editor_gui.h"
+#include "imgui_internal.h"
 
 #include "../../nikte/game.h"
 #include "stella/components/dimension_component.h"
@@ -20,7 +21,7 @@ namespace editor
   //   : m_registry(registry)
   EditorGui::EditorGui (nikte::Game& game) : m_game (game), m_registry (game.m_registry)
   {
-    m_game.m_display.SetEditor (this);
+    //m_game.m_display.SetEditor (this);
     // m_debug_layer.Add(shape);
     m_editor_layer = game.m_registry.create();
     game.m_registry.assign<components::LayerComponent> (m_editor_layer, "editor", 9999, "", "", "");
@@ -35,16 +36,24 @@ namespace editor
                                                          m_tileset_editor.get_tile_dimensions().y,
                                                          0,
                                                          "editor");
+    this->init();
   }
 
-  EditorGui::~EditorGui() {}
-
-  void EditorGui::init (SDL_Window* window, SDL_GLContext gl_context, const char* glsl_version)
+  EditorGui::~EditorGui() 
   {
-    m_window = window;
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
+  }
+
+  // void EditorGui::init (SDL_Window* window, SDL_GLContext gl_context, const char* glsl_version)
+  void EditorGui::init ()
+  {
+    m_window = m_game.m_display.Window;
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     ImFontConfig config;
     config.OversampleH         = 2;
     config.OversampleV         = 1;
@@ -62,8 +71,8 @@ namespace editor
 
     this->init_style();
 
-    ImGui_ImplSDL2_InitForOpenGL (m_window, gl_context);
-    ImGui_ImplOpenGL3_Init (glsl_version);
+    ImGui_ImplSDL2_InitForOpenGL (m_window, m_game.m_display.m_gl_context);
+    ImGui_ImplOpenGL3_Init (m_game.m_display.m_glsl_version);
   }
 
   void EditorGui::configure_input (SDL_Event& event)
@@ -89,6 +98,19 @@ namespace editor
     }
   }
 
+  void EditorGui::run()
+  {
+    while (m_game.m_display.IsRunning())
+    {
+      m_game.m_display.Clear();
+      
+      m_game.update (m_game.m_display.GetDT());
+      this->render(m_game.m_display.GetWindowWidth(), m_game.m_display.GetWindowHeight(), m_game.m_display.Width, m_game.m_display.Height);
+      
+      m_game.m_display.Update();
+    }
+  }
+
   void EditorGui::update() { m_log_system.update (m_registry, 0.0); }
 
   void EditorGui::render (const float window_width,
@@ -98,51 +120,22 @@ namespace editor
   {
     if (m_window != nullptr)
     {
-      const float section_spacing = 1.0f;
-      const float top_menu_height = 22.0f + section_spacing;
-
-      m_window_width  = window_width;
-      m_window_height = window_height;
-      m_game_width    = game_width;
-      m_game_height   = game_height;
-
+      
       ImGui_ImplOpenGL3_NewFrame();
       ImGui_ImplSDL2_NewFrame (m_window);
       ImGui::NewFrame();
       ImGui::PushFont (m_font_sans_regular);
 
-      ImGuiIO& io = ImGui::GetIO();
-      handle_state (io);
-
-      const ImVec2 editor_size{window_width - game_width - section_spacing, window_height - top_menu_height};
-      const ImVec2 editor_pos{0.0f, top_menu_height};
-      const ImVec2 console_size{game_width, window_height - game_height - top_menu_height - section_spacing};
-      const ImVec2 console_pos{window_width - game_width, game_height + top_menu_height + section_spacing};
-      const ImVec2 log_size{window_width - game_width, window_height - game_height - top_menu_height - section_spacing};
-      const ImVec2 log_pos{0.0f, game_height + top_menu_height + section_spacing};
-      const ImVec2 info_pos{window_width - 148.f - top_menu_height, top_menu_height * 2};
-
-      this->draw_editor (editor_size, editor_pos);
-      this->draw_console (console_size, console_pos);
-      this->draw_menu_bar();
-
-      if (m_view_physics_debug_layer)
-      {
-        this->draw_info (info_pos);
-        // m_debug_layer.Render();
-      }
+      
+      this->draw_dock(window_width,
+                          window_height,
+                          game_width,
+                          game_height);
 
       ImGui::PopFont();
       ImGui::Render();
       ImGui_ImplOpenGL3_RenderDrawData (ImGui::GetDrawData());
     }
-  }
-
-  void EditorGui::clean()
-  {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
-    ImGui::DestroyContext();
   }
 
   void EditorGui::handle_state (ImGuiIO& io)
@@ -275,11 +268,98 @@ namespace editor
     style.Colors[ImGuiCol_NavWindowingHighlight] = ImVec4 (1.00f, 1.00f, 1.00f, 0.70f);
   }
 
+  void EditorGui::draw_dock (const float window_width, const float window_height, const float game_width, const float game_height)
+  {
+      const float section_spacing = 1.0f;
+      const float top_menu_height = 22.0f + section_spacing;
+
+      m_window_width  = window_width;
+      m_window_height = window_height;
+      m_game_width    = game_width;
+      m_game_height   = game_height;
+
+      ImGuiIO& io = ImGui::GetIO();
+      handle_state (io);
+
+      const ImVec2 editor_size{window_width - game_width - section_spacing, window_height - top_menu_height};
+      const ImVec2 editor_pos{0.0f, top_menu_height};
+      const ImVec2 console_size{game_width, window_height - game_height - top_menu_height - section_spacing};
+      const ImVec2 console_pos{window_width - game_width, game_height + top_menu_height + section_spacing};
+      const ImVec2 log_size{window_width - game_width, window_height - game_height - top_menu_height - section_spacing};
+      const ImVec2 log_pos{0.0f, game_height + top_menu_height + section_spacing};
+      const ImVec2 info_pos{window_width - 148.f - top_menu_height, top_menu_height * 2};
+
+      ImGui::SetNextWindowSize (ImVec2(window_width, window_height), ImGuiCond_Always);
+      ImGui::SetNextWindowPos (ImVec2(0,0), ImGuiCond_Always);
+      ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+	    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	    ImGui::SetNextWindowBgAlpha(0.0f);
+	    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	    ImGui::Begin("MainDS", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus);
+	    ImGui::PopStyleVar();
+	    ImGui::PopStyleVar(2);
+
+      
+      //ImGui::Begin("DockSpace Demo", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus);
+
+      const auto dockspace_id = ImGui::GetID("MainDS");
+      if (!ImGui::DockBuilderGetNode(dockspace_id))
+      {
+        ImGui::DockBuilderRemoveNode(dockspace_id);
+        ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace);
+        ImGui::DockBuilderSetNodeSize(dockspace_id, ImVec2(window_width, window_height));
+
+        ImGuiID dock_main_id		= dockspace_id;
+        ImGuiID dock_right_id		= ImGui::DockBuilderSplitNode(dock_main_id,		ImGuiDir_Right, 0.2f,   nullptr, &dock_main_id);
+        ImGuiID dock_right_down_id	= ImGui::DockBuilderSplitNode(dock_right_id,	ImGuiDir_Down,	0.5f,   nullptr, &dock_right_id);
+        ImGuiID dock_down_id		= ImGui::DockBuilderSplitNode(dock_main_id,		ImGuiDir_Down,	0.25f,  nullptr, &dock_main_id);
+        ImGuiID dock_down_right_id	= ImGui::DockBuilderSplitNode(dock_down_id,		ImGuiDir_Right, 0.5f,   nullptr, &dock_down_id);
+
+  		  ImGui::DockBuilderDockWindow("Editor",		dock_right_id);
+	  	  ImGui::DockBuilderDockWindow("Chat",	dock_right_down_id);
+		    ImGui::DockBuilderDockWindow("Other",		dock_down_id);
+		    ImGui::DockBuilderDockWindow("Assets",		dock_down_right_id);
+		    ImGui::DockBuilderDockWindow("Viewport",	dock_main_id);
+      
+        ImGui::DockBuilderFinish(dock_main_id);
+      }
+
+      ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+      this->draw_menu_bar();
+      ImGui::End();
+
+      ImGui::Begin("Chat", nullptr, ImGuiWindowFlags_None);
+      ImGui::Text("HEHEHEHE");
+      ImGui::End();
+
+      ImGui::Begin("Other", nullptr, ImGuiWindowFlags_None);
+      ImGui::Text("HAHAHAHA");
+      ImGui::End();
+
+      ImGui::Begin("Assets", nullptr, ImGuiWindowFlags_None);
+      ImGui::Text("HIHIHIH");
+      ImGui::End();
+
+      ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_None);
+      ImGui::Text("HUHUHUHU");
+      ImGui::End();
+
+      this->draw_editor (editor_size, editor_pos);
+      //this->draw_console (console_size, console_pos);
+
+      if (m_view_physics_debug_layer)
+      {
+        this->draw_info (info_pos);
+        // m_debug_layer.Render();
+      }
+  }
+
   void EditorGui::draw_editor (const ImVec2& size, const ImVec2& pos)
   {
-    ImGui::SetNextWindowSize (size, ImGuiCond_Always);
-    ImGui::SetNextWindowPos (pos, ImGuiCond_Always);
+    //ImGui::SetNextWindowSize (size, ImGuiCond_FirstUseEver);
+    //ImGui::SetNextWindowPos (pos, ImGuiCond_FirstUseEver);
     ImGui::Begin ("Editor", nullptr, m_window_flags);
+    //ImGui::Begin ("Editor", nullptr, ImGuiWindowFlags_None);
 
     this->draw_toolbar();
     m_inspector.render (m_game.m_registry);
@@ -374,12 +454,12 @@ namespace editor
     ImGui::SetNextWindowPos (pos, ImGuiCond_Always);
     ImGui::PushStyleColor (ImGuiCol_Text, ImVec4 (0.5f, 0.5f, 0.5f, 1.0f));
     // ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 3.0f);
-    m_console.Draw ("Console Log", m_registry);
+    m_console.Draw ("Chat", m_registry);
     // ImGui::PopStyleVar();
     ImGui::PopStyleColor();
   }
 
-  void EditorGui::draw_log() { m_log.Draw ("Console Log"); }
+  void EditorGui::draw_log() { m_log.Draw ("Log"); }
 
   void EditorGui::draw_info (const ImVec2& pos)
   {
@@ -400,7 +480,7 @@ namespace editor
 
   void EditorGui::draw_menu_bar()
   {
-    if (ImGui::BeginMainMenuBar())
+    if (ImGui::BeginMenuBar())
     {
       if (ImGui::BeginMenu ("File"))
       {
@@ -441,7 +521,7 @@ namespace editor
         if (ImGui::MenuItem ("Paste", "CTRL+V")) {}
         ImGui::EndMenu();
       }
-      ImGui::EndMainMenuBar();
+      ImGui::EndMenuBar();
     }
   }
 } // namespace editor

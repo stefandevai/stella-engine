@@ -8,6 +8,10 @@
 typedef unsigned int GLuint;
 typedef unsigned int GLenum;
 
+namespace stella
+{
+namespace graphics
+{
 class Framebuffer
 {
 public:
@@ -29,3 +33,5 @@ private:
   void init();
   void RefreshTextureResolution();
 };
+}
+}

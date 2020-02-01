@@ -7,15 +7,10 @@ namespace core
 {
   Game::Game (unsigned width, unsigned height, const std::string& title) : Application (width, height, title)
   {
-#ifdef STELLA_BUILD_EDITOR
-    // m_display.SetEditor(&m_editor);
-
-#endif
     m_script_api.set_function ("update_camera", &Game::update_camera, this);
     m_script_api.set_function ("load_texture", &Game::load_texture, this);
     m_script_api.set_function ("load_font", &Game::load_font, this);
     this->create_camera (0.0, 0.0, 0.0);
-
   }
 
   Game::~Game() {}

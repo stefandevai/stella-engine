@@ -41,7 +41,7 @@ option(STELLA_BUILD_EDITOR "Build engine editor" on)
 option(BUILD_STELLA_EXAMPLE "Build example" on)
 
 # Build tests
-option(BUILD_STELLA_TESTS "Build tests" on)
+option(BUILD_STELLA_TESTS "Build tests" off)
 
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS off)
