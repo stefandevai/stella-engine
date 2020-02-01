@@ -274,9 +274,6 @@ namespace editor
 
   void EditorGui::draw_dock (const float window_width, const float window_height, const float game_width, const float game_height)
   {
-      const float section_spacing = 1.0f;
-      const float top_menu_height = 22.0f + section_spacing;
-
       m_window_width  = window_width;
       m_window_height = window_height;
       m_game_width    = game_width;
@@ -284,14 +281,6 @@ namespace editor
 
       ImGuiIO& io = ImGui::GetIO();
       handle_state (io);
-
-      const ImVec2 editor_size{window_width - game_width - section_spacing, window_height - top_menu_height};
-      const ImVec2 editor_pos{0.0f, top_menu_height};
-      const ImVec2 console_size{game_width, window_height - game_height - top_menu_height - section_spacing};
-      const ImVec2 console_pos{window_width - game_width, game_height + top_menu_height + section_spacing};
-      const ImVec2 log_size{window_width - game_width, window_height - game_height - top_menu_height - section_spacing};
-      const ImVec2 log_pos{0.0f, game_height + top_menu_height + section_spacing};
-      const ImVec2 info_pos{window_width - 148.f - top_menu_height, top_menu_height * 2};
 
       ImGui::SetNextWindowSize (ImVec2(window_width, window_height), ImGuiCond_Always);
       ImGui::SetNextWindowPos (ImVec2(0,0), ImGuiCond_Always);
@@ -302,9 +291,6 @@ namespace editor
 	    ImGui::Begin("MainDS", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus);
 	    ImGui::PopStyleVar();
 	    ImGui::PopStyleVar(2);
-
-      
-      //ImGui::Begin("DockSpace Demo", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus);
 
       const auto dockspace_id = ImGui::GetID("MainDS");
       if (!ImGui::DockBuilderGetNode(dockspace_id))
@@ -323,7 +309,7 @@ namespace editor
 	  	  ImGui::DockBuilderDockWindow("Chat",	dock_right_down_id);
 		    ImGui::DockBuilderDockWindow("Other",		dock_down_id);
 		    ImGui::DockBuilderDockWindow("Assets",		dock_down_right_id);
-		    ImGui::DockBuilderDockWindow("Viewport",	dock_main_id);
+		    ImGui::DockBuilderDockWindow("Scene",	dock_main_id);
       
         ImGui::DockBuilderFinish(dock_main_id);
       }
@@ -333,128 +319,38 @@ namespace editor
       ImGui::End();
 
       ImGui::Begin("Chat", nullptr, ImGuiWindowFlags_None);
-      ImGui::Text("HEHEHEHE");
+      ImGui::Text("Teste");
       ImGui::End();
 
       ImGui::Begin("Other", nullptr, ImGuiWindowFlags_None);
-      ImGui::Text("HAHAHAHA");
+      ImGui::Text("Teste");
       ImGui::End();
 
       ImGui::Begin("Assets", nullptr, ImGuiWindowFlags_None);
-      ImGui::Text("HIHIHIH");
+      ImGui::Text("Teste");
       ImGui::End();
 
-      ImGui::PushStyleVar (ImGuiStyleVar_WindowPadding, ImVec2(0,0));
-      ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoTitleBar);
-      ImTextureID texture = (void*) (intptr_t) m_FBO->GetTexture();
-      const auto dwindow_size = ImGui::GetWindowSize();
-      const float frame_height = ImGui::GetFrameHeight();
-      ImGui::Image(texture, ImVec2(dwindow_size[0], dwindow_size[1] - frame_height), ImVec2(0,1), ImVec2(1,0));
-      ImGui::End();
-      ImGui::PopStyleVar ();
+      m_scene.render((void*) (intptr_t) m_FBO->GetTexture());
 
-      this->draw_editor (editor_size, editor_pos);
+      this->draw_editor ();
       //this->draw_console (console_size, console_pos);
 
       if (m_view_physics_debug_layer)
       {
-        this->draw_info (info_pos);
+        //this->draw_info (info_pos);
         // m_debug_layer.Render();
       }
   }
 
-  void EditorGui::draw_editor (const ImVec2& size, const ImVec2& pos)
+  void EditorGui::draw_editor ()
   {
-    //ImGui::SetNextWindowSize (size, ImGuiCond_FirstUseEver);
-    //ImGui::SetNextWindowPos (pos, ImGuiCond_FirstUseEver);
     ImGui::Begin ("Editor", nullptr, m_window_flags);
-    //ImGui::Begin ("Editor", nullptr, ImGuiWindowFlags_None);
 
-    this->draw_toolbar();
+    m_toolbar.render(m_current_state, m_current_tool);
     m_inspector.render (m_game.m_registry);
     m_map_editor.render();
     m_tileset_editor.render();
-    // this->draw_log();
-    // ImGui::Text("Add tool panels here.");
     ImGui::End();
-  }
-
-  void EditorGui::draw_toolbar()
-  {
-    ImGui::PushStyleVar (ImGuiStyleVar_FramePadding, ImVec2 (4.f, 4.f));
-    // ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0.f, 0.5f));
-    ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (2.0f, 0.0f));
-    ImGui::PushStyleColor (ImGuiCol_Button, ImVec4 (0.0f, 0.0f, 0.f, 0.f));
-    ImGui::PushStyleColor (ImGuiCol_ButtonHovered, ImVec4 (0.2f, 0.2f, 0.2f, 1.f));
-
-    // Handling inspector button hovering and clicks
-    ImGui::PushID ("inspector-button");
-    if (m_current_state == EDIT && m_current_tool == INSPECTOR)
-    {
-      ImGui::PushStyleColor (ImGuiCol_Button, ImVec4 (0.2f, 0.2f, 0.2f, 1.f));
-    }
-    const bool clicked_inspector = ImGui::Button (ICON_FA_MOUSE_POINTER);
-    if (m_current_tool != INSPECTOR && clicked_inspector)
-    {
-      if (m_current_state != EDIT)
-      {
-        m_current_state = EDIT;
-      }
-      m_current_tool = INSPECTOR;
-    }
-    else if (m_current_state == EDIT && m_current_tool == INSPECTOR)
-    {
-      ImGui::PopStyleColor();
-    }
-    ImGui::PopID();
-    ImGui::SameLine();
-
-    // Handling tile pen button hovering and clicks
-    ImGui::PushID ("tile-pen-button");
-    if (m_current_state == EDIT && m_current_tool == TILE_PEN)
-    {
-      ImGui::PushStyleColor (ImGuiCol_Button, ImVec4 (0.2f, 0.2f, 0.2f, 1.f));
-    }
-    const bool clicked_tile_pen = ImGui::Button (ICON_FA_EDIT);
-    if (m_current_tool != TILE_PEN && clicked_tile_pen)
-    {
-      if (m_current_state != EDIT)
-      {
-        m_current_state = EDIT;
-      }
-      m_current_tool = TILE_PEN;
-    }
-    else if (m_current_state == EDIT && m_current_tool == TILE_PEN)
-    {
-      ImGui::PopStyleColor();
-    }
-    ImGui::PopID();
-    ImGui::SameLine();
-
-    // Handling play button hovering and clicks
-    ImGui::PushID ("play-button");
-    if (m_current_state == PLAY)
-    {
-      ImGui::PushStyleColor (ImGuiCol_Button, ImVec4 (0.2f, 0.2f, 0.2f, 1.f));
-    }
-    const bool clicked_play = ImGui::Button (ICON_FA_PLAY);
-    if (m_current_state != PLAY && clicked_play)
-    {
-      m_current_state = PLAY;
-    }
-    else if (m_current_state == PLAY)
-    {
-      ImGui::PopStyleColor();
-    }
-    ImGui::PopID();
-
-    ImGui::PopStyleColor();
-    ImGui::PopStyleColor();
-    ImGui::PopStyleVar();
-    // ImGui::PopStyleVar();
-    ImGui::PopStyleVar();
-    ImGui::Dummy (ImVec2 (0.f, 2.f));
-    ImGui::Separator();
   }
 
   void EditorGui::draw_console (const ImVec2& size, const ImVec2& pos)

@@ -12,12 +12,11 @@
 #include "./log_system.h"
 #include "./map_editor.h"
 #include "./tileset_editor.h"
+#include "./scene.h"
 #include <entt/entity/registry.hpp>
 //#include "../stella/core/game.h"
-
-#define ICON_FA_EDIT          u8"\uf044"
-#define ICON_FA_PLAY          u8"\uf04b"
-#define ICON_FA_MOUSE_POINTER u8"\uf245"
+#include "state.h"
+#include "toolbar.h"
 
 struct SDL_Window;
 union SDL_Event;
@@ -34,17 +33,6 @@ namespace editor
   class EditorGui
   {
   private:
-    enum State
-    {
-      EDIT,
-      PLAY
-    };
-    enum Tool
-    {
-      TILE_PEN,
-      INSPECTOR
-    };
-
     static const ImWchar ICON_FA_MIN = 0xf044;
     static const ImWchar ICON_FA_MAX = 0xf245;
 
@@ -69,6 +57,7 @@ namespace editor
     TilesetEditor m_tileset_editor{"assets/sprites/tileset.png"};
     MapEditor m_map_editor{m_game};
     Inspector m_inspector;
+    Toolbar m_toolbar;
     float m_window_width = 0.f, m_window_height = 0.f, m_game_width = 0.f, m_game_height = 0.f;
 
     // graphics::Texture texture_placeholder{"assets/sprites/player.png"};
@@ -83,6 +72,7 @@ namespace editor
     bool m_view_physics_debug_layer = false;
 
     std::unique_ptr<graphics::Framebuffer> m_FBO;
+    Scene m_scene;
 
   public:
     // EditorGui(entt::registry& registry);
@@ -98,12 +88,11 @@ namespace editor
   private:
     void init_style();
     void draw_dock(const float window_width, const float window_height, const float game_width, const float game_height);
-    void draw_editor (const ImVec2& size, const ImVec2& pos);
+    void draw_editor ();
     void draw_console (const ImVec2& size, const ImVec2& pos);
     void draw_log();
     void draw_info (const ImVec2& pos);
     void draw_menu_bar();
-    void draw_toolbar();
     void handle_state (ImGuiIO& io);
     void handle_tile_pen (ImGuiIO& io);
     void handle_inspector (ImGuiIO& io);

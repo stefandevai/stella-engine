@@ -5,6 +5,8 @@ add_library(${PROJECT_NAME} STATIC debug_layer.cpp
                                    inspector.cpp
                                    map_editor.cpp
                                    tileset_editor.cpp
+                                   scene.cpp
+                                   toolbar.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/examples/imgui_impl_sdl.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/examples/imgui_impl_opengl3.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/imgui.cpp

@@ -12,7 +12,7 @@
   #endif
 #endif
 
-//#ifndef STELLA_BUILD_EDITOR
+#ifndef STELLA_BUILD_EDITOR
 namespace
 {
 // Adjust viewport proportions on fullscreen to match 16:9 proportions
@@ -43,7 +43,7 @@ void checkViewportProportions()
   }
 }
 } // namespace
-//#endif
+#endif
 
 namespace stella
 {
@@ -223,20 +223,20 @@ namespace graphics
           switch (event.window.event)
           {
             case SDL_WINDOWEVENT_RESIZED:
-//#ifndef STELLA_BUILD_EDITOR
+#ifndef STELLA_BUILD_EDITOR
               glViewport (0, 0, GetWindowWidth(), GetWindowHeight());
               checkViewportProportions();
 //#else
 //              glViewport (GetWindowWidth() - Width, GetWindowHeight() - Height - 23, this->Width, this->Height);
-//#endif
+#endif
               break;
             case SDL_WINDOWEVENT_SIZE_CHANGED:
-//#ifndef STELLA_BUILD_EDITOR
+#ifndef STELLA_BUILD_EDITOR
               glViewport (0, 0, GetWindowWidth(), GetWindowHeight());
               checkViewportProportions();
 //#else
 //              glViewport (GetWindowWidth() - Width, GetWindowHeight() - Height - 23, this->Width, this->Height);
-//#endif
+#endif
               break;
           }
           break;
