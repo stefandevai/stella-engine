@@ -1,7 +1,8 @@
 project(core)
 
 add_library(${PROJECT_NAME} STATIC tile_map.cpp
-                                   ecs_lua_api.cpp)
+                                   ecs_lua_api.cpp
+                                   map_grid.cpp)
                                    
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 

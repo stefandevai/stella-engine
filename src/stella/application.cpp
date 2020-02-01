@@ -26,15 +26,5 @@ namespace core
       m_display.Update();
     }
   }
-
-  // void Application::update(const double dt)
-  //{
-
-  //}
-
-  uint_fast32_t Application::width() { return m_display.GetWidth(); }
-
-  uint_fast32_t Application::height() { return m_display.GetHeight(); }
-
 } // namespace core
 } // namespace stella

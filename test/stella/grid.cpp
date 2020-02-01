@@ -1,11 +1,11 @@
-#include "stella/core/grid.h"
+#include "stella/core/map_grid.h"
 #include "stella/core/tile.h"
 
 #include "../catch.hpp"
 
 namespace
 {
-using Grid = stella::core::Grid<stella::core::Tile>;
+using Grid = stella::core::MapGrid;
 using Tile = stella::core::Tile;
 
 auto tile  = Tile();

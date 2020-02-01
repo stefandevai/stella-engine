@@ -47,7 +47,7 @@ namespace core
       }
       else
       {
-        std::cout << "Trying to reach a grid value out of bounds.\n";
+        //std::cout << "Trying to reach a grid value out of bounds.\n";
       }
     }
 
@@ -61,7 +61,7 @@ namespace core
       }
       else
       {
-        std::cout << "Trying to reach a grid value out of bounds.\n";
+        //std::cout << "Trying to reach a grid value out of bounds.\n";
       }
     }
 
@@ -76,6 +76,8 @@ namespace core
     inline const bool is_collision_grid() const { return m_is_collision_grid; }
 
     inline int get_id() const { return m_id; }
+
+    void resize (int top, int right, int bottom, int left);
   };
 
 } // namespace core

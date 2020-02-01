@@ -15,6 +15,7 @@ namespace core
     m_script_api.set_function ("load_texture", &Game::load_texture, this);
     m_script_api.set_function ("load_font", &Game::load_font, this);
     this->create_camera (0.0, 0.0, 0.0);
+
   }
 
   Game::~Game() {}

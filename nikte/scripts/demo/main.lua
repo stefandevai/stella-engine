@@ -113,14 +113,14 @@ local function load()
   -- test_spr:add_component("position", {512, 128, 3})
   -- test_spr:add_component("dimension", {32, 64})
 
-  local test_text = Entity:create_entity()
-  test_text:add_component("position", {512, 64, 0})
-  test_text:add_component("dimension", {32, 100})
-  test_text:add_component("text", {
-    text = "aaaúñça",
-    font_name = "lato",
-    color = "#4db88fff",
-  })
+  --local test_text = Entity:create_entity()
+  --test_text:add_component("position", {512, 64, 0})
+  --test_text:add_component("dimension", {32, 100})
+  --test_text:add_component("text", {
+    --text = "aaaúñça",
+    --font_name = "lato",
+    --color = "#4db88fff",
+  --})
 
   -- local npc_text = Entity:create_entity()
   -- npc_text:add_component("position", {32, 128, 0})
@@ -140,8 +140,8 @@ local last_camera_x = 0.0
 
 local function update(dt)
   local player_position = {get_position(Player.id)}
-  camera_position[1] = math.min(30*32 - 896, math.max(0, player_position[1] - 896/2))
-  camera_position[2] = math.min(20*32 - 504, math.max(0, player_position[2] - 504/2))
+  camera_position[1] = math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2))
+  camera_position[2] = math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2))
   update_camera(camera_position[1], camera_position[2], 0)
 end
 

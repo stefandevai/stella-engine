@@ -179,7 +179,6 @@ else()
 endif()
 
 include_directories(${LUA_INCLUDE_DIR})
-message(${LUA_LIBRARIES})
 
 # Sol3 - Lua API wrapper
 set(SOL_INCLUDE_DIR ${DEPENDENCIES_DIR}/sol2/include)

@@ -15,6 +15,7 @@ namespace editor
   class MapEditor
   {
   private:
+    nikte::Game& m_game;
     core::TileMap& m_tile_map;
     std::shared_ptr<core::MapGrid> m_selected_layer = nullptr;
     char m_map_name[128];
@@ -23,7 +24,7 @@ namespace editor
     int m_map_width;
     int m_map_height;
 
-    static const int MIN_MAP_SIZE = 0;
+    static const int MIN_MAP_SIZE = -300;
     static const int MAX_MAP_SIZE = 300;
 
   public:

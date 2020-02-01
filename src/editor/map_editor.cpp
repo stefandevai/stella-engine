@@ -5,7 +5,7 @@ namespace stella
 {
 namespace editor
 {
-  MapEditor::MapEditor (nikte::Game& game) : m_tile_map (game.m_tile_map) { this->reset_map_settings(); }
+  MapEditor::MapEditor (nikte::Game& game) : m_game (game), m_tile_map (game.m_tile_map) { this->reset_map_settings(); }
 
   MapEditor::~MapEditor() {}
 
@@ -59,6 +59,9 @@ namespace editor
         m_map_width += m_map_size[1] + m_map_size[3];
         m_map_height += m_map_size[0] + m_map_size[2];
         m_map_size[0] = m_map_size[1] = m_map_size[2] = m_map_size[3] = 0;
+
+        m_game.m_script_api.set_variable<int>("e_map_width", m_map_width);
+        m_game.m_script_api.set_variable<int>("e_map_height", m_map_height);
       }
       ImGui::Dummy (ImVec2 (0.f, 3.f));
       ImGui::Separator();

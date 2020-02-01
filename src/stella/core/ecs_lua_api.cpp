@@ -16,8 +16,6 @@ namespace script
     m_lua.set_function ("get_random_int", &ECSLuaApi::get_random, this);
   }
 
-  ECSLuaApi::~ECSLuaApi() {}
-
   std::tuple<int, int, int> ECSLuaApi::get_position (entt::registry::entity_type entity)
   {
     if (m_registry.has<stella::components::PositionComponent> (entity))

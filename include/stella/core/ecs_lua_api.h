@@ -16,7 +16,6 @@ namespace script
 
   public:
     ECSLuaApi (entt::registry& registry);
-    ~ECSLuaApi() override;
 
   private:
     std::tuple<int, int, int> get_position (entt::registry::entity_type entity);
