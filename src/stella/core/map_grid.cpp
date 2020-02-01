@@ -20,7 +20,7 @@ namespace core
       const int height_diff = height - m_height;
       const int area_diff   = width * height - m_width * m_height;
 
-      // Increased are, resize vector
+      // Increased area, resize vector
       if (area_diff > 0)
       {
         m_grid.resize (width * height);
@@ -129,6 +129,8 @@ namespace core
           {
             // v[i] = v[i-height_diff*width]
             // m_grid[i] = std::move(m_grid[i-height_diff*width]);
+            // auto& oldt = m_grid[i];
+            // auto& newt = m_grid[i - height_diff * width];
             m_grid[i] = m_grid[i - height_diff * width];
           }
         }
