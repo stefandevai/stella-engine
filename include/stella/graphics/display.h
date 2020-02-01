@@ -10,10 +10,6 @@
 #undef main
 #include <glm/glm.hpp>
 
-#ifdef STELLA_BUILD_EDITOR
-  #include "editor/editor_gui.h"
-#endif
-
 // Set to 1 to disable vsync
 #define DISABLE_VSYNC 0
 
@@ -22,6 +18,15 @@ struct SDL_Window;
 typedef void* SDL_GLContext;
 typedef unsigned int GLuint;
 typedef float GLfloat;
+
+namespace stella
+{
+  namespace editor
+  {
+    class EditorGui;
+  }
+}
+//typedef class stella::editor::EditorGui;
 
 namespace stella
 {
@@ -50,17 +55,6 @@ namespace graphics
     static const unsigned char* GetGlRenderer();
     static bool IsKeyDown (int key);
 
-#ifdef STELLA_BUILD_EDITOR
-    // void UpdateEditor (entt::registry& registry);
-    // inline void SetEditor (editor::EditorGui* editor)
-    // {
-    //   this->editor = editor;
-    //   this->editor->init (this->Window, m_gl_context, m_glsl_version);
-    // }
-
-    
-#endif
-
   private:
     GLuint Width, Height, Frame, LastFrame;
 
@@ -72,7 +66,6 @@ namespace graphics
     glm::vec3 ClearColor;
 #ifdef STELLA_BUILD_EDITOR
     friend class stella::editor::EditorGui;
-    // editor::EditorGui* editor = nullptr;
 #endif
 
   #if __APPLE__

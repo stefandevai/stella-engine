@@ -170,17 +170,6 @@ namespace graphics
     SDL_GL_SwapWindow (this->Window);
   }
 
-// #ifdef STELLA_BUILD_EDITOR
-//   void Display::UpdateEditor (entt::registry& registry)
-//   {
-//     if (this->editor)
-//     {
-//       this->editor->update();
-//       this->editor->render (GetWindowWidth(), GetWindowHeight(), Width, Height);
-//     }
-//   }
-// #endif
-
   void Display::SetClearColor (int r, int g, int b)
   {
     this->ClearColor.x = r / 255.0f;
@@ -215,13 +204,6 @@ namespace graphics
     SDL_Event event;
     while (SDL_PollEvent (&event))
     {
-#ifdef STELLA_BUILD_EDITOR
-      // if (this->editor)
-      // {
-      //   this->editor->configure_input (event);
-      // }
-#endif
-
       switch (event.type)
       {
         case SDL_QUIT:

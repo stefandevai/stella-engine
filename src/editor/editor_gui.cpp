@@ -73,6 +73,8 @@ namespace editor
 
     ImGui_ImplSDL2_InitForOpenGL (m_window, m_game.m_display.m_gl_context);
     ImGui_ImplOpenGL3_Init (m_game.m_display.m_glsl_version);
+
+    m_FBO = std::make_unique<graphics::Framebuffer>(m_game.m_display);
   }
 
   void EditorGui::configure_input (SDL_Event& event)
@@ -104,7 +106,9 @@ namespace editor
     {
       m_game.m_display.Clear();
       
+      m_FBO->Bind();
       m_game.update (m_game.m_display.GetDT());
+      m_FBO->Unbind();
       this->render(m_game.m_display.GetWindowWidth(), m_game.m_display.GetWindowHeight(), m_game.m_display.Width, m_game.m_display.Height);
       
       m_game.m_display.Update();
@@ -341,7 +345,8 @@ namespace editor
       ImGui::End();
 
       ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_None);
-      ImGui::Text("HUHUHUHU");
+      ImTextureID texture = (void*) (intptr_t) m_FBO->GetTexture();
+      ImGui::Image(texture, ImVec2(896, 504), ImVec2(0,1), ImVec2(1,0));
       ImGui::End();
 
       this->draw_editor (editor_size, editor_pos);

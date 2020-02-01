@@ -4,7 +4,7 @@
 #include "../../lib/imgui/examples/imgui_impl_opengl3.h"
 #include "../../lib/imgui/examples/imgui_impl_sdl.h"
 #include "../stella/graphics/shape.h"
-//#include "../stella/graphics/framebuffer.h"
+#include "../stella/graphics/framebuffer.h"
 #include "./console.h"
 #include "./debug_layer.h"
 #include "./gui_log.h"
@@ -82,6 +82,8 @@ namespace editor
     // View options
     bool m_view_physics_debug_layer = false;
 
+    std::unique_ptr<graphics::Framebuffer> m_FBO;
+
   public:
     // EditorGui(entt::registry& registry);
     EditorGui (nikte::Game& game);
@@ -92,8 +94,6 @@ namespace editor
     void render (const float window_width, const float window_height, const float game_width, const float game_height);
     void update();
     void run();
-
-    //graphics::Framebuffer FBO{game->m_display};
 
   private:
     void init_style();
