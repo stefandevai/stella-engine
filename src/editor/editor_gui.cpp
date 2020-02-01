@@ -344,10 +344,14 @@ namespace editor
       ImGui::Text("HIHIHIH");
       ImGui::End();
 
-      ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_None);
+      ImGui::PushStyleVar (ImGuiStyleVar_WindowPadding, ImVec2(0,0));
+      ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoTitleBar);
       ImTextureID texture = (void*) (intptr_t) m_FBO->GetTexture();
-      ImGui::Image(texture, ImVec2(896, 504), ImVec2(0,1), ImVec2(1,0));
+      const auto dwindow_size = ImGui::GetWindowSize();
+      const float frame_height = ImGui::GetFrameHeight();
+      ImGui::Image(texture, ImVec2(dwindow_size[0], dwindow_size[1] - frame_height), ImVec2(0,1), ImVec2(1,0));
       ImGui::End();
+      ImGui::PopStyleVar ();
 
       this->draw_editor (editor_size, editor_pos);
       //this->draw_console (console_size, console_pos);
