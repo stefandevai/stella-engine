@@ -2,7 +2,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Dimension
   {
@@ -15,5 +15,5 @@ namespace components
       return ((last_w != w) || (last_h != h));
     }
   };
-} // namespace components
+} // namespace component
 } // namespace stella

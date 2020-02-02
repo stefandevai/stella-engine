@@ -185,15 +185,15 @@ namespace core
 
   void TileMap::update_tile_sprite (entt::entity entity, const unsigned layer_id, const int value)
   {
-    if (m_registry.has<components::Sprite>(entity))
+    if (m_registry.has<component::Sprite>(entity))
     {
-      auto& spr = m_registry.get<components::Sprite> (entity);
+      auto& spr = m_registry.get<component::Sprite> (entity);
       spr.sprite->SetDirectFrame (value);
       spr.Frame = value;
     }
     else
     {
-      m_registry.assign<components::Sprite> (entity,
+      m_registry.assign<component::Sprite> (entity,
                                                     layers[layer_id]->get_texture_name(),
                                                     glm::vec2 (m_tile_dimension, m_tile_dimension),
                                                     layers[layer_id]->get_render_layer_name(),
@@ -203,31 +203,31 @@ namespace core
 
   void TileMap::update_tile_position (entt::entity entity, const unsigned layer_id, const int x, const int y, const int z)
   {
-    if (m_registry.has<components::Position>(entity))
+    if (m_registry.has<component::Position>(entity))
     {
-      auto& pos = m_registry.get<components::Position> (entity);
+      auto& pos = m_registry.get<component::Position> (entity);
       pos.x = x * m_tile_dimension;
       pos.y = y * m_tile_dimension;
       pos.z = z;
     }
     else
     {
-      m_registry.assign<components::Position> (entity, x * m_tile_dimension, y * m_tile_dimension, z);
+      m_registry.assign<component::Position> (entity, x * m_tile_dimension, y * m_tile_dimension, z);
     }
   }
 
   void TileMap::create_tile_entity (const int value, const int x, const int y, const int z, const unsigned layer_id)
   {
     auto tile = m_registry.create();
-    m_registry.assign<components::Tile> (tile, layer_id, false);
+    m_registry.assign<component::Tile> (tile, layer_id, false);
     // if (layers[layer_id]->get_texture_name() != "tileset") std::cout << layers[layer_id]->get_texture_name() << '\n';
-    m_registry.assign<components::Sprite> (tile,
+    m_registry.assign<component::Sprite> (tile,
                                                     layers[layer_id]->get_texture_name(),
                                                     glm::vec2 (m_tile_dimension, m_tile_dimension),
                                                     layers[layer_id]->get_render_layer_name(),
                                                     value);
-    m_registry.assign<components::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
-    m_registry.assign<components::Dimension> (tile, m_tile_dimension, m_tile_dimension);
+    m_registry.assign<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
+    m_registry.assign<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
     layers[layer_id]->set_entity (x, y, tile);
   }
 

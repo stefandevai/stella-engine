@@ -2,12 +2,12 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Charcode
   {
     Charcode (wchar_t c) : code (c) {}
     wchar_t code;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

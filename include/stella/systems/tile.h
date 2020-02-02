@@ -23,15 +23,15 @@ namespace systems
     Tile (core::TileMap& tilemap, entt::registry::entity_type camera, entt::registry& registry)
       : m_tile_map (tilemap), m_camera (camera)
     {
-      registry.on_destroy<components::Tile>().connect<&Tile::remove_tile_visibility> (this);
+      registry.on_destroy<component::Tile>().connect<&Tile::remove_tile_visibility> (this);
     }
 
     ~Tile() override {}
 
     void update (entt::registry& registry, const double dt) override
     {
-      const auto& camera_position  = registry.get<components::Position> (m_camera);
-      const auto& camera_dimension = registry.get<components::Dimension> (m_camera);
+      const auto& camera_position  = registry.get<component::Position> (m_camera);
+      const auto& camera_dimension = registry.get<component::Dimension> (m_camera);
 
       if (m_first_position_check)
       {
@@ -52,7 +52,7 @@ namespace systems
       }
 
       registry
-          .group<components::Tile> (entt::get<components::Position, components::Dimension>)
+          .group<component::Tile> (entt::get<component::Position, component::Dimension>)
           .each (
               [this, &registry, &camera_position, &camera_dimension] (auto entity, auto& tile, auto& pos, auto& dim) {
                 // Fix to weird bug where camera values suddenly get messed up
@@ -65,9 +65,9 @@ namespace systems
                 // {
                 //   std::cout << "Camera values messed up. Requesting its
                 //   components again.\n"; camera_pos =
-                //   registry.get<components::Position>(m_camera);
+                //   registry.get<component::Position>(m_camera);
                 //   camera_dim =
-                //   registry.get<components::Dimension>(m_camera);
+                //   registry.get<component::Dimension>(m_camera);
                 // }
 
                 // Destroy tile entity if it is outside of the camera view (frustrum
@@ -108,8 +108,8 @@ namespace systems
 
     void remove_tile_visibility (entt::registry& registry, entt::entity entity)
     {
-      const auto& tile = registry.get<components::Tile> (entity);
-      const auto& pos  = registry.get<components::Position> (entity);
+      const auto& tile = registry.get<component::Tile> (entity);
+      const auto& pos  = registry.get<component::Position> (entity);
       m_tile_map.layers[tile.layer_id]->set_visibility (pos.x / m_tile_dimension, pos.y / m_tile_dimension, false);
 
       // if (tile.collidable)

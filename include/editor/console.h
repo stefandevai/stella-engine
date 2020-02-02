@@ -133,19 +133,19 @@ namespace editor
           AddLog ("%s", editable_buffer);
           AddLog ("%c", '\n');
 
-          const auto player_entity = *registry.view<stella::components::Player>().begin();
-          auto& player_pos         = registry.get<components::Position> (player_entity);
-          auto& player_dim         = registry.get<components::Dimension> (player_entity);
+          const auto player_entity = *registry.view<stella::component::Player>().begin();
+          auto& player_pos         = registry.get<component::Position> (player_entity);
+          auto& player_dim         = registry.get<component::Dimension> (player_entity);
 
           auto text_entity = registry.create();
-          registry.assign<stella::components::Position> (
+          registry.assign<stella::component::Position> (
               text_entity, player_pos.x + player_dim.w / 2.f, player_pos.y - 4.f);
-          registry.assign<stella::components::Text> (
+          registry.assign<stella::component::Text> (
               text_entity, m_converter.from_bytes (std::string (editable_buffer)), "1980");
-          registry.assign<stella::components::Timer> (
-              text_entity, components::Timer::TimerEvent::Destroy, 3000);
+          registry.assign<stella::component::Timer> (
+              text_entity, component::Timer::TimerEvent::Destroy, 3000);
 
-          auto& container = registry.get_or_assign<components::SpeechContainer> (player_entity);
+          auto& container = registry.get_or_assign<component::SpeechContainer> (player_entity);
           container.messages.push_back (text_entity);
 
           // Clears the text buffer

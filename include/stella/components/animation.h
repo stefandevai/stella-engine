@@ -8,7 +8,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Animation
   {
@@ -24,5 +24,5 @@ namespace components
     std::string current_animation = std::string();
     std::string old_animation     = std::string();
   };
-} // namespace components
+} // namespace component
 } // namespace stella

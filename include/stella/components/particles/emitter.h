@@ -31,11 +31,11 @@ namespace graphics
     inline virtual ~Emitter(){};
     virtual void UpdateParticle (entt::registry& registry, entt::registry::entity_type particle)
     {
-      auto& particle_par = registry.get<components::Particle> (particle);
+      auto& particle_par = registry.get<component::Particle> (particle);
 
-      if (registry.has<components::Position> (particle))
+      if (registry.has<component::Position> (particle))
       {
-        auto& particle_pos = registry.get<components::Position> (particle);
+        auto& particle_pos = registry.get<component::Position> (particle);
         particle_pos.x += particle_par.SpeedX;
         particle_pos.y += particle_par.SpeedY;
       }
@@ -45,8 +45,8 @@ namespace graphics
 
     virtual entt::registry::entity_type Emit (entt::registry& registry, entt::registry::entity_type emitter)
     {
-      auto& pos = registry.get<components::Position> (emitter);
-      auto& dim = registry.get<components::Dimension> (emitter);
+      auto& pos = registry.get<component::Position> (emitter);
+      auto& dim = registry.get<component::Dimension> (emitter);
 
       auto particle = registry.create();
 
@@ -65,13 +65,13 @@ namespace graphics
       if (scaley == -1.f)
         scaley = scalex;
 
-      registry.assign<components::Position> (particle, px, py, pos.z);
-      registry.assign<components::Dimension> (particle, dim.w, dim.h);
-      registry.assign<components::Particle> (particle, max_life, scalex, speedx, speedy);
-      registry.assign<components::Sprite> (particle, this->TextureName, "particles");
-      registry.assign<components::Transform> (particle, rotation, glm::vec2 (scalex, scaley));
-      registry.assign<components::Movement> (particle, glm::vec2 (speedx, speedy), false);
-      // particle.assign<components::Body2D>();
+      registry.assign<component::Position> (particle, px, py, pos.z);
+      registry.assign<component::Dimension> (particle, dim.w, dim.h);
+      registry.assign<component::Particle> (particle, max_life, scalex, speedx, speedy);
+      registry.assign<component::Sprite> (particle, this->TextureName, "particles");
+      registry.assign<component::Transform> (particle, rotation, glm::vec2 (scalex, scaley));
+      registry.assign<component::Movement> (particle, glm::vec2 (speedx, speedy), false);
+      // particle.assign<component::Body2D>();
       return particle;
     }
 

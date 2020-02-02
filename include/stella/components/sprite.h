@@ -7,7 +7,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Sprite
   {
@@ -55,5 +55,5 @@ namespace components
     unsigned int Frame = 0;
     bool InLayer = false, Initialized = false, HasScaled = false;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

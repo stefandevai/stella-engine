@@ -4,7 +4,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Movement
   {
@@ -15,5 +15,5 @@ namespace components
     glm::vec2 TargetVelocity;
     bool Gravity, ConstantVelocity;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

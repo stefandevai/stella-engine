@@ -4,7 +4,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Transform
   {
@@ -17,5 +17,5 @@ namespace components
     glm::vec2 Scale;
     bool ResizedX = false, ResizedY = false;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

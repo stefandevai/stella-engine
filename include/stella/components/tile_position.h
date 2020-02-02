@@ -2,12 +2,12 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct TilePosition
   {
     TilePosition (const int x, const int y) : x (x), y (y) {}
     int x, y;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

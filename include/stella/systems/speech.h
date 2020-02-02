@@ -19,7 +19,7 @@ namespace systems
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry.view<components::SpeechContainer>().each ([&registry] (auto entity, auto& container) {
+      registry.view<component::SpeechContainer>().each ([&registry] (auto entity, auto& container) {
         auto it                    = container.messages.rbegin();
         double acc_message_spacing = 0.f;
 
@@ -27,10 +27,10 @@ namespace systems
         {
           if (registry.valid (*it))
           {
-            const auto& parent_pos = registry.get<components::Position> (entity);
-            const auto& parent_dim = registry.get<components::Dimension> (entity);
-            auto& text_pos         = registry.get<components::Position> (*it);
-            auto& text_dim         = registry.get<components::Dimension> (*it);
+            const auto& parent_pos = registry.get<component::Position> (entity);
+            const auto& parent_dim = registry.get<component::Dimension> (entity);
+            auto& text_pos         = registry.get<component::Position> (*it);
+            auto& text_dim         = registry.get<component::Dimension> (*it);
 
             text_pos.x          = parent_pos.x + parent_dim.w / 2.f - text_dim.w / 2.f;
             text_pos.y          = parent_pos.y - 4.f - acc_message_spacing;

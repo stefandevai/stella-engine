@@ -8,7 +8,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   enum LogType
   {
@@ -67,5 +67,5 @@ namespace components
     }
   };
 
-} // namespace components
+} // namespace component
 } // namespace stella

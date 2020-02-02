@@ -2,7 +2,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Particle
   {
@@ -20,5 +20,5 @@ namespace components
     int ID;
     bool Alive;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

@@ -2,7 +2,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Layer
   {
@@ -25,5 +25,5 @@ namespace components
     bool Initialized = false;
   };
 
-} // namespace components
+} // namespace component
 } // namespace stella

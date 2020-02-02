@@ -37,8 +37,8 @@ class Player
 
     void update()
     {
-      //auto &player = m_registry.get<stella::components::Player>(entity);
-      auto &body = m_registry.get<stella::components::Body2D>(entity);
+      //auto &player = m_registry.get<stella::component::Player>(entity);
+      auto &body = m_registry.get<stella::component::Body2D>(entity);
       auto previous_state = this->current_state;
 
       // Handle input
@@ -71,12 +71,12 @@ class Player
         this->direction = 'd';
       }
 
-      auto &anims = m_registry.get<stella::components::Animation>(entity);
+      auto &anims = m_registry.get<stella::component::Animation>(entity);
       this->SetState(this->current_state, anims, previous_state);
     }
 
   private:
-    void SetState(Player::State state, stella::components::Animation &anims, Player::State previous_state)
+    void SetState(Player::State state, stella::component::Animation &anims, Player::State previous_state)
     {
       std::string animation_name = "";
       switch(state)

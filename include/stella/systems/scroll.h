@@ -21,7 +21,7 @@ namespace systems
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry.group<components::Scroll> (entt::get<components::Position>)
+      registry.group<component::Scroll> (entt::get<component::Position>)
           .each ([this, dt] (auto entity, auto& scroll, auto& pos) {
             auto final_speed = scroll.speed + this->GlobalScrollingSpeed;
             pos.x += final_speed.x * dt;

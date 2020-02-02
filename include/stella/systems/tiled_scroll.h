@@ -20,8 +20,8 @@ namespace systems
     void update (entt::registry& registry, const double dt) override
     {
       registry
-          .group<components::Tileview> (
-              entt::get<components::Position, components::Dimension>)
+          .group<component::Tileview> (
+              entt::get<component::Position, component::Dimension>)
           .each ([this] (auto entity, auto& pos, auto& dim) {
             if (pos.x + dim.w < 0)
             {

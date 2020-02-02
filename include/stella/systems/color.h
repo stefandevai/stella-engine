@@ -13,14 +13,14 @@ namespace systems
   public:
     Color (entt::registry& registry)
     {
-      registry.on_construct<components::Color>().connect<&Color::initialize_color> (this);
+      registry.on_construct<component::Color>().connect<&Color::initialize_color> (this);
     }
 
     ~Color() override {}
 
     void update (entt::registry& registry, const double dt) override
     {
-      //   registry.group<components::Color>(entt::get<components::Sprite>).each([&registry](auto
+      //   registry.group<component::Color>(entt::get<component::Sprite>).each([&registry](auto
       //   entity, auto &color, auto &sprite)
       //   {
 
@@ -30,11 +30,11 @@ namespace systems
   private:
     Color() = delete;
 
-    void initialize_color (entt::registry& registry, entt::entity entity, components::Color& color)
+    void initialize_color (entt::registry& registry, entt::entity entity, component::Color& color)
     {
-      if (registry.has<components::Sprite> (entity))
+      if (registry.has<component::Sprite> (entity))
       {
-        auto sprite = registry.get<components::Sprite> (entity);
+        auto sprite = registry.get<component::Sprite> (entity);
         sprite.sprite->SetDirectColor (color.int_color);
       }
     }

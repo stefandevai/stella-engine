@@ -18,11 +18,11 @@ namespace systems
 
     auto& get_log_component (entt::registry& registry, entt::registry::entity_type entity)
     {
-      if (!registry.has<components::Log> (entity))
+      if (!registry.has<component::Log> (entity))
       {
-        registry.assign<components::Log> (entity);
+        registry.assign<component::Log> (entity);
       }
-      return registry.get<components::Log> (entity);
+      return registry.get<component::Log> (entity);
     }
   };
 

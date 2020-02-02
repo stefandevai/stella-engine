@@ -4,12 +4,12 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Name
   {
     Name (const std::string& name) : name (name) {}
     std::string name;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

@@ -5,12 +5,12 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct SpeechContainer
   {
     SpeechContainer() {}
     std::vector<entt::entity> messages;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

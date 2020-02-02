@@ -18,7 +18,7 @@ namespace systems
   public:
     explicit Physics (const core::TileMap& tile_map, entt::registry& registry) : m_tile_map (tile_map)
     {
-      registry.on_destroy<components::Body2D>().connect<&Physics::remove_body_from_world> (this);
+      registry.on_destroy<component::Body2D>().connect<&Physics::remove_body_from_world> (this);
     }
 
     ~Physics() override {}
@@ -26,7 +26,7 @@ namespace systems
     void update (entt::registry& registry, const double dt) override
     {
       registry
-          .group<components::Body2D> (entt::get<components::Position, components::Dimension>)
+          .group<component::Body2D> (entt::get<component::Position, component::Dimension>)
           .each ([this, &registry] (auto entity, auto& body, auto& pos, auto& dim) {
             if (!body.Initialized)
             {
@@ -43,9 +43,9 @@ namespace systems
                   glm::vec2 (bbw, bbh),
                   glm::vec2 (body.Drag[0], body.Drag[1]),
                   body.CollideWithBorders);
-              if (registry.has<components::Movement> (entity))
+              if (registry.has<component::Movement> (entity))
               {
-                auto mov                  = registry.get<components::Movement> (entity);
+                auto mov                  = registry.get<component::Movement> (entity);
                 body.Body->TargetVelocity = mov.TargetVelocity;
                 // body.Body->Gravity = mov.Gravity;
 
@@ -78,7 +78,7 @@ namespace systems
 
     void remove_body_from_world (entt::registry& registry, entt::entity entity)
     {
-      auto& body = registry.get<components::Body2D> (entity);
+      auto& body = registry.get<component::Body2D> (entity);
       m_world.RemoveBody (body.Body);
     }
   };

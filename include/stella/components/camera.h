@@ -2,12 +2,12 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Camera
   {
     Camera() {}
     uint8_t id = 0;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

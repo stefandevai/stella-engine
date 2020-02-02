@@ -4,7 +4,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Player
   {
@@ -14,5 +14,5 @@ namespace components
 
     std::bitset<2> SpriteDirection = std::bitset<2> (0x2);
   };
-} // namespace components
+} // namespace component
 } // namespace stella

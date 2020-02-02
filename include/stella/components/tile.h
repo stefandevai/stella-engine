@@ -2,7 +2,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Tile
   {
@@ -10,5 +10,5 @@ namespace components
     unsigned layer_id = 0;
     bool collidable;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

@@ -5,7 +5,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   enum NpcState
   {
@@ -21,5 +21,5 @@ namespace components
     TilePosition origin{0,0};
     int walk_radius = 5;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

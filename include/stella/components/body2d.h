@@ -5,7 +5,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Body2D
   {
@@ -24,5 +24,5 @@ namespace components
     std::vector<double> Drag, BoundingBox, BoundingBoxPosition;
     bool CollideWithBorders;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

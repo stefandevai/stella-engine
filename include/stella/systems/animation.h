@@ -16,7 +16,7 @@ namespace systems
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry.group<components::Animation> (entt::get<components::Sprite>)
+      registry.group<component::Animation> (entt::get<component::Sprite>)
           .each ([] (auto entity, auto& animations, auto& sprite) {
             if (!animations.Initialized)
             {

@@ -2,7 +2,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Position
   {
@@ -15,5 +15,5 @@ namespace components
       return ((last_x != x) || (last_y != y) || (last_z != z));
     }
   };
-} // namespace components
+} // namespace component
 } // namespace stella

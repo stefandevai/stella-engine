@@ -18,9 +18,9 @@ namespace script
 
   std::tuple<int, int, int> ECSLuaApi::get_position (entt::registry::entity_type entity)
   {
-    if (m_registry.has<stella::components::Position> (entity))
+    if (m_registry.has<stella::component::Position> (entity))
     {
-      const auto& position = m_registry.get<stella::components::Position> (entity);
+      const auto& position = m_registry.get<stella::component::Position> (entity);
       return std::make_tuple (position.x, position.y, position.z);
     }
     else
@@ -45,7 +45,7 @@ namespace script
     std::string frag_shader_source = obj["frag_source"] == sol::lua_nil ? std::string() : obj["frag_source"];
     const bool& fixed              = obj["fixed"] == sol::lua_nil ? true : obj["fixed"];
     auto layer                     = m_registry.create();
-    m_registry.assign<stella::components::Layer> (
+    m_registry.assign<stella::component::Layer> (
         layer, layer_name, priority, shader_id, vert_shader_source, frag_shader_source, fixed);
   }
 
@@ -58,14 +58,14 @@ namespace script
     {
       if (obj["frame_dimensions"] == sol::lua_nil)
       {
-        m_registry.assign<stella::components::Sprite> (id, texture_name, layer_id);
+        m_registry.assign<stella::component::Sprite> (id, texture_name, layer_id);
       }
       else
       {
         const float& framew   = obj["frame_dimensions"][1];
         const float& frameh   = obj["frame_dimensions"][2];
         const unsigned& frame = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
-        m_registry.assign<stella::components::Sprite> (
+        m_registry.assign<stella::component::Sprite> (
             id, texture_name, glm::vec2 (framew, frameh), layer_id, frame);
       }
     }
@@ -80,14 +80,14 @@ namespace script
     const int& x = obj[1] == sol::lua_nil ? 0 : obj[1];
     const int& y = obj[2] == sol::lua_nil ? 0 : obj[2];
     const int& z = obj[3] == sol::lua_nil ? 0 : obj[3];
-    m_registry.assign<stella::components::Position> (id, x, y, z);
+    m_registry.assign<stella::component::Position> (id, x, y, z);
   }
 
   void ECSLuaApi::add_dimension_component (entt::registry::entity_type id, const sol::table& obj)
   {
     const unsigned w = obj[1] == sol::lua_nil ? 0 : obj[1];
     const unsigned h = obj[2] == sol::lua_nil ? 0 : obj[2];
-    m_registry.assign<stella::components::Dimension> (id, w, h);
+    m_registry.assign<stella::component::Dimension> (id, w, h);
   }
 
   void ECSLuaApi::add_animation_component (entt::registry::entity_type id, const sol::table& obj)
@@ -115,12 +115,12 @@ namespace script
       animations.emplace_back (name, frames, speed);
     }
 
-    m_registry.assign<stella::components::Animation> (id, animations, glm::vec2 (framew, frameh));
+    m_registry.assign<stella::component::Animation> (id, animations, glm::vec2 (framew, frameh));
   }
 
   void ECSLuaApi::add_tileview_component (entt::registry::entity_type id, const sol::table& obj)
   {
-    m_registry.assign<stella::components::Tileview> (id);
+    m_registry.assign<stella::component::Tileview> (id);
   }
 
   void ECSLuaApi::add_movement_component (entt::registry::entity_type id, const sol::table& obj)
@@ -128,12 +128,12 @@ namespace script
     glm::vec2 speed     = obj["speed"] == sol::lua_nil ? glm::vec2() : glm::vec2 (obj["speed"][1], obj["speed"][2]);
     const bool& gravity = obj["has_gravity"] == sol::lua_nil ? true : obj["has_gravity"];
     const bool& constant_velocity = obj["has_constant_velocity"] == sol::lua_nil ? false : obj["has_constant_velocity"];
-    m_registry.assign<stella::components::Movement> (id, speed, gravity, constant_velocity);
+    m_registry.assign<stella::component::Movement> (id, speed, gravity, constant_velocity);
   }
 
   void ECSLuaApi::add_player_component (entt::registry::entity_type id, const sol::table& obj)
   {
-    m_registry.assign<stella::components::Player> (id);
+    m_registry.assign<stella::component::Player> (id);
   }
 
   void ECSLuaApi::add_body_component (entt::registry::entity_type id, const sol::table& obj)
@@ -159,7 +159,7 @@ namespace script
       bbpos[0] = obj["bounding_box_position"][1];
       bbpos[1] = obj["bounding_box_position"][2];
     }
-    m_registry.assign<stella::components::Body2D> (id, drag, bb, bbpos, collide_with_borders);
+    m_registry.assign<stella::component::Body2D> (id, drag, bb, bbpos, collide_with_borders);
   }
 
   void ECSLuaApi::add_text_component (entt::registry::entity_type id, const sol::table& obj)
@@ -168,46 +168,46 @@ namespace script
     const std::string& font_name = obj["font_name"];
     const std::string& color     = obj["color"] == sol::lua_nil ? std::string ("#ffffffff") : obj["color"];
     const bool& is_static        = obj["is_static"] == sol::lua_nil ? true : obj["is_static"];
-    m_registry.assign<stella::components::Text> (id, text, font_name, color, is_static);
+    m_registry.assign<stella::component::Text> (id, text, font_name, color, is_static);
   }
 
   void ECSLuaApi::add_particle_emitter_component (entt::registry::entity_type id, const sol::table& obj)
   {
     const std::string& type                                = obj["type"];
     const unsigned int quantity                            = obj["quantity"];
-    stella::components::ParticleEmitter::Type emitter_type = stella::components::ParticleEmitter::FIRE_EMITTER;
+    stella::component::ParticleEmitter::Type emitter_type = stella::component::ParticleEmitter::FIRE_EMITTER;
     if (type == "fire")
     {
-      emitter_type = stella::components::ParticleEmitter::Type::FIRE_EMITTER;
+      emitter_type = stella::component::ParticleEmitter::Type::FIRE_EMITTER;
     }
     else if (type == "snow")
     {
-      emitter_type = stella::components::ParticleEmitter::Type::SNOW_EMITTER;
+      emitter_type = stella::component::ParticleEmitter::Type::SNOW_EMITTER;
     }
-    m_registry.assign<stella::components::ParticleEmitter> (id, emitter_type, quantity);
+    m_registry.assign<stella::component::ParticleEmitter> (id, emitter_type, quantity);
   }
 
   void ECSLuaApi::add_tile_component (entt::registry::entity_type id, const sol::table& obj)
   {
-    m_registry.assign<stella::components::Tile> (id, 0, false);
+    m_registry.assign<stella::component::Tile> (id, 0, false);
   }
 
   void ECSLuaApi::add_scroll_component (entt::registry::entity_type id, const sol::table& obj)
   {
     glm::vec2 speed = obj == sol::lua_nil ? glm::vec2 (0.f, 0.f) : glm::vec2 (obj[1], obj[2]);
-    m_registry.assign<stella::components::Scroll> (id, speed);
+    m_registry.assign<stella::component::Scroll> (id, speed);
   }
 
   void ECSLuaApi::add_name_component (entt::registry::entity_type id, const sol::table& obj)
   {
     const std::string& name = obj == sol::lua_nil ? std::string() : obj[1];
-    m_registry.assign<stella::components::Name> (id, name);
+    m_registry.assign<stella::component::Name> (id, name);
   }
 
   void ECSLuaApi::add_npc_component (entt::registry::entity_type id, const sol::table& obj)
   {
     const std::string& path = obj["script_path"] == sol::lua_nil ? std::string() : obj["script_path"];
-    m_registry.assign<stella::components::NPC> (id, path);
+    m_registry.assign<stella::component::NPC> (id, path);
   }
 
   void ECSLuaApi::add_component (const sol::table& obj)

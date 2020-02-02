@@ -22,13 +22,13 @@ namespace editor
     //m_game.m_display.SetEditor (this);
     // m_debug_layer.Add(shape);
     m_editor_layer = game.m_registry.create();
-    game.m_registry.assign<components::Layer> (m_editor_layer, "editor", 9999, "", "", "");
+    game.m_registry.assign<component::Layer> (m_editor_layer, "editor", 9999, "", "", "");
 
     ImVec2 dimensions = m_tileset_editor.get_tile_dimensions();
     m_editor_sprite   = game.m_registry.create();
-    game.m_registry.assign<components::Position> (m_editor_sprite, -dimensions.x, -dimensions.y);
-    game.m_registry.assign<components::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
-    game.m_registry.assign<components::Sprite> (m_editor_sprite,
+    game.m_registry.assign<component::Position> (m_editor_sprite, -dimensions.x, -dimensions.y);
+    game.m_registry.assign<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
+    game.m_registry.assign<component::Sprite> (m_editor_sprite,
                                                          m_tileset_editor.texture,
                                                          m_tileset_editor.get_tile_dimensions().x,
                                                          m_tileset_editor.get_tile_dimensions().y,
@@ -177,8 +177,8 @@ namespace editor
 
       //m_log.AddLog("%.2f\n", );
 
-      auto& sprite_pos   = m_registry.get<components::Position> (m_editor_sprite);
-      auto& sprite_spr   = m_registry.get<components::Sprite> (m_editor_sprite);
+      auto& sprite_pos   = m_registry.get<component::Position> (m_editor_sprite);
+      auto& sprite_spr   = m_registry.get<component::Sprite> (m_editor_sprite);
       const float width_factor = 896 / static_cast<float>(m_scene.get_game_screen_width());
       const float height_factor = 504 / static_cast<float>(m_scene.get_game_screen_height());
 

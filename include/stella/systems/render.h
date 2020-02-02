@@ -37,8 +37,8 @@ namespace systems
                   graphics::Display& display)
       : m_textures (textures), m_display (display)
     {
-      registry.on_construct<components::Layer>().connect<&Render::initialize_layer> (this);
-      registry.on_destroy<components::Sprite>().connect<&Render::remove_sprite_from_layer> (this);
+      registry.on_construct<component::Layer>().connect<&Render::initialize_layer> (this);
+      registry.on_destroy<component::Sprite>().connect<&Render::remove_sprite_from_layer> (this);
       std::srand (static_cast<unsigned> (std::time (nullptr)));
     }
 
@@ -47,7 +47,7 @@ namespace systems
     void update (entt::registry& registry, const double dt) override
     {
       registry
-          .group<components::Sprite> (entt::get<components::Position, components::Dimension>)
+          .group<component::Sprite> (entt::get<component::Position, component::Dimension>)
           .each ([this, &registry] (auto entity, auto& sprite, auto& pos, auto& dim) {
             // Adds sprite to layer
             if (!sprite.InLayer && sprite.Initialized)
@@ -81,9 +81,9 @@ namespace systems
                                               *tex,
                                               sprite.Frame));
                   }
-                  if (registry.has<components::Transform> (entity))
+                  if (registry.has<component::Transform> (entity))
                   {
-                    const auto& trans = registry.get<components::Transform> (entity);
+                    const auto& trans = registry.get<component::Transform> (entity);
                     sprite.sprite->SetDirectScale (
                         glm::vec2 ((float) dim.w * trans.Scale.x, (float) dim.h * trans.Scale.y));
                     sprite.sprite->SetRotation (trans.Rotation);
@@ -129,8 +129,8 @@ namespace systems
             }
           });
 
-      const auto camera_entity = *registry.view<stella::components::Camera>().begin();
-      auto& camera_pos         = registry.get<components::Position> (camera_entity);
+      const auto camera_entity = *registry.view<stella::component::Camera>().begin();
+      auto& camera_pos         = registry.get<component::Position> (camera_entity);
 
       for (auto const& order : m_ordered_layers)
       {
@@ -150,7 +150,7 @@ namespace systems
 
     void remove_sprite_from_layer (entt::registry& registry, entt::entity entity)
     {
-      auto& sprite = registry.get<components::Sprite> (entity);
+      auto& sprite = registry.get<component::Sprite> (entity);
       if (sprite.InLayer)
       {
         m_layers[sprite.LayerId]->Remove (sprite.sprite);
@@ -158,7 +158,7 @@ namespace systems
       }
     }
 
-    void initialize_layer (entt::registry& registry, entt::entity entity, components::Layer& layer)
+    void initialize_layer (entt::registry& registry, entt::entity entity, component::Layer& layer)
     {
       assert (m_ordered_layers.find (layer.Order) == m_ordered_layers.end() &&
               "You should assign different orders for layers.");

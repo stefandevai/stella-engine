@@ -8,7 +8,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct ParticleEmitter
   {
@@ -61,5 +61,5 @@ namespace components
       // delete Emitter;
     }
   };
-} // namespace components
+} // namespace component
 } // namespace stella

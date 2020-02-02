@@ -4,7 +4,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   enum ScriptType
   {
@@ -26,5 +26,5 @@ namespace components
     ScriptType type;
     ScriptState state = Waiting;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

@@ -50,8 +50,8 @@ namespace systems
     void update (entt::registry& registry, const double dt) override
     {
       registry
-          .group<components::Player> (
-              entt::get<components::Body2D, components::Position, components::Dimension>)
+          .group<component::Player> (
+              entt::get<component::Body2D, component::Position, component::Dimension>)
           .each ([this, &registry] (auto entity, auto& player, auto& body, auto& pos, auto& dim) {
             auto previous_state = this->current_state;
 
@@ -82,7 +82,7 @@ namespace systems
               if (!player.SpriteDirection.test (0))
               {
                 player.SpriteDirection.flip();
-                auto sprite = registry.get<components::Sprite> (entity);
+                auto sprite = registry.get<component::Sprite> (entity);
                 sprite.sprite->SetScale (glm::vec2 (-1.0, 1.0));
               }
             }
@@ -94,7 +94,7 @@ namespace systems
               if (!player.SpriteDirection.test (1))
               {
                 player.SpriteDirection.flip();
-                auto sprite = registry.get<components::Sprite> (entity);
+                auto sprite = registry.get<component::Sprite> (entity);
                 sprite.sprite->SetScale (glm::vec2 (1.0, 1.0));
               }
             }
@@ -121,14 +121,14 @@ namespace systems
               this->current_state = FALLING;
             }
 
-            auto& anims = registry.get<components::Animation> (entity);
+            auto& anims = registry.get<component::Animation> (entity);
             this->SetState (this->current_state, anims, previous_state);
           });
     }
 
   private:
     void
-    SetState (Player::State state, components::Animation& anims, Player::State previous_state)
+    SetState (Player::State state, component::Animation& anims, Player::State previous_state)
     {
       if (previous_state != this->current_state && previous_state == RUNNING)
       {

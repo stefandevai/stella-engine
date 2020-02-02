@@ -7,7 +7,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Timer
   {
@@ -23,5 +23,5 @@ namespace components
     int duration;
   };
 
-} // namespace components
+} // namespace component
 } // namespace stella

@@ -4,7 +4,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Color
   {
@@ -47,5 +47,5 @@ namespace components
     unsigned int_color;
     rgba_color_info rgba_color;
   };
-} // namespace components
+} // namespace component
 } // namespace stella

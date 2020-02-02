@@ -2,11 +2,11 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Tileview
   {
     Tileview() {}
   };
-} // namespace components
+} // namespace component
 } // namespace stella

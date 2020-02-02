@@ -21,7 +21,7 @@ namespace editor
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry.view<components::Log>().each ([this] (auto entity, auto& log) {
+      registry.view<component::Log>().each ([this] (auto entity, auto& log) {
         for (const std::string& message : log.log_queue)
         {
           m_gui_log.AddLog ("%s", message.c_str());

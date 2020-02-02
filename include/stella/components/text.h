@@ -7,7 +7,7 @@
 
 namespace stella
 {
-namespace components
+namespace component
 {
   struct Text
   {
@@ -27,5 +27,5 @@ namespace components
     bool read    = false; // If the text was already read by a NPC
   };
 
-} // namespace components
+} // namespace component
 } // namespace stella

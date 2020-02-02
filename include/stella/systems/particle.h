@@ -19,7 +19,7 @@ namespace systems
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry.view<components::ParticleEmitter>().each ([this, &registry] (auto entity, auto& emitter) {
+      registry.view<component::ParticleEmitter>().each ([this, &registry] (auto entity, auto& emitter) {
         if (++this->Timer % emitter.Velocity == 0)
         {
           auto particle = emitter.Emitter->Emit (registry, entity);
@@ -35,7 +35,7 @@ namespace systems
         {
           if (registry.valid (particle))
           {
-            auto par = registry.get<components::Particle> (particle);
+            auto par = registry.get<component::Particle> (particle);
             emitter.Emitter->UpdateParticle (registry, particle);
 
             if (par.Life >= par.MaxLife && par.Alive)
