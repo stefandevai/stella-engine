@@ -6,9 +6,9 @@ namespace stella
 {
 namespace components
 {
-  struct TransformComponent
+  struct Transform
   {
-    TransformComponent (const double rotation = 0.0f, const glm::vec2 scale = glm::vec2 (1.f, 1.f))
+    Transform (const double rotation = 0.0f, const glm::vec2 scale = glm::vec2 (1.f, 1.f))
       : Rotation (rotation), Scale (scale)
     {
     }

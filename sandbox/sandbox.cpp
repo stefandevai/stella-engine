@@ -45,7 +45,7 @@ Sandbox::Sandbox()
   //auto renderer_info = m_registry.create();
   //m_registry.assign<stella::components::Position>(renderer_info, 30.f, 60.f);
   //m_registry.assign<stella::components::Dimension>(renderer_info, 9.f, 9.f);
-  //m_registry.assign<stella::components::TextComponent>(renderer_info, renderer_string.str(), "font-cursive", true);
+  //m_registry.assign<stella::components::Text>(renderer_info, renderer_string.str(), "font-cursive", true);
 
   //const unsigned char* version = m_display.GetGlVersion();
   //std::stringstream version_string("");
@@ -53,15 +53,15 @@ Sandbox::Sandbox()
   //auto opengl_info = m_registry.create();
   //m_registry.assign<stella::components::Position>(opengl_info, 30.f, 75.f);
   //m_registry.assign<stella::components::Dimension>(opengl_info, 9.f, 9.f);
-  //m_registry.assign<stella::components::TextComponent>(opengl_info, version_string.str(), "font-cursive", true);
+  //m_registry.assign<stella::components::Text>(opengl_info, version_string.str(), "font-cursive", true);
 
   //m_registry.assign<stella::components::Position>(m_fps_text, 30.f, 90.f);
   //m_registry.assign<stella::components::Dimension>(m_fps_text, 9.f, 9.f);
-  //m_registry.assign<stella::components::TextComponent>(m_fps_text, "", "font-cursive");
+  //m_registry.assign<stella::components::Text>(m_fps_text, "", "font-cursive");
 
   //m_registry.assign<stella::components::Position>(m_ms_text, 30.f, 105.f);
   //m_registry.assign<stella::components::Dimension>(m_ms_text, 9.f, 9.f);
-  //m_registry.assign<stella::components::TextComponent>(m_ms_text, "", "font-cursive");
+  //m_registry.assign<stella::components::Text>(m_ms_text, "", "font-cursive");
 
   // Update once to configure systems
   this->update_systems(0.0);
@@ -103,15 +103,15 @@ void Sandbox::update(const double dt)
   //{
     //std::stringstream fps_string("");
     //fps_string << std::fixed << std::setprecision(6) << m_display.getFPS() << " FPS";
-    //auto &text = m_registry.get<stella::components::TextComponent>(m_fps_text);
-    //text.Text = fps_string.str();
+    //auto &text = m_registry.get<stella::components::Text>(m_fps_text);
+    //text.text = fps_string.str();
   //}
 
   //if (m_registry.valid(m_ms_text) && m_display.GetFrame() % 10 == 0)
   //{
     //std::stringstream ms_string("");
     //ms_string << std::fixed << std::setprecision(8) << dt << " ms";
-    //auto &text = m_registry.get<stella::components::TextComponent>(m_ms_text);
-    //text.Text = ms_string.str();
+    //auto &text = m_registry.get<stella::components::Text>(m_ms_text);
+    //text.text = ms_string.str();
   //}
 }

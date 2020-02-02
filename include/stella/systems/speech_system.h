@@ -3,7 +3,7 @@
 #include "stella/components/dimension.h"
 #include "stella/components/position.h"
 #include "stella/components/speech_container.h"
-#include "stella/components/text_component.h"
+#include "stella/components/text.h"
 #include "stella/systems/system.h"
 
 namespace stella

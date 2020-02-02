@@ -1,9 +1,9 @@
 #include "stella/core/tile_map.h"
 #include "stella/components/dimension.h"
-#include "stella/components/log_component.h"
+#include "stella/components/log.h"
 #include "stella/components/position.h"
-#include "stella/components/sprite_component.h"
-#include "stella/components/tile_component.h"
+#include "stella/components/sprite.h"
+#include "stella/components/tile.h"
 
 #include <cmath>
 #include <glm/glm.hpp>
@@ -185,15 +185,15 @@ namespace core
 
   void TileMap::update_tile_sprite (entt::entity entity, const unsigned layer_id, const int value)
   {
-    if (m_registry.has<components::SpriteComponent>(entity))
+    if (m_registry.has<components::Sprite>(entity))
     {
-      auto& spr = m_registry.get<components::SpriteComponent> (entity);
-      spr.Sprite->SetDirectFrame (value);
+      auto& spr = m_registry.get<components::Sprite> (entity);
+      spr.sprite->SetDirectFrame (value);
       spr.Frame = value;
     }
     else
     {
-      m_registry.assign<components::SpriteComponent> (entity,
+      m_registry.assign<components::Sprite> (entity,
                                                     layers[layer_id]->get_texture_name(),
                                                     glm::vec2 (m_tile_dimension, m_tile_dimension),
                                                     layers[layer_id]->get_render_layer_name(),
@@ -219,9 +219,9 @@ namespace core
   void TileMap::create_tile_entity (const int value, const int x, const int y, const int z, const unsigned layer_id)
   {
     auto tile = m_registry.create();
-    m_registry.assign<components::TileComponent> (tile, layer_id, false);
+    m_registry.assign<components::Tile> (tile, layer_id, false);
     // if (layers[layer_id]->get_texture_name() != "tileset") std::cout << layers[layer_id]->get_texture_name() << '\n';
-    m_registry.assign<components::SpriteComponent> (tile,
+    m_registry.assign<components::Sprite> (tile,
                                                     layers[layer_id]->get_texture_name(),
                                                     glm::vec2 (m_tile_dimension, m_tile_dimension),
                                                     layers[layer_id]->get_render_layer_name(),

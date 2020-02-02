@@ -4,8 +4,8 @@
 #include "stella/components/color.h"
 #include "stella/components/dimension.h"
 #include "stella/components/position.h"
-#include "stella/components/sprite_component.h"
-#include "stella/components/text_component.h"
+#include "stella/components/sprite.h"
+#include "stella/components/text.h"
 #include "stella/graphics/font.h"
 #include "stella/systems/system.h"
 
@@ -26,15 +26,15 @@ namespace systems
       // m_fonts.insert(std::pair<std::string,
       // std::shared_ptr<graphics::Font>>("1980",
       // std::make_shared<graphics::Font>("assets/fonts/1980.ttf")));
-      registry.on_construct<components::TextComponent>().connect<&TextSystem::initialize_text> (this);
-      registry.on_destroy<components::TextComponent>().connect<&TextSystem::delete_text> (this);
+      registry.on_construct<components::Text>().connect<&TextSystem::initialize_text> (this);
+      registry.on_destroy<components::Text>().connect<&TextSystem::delete_text> (this);
     }
 
     ~TextSystem() override {}
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry.group<components::TextComponent> (entt::get<components::Position>)
+      registry.group<components::Text> (entt::get<components::Position>)
           .each ([&registry, this] (auto entity, auto& text, auto& pos) {
             if (!text.IsStatic)
             {
@@ -59,7 +59,7 @@ namespace systems
   private:
     TextSystem() = delete;
 
-    void initialize_text (entt::registry& registry, entt::entity entity, components::TextComponent& text)
+    void initialize_text (entt::registry& registry, entt::entity entity, components::Text& text)
     {
       auto font       = m_fonts.load (text.FontName);
       const auto& pos = registry.get<components::Position> (entity);
@@ -78,7 +78,7 @@ namespace systems
         // max_text_height = dim.h;
       }
 
-      for (wchar_t c : text.Text)
+      for (wchar_t c : text.text)
       {
         const auto& ch     = font->get_char_data (c);
         const GLfloat xpos = char_posx + ch.bl * text.scale;
@@ -92,7 +92,7 @@ namespace systems
         if (w > 0.f && h > 0.f)
         {
           registry.assign<components::Charcode> (char_entity, c);
-          registry.assign<components::SpriteComponent> (char_entity,
+          registry.assign<components::Sprite> (char_entity,
                                                         glm::vec3 (xpos, ypos, 0.f),
                                                         glm::vec2 (w, h),
                                                         glm::vec2 (ch.tx, 0.f),
@@ -125,7 +125,7 @@ namespace systems
 
     void delete_text (entt::registry& registry, entt::entity entity)
     {
-      auto& text = registry.get<components::TextComponent> (entity);
+      auto& text = registry.get<components::Text> (entity);
       // std::cout << "here\n";
       for (auto& ch : text.char_entities)
       {

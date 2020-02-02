@@ -5,7 +5,7 @@
 #include "stella/components/dimension.h"
 #include "stella/components/layer.h"
 #include "stella/components/position.h"
-#include "stella/components/sprite_component.h"
+#include "stella/components/sprite.h"
 
 #include "editor/debug_layer.h"
 
@@ -28,7 +28,7 @@ namespace editor
     m_editor_sprite   = game.m_registry.create();
     game.m_registry.assign<components::Position> (m_editor_sprite, -dimensions.x, -dimensions.y);
     game.m_registry.assign<components::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
-    game.m_registry.assign<components::SpriteComponent> (m_editor_sprite,
+    game.m_registry.assign<components::Sprite> (m_editor_sprite,
                                                          m_tileset_editor.texture,
                                                          m_tileset_editor.get_tile_dimensions().x,
                                                          m_tileset_editor.get_tile_dimensions().y,
@@ -178,7 +178,7 @@ namespace editor
       //m_log.AddLog("%.2f\n", );
 
       auto& sprite_pos   = m_registry.get<components::Position> (m_editor_sprite);
-      auto& sprite_spr   = m_registry.get<components::SpriteComponent> (m_editor_sprite);
+      auto& sprite_spr   = m_registry.get<components::Sprite> (m_editor_sprite);
       const float width_factor = 896 / static_cast<float>(m_scene.get_game_screen_width());
       const float height_factor = 504 / static_cast<float>(m_scene.get_game_screen_height());
 
@@ -188,7 +188,7 @@ namespace editor
 
       sprite_pos.x = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
       sprite_pos.y = tile_pos.y * m_tileset_editor.get_tile_dimensions().y;
-      sprite_spr.Sprite->SetDirectFrame (new_tile_value);
+      sprite_spr.sprite->SetDirectFrame (new_tile_value);
 
       if (io.MouseClicked[0])
       {

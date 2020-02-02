@@ -17,7 +17,7 @@ namespace components
     VALUE
   };
 
-  struct LogComponent
+  struct Log
   {
     std::vector<std::string> log_queue;
 

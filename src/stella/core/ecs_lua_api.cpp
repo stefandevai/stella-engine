@@ -58,14 +58,14 @@ namespace script
     {
       if (obj["frame_dimensions"] == sol::lua_nil)
       {
-        m_registry.assign<stella::components::SpriteComponent> (id, texture_name, layer_id);
+        m_registry.assign<stella::components::Sprite> (id, texture_name, layer_id);
       }
       else
       {
         const float& framew   = obj["frame_dimensions"][1];
         const float& frameh   = obj["frame_dimensions"][2];
         const unsigned& frame = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
-        m_registry.assign<stella::components::SpriteComponent> (
+        m_registry.assign<stella::components::Sprite> (
             id, texture_name, glm::vec2 (framew, frameh), layer_id, frame);
       }
     }
@@ -120,7 +120,7 @@ namespace script
 
   void ECSLuaApi::add_tileview_component (entt::registry::entity_type id, const sol::table& obj)
   {
-    m_registry.assign<stella::components::TileviewComponent> (id);
+    m_registry.assign<stella::components::Tileview> (id);
   }
 
   void ECSLuaApi::add_movement_component (entt::registry::entity_type id, const sol::table& obj)
@@ -128,7 +128,7 @@ namespace script
     glm::vec2 speed     = obj["speed"] == sol::lua_nil ? glm::vec2() : glm::vec2 (obj["speed"][1], obj["speed"][2]);
     const bool& gravity = obj["has_gravity"] == sol::lua_nil ? true : obj["has_gravity"];
     const bool& constant_velocity = obj["has_constant_velocity"] == sol::lua_nil ? false : obj["has_constant_velocity"];
-    m_registry.assign<stella::components::MovementComponent> (id, speed, gravity, constant_velocity);
+    m_registry.assign<stella::components::Movement> (id, speed, gravity, constant_velocity);
   }
 
   void ECSLuaApi::add_player_component (entt::registry::entity_type id, const sol::table& obj)
@@ -178,7 +178,7 @@ namespace script
     const std::string& font_name = obj["font_name"];
     const std::string& color     = obj["color"] == sol::lua_nil ? std::string ("#ffffffff") : obj["color"];
     const bool& is_static        = obj["is_static"] == sol::lua_nil ? true : obj["is_static"];
-    m_registry.assign<stella::components::TextComponent> (id, text, font_name, color, is_static);
+    m_registry.assign<stella::components::Text> (id, text, font_name, color, is_static);
   }
 
   void ECSLuaApi::add_particle_emitter_component (entt::registry::entity_type id, const sol::table& obj)
@@ -199,13 +199,13 @@ namespace script
 
   void ECSLuaApi::add_tile_component (entt::registry::entity_type id, const sol::table& obj)
   {
-    m_registry.assign<stella::components::TileComponent> (id, 0, false);
+    m_registry.assign<stella::components::Tile> (id, 0, false);
   }
 
   void ECSLuaApi::add_scroll_component (entt::registry::entity_type id, const sol::table& obj)
   {
     glm::vec2 speed = obj == sol::lua_nil ? glm::vec2 (0.f, 0.f) : glm::vec2 (obj[1], obj[2]);
-    m_registry.assign<stella::components::ScrollComponent> (id, speed);
+    m_registry.assign<stella::components::Scroll> (id, speed);
   }
 
   void ECSLuaApi::add_name_component (entt::registry::entity_type id, const sol::table& obj)

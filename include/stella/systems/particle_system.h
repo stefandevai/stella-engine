@@ -35,7 +35,7 @@ namespace systems
         {
           if (registry.valid (particle))
           {
-            auto par = registry.get<components::ParticleComponent> (particle);
+            auto par = registry.get<components::Particle> (particle);
             emitter.Emitter->UpdateParticle (registry, particle);
 
             if (par.Life >= par.MaxLife && par.Alive)

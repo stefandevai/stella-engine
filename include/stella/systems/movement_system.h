@@ -17,7 +17,7 @@ namespace systems
     void update (entt::registry& registry, const double dt) override
     {
       registry
-          .group<components::MovementComponent> (
+          .group<components::Movement> (
               entt::get<components::Position>,
               entt::exclude<components::Body2D, components::Player>)
           .each ([&dt] (auto entity, auto& mov, auto& pos) {

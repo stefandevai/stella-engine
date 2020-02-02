@@ -6,9 +6,9 @@ namespace stella
 {
 namespace components
 {
-  struct MovementComponent
+  struct Movement
   {
-    MovementComponent (glm::vec2 target_velocity, bool gravity = true, bool constant_velocity = false)
+    Movement (glm::vec2 target_velocity, bool gravity = true, bool constant_velocity = false)
       : TargetVelocity (target_velocity), Gravity (gravity), ConstantVelocity (constant_velocity)
     {
     }

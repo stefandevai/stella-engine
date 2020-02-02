@@ -9,16 +9,16 @@ namespace stella
 {
 namespace components
 {
-  struct TextComponent
+  struct Text
   {
-    TextComponent (const std::wstring text,
+    Text (const std::wstring text,
                    const std::string font_name,
                    const std::string color = "#ffffffff",
                    bool is_static          = false)
-      : Text (text), FontName (font_name), color (color), IsStatic (is_static)
+      : text (text), FontName (font_name), color (color), IsStatic (is_static)
     {
     }
-    std::wstring Text;
+    std::wstring text;
     std::string FontName, color;
     std::vector<entt::registry::entity_type> char_entities;
     bool InLayer = false, IsStatic;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../components/log_component.h"
+#include "../components/log.h"
 #include <entt/entity/registry.hpp>
 
 namespace stella
@@ -18,11 +18,11 @@ namespace systems
 
     auto& get_log_component (entt::registry& registry, entt::registry::entity_type entity)
     {
-      if (!registry.has<components::LogComponent> (entity))
+      if (!registry.has<components::Log> (entity))
       {
-        registry.assign<components::LogComponent> (entity);
+        registry.assign<components::Log> (entity);
       }
-      return registry.get<components::LogComponent> (entity);
+      return registry.get<components::Log> (entity);
     }
   };
 

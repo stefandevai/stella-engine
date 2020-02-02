@@ -4,11 +4,11 @@
 #include "./system.h"
 #include <ctime>
 //#include "../components/layer.h"
-//#include "../components/sprite_component.h"
+//#include "../components/sprite.h"
 #include "../components/dimension.h"
 #include "../components/position.h"
 #include "../components/water_component.h"
-//#include "../components/transform_component.h"
+//#include "../components/transform.h"
 #include "../components/camera.h"
 #include "stella/graphics/layers/water_layer.h"
 
@@ -34,7 +34,7 @@ namespace systems
     void update (entt::registry& registry, const double dt) override
     {
       registry
-          .group<components::SpriteComponent> (entt::get<components::Position, components::Dimension>)
+          .group<components::Sprite> (entt::get<components::Position, components::Dimension>)
           .each ([this, &registry] (auto entity, auto& sprite, auto& pos, auto& dim) {
             // Adds sprite to layer
             if (!sprite.InLayer)
@@ -73,9 +73,9 @@ namespace systems
                   // size we want
                   // if ((int)sprite.Sprite->Dimensions.x != dim.w ||
                   // (int)sprite.Sprite->Dimensions.y != dim.h) {
-                  if (registry.has<components::TransformComponent> (entity))
+                  if (registry.has<components::Transform> (entity))
                   {
-                    const auto& trans = registry.get<components::TransformComponent> (entity);
+                    const auto& trans = registry.get<components::Transform> (entity);
                     sprite.Sprite->SetDirectScale (
                         glm::vec2 ((float) dim.w * trans.Scale.x, (float) dim.h * trans.Scale.y));
                     sprite.Sprite->SetRotation (trans.Rotation);
@@ -119,7 +119,7 @@ namespace systems
 
     void remove_water_from_layer (entt::registry& registry, entt::entity entity)
     {
-      // auto& sprite = registry.get<components::SpriteComponent>(entity);
+      // auto& sprite = registry.get<components::Sprite>(entity);
       // if (sprite.InLayer)
       //{
       // m_layers[sprite.LayerId]->Remove(sprite.Sprite);

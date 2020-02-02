@@ -9,7 +9,7 @@ namespace stella
 {
 namespace components
 {
-  struct TimerComponent
+  struct Timer
   {
     enum TimerEvent
     {
@@ -17,7 +17,7 @@ namespace components
       Pause
     };
 
-    TimerComponent (TimerEvent event, const int duration) : event (event), duration (duration) {}
+    Timer (TimerEvent event, const int duration) : event (event), duration (duration) {}
 
     TimerEvent event;
     int duration;

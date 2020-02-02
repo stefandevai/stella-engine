@@ -3,7 +3,7 @@
 #include "../components/bitmap_text.h"
 #include "../components/dimension.h"
 #include "../components/position.h"
-#include "../components/sprite_component.h"
+#include "../components/sprite.h"
 #include "./system.h"
 
 namespace stella
@@ -46,9 +46,9 @@ namespace systems
                 else
                 {
                   auto& char_pos = registry.get<components::Position> (*char_entity);
-                  auto& char_spr = registry.get<components::SpriteComponent> (*char_entity);
+                  auto& char_spr = registry.get<components::Sprite> (*char_entity);
                   char_pos.x     = pos.x + dim.w * stride;
-                  char_spr.Sprite->SetDirectFrame (frame);
+                  char_spr.sprite->SetDirectFrame (frame);
                   ++char_entity;
                   ++stride;
                 }
@@ -68,7 +68,7 @@ namespace systems
                   else
                   {
                     auto new_char_entity = registry.create();
-                    registry.assign<components::SpriteComponent> (
+                    registry.assign<components::Sprite> (
                         new_char_entity, text.Name, glm::vec2 (dim.w, dim.h), "text", frame);
                     registry.assign<components::Position> (new_char_entity, pos.x + dim.w * stride, pos.y);
                     registry.assign<components::Dimension> (new_char_entity, dim.w, dim.h);
@@ -112,7 +112,7 @@ namespace systems
         else
         {
           auto char_entity = registry.create();
-          registry.assign<components::SpriteComponent> (
+          registry.assign<components::Sprite> (
               char_entity, text.Name, glm::vec2 (dim.w, dim.h), "text", frame);
           registry.assign<components::Position> (char_entity, pos.x + dim.w * stride, pos.y);
           registry.assign<components::Dimension> (char_entity, dim.w, dim.h);

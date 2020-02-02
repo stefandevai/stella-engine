@@ -4,9 +4,9 @@ namespace stella
 {
 namespace components
 {
-  struct ParticleComponent
+  struct Particle
   {
-    ParticleComponent (unsigned int max_life, double size, double speedx, double speedy, int id = -1)
+    Particle (unsigned int max_life, double size, double speedx, double speedy, int id = -1)
       : MaxLife (max_life), W (size), SpeedX (speedx), SpeedY (speedy), ID (id)
     {
       Life  = 0;

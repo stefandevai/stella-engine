@@ -28,7 +28,7 @@ namespace graphics
 
     inline void UpdateParticle (entt::registry& registry, entt::registry::entity_type particle) override
     {
-      auto particle_par = registry.get<components::ParticleComponent> (particle);
+      auto particle_par = registry.get<components::Particle> (particle);
 
       if (registry.has<components::Position> (particle) && particle_par.Life % 1 == 0)
       {
@@ -55,10 +55,10 @@ namespace graphics
 
       registry.assign<components::Position> (particle, px, pos.y, pos.z);
       registry.assign<components::Dimension> (particle, dim.w, dim.h);
-      registry.assign<components::ParticleComponent> (particle, max_life, 16.f, speedx, speedy, 1);
-      registry.assign<components::SpriteComponent> (particle, this->TextureName, "particles");
-      registry.assign<components::TransformComponent> (particle, rotation, glm::vec2 (scale, scale));
-      registry.assign<components::MovementComponent> (particle, glm::vec2 (0.f, 100.f * speedy), false, true);
+      registry.assign<components::Particle> (particle, max_life, 16.f, speedx, speedy, 1);
+      registry.assign<components::Sprite> (particle, this->TextureName, "particles");
+      registry.assign<components::Transform> (particle, rotation, glm::vec2 (scale, scale));
+      registry.assign<components::Movement> (particle, glm::vec2 (0.f, 100.f * speedy), false, true);
       // particle.assign<components::Body2D>();
       return particle;
     }

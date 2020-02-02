@@ -3,7 +3,7 @@
 #include "stella/components/npc.h"
 #include "stella/components/position.h"
 #include "stella/components/speech_container.h"
-#include "stella/components/text_component.h"
+#include "stella/components/text.h"
 #include "stella/systems/system.h"
 //#include "stella/scripting/basic_lua_api.h"
 #include <sol/sol.hpp>
@@ -38,7 +38,7 @@ namespace systems
         const auto& player_speech = registry.get_or_assign<components::SpeechContainer> (m_player_entity);
         if (!player_speech.messages.empty())
         {
-          auto& player_message = registry.get<components::TextComponent> (player_speech.messages.back());
+          auto& player_message = registry.get<components::Text> (player_speech.messages.back());
 
           // If the last message said by the player was not yet read by any NPC
           if (!player_message.read)
@@ -62,9 +62,9 @@ namespace systems
 
                     auto response = registry.create();
                     registry.assign<stella::components::Position> (response, pos.x, pos.y - 4.f);
-                    registry.assign<components::TextComponent> (response, respond (player_message.Text), "1980");
-                    registry.assign<stella::components::TimerComponent> (
-                        response, components::TimerComponent::TimerEvent::Destroy, 3000);
+                    registry.assign<components::Text> (response, respond (player_message.text), "1980");
+                    registry.assign<stella::components::Timer> (
+                        response, components::Timer::TimerEvent::Destroy, 3000);
 
                     // TODO: Create a method in speech_container to
                     // automatically create entities and emplace_back

@@ -4,8 +4,8 @@
 #include "stella/components/dimension.h"
 #include "stella/components/layer.h"
 #include "stella/components/position.h"
-#include "stella/components/sprite_component.h"
-#include "stella/components/transform_component.h"
+#include "stella/components/sprite.h"
+#include "stella/components/transform.h"
 #include "stella/core/resource.h"
 #include "stella/graphics/layers/basic_layer.h"
 #include "stella/graphics/layers/firelayer.h"
@@ -38,7 +38,7 @@ namespace systems
       : m_textures (textures), m_display (display)
     {
       registry.on_construct<components::Layer>().connect<&RenderSystem::initialize_layer> (this);
-      registry.on_destroy<components::SpriteComponent>().connect<&RenderSystem::remove_sprite_from_layer> (this);
+      registry.on_destroy<components::Sprite>().connect<&RenderSystem::remove_sprite_from_layer> (this);
       std::srand (static_cast<unsigned> (std::time (nullptr)));
     }
 
@@ -47,12 +47,12 @@ namespace systems
     void update (entt::registry& registry, const double dt) override
     {
       registry
-          .group<components::SpriteComponent> (entt::get<components::Position, components::Dimension>)
+          .group<components::Sprite> (entt::get<components::Position, components::Dimension>)
           .each ([this, &registry] (auto entity, auto& sprite, auto& pos, auto& dim) {
             // Adds sprite to layer
             if (!sprite.InLayer && sprite.Initialized)
             {
-              m_layers[sprite.LayerId]->Add (sprite.Sprite);
+              m_layers[sprite.LayerId]->Add (sprite.sprite);
               sprite.InLayer = true;
             }
             else if (!sprite.InLayer)
@@ -70,27 +70,27 @@ namespace systems
                   // If no frame dimensions were provided
                   if (sprite.FrameDimensions.x == 0)
                   {
-                    sprite.Sprite = std::shared_ptr<graphics::Sprite> (
+                    sprite.sprite = std::shared_ptr<graphics::Sprite> (
                         new graphics::Sprite (glm::vec3 (pos.x, pos.y, pos.z), *tex, sprite.Frame));
                   }
                   else
                   {
-                    sprite.Sprite = std::shared_ptr<graphics::Sprite> (
+                    sprite.sprite = std::shared_ptr<graphics::Sprite> (
                         new graphics::Sprite (glm::vec3 (pos.x, pos.y, pos.z),
                                               glm::vec2 (sprite.FrameDimensions.x, sprite.FrameDimensions.y),
                                               *tex,
                                               sprite.Frame));
                   }
-                  if (registry.has<components::TransformComponent> (entity))
+                  if (registry.has<components::Transform> (entity))
                   {
-                    const auto& trans = registry.get<components::TransformComponent> (entity);
-                    sprite.Sprite->SetDirectScale (
+                    const auto& trans = registry.get<components::Transform> (entity);
+                    sprite.sprite->SetDirectScale (
                         glm::vec2 ((float) dim.w * trans.Scale.x, (float) dim.h * trans.Scale.y));
-                    sprite.Sprite->SetRotation (trans.Rotation);
+                    sprite.sprite->SetRotation (trans.Rotation);
                   }
                   else
                   {
-                    sprite.Sprite->SetDirectScale (glm::vec2 ((float) dim.w, (float) dim.h));
+                    sprite.sprite->SetDirectScale (glm::vec2 ((float) dim.w, (float) dim.h));
                   }
                   sprite.Initialized = true;
                 }
@@ -99,21 +99,21 @@ namespace systems
             // Sprite inLayer and position changed
             if (pos.has_changed())
             {
-              m_layers[sprite.LayerId]->Remove (sprite.Sprite);
+              m_layers[sprite.LayerId]->Remove (sprite.sprite);
               sprite.InLayer = false;
 
-              sprite.Sprite->Pos.x = (int) pos.x;
-              sprite.Sprite->Pos.y = (int) pos.y;
-              sprite.Sprite->Pos.z = (int) pos.z;
+              sprite.sprite->Pos.x = (int) pos.x;
+              sprite.sprite->Pos.y = (int) pos.y;
+              sprite.sprite->Pos.z = (int) pos.z;
             }
 
             if (dim.has_changed())
             {
-              m_layers[sprite.LayerId]->Remove (sprite.Sprite);
+              m_layers[sprite.LayerId]->Remove (sprite.sprite);
               sprite.InLayer = false;
 
-              sprite.Sprite->Dimensions.x = dim.w;
-              sprite.Sprite->Dimensions.y = dim.h;
+              sprite.sprite->Dimensions.x = dim.w;
+              sprite.sprite->Dimensions.y = dim.h;
             }
             
             pos.last_x = pos.x;
@@ -124,7 +124,7 @@ namespace systems
 
             if (!sprite.InLayer)
             {
-              m_layers[sprite.LayerId]->Add (sprite.Sprite);
+              m_layers[sprite.LayerId]->Add (sprite.sprite);
               sprite.InLayer = true;
             }
           });
@@ -150,10 +150,10 @@ namespace systems
 
     void remove_sprite_from_layer (entt::registry& registry, entt::entity entity)
     {
-      auto& sprite = registry.get<components::SpriteComponent> (entity);
+      auto& sprite = registry.get<components::Sprite> (entity);
       if (sprite.InLayer)
       {
-        m_layers[sprite.LayerId]->Remove (sprite.Sprite);
+        m_layers[sprite.LayerId]->Remove (sprite.sprite);
         sprite.InLayer = false;
       }
     }

@@ -65,7 +65,7 @@ class Player
 
         if (!player.SpriteDirection.test(0)) {
           player.SpriteDirection.flip();
-          auto sprite = m_registry.get<stella::components::SpriteComponent>(entity);
+          auto sprite = m_registry.get<stella::components::Sprite>(entity);
           sprite.Sprite->SetScale(glm::vec2(-1.0,1.0));
         }
       }
@@ -75,7 +75,7 @@ class Player
 
         if (!player.SpriteDirection.test(1)) {
           player.SpriteDirection.flip();
-          auto sprite = m_registry.get<stella::components::SpriteComponent>(entity);
+          auto sprite = m_registry.get<stella::components::Sprite>(entity);
           sprite.Sprite->SetScale(glm::vec2(1.0,1.0));
         }
       }

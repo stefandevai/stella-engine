@@ -43,9 +43,9 @@ namespace systems
                   glm::vec2 (bbw, bbh),
                   glm::vec2 (body.Drag[0], body.Drag[1]),
                   body.CollideWithBorders);
-              if (registry.has<components::MovementComponent> (entity))
+              if (registry.has<components::Movement> (entity))
               {
-                auto mov                  = registry.get<components::MovementComponent> (entity);
+                auto mov                  = registry.get<components::Movement> (entity);
                 body.Body->TargetVelocity = mov.TargetVelocity;
                 // body.Body->Gravity = mov.Gravity;
 

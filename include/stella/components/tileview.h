@@ -4,9 +4,9 @@ namespace stella
 {
 namespace components
 {
-  struct TileviewComponent
+  struct Tileview
   {
-    TileviewComponent() {}
+    Tileview() {}
   };
 } // namespace components
 } // namespace stella

@@ -82,8 +82,8 @@ namespace systems
               if (!player.SpriteDirection.test (0))
               {
                 player.SpriteDirection.flip();
-                auto sprite = registry.get<components::SpriteComponent> (entity);
-                sprite.Sprite->SetScale (glm::vec2 (-1.0, 1.0));
+                auto sprite = registry.get<components::Sprite> (entity);
+                sprite.sprite->SetScale (glm::vec2 (-1.0, 1.0));
               }
             }
             if (this->Display.IsKeyDown (SDL_SCANCODE_RIGHT))
@@ -94,8 +94,8 @@ namespace systems
               if (!player.SpriteDirection.test (1))
               {
                 player.SpriteDirection.flip();
-                auto sprite = registry.get<components::SpriteComponent> (entity);
-                sprite.Sprite->SetScale (glm::vec2 (1.0, 1.0));
+                auto sprite = registry.get<components::Sprite> (entity);
+                sprite.sprite->SetScale (glm::vec2 (1.0, 1.0));
               }
             }
 

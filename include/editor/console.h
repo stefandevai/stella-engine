@@ -12,8 +12,8 @@
 #include "stella/components/player.h"
 #include "stella/components/position.h"
 #include "stella/components/speech_container.h"
-#include "stella/components/text_component.h"
-#include "stella/components/timer_component.h"
+#include "stella/components/text.h"
+#include "stella/components/timer.h"
 
 namespace stella
 {
@@ -140,10 +140,10 @@ namespace editor
           auto text_entity = registry.create();
           registry.assign<stella::components::Position> (
               text_entity, player_pos.x + player_dim.w / 2.f, player_pos.y - 4.f);
-          registry.assign<stella::components::TextComponent> (
+          registry.assign<stella::components::Text> (
               text_entity, m_converter.from_bytes (std::string (editable_buffer)), "1980");
-          registry.assign<stella::components::TimerComponent> (
-              text_entity, components::TimerComponent::TimerEvent::Destroy, 3000);
+          registry.assign<stella::components::Timer> (
+              text_entity, components::Timer::TimerEvent::Destroy, 3000);
 
           auto& container = registry.get_or_assign<components::SpeechContainer> (player_entity);
           container.messages.push_back (text_entity);

@@ -1,10 +1,10 @@
 #pragma once
 
 #include "../dimension.h"
-#include "../particle_component.h"
+#include "../particle.h"
 #include "../position.h"
-#include "../sprite_component.h"
-#include "../transform_component.h"
+#include "../sprite.h"
+#include "../transform.h"
 #include <entt/entity/registry.hpp>
 #include <string>
 #include <vector>
@@ -31,7 +31,7 @@ namespace graphics
     inline virtual ~Emitter(){};
     virtual void UpdateParticle (entt::registry& registry, entt::registry::entity_type particle)
     {
-      auto& particle_par = registry.get<components::ParticleComponent> (particle);
+      auto& particle_par = registry.get<components::Particle> (particle);
 
       if (registry.has<components::Position> (particle))
       {
@@ -67,10 +67,10 @@ namespace graphics
 
       registry.assign<components::Position> (particle, px, py, pos.z);
       registry.assign<components::Dimension> (particle, dim.w, dim.h);
-      registry.assign<components::ParticleComponent> (particle, max_life, scalex, speedx, speedy);
-      registry.assign<components::SpriteComponent> (particle, this->TextureName, "particles");
-      registry.assign<components::TransformComponent> (particle, rotation, glm::vec2 (scalex, scaley));
-      registry.assign<components::MovementComponent> (particle, glm::vec2 (speedx, speedy), false);
+      registry.assign<components::Particle> (particle, max_life, scalex, speedx, speedy);
+      registry.assign<components::Sprite> (particle, this->TextureName, "particles");
+      registry.assign<components::Transform> (particle, rotation, glm::vec2 (scalex, scaley));
+      registry.assign<components::Movement> (particle, glm::vec2 (speedx, speedy), false);
       // particle.assign<components::Body2D>();
       return particle;
     }

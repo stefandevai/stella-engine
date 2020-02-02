@@ -59,7 +59,7 @@
 //////if (this->FPSText && this->Display.GetFrame() % 30 == 0) {
 //////std::stringstream fps_string("");
 //////fps_string << std::setprecision(4) << 1/dt << " FPS";
-//////auto text = this->FPSText.component<stella::components::TextComponent>();
+//////auto text = this->FPSText.component<stella::components::Text>();
 //////text->Text = fps_string.str();
 //////}
 //////if (this->Display.GetFrame() % 30 == 0) {
@@ -88,7 +88,7 @@
 ////auto title_text = entities.create();
 ////title_text.assign<stella::components::Position>(30.f, 30.f);
 ////title_text.assign<stella::components::Dimension>(9.f, 9.f);
-////title_text.assign<stella::components::TextComponent>("- TORCH -",
+////title_text.assign<stella::components::Text>("- TORCH -",
 ///"font-cursive", true);
 
 ////const unsigned char* renderer = this->Display.GetGlRenderer();
@@ -97,7 +97,7 @@
 ////auto renderer_info = entities.create();
 ////renderer_info.assign<stella::components::Position>(30.f, 60.f);
 ////renderer_info.assign<stella::components::Dimension>(9.f, 9.f);
-////renderer_info.assign<stella::components::TextComponent>(renderer_string.str(),
+////renderer_info.assign<stella::components::Text>(renderer_string.str(),
 ///"font-cursive", true);
 
 ////const unsigned char* version = this->Display.GetGlVersion();
@@ -106,13 +106,13 @@
 ////auto opengl_info = entities.create();
 ////opengl_info.assign<stella::components::Position>(30.f, 75.f);
 ////opengl_info.assign<stella::components::Dimension>(9.f, 9.f);
-////opengl_info.assign<stella::components::TextComponent>(version_string.str(),
+////opengl_info.assign<stella::components::Text>(version_string.str(),
 ///"font-cursive", true);
 
 ////this->FPSText = entities.create();
 ////this->FPSText.assign<stella::components::Position>(30.f, 90.f);
 ////this->FPSText.assign<stella::components::Dimension>(9.f, 9.f);
-////this->FPSText.assign<stella::components::TextComponent>("", "font-cursive");
+////this->FPSText.assign<stella::components::Text>("", "font-cursive");
 //}
 
 // void Sandbox::create_camera(double x, double y, double z) {
@@ -171,7 +171,7 @@
 //{
 // if (obj["frame_dimensions"] == sol::lua_nil)
 //{
-// this->Registry.assign<stella::components::SpriteComponent>(id, texture_name,
+// this->Registry.assign<stella::components::Sprite>(id, texture_name,
 // layer_id);
 //}
 // else
@@ -179,7 +179,7 @@
 // const float &framew = obj["frame_dimensions"][1];
 // const float &frameh = obj["frame_dimensions"][2];
 // const unsigned &frame = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
-// this->Registry.assign<stella::components::SpriteComponent>(id, texture_name,
+// this->Registry.assign<stella::components::Sprite>(id, texture_name,
 // glm::vec2(framew, frameh), layer_id, frame);
 //}
 //}
@@ -239,7 +239,7 @@
 // void Sandbox::add_tileview_component(entt::registry::entity_type id, const
 // sol::table &obj)
 //{
-// this->Registry.assign<stella::components::TileviewComponent>(id);
+// this->Registry.assign<stella::components::Tileview>(id);
 //}
 
 // void Sandbox::add_movement_component(entt::registry::entity_type id, const
@@ -250,7 +250,7 @@
 // obj["has_gravity"] == sol::lua_nil ? true : obj["has_gravity"]; const bool
 // &constant_velocity = obj["has_constant_velocity"] == sol::lua_nil ? false :
 // obj["has_constant_velocity"];
-// this->Registry.assign<stella::components::MovementComponent>(id, speed,
+// this->Registry.assign<stella::components::Movement>(id, speed,
 // gravity, constant_velocity);
 //}
 
@@ -284,7 +284,7 @@
 // const std::string &text = obj["text"];
 // const std::string &font_name = obj["font_name"];
 // const bool &is_static = obj["is_static"];
-// this->Registry.assign<stella::components::TextComponent>(id, text, font_name,
+// this->Registry.assign<stella::components::Text>(id, text, font_name,
 // is_static);
 //}
 
@@ -311,7 +311,7 @@
 // void Sandbox::add_tile_component(entt::registry::entity_type id, const
 // sol::table &obj)
 //{
-// this->Registry.assign<stella::components::TileComponent>(id);
+// this->Registry.assign<stella::components::Tile>(id);
 //}
 
 // void Sandbox::add_scroll_component(entt::registry::entity_type id, const
@@ -319,7 +319,7 @@
 //{
 // glm::vec2 speed = obj == sol::lua_nil ? glm::vec2(0.f, 0.f) :
 // glm::vec2(obj[1], obj[2]);
-// this->Registry.assign<stella::components::ScrollComponent>(id, speed);
+// this->Registry.assign<stella::components::Scroll>(id, speed);
 //}
 
 // void Sandbox::add_component(const sol::table& obj)

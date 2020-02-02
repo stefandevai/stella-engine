@@ -6,9 +6,9 @@ namespace stella
 {
 namespace components
 {
-  struct ScrollComponent
+  struct Scroll
   {
-    ScrollComponent (glm::vec2 speed) : speed (speed) {}
+    Scroll (glm::vec2 speed) : speed (speed) {}
     glm::vec2 speed;
   };
 } // namespace components

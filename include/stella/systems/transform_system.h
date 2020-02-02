@@ -17,23 +17,23 @@ namespace systems
     void update (entt::registry& registry, const double dt) override
     {
       registry
-          .group<components::TransformComponent> (
-              entt::get<components::Dimension, components::SpriteComponent>)
+          .group<components::Transform> (
+              entt::get<components::Dimension, components::Sprite>)
           .each ([] (auto entity, auto& trans, auto& dim, auto& sprite) {
-            if (sprite.Sprite)
+            if (sprite.sprite)
             {
-              if (static_cast<int> (sprite.Sprite->RealDimensions.x) != dim.w)
+              if (static_cast<int> (sprite.sprite->RealDimensions.x) != dim.w)
               {
-                trans.Scale.x *= static_cast<float> (dim.w / sprite.Sprite->Dimensions.x);
-                sprite.Sprite->RealDimensions.x = dim.w;
+                trans.Scale.x *= static_cast<float> (dim.w / sprite.sprite->Dimensions.x);
+                sprite.sprite->RealDimensions.x = dim.w;
               }
-              if (static_cast<int> (sprite.Sprite->RealDimensions.y) != dim.h)
+              if (static_cast<int> (sprite.sprite->RealDimensions.y) != dim.h)
               {
-                trans.Scale.y *= static_cast<double> (dim.h / sprite.Sprite->Dimensions.y);
-                sprite.Sprite->RealDimensions.y = dim.h;
+                trans.Scale.y *= static_cast<double> (dim.h / sprite.sprite->Dimensions.y);
+                sprite.sprite->RealDimensions.y = dim.h;
               }
-              sprite.Sprite->SetScale (trans.Scale);
-              sprite.Sprite->SetRotation (trans.Rotation);
+              sprite.sprite->SetScale (trans.Scale);
+              sprite.sprite->SetRotation (trans.Rotation);
             }
           });
     }

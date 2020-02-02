@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../stella/components/log_component.h"
+#include "../stella/components/log.h"
 #include "../stella/systems/system.h"
 #include "gui_log.h"
 
@@ -21,7 +21,7 @@ namespace editor
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry.view<components::LogComponent>().each ([this] (auto entity, auto& log) {
+      registry.view<components::Log>().each ([this] (auto entity, auto& log) {
         for (const std::string& message : log.log_queue)
         {
           m_gui_log.AddLog ("%s", message.c_str());
