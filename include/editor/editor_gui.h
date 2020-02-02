@@ -8,7 +8,7 @@
 #include "./console.h"
 #include "./debug_layer.h"
 #include "./gui_log.h"
-#include "./inspector.h"
+#include "widgets/inspector.h"
 #include "./log_system.h"
 #include "./map_editor.h"
 #include "./tileset_editor.h"
@@ -56,7 +56,7 @@ namespace editor
     entt::entity m_editor_sprite = entt::null;
     TilesetEditor m_tileset_editor{"assets/sprites/tileset.png"};
     MapEditor m_map_editor{m_game};
-    Inspector m_inspector;
+    widget::Inspector m_inspector;
     Toolbar m_toolbar;
     float m_window_width = 0.f, m_window_height = 0.f, m_game_width = 0.f, m_game_height = 0.f;
 

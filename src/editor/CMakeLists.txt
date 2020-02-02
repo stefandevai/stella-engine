@@ -2,7 +2,7 @@ project(editor)
 
 add_library(${PROJECT_NAME} STATIC debug_layer.cpp
                                    editor_gui.cpp
-                                   inspector.cpp
+                                   widgets/inspector.cpp
                                    map_editor.cpp
                                    tileset_editor.cpp
                                    scene.cpp

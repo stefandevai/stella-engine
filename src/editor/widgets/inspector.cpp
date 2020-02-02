@@ -1,12 +1,11 @@
-#include "editor/inspector.h"
+#include "editor/widgets/inspector.h"
 #include "stella/components/position.h"
 
 namespace stella
 {
-namespace editor
+namespace widget
 {
-  Inspector::Inspector() {}
-  Inspector::~Inspector() {}
+  Inspector::Inspector() : Widget() { m_open = true; }
 
   void Inspector::render (entt::registry& registry)
   {
