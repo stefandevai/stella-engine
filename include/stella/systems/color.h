@@ -8,15 +8,15 @@ namespace stella
 {
 namespace systems
 {
-  class ColorSystem : public System
+  class Color : public System
   {
   public:
-    ColorSystem (entt::registry& registry)
+    Color (entt::registry& registry)
     {
-      registry.on_construct<components::Color>().connect<&ColorSystem::initialize_color> (this);
+      registry.on_construct<components::Color>().connect<&Color::initialize_color> (this);
     }
 
-    ~ColorSystem() override {}
+    ~Color() override {}
 
     void update (entt::registry& registry, const double dt) override
     {
@@ -28,7 +28,7 @@ namespace systems
     }
 
   private:
-    ColorSystem() = delete;
+    Color() = delete;
 
     void initialize_color (entt::registry& registry, entt::entity entity, components::Color& color)
     {

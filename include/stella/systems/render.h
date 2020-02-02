@@ -16,7 +16,7 @@ namespace stella
 {
 namespace systems
 {
-  class RenderSystem : public System
+  class Render : public System
   {
   private:
     const std::string DEFAULT_LAYER_NAME = "basic";
@@ -32,17 +32,17 @@ namespace systems
     std::map<int, std::string> m_ordered_layers{{256, DEFAULT_LAYER_NAME}};
 
   public:
-    RenderSystem (entt::registry& registry,
+    Render (entt::registry& registry,
                   core::ResourceManager<graphics::Texture, const std::string>& textures,
                   graphics::Display& display)
       : m_textures (textures), m_display (display)
     {
-      registry.on_construct<components::Layer>().connect<&RenderSystem::initialize_layer> (this);
-      registry.on_destroy<components::Sprite>().connect<&RenderSystem::remove_sprite_from_layer> (this);
+      registry.on_construct<components::Layer>().connect<&Render::initialize_layer> (this);
+      registry.on_destroy<components::Sprite>().connect<&Render::remove_sprite_from_layer> (this);
       std::srand (static_cast<unsigned> (std::time (nullptr)));
     }
 
-    ~RenderSystem() override {}
+    ~Render() override {}
 
     void update (entt::registry& registry, const double dt) override
     {
@@ -146,7 +146,7 @@ namespace systems
     }
 
   private:
-    RenderSystem() = delete;
+    Render() = delete;
 
     void remove_sprite_from_layer (entt::registry& registry, entt::entity entity)
     {

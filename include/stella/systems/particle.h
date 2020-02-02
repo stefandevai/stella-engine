@@ -7,15 +7,15 @@ namespace stella
 {
 namespace systems
 {
-  class ParticleSystem : public System
+  class Particle : public System
   {
   private:
     uint32_t Timer = 0;
 
   public:
-    ParticleSystem() {}
+    Particle() {}
 
-    ~ParticleSystem() override {}
+    ~Particle() override {}
 
     void update (entt::registry& registry, const double dt) override
     {

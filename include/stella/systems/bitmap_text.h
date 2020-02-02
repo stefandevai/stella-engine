@@ -10,15 +10,15 @@ namespace stella
 {
 namespace systems
 {
-  class BitmapTextSystem : public System
+  class BitmapText : public System
   {
   public:
-    BitmapTextSystem (entt::registry& registry)
+    BitmapText (entt::registry& registry)
     {
-      registry.on_construct<components::BitmapText>().connect<&BitmapTextSystem::initialize_text> (this);
+      registry.on_construct<components::BitmapText>().connect<&BitmapText::initialize_text> (this);
     }
 
-    ~BitmapTextSystem() override {}
+    ~BitmapText() override {}
 
     void update (entt::registry& registry, const double dt) override
     {
@@ -92,7 +92,7 @@ namespace systems
     }
 
   private:
-    BitmapTextSystem() = delete;
+    BitmapText() = delete;
 
     void initialize_text (entt::registry& registry, entt::entity entity, components::BitmapText& text)
     {

@@ -16,7 +16,7 @@ namespace stella
 {
 namespace systems
 {
-  class WaterSystem : public System
+  class Water : public System
   {
   private:
     const std::string DEFAULT_LAYER_NAME = "basic";
@@ -24,12 +24,12 @@ namespace systems
     graphics::WaterLayer m_layer { m_display.GetWidth(), m_display.GetHeight(), true }
 
   public:
-    WaterSystem (entt::registry& registry, graphics::Display& display) : m_display (display)
+    Water (entt::registry& registry, graphics::Display& display) : m_display (display)
     {
-      registry.on_destroy<components::WaterComponent>().connect<&WaterSystem::remove_water_from_layer> (this);
+      registry.on_destroy<components::WaterComponent>().connect<&Water::remove_water_from_layer> (this);
     }
 
-    ~WaterSystem() override {}
+    ~Water() override {}
 
     void update (entt::registry& registry, const double dt) override
     {
@@ -115,7 +115,7 @@ namespace systems
     }
 
   private:
-    WaterSystem() = delete;
+    Water() = delete;
 
     void remove_water_from_layer (entt::registry& registry, entt::entity entity)
     {

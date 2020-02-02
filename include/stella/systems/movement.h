@@ -7,12 +7,12 @@ namespace stella
 {
 namespace systems
 {
-  class MovementSystem : public System
+  class Movement : public System
   {
   public:
-    MovementSystem() {}
+    Movement() {}
 
-    ~MovementSystem() override {}
+    ~Movement() override {}
 
     void update (entt::registry& registry, const double dt) override
     {

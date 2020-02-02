@@ -7,11 +7,11 @@
 #include "stella/graphics/font.h"
 #include "stella/graphics/texture.h"
 #include "stella/physics2d/world.h"
-#include "stella/systems/animation_system.h"
-#include "stella/systems/color_system.h"
-#include "stella/systems/render_system.h"
+#include "stella/systems/animation.h"
+#include "stella/systems/color.h"
+#include "stella/systems/render.h"
 #include "stella/systems/system.h"
-#include "stella/systems/timer_system.h"
+#include "stella/systems/timer.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -33,10 +33,10 @@ namespace core
     ResourceManager<graphics::Font, const std::string, unsigned> m_fonts;
     entt::registry::entity_type m_camera = m_registry.create();
     std::vector<std::shared_ptr<systems::System>> m_systems{
-        std::make_shared<systems::RenderSystem> (m_registry, m_textures, m_display),
-        std::make_shared<systems::ColorSystem> (m_registry),
-        std::make_shared<systems::TimerSystem> (m_registry),
-        std::make_shared<systems::AnimationSystem>()};
+        std::make_shared<systems::Render> (m_registry, m_textures, m_display),
+        std::make_shared<systems::Color> (m_registry),
+        std::make_shared<systems::Timer> (m_registry),
+        std::make_shared<systems::Animation>()};
 
 #ifdef STELLA_BUILD_EDITOR
     // editor::EditorGui m_editor{m_registry};

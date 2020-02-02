@@ -9,19 +9,19 @@ namespace stella
 {
 namespace systems
 {
-  class PhysicsSystem : public System
+  class Physics : public System
   {
   private:
     const core::TileMap& m_tile_map;
     stella::topdown::World m_world{m_tile_map};
 
   public:
-    explicit PhysicsSystem (const core::TileMap& tile_map, entt::registry& registry) : m_tile_map (tile_map)
+    explicit Physics (const core::TileMap& tile_map, entt::registry& registry) : m_tile_map (tile_map)
     {
-      registry.on_destroy<components::Body2D>().connect<&PhysicsSystem::remove_body_from_world> (this);
+      registry.on_destroy<components::Body2D>().connect<&Physics::remove_body_from_world> (this);
     }
 
-    ~PhysicsSystem() override {}
+    ~Physics() override {}
 
     void update (entt::registry& registry, const double dt) override
     {
@@ -74,7 +74,7 @@ namespace systems
     }
 
   private:
-    PhysicsSystem() = delete;
+    Physics() = delete;
 
     void remove_body_from_world (entt::registry& registry, entt::entity entity)
     {

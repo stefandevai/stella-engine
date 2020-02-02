@@ -20,7 +20,7 @@ namespace stella
 {
 namespace systems
 {
-  class PlayerSystem : public System
+  class Player : public System
   {
   public:
     enum State
@@ -37,7 +37,7 @@ namespace systems
     stella::audio::SoundPlayer& SoundPlayer;
 
   public:
-    PlayerSystem (stella::graphics::Display& display, stella::audio::SoundPlayer& sound_player)
+    Player (stella::graphics::Display& display, stella::audio::SoundPlayer& sound_player)
       : Display (display), SoundPlayer (sound_player)
     {
       this->SoundPlayer.AddSound ("jump", "assets/audio/jump.ogg");
@@ -45,7 +45,7 @@ namespace systems
       this->SoundPlayer.AddStream ("run", "assets/audio/run.ogg");
     }
 
-    ~PlayerSystem() override {}
+    ~Player() override {}
 
     void update (entt::registry& registry, const double dt) override
     {
@@ -128,7 +128,7 @@ namespace systems
 
   private:
     void
-    SetState (PlayerSystem::State state, components::Animation& anims, PlayerSystem::State previous_state)
+    SetState (Player::State state, components::Animation& anims, Player::State previous_state)
     {
       if (previous_state != this->current_state && previous_state == RUNNING)
       {

@@ -8,7 +8,7 @@ namespace stella
 {
 namespace systems
 {
-  class TileSystem : public System
+  class Tile : public System
   {
   private:
     core::TileMap& m_tile_map;
@@ -20,13 +20,13 @@ namespace systems
     const int m_frustrum_culling_offset = 0;
 
   public:
-    TileSystem (core::TileMap& tilemap, entt::registry::entity_type camera, entt::registry& registry)
+    Tile (core::TileMap& tilemap, entt::registry::entity_type camera, entt::registry& registry)
       : m_tile_map (tilemap), m_camera (camera)
     {
-      registry.on_destroy<components::Tile>().connect<&TileSystem::remove_tile_visibility> (this);
+      registry.on_destroy<components::Tile>().connect<&Tile::remove_tile_visibility> (this);
     }
 
-    ~TileSystem() override {}
+    ~Tile() override {}
 
     void update (entt::registry& registry, const double dt) override
     {

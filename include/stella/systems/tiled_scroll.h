@@ -7,15 +7,15 @@ namespace stella
 {
 namespace systems
 {
-  class TiledScrollSystem : public System
+  class TiledScroll : public System
   {
   private:
     const int BoundX;
 
   public:
-    TiledScrollSystem (const int& boundx) : BoundX (boundx) {}
+    TiledScroll (const int& boundx) : BoundX (boundx) {}
 
-    ~TiledScrollSystem() override {}
+    ~TiledScroll() override {}
 
     void update (entt::registry& registry, const double dt) override
     {

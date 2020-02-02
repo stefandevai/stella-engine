@@ -7,15 +7,15 @@ namespace stella
 {
 namespace systems
 {
-  class TimerSystem : public System
+  class Timer : public System
   {
   public:
-    TimerSystem (entt::registry& registry)
+    Timer (entt::registry& registry)
     {
-      //   registry.on_construct<components::Timer>().connect<&TimerSystem::initialize_text>(this);
+      //   registry.on_construct<components::Timer>().connect<&Timer::initialize_text>(this);
     }
 
-    ~TimerSystem() override {}
+    ~Timer() override {}
 
     void update (entt::registry& registry, const double dt) override
     {
@@ -37,7 +37,7 @@ namespace systems
     }
 
   private:
-    TimerSystem() = delete;
+    Timer() = delete;
 
     // void initialize_text(entt::registry &registry, entt::entity entity,
     // components::Timer &timer)

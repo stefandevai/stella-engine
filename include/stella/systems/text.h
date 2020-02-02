@@ -13,24 +13,24 @@ namespace stella
 {
 namespace systems
 {
-  class TextSystem : public System
+  class Text : public System
   {
   private:
     // std::map<std::string, std::shared_ptr<graphics::Font>> m_fonts;
     core::ResourceManager<graphics::Font, const std::string, unsigned>& m_fonts;
 
   public:
-    TextSystem (entt::registry& registry, core::ResourceManager<graphics::Font, const std::string, unsigned>& fonts)
+    Text (entt::registry& registry, core::ResourceManager<graphics::Font, const std::string, unsigned>& fonts)
       : m_fonts (fonts)
     {
       // m_fonts.insert(std::pair<std::string,
       // std::shared_ptr<graphics::Font>>("1980",
       // std::make_shared<graphics::Font>("assets/fonts/1980.ttf")));
-      registry.on_construct<components::Text>().connect<&TextSystem::initialize_text> (this);
-      registry.on_destroy<components::Text>().connect<&TextSystem::delete_text> (this);
+      registry.on_construct<components::Text>().connect<&Text::initialize_text> (this);
+      registry.on_destroy<components::Text>().connect<&Text::delete_text> (this);
     }
 
-    ~TextSystem() override {}
+    ~Text() override {}
 
     void update (entt::registry& registry, const double dt) override
     {
@@ -57,7 +57,7 @@ namespace systems
     }
 
   private:
-    TextSystem() = delete;
+    Text() = delete;
 
     void initialize_text (entt::registry& registry, entt::entity entity, components::Text& text)
     {

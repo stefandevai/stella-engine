@@ -10,12 +10,12 @@ namespace stella
 {
 namespace systems
 {
-  class SpeechSystem : public System
+  class Speech : public System
   {
   public:
-    SpeechSystem() {}
+    Speech() {}
 
-    ~SpeechSystem() override {}
+    ~Speech() override {}
 
     void update (entt::registry& registry, const double dt) override
     {

@@ -6,14 +6,14 @@
 Sandbox::Sandbox()
   : stella::core::Game(896, 504, "Stella Engine")
 {
-  this->add_system<stella::systems::PhysicsSystem>(m_tile_map, m_registry);
-  this->add_system<stella::systems::ScrollSystem>();
-  this->add_system<stella::systems::TiledScrollSystem>(m_initial_width);
-  this->add_system<stella::systems::TileSystem>(m_tile_map, m_camera, m_registry);
-  //this->add_system<stella::systems::ParticleSystem>();
-  //this->add_system<stella::systems::MovementSystem>();
-  //this->add_system<stella::systems::TransformSystem>();
-  //this->add_system<stella::systems::TextSystem>(m_registry);
+  this->add_system<stella::systems::Physics>(m_tile_map, m_registry);
+  this->add_system<stella::systems::Scroll>();
+  this->add_system<stella::systems::TiledScroll>(m_initial_width);
+  this->add_system<stella::systems::Tile>(m_tile_map, m_camera, m_registry);
+  //this->add_system<stella::systems::Particle>();
+  //this->add_system<stella::systems::Movement>();
+  //this->add_system<stella::systems::Transform>();
+  //this->add_system<stella::systems::Text>(m_registry);
 
   // WATER
   /*test_world.add_water_surface(water_surface);

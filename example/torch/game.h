@@ -8,16 +8,16 @@
 //#include <stella/perlin.h>
 
 //#include <entt/entity/registry.hpp>
-//#include <stella/systems/render_system.h>
-//#include <stella/systems/animation_system.h>
-//#include <stella/systems/physics_system.h>
-//#include <stella/systems/player_system.h>
-//#include <stella/systems/scroll_system.h>
-//#include <stella/systems/tiled_scroll_system.h>
-//#include <stella/systems/tile_system.h>
-//#include <stella/systems/transform_system.h>
-//#include <stella/systems/particle_system.h>
-//#include <stella/systems/movement_system.h>
+//#include <stella/systems/render.h>
+//#include <stella/systems/animation.h>
+//#include <stella/systems/physics.h>
+//#include <stella/systems/player.h>
+//#include <stella/systems/scroll.h>
+//#include <stella/systems/tiled_scroll.h>
+//#include <stella/systems/tile.h>
+//#include <stella/systems/transform.h>
+//#include <stella/systems/particle.h>
+//#include <stella/systems/movement.h>
 
 // class Sandbox {
 // public:
@@ -36,16 +36,16 @@
 // std::unordered_map<std::string, stella::graphics::Texture*> Textures;
 // std::unordered_map<std::string, stella::graphics::Texture*> Fonts;
 
-// stella::systems::RenderSystem m_render_system{Registry, Textures, Display};
-// stella::systems::AnimationSystem m_animation_system;
-// stella::systems::PhysicsSystem m_physics_system{Registry, m_camera};
-// stella::systems::PlayerSystem m_player_system{Display, SoundPlayer};
-// stella::systems::ScrollSystem m_scroll_system;
-// stella::systems::TiledScrollSystem
-// m_tiled_scroll_system{(int)Display.GetWidth()}; stella::systems::TileSystem
-// m_tile_system{m_camera}; stella::systems::TransformSystem m_transform_system;
-// stella::systems::ParticleSystem m_particle_system;
-// stella::systems::MovementSystem m_movement_system;
+// stella::systems::Render m_render_system{Registry, Textures, Display};
+// stella::systems::Animation m_animation_system;
+// stella::systems::Physics m_physics_system{Registry, m_camera};
+// stella::systems::Player m_player_system{Display, SoundPlayer};
+// stella::systems::Scroll m_scroll_system;
+// stella::systems::TiledScroll
+// m_tiled_scroll_system{(int)Display.GetWidth()}; stella::systems::Tile
+// m_tile_system{m_camera}; stella::systems::Transform m_transform_system;
+// stella::systems::Particle m_particle_system;
+// stella::systems::Movement m_movement_system;
 
 // stella::PerlinNoise NoiseGenerator = stella::PerlinNoise(47);
 
