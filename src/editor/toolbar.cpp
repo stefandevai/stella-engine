@@ -23,6 +23,8 @@ namespace editor
     ImGui::PushStyleColor (ImGuiCol_Button, ImVec4 (0.0f, 0.0f, 0.f, 0.f));
     ImGui::PushStyleColor (ImGuiCol_ButtonHovered, ImVec4 (0.2f, 0.2f, 0.2f, 1.f));
 
+    if (ImGui::Begin("toolbar-win"))
+    {
     // Handling inspector button hovering and clicks
     ImGui::PushID ("inspector-button");
     if (state == EDIT && tool == INSPECTOR)
@@ -91,6 +93,8 @@ namespace editor
     ImGui::PopStyleVar();
     ImGui::Dummy (ImVec2 (0.f, 2.f));
     ImGui::Separator();
+    }
+    ImGui::End();
     }
 } // namespace editor
 } // namespace stella

@@ -18,7 +18,7 @@ namespace editor
 
   void TilesetEditor::render()
   {
-    if (ImGui::CollapsingHeader ("Tileset"))
+    if (ImGui::Begin ("TilesetEditor"))
     {
       int w_in_tiles = m_texture_w / m_tile_dimensions[0];
       int h_in_tiles = m_texture_h / m_tile_dimensions[1];
@@ -104,6 +104,7 @@ namespace editor
       ImGui::PopStyleColor();
       ImGui::PopStyleVar();
     }
+    ImGui::End();
   }
 
   ImVec2 TilesetEditor::pos2tile (const int x, const int y)

@@ -11,7 +11,7 @@ namespace editor
 
   void MapEditor::render()
   {
-    if (ImGui::CollapsingHeader ("Map"))
+    if (ImGui::Begin ("MapEditor"))
     {
       const float item_width = ImGui::CalcItemWidth();
 
@@ -95,7 +95,9 @@ namespace editor
         ImGui::TreePop();
       }
       ImGui::Dummy (ImVec2 (0.0f, 12.0f));
+
     }
+    ImGui::End();
   }
 
   void MapEditor::reset_map_settings()

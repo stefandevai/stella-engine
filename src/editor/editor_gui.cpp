@@ -104,9 +104,8 @@ namespace editor
   {
     while (m_game.m_display.IsRunning())
     {
-      m_game.m_display.Clear();
-      
       m_FBO->Bind();
+      m_game.m_display.Clear();
       m_game.update (m_game.m_display.GetDT());
       m_FBO->Unbind();
       this->render(m_game.m_display.GetWindowWidth(), m_game.m_display.GetWindowHeight(), m_game.m_display.Width, m_game.m_display.Height);
@@ -170,18 +169,25 @@ namespace editor
   void EditorGui::handle_tile_pen (ImGuiIO& io)
   {
     // If the mouse is within the game screen boundaries
-    if (io.MousePos.x > (m_window_width - m_game_width) && io.MousePos.x < (m_window_width) &&
-        io.MousePos.y < (m_game_height + 23) && io.MousePos.y > 23)
+    // if (io.MousePos.x > (m_window_width - m_game_width) && io.MousePos.x < (m_window_width) &&
+    //     io.MousePos.y < (m_game_height + 23) && io.MousePos.y > 23)
+    if (io.MousePos.x > m_scene.get_x() && io.MousePos.x < m_scene.get_width() &&
+        io.MousePos.y < m_scene.get_height() && io.MousePos.y > m_scene.get_y())
     {
       // Set dummy sprite position with grid snapping
       const auto& camera_pos = m_game.get_camera_pos();
-      float width_padding    = m_window_width - m_game_width;
-      float height_padding   = 23.f;
+      float width_padding    = m_scene.get_x() + m_scene.get_game_screen_x_spacing();
+      float height_padding   = m_scene.get_y()*2 + m_scene.get_game_screen_y_spacing();
+
+      //m_log.AddLog("%.2f\n", );
 
       auto& sprite_pos   = m_registry.get<components::PositionComponent> (m_editor_sprite);
       auto& sprite_spr   = m_registry.get<components::SpriteComponent> (m_editor_sprite);
-      ImVec2 tile_pos    = m_tileset_editor.pos2tile (io.MousePos.x - width_padding + camera_pos[0],
-                                                   io.MousePos.y - height_padding + camera_pos[1]);
+      const float width_factor = 896 / static_cast<float>(m_scene.get_game_screen_width());
+      const float height_factor = 504 / static_cast<float>(m_scene.get_game_screen_height());
+
+      ImVec2 tile_pos = m_tileset_editor.pos2tile (io.MousePos.x*width_factor - width_padding + camera_pos[0],
+                                                   io.MousePos.y*height_factor - height_padding + camera_pos[1]);
       int new_tile_value = m_tileset_editor.get_selected_tile_id();
 
       sprite_pos.x = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
@@ -306,8 +312,8 @@ namespace editor
         ImGuiID dock_down_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down,	0.25f, nullptr, &dock_main_id);
         ImGuiID dock_down_right_id	= ImGui::DockBuilderSplitNode(dock_down_id, ImGuiDir_Right, 0.5f, nullptr, &dock_down_id);
 
-  		  ImGui::DockBuilderDockWindow("Editor", dock_right_id);
-	  	  ImGui::DockBuilderDockWindow("Assets", dock_right_down_id);
+  		  ImGui::DockBuilderDockWindow("Inspector", dock_right_id);
+	  	  ImGui::DockBuilderDockWindow("TilesetEditor", dock_right_down_id);
 		    ImGui::DockBuilderDockWindow("Chat", dock_down_id);
 		    ImGui::DockBuilderDockWindow("Console", dock_down_right_id);
 		    ImGui::DockBuilderDockWindow("Scene",	dock_main_id);
@@ -319,19 +325,19 @@ namespace editor
       this->draw_menu_bar();
       ImGui::End();
 
-      ImGui::Begin("Assets", nullptr, ImGuiWindowFlags_None);
-      ImGui::Text("Teste");
-      ImGui::End();
-
-      ImGui::Begin("Console", nullptr, ImGuiWindowFlags_None);
-      ImGui::Text("Teste");
-      ImGui::End();
-
       m_scene.render((void*) (intptr_t) m_FBO->GetTexture());
 
-      this->draw_editor ();
+      //this->draw_editor ();
+      m_toolbar.render(m_current_state, m_current_tool);
+
+      if (m_inspector.is_open())
+      {
+        m_inspector.render (m_game.m_registry);
+      }
+      m_map_editor.render();
+      m_tileset_editor.render();
       m_console.Draw ("Chat", m_registry);
-      //m_log.Draw("Console");
+      m_log.Draw("Console");
 
       if (m_view_physics_debug_layer)
       {
@@ -346,7 +352,7 @@ namespace editor
 
     //m_toolbar.render(m_current_state, m_current_tool);
     //m_inspector.render (m_game.m_registry);
-    m_map_editor.render();
+    
     //m_tileset_editor.render();
     ImGui::End();
   }
@@ -397,10 +403,22 @@ namespace editor
       {
         auto item_text = "View Physics debug layer";
         if (m_view_physics_debug_layer)
+        {
           item_text = "Hide Physics debug layer";
+        }
         if (ImGui::MenuItem (item_text, "CTRL+D"))
         {
           m_view_physics_debug_layer = !m_view_physics_debug_layer;
+        }
+
+        item_text = "View instpector";
+        if (m_inspector.is_open())
+        {
+          item_text = "Hide Inspector";
+        }
+        if (ImGui::MenuItem (item_text))
+        {
+          m_inspector.toggle();
         }
         ImGui::EndMenu();
       }
