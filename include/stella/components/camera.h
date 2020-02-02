@@ -4,9 +4,9 @@ namespace stella
 {
 namespace components
 {
-  struct CameraComponent
+  struct Camera
   {
-    CameraComponent() {}
+    Camera() {}
     uint8_t id = 0;
   };
 } // namespace components

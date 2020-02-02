@@ -30,9 +30,9 @@ namespace graphics
     {
       auto particle_par = registry.get<components::ParticleComponent> (particle);
 
-      if (registry.has<components::PositionComponent> (particle) && particle_par.Life % 1 == 0)
+      if (registry.has<components::Position> (particle) && particle_par.Life % 1 == 0)
       {
-        auto particle_pos = registry.get<components::PositionComponent> (particle);
+        auto particle_pos = registry.get<components::Position> (particle);
         particle_pos.x += particle_par.SpeedX;
         particle_pos.y += particle_par.SpeedY;
       }
@@ -41,8 +41,8 @@ namespace graphics
 
     inline entt::registry::entity_type Emit (entt::registry& registry, entt::registry::entity_type emitter) override
     {
-      auto pos = registry.get<components::PositionComponent> (emitter);
-      auto dim = registry.get<components::DimensionComponent> (emitter);
+      auto pos = registry.get<components::Position> (emitter);
+      auto dim = registry.get<components::Dimension> (emitter);
 
       auto particle = registry.create();
 
@@ -53,13 +53,13 @@ namespace graphics
       float rotation = this->GetRandomValue<float> (this->Data.RotationRange);
       double scale   = this->GetRandomValue<float> (this->Data.ScaleXRange, true);
 
-      registry.assign<components::PositionComponent> (particle, px, pos.y, pos.z);
-      registry.assign<components::DimensionComponent> (particle, dim.w, dim.h);
+      registry.assign<components::Position> (particle, px, pos.y, pos.z);
+      registry.assign<components::Dimension> (particle, dim.w, dim.h);
       registry.assign<components::ParticleComponent> (particle, max_life, 16.f, speedx, speedy, 1);
       registry.assign<components::SpriteComponent> (particle, this->TextureName, "particles");
       registry.assign<components::TransformComponent> (particle, rotation, glm::vec2 (scale, scale));
       registry.assign<components::MovementComponent> (particle, glm::vec2 (0.f, 100.f * speedy), false, true);
-      // particle.assign<components::Body2DComponent>();
+      // particle.assign<components::Body2D>();
       return particle;
     }
   };

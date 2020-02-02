@@ -86,8 +86,8 @@
 // void Sandbox::load_game_info() {
 //// Fonts
 ////auto title_text = entities.create();
-////title_text.assign<stella::components::PositionComponent>(30.f, 30.f);
-////title_text.assign<stella::components::DimensionComponent>(9.f, 9.f);
+////title_text.assign<stella::components::Position>(30.f, 30.f);
+////title_text.assign<stella::components::Dimension>(9.f, 9.f);
 ////title_text.assign<stella::components::TextComponent>("- TORCH -",
 ///"font-cursive", true);
 
@@ -95,8 +95,8 @@
 ////std::stringstream renderer_string("");
 ////renderer_string << renderer;
 ////auto renderer_info = entities.create();
-////renderer_info.assign<stella::components::PositionComponent>(30.f, 60.f);
-////renderer_info.assign<stella::components::DimensionComponent>(9.f, 9.f);
+////renderer_info.assign<stella::components::Position>(30.f, 60.f);
+////renderer_info.assign<stella::components::Dimension>(9.f, 9.f);
 ////renderer_info.assign<stella::components::TextComponent>(renderer_string.str(),
 ///"font-cursive", true);
 
@@ -104,41 +104,41 @@
 ////std::stringstream version_string("");
 ////version_string << "OpenGL " << version;
 ////auto opengl_info = entities.create();
-////opengl_info.assign<stella::components::PositionComponent>(30.f, 75.f);
-////opengl_info.assign<stella::components::DimensionComponent>(9.f, 9.f);
+////opengl_info.assign<stella::components::Position>(30.f, 75.f);
+////opengl_info.assign<stella::components::Dimension>(9.f, 9.f);
 ////opengl_info.assign<stella::components::TextComponent>(version_string.str(),
 ///"font-cursive", true);
 
 ////this->FPSText = entities.create();
-////this->FPSText.assign<stella::components::PositionComponent>(30.f, 90.f);
-////this->FPSText.assign<stella::components::DimensionComponent>(9.f, 9.f);
+////this->FPSText.assign<stella::components::Position>(30.f, 90.f);
+////this->FPSText.assign<stella::components::Dimension>(9.f, 9.f);
 ////this->FPSText.assign<stella::components::TextComponent>("", "font-cursive");
 //}
 
 // void Sandbox::create_camera(double x, double y, double z) {
-// this->Registry.assign<stella::components::CameraComponent>(m_camera);
-// this->Registry.assign<stella::components::PositionComponent>(m_camera, x, y,
+// this->Registry.assign<stella::components::Camera>(m_camera);
+// this->Registry.assign<stella::components::Position>(m_camera, x, y,
 // z);
 //}
 
 // void Sandbox::update_camera(double x, double y, double z) {
 // auto &pos =
-// this->Registry.get<stella::components::PositionComponent>(m_camera); pos.x =
+// this->Registry.get<stella::components::Position>(m_camera); pos.x =
 // x; pos.y = y; pos.z = z;
 //}
 
 // std::tuple<int,int,int> Sandbox::get_position(entt::registry::entity_type
 // entity)
 //{
-// if (this->Registry.has<stella::components::PositionComponent>(entity))
+// if (this->Registry.has<stella::components::Position>(entity))
 //{
 // const auto &position =
-// this->Registry.get<stella::components::PositionComponent>(entity); return
+// this->Registry.get<stella::components::Position>(entity); return
 // std::make_tuple(position.x, position.y, position.z);
 //}
 // else
 //{
-// std::cout << "Entity has no PositionComponent\n";
+// std::cout << "Entity has no Position\n";
 // return std::make_tuple(0,0,0);
 //}
 //}
@@ -156,7 +156,7 @@
 // obj["priority"]; const std::string &shader_id = obj["shader"] == sol::lua_nil
 // ? std::string("basic") : obj["shader"]; const bool &fixed = obj["fixed"] ==
 // sol::lua_nil ? true : obj["fixed"]; auto layer = this->Registry.create();
-// this->Registry.assign<stella::components::LayerComponent>(layer, layer_name,
+// this->Registry.assign<stella::components::Layer>(layer, layer_name,
 // priority, shader_id, fixed);
 //}
 
@@ -195,7 +195,7 @@
 // const int &x = obj[1] == sol::lua_nil ? 0 : obj[1];
 // const int &y = obj[2] == sol::lua_nil ? 0 : obj[2];
 // const int &z = obj[3] == sol::lua_nil ? 0 : obj[3];
-// this->Registry.assign<stella::components::PositionComponent>(id, x, y, z);
+// this->Registry.assign<stella::components::Position>(id, x, y, z);
 //}
 
 // void Sandbox::add_dimension_component(entt::registry::entity_type id, const
@@ -203,7 +203,7 @@
 //{
 // const unsigned w = obj[1] == sol::lua_nil ? 0 : obj[1];
 // const unsigned h = obj[2] == sol::lua_nil ? 0 : obj[2];
-// this->Registry.assign<stella::components::DimensionComponent>(id, w, h);
+// this->Registry.assign<stella::components::Dimension>(id, w, h);
 //}
 
 // void Sandbox::add_animation_component(entt::registry::entity_type id, const
@@ -232,7 +232,7 @@
 // animations.emplace_back(name, frames, speed);
 //}
 
-// this->Registry.assign<stella::components::AnimationsComponent>(id,
+// this->Registry.assign<stella::components::Animation>(id,
 // animations, glm::vec2(framew, frameh));
 //}
 
@@ -257,7 +257,7 @@
 // void Sandbox::add_player_component(entt::registry::entity_type id, const
 // sol::table &obj)
 //{
-// this->Registry.assign<stella::components::PlayerComponent>(id);
+// this->Registry.assign<stella::components::Player>(id);
 //}
 
 // void Sandbox::add_body_component(entt::registry::entity_type id, const
@@ -267,13 +267,13 @@
 // sol::lua_nil ? false : obj["collide_with_borders"]; if (obj["drag"] ==
 // sol::lua_nil)
 //{
-// this->Registry.assign<stella::components::Body2DComponent>(id);
+// this->Registry.assign<stella::components::Body2D>(id);
 //}
 // else
 //{
 // double dragx = obj["drag"][1];
 // double dragy = obj["drag"][2];
-// this->Registry.assign<stella::components::Body2DComponent>(id,
+// this->Registry.assign<stella::components::Body2D>(id,
 // std::vector<double>(dragx, dragy), collide_with_borders);
 //}
 //}

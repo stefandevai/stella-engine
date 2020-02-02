@@ -9,9 +9,9 @@ namespace stella
 {
 namespace components
 {
-  struct BitmapTextComponent
+  struct BitmapText
   {
-    BitmapTextComponent (const std::string& text, const std::string& font_tex_name, bool is_static = false)
+    BitmapText (const std::string& text, const std::string& font_tex_name, bool is_static = false)
       : Text (text), Name (font_tex_name), IsStatic (is_static)
     {
       this->InLayer = false;

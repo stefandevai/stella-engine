@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../dimension_component.h"
+#include "../dimension.h"
 #include "../particle_component.h"
-#include "../position_component.h"
+#include "../position.h"
 #include "../sprite_component.h"
 #include "../transform_component.h"
 #include <entt/entity/registry.hpp>
@@ -33,9 +33,9 @@ namespace graphics
     {
       auto& particle_par = registry.get<components::ParticleComponent> (particle);
 
-      if (registry.has<components::PositionComponent> (particle))
+      if (registry.has<components::Position> (particle))
       {
-        auto& particle_pos = registry.get<components::PositionComponent> (particle);
+        auto& particle_pos = registry.get<components::Position> (particle);
         particle_pos.x += particle_par.SpeedX;
         particle_pos.y += particle_par.SpeedY;
       }
@@ -45,8 +45,8 @@ namespace graphics
 
     virtual entt::registry::entity_type Emit (entt::registry& registry, entt::registry::entity_type emitter)
     {
-      auto& pos = registry.get<components::PositionComponent> (emitter);
-      auto& dim = registry.get<components::DimensionComponent> (emitter);
+      auto& pos = registry.get<components::Position> (emitter);
+      auto& dim = registry.get<components::Dimension> (emitter);
 
       auto particle = registry.create();
 
@@ -65,13 +65,13 @@ namespace graphics
       if (scaley == -1.f)
         scaley = scalex;
 
-      registry.assign<components::PositionComponent> (particle, px, py, pos.z);
-      registry.assign<components::DimensionComponent> (particle, dim.w, dim.h);
+      registry.assign<components::Position> (particle, px, py, pos.z);
+      registry.assign<components::Dimension> (particle, dim.w, dim.h);
       registry.assign<components::ParticleComponent> (particle, max_life, scalex, speedx, speedy);
       registry.assign<components::SpriteComponent> (particle, this->TextureName, "particles");
       registry.assign<components::TransformComponent> (particle, rotation, glm::vec2 (scalex, scaley));
       registry.assign<components::MovementComponent> (particle, glm::vec2 (speedx, speedy), false);
-      // particle.assign<components::Body2DComponent>();
+      // particle.assign<components::Body2D>();
       return particle;
     }
 

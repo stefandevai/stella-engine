@@ -42,7 +42,7 @@ namespace systems
     // void initialize_text(entt::registry &registry, entt::entity entity,
     // components::TimerComponent &timer)
     // {
-    //   //auto pos = registry.get<components::PositionComponent>(entity);
+    //   //auto pos = registry.get<components::Position>(entity);
 
     // }
   };

@@ -1,5 +1,5 @@
 #include "editor/inspector.h"
-#include "stella/components/position_component.h"
+#include "stella/components/position.h"
 
 namespace stella
 {
@@ -15,9 +15,9 @@ namespace editor
       ImGui::Dummy (ImVec2 (0.f, 3.f));
       if (m_selected_entity != entt::null && registry.valid (m_selected_entity))
       {
-        if (registry.has<components::PositionComponent> (m_selected_entity))
+        if (registry.has<components::Position> (m_selected_entity))
         {
-          auto& pos          = registry.get<components::PositionComponent> (m_selected_entity);
+          auto& pos          = registry.get<components::Position> (m_selected_entity);
           float pos_input[3] = {pos.x, pos.y, pos.z};
           ImGui::InputFloat3 ("Position", pos_input, "%.2f");
           pos.x = pos_input[0];

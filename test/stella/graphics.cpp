@@ -1,5 +1,5 @@
 #include "stella/graphics.h"
-#include "stella/components/color_component.h"
+#include "stella/components/color.h"
 #include <iostream>
 
 #include "../catch.hpp"
@@ -109,7 +109,7 @@ TEST_CASE ("sprites can have frames and animations", "[lib][graphics]")
 
 TEST_CASE ("Color component conversions")
 {
-  stella::components::ColorComponent color = stella::components::ColorComponent ("#4db88fff");
+  stella::components::Color color = stella::components::Color ("#4db88fff");
   CHECK (color.hex_color == "#4db88fff");
   CHECK (color.int_color == 1303941119);
   CHECK (color.rgba_color.r == 77);
@@ -117,7 +117,7 @@ TEST_CASE ("Color component conversions")
   CHECK (color.rgba_color.b == 143);
   CHECK (color.rgba_color.a == 255);
 
-  stella::components::ColorComponent color2 = stella::components::ColorComponent (77, 184, 143, 255);
+  stella::components::Color color2 = stella::components::Color (77, 184, 143, 255);
   CHECK (color2.hex_color == "#4db88fff");
   CHECK (color2.int_color == 1303941119);
   CHECK (color2.rgba_color.r == 77);

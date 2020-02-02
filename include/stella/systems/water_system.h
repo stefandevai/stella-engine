@@ -3,13 +3,13 @@
 #include "../core/resource.h"
 #include "./system.h"
 #include <ctime>
-//#include "../components/layer_component.h"
+//#include "../components/layer.h"
 //#include "../components/sprite_component.h"
-#include "../components/dimension_component.h"
-#include "../components/position_component.h"
+#include "../components/dimension.h"
+#include "../components/position.h"
 #include "../components/water_component.h"
 //#include "../components/transform_component.h"
-#include "../components/camera_component.h"
+#include "../components/camera.h"
 #include "stella/graphics/layers/water_layer.h"
 
 namespace stella
@@ -34,7 +34,7 @@ namespace systems
     void update (entt::registry& registry, const double dt) override
     {
       registry
-          .group<components::SpriteComponent> (entt::get<components::PositionComponent, components::DimensionComponent>)
+          .group<components::SpriteComponent> (entt::get<components::Position, components::Dimension>)
           .each ([this, &registry] (auto entity, auto& sprite, auto& pos, auto& dim) {
             // Adds sprite to layer
             if (!sprite.InLayer)
@@ -101,7 +101,7 @@ namespace systems
       // for (auto const& order : m_ordered_layers) {
       // if (!m_layers[order.second]->Fixed)
       //{
-      // registry.group<components::CameraComponent>(entt::get<components::PositionComponent>).each([this,
+      // registry.group<components::Camera>(entt::get<components::Position>).each([this,
       // &order](auto entity, auto &camera, auto &pos)
       //{
       // m_layers[order.second]->SetViewMatrix(glm::lookAt(glm::vec3(pos.x,

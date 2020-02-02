@@ -32,9 +32,9 @@ namespace graphics
     {
       auto& particle_par = registry.get<components::ParticleComponent> (particle);
 
-      if (registry.has<components::PositionComponent> (particle))
+      if (registry.has<components::Position> (particle))
       {
-        auto& particle_pos = registry.get<components::PositionComponent> (particle);
+        auto& particle_pos = registry.get<components::Position> (particle);
         if ((int) particle_par.SpeedX % 3 == 0)
           particle_pos.x -= cos (particle_par.SpeedX * particle_par.Life * PI / 180) * 3 - 1;
         else if ((int) particle_par.SpeedY % 2 == 0)

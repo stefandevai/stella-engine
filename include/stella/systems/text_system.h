@@ -1,9 +1,9 @@
 #pragma once
 
-#include "stella/components/charcode_component.h"
-#include "stella/components/color_component.h"
-#include "stella/components/dimension_component.h"
-#include "stella/components/position_component.h"
+#include "stella/components/charcode.h"
+#include "stella/components/color.h"
+#include "stella/components/dimension.h"
+#include "stella/components/position.h"
 #include "stella/components/sprite_component.h"
 #include "stella/components/text_component.h"
 #include "stella/graphics/font.h"
@@ -34,7 +34,7 @@ namespace systems
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry.group<components::TextComponent> (entt::get<components::PositionComponent>)
+      registry.group<components::TextComponent> (entt::get<components::Position>)
           .each ([&registry, this] (auto entity, auto& text, auto& pos) {
             if (!text.IsStatic)
             {
@@ -44,8 +44,8 @@ namespace systems
 
               for (const auto chr : text.char_entities)
               {
-                auto& chr_pos        = registry.get<components::PositionComponent> (chr);
-                const auto& chr_code = registry.get<components::CharcodeComponent> (chr);
+                auto& chr_pos        = registry.get<components::Position> (chr);
+                const auto& chr_code = registry.get<components::Charcode> (chr);
                 const auto& chr_data = font->get_char_data (chr_code.code);
 
                 chr_pos.x = acc_char_posx + chr_data.bl;
@@ -62,7 +62,7 @@ namespace systems
     void initialize_text (entt::registry& registry, entt::entity entity, components::TextComponent& text)
     {
       auto font       = m_fonts.load (text.FontName);
-      const auto& pos = registry.get<components::PositionComponent> (entity);
+      const auto& pos = registry.get<components::Position> (entity);
       float char_posx = (float) pos.x;
       float char_maxh = 0.f;
 
@@ -71,9 +71,9 @@ namespace systems
 
       // TODO: If there are defined dimensions, the text should remain within
       // its constraints
-      if (registry.has<components::DimensionComponent> (entity))
+      if (registry.has<components::Dimension> (entity))
       {
-        const auto& dim = registry.get<components::DimensionComponent> (entity);
+        const auto& dim = registry.get<components::Dimension> (entity);
         max_text_width  = dim.w;
         // max_text_height = dim.h;
       }
@@ -91,22 +91,22 @@ namespace systems
         // If the character is an space
         if (w > 0.f && h > 0.f)
         {
-          registry.assign<components::CharcodeComponent> (char_entity, c);
+          registry.assign<components::Charcode> (char_entity, c);
           registry.assign<components::SpriteComponent> (char_entity,
                                                         glm::vec3 (xpos, ypos, 0.f),
                                                         glm::vec2 (w, h),
                                                         glm::vec2 (ch.tx, 0.f),
                                                         *font->get_atlas(),
                                                         "text");
-          registry.assign<components::PositionComponent> (char_entity, xpos, ypos);
-          registry.assign<components::DimensionComponent> (char_entity, w, h);
-          registry.assign<components::ColorComponent> (char_entity, text.color);
+          registry.assign<components::Position> (char_entity, xpos, ypos);
+          registry.assign<components::Dimension> (char_entity, w, h);
+          registry.assign<components::Color> (char_entity, text.color);
         }
         // Else, the character has a graphical representation
         else
         {
-          registry.assign<components::CharcodeComponent> (char_entity, c);
-          registry.assign<components::PositionComponent> (char_entity, xpos, ypos);
+          registry.assign<components::Charcode> (char_entity, c);
+          registry.assign<components::Position> (char_entity, xpos, ypos);
         }
         text.char_entities.push_back (char_entity);
 
@@ -117,7 +117,7 @@ namespace systems
       // If there are no defined dimensions, the text will be in one line
       if (max_text_width == 0.f)
       {
-        auto& dim = registry.get_or_assign<components::DimensionComponent, float, float> (entity, 0.f, 0.f);
+        auto& dim = registry.get_or_assign<components::Dimension, float, float> (entity, 0.f, 0.f);
         dim.w     = char_posx - pos.x;
         dim.h     = char_maxh;
       }

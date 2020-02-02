@@ -1,7 +1,7 @@
 #include "stella/core/tile_map.h"
-#include "stella/components/dimension_component.h"
+#include "stella/components/dimension.h"
 #include "stella/components/log_component.h"
-#include "stella/components/position_component.h"
+#include "stella/components/position.h"
 #include "stella/components/sprite_component.h"
 #include "stella/components/tile_component.h"
 
@@ -203,16 +203,16 @@ namespace core
 
   void TileMap::update_tile_position (entt::entity entity, const unsigned layer_id, const int x, const int y, const int z)
   {
-    if (m_registry.has<components::PositionComponent>(entity))
+    if (m_registry.has<components::Position>(entity))
     {
-      auto& pos = m_registry.get<components::PositionComponent> (entity);
+      auto& pos = m_registry.get<components::Position> (entity);
       pos.x = x * m_tile_dimension;
       pos.y = y * m_tile_dimension;
       pos.z = z;
     }
     else
     {
-      m_registry.assign<components::PositionComponent> (entity, x * m_tile_dimension, y * m_tile_dimension, z);
+      m_registry.assign<components::Position> (entity, x * m_tile_dimension, y * m_tile_dimension, z);
     }
   }
 
@@ -226,8 +226,8 @@ namespace core
                                                     glm::vec2 (m_tile_dimension, m_tile_dimension),
                                                     layers[layer_id]->get_render_layer_name(),
                                                     value);
-    m_registry.assign<components::PositionComponent> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
-    m_registry.assign<components::DimensionComponent> (tile, m_tile_dimension, m_tile_dimension);
+    m_registry.assign<components::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
+    m_registry.assign<components::Dimension> (tile, m_tile_dimension, m_tile_dimension);
     layers[layer_id]->set_entity (x, y, tile);
   }
 

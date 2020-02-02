@@ -4,9 +4,9 @@ namespace stella
 {
 namespace components
 {
-  struct CharcodeComponent
+  struct Charcode
   {
-    CharcodeComponent (wchar_t c) : code (c) {}
+    Charcode (wchar_t c) : code (c) {}
     wchar_t code;
   };
 } // namespace components

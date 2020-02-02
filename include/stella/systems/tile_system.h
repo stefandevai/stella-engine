@@ -30,8 +30,8 @@ namespace systems
 
     void update (entt::registry& registry, const double dt) override
     {
-      const auto& camera_position  = registry.get<components::PositionComponent> (m_camera);
-      const auto& camera_dimension = registry.get<components::DimensionComponent> (m_camera);
+      const auto& camera_position  = registry.get<components::Position> (m_camera);
+      const auto& camera_dimension = registry.get<components::Dimension> (m_camera);
 
       if (m_first_position_check)
       {
@@ -52,7 +52,7 @@ namespace systems
       }
 
       registry
-          .group<components::TileComponent> (entt::get<components::PositionComponent, components::DimensionComponent>)
+          .group<components::TileComponent> (entt::get<components::Position, components::Dimension>)
           .each (
               [this, &registry, &camera_position, &camera_dimension] (auto entity, auto& tile, auto& pos, auto& dim) {
                 // Fix to weird bug where camera values suddenly get messed up
@@ -65,9 +65,9 @@ namespace systems
                 // {
                 //   std::cout << "Camera values messed up. Requesting its
                 //   components again.\n"; camera_pos =
-                //   registry.get<components::PositionComponent>(m_camera);
+                //   registry.get<components::Position>(m_camera);
                 //   camera_dim =
-                //   registry.get<components::DimensionComponent>(m_camera);
+                //   registry.get<components::Dimension>(m_camera);
                 // }
 
                 // Destroy tile entity if it is outside of the camera view (frustrum
@@ -109,7 +109,7 @@ namespace systems
     void remove_tile_visibility (entt::registry& registry, entt::entity entity)
     {
       const auto& tile = registry.get<components::TileComponent> (entity);
-      const auto& pos  = registry.get<components::PositionComponent> (entity);
+      const auto& pos  = registry.get<components::Position> (entity);
       m_tile_map.layers[tile.layer_id]->set_visibility (pos.x / m_tile_dimension, pos.y / m_tile_dimension, false);
 
       // if (tile.collidable)

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "stella/components/camera_component.h"
-#include "stella/components/dimension_component.h"
-#include "stella/components/layer_component.h"
-#include "stella/components/position_component.h"
+#include "stella/components/camera.h"
+#include "stella/components/dimension.h"
+#include "stella/components/layer.h"
+#include "stella/components/position.h"
 #include "stella/components/sprite_component.h"
 #include "stella/components/transform_component.h"
 #include "stella/core/resource.h"
@@ -37,7 +37,7 @@ namespace systems
                   graphics::Display& display)
       : m_textures (textures), m_display (display)
     {
-      registry.on_construct<components::LayerComponent>().connect<&RenderSystem::initialize_layer> (this);
+      registry.on_construct<components::Layer>().connect<&RenderSystem::initialize_layer> (this);
       registry.on_destroy<components::SpriteComponent>().connect<&RenderSystem::remove_sprite_from_layer> (this);
       std::srand (static_cast<unsigned> (std::time (nullptr)));
     }
@@ -47,7 +47,7 @@ namespace systems
     void update (entt::registry& registry, const double dt) override
     {
       registry
-          .group<components::SpriteComponent> (entt::get<components::PositionComponent, components::DimensionComponent>)
+          .group<components::SpriteComponent> (entt::get<components::Position, components::Dimension>)
           .each ([this, &registry] (auto entity, auto& sprite, auto& pos, auto& dim) {
             // Adds sprite to layer
             if (!sprite.InLayer && sprite.Initialized)
@@ -129,8 +129,8 @@ namespace systems
             }
           });
 
-      const auto camera_entity = *registry.view<stella::components::CameraComponent>().begin();
-      auto& camera_pos         = registry.get<components::PositionComponent> (camera_entity);
+      const auto camera_entity = *registry.view<stella::components::Camera>().begin();
+      auto& camera_pos         = registry.get<components::Position> (camera_entity);
 
       for (auto const& order : m_ordered_layers)
       {
@@ -158,7 +158,7 @@ namespace systems
       }
     }
 
-    void initialize_layer (entt::registry& registry, entt::entity entity, components::LayerComponent& layer)
+    void initialize_layer (entt::registry& registry, entt::entity entity, components::Layer& layer)
     {
       assert (m_ordered_layers.find (layer.Order) == m_ordered_layers.end() &&
               "You should assign different orders for layers.");

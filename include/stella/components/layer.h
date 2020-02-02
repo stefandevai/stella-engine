@@ -4,9 +4,9 @@ namespace stella
 {
 namespace components
 {
-  struct LayerComponent
+  struct Layer
   {
-    LayerComponent (std::string id,
+    Layer (std::string id,
                     unsigned order,
                     std::string shader_id,
                     std::string vert_shader_source,

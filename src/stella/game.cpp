@@ -28,14 +28,14 @@ namespace core
 
   void Game::create_camera (const double x, const double y, const double z)
   {
-    m_registry.assign<stella::components::CameraComponent> (m_camera);
-    m_registry.assign<stella::components::PositionComponent> (m_camera, x, y, z);
-    m_registry.assign<stella::components::DimensionComponent> (m_camera, m_initial_width + x, m_initial_height + y);
+    m_registry.assign<stella::components::Camera> (m_camera);
+    m_registry.assign<stella::components::Position> (m_camera, x, y, z);
+    m_registry.assign<stella::components::Dimension> (m_camera, m_initial_width + x, m_initial_height + y);
   }
 
   void Game::update_camera (const double x, const double y, const double z)
   {
-    auto& pos = m_registry.get<stella::components::PositionComponent> (m_camera);
+    auto& pos = m_registry.get<stella::components::Position> (m_camera);
     pos.x     = x;
     pos.y     = y;
     pos.z     = z;
@@ -43,7 +43,7 @@ namespace core
 
   std::vector<float> Game::get_camera_pos()
   {
-    auto& pos = m_registry.get<stella::components::PositionComponent> (m_camera);
+    auto& pos = m_registry.get<stella::components::Position> (m_camera);
     return std::vector<float>{pos.x, pos.y, pos.z};
   }
 

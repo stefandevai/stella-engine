@@ -18,7 +18,7 @@ namespace systems
     {
       registry
           .group<components::TransformComponent> (
-              entt::get<components::DimensionComponent, components::SpriteComponent>)
+              entt::get<components::Dimension, components::SpriteComponent>)
           .each ([] (auto entity, auto& trans, auto& dim, auto& sprite) {
             if (sprite.Sprite)
             {

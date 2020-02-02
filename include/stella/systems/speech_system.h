@@ -1,7 +1,7 @@
 #pragma once
 
-#include "stella/components/dimension_component.h"
-#include "stella/components/position_component.h"
+#include "stella/components/dimension.h"
+#include "stella/components/position.h"
 #include "stella/components/speech_container.h"
 #include "stella/components/text_component.h"
 #include "stella/systems/system.h"
@@ -27,10 +27,10 @@ namespace systems
         {
           if (registry.valid (*it))
           {
-            const auto& parent_pos = registry.get<components::PositionComponent> (entity);
-            const auto& parent_dim = registry.get<components::DimensionComponent> (entity);
-            auto& text_pos         = registry.get<components::PositionComponent> (*it);
-            auto& text_dim         = registry.get<components::DimensionComponent> (*it);
+            const auto& parent_pos = registry.get<components::Position> (entity);
+            const auto& parent_dim = registry.get<components::Dimension> (entity);
+            auto& text_pos         = registry.get<components::Position> (*it);
+            auto& text_dim         = registry.get<components::Dimension> (*it);
 
             text_pos.x          = parent_pos.x + parent_dim.w / 2.f - text_dim.w / 2.f;
             text_pos.y          = parent_pos.y - 4.f - acc_message_spacing;

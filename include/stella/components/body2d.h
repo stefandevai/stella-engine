@@ -7,9 +7,9 @@ namespace stella
 {
 namespace components
 {
-  struct Body2DComponent
+  struct Body2D
   {
-    Body2DComponent (const std::vector<double>& drag                  = {0.f, 0.f},
+    Body2D (const std::vector<double>& drag                  = {0.f, 0.f},
                      const std::vector<double>& bounding_box          = {0.f, 0.f},
                      const std::vector<double>& bounding_box_position = {0.f, 0.f},
                      bool collide_with_borders                        = false)
@@ -17,7 +17,7 @@ namespace components
         CollideWithBorders (collide_with_borders)
     {
     }
-    ~Body2DComponent() {}
+    ~Body2D() {}
 
     std::shared_ptr<stella::topdown::Body> Body;
     bool Initialized = false;

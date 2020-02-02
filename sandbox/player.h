@@ -40,8 +40,8 @@ class Player
 
     void update()
     {
-      auto &player = m_registry.get<stella::components::PlayerComponent>(entity);
-      auto &body = m_registry.get<stella::components::Body2DComponent>(entity);
+      auto &player = m_registry.get<stella::components::Player>(entity);
+      auto &body = m_registry.get<stella::components::Body2D>(entity);
       auto previous_state = this->current_state;
 
       if (body.Body->Velocity.x > MAX_PLAYER_VELOCITY) body.Body->Velocity.x = MAX_PLAYER_VELOCITY;
@@ -101,12 +101,12 @@ class Player
         this->current_state = FALLING;
       }
 
-      auto &anims = m_registry.get<stella::components::AnimationsComponent>(entity);
+      auto &anims = m_registry.get<stella::components::Animation>(entity);
       this->SetState(this->current_state, anims, previous_state);
     }
 
   private:
-    void SetState(Player::State state, stella::components::AnimationsComponent &anims, Player::State previous_state)
+    void SetState(Player::State state, stella::components::Animation &anims, Player::State previous_state)
     {
       if (previous_state != this->current_state && previous_state == RUNNING)
       {

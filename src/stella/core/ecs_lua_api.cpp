@@ -18,14 +18,14 @@ namespace script
 
   std::tuple<int, int, int> ECSLuaApi::get_position (entt::registry::entity_type entity)
   {
-    if (m_registry.has<stella::components::PositionComponent> (entity))
+    if (m_registry.has<stella::components::Position> (entity))
     {
-      const auto& position = m_registry.get<stella::components::PositionComponent> (entity);
+      const auto& position = m_registry.get<stella::components::Position> (entity);
       return std::make_tuple (position.x, position.y, position.z);
     }
     else
     {
-      std::cout << "Entity has no PositionComponent\n";
+      std::cout << "Entity has no Position\n";
       return std::make_tuple (0, 0, 0);
     }
   }
@@ -45,7 +45,7 @@ namespace script
     std::string frag_shader_source = obj["frag_source"] == sol::lua_nil ? std::string() : obj["frag_source"];
     const bool& fixed              = obj["fixed"] == sol::lua_nil ? true : obj["fixed"];
     auto layer                     = m_registry.create();
-    m_registry.assign<stella::components::LayerComponent> (
+    m_registry.assign<stella::components::Layer> (
         layer, layer_name, priority, shader_id, vert_shader_source, frag_shader_source, fixed);
   }
 
@@ -80,14 +80,14 @@ namespace script
     const int& x = obj[1] == sol::lua_nil ? 0 : obj[1];
     const int& y = obj[2] == sol::lua_nil ? 0 : obj[2];
     const int& z = obj[3] == sol::lua_nil ? 0 : obj[3];
-    m_registry.assign<stella::components::PositionComponent> (id, x, y, z);
+    m_registry.assign<stella::components::Position> (id, x, y, z);
   }
 
   void ECSLuaApi::add_dimension_component (entt::registry::entity_type id, const sol::table& obj)
   {
     const unsigned w = obj[1] == sol::lua_nil ? 0 : obj[1];
     const unsigned h = obj[2] == sol::lua_nil ? 0 : obj[2];
-    m_registry.assign<stella::components::DimensionComponent> (id, w, h);
+    m_registry.assign<stella::components::Dimension> (id, w, h);
   }
 
   void ECSLuaApi::add_animation_component (entt::registry::entity_type id, const sol::table& obj)
@@ -115,7 +115,7 @@ namespace script
       animations.emplace_back (name, frames, speed);
     }
 
-    m_registry.assign<stella::components::AnimationsComponent> (id, animations, glm::vec2 (framew, frameh));
+    m_registry.assign<stella::components::Animation> (id, animations, glm::vec2 (framew, frameh));
   }
 
   void ECSLuaApi::add_tileview_component (entt::registry::entity_type id, const sol::table& obj)
@@ -133,7 +133,7 @@ namespace script
 
   void ECSLuaApi::add_player_component (entt::registry::entity_type id, const sol::table& obj)
   {
-    m_registry.assign<stella::components::PlayerComponent> (id);
+    m_registry.assign<stella::components::Player> (id);
   }
 
   void ECSLuaApi::add_body_component (entt::registry::entity_type id, const sol::table& obj)
@@ -161,7 +161,7 @@ namespace script
     }
     // std::cout << bbpos[0] << '\n';
     // std::cout << bbpos[1] << '\n';
-    m_registry.assign<stella::components::Body2DComponent> (id, drag, bb, bbpos, collide_with_borders);
+    m_registry.assign<stella::components::Body2D> (id, drag, bb, bbpos, collide_with_borders);
   }
 
   void ECSLuaApi::add_bitmap_text_component (entt::registry::entity_type id, const sol::table& obj)
@@ -169,7 +169,7 @@ namespace script
     const std::string& text      = obj["text"];
     const std::string& font_name = obj["font_name"];
     const bool& is_static        = obj["is_static"];
-    m_registry.assign<stella::components::BitmapTextComponent> (id, text, font_name, is_static);
+    m_registry.assign<stella::components::BitmapText> (id, text, font_name, is_static);
   }
 
   void ECSLuaApi::add_text_component (entt::registry::entity_type id, const sol::table& obj)

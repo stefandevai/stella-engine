@@ -6,9 +6,9 @@ namespace stella
 {
 namespace components
 {
-  struct PlayerComponent
+  struct Player
   {
-    PlayerComponent() {}
+    Player() {}
     bool InAir      = false;
     float JumpForce = 250.f, Acceleration = 4400.f, Drag = 2200.f;
 

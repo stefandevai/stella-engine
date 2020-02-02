@@ -18,7 +18,7 @@ namespace systems
   public:
     explicit PhysicsSystem (const core::TileMap& tile_map, entt::registry& registry) : m_tile_map (tile_map)
     {
-      registry.on_destroy<components::Body2DComponent>().connect<&PhysicsSystem::remove_body_from_world> (this);
+      registry.on_destroy<components::Body2D>().connect<&PhysicsSystem::remove_body_from_world> (this);
     }
 
     ~PhysicsSystem() override {}
@@ -26,7 +26,7 @@ namespace systems
     void update (entt::registry& registry, const double dt) override
     {
       registry
-          .group<components::Body2DComponent> (entt::get<components::PositionComponent, components::DimensionComponent>)
+          .group<components::Body2D> (entt::get<components::Position, components::Dimension>)
           .each ([this, &registry] (auto entity, auto& body, auto& pos, auto& dim) {
             if (!body.Initialized)
             {
@@ -78,7 +78,7 @@ namespace systems
 
     void remove_body_from_world (entt::registry& registry, entt::entity entity)
     {
-      auto& body = registry.get<components::Body2DComponent> (entity);
+      auto& body = registry.get<components::Body2D> (entity);
       m_world.RemoveBody (body.Body);
     }
   };

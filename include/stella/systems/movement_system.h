@@ -18,8 +18,8 @@ namespace systems
     {
       registry
           .group<components::MovementComponent> (
-              entt::get<components::PositionComponent>,
-              entt::exclude<components::Body2DComponent, components::PlayerComponent>)
+              entt::get<components::Position>,
+              entt::exclude<components::Body2D, components::Player>)
           .each ([&dt] (auto entity, auto& mov, auto& pos) {
             pos.x += mov.TargetVelocity.x * dt;
             pos.y += mov.TargetVelocity.y * dt;

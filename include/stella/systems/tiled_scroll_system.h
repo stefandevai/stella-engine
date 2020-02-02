@@ -21,7 +21,7 @@ namespace systems
     {
       registry
           .group<components::TileviewComponent> (
-              entt::get<components::PositionComponent, components::DimensionComponent>)
+              entt::get<components::Position, components::Dimension>)
           .each ([this] (auto entity, auto& pos, auto& dim) {
             if (pos.x + dim.w < 0)
             {

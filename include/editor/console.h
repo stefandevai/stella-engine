@@ -8,9 +8,9 @@
 #include <locale>
 
 #include "../../lib/imgui/imgui.h"
-#include "stella/components/dimension_component.h"
-#include "stella/components/player_component.h"
-#include "stella/components/position_component.h"
+#include "stella/components/dimension.h"
+#include "stella/components/player.h"
+#include "stella/components/position.h"
 #include "stella/components/speech_container.h"
 #include "stella/components/text_component.h"
 #include "stella/components/timer_component.h"
@@ -133,12 +133,12 @@ namespace editor
           AddLog ("%s", editable_buffer);
           AddLog ("%c", '\n');
 
-          const auto player_entity = *registry.view<stella::components::PlayerComponent>().begin();
-          auto& player_pos         = registry.get<components::PositionComponent> (player_entity);
-          auto& player_dim         = registry.get<components::DimensionComponent> (player_entity);
+          const auto player_entity = *registry.view<stella::components::Player>().begin();
+          auto& player_pos         = registry.get<components::Position> (player_entity);
+          auto& player_dim         = registry.get<components::Dimension> (player_entity);
 
           auto text_entity = registry.create();
-          registry.assign<stella::components::PositionComponent> (
+          registry.assign<stella::components::Position> (
               text_entity, player_pos.x + player_dim.w / 2.f, player_pos.y - 4.f);
           registry.assign<stella::components::TextComponent> (
               text_entity, m_converter.from_bytes (std::string (editable_buffer)), "1980");

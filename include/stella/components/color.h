@@ -6,7 +6,7 @@ namespace stella
 {
 namespace components
 {
-  struct ColorComponent
+  struct Color
   {
   private:
     struct rgba_color_info
@@ -15,7 +15,7 @@ namespace components
     };
 
   public:
-    ColorComponent (const std::string color) : hex_color (color)
+    Color (const std::string color) : hex_color (color)
     {
       std::stringstream ss;
       std::string only_hex_str{hex_color.substr (1)};
@@ -29,7 +29,7 @@ namespace components
       rgba_color.a = (int_color & 0x000000FF);
     }
 
-    ColorComponent (const unsigned r, const unsigned g, const unsigned b, const unsigned a = 255)
+    Color (const unsigned r, const unsigned g, const unsigned b, const unsigned a = 255)
     {
       std::stringstream ss;
 
