@@ -230,6 +230,8 @@ namespace editor
     style.WindowRounding    = 3.0f;
     style.ScrollbarSize     = 11.0f;
     style.ScrollbarRounding = 10.0f;
+    style.TabRounding       = 0.f;
+    style.TabBorderSize     = 0.f;
 
     style.Colors[ImGuiCol_Text]                  = ImVec4 (1.00f, 1.00f, 1.00f, 1.00f);
     style.Colors[ImGuiCol_TextDisabled]          = ImVec4 (0.50f, 0.50f, 0.50f, 1.00f);
@@ -273,6 +275,14 @@ namespace editor
     style.Colors[ImGuiCol_DragDropTarget]        = ImVec4 (1.00f, 1.00f, 0.00f, 0.90f);
     style.Colors[ImGuiCol_NavHighlight]          = ImVec4 (0.60f, 0.60f, 0.60f, 1.00f);
     style.Colors[ImGuiCol_NavWindowingHighlight] = ImVec4 (1.00f, 1.00f, 1.00f, 0.70f);
+
+    ImVec4 tab_color(60.f/255.f, 32.f/255.f, 84.f/255.f, 1.00f);
+    style.Colors[ImGuiCol_Tab]                   = tab_color;
+    style.Colors[ImGuiCol_TabActive]                   = tab_color;
+    style.Colors[ImGuiCol_TabHovered]                   = ImVec4(80.f/255.f, 41.f/255.f, 115.f/255.f, 1.00f);
+    style.Colors[ImGuiCol_TabUnfocused]                   = tab_color;
+    style.Colors[ImGuiCol_TabUnfocusedActive]                   = tab_color;
+    style.Colors[ImGuiCol_TitleBgActive]         = tab_color;
   }
 
   void EditorGui::draw_dock (const float window_width, const float window_height, const float game_width, const float game_height)
