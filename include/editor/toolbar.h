@@ -14,9 +14,9 @@ namespace editor
   class Toolbar
   {
   public:
-    Toolbar ();
-    ~Toolbar ();
-    void render(editor::State& state, editor::Tool& tool);
+    Toolbar();
+    ~Toolbar();
+    void render (editor::State& state, editor::Tool& tool);
   };
 } // namespace editor
 } // namespace stella

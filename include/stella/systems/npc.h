@@ -63,8 +63,7 @@ namespace system
                     auto response = registry.create();
                     registry.assign<stella::component::Position> (response, pos.x, pos.y - 4.f);
                     registry.assign<component::Text> (response, respond (player_message.text), "1980");
-                    registry.assign<stella::component::Timer> (
-                        response, component::Timer::TimerEvent::Destroy, 3000);
+                    registry.assign<stella::component::Timer> (response, component::Timer::TimerEvent::Destroy, 3000);
 
                     // TODO: Create a method in speech_container to
                     // automatically create entities and emplace_back

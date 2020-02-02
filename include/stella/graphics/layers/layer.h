@@ -21,7 +21,7 @@ namespace graphics
     {
       bool operator() (const std::shared_ptr<Sprite>& lhs, const std::shared_ptr<Sprite>& rhs) const noexcept
       {
-        return ((lhs->Pos.y+lhs->Dimensions.y) < (rhs->Pos.y+rhs->Dimensions.y));
+        return ((lhs->Pos.y + lhs->Dimensions.y) < (rhs->Pos.y + rhs->Dimensions.y));
       }
     };
 

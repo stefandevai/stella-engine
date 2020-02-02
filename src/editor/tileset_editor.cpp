@@ -49,7 +49,7 @@ namespace editor
         ImGui::Text ("Script path:");
         ImGui::PushID ("scripth-path-tiles");
         ImGui::InputText ("", m_script_path, IM_ARRAYSIZE (m_script_path));
-        ImGui::PopID ();
+        ImGui::PopID();
         ImGui::Dummy (ImVec2 (0.f, 3.f));
       }
       ImGui::Dummy (ImVec2 (0.0f, 3.0f));

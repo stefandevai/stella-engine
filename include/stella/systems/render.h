@@ -33,8 +33,8 @@ namespace system
 
   public:
     Render (entt::registry& registry,
-                  core::ResourceManager<graphics::Texture, const std::string>& textures,
-                  graphics::Display& display)
+            core::ResourceManager<graphics::Texture, const std::string>& textures,
+            graphics::Display& display)
       : m_textures (textures), m_display (display)
     {
       registry.on_construct<component::Layer>().connect<&Render::initialize_layer> (this);
@@ -46,8 +46,7 @@ namespace system
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry
-          .group<component::Sprite> (entt::get<component::Position, component::Dimension>)
+      registry.group<component::Sprite> (entt::get<component::Position, component::Dimension>)
           .each ([this, &registry] (auto entity, auto& sprite, auto& pos, auto& dim) {
             // Adds sprite to layer
             if (!sprite.InLayer && sprite.Initialized)
@@ -115,7 +114,7 @@ namespace system
               sprite.sprite->Dimensions.x = dim.w;
               sprite.sprite->Dimensions.y = dim.h;
             }
-            
+
             pos.last_x = pos.x;
             pos.last_y = pos.y;
             pos.last_z = pos.z;

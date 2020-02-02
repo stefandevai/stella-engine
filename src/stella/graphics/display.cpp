@@ -31,14 +31,14 @@ void checkViewportProportions()
   { // Height is max and width is adjusted
     int newwidth = height * 1.77777f;
     int left     = width - newwidth;
-    //std::cout << newwidth << std::endl;
+    // std::cout << newwidth << std::endl;
     glViewport (left / 2, 0, newwidth, height);
   }
   else if (width / (float) height < 1.77f)
   { // Width is max and height is adjusted
     int newheight = (int) width / 1.77f;
     int left      = height - newheight;
-    //std::cout << newheight << std::endl;
+    // std::cout << newheight << std::endl;
     glViewport (0, left / 2, width, newheight);
   }
 }
@@ -60,12 +60,13 @@ namespace graphics
       std::cout << "It was not possible to initialize SDL2" << std::endl;
     }
 
-//#ifdef STELLA_BUILD_EDITOR
+    //#ifdef STELLA_BUILD_EDITOR
     // const SDL_WindowFlags window_flags =
-        // (SDL_WindowFlags) (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
-//#else
-    const SDL_WindowFlags window_flags = (SDL_WindowFlags) (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
-//#endif
+    // (SDL_WindowFlags) (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+    //#else
+    const SDL_WindowFlags window_flags =
+        (SDL_WindowFlags) (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+    //#endif
     this->Window = SDL_CreateWindow (
         this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, window_flags);
     SDL_ShowCursor (SDL_DISABLE);

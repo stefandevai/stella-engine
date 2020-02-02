@@ -25,8 +25,7 @@ namespace system
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry
-          .group<component::Body2D> (entt::get<component::Position, component::Dimension>)
+      registry.group<component::Body2D> (entt::get<component::Position, component::Dimension>)
           .each ([this, &registry] (auto entity, auto& body, auto& pos, auto& dim) {
             if (!body.Initialized)
             {

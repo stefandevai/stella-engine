@@ -19,7 +19,7 @@ namespace editor
 {
   EditorGui::EditorGui (nikte::Game& game) : m_game (game), m_registry (game.m_registry)
   {
-    //m_game.m_display.SetEditor (this);
+    // m_game.m_display.SetEditor (this);
     // m_debug_layer.Add(shape);
     m_editor_layer = game.m_registry.create();
     game.m_registry.assign<component::Layer> (m_editor_layer, "editor", 9999, "", "", "");
@@ -29,15 +29,15 @@ namespace editor
     game.m_registry.assign<component::Position> (m_editor_sprite, -dimensions.x, -dimensions.y);
     game.m_registry.assign<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
     game.m_registry.assign<component::Sprite> (m_editor_sprite,
-                                                         m_tileset_editor.texture,
-                                                         m_tileset_editor.get_tile_dimensions().x,
-                                                         m_tileset_editor.get_tile_dimensions().y,
-                                                         0,
-                                                         "editor");
+                                               m_tileset_editor.texture,
+                                               m_tileset_editor.get_tile_dimensions().x,
+                                               m_tileset_editor.get_tile_dimensions().y,
+                                               0,
+                                               "editor");
     this->init();
   }
 
-  EditorGui::~EditorGui() 
+  EditorGui::~EditorGui()
   {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
@@ -45,7 +45,7 @@ namespace editor
   }
 
   // void EditorGui::init (SDL_Window* window, SDL_GLContext gl_context, const char* glsl_version)
-  void EditorGui::init ()
+  void EditorGui::init()
   {
     m_window = m_game.m_display.Window;
     IMGUI_CHECKVERSION();
@@ -72,10 +72,10 @@ namespace editor
     ImGui_ImplSDL2_InitForOpenGL (m_window, m_game.m_display.m_gl_context);
     ImGui_ImplOpenGL3_Init (m_game.m_display.m_glsl_version);
 
-    m_FBO = std::make_unique<graphics::Framebuffer>(m_game.m_display);
+    m_FBO = std::make_unique<graphics::Framebuffer> (m_game.m_display);
   }
 
-  void EditorGui::configure_input ()
+  void EditorGui::configure_input()
   {
     ImGui_ImplSDL2_ProcessEvent (&m_game.m_display.m_event);
     const Uint8* state = SDL_GetKeyboardState (nullptr);
@@ -106,8 +106,11 @@ namespace editor
       m_game.m_display.Clear();
       m_game.update (m_game.m_display.GetDT());
       m_FBO->Unbind();
-      this->render(m_game.m_display.GetWindowWidth(), m_game.m_display.GetWindowHeight(), m_game.m_display.Width, m_game.m_display.Height);
-      
+      this->render (m_game.m_display.GetWindowWidth(),
+                    m_game.m_display.GetWindowHeight(),
+                    m_game.m_display.Width,
+                    m_game.m_display.Height);
+
       m_game.m_display.Update();
       this->configure_input();
     }
@@ -122,17 +125,12 @@ namespace editor
   {
     if (m_window != nullptr)
     {
-      
       ImGui_ImplOpenGL3_NewFrame();
       ImGui_ImplSDL2_NewFrame (m_window);
       ImGui::NewFrame();
       ImGui::PushFont (m_font_sans_regular);
 
-      
-      this->draw_dock(window_width,
-                          window_height,
-                          game_width,
-                          game_height);
+      this->draw_dock (window_width, window_height, game_width, game_height);
 
       ImGui::PopFont();
       ImGui::Render();
@@ -173,17 +171,17 @@ namespace editor
       // Set dummy sprite position with grid snapping
       const auto& camera_pos = m_game.get_camera_pos();
       float width_padding    = m_scene.get_x() + m_scene.get_game_screen_x_spacing();
-      float height_padding   = m_scene.get_y()*2 + m_scene.get_game_screen_y_spacing();
+      float height_padding   = m_scene.get_y() * 2 + m_scene.get_game_screen_y_spacing();
 
-      //m_log.AddLog("%.2f\n", );
+      // m_log.AddLog("%.2f\n", );
 
-      auto& sprite_pos   = m_registry.get<component::Position> (m_editor_sprite);
-      auto& sprite_spr   = m_registry.get<component::Sprite> (m_editor_sprite);
-      const float width_factor = 896 / static_cast<float>(m_scene.get_game_screen_width());
-      const float height_factor = 504 / static_cast<float>(m_scene.get_game_screen_height());
+      auto& sprite_pos          = m_registry.get<component::Position> (m_editor_sprite);
+      auto& sprite_spr          = m_registry.get<component::Sprite> (m_editor_sprite);
+      const float width_factor  = 896 / static_cast<float> (m_scene.get_game_screen_width());
+      const float height_factor = 504 / static_cast<float> (m_scene.get_game_screen_height());
 
-      ImVec2 tile_pos = m_tileset_editor.pos2tile (io.MousePos.x*width_factor - width_padding + camera_pos[0],
-                                                   io.MousePos.y*height_factor - height_padding + camera_pos[1]);
+      ImVec2 tile_pos    = m_tileset_editor.pos2tile (io.MousePos.x * width_factor - width_padding + camera_pos[0],
+                                                   io.MousePos.y * height_factor - height_padding + camera_pos[1]);
       int new_tile_value = m_tileset_editor.get_selected_tile_id();
 
       sprite_pos.x = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
@@ -276,78 +274,87 @@ namespace editor
     style.Colors[ImGuiCol_NavHighlight]          = ImVec4 (0.60f, 0.60f, 0.60f, 1.00f);
     style.Colors[ImGuiCol_NavWindowingHighlight] = ImVec4 (1.00f, 1.00f, 1.00f, 0.70f);
 
-    ImVec4 tab_color(60.f/255.f, 32.f/255.f, 84.f/255.f, 1.00f);
-    style.Colors[ImGuiCol_Tab]                   = tab_color;
-    style.Colors[ImGuiCol_TabActive]                   = tab_color;
-    style.Colors[ImGuiCol_TabHovered]                   = ImVec4(80.f/255.f, 41.f/255.f, 115.f/255.f, 1.00f);
-    style.Colors[ImGuiCol_TabUnfocused]                   = tab_color;
-    style.Colors[ImGuiCol_TabUnfocusedActive]                   = tab_color;
-    style.Colors[ImGuiCol_TitleBgActive]         = tab_color;
+    ImVec4 tab_color (60.f / 255.f, 32.f / 255.f, 84.f / 255.f, 1.00f);
+    style.Colors[ImGuiCol_Tab]                = tab_color;
+    style.Colors[ImGuiCol_TabActive]          = tab_color;
+    style.Colors[ImGuiCol_TabHovered]         = ImVec4 (80.f / 255.f, 41.f / 255.f, 115.f / 255.f, 1.00f);
+    style.Colors[ImGuiCol_TabUnfocused]       = tab_color;
+    style.Colors[ImGuiCol_TabUnfocusedActive] = tab_color;
+    style.Colors[ImGuiCol_TitleBgActive]      = tab_color;
   }
 
-  void EditorGui::draw_dock (const float window_width, const float window_height, const float game_width, const float game_height)
+  void EditorGui::draw_dock (const float window_width,
+                             const float window_height,
+                             const float game_width,
+                             const float game_height)
   {
-      m_window_width  = window_width;
-      m_window_height = window_height;
-      m_game_width    = game_width;
-      m_game_height   = game_height;
+    m_window_width  = window_width;
+    m_window_height = window_height;
+    m_game_width    = game_width;
+    m_game_height   = game_height;
 
-      ImGuiIO& io = ImGui::GetIO();
-      handle_state (io);
+    ImGuiIO& io = ImGui::GetIO();
+    handle_state (io);
 
-      ImGui::SetNextWindowSize (ImVec2(window_width, window_height), ImGuiCond_Always);
-      ImGui::SetNextWindowPos (ImVec2(0,0), ImGuiCond_Always);
-      ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-	    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-	    ImGui::SetNextWindowBgAlpha(0.0f);
-	    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-	    ImGui::Begin("MainDS", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus);
-	    ImGui::PopStyleVar();
-	    ImGui::PopStyleVar(2);
+    ImGui::SetNextWindowSize (ImVec2 (window_width, window_height), ImGuiCond_Always);
+    ImGui::SetNextWindowPos (ImVec2 (0, 0), ImGuiCond_Always);
+    ImGui::PushStyleVar (ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar (ImGuiStyleVar_WindowBorderSize, 0.0f);
+    ImGui::SetNextWindowBgAlpha (0.0f);
+    ImGui::PushStyleVar (ImGuiStyleVar_WindowPadding, ImVec2 (0.0f, 0.0f));
+    ImGui::Begin ("MainDS",
+                  nullptr,
+                  ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse |
+                      ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar |
+                      ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus);
+    ImGui::PopStyleVar();
+    ImGui::PopStyleVar (2);
 
-      const auto dockspace_id = ImGui::GetID("MainDS");
-      if (!ImGui::DockBuilderGetNode(dockspace_id))
-      {
-        ImGui::DockBuilderRemoveNode(dockspace_id);
-        ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace);
-        ImGui::DockBuilderSetNodeSize(dockspace_id, ImVec2(window_width, window_height));
+    const auto dockspace_id = ImGui::GetID ("MainDS");
+    if (!ImGui::DockBuilderGetNode (dockspace_id))
+    {
+      ImGui::DockBuilderRemoveNode (dockspace_id);
+      ImGui::DockBuilderAddNode (dockspace_id, ImGuiDockNodeFlags_DockSpace);
+      ImGui::DockBuilderSetNodeSize (dockspace_id, ImVec2 (window_width, window_height));
 
-        ImGuiID dock_main_id = dockspace_id;
-        ImGuiID dock_right_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.2f, nullptr, &dock_main_id);
-        ImGuiID dock_right_down_id	= ImGui::DockBuilderSplitNode(dock_right_id, ImGuiDir_Down,	0.5f, nullptr, &dock_right_id);
-        ImGuiID dock_down_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down,	0.25f, nullptr, &dock_main_id);
-        ImGuiID dock_down_right_id	= ImGui::DockBuilderSplitNode(dock_down_id, ImGuiDir_Right, 0.5f, nullptr, &dock_down_id);
+      ImGuiID dock_main_id  = dockspace_id;
+      ImGuiID dock_right_id = ImGui::DockBuilderSplitNode (dock_main_id, ImGuiDir_Right, 0.2f, nullptr, &dock_main_id);
+      ImGuiID dock_right_down_id =
+          ImGui::DockBuilderSplitNode (dock_right_id, ImGuiDir_Down, 0.5f, nullptr, &dock_right_id);
+      ImGuiID dock_down_id = ImGui::DockBuilderSplitNode (dock_main_id, ImGuiDir_Down, 0.25f, nullptr, &dock_main_id);
+      ImGuiID dock_down_right_id =
+          ImGui::DockBuilderSplitNode (dock_down_id, ImGuiDir_Right, 0.5f, nullptr, &dock_down_id);
 
-  		  ImGui::DockBuilderDockWindow("Inspector", dock_right_id);
-	  	  ImGui::DockBuilderDockWindow("TilesetEditor", dock_right_down_id);
-		    ImGui::DockBuilderDockWindow("Chat", dock_down_id);
-		    ImGui::DockBuilderDockWindow("Console", dock_down_right_id);
-		    ImGui::DockBuilderDockWindow("Scene",	dock_main_id);
-      
-        ImGui::DockBuilderFinish(dock_main_id);
-      }
+      ImGui::DockBuilderDockWindow ("Inspector", dock_right_id);
+      ImGui::DockBuilderDockWindow ("TilesetEditor", dock_right_down_id);
+      ImGui::DockBuilderDockWindow ("Chat", dock_down_id);
+      ImGui::DockBuilderDockWindow ("Console", dock_down_right_id);
+      ImGui::DockBuilderDockWindow ("Scene", dock_main_id);
 
-      ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
-      this->draw_menu_bar();
-      ImGui::End();
+      ImGui::DockBuilderFinish (dock_main_id);
+    }
 
-      m_scene.render((void*) (intptr_t) m_FBO->GetTexture());
-      m_toolbar.render(m_current_state, m_current_tool);
+    ImGui::DockSpace (dockspace_id, ImVec2 (0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+    this->draw_menu_bar();
+    ImGui::End();
 
-      if (m_inspector.is_open())
-      {
-        m_inspector.render (m_game.m_registry);
-      }
-      m_map_editor.render();
-      m_tileset_editor.render();
-      m_console.Draw ("Chat", m_registry);
-      m_log.Draw("Console");
+    m_scene.render ((void*) (intptr_t) m_FBO->GetTexture());
+    m_toolbar.render (m_current_state, m_current_tool);
 
-      if (m_view_physics_debug_layer)
-      {
-        //this->draw_info (info_pos);
-        // m_debug_layer.Render();
-      }
+    if (m_inspector.is_open())
+    {
+      m_inspector.render (m_game.m_registry);
+    }
+    m_map_editor.render();
+    m_tileset_editor.render();
+    m_console.Draw ("Chat", m_registry);
+    m_log.Draw ("Console");
+
+    if (m_view_physics_debug_layer)
+    {
+      // this->draw_info (info_pos);
+      // m_debug_layer.Render();
+    }
   }
 
   void EditorGui::draw_info (const ImVec2& pos)

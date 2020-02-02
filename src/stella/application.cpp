@@ -19,14 +19,14 @@ namespace core
     while (m_display.IsRunning())
     {
       m_display.Clear();
-      
+
 #ifdef STELLA_BUILD_EDITOR
-      //m_display.UpdateEditor (m_registry);
+      // m_display.UpdateEditor (m_registry);
       this->update (m_display.GetDT());
 #else
       this->update (m_display.GetDT());
 #endif
-      
+
       m_display.Update();
     }
   }

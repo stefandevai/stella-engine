@@ -46,5 +46,5 @@ namespace widget
     inline const std::string get_map_name() const { return std::string (m_map_name); }
     inline const std::string get_map_path() const { return std::string (m_path); }
   };
-} // namespace editor
+} // namespace widget
 } // namespace stella

@@ -51,8 +51,7 @@ namespace system
         m_last_camera_y = camera_position.y;
       }
 
-      registry
-          .group<component::Tile> (entt::get<component::Position, component::Dimension>)
+      registry.group<component::Tile> (entt::get<component::Position, component::Dimension>)
           .each (
               [this, &registry, &camera_position, &camera_dimension] (auto entity, auto& tile, auto& pos, auto& dim) {
                 // Fix to weird bug where camera values suddenly get messed up

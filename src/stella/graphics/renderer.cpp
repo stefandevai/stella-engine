@@ -107,7 +107,7 @@ namespace graphics
 
     if (!texture->IsCached())
     {
-      //std::cout << texture->GetID() << '\n';
+      // std::cout << texture->GetID() << '\n';
       Textures.push_back (texture);
       texture->SetCached ((GLfloat) (Textures.size() - 1));
       this->TexturesBinded = false;

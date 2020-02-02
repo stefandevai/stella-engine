@@ -12,9 +12,9 @@ namespace component
   struct Text
   {
     Text (const std::wstring text,
-                   const std::string font_name,
-                   const std::string color = "#ffffffff",
-                   bool is_static          = false)
+          const std::string font_name,
+          const std::string color = "#ffffffff",
+          bool is_static          = false)
       : text (text), FontName (font_name), color (color), IsStatic (is_static)
     {
     }

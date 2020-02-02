@@ -16,9 +16,7 @@ namespace system
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry
-          .group<component::Transform> (
-              entt::get<component::Dimension, component::Sprite>)
+      registry.group<component::Transform> (entt::get<component::Dimension, component::Sprite>)
           .each ([] (auto entity, auto& trans, auto& dim, auto& sprite) {
             if (sprite.sprite)
             {

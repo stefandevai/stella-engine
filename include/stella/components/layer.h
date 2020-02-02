@@ -7,11 +7,11 @@ namespace component
   struct Layer
   {
     Layer (std::string id,
-                    unsigned order,
-                    std::string shader_id,
-                    std::string vert_shader_source,
-                    std::string frag_shader_source,
-                    bool fixed = false)
+           unsigned order,
+           std::string shader_id,
+           std::string vert_shader_source,
+           std::string frag_shader_source,
+           bool fixed = false)
       : Id (id), Order (order), ShaderId (shader_id), vert_shader_source (vert_shader_source),
         frag_shader_source (frag_shader_source), Fixed (fixed)
     {

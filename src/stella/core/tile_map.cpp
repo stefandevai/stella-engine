@@ -131,7 +131,7 @@ namespace core
     {
       if (layer->width() != m_width || layer->height() != m_height)
       {
-        layer->resize(0, m_width - layer->width(), m_height - layer->height(), 0);
+        layer->resize (0, m_width - layer->width(), m_height - layer->height(), 0);
       }
     }
     std::cout << "Loaded TileMap: " << m_name << " from " << path << '\n';
@@ -163,29 +163,26 @@ namespace core
 
     tile.value      = value;
     tile.collidable = collidable;
-    tile.x = x;
-    tile.y = y;
+    tile.x          = x;
+    tile.y          = y;
     layers[layer_id]->set_value (x, y, tile);
 
-    if (!m_registry.valid(tile.entity) || tile.entity == entt::null)
+    if (!m_registry.valid (tile.entity) || tile.entity == entt::null)
     {
       this->create_tile_entity (value, x, y, tile.z, layer_id);
     }
     else
     {
-      if (layer_id == 0 && value == 0)
-      {
-        
-      }
-      //if (y == 0) this->update_tile_sprite(tile.entity, 2, layer_id);
-      this->update_tile_position(tile.entity, layer_id, x, y, tile.z);
-      this->update_tile_sprite(tile.entity, layer_id, value);
+      if (layer_id == 0 && value == 0) {}
+      // if (y == 0) this->update_tile_sprite(tile.entity, 2, layer_id);
+      this->update_tile_position (tile.entity, layer_id, x, y, tile.z);
+      this->update_tile_sprite (tile.entity, layer_id, value);
     }
   }
 
   void TileMap::update_tile_sprite (entt::entity entity, const unsigned layer_id, const int value)
   {
-    if (m_registry.has<component::Sprite>(entity))
+    if (m_registry.has<component::Sprite> (entity))
     {
       auto& spr = m_registry.get<component::Sprite> (entity);
       spr.sprite->SetDirectFrame (value);
@@ -194,21 +191,22 @@ namespace core
     else
     {
       m_registry.assign<component::Sprite> (entity,
-                                                    layers[layer_id]->get_texture_name(),
-                                                    glm::vec2 (m_tile_dimension, m_tile_dimension),
-                                                    layers[layer_id]->get_render_layer_name(),
-                                                    value);
+                                            layers[layer_id]->get_texture_name(),
+                                            glm::vec2 (m_tile_dimension, m_tile_dimension),
+                                            layers[layer_id]->get_render_layer_name(),
+                                            value);
     }
   }
 
-  void TileMap::update_tile_position (entt::entity entity, const unsigned layer_id, const int x, const int y, const int z)
+  void
+  TileMap::update_tile_position (entt::entity entity, const unsigned layer_id, const int x, const int y, const int z)
   {
-    if (m_registry.has<component::Position>(entity))
+    if (m_registry.has<component::Position> (entity))
     {
       auto& pos = m_registry.get<component::Position> (entity);
-      pos.x = x * m_tile_dimension;
-      pos.y = y * m_tile_dimension;
-      pos.z = z;
+      pos.x     = x * m_tile_dimension;
+      pos.y     = y * m_tile_dimension;
+      pos.z     = z;
     }
     else
     {
@@ -222,10 +220,10 @@ namespace core
     m_registry.assign<component::Tile> (tile, layer_id, false);
     // if (layers[layer_id]->get_texture_name() != "tileset") std::cout << layers[layer_id]->get_texture_name() << '\n';
     m_registry.assign<component::Sprite> (tile,
-                                                    layers[layer_id]->get_texture_name(),
-                                                    glm::vec2 (m_tile_dimension, m_tile_dimension),
-                                                    layers[layer_id]->get_render_layer_name(),
-                                                    value);
+                                          layers[layer_id]->get_texture_name(),
+                                          glm::vec2 (m_tile_dimension, m_tile_dimension),
+                                          layers[layer_id]->get_render_layer_name(),
+                                          value);
     m_registry.assign<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
     m_registry.assign<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
     layers[layer_id]->set_entity (x, y, tile);
@@ -276,7 +274,7 @@ namespace core
     this->refresh();
   }
 
-  void TileMap::refresh ()
+  void TileMap::refresh()
   {
     for (auto& layer : layers)
     {
@@ -284,10 +282,9 @@ namespace core
       {
         for (unsigned i = 0; i < layer->width(); ++i)
         {
-          const auto& tile = layer->get_value(i,j);
-          this->update_tile(tile.value, i, j, layer->get_id(), tile.collidable);
+          const auto& tile = layer->get_value (i, j);
+          this->update_tile (tile.value, i, j, layer->get_id(), tile.collidable);
         }
-
       }
     }
   }

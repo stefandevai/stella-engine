@@ -65,8 +65,7 @@ namespace script
         const float& framew   = obj["frame_dimensions"][1];
         const float& frameh   = obj["frame_dimensions"][2];
         const unsigned& frame = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
-        m_registry.assign<stella::component::Sprite> (
-            id, texture_name, glm::vec2 (framew, frameh), layer_id, frame);
+        m_registry.assign<stella::component::Sprite> (id, texture_name, glm::vec2 (framew, frameh), layer_id, frame);
       }
     }
     else
@@ -173,8 +172,8 @@ namespace script
 
   void ECSLuaApi::add_particle_emitter_component (entt::registry::entity_type id, const sol::table& obj)
   {
-    const std::string& type                                = obj["type"];
-    const unsigned int quantity                            = obj["quantity"];
+    const std::string& type                               = obj["type"];
+    const unsigned int quantity                           = obj["quantity"];
     stella::component::ParticleEmitter::Type emitter_type = stella::component::ParticleEmitter::FIRE_EMITTER;
     if (type == "fire")
     {

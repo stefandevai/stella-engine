@@ -54,27 +54,27 @@ namespace editor
       }
 
       //   // Options menu
-        if (ImGui::BeginPopup("Options"))
-        {
-            if (ImGui::Checkbox("Auto-scroll", &AutoScroll))
-                if (AutoScroll)
-                    ScrollToBottom = true;
-            ImGui::EndPopup();
-        }
+      if (ImGui::BeginPopup ("Options"))
+      {
+        if (ImGui::Checkbox ("Auto-scroll", &AutoScroll))
+          if (AutoScroll)
+            ScrollToBottom = true;
+        ImGui::EndPopup();
+      }
 
       // Main window
-        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 2);
-        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(12.0f, 6.0f));
-        if (ImGui::Button("Options"))
-            ImGui::OpenPopup("Options");
-        ImGui::SameLine();
-        bool clear = ImGui::Button("Clear");
-        ImGui::SameLine();
-        bool copy = ImGui::Button("Copy");
-        ImGui::SameLine();
-        Filter.Draw("  Filter", -100.0f);
-        ImGui::PopStyleVar();
-        ImGui::PopStyleVar();
+      ImGui::PushStyleVar (ImGuiStyleVar_FrameRounding, 2);
+      ImGui::PushStyleVar (ImGuiStyleVar_FramePadding, ImVec2 (12.0f, 6.0f));
+      if (ImGui::Button ("Options"))
+        ImGui::OpenPopup ("Options");
+      ImGui::SameLine();
+      bool clear = ImGui::Button ("Clear");
+      ImGui::SameLine();
+      bool copy = ImGui::Button ("Copy");
+      ImGui::SameLine();
+      Filter.Draw ("  Filter", -100.0f);
+      ImGui::PopStyleVar();
+      ImGui::PopStyleVar();
 
       ImGui::Dummy (ImVec2 (0.0f, 3.0f));
       ImGui::PushStyleColor (ImGuiCol_Separator, ImVec4 (0.43f, 0.43f, 0.5f, 0.3f));
@@ -83,10 +83,10 @@ namespace editor
       ImGui::Dummy (ImVec2 (0.0f, 6.0f));
       ImGui::BeginChild ("scrolling", ImVec2 (0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
 
-        if (clear)
-            Clear();
-        if (copy)
-            ImGui::LogToClipboard();
+      if (clear)
+        Clear();
+      if (copy)
+        ImGui::LogToClipboard();
 
       ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (0, 0));
       ImGui::PushFont (MonoFont);

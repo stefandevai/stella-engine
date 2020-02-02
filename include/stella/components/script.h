@@ -8,20 +8,20 @@ namespace component
 {
   enum ScriptType
   {
-      Once,
-      Forever
+    Once,
+    Forever
   };
 
   enum ScriptState
   {
-      Waiting,
-      Active,
-      Finished
+    Waiting,
+    Active,
+    Finished
   };
 
   struct ScriptComponent
   {
-    ScriptComponent (const std::string& path, ScriptType type = Once) : path(path), type(type) {}
+    ScriptComponent (const std::string& path, ScriptType type = Once) : path (path), type (type) {}
     std::string path;
     ScriptType type;
     ScriptState state = Waiting;

@@ -13,7 +13,7 @@ namespace component
   struct Animation
   {
     inline Animation (std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> frames,
-                                glm::vec2 frame_dimensions)
+                      glm::vec2 frame_dimensions)
       : Frames{std::move (frames)}, FrameDimensions{std::move (frame_dimensions)}
     {
       this->Initialized = false;

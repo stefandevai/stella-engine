@@ -19,5 +19,5 @@ namespace widget
     inline void set_selected_entity (entt::entity entity) { m_selected_entity = entity; }
     inline entt::entity get_selected_entity() const { return m_selected_entity; }
   };
-} // namespace editor
+} // namespace widget
 } // namespace stella

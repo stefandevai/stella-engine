@@ -6,7 +6,7 @@ namespace stella
 namespace widget
 {
   MapEditor::MapEditor (nikte::Game& game) : Widget(), m_game (game), m_tile_map (game.m_tile_map)
-  { 
+  {
     m_open = true;
     this->reset_map_settings();
   }
@@ -24,7 +24,7 @@ namespace widget
       ImGui::Text ("Map name:");
       ImGui::PushID ("map-input#1");
       ImGui::InputText ("", m_map_name, IM_ARRAYSIZE (m_map_name));
-      ImGui::PopID ();
+      ImGui::PopID();
       ImGui::Dummy (ImVec2 (0.f, 3.f));
 
       // Map file location
@@ -32,7 +32,7 @@ namespace widget
       ImGui::PushItemWidth (item_width - 64.f);
       ImGui::PushID ("map-input#2");
       ImGui::InputTextWithHint ("", "Map file location.", m_path, IM_ARRAYSIZE (m_path));
-      ImGui::PopID ();
+      ImGui::PopID();
       ImGui::PopItemWidth();
       ImGui::SameLine (0.f, 4.f);
       ImGui::Button ("...", ImVec2 (60.f, 0));
@@ -68,8 +68,8 @@ namespace widget
         m_map_height += m_map_size[0] + m_map_size[2];
         m_map_size[0] = m_map_size[1] = m_map_size[2] = m_map_size[3] = 0;
 
-        m_game.m_script_api.set_variable<int>("e_map_width", m_map_width);
-        m_game.m_script_api.set_variable<int>("e_map_height", m_map_height);
+        m_game.m_script_api.set_variable<int> ("e_map_width", m_map_width);
+        m_game.m_script_api.set_variable<int> ("e_map_height", m_map_height);
       }
       ImGui::Dummy (ImVec2 (0.f, 3.f));
       ImGui::Separator();
@@ -99,7 +99,6 @@ namespace widget
         ImGui::TreePop();
       }
       ImGui::Dummy (ImVec2 (0.0f, 12.0f));
-
     }
     ImGui::End();
   }
@@ -116,5 +115,5 @@ namespace widget
   }
 
   void MapEditor::update_map_settings() { m_tile_map.set_name (m_map_name); }
-} // namespace editor
+} // namespace widget
 } // namespace stella

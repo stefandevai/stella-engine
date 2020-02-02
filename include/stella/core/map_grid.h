@@ -47,7 +47,7 @@ namespace core
       }
       else
       {
-        //std::cout << "Trying to reach a grid value out of bounds.\n";
+        // std::cout << "Trying to reach a grid value out of bounds.\n";
       }
     }
 
@@ -61,7 +61,7 @@ namespace core
       }
       else
       {
-        //std::cout << "Trying to reach a grid value out of bounds.\n";
+        // std::cout << "Trying to reach a grid value out of bounds.\n";
       }
     }
 

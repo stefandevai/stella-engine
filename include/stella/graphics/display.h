@@ -21,12 +21,12 @@ typedef float GLfloat;
 
 namespace stella
 {
-  namespace editor
-  {
-    class EditorGui;
-  }
+namespace editor
+{
+  class EditorGui;
 }
-//typedef class stella::editor::EditorGui;
+} // namespace stella
+// typedef class stella::editor::EditorGui;
 
 namespace stella
 {
@@ -70,14 +70,13 @@ namespace graphics
     friend class stella::editor::EditorGui;
 #endif
 
-  #if __APPLE__
+#if __APPLE__
     // GL 3.2 Core + GLSL 150
     const char* m_glsl_version = "#version 150";
-  #else
+#else
     // GL 3.0 + GLSL 130
     const char* m_glsl_version = "#version 130";
-  #endif
-
+#endif
 
     void updateInput();
     void getDT();

@@ -121,11 +121,11 @@ namespace editor
       ImGui::Dummy (ImVec2 (0.0f, 6.0f));
 
       // Persistent focus
-      //ImGui::SetKeyboardFocusHere();
+      // ImGui::SetKeyboardFocusHere();
       ImGui::PushStyleVar (ImGuiStyleVar_FrameRounding, 2);
       ImGui::PushStyleVar (ImGuiStyleVar_FramePadding, ImVec2 (12.0f, 6.0f));
 
-      ImGui::PushID("chat-log");
+      ImGui::PushID ("chat-log");
       if (ImGui::InputText ("", editable_buffer, IM_ARRAYSIZE (editable_buffer), ImGuiInputTextFlags_EnterReturnsTrue))
       {
         if (strlen (editable_buffer) > 0)
@@ -142,8 +142,7 @@ namespace editor
               text_entity, player_pos.x + player_dim.w / 2.f, player_pos.y - 4.f);
           registry.assign<stella::component::Text> (
               text_entity, m_converter.from_bytes (std::string (editable_buffer)), "1980");
-          registry.assign<stella::component::Timer> (
-              text_entity, component::Timer::TimerEvent::Destroy, 3000);
+          registry.assign<stella::component::Timer> (text_entity, component::Timer::TimerEvent::Destroy, 3000);
 
           auto& container = registry.get_or_assign<component::SpeechContainer> (player_entity);
           container.messages.push_back (text_entity);

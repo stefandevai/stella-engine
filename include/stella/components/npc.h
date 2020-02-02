@@ -18,7 +18,7 @@ namespace component
     NPC (std::string script_path) : script_path (script_path) {}
     std::string script_path;
     NpcState state = None;
-    TilePosition origin{0,0};
+    TilePosition origin{0, 0};
     int walk_radius = 5;
   };
 } // namespace component

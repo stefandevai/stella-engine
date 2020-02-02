@@ -49,9 +49,7 @@ namespace system
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry
-          .group<component::Player> (
-              entt::get<component::Body2D, component::Position, component::Dimension>)
+      registry.group<component::Player> (entt::get<component::Body2D, component::Position, component::Dimension>)
           .each ([this, &registry] (auto entity, auto& player, auto& body, auto& pos, auto& dim) {
             auto previous_state = this->current_state;
 
@@ -127,8 +125,7 @@ namespace system
     }
 
   private:
-    void
-    SetState (Player::State state, component::Animation& anims, Player::State previous_state)
+    void SetState (Player::State state, component::Animation& anims, Player::State previous_state)
     {
       if (previous_state != this->current_state && previous_state == RUNNING)
       {

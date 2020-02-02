@@ -10,7 +10,7 @@ namespace widget
   {
   protected:
     bool m_open = false;
-    Widget() = default;
+    Widget()    = default;
 
   public:
     virtual ~Widget() = default;
@@ -19,5 +19,5 @@ namespace widget
     inline void close() { m_open = false; }
     inline bool is_open() const { return m_open; }
   };
-} // namespace editor
+} // namespace widget
 } // namespace stella

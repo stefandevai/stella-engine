@@ -4,15 +4,15 @@ namespace stella
 {
 namespace editor
 {
-    enum State
-    {
-      EDIT,
-      PLAY
-    };
-    enum Tool
-    {
-      TILE_PEN,
-      INSPECTOR
-    };
-}
-}
+  enum State
+  {
+    EDIT,
+    PLAY
+  };
+  enum Tool
+  {
+    TILE_PEN,
+    INSPECTOR
+  };
+} // namespace editor
+} // namespace stella

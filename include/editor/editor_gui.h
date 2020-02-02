@@ -43,7 +43,8 @@ namespace editor
     SDL_Window* m_window = nullptr;
     ImFont *m_font_mono = nullptr, *m_font_sans_regular = nullptr, *m_font_sans_bold = nullptr;
     const ImGuiWindowFlags m_window_flags =
-        // ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
+        // ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
+        // ImGuiWindowFlags_NoTitleBar;
         ImGuiWindowFlags_NoTitleBar;
     // const ImGuiWindowFlags m_window_flags = ImGuiWindowFlags_NoMove |
     // ImGuiWindowFlags_NoResize;
@@ -75,16 +76,17 @@ namespace editor
     EditorGui (nikte::Game& game);
     ~EditorGui();
     // void init (SDL_Window* window, SDL_GLContext gl_context, const char* glsl_version);
-    void init ();
-    void configure_input ();
+    void init();
+    void configure_input();
     void render (const float window_width, const float window_height, const float game_width, const float game_height);
     void update();
     void run();
 
   private:
     void init_style();
-    void draw_dock(const float window_width, const float window_height, const float game_width, const float game_height);
-    void draw_editor ();
+    void
+    draw_dock (const float window_width, const float window_height, const float game_width, const float game_height);
+    void draw_editor();
     void draw_info (const ImVec2& pos);
     void draw_menu_bar();
     void handle_state (ImGuiIO& io);

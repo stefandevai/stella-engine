@@ -32,5 +32,5 @@ namespace widget
     }
     ImGui::End();
   }
-} // namespace editor
+} // namespace widget
 } // namespace stella

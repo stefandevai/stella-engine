@@ -21,7 +21,7 @@ namespace graphics
     glDeleteBuffers (1, &this->VBO);
     glDeleteBuffers (1, &this->EBO);
     glDeleteVertexArrays (1, &this->VAO);
-    m_indices.reserve(S_INDICES_SIZE);
+    m_indices.reserve (S_INDICES_SIZE);
   }
 
   void ShapeRenderer::init()
@@ -61,13 +61,13 @@ namespace graphics
     m_indices.clear();
     for (GLuint i = 0; i < S_INDICES_SIZE; i += 6)
     {
-      m_indices.push_back(offset);
-      m_indices.push_back(offset + 1);
-      m_indices.push_back(offset + 2);
+      m_indices.push_back (offset);
+      m_indices.push_back (offset + 1);
+      m_indices.push_back (offset + 2);
 
-      m_indices.push_back(offset);
-      m_indices.push_back(offset + 2);
-      m_indices.push_back(offset + 3);
+      m_indices.push_back (offset);
+      m_indices.push_back (offset + 2);
+      m_indices.push_back (offset + 3);
 
       offset += 4;
     }

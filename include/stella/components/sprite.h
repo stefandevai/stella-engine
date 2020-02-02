@@ -11,30 +11,24 @@ namespace component
 {
   struct Sprite
   {
-    Sprite (const std::string& tex_name,
-                     glm::vec2 frame_dimensions,
-                     std::string layer_id = "basic",
-                     unsigned frame       = 0)
+    Sprite (const std::string& tex_name, glm::vec2 frame_dimensions, std::string layer_id = "basic", unsigned frame = 0)
       : TexName (tex_name), FrameDimensions (frame_dimensions), LayerId (layer_id), Frame (frame)
     {
     }
     Sprite (const std::string& tex_name,
-                     const float framex,
-                     const float framey,
-                     std::string layer_id = "basic",
-                     unsigned frame       = 0)
+            const float framex,
+            const float framey,
+            std::string layer_id = "basic",
+            unsigned frame       = 0)
       : TexName (tex_name), FrameDimensions (glm::vec2 (framex, framey)), LayerId (layer_id), Frame (frame)
     {
     }
-    Sprite (const std::string& tex_name, std::string layer_id = "basic")
-      : TexName (tex_name), LayerId (layer_id)
-    {
-    }
+    Sprite (const std::string& tex_name, std::string layer_id = "basic") : TexName (tex_name), LayerId (layer_id) {}
     Sprite (const glm::vec3 position,
-                     const glm::vec2 dimensions,
-                     const glm::vec2 offset,
-                     graphics::Texture& texture,
-                     std::string layer_id = "basic")
+            const glm::vec2 dimensions,
+            const glm::vec2 offset,
+            graphics::Texture& texture,
+            std::string layer_id = "basic")
       : LayerId (layer_id)
     {
       this->sprite = std::shared_ptr<graphics::Sprite> (new graphics::Sprite (position, dimensions, offset, texture));
