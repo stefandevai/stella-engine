@@ -159,17 +159,7 @@ namespace script
       bbpos[0] = obj["bounding_box_position"][1];
       bbpos[1] = obj["bounding_box_position"][2];
     }
-    // std::cout << bbpos[0] << '\n';
-    // std::cout << bbpos[1] << '\n';
     m_registry.assign<stella::components::Body2D> (id, drag, bb, bbpos, collide_with_borders);
-  }
-
-  void ECSLuaApi::add_bitmap_text_component (entt::registry::entity_type id, const sol::table& obj)
-  {
-    const std::string& text      = obj["text"];
-    const std::string& font_name = obj["font_name"];
-    const bool& is_static        = obj["is_static"];
-    m_registry.assign<stella::components::BitmapText> (id, text, font_name, is_static);
   }
 
   void ECSLuaApi::add_text_component (entt::registry::entity_type id, const sol::table& obj)
@@ -240,8 +230,6 @@ namespace script
         add_tile_component (id, obj["args"]);
       else if (ct == "body")
         add_body_component (id, obj["args"]);
-      else if (ct == "bitmap_text")
-        add_bitmap_text_component (id, obj["args"]);
       else if (ct == "text")
         add_text_component (id, obj["args"]);
       else if (ct == "movement")

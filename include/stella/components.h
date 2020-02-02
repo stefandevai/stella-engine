@@ -1,7 +1,6 @@
 #pragma once
 
 #include "stella/components/animation.h"
-#include "stella/components/bitmap_text.h"
 #include "stella/components/body2d.h"
 #include "stella/components/camera.h"
 #include "stella/components/charcode.h"
