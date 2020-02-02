@@ -161,8 +161,6 @@ namespace core
     auto layer = layers[layer_id];
     auto tile  = layer->get_value (x, y);
 
-    
-
     tile.value      = value;
     tile.collidable = collidable;
     tile.x = x;
@@ -222,6 +220,7 @@ namespace core
   {
     auto tile = m_registry.create();
     m_registry.assign<components::TileComponent> (tile, layer_id, false);
+    // if (layers[layer_id]->get_texture_name() != "tileset") std::cout << layers[layer_id]->get_texture_name() << '\n';
     m_registry.assign<components::SpriteComponent> (tile,
                                                     layers[layer_id]->get_texture_name(),
                                                     glm::vec2 (m_tile_dimension, m_tile_dimension),

@@ -36,6 +36,8 @@ namespace graphics
     void PushTransformation (glm::mat4& mat, bool override = false);
     void PopTransformation();
 
+    static std::vector<Texture*> Textures;
+
   private:
     enum Index
     {
@@ -49,7 +51,6 @@ namespace graphics
     std::vector<glm::mat4> TransformationStack;
     glm::mat4* TransformationBack;
     GLsizei IndexCount;
-    std::vector<Texture*> Textures;
     bool TexturesBinded;
 
     void init();

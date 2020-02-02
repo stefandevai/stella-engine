@@ -21,10 +21,10 @@ local function load_npc(x, y)
   -- npc:add_component("name", "Test")
   npc:add_component("sprite", {
     texture = "nikte",
-    layer = "tiles",
+    layer = "collision",
     frame_dimensions = {32, 64, 0},
   })
-  npc:add_component("position", {x, y, 10})
+  npc:add_component("position", {x, y, 2})
   npc:add_component("dimension", {32, 64})
   npc:add_component("movement")
   npc:add_component("body", {
@@ -50,7 +50,7 @@ local function load_player(x, y)
   Player:add_component("player")
   Player:add_component("sprite", {
     texture = "nikte",
-    layer = "tiles",
+    layer = "collision",
     frame_dimensions = {32, 64, 0},
   })
   Player:add_component("position", {x, y, 2})
@@ -91,6 +91,11 @@ local function load()
     priority = 3,
     fixed = false,
   })
+  create_layer({
+    name = "foreground2",
+    priority = 4,
+    fixed = false,
+  })
 
   create_layer({
     name = "text",
@@ -101,8 +106,8 @@ local function load()
   })
 
   load_assets()
-  load_player(32, 64)
-  load_npc(64, 64)
+  load_player(480, 512)
+  load_npc(512, 512)
 
   -- local test_spr = Entity:create_entity()
   -- test_spr:add_component("sprite", {

@@ -44,7 +44,7 @@ Map = {
  }
 
 Map.layers[2] = {
-  render_layer = "tiles",
+  render_layer = "collision",
   texture = "tileset",
   collision = false,
 
@@ -78,7 +78,7 @@ Map.layers[2] = {
 }
 
 Map.layers[3] = {
-  render_layer = "tiles",
+  render_layer = "foreground",
   texture = "tileset",
   collision = false,
 

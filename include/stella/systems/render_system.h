@@ -62,11 +62,6 @@ namespace systems
               {
                 std::cout << "It was not possible to find " << sprite.TexName << " in loaded textures." << std::endl;
               }
-              // auto texdata = this->m_textures.find(sprite.TexName);
-              // if (texdata == this->m_textures.end()) {
-              // std::cout << "It was not possible to find " << sprite.TexName
-              // << " in loaded textures." << std::endl;
-              //}
               else
               {
                 // Creates sprite if it doesn't exist yet
@@ -86,11 +81,6 @@ namespace systems
                                               *tex,
                                               sprite.Frame));
                   }
-
-                  // If the texture has a diferent resolution than the actual
-                  // size we want
-                  // if ((int)sprite.Sprite->Dimensions.x != dim.w ||
-                  // (int)sprite.Sprite->Dimensions.y != dim.h) {
                   if (registry.has<components::TransformComponent> (entity))
                   {
                     const auto& trans = registry.get<components::TransformComponent> (entity);
@@ -99,21 +89,44 @@ namespace systems
                     sprite.Sprite->SetRotation (trans.Rotation);
                   }
                   else
+                  {
                     sprite.Sprite->SetDirectScale (glm::vec2 ((float) dim.w, (float) dim.h));
-                  //}
-
+                  }
                   sprite.Initialized = true;
                 }
-                m_layers[sprite.LayerId]->Add (sprite.Sprite);
               }
-              sprite.InLayer = true;
+            }
+            // Sprite inLayer and position changed
+            if (pos.has_changed())
+            {
+              m_layers[sprite.LayerId]->Remove (sprite.Sprite);
+              sprite.InLayer = false;
+
+              sprite.Sprite->Pos.x = (int) pos.x;
+              sprite.Sprite->Pos.y = (int) pos.y;
+              sprite.Sprite->Pos.z = (int) pos.z;
             }
 
-            // sprite.Sprite->Dimensions.x = dim.w;
-            // sprite.Sprite->Dimensions.y = dim.h;
-            // TODO: Dont't update static sprite position
-            sprite.Sprite->Pos.x = (int) pos.x;
-            sprite.Sprite->Pos.y = (int) pos.y;
+            if (dim.has_changed())
+            {
+              m_layers[sprite.LayerId]->Remove (sprite.Sprite);
+              sprite.InLayer = false;
+
+              sprite.Sprite->Dimensions.x = dim.w;
+              sprite.Sprite->Dimensions.y = dim.h;
+            }
+            
+            pos.last_x = pos.x;
+            pos.last_y = pos.y;
+            pos.last_z = pos.z;
+            dim.last_w = dim.w;
+            dim.last_h = dim.h;
+
+            if (!sprite.InLayer)
+            {
+              m_layers[sprite.LayerId]->Add (sprite.Sprite);
+              sprite.InLayer = true;
+            }
           });
 
       const auto camera_entity = *registry.view<stella::components::CameraComponent>().begin();

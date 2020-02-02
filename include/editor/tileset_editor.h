@@ -11,6 +11,7 @@ namespace editor
   {
   private:
     std::string m_path;
+    char m_script_path[128];
 
     int m_tile_dimensions[2] = {32, 32};
     int m_texture_w = 0, m_texture_h = 0;

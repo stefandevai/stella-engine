@@ -15,6 +15,7 @@
 #include "stella/components/particle_emitter.h"
 #include "stella/components/player_component.h"
 #include "stella/components/position_component.h"
+#include "stella/components/script.h"
 #include "stella/components/scroll_component.h"
 #include "stella/components/sprite_component.h"
 #include "stella/components/text_component.h"

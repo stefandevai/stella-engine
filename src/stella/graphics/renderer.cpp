@@ -15,6 +15,8 @@ namespace stella
 {
 namespace graphics
 {
+  std::vector<graphics::Texture*> Renderer::Textures = std::vector<graphics::Texture*>();
+
   Renderer::Renderer()
   {
     this->TransformationStack.push_back (glm::mat4());
@@ -105,6 +107,7 @@ namespace graphics
 
     if (!texture->IsCached())
     {
+      //std::cout << texture->GetID() << '\n';
       Textures.push_back (texture);
       texture->SetCached ((GLfloat) (Textures.size() - 1));
       this->TexturesBinded = false;

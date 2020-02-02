@@ -17,8 +17,6 @@ namespace stella
 {
 namespace editor
 {
-  // EditorGui::EditorGui(entt::registry& registry)
-  //   : m_registry(registry)
   EditorGui::EditorGui (nikte::Game& game) : m_game (game), m_registry (game.m_registry)
   {
     //m_game.m_display.SetEditor (this);
@@ -169,8 +167,6 @@ namespace editor
   void EditorGui::handle_tile_pen (ImGuiIO& io)
   {
     // If the mouse is within the game screen boundaries
-    // if (io.MousePos.x > (m_window_width - m_game_width) && io.MousePos.x < (m_window_width) &&
-    //     io.MousePos.y < (m_game_height + 23) && io.MousePos.y > 23)
     if (io.MousePos.x > m_scene.get_x() && io.MousePos.x < m_scene.get_width() &&
         io.MousePos.y < m_scene.get_height() && io.MousePos.y > m_scene.get_y())
     {
@@ -326,8 +322,6 @@ namespace editor
       ImGui::End();
 
       m_scene.render((void*) (intptr_t) m_FBO->GetTexture());
-
-      //this->draw_editor ();
       m_toolbar.render(m_current_state, m_current_tool);
 
       if (m_inspector.is_open())
@@ -344,17 +338,6 @@ namespace editor
         //this->draw_info (info_pos);
         // m_debug_layer.Render();
       }
-  }
-
-  void EditorGui::draw_editor ()
-  {
-    ImGui::Begin ("Editor", nullptr, m_window_flags);
-
-    //m_toolbar.render(m_current_state, m_current_tool);
-    //m_inspector.render (m_game.m_registry);
-    
-    //m_tileset_editor.render();
-    ImGui::End();
   }
 
   void EditorGui::draw_info (const ImVec2& pos)
@@ -411,7 +394,7 @@ namespace editor
           m_view_physics_debug_layer = !m_view_physics_debug_layer;
         }
 
-        item_text = "View instpector";
+        item_text = "View Inspector";
         if (m_inspector.is_open())
         {
           item_text = "Hide Inspector";

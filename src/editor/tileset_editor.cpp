@@ -12,6 +12,7 @@ namespace editor
   {
     m_texture_w = this->texture.GetWidth();
     m_texture_h = this->texture.GetHeight();
+    strcpy (m_script_path, ""); // Clear empty InputText buffer
   }
 
   TilesetEditor::~TilesetEditor() {}
@@ -42,6 +43,15 @@ namespace editor
       ImGui::Checkbox (" Collidable", &m_tile_collidable);
       ImGui::SameLine();
       ImGui::Checkbox (" Scriptable", &m_tile_scriptable);
+      if (m_tile_scriptable)
+      {
+        ImGui::Dummy (ImVec2 (0.f, 3.f));
+        ImGui::Text ("Script path:");
+        ImGui::PushID ("scripth-path-tiles");
+        ImGui::InputText ("", m_script_path, IM_ARRAYSIZE (m_script_path));
+        ImGui::PopID ();
+        ImGui::Dummy (ImVec2 (0.f, 3.f));
+      }
       ImGui::Dummy (ImVec2 (0.0f, 3.0f));
 
       ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (0.0f, 0.0f));
