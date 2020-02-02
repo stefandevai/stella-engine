@@ -3,9 +3,9 @@ project(editor)
 add_library(${PROJECT_NAME} STATIC debug_layer.cpp
                                    editor_gui.cpp
                                    widgets/inspector.cpp
-                                   map_editor.cpp
+                                   widgets/map_editor.cpp
                                    tileset_editor.cpp
-                                   scene.cpp
+                                   widgets/scene.cpp
                                    toolbar.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/examples/imgui_impl_sdl.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/examples/imgui_impl_opengl3.cpp

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "widget.h"
 #include "../../lib/imgui/imgui.h"
 #include "stella/core/tile_map.h"
 
@@ -10,9 +11,9 @@ class Game;
 
 namespace stella
 {
-namespace editor
+namespace widget
 {
-  class MapEditor
+  class MapEditor : public Widget
   {
   private:
     nikte::Game& m_game;

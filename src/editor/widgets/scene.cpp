@@ -1,14 +1,14 @@
-#include "editor/scene.h"
+#include "editor/widgets/scene.h"
 #include "stella/graphics/utils.h"
 #include <vector>
 
 namespace stella
 {
-namespace editor
+namespace widget
 {
-    Scene::Scene ()
+    Scene::Scene () : Widget()
     {
-
+        m_open = true;
     }
 
     void Scene::render(const ImTextureID texture_id)
@@ -16,7 +16,7 @@ namespace editor
       ImGui::PushStyleVar (ImGuiStyleVar_WindowPadding, ImVec2(0,0));
       ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (2.0f, 0.0f));
       ImGui::SetNextWindowSizeConstraints(ImVec2(896, 504), ImVec2(897, 505));
-      ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoTitleBar);
+      ImGui::Begin("Scene", &m_open, ImGuiWindowFlags_NoTitleBar);
       const auto window_pos = ImGui::GetWindowPos();
       const auto window_size = ImGui::GetWindowSize();
       const float frame_height = ImGui::GetFrameHeight();

@@ -1,12 +1,13 @@
 #pragma once
 
+#include "widget.h"
 #include "../../lib/imgui/imgui.h"
 
 namespace stella
 {
-namespace editor
+namespace widget
 {
-  class Scene
+  class Scene : public Widget
   {
   private:
     int m_widget_width = 0, m_widget_height = 0, m_widget_x = 0, m_widget_y = 0, m_game_screen_width = 0, m_game_screen_height = 0, m_game_screen_x_spacing = 0, m_game_screen_y_spacing = 0;

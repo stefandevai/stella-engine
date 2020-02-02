@@ -1,17 +1,21 @@
-#include "editor/map_editor.h"
+#include "editor/widgets/map_editor.h"
 #include "../../nikte/game.h"
 
 namespace stella
 {
-namespace editor
+namespace widget
 {
-  MapEditor::MapEditor (nikte::Game& game) : m_game (game), m_tile_map (game.m_tile_map) { this->reset_map_settings(); }
+  MapEditor::MapEditor (nikte::Game& game) : Widget(), m_game (game), m_tile_map (game.m_tile_map)
+  { 
+    m_open = true;
+    this->reset_map_settings();
+  }
 
   MapEditor::~MapEditor() {}
 
   void MapEditor::render()
   {
-    if (ImGui::Begin ("MapEditor"))
+    if (ImGui::Begin ("MapEditor", &m_open))
     {
       const float item_width = ImGui::CalcItemWidth();
 
