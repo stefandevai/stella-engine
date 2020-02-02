@@ -80,7 +80,7 @@ namespace editor
     ImGui_ImplSDL2_ProcessEvent (&m_game.m_display.m_event);
     const Uint8* state = SDL_GetKeyboardState (nullptr);
 
-    // Save game
+    // Save map
     if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_S])
     {
       m_log.AddLog ("Saving map...\n");
@@ -89,12 +89,19 @@ namespace editor
       m_log.AddLog ("Saved map...\n");
     }
 
+    // Load map
     if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_O])
     {
       m_log.AddLog ("Loading map...\n");
       m_game.m_tile_map.load (m_map_editor.get_map_path());
       m_map_editor.reset_map_settings();
       m_log.AddLog ("Loaded map...\n");
+    }
+
+    // Quit editor
+    if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_W])
+    {
+      m_game.m_display.Running = false;
     }
   }
 
@@ -387,7 +394,7 @@ namespace editor
         if (ImGui::MenuItem ("Save", "CTRL+S")) {}
         if (ImGui::MenuItem ("Save as...", "CTRL+SHIFT+S")) {}
         ImGui::Separator();
-        if (ImGui::MenuItem ("Quit", "CTRL+W")) {}
+        if (ImGui::MenuItem ("Quit", "CTRL+W")) { m_game.m_display.Running = false; }
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu ("Edit"))
@@ -419,6 +426,16 @@ namespace editor
         if (ImGui::MenuItem (item_text))
         {
           m_inspector.toggle();
+        }
+
+        item_text = "View Map Editor";
+        if (m_map_editor.is_open())
+        {
+          item_text = "Hide Map Editor";
+        }
+        if (ImGui::MenuItem (item_text))
+        {
+          m_map_editor.toggle();
         }
         ImGui::EndMenu();
       }
