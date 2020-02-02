@@ -1,15 +1,25 @@
 #pragma once
 
 #include <string>
+#include "tile_position.h"
 
 namespace stella
 {
 namespace components
 {
+  enum NpcState
+  {
+    None,
+    Walking,
+    Talking
+  };
   struct NPC
   {
     NPC (std::string script_path) : script_path (script_path) {}
     std::string script_path;
+    NpcState state = None;
+    TilePosition origin{0,0};
+    int walk_radius = 5;
   };
 } // namespace components
 } // namespace stella
