@@ -246,6 +246,7 @@ namespace graphics
           break;
       }
     }
+    m_event = event;
   }
 
   bool Display::IsKeyDown (int key)

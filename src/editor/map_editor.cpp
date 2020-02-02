@@ -18,13 +18,17 @@ namespace editor
       // Map Name
       ImGui::Dummy (ImVec2 (0.f, 3.f));
       ImGui::Text ("Map name:");
+      ImGui::PushID ("map-input#1");
       ImGui::InputText ("", m_map_name, IM_ARRAYSIZE (m_map_name));
+      ImGui::PopID ();
       ImGui::Dummy (ImVec2 (0.f, 3.f));
 
       // Map file location
       ImGui::Text ("Map file location:");
       ImGui::PushItemWidth (item_width - 64.f);
+      ImGui::PushID ("map-input#2");
       ImGui::InputTextWithHint ("", "Map file location.", m_path, IM_ARRAYSIZE (m_path));
+      ImGui::PopID ();
       ImGui::PopItemWidth();
       ImGui::SameLine (0.f, 4.f);
       ImGui::Button ("...", ImVec2 (60.f, 0));

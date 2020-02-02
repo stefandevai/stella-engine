@@ -77,9 +77,9 @@ namespace editor
     m_FBO = std::make_unique<graphics::Framebuffer>(m_game.m_display);
   }
 
-  void EditorGui::configure_input (SDL_Event& event)
+  void EditorGui::configure_input ()
   {
-    ImGui_ImplSDL2_ProcessEvent (&event);
+    ImGui_ImplSDL2_ProcessEvent (&m_game.m_display.m_event);
     const Uint8* state = SDL_GetKeyboardState (nullptr);
 
     // Save game
@@ -112,6 +112,7 @@ namespace editor
       this->render(m_game.m_display.GetWindowWidth(), m_game.m_display.GetWindowHeight(), m_game.m_display.Width, m_game.m_display.Height);
       
       m_game.m_display.Update();
+      this->configure_input();
     }
   }
 
@@ -299,16 +300,16 @@ namespace editor
         ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace);
         ImGui::DockBuilderSetNodeSize(dockspace_id, ImVec2(window_width, window_height));
 
-        ImGuiID dock_main_id		= dockspace_id;
-        ImGuiID dock_right_id		= ImGui::DockBuilderSplitNode(dock_main_id,		ImGuiDir_Right, 0.2f,   nullptr, &dock_main_id);
-        ImGuiID dock_right_down_id	= ImGui::DockBuilderSplitNode(dock_right_id,	ImGuiDir_Down,	0.5f,   nullptr, &dock_right_id);
-        ImGuiID dock_down_id		= ImGui::DockBuilderSplitNode(dock_main_id,		ImGuiDir_Down,	0.25f,  nullptr, &dock_main_id);
-        ImGuiID dock_down_right_id	= ImGui::DockBuilderSplitNode(dock_down_id,		ImGuiDir_Right, 0.5f,   nullptr, &dock_down_id);
+        ImGuiID dock_main_id = dockspace_id;
+        ImGuiID dock_right_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.2f, nullptr, &dock_main_id);
+        ImGuiID dock_right_down_id	= ImGui::DockBuilderSplitNode(dock_right_id, ImGuiDir_Down,	0.5f, nullptr, &dock_right_id);
+        ImGuiID dock_down_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down,	0.25f, nullptr, &dock_main_id);
+        ImGuiID dock_down_right_id	= ImGui::DockBuilderSplitNode(dock_down_id, ImGuiDir_Right, 0.5f, nullptr, &dock_down_id);
 
-  		  ImGui::DockBuilderDockWindow("Editor",		dock_right_id);
-	  	  ImGui::DockBuilderDockWindow("Chat",	dock_right_down_id);
-		    ImGui::DockBuilderDockWindow("Other",		dock_down_id);
-		    ImGui::DockBuilderDockWindow("Assets",		dock_down_right_id);
+  		  ImGui::DockBuilderDockWindow("Editor", dock_right_id);
+	  	  ImGui::DockBuilderDockWindow("Assets", dock_right_down_id);
+		    ImGui::DockBuilderDockWindow("Chat", dock_down_id);
+		    ImGui::DockBuilderDockWindow("Console", dock_down_right_id);
 		    ImGui::DockBuilderDockWindow("Scene",	dock_main_id);
       
         ImGui::DockBuilderFinish(dock_main_id);
@@ -318,22 +319,19 @@ namespace editor
       this->draw_menu_bar();
       ImGui::End();
 
-      ImGui::Begin("Chat", nullptr, ImGuiWindowFlags_None);
-      ImGui::Text("Teste");
-      ImGui::End();
-
-      ImGui::Begin("Other", nullptr, ImGuiWindowFlags_None);
-      ImGui::Text("Teste");
-      ImGui::End();
-
       ImGui::Begin("Assets", nullptr, ImGuiWindowFlags_None);
+      ImGui::Text("Teste");
+      ImGui::End();
+
+      ImGui::Begin("Console", nullptr, ImGuiWindowFlags_None);
       ImGui::Text("Teste");
       ImGui::End();
 
       m_scene.render((void*) (intptr_t) m_FBO->GetTexture());
 
       this->draw_editor ();
-      //this->draw_console (console_size, console_pos);
+      m_console.Draw ("Chat", m_registry);
+      //m_log.Draw("Console");
 
       if (m_view_physics_debug_layer)
       {
@@ -346,25 +344,12 @@ namespace editor
   {
     ImGui::Begin ("Editor", nullptr, m_window_flags);
 
-    m_toolbar.render(m_current_state, m_current_tool);
-    m_inspector.render (m_game.m_registry);
+    //m_toolbar.render(m_current_state, m_current_tool);
+    //m_inspector.render (m_game.m_registry);
     m_map_editor.render();
-    m_tileset_editor.render();
+    //m_tileset_editor.render();
     ImGui::End();
   }
-
-  void EditorGui::draw_console (const ImVec2& size, const ImVec2& pos)
-  {
-    ImGui::SetNextWindowSize (size, ImGuiCond_Always);
-    ImGui::SetNextWindowPos (pos, ImGuiCond_Always);
-    ImGui::PushStyleColor (ImGuiCol_Text, ImVec4 (0.5f, 0.5f, 0.5f, 1.0f));
-    // ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 3.0f);
-    m_console.Draw ("Chat", m_registry);
-    // ImGui::PopStyleVar();
-    ImGui::PopStyleColor();
-  }
-
-  void EditorGui::draw_log() { m_log.Draw ("Log"); }
 
   void EditorGui::draw_info (const ImVec2& pos)
   {

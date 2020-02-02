@@ -64,6 +64,8 @@ namespace graphics
     SDL_GLContext m_gl_context;
     bool Running;
     glm::vec3 ClearColor;
+    SDL_Event m_event;
+
 #ifdef STELLA_BUILD_EDITOR
     friend class stella::editor::EditorGui;
 #endif

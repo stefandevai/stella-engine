@@ -62,7 +62,7 @@ namespace editor
 
     void Draw (std::string title, entt::registry& registry, bool* p_open = NULL)
     {
-      if (!ImGui::Begin (title.c_str(), p_open, WindowFlags | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar))
+      if (!ImGui::Begin (title.c_str(), p_open, ImGuiWindowFlags_None))
       {
         ImGui::End();
         return;
@@ -84,7 +84,7 @@ namespace editor
       //       Clear();
       //   }
 
-      ImGui::BeginChild ("scrolling", ImVec2 (0, -60.f), false, ImGuiWindowFlags_HorizontalScrollbar);
+      ImGui::BeginChild ("scrolling-chat", ImVec2 (0, -60.f), false, ImGuiWindowFlags_HorizontalScrollbar);
       ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (0, 0));
       ImGui::PushFont (MonoFont);
 
@@ -121,10 +121,11 @@ namespace editor
       ImGui::Dummy (ImVec2 (0.0f, 6.0f));
 
       // Persistent focus
-      // ImGui::SetKeyboardFocusHere();
+      //ImGui::SetKeyboardFocusHere();
       ImGui::PushStyleVar (ImGuiStyleVar_FrameRounding, 2);
       ImGui::PushStyleVar (ImGuiStyleVar_FramePadding, ImVec2 (12.0f, 6.0f));
 
+      ImGui::PushID("chat-log");
       if (ImGui::InputText ("", editable_buffer, IM_ARRAYSIZE (editable_buffer), ImGuiInputTextFlags_EnterReturnsTrue))
       {
         if (strlen (editable_buffer) > 0)
@@ -151,6 +152,7 @@ namespace editor
           strcpy (editable_buffer, "");
         }
       }
+      ImGui::PopID();
 
       ImGui::PopStyleVar();
       ImGui::PopStyleVar();
