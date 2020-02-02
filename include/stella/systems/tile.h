@@ -6,7 +6,7 @@
 
 namespace stella
 {
-namespace systems
+namespace system
 {
   class Tile : public System
   {
@@ -124,5 +124,5 @@ namespace systems
       //}
     }
   };
-} // namespace systems
+} // namespace system
 } // namespace stella

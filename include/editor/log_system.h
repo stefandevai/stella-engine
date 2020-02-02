@@ -10,7 +10,7 @@ namespace stella
 {
 namespace editor
 {
-  class LogSystem : public systems::System
+  class LogSystem : public system::System
   {
   private:
     GuiLog& m_gui_log;

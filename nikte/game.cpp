@@ -5,11 +5,11 @@ namespace nikte
 Game::Game()
   : stella::core::Game(896, 504, "Nikte")
 {
-  this->add_system<stella::systems::Physics>(m_tile_map, m_registry);
-  this->add_system<stella::systems::Tile>(m_tile_map, m_camera, m_registry);
-  this->add_system<stella::systems::Text>(m_registry, m_fonts);
-  this->add_system<stella::systems::Speech>();
-  this->add_system<stella::systems::NPC>(m_player.entity);
+  this->add_system<stella::system::Physics>(m_tile_map, m_registry);
+  this->add_system<stella::system::Tile>(m_tile_map, m_camera, m_registry);
+  this->add_system<stella::system::Text>(m_registry, m_fonts);
+  this->add_system<stella::system::Speech>();
+  this->add_system<stella::system::NPC>(m_player.entity);
 
   m_tile_map.create_tile_entities(0, m_display.GetWidth(), 0, m_display.GetHeight());
 

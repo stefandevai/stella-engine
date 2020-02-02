@@ -32,11 +32,11 @@ namespace core
     ResourceManager<graphics::Texture, const std::string> m_textures;
     ResourceManager<graphics::Font, const std::string, unsigned> m_fonts;
     entt::registry::entity_type m_camera = m_registry.create();
-    std::vector<std::shared_ptr<systems::System>> m_systems{
-        std::make_shared<systems::Render> (m_registry, m_textures, m_display),
-        std::make_shared<systems::Color> (m_registry),
-        std::make_shared<systems::Timer> (m_registry),
-        std::make_shared<systems::Animation>()};
+    std::vector<std::shared_ptr<system::System>> m_systems{
+        std::make_shared<system::Render> (m_registry, m_textures, m_display),
+        std::make_shared<system::Color> (m_registry),
+        std::make_shared<system::Timer> (m_registry),
+        std::make_shared<system::Animation>()};
 
 #ifdef STELLA_BUILD_EDITOR
     // editor::EditorGui m_editor{m_registry};

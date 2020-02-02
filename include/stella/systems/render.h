@@ -14,7 +14,7 @@
 
 namespace stella
 {
-namespace systems
+namespace system
 {
   class Render : public System
   {
@@ -189,5 +189,5 @@ namespace systems
       m_ordered_layers[layer.Order] = layer.Id;
     }
   };
-} // namespace systems
+} // namespace system
 } // namespace stella

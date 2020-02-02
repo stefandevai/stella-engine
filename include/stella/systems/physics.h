@@ -7,7 +7,7 @@
 
 namespace stella
 {
-namespace systems
+namespace system
 {
   class Physics : public System
   {
@@ -82,5 +82,5 @@ namespace systems
       m_world.RemoveBody (body.Body);
     }
   };
-} // namespace systems
+} // namespace system
 } // namespace stella
