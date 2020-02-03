@@ -22,6 +22,7 @@ namespace widget
           pos.x = pos_input[0];
           pos.y = pos_input[1];
           pos.z = pos_input[2];
+          
         }
       }
       else

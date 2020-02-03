@@ -60,7 +60,7 @@ void main()
   }
   
   vec2 screen_resolution = vec2(896.0, 504.0);
-  bool morning = true;
+  bool morning = false;
 
   if (morning)
   {

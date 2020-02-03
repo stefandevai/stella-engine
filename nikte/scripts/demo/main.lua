@@ -24,7 +24,7 @@ local function load_npc(x, y)
     layer = "collision",
     frame_dimensions = {32, 64, 0},
   })
-  npc:add_component("position", {x, y, 2})
+  npc:add_component("position", {x, y, 1})
   npc:add_component("dimension", {32, 64})
   npc:add_component("movement")
   npc:add_component("body", {
@@ -53,7 +53,7 @@ local function load_player(x, y)
     layer = "collision",
     frame_dimensions = {32, 64, 0},
   })
-  Player:add_component("position", {x, y, 2})
+  Player:add_component("position", {x, y, 1})
   Player:add_component("dimension", {32, 64})
   Player:add_component("movement")
   Player:add_component("body", {
