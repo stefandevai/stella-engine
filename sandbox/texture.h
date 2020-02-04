@@ -11,7 +11,7 @@ namespace graphics
   {
   public:
     // Texture(const std::string &name, const char *texPath);
-    Texture (const std::string& path);
+    Texture (const std::string& path, const bool alpha);
     Texture (const unsigned w, const unsigned h);
     Texture();
     ~Texture();
@@ -37,7 +37,7 @@ namespace graphics
     float CacheID;
     // std::string Name;
     bool Cached;
-    void load (const char* texPath);
+    void load (const char* texPath, const bool alpha);
   };
 
 } // namespace graphics

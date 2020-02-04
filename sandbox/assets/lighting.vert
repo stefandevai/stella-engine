@@ -17,10 +17,13 @@ void main()
     gl_Position = mvp * vec4(aPos, 1.0);
     // Invert y tex coord
     TexCoord = vec2(aTexCoord.x, 1.0 - aTexCoord.y);
-    Normal = mat3(transpose(inverse(model))) * aNormal;
-    //Normal = aNormal;
 
-    //Normal = normalize(vec3(mvp * vec4(aNormal, 1.0)));
+    // DO THIS CALC OUTSIDE THE SHADER
+    // USE IF PERSPECTIVE
+    // Normal = mat3(transpose(inverse(model))) * aNormal;
+    
+    // USE IF ORTHO
+    Normal = normalize(vec3(mvp * vec4(aNormal, 1.0)));
     
     FragPos = vec3(model * vec4(aPos, 1.0));
 }

@@ -5,7 +5,7 @@
 
 extern "C"
 {
-#define STBI_ONLY_PNG
+//#define STBI_ONLY_PNG
 #define STB_IMAGE_IMPLEMENTATION
 #include "../lib/stb_image/stb_image.h"
 }
@@ -16,11 +16,11 @@ namespace graphics
 {
   // Texture::Texture(const std::string &name, const char *texPath) : Name(name)
   // {
-  Texture::Texture (const std::string& path) : Resource (path)
+  Texture::Texture (const std::string& path, const bool alpha = true) : Resource (path)
   {
     this->Cached = false;
     glGenTextures (1, &this->ID);
-    this->load (path.c_str());
+    this->load (path.c_str(), alpha);
   }
 
   Texture::Texture (const unsigned w, const unsigned h) : Resource (""), Width (w), Height (h)
@@ -64,10 +64,11 @@ namespace graphics
 
   void Texture::Unbind() { glBindTexture (GL_TEXTURE_2D, 0); }
 
-  void Texture::load (const char* texPath)
+  void Texture::load (const char* texPath, const bool alpha)
   {
     int width, height, channels;
-    unsigned char* img = stbi_load (texPath, &width, &height, &channels, STBI_rgb_alpha);
+    // unsigned char* img = stbi_load (texPath, &width, &height, &channels, STBI_rgb_alpha);
+    unsigned char* img = stbi_load (texPath, &width, &height, &channels, 0);
     if (img == nullptr)
       std::cout << "It wasn't possible to load " << texPath << std::endl;
 
@@ -75,7 +76,11 @@ namespace graphics
     this->Height = (unsigned int) height;
 
     glBindTexture (GL_TEXTURE_2D, this->ID);
-    glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, this->Width, this->Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
+
+    if (alpha)
+      glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, this->Width, this->Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
+    else
+      glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB, this->Width, this->Height, 0, GL_RGB, GL_UNSIGNED_BYTE, img);
 
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

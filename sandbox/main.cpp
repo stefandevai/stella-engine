@@ -22,15 +22,16 @@ int main(void)
     Display display{SCR_WIDTH, SCR_HEIGHT, "Lighting test"};
     Shader shader{"./assets/lighting.vert", "./assets/lighting.frag"};
     Shader light_shader{"./assets/basic.vert", "./assets/basic.frag"};
-    Texture texture{"assets/texture.png"};
-    Texture light_texture{"assets/light_texture.png"};
+    Texture texture{"assets/church_sprite.png", true};
+    Texture texture_normal{"assets/church_normal.png", true};
+    Texture light_texture{"assets/light_texture.png", true};
 
-    display.SetClearColor(0.3f, 0.3f, 0.3f);
+    display.SetClearColor(0.1f, 0.1f, 0.1f);
 
     // Use orthographic projection if true, perspective if false
-    bool use_ortho = false;
+    bool use_ortho = true;
     // Draw quad if true, draw cube if false
-    bool use_quad = false;
+    bool use_quad = true;
 
     // ***************
     // ** QUAD DATA **
@@ -141,10 +142,10 @@ int main(void)
     unsigned int lightVAO;
     glGenVertexArrays(1, &lightVAO);
     glBindVertexArray(lightVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, qVBO);
 
-    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, qEBO);
-    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, qEBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
@@ -170,6 +171,8 @@ int main(void)
     }
     shader.Enable();
     shader.SetMat4("projection", projection);
+    shader.SetInt("ourTexture", 0);
+    shader.SetInt("normalMap", 1);
     light_shader.Enable();
     //light_shader.SetMat4("projection", projection);
     light_shader.SetMat4("projection", glm::ortho(0.0f, (float)SCR_WIDTH, 0.0f, (float)SCR_HEIGHT, 0.1f, 100.0f));
@@ -182,34 +185,40 @@ int main(void)
         display.Clear();
         shader.Enable();
 
-        auto current_time = display.GetTime();
+        //auto current_time = display.GetTime();
         double mouse_pos_x, mouse_pos_y;
         display.GetMousePos(mouse_pos_x, mouse_pos_y);
-        glm::vec3 light_pos{mouse_pos_x, mouse_pos_y, 4.0f};
+        glm::vec3 light_pos{mouse_pos_x, mouse_pos_y, 1.5f};
         // glm::vec3 light_pos{mouse_pos_x/(float)SCR_WIDTH, mouse_pos_y/(float)SCR_HEIGHT, 4.0f};
         glm::mat4 model         = glm::mat4(1.0f);
         glm::mat4 view          = glm::mat4(1.0f);
-        float ortho_scale = 100.f;
-        
+        //float ortho_scale = 300.f;
+        float view_zoom = -2.f;
 
         if (use_ortho)
         {
-            model = glm::scale(model, glm::vec3(ortho_scale, ortho_scale, 1.0));
-            view = glm::translate(view, glm::vec3((float)SCR_WIDTH/2.f, (float)SCR_HEIGHT/2.f, -6.0f));
-            shader.SetVec3f("lightPos", glm::vec3(light_pos.x - 448.f, -light_pos.y + 252.f, -light_pos.z*50.0f));
+            // model = glm::scale(model, glm::vec3(ortho_scale, ortho_scale, 1.0));
+            model = glm::scale(model, glm::vec3(536.0f, 258.0f, 1.0));
+            view = glm::translate(view, glm::vec3((float)SCR_WIDTH/2.f, (float)SCR_HEIGHT/2.f, view_zoom));
+            // shader.SetVec3f("lightPos", glm::vec3(light_pos.x - 448.f, -light_pos.y + 252.f, -light_pos.z*50.0f));
+            shader.SetVec3f("lightPos", glm::vec3(light_pos.x - 448.f, -light_pos.y + 252.f, 400.0f));
+            shader.SetVec3f("viewPos", glm::vec3(0.0f, 0.0f, -light_pos.z*50.0f));
         }
         else
         {
-            view = glm::translate(view, glm::vec3(0.0f, 0.0f, -6.0f));
+            view = glm::translate(view, glm::vec3(0.0f, 0.0f, view_zoom));
             shader.SetVec3f("lightPos", glm::vec3((light_pos.x - 448.0f)/(float)SCR_WIDTH, (-light_pos.y + 252.f)/(float)SCR_HEIGHT, 1.0f));
         }
-        model = glm::rotate(model, 0.01f*current_time*glm::radians(5.0f), glm::vec3(1.0f, 0.5f, 0.3f));        
-        //model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));        
+        //model = glm::rotate(model, 0.01f*current_time*glm::radians(5.0f), glm::vec3(1.0f, 0.5f, 0.3f));  
         
         shader.SetMat4("model", model);
         shader.SetMat4("view", view);
         
+        glActiveTexture(GL_TEXTURE0);
         texture.Bind();
+
+        glActiveTexture(GL_TEXTURE1);
+        texture_normal.Bind();
 
         // ***************
         // ** DRAW CUBE **
@@ -250,11 +259,13 @@ int main(void)
         light_shader.Enable();
         light_shader.SetMat4("model", light_model);
         light_shader.SetMat4("view", view);
+
+        glActiveTexture(GL_TEXTURE0);
         light_texture.Bind();
         
         glBindVertexArray(lightVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        //glDrawArrays(GL_TRIANGLES, 0, 36);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         
         display.Update();
     }
