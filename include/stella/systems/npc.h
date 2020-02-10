@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stella/systems/system.h"
+#include "stella/components/npc.h"
 #include <sol/sol.hpp>
 #include <random>
 
@@ -20,9 +21,10 @@ namespace system
     std::uniform_int_distribution<int> m_distribution{0, 3};
 
   public:
-    NPC (entt::entity player_entity);
+    NPC (entt::registry& registry, entt::entity player_entity);
     ~NPC() override;
     void update (entt::registry& registry, const double dt) override;
+    void initialize_npc (entt::registry& registry, entt::entity entity, component::NPC& npc);
   };
 } // namespace system
 } // namespace stella

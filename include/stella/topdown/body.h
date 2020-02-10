@@ -48,6 +48,9 @@ namespace topdown
     // Top, right, bottom, left collisions
     std::bitset<4> Collisions;
     float Transition = 0.f, LastTransition = 0.f, MovementDelay = 20.f;
+    glm::vec2 origin = glm::vec2{-1,-1};
+    float walk_radius = -1.0f;
+
 
   private:
     std::bitset<4> Movement;

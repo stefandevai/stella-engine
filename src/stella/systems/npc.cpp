@@ -1,5 +1,4 @@
 #include "stella/systems/npc.h"
-#include "stella/components/npc.h"
 #include "stella/components/position.h"
 #include "stella/components/speech_container.h"
 #include "stella/components/text.h"
@@ -10,9 +9,10 @@ namespace stella
 {
 namespace system
 {
-    NPC::NPC (entt::entity player_entity) : m_player_entity (player_entity)
+    NPC::NPC (entt::registry& registry, entt::entity player_entity) : m_player_entity (player_entity)
     {
       m_lua.open_libraries (sol::lib::base, sol::lib::string);
+      registry.on_construct<component::NPC>().connect<&NPC::initialize_npc> (this);
     }
 
     NPC::~NPC() {}
@@ -98,6 +98,20 @@ namespace system
                   }
                 });
       }
+    }
+
+    void NPC::initialize_npc (entt::registry& registry, entt::entity entity, component::NPC& npc)
+    {
+        // assert(registry.has<component::Position>(entity) && "NPC doesn't have position component.\n");
+        // assert(registry.has<component::Body2D>(entity) && "NPC doesn't have body component.\n");
+        
+        // const auto& pos = registry.get<component::Position>(entity);
+        // const auto& body = registry.get<component::Body2D>(entity);
+        // npc.origin.x = pos.x;
+        // npc.origin.y = pos.y;
+        // body.Body->origin.x = npc.origin.x;
+        // body.Body->origin.y = npc.origin.y;
+        // body.Body->walk_radius = npc.walk_radius * 32.0f;
     }
 } // namespace system
 } // namespace stella
