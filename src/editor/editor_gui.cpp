@@ -176,15 +176,14 @@ namespace editor
         io.MousePos.y < m_scene.get_height() && io.MousePos.y > m_scene.get_y())
     {
       // Set dummy sprite position with grid snapping
-      const auto& camera_pos = m_game.get_camera_pos();
-      float width_padding    = m_scene.get_x() + m_scene.get_game_screen_x_spacing();
-      float height_padding   = m_scene.get_y() * 2 + m_scene.get_game_screen_y_spacing();
+      const auto& camera_pos    = m_game.get_camera_pos();
+      float width_padding       = m_scene.get_x() + m_scene.get_game_screen_x_spacing();
+      float height_padding      = m_scene.get_y() * 2 + m_scene.get_game_screen_y_spacing();
       const float width_factor  = 896 / static_cast<float> (m_scene.get_game_screen_width());
       const float height_factor = 504 / static_cast<float> (m_scene.get_game_screen_height());
 
-      auto& sprite_pos          = m_registry.get<component::Position> (m_editor_sprite);
-      auto& sprite_spr          = m_registry.get<component::Sprite> (m_editor_sprite);
-      
+      auto& sprite_pos = m_registry.get<component::Position> (m_editor_sprite);
+      auto& sprite_spr = m_registry.get<component::Sprite> (m_editor_sprite);
 
       ImVec2 tile_pos    = m_tileset_editor.pos2tile (io.MousePos.x * width_factor - width_padding + camera_pos[0],
                                                    io.MousePos.y * height_factor - height_padding + camera_pos[1]);
@@ -214,26 +213,24 @@ namespace editor
       if (io.MouseClicked[0])
       {
         // Get clicked tile position
-        const auto& camera_pos = m_game.get_camera_pos();
-        float width_padding    = m_scene.get_x() + m_scene.get_game_screen_x_spacing();
-        float height_padding   = m_scene.get_y() * 2 + m_scene.get_game_screen_y_spacing();
+        const auto& camera_pos    = m_game.get_camera_pos();
+        float width_padding       = m_scene.get_x() + m_scene.get_game_screen_x_spacing();
+        float height_padding      = m_scene.get_y() * 2 + m_scene.get_game_screen_y_spacing();
         const float width_factor  = 896 / static_cast<float> (m_scene.get_game_screen_width());
         const float height_factor = 504 / static_cast<float> (m_scene.get_game_screen_height());
-        ImVec2 tile_pos    = m_tileset_editor.pos2tile (io.MousePos.x * width_factor - width_padding + camera_pos[0],
-                                                   io.MousePos.y * height_factor - height_padding + camera_pos[1]);
-        auto tile =
-            m_game.m_tile_map.layers[m_map_editor.get_selected_layer_id()]->get_value (tile_pos.x, tile_pos.y);
+        ImVec2 tile_pos = m_tileset_editor.pos2tile (io.MousePos.x * width_factor - width_padding + camera_pos[0],
+                                                     io.MousePos.y * height_factor - height_padding + camera_pos[1]);
+        auto tile = m_game.m_tile_map.layers[m_map_editor.get_selected_layer_id()]->get_value (tile_pos.x, tile_pos.y);
         m_inspector.set_selected_entity (tile.entity);
-        
-        const auto& updated_pos = m_game.m_registry.get<component::Position>(tile.entity);
-        tile.x = updated_pos.x;
-        tile.y = updated_pos.y;
-        tile.z = updated_pos.z;
+
+        const auto& updated_pos = m_game.m_registry.get<component::Position> (tile.entity);
+        tile.x                  = updated_pos.x;
+        tile.y                  = updated_pos.y;
+        tile.z                  = updated_pos.z;
         m_game.m_tile_map.layers[m_map_editor.get_selected_layer_id()]->set_value (tile_pos.x, tile_pos.y, tile);
 
-        auto tile2 =
-            m_game.m_tile_map.layers[m_map_editor.get_selected_layer_id()]->get_value (tile_pos.x, tile_pos.y);
-        m_log.AddLog("%d\n", tile2.z);
+        auto tile2 = m_game.m_tile_map.layers[m_map_editor.get_selected_layer_id()]->get_value (tile_pos.x, tile_pos.y);
+        m_log.AddLog ("%d\n", tile2.z);
       }
     }
   }
@@ -405,7 +402,10 @@ namespace editor
         if (ImGui::MenuItem ("Save", "CTRL+S")) {}
         if (ImGui::MenuItem ("Save as...", "CTRL+SHIFT+S")) {}
         ImGui::Separator();
-        if (ImGui::MenuItem ("Quit", "CTRL+W")) { m_game.m_display.Running = false; }
+        if (ImGui::MenuItem ("Quit", "CTRL+W"))
+        {
+          m_game.m_display.Running = false;
+        }
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu ("Edit"))

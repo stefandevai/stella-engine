@@ -10,9 +10,7 @@ namespace topdown
   class Body
   {
   public:
-    Body (const glm::vec2 position,
-          const glm::vec2 dimension,
-          const double movement_speed);
+    Body (const glm::vec2 position, const glm::vec2 dimension, const double movement_speed);
     ~Body();
 
     inline glm::vec2 GetPosition() const { return Position; }
@@ -48,9 +46,6 @@ namespace topdown
     // Top, right, bottom, left collisions
     std::bitset<4> Collisions;
     float Transition = 0.f, LastTransition = 0.f, MovementDelay = 20.f;
-    glm::vec2 origin = glm::vec2{-1,-1};
-    float walk_radius = -1.0f;
-
 
   private:
     std::bitset<4> Movement;

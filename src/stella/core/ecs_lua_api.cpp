@@ -101,7 +101,7 @@ namespace script
       const sol::table& animation    = key_value_pair.second;
       const std::string& name        = animation[1];
       const sol::table& frames_table = animation[2];
-      const int frames_table_size   = frames_table.size();
+      const int frames_table_size    = frames_table.size();
       std::vector<unsigned int> frames (frames_table_size);
       for (int i = 1; i < frames_table_size + 1; ++i)
       {
@@ -139,7 +139,7 @@ namespace script
   {
     std::vector<double> bb    = {0.f, 0.f};
     std::vector<double> bbpos = {0.f, 0.f};
-    const int movement_speed = obj["movement_speed"] == sol::lua_nil ? 20.f : obj["movement_speed"];
+    const int movement_speed  = obj["movement_speed"] == sol::lua_nil ? 20.f : obj["movement_speed"];
 
     if (obj["bounding_box"] != sol::lua_nil)
     {

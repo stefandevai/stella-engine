@@ -15,9 +15,6 @@ end
 
 local function load_npc(x, y)
   local npc = Entity:create_entity()
-  npc:add_component("npc", {
-    script_path = "scripts/npcs/test.lua"
-  })
   -- npc:add_component("name", "Test")
   npc:add_component("sprite", {
     texture = "nikte",
@@ -31,6 +28,9 @@ local function load_npc(x, y)
     movement_speed = 3,
     bounding_box = {32, 32},
     bounding_box_position = {0, 32},
+  })
+  npc:add_component("npc", {
+    script_path = "scripts/npcs/test.lua"
   })
 
   animation_args = {}

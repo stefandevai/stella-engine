@@ -28,7 +28,7 @@ namespace core
   {
   protected:
     script::ECSLuaApi m_script_api{m_registry};
-    //audio::SoundPlayer m_sound_player;
+    // audio::SoundPlayer m_sound_player;
     ResourceManager<graphics::Texture, const std::string> m_textures;
     ResourceManager<graphics::Font, const std::string, unsigned> m_fonts;
     entt::registry::entity_type m_camera = m_registry.create();

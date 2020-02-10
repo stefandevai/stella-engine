@@ -300,9 +300,9 @@ namespace core
     {
       for (auto& tile : layer->m_grid)
       {
-        if (m_registry.valid(tile.entity))
+        if (m_registry.valid (tile.entity))
         {
-          m_registry.destroy(tile.entity);
+          m_registry.destroy (tile.entity);
         }
       }
       layer->m_grid.clear();

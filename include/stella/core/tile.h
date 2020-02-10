@@ -22,7 +22,7 @@ namespace core
     std::bitset<4> custom_edges;
     std::bitset<4> active_edges;
     entt::entity entity = entt::null;
-    static entt::registry *registry;
+    static entt::registry* registry;
 
     bool operator== (const Tile& other) const
     {
@@ -58,11 +58,11 @@ namespace core
     template<class Archive>
     void save (Archive& archive) const
     {
-      if (registry != nullptr && registry->valid(entity))
+      if (registry != nullptr && registry->valid (entity))
       {
-        if (registry->has<component::Position>(entity))
+        if (registry->has<component::Position> (entity))
         {
-          auto& pos = registry->get<component::Position>(entity);
+          auto& pos = registry->get<component::Position> (entity);
           archive (pos.x, pos.y, pos.z, value, collidable, solid_edges, custom_edges, active_edges);
         }
       }
