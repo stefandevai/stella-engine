@@ -4,6 +4,7 @@ add_subdirectory(audio)
 add_subdirectory(core)
 add_subdirectory(graphics)
 add_subdirectory(physics2d)
+add_subdirectory(systems)
 add_subdirectory(topdown)
 
 add_library(${PROJECT_NAME} STATIC application.cpp
@@ -14,6 +15,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
                                       ${STELLA_LIBRARY_NAME}::core
                                       ${STELLA_LIBRARY_NAME}::graphics
                                       ${STELLA_LIBRARY_NAME}::physics2d
+                                      ${STELLA_LIBRARY_NAME}::systems
                                       ${STELLA_LIBRARY_NAME}::topdown
                                       OpenGL::GL
                                       ${GLAD_LIBRARIES}

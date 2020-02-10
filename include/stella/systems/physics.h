@@ -40,8 +40,7 @@ namespace system
               body.Body = std::make_shared<stella::topdown::Body> (
                   glm::vec2 (pos.x + body.BoundingBoxPosition[0], pos.y + body.BoundingBoxPosition[1]),
                   glm::vec2 (bbw, bbh),
-                  glm::vec2 (body.Drag[0], body.Drag[1]),
-                  body.CollideWithBorders);
+                  body.movement_speed);
               if (registry.has<component::Movement> (entity))
               {
                 auto mov                  = registry.get<component::Movement> (entity);

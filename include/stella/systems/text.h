@@ -126,7 +126,6 @@ namespace system
     void delete_text (entt::registry& registry, entt::entity entity)
     {
       auto& text = registry.get<component::Text> (entity);
-      // std::cout << "here\n";
       for (auto& ch : text.char_entities)
       {
         registry.destroy (ch);

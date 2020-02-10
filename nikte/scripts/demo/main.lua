@@ -28,6 +28,7 @@ local function load_npc(x, y)
   npc:add_component("dimension", {32, 64})
   npc:add_component("movement")
   npc:add_component("body", {
+    movement_speed = 3,
     bounding_box = {32, 32},
     bounding_box_position = {0, 32},
   })
@@ -57,6 +58,7 @@ local function load_player(x, y)
   Player:add_component("dimension", {32, 64})
   Player:add_component("movement")
   Player:add_component("body", {
+    movement_speed = 10,
     bounding_box = {32, 32},
     bounding_box_position = {0, 32},
   })

@@ -53,7 +53,6 @@ namespace core
     void load (Archive& archive)
     {
       archive (x, y, z, value, collidable, solid_edges, custom_edges, active_edges);
-      if (collidable) std::cout << z << '\n';
     }
 
     template<class Archive>
@@ -64,7 +63,6 @@ namespace core
         if (registry->has<component::Position>(entity))
         {
           auto& pos = registry->get<component::Position>(entity);
-          if (collidable) std::cout << pos.z << '\n';
           archive (pos.x, pos.y, pos.z, value, collidable, solid_edges, custom_edges, active_edges);
         }
       }

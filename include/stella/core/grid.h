@@ -11,9 +11,6 @@ namespace core
   template<typename T>
   class Grid
   {
-  protected:
-    unsigned m_width, m_height;
-
   public:
     std::vector<T> m_grid;
     Grid (unsigned width, unsigned height)
@@ -48,6 +45,9 @@ namespace core
         return m_grid[x + y * m_width];
       }
     }
+
+  protected:
+    unsigned m_width, m_height;
   };
 
 } // namespace core

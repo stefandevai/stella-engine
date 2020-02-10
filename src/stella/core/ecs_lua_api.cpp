@@ -101,14 +101,14 @@ namespace script
       const sol::table& animation    = key_value_pair.second;
       const std::string& name        = animation[1];
       const sol::table& frames_table = animation[2];
-      const int& frames_table_size   = frames_table.size();
+      const int frames_table_size   = frames_table.size();
       std::vector<unsigned int> frames (frames_table_size);
       for (int i = 1; i < frames_table_size + 1; ++i)
       {
         int frame     = frames_table[i];
         frames[i - 1] = frame;
       }
-      const unsigned int& speed = animation[3];
+      const unsigned int speed = animation[3];
       assert (speed > 0);
       assert (frames.size() > 0);
       animations.emplace_back (name, frames, speed);
@@ -137,17 +137,10 @@ namespace script
 
   void ECSLuaApi::add_body_component (entt::registry::entity_type id, const sol::table& obj)
   {
-    const bool& collide_with_borders =
-        obj["collide_with_borders"] == sol::lua_nil ? false : obj["collide_with_borders"];
-    std::vector<double> drag  = {0.f, 0.f};
     std::vector<double> bb    = {0.f, 0.f};
     std::vector<double> bbpos = {0.f, 0.f};
+    const int movement_speed = obj["movement_speed"] == sol::lua_nil ? 20.f : obj["movement_speed"];
 
-    if (obj["drag"] != sol::lua_nil)
-    {
-      drag[0] = obj["drag"][1];
-      drag[1] = obj["drag"][2];
-    }
     if (obj["bounding_box"] != sol::lua_nil)
     {
       bb[0] = obj["bounding_box"][1];
@@ -158,7 +151,7 @@ namespace script
       bbpos[0] = obj["bounding_box_position"][1];
       bbpos[1] = obj["bounding_box_position"][2];
     }
-    m_registry.assign<stella::component::Body2D> (id, drag, bb, bbpos, collide_with_borders);
+    m_registry.assign<stella::component::Body2D> (id, bb, bbpos, movement_speed);
   }
 
   void ECSLuaApi::add_text_component (entt::registry::entity_type id, const sol::table& obj)

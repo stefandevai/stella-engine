@@ -6,7 +6,7 @@
 #include "stella/systems/npc.h"
 #include "stella/systems/particle.h"
 #include "stella/systems/physics.h"
-#include "stella/systems/player.h"
+//#include "stella/systems/player.h"
 #include "stella/systems/render.h"
 #include "stella/systems/scroll.h"
 #include "stella/systems/speech.h"

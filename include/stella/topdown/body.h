@@ -10,10 +10,9 @@ namespace topdown
   class Body
   {
   public:
-    Body (glm::vec2 position,
-          glm::vec2 dimension,
-          glm::vec2 drag            = glm::vec2 (0.f, 0.f),
-          bool collide_with_borders = false);
+    Body (const glm::vec2 position,
+          const glm::vec2 dimension,
+          const double movement_speed);
     ~Body();
 
     inline glm::vec2 GetPosition() const { return Position; }
@@ -52,6 +51,8 @@ namespace topdown
 
   private:
     std::bitset<4> Movement;
+    double m_movement_speed;
+    const double MAX_MOVEMENT_SPEED = 200.0;
   };
 } // namespace topdown
 } // namespace stella
