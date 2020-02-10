@@ -47,6 +47,7 @@ namespace core
     void save (const std::string& path);
     void load_lua (const std::string& path);
     void load_xml (const std::string& path);
+    void clear();
   };
 
 } // namespace core

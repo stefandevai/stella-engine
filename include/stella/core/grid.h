@@ -12,10 +12,10 @@ namespace core
   class Grid
   {
   protected:
-    std::vector<T> m_grid;
     unsigned m_width, m_height;
 
   public:
+    std::vector<T> m_grid;
     Grid (unsigned width, unsigned height)
       : m_grid (std::vector<T> (width * height)), m_width (width), m_height (height)
     {

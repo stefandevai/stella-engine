@@ -20,10 +20,10 @@ void main()
 
     // DO THIS CALC OUTSIDE THE SHADER
     // USE IF PERSPECTIVE
-    // Normal = mat3(transpose(inverse(model))) * aNormal;
+     Normal = mat3(transpose(inverse(model))) * aNormal;
     
     // USE IF ORTHO
-    Normal = normalize(vec3(mvp * vec4(aNormal, 1.0)));
+    //Normal = normalize(vec3(mvp * vec4(aNormal, 1.0)));
     
     FragPos = vec3(model * vec4(aPos, 1.0));
 }

@@ -184,12 +184,13 @@ int main(void)
         // *****************
         display.Clear();
         shader.Enable();
-
         //auto current_time = display.GetTime();
         double mouse_pos_x, mouse_pos_y;
         display.GetMousePos(mouse_pos_x, mouse_pos_y);
+
+        glm::vec3 light_color{0.9f, 0.6f, 0.3f};
         glm::vec3 light_pos{mouse_pos_x, mouse_pos_y, 1.5f};
-        // glm::vec3 light_pos{mouse_pos_x/(float)SCR_WIDTH, mouse_pos_y/(float)SCR_HEIGHT, 4.0f};
+        //glm::vec3 light_pos{SCR_WIDTH/2.0f, SCR_HEIGHT/2.0f + std::cos(current_time*0.002)*600.0f, 300.0f};
         glm::mat4 model         = glm::mat4(1.0f);
         glm::mat4 view          = glm::mat4(1.0f);
         //float ortho_scale = 300.f;
@@ -213,6 +214,7 @@ int main(void)
         
         shader.SetMat4("model", model);
         shader.SetMat4("view", view);
+        shader.SetVec3f("lightColor", light_color);
         
         glActiveTexture(GL_TEXTURE0);
         texture.Bind();
@@ -259,12 +261,12 @@ int main(void)
         light_shader.Enable();
         light_shader.SetMat4("model", light_model);
         light_shader.SetMat4("view", view);
+        light_shader.SetVec3f("lightColor", light_color);
 
         glActiveTexture(GL_TEXTURE0);
         light_texture.Bind();
         
         glBindVertexArray(lightVAO);
-        //glDrawArrays(GL_TRIANGLES, 0, 36);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         
         display.Update();

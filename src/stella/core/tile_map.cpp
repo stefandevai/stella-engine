@@ -18,9 +18,12 @@ namespace stella
 {
 namespace core
 {
+  entt::registry* Tile::registry = nullptr;
+
   TileMap::TileMap (const std::string& path, entt::registry& registry) : m_path (path), m_registry (registry)
   {
     this->load (path);
+    Tile::registry = &m_registry;
   }
 
   TileMap::~TileMap() {}
@@ -118,6 +121,7 @@ namespace core
 
   void TileMap::load_xml (const std::string& path)
   {
+    this->clear();
     std::ifstream is (path);
     cereal::XMLInputArchive archive (is);
     archive (CEREAL_NVP (m_name),
@@ -134,6 +138,7 @@ namespace core
         layer->resize (0, m_width - layer->width(), m_height - layer->height(), 0);
       }
     }
+    this->refresh();
     std::cout << "Loaded TileMap: " << m_name << " from " << path << '\n';
   }
 
@@ -251,7 +256,7 @@ namespace core
           if (!layer_tile.visible && layer_tile.value > 0)
           {
             layer->set_visibility (x, y, true);
-            this->create_tile_entity (layer_tile.value, x, y, layer_tile.z + layer_counter, layer_counter);
+            this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter);
           }
           else if (!layer_tile.visible)
           {
@@ -287,6 +292,22 @@ namespace core
         }
       }
     }
+  }
+
+  void TileMap::clear()
+  {
+    for (auto& layer : layers)
+    {
+      for (auto& tile : layer->m_grid)
+      {
+        if (m_registry.valid(tile.entity))
+        {
+          m_registry.destroy(tile.entity);
+        }
+      }
+      layer->m_grid.clear();
+    }
+    layers.clear();
   }
 } // namespace core
 } // namespace stella
