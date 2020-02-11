@@ -2,6 +2,7 @@
 
 #include <stella/topdown/body.h>
 #include <vector>
+#include <memory>
 
 namespace stella
 {

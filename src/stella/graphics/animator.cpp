@@ -32,7 +32,7 @@ namespace graphics
       this->Reseted           = true;
     }
     else
-      std::cout << "There's no animation named '" << name << "''" << std::endl;
+      std::cout << "There's no animation named '" << name << "\'\n";
   }
 
   unsigned int Animator::Update()

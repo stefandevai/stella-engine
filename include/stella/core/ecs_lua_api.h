@@ -35,6 +35,7 @@ namespace script
     void add_scroll_component (entt::registry::entity_type id, const sol::table& obj);
     void add_name_component (entt::registry::entity_type id, const sol::table& obj);
     void add_npc_component (entt::registry::entity_type id, const sol::table& obj);
+    void add_character_animation_component (entt::registry::entity_type id);
     void add_component (const sol::table& obj);
 
     inline double get_perlin_double (double x, double y) { return m_noise_generator.get_double (x, y); }

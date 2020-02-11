@@ -1,7 +1,8 @@
 project(nikte)
 
 set(EXAMPLE_SOURCES main.cpp
-                    game.cpp)
+                    game.cpp
+                    player.cpp)
 add_executable(${PROJECT_NAME} ${EXAMPLE_SOURCES})
 
 if (STELLA_BUILD_EDITOR)

@@ -3,6 +3,7 @@
 #include "stella/components/animation.h"
 #include "stella/components/body2d.h"
 #include "stella/components/camera.h"
+#include "stella/components/character_animation.h"
 #include "stella/components/charcode.h"
 #include "stella/components/color.h"
 #include "stella/components/dimension.h"

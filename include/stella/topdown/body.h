@@ -7,6 +7,20 @@ namespace stella
 {
 namespace topdown
 {
+  enum BodyState
+  {
+    NONE,
+    IDLE,
+    MOVING
+  };
+  enum BodyDirection
+  {
+    TOP    = 1 << 0,
+    RIGHT  = 1 << 1,
+    BOTTOM = 1 << 2,
+    LEFT   = 1 << 3
+  };
+
   class Body
   {
   public:
@@ -46,6 +60,9 @@ namespace topdown
     // Top, right, bottom, left collisions
     std::bitset<4> Collisions;
     float Transition = 0.f, LastTransition = 0.f, MovementDelay = 20.f;
+
+    BodyState state = BodyState::IDLE;
+    int direction   = BodyDirection::BOTTOM;
 
   private:
     std::bitset<4> Movement;

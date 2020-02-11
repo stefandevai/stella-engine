@@ -202,6 +202,11 @@ namespace script
     m_registry.assign<stella::component::NPC> (id, path);
   }
 
+  void ECSLuaApi::add_character_animation_component (entt::registry::entity_type id)
+  {
+    m_registry.assign<stella::component::CharacterAnimation> (id);
+  }
+
   void ECSLuaApi::add_component (const sol::table& obj)
   {
     if (obj["type"] != sol::lua_nil)
@@ -238,6 +243,8 @@ namespace script
         add_name_component (id, obj["args"]);
       else if (ct == "npc")
         add_npc_component (id, obj["args"]);
+      else if (ct == "character_animation")
+        add_character_animation_component (id);
       else
         std::cout << "ERROR: No component named " << ct << '\n';
     }

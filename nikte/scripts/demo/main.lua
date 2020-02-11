@@ -36,15 +36,16 @@ local function load_npc(x, y)
   animation_args = {}
   animation_args["frame_dimensions"] = {32, 64}
   animation_args["animations"] = {}
-  animation_args["animations"][1] = {"idle-d", {0}, 5}
+  animation_args["animations"][1] = {"idle-b", {0}, 5}
   animation_args["animations"][2] = {"walking-r", {19,20,21,22,23,24,25,26}, 5}
-  animation_args["animations"][3] = {"walking-u", {28,29,30,31,32,33,34,35}, 5}
-  animation_args["animations"][4] = {"walking-d", {1,2,3,4,5,6,7,8}, 5}
+  animation_args["animations"][3] = {"walking-t", {28,29,30,31,32,33,34,35}, 5}
+  animation_args["animations"][4] = {"walking-b", {1,2,3,4,5,6,7,8}, 5}
   animation_args["animations"][5] = {"idle-l", {45}, 5}
   animation_args["animations"][6] = {"idle-r", {18}, 5}
-  animation_args["animations"][7] = {"idle-u", {27}, 5}
+  animation_args["animations"][7] = {"idle-t", {27}, 5}
   animation_args["animations"][8] = {"walking-l", {46,47,48,49,50,51,52,53}, 5}
   npc:add_component("animation", animation_args) 
+  npc:add_component("character_animation")
 end
 
 local function load_player(x, y)
@@ -68,13 +69,14 @@ local function load_player(x, y)
   animation_args["animations"] = {}
   animation_args["animations"][1] = {"walking-l", {46,47,48,49,50,51,52,53}, 5}
   animation_args["animations"][2] = {"walking-r", {19,20,21,22,23,24,25,26}, 5}
-  animation_args["animations"][3] = {"walking-u", {28,29,30,31,32,33,34,35}, 5}
-  animation_args["animations"][4] = {"walking-d", {1,2,3,4,5,6,7,8}, 5}
+  animation_args["animations"][3] = {"walking-t", {28,29,30,31,32,33,34,35}, 5}
+  animation_args["animations"][4] = {"walking-b", {1,2,3,4,5,6,7,8}, 5}
   animation_args["animations"][5] = {"idle-l", {45}, 5}
   animation_args["animations"][6] = {"idle-r", {18}, 5}
-  animation_args["animations"][7] = {"idle-u", {27}, 5}
-  animation_args["animations"][8] = {"idle-d", {0}, 5}
-  Player:add_component("animation", animation_args) 
+  animation_args["animations"][7] = {"idle-t", {27}, 5}
+  animation_args["animations"][8] = {"idle-b", {0}, 5}
+  Player:add_component("animation", animation_args)
+  Player:add_component("character_animation")
 end
 
 local function load()

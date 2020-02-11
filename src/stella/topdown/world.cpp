@@ -73,16 +73,27 @@ namespace topdown
       {
         if (body->Transition <= 0)
         {
+          if (body->state != BodyState::IDLE)
+          {
+            body->state = BodyState::IDLE;
+          }
+
           // Vertical movement
           if (body->MovingTop() && !body->MovingBottom())
           {
             body->Target.y   = body->Position.y - TILE_DIMENSIONS;
             body->Transition = body->MovementDelay;
+            body->state      = BodyState::MOVING;
+            body->direction &= ~BodyDirection::BOTTOM;
+            body->direction = BodyDirection::TOP;
           }
           else if (body->MovingBottom() && !body->MovingTop())
           {
             body->Target.y   = body->Position.y + TILE_DIMENSIONS;
             body->Transition = body->MovementDelay;
+            body->state      = BodyState::MOVING;
+            body->direction &= ~BodyDirection::TOP;
+            body->direction = BodyDirection::BOTTOM;
           }
 
           // Horizontal movement
@@ -90,11 +101,17 @@ namespace topdown
           {
             body->Target.x   = body->Position.x + TILE_DIMENSIONS;
             body->Transition = body->MovementDelay;
+            body->state      = BodyState::MOVING;
+            body->direction &= ~BodyDirection::LEFT;
+            body->direction |= BodyDirection::RIGHT;
           }
           else if (body->MovingLeft() && !body->MovingRight())
           {
             body->Target.x   = body->Position.x - TILE_DIMENSIONS;
             body->Transition = body->MovementDelay;
+            body->state      = BodyState::MOVING;
+            body->direction &= ~BodyDirection::RIGHT;
+            body->direction |= BodyDirection::LEFT;
           }
 
           body->LastPosition   = body->Position;
@@ -110,6 +127,10 @@ namespace topdown
           }
           else
           {
+            if (body->state != BodyState::MOVING)
+            {
+              body->state = BodyState::MOVING;
+            }
             const float partial_transition = 1.f - body->Transition / body->LastTransition;
             const float partial_movement   = (float) TILE_DIMENSIONS * partial_transition;
             float xsign                    = copysignf (1.0f, body->Target.x - body->Position.x);
