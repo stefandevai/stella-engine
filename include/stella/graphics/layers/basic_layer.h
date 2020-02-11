@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../shader.h"
-#include "./layer.h"
+#include "stella/graphics/shader.h"
+#include "layer.h"
 
 namespace stella
 {

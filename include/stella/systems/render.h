@@ -1,16 +1,12 @@
 #pragma once
 
-#include "stella/components/camera.h"
-#include "stella/components/dimension.h"
 #include "stella/components/layer.h"
-#include "stella/components/position.h"
 #include "stella/components/sprite.h"
-#include "stella/components/transform.h"
 #include "stella/core/resource.h"
-#include "stella/graphics/layers/basic_layer.h"
-#include "stella/graphics/layers/firelayer.h"
 #include "stella/systems/system.h"
-#include <ctime>
+#include "stella/graphics/display.h"
+#include "stella/graphics/texture.h"
+#include "stella/graphics/layers/basic_layer.h"
 
 namespace stella
 {
@@ -34,159 +30,15 @@ namespace system
   public:
     Render (entt::registry& registry,
             core::ResourceManager<graphics::Texture, const std::string>& textures,
-            graphics::Display& display)
-      : m_textures (textures), m_display (display)
-    {
-      registry.on_construct<component::Layer>().connect<&Render::initialize_layer> (this);
-      registry.on_destroy<component::Sprite>().connect<&Render::remove_sprite_from_layer> (this);
-      std::srand (static_cast<unsigned> (std::time (nullptr)));
-    }
-
+            graphics::Display& display);
     ~Render() override {}
-
-    void update (entt::registry& registry, const double dt) override
-    {
-      registry.group<component::Sprite> (entt::get<component::Position, component::Dimension>)
-          .each ([this, &registry] (auto entity, auto& sprite, auto& pos, auto& dim) {
-            // Adds sprite to layer
-            if (!sprite.InLayer && sprite.Initialized)
-            {
-              m_layers[sprite.LayerId]->Add (sprite.sprite);
-              sprite.InLayer = true;
-            }
-            else if (!sprite.InLayer)
-            {
-              auto tex = m_textures.load (sprite.TexName);
-              if (tex == nullptr)
-              {
-                std::cout << "It was not possible to find " << sprite.TexName << " in loaded textures." << std::endl;
-              }
-              else
-              {
-                // Creates sprite if it doesn't exist yet
-                if (!sprite.Initialized)
-                {
-                  // If no frame dimensions were provided
-                  if (sprite.FrameDimensions.x == 0)
-                  {
-                    sprite.sprite = std::shared_ptr<graphics::Sprite> (
-                        new graphics::Sprite (glm::vec3 (pos.x, pos.y, pos.z), *tex, sprite.Frame));
-                  }
-                  else
-                  {
-                    sprite.sprite = std::shared_ptr<graphics::Sprite> (
-                        new graphics::Sprite (glm::vec3 (pos.x, pos.y, pos.z),
-                                              glm::vec2 (sprite.FrameDimensions.x, sprite.FrameDimensions.y),
-                                              *tex,
-                                              sprite.Frame));
-                  }
-                  if (registry.has<component::Transform> (entity))
-                  {
-                    const auto& trans = registry.get<component::Transform> (entity);
-                    sprite.sprite->SetDirectScale (
-                        glm::vec2 ((float) dim.w * trans.Scale.x, (float) dim.h * trans.Scale.y));
-                    sprite.sprite->SetRotation (trans.Rotation);
-                  }
-                  else
-                  {
-                    sprite.sprite->SetDirectScale (glm::vec2 ((float) dim.w, (float) dim.h));
-                  }
-                  sprite.Initialized = true;
-                }
-              }
-            }
-            // Sprite inLayer and position changed
-            if (pos.has_changed())
-            {
-              m_layers[sprite.LayerId]->Remove (sprite.sprite);
-              sprite.InLayer = false;
-
-              sprite.sprite->Pos.x = (int) pos.x;
-              sprite.sprite->Pos.y = (int) pos.y;
-              sprite.sprite->Pos.z = (int) pos.z;
-            }
-
-            if (dim.has_changed())
-            {
-              m_layers[sprite.LayerId]->Remove (sprite.sprite);
-              sprite.InLayer = false;
-
-              sprite.sprite->Dimensions.x = dim.w;
-              sprite.sprite->Dimensions.y = dim.h;
-            }
-
-            pos.last_x = pos.x;
-            pos.last_y = pos.y;
-            pos.last_z = pos.z;
-            dim.last_w = dim.w;
-            dim.last_h = dim.h;
-
-            if (!sprite.InLayer)
-            {
-              m_layers[sprite.LayerId]->Add (sprite.sprite);
-              sprite.InLayer = true;
-            }
-          });
-
-      const auto camera_entity = *registry.view<stella::component::Camera>().begin();
-      auto& camera_pos         = registry.get<component::Position> (camera_entity);
-
-      for (auto const& order : m_ordered_layers)
-      {
-        if (!m_layers[order.second]->Fixed)
-        {
-          m_layers[order.second]->SetViewMatrix (
-              glm::lookAt (glm::vec3 (camera_pos.x, camera_pos.y, camera_pos.z),
-                           glm::vec3 (camera_pos.x, camera_pos.y, camera_pos.z - 1.f),
-                           glm::vec3 (0.f, 1.f, 0.f)));
-        }
-        m_layers[order.second]->Render();
-      }
-    }
+    void update (entt::registry& registry, const double dt) override;
 
   private:
     Render() = delete;
-
-    void remove_sprite_from_layer (entt::registry& registry, entt::entity entity)
-    {
-      auto& sprite = registry.get<component::Sprite> (entity);
-      if (sprite.InLayer)
-      {
-        m_layers[sprite.LayerId]->Remove (sprite.sprite);
-        sprite.InLayer = false;
-      }
-    }
-
-    void initialize_layer (entt::registry& registry, entt::entity entity, component::Layer& layer)
-    {
-      assert (m_ordered_layers.find (layer.Order) == m_ordered_layers.end() &&
-              "You should assign different orders for layers.");
-      assert (m_layers.find (layer.Id) == m_layers.end() && "You should assign different IDs for layers.");
-
-      if (layer.ShaderId == "bloom")
-      {
-        m_layers[layer.Id] = std::shared_ptr<graphics::FireLayer> (new graphics::FireLayer (this->m_display));
-      }
-      else if (!layer.frag_shader_source.empty() && !layer.vert_shader_source.empty())
-      {
-        m_layers[layer.Id] =
-            std::shared_ptr<graphics::BasicLayer> (new graphics::BasicLayer (this->m_display.GetWidth(),
-                                                                             this->m_display.GetHeight(),
-                                                                             layer.vert_shader_source.c_str(),
-                                                                             layer.frag_shader_source.c_str(),
-                                                                             layer.Fixed));
-      }
-      else
-      {
-        m_layers[layer.Id] =
-            std::shared_ptr<graphics::BasicLayer> (new graphics::BasicLayer (this->m_display.GetWidth(),
-                                                                             this->m_display.GetHeight(),
-                                                                             "assets/shaders/sprite_batch.vert",
-                                                                             "assets/shaders/sprite_batch.frag",
-                                                                             layer.Fixed));
-      }
-      m_ordered_layers[layer.Order] = layer.Id;
-    }
+    void initialize_sprite (entt::registry& registry, entt::entity entity, component::Sprite& sprite);
+    void remove_sprite_from_layer (entt::registry& registry, entt::entity entity);
+    void initialize_layer (entt::registry& registry, entt::entity entity, component::Layer& layer);
   };
 } // namespace system
 } // namespace stella

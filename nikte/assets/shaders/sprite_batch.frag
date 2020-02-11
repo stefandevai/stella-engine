@@ -59,6 +59,9 @@ void main()
       break;
   }
   
+  bool lighting = false;
+  if (lighting)
+  {
   vec2 screen_resolution = vec2(896.0, 504.0);
   bool morning = false;
 
@@ -87,6 +90,7 @@ void main()
     float vignette_factor = qinticIn(smoothstep(vignette_radius, 0, dist_center))*vignette_intensity;
   
     final_color.rgb *= night_color_shift*vignette_factor;
+  }
   }
   
   color = final_color;

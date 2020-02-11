@@ -224,13 +224,13 @@ namespace core
     auto tile = m_registry.create();
     m_registry.assign<component::Tile> (tile, layer_id, false);
     // if (layers[layer_id]->get_texture_name() != "tileset") std::cout << layers[layer_id]->get_texture_name() << '\n';
+    m_registry.assign<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
+    m_registry.assign<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
     m_registry.assign<component::Sprite> (tile,
                                           layers[layer_id]->get_texture_name(),
                                           glm::vec2 (m_tile_dimension, m_tile_dimension),
                                           layers[layer_id]->get_render_layer_name(),
                                           value);
-    m_registry.assign<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
-    m_registry.assign<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
     layers[layer_id]->set_entity (x, y, tile);
   }
 

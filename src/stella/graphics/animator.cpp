@@ -53,9 +53,13 @@ namespace graphics
       if (this->Counter % this->CurrentAnimation->frameRate == 0)
       {
         if (this->CurrentFrameIndex == this->CurrentAnimation->frames.size() - 1)
+        {
           this->CurrentFrameIndex = 0;
+        }
         else
+        {
           ++this->CurrentFrameIndex;
+        }
         this->CurrentFrame = this->CurrentAnimation->frames[this->CurrentFrameIndex];
       }
       this->Counter++;

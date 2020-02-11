@@ -15,8 +15,6 @@ namespace system
     registry.on_construct<component::NPC>().connect<&NPC::initialize_npc> (this);
   }
 
-  NPC::~NPC() {}
-
   void NPC::update (entt::registry& registry, const double dt)
   {
     if (registry.valid (m_player_entity))

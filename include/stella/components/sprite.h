@@ -4,6 +4,7 @@
 
 #include "../graphics/sprite.h"
 #include <glm/glm.hpp>
+#include <memory>
 
 namespace stella
 {

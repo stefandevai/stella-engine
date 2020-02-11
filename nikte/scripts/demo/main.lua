@@ -16,13 +16,13 @@ end
 local function load_npc(x, y)
   local npc = Entity:create_entity()
   -- npc:add_component("name", "Test")
+  npc:add_component("position", {x, y, 1})
+  npc:add_component("dimension", {32, 64})
   npc:add_component("sprite", {
     texture = "nikte",
     layer = "collision",
     frame_dimensions = {32, 64, 0},
   })
-  npc:add_component("position", {x, y, 1})
-  npc:add_component("dimension", {32, 64})
   npc:add_component("movement")
   npc:add_component("body", {
     movement_speed = 3,
@@ -50,13 +50,13 @@ end
 
 local function load_player(x, y)
   Player:add_component("player")
+  Player:add_component("position", {x, y, 1})
+  Player:add_component("dimension", {32, 64})
   Player:add_component("sprite", {
     texture = "nikte",
     layer = "collision",
     frame_dimensions = {32, 64, 0},
   })
-  Player:add_component("position", {x, y, 1})
-  Player:add_component("dimension", {32, 64})
   Player:add_component("movement")
   Player:add_component("body", {
     movement_speed = 10,
@@ -95,11 +95,6 @@ local function load()
     priority = 3,
     fixed = false,
   })
-  create_layer({
-    name = "foreground2",
-    priority = 4,
-    fixed = false,
-  })
 
   create_layer({
     name = "text",
@@ -109,7 +104,7 @@ local function load()
     fixed = false,
   })
 
-  load_assets()
+  -- load_assets()
   load_player(480, 512)
   load_npc(512, 512)
 
@@ -157,6 +152,7 @@ end
 local function render(dt)
 end
 
+M.load_assets = load_assets
 M.load = load
 M.update = update
 M.render = render

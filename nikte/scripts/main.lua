@@ -1,5 +1,9 @@
 local demo = require('scripts.demo.main')
 
+function load_assets()
+  demo.load_assets()
+end
+
 function load_game()
   demo.load()
 end

@@ -15,11 +15,7 @@ namespace graphics
 
   Layer::~Layer() { this->Shad->Disable(); }
 
-  void Layer::Add (std::shared_ptr<Sprite> sprite)
-  {
-    m_sprites.insert (sprite);
-    // this->Sprites.push_back(sprite);
-  }
+  void Layer::Add (std::shared_ptr<Sprite> sprite) { m_sprites.insert (sprite); }
 
   void Layer::Remove (std::shared_ptr<Sprite> sprite)
   {

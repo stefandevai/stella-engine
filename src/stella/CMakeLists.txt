@@ -11,11 +11,11 @@ add_library(${PROJECT_NAME} STATIC application.cpp
                                    game.cpp)
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME} PUBLIC 
+                                      ${STELLA_LIBRARY_NAME}::systems
                                       ${STELLA_LIBRARY_NAME}::audio
                                       ${STELLA_LIBRARY_NAME}::core
                                       ${STELLA_LIBRARY_NAME}::graphics
                                       ${STELLA_LIBRARY_NAME}::physics2d
-                                      ${STELLA_LIBRARY_NAME}::systems
                                       ${STELLA_LIBRARY_NAME}::topdown
                                       OpenGL::GL
                                       ${GLAD_LIBRARIES}

@@ -22,7 +22,6 @@ namespace system
 
   public:
     NPC (entt::registry& registry, entt::entity player_entity);
-    ~NPC() override;
     void update (entt::registry& registry, const double dt) override;
     void initialize_npc (entt::registry& registry, entt::entity entity, component::NPC& npc);
   };
