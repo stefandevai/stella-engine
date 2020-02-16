@@ -59,7 +59,7 @@ void main()
       break;
   }
   
-  bool lighting = false;
+  bool lighting = true;
   if (lighting)
   {
   vec2 screen_resolution = vec2(896.0, 504.0);

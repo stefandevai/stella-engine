@@ -7,11 +7,11 @@ database = {
             responses = {'Heya, stranger!', 'Hi! How are you doing?'},
             next_speech = 'NON_ATTACHED'
         },
-        
+
         ELZ4 = {
             keywords = {'sad', 'sadness', 'cry'},
             responses = {'It\'s just that I can\'t believe what happened to our beautiful island...'},
-            next_speech = 'ELZ005',
+            next_speech = 'ELZ5',
             pos_keywords = {
                 ADJ = {'sad'},
                 VERB = {'cry'}
@@ -22,7 +22,7 @@ database = {
     ELZ2 = {{
         keywords = {'encomienda'},
         responses = {'I\'m tired of paying this useless tribute to the encomendero!'},
-        next_speech = 'ELZ003',
+        next_speech = 'ELZ3',
         pos_keywords = {
             NOUN = {'encomienda'}
         }
@@ -41,7 +41,7 @@ database = {
     ELZ5 = {{
         keywords = {'island', 'isla'},
         responses = {'Everything changed when they arrived... now they say it\'s their encomienda'},
-        next_speech = 'ELZ002',
+        next_speech = 'ELZ2',
         pos_keywords = {
             NOUN = {'island'},
             VERB = {'happen'}
