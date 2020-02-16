@@ -1,20 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import npc
+from npc import NPC
 
 def chat():
-    sentence = input("Say something to Itzé: ")
-    answer = "a"
-    if sentence:
-        print("YOU: " + sentence)
-        while sentence and sentence != "bye" and answer != "":
-            answer = npc.itze.answer(sentence)
-            if answer:
-                print(npc.itze.name.upper() + ": " + answer + '\n')
-                sentence = input("YOU: ")
-        if answer and npc.itze.greeted:
-            print(npc.itze.name.upper() + ": " + npc.itze.bye())
+    npc = NPC()
+    sentence = input('Say something to ' + npc.name + ': ')
+    while sentence != 'quit':
+        eliza_speech = npc.process_input(sentence)
+        if eliza_speech:
+            print(npc.name.upper() + ': ' + eliza_speech)
+        sentence = input('YOU: ')
 
 def main():
     chat()
