@@ -3,6 +3,7 @@
 #include <string>
 #include <stack>
 #include <vector>
+#include <sol/sol.hpp>
 
 namespace stella
 {
@@ -20,12 +21,14 @@ namespace npc
         std::wstring m_name;
         std::stack<npc::State> m_state_stack;
         std::vector<std::wstring> m_engaging_tries{L"What?", L"Did you talk to me?", L"..."};
-        int m_engaging_try_index = 0;
-        double m_attention_timer = 0.0f;
-        std::wstring m_context{L"NON_ATTACHED"};
+        size_t m_engaging_try_index = 0;
+        double m_attention_timer = 0.0;
+        std::string m_context{"NON_ATTACHED"};
+        sol::state m_lua;
 
     public:
-        explicit NPC (const std::wstring& name);
+        explicit NPC (const std::string& script_path);
+        inline const npc::State get_state() const { return m_state_stack.top(); }
         std::wstring request (const std::wstring& req);
 
     protected:

@@ -44,18 +44,15 @@ namespace system
                 {
                   npc.state    = component::NpcState::Talking;
                   auto& speech = registry.get_or_assign<component::SpeechContainer> (entity);
-                  //m_lua.script_file (npc.script_path);
-                  //auto respond = m_lua.get<std::function<std::wstring (std::wstring)>> ("talk");
                   auto res_string = m_npc_list.front().request(player_message.text);
-
-                  auto response = registry.create();
-                  registry.assign<component::Position> (response, pos.x, pos.y - 4.f);
-                  // registry.assign<component::Text> (response, respond (player_message.text), "1980");
-                  registry.assign<component::Text> (response, res_string, "1980");
-                  registry.assign<component::Timer> (response, component::Timer::TimerEvent::Destroy, 3000);
 
                   // TODO: Create a method in speech_container to
                   // automatically create entities and emplace_back
+                  auto response = registry.create();
+                  registry.assign<component::Position> (response, pos.x, pos.y - 4.f);
+                  registry.assign<component::Text> (response, res_string, "1980");
+                  registry.assign<component::Timer> (response, component::Timer::TimerEvent::Destroy, 3000);
+                  
                   speech.messages.emplace_back (response);
                 }
               });
@@ -74,7 +71,7 @@ namespace system
             // If the player is close to the NPC
             if (total_dist < m_dist_to_walk)
             {
-              if (npc.state == component::NpcState::None)
+              if (m_npc_list.front().get_state() == npc::State::NONE)
               {
                 bool moved = false;
                 do
@@ -125,7 +122,7 @@ namespace system
   void NPC::initialize_npc (entt::registry& registry, entt::entity entity, component::NPC& npc)
   {
     assert (registry.has<component::Position> (entity) && "NPC doesn't have position component.");
-    m_npc_list.push_back(npc::NPC(L"Eliza"));
+    m_npc_list.push_back(npc::NPC("scripts/npcs/eliza.lua"));
 
     const auto& pos = registry.get<component::Position> (entity);
     npc.origin.x    = pos.x;
