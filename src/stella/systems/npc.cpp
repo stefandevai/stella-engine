@@ -71,7 +71,9 @@ namespace system
             // If the player is close to the NPC
             if (total_dist < m_dist_to_walk)
             {
-              if (m_npc_list.front().get_state() == npc::State::NONE)
+              switch(m_npc_list.front().get_state())
+              {
+              case npc::State::NONE:
               {
                 bool moved = false;
                 do
@@ -114,6 +116,60 @@ namespace system
                   // Chose a movement within the npc movement radius
                 } while (!moved);
               }
+              break;
+
+            case npc::State::GREETED:
+              {
+                const auto x_diff = pos.x - player_pos.x;
+                const auto y_diff = pos.y - player_pos.y;
+
+                // Horizontal distance is bigger tan the vertical one
+                // TODO: Move direction setting to body class
+                if (std::abs(x_diff) > std::abs(y_diff))
+                {
+                  // NPC is to the left of the player
+                  if (x_diff > 0)
+                  {
+                    body.Body->direction &= ~topdown::BodyDirection::TOP;
+                    body.Body->direction &= ~topdown::BodyDirection::BOTTOM;
+                    body.Body->direction &= ~topdown::BodyDirection::RIGHT;
+                    body.Body->direction |= topdown::BodyDirection::LEFT;
+                  }
+                  // NPC is to the right of the player
+                  else
+                  {
+                    body.Body->direction &= ~topdown::BodyDirection::TOP;
+                    body.Body->direction &= ~topdown::BodyDirection::BOTTOM;
+                    body.Body->direction &= ~topdown::BodyDirection::LEFT;
+                    body.Body->direction |= topdown::BodyDirection::RIGHT;
+                  }
+                }
+                // Vertical distance is bigger tan the horizontal one
+                else
+                {
+                  // NPC is to the top of the player
+                  if (y_diff > 0)
+                  {
+                    body.Body->direction &= ~topdown::BodyDirection::LEFT;
+                    body.Body->direction &= ~topdown::BodyDirection::RIGHT;
+                    body.Body->direction &= ~topdown::BodyDirection::BOTTOM;
+                    body.Body->direction |= topdown::BodyDirection::TOP;
+                  }
+                  // NPC is to the bottom of the player
+                  else
+                  {
+                    body.Body->direction &= ~topdown::BodyDirection::LEFT;
+                    body.Body->direction &= ~topdown::BodyDirection::RIGHT;
+                    body.Body->direction &= ~topdown::BodyDirection::TOP;
+                    body.Body->direction |= topdown::BodyDirection::BOTTOM;
+                  }
+                }
+                
+              }
+              break;
+            default:
+              break;
+            }
             }
           });
     }
