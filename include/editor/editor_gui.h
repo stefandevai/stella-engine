@@ -1,8 +1,5 @@
 #pragma once
 
-#include "../../lib/imgui/imgui.h"
-#include "../../lib/imgui/examples/imgui_impl_opengl3.h"
-#include "../../lib/imgui/examples/imgui_impl_sdl.h"
 #include "../stella/graphics/shape.h"
 #include "../stella/graphics/framebuffer.h"
 #include "./console.h"
@@ -17,6 +14,9 @@
 //#include "../stella/core/game.h"
 #include "state.h"
 #include "toolbar.h"
+#include "../../lib/imgui/imgui.h"
+#include "../../lib/imgui/examples/imgui_impl_opengl3.h"
+#include "../../lib/imgui/examples/imgui_impl_sdl.h"
 
 struct SDL_Window;
 union SDL_Event;

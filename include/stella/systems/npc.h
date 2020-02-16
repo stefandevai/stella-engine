@@ -2,6 +2,7 @@
 
 #include "stella/systems/system.h"
 #include "stella/components/npc.h"
+#include "stella/npc/npc.h"
 #include <sol/sol.hpp>
 #include <random>
 
@@ -19,6 +20,7 @@ namespace system
     sol::state m_lua;
     std::default_random_engine m_generator;
     std::uniform_int_distribution<int> m_distribution{0, 3};
+    std::vector<npc::NPC> m_npc_list;
 
   public:
     NPC (entt::registry& registry, entt::entity player_entity);
