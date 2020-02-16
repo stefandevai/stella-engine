@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize, sent_tokenize
 from enum import Enum
+import spacy
+import speech
 
 class NPCState(Enum):
     NONE = 0
@@ -13,29 +12,25 @@ class NPCState(Enum):
 class NPC:
     # NPC's name
     name = ''
-
     # Main NPC state
     state_stack = [NPCState.NONE]
-
     # What the NPC says if it doesn't understand the first input
-    engaging_tries_stack = ["...", "Sorry, did you talk to me?"]
-
-    # What counts as conversastion openers from the player input
-    greetings = ["hi", "hey", "hello", "heya", "hiho"]
-
-    # What counts as conversation closers from the player input
-    farewells = ["bye", "see ya", "see you", "goodbye", "good bye"]
-
+    engaging_tries_stack = ["Did you talk to me?", "..."]
+    # Times the NPC tried to engage in contact
+    engaging_tries = 0
     # If > 0, the NPC will be focused to the player for a certain amount of time
     attention_timer = 0
+    # Current speech id
+    current_speech = 'NON_ATTACHED'
 
     # Constructor
     def __init__(self, name='Eliza'):
         self.name = name
+        self.nlp = spacy.load("en_core_web_sm")
 
     # Update NPC's actions independently of the player
     def update_current_action(self):
-        print('*' + self.name + ' is walking randomly...*')
+        print('*' + self.name + ' is crying in a dark corner...*')
 
     # Process player input
     def process_input(self, request):
@@ -51,12 +46,15 @@ class NPC:
     # PROCESS STATE WHEN NOT FOCUSED
     def process_when_none(self, request):
         if request:
-            if request in self.greetings:
+            if request.lower() in speech.GREETINGS:
                 self.state_stack.append(NPCState.GREETED)
-                return 'Hi! I\'m ' + self.name + ', how can I help you?'
-            if self.engaging_tries_stack:
+                # return 'Hi! I\'m ' + self.name + ', how can I help you?'
+                return 'Hi, Nikté... :\'('
+            if self.engaging_tries < len(self.engaging_tries_stack):
+                response = self.engaging_tries_stack[self.engaging_tries]
+                self.engaging_tries = self.engaging_tries + 1
                 self.attention_timer = 100
-                return self.engaging_tries_stack.pop()
+                return response
         self.update_current_action()
 
     # PROCESS STATE WHEN GREETED
@@ -64,94 +62,47 @@ class NPC:
         clicked_on_phrase = False # If player hasn't typed the answer, but instead clicked on the gui
 
         # If the player finishes the conversation
-        if request in self.farewells:
+        if request in speech.FAREWELLS:
             self.state_stack.pop()
-            return "Bye!"
+            self.engaging_tries = 0
+            self.current_speech = 'NON_ATTACHED'
+            return "Bye"
 
         # Select response directly from database
         if clicked_on_phrase:
             pass
 
-        # NLP module
         else:
-            return 'greet'
+            # First check if there are any keywords that match
+            sps = speech.SPEECH_DATABASE[self.name.lower()][self.current_speech]
 
-# def contains_words(sentence, words):
-    # tokens = word_tokenize(sentence.lower())
-    # for word in words:
-        # if word in tokens:
-            # return True
-    # return False
+            for s in sps:
+                if request in s.keywords:
+                    self.current_speech = s.next_speech
+                    s.times_said = s.times_said + 1
+                    response = s.responses[0]
 
-# # Objective: generalize conversation situations
-# # If talks too much, NPC says bye
-# # If she doesn't know you, she asks your name
-# # If you don't say hi she will find you weird
-# class Npc:
-    # name = ""
-    # knowledge = {}
-    # greeted = False
-    # greet_try_stack = ["...", "Sorry, did you talk to me?"]
-    # greetings = ["hi", "hey", "hello", "heya", "hiho"]
-    # information_to_receive = ""
-    # answer_to_information = ""
-    # conversation = {
-        # "job" : "I'm a peasant. I'm tired of passing the whole day under the sun!" 
-    # }
+                    if s.times_said > 1:
+                        response = 'As I said, ' + response
+                    return response
 
-    # def __init__(self, name):
-        # self.name = name
+            # NLP module
+            response = self.nlp_process(request)
+            if response:
+                return response
 
-    # def answer(self, sentence):
-        # if self.information_to_receive:
-            # self.knowledge[self.information_to_receive] = sentence
-            # self.information_to_receive = ""
-            # return self.answer_to_information % sentence
+    def nlp_process(self, request):
+        response = ''
+        sps = speech.SPEECH_DATABASE[self.name.lower()][self.current_speech]
 
-        # # If player has not started the conversation yet
-        # if not self.greeted:
-            # if contains_words(sentence, self.greetings):
-                # self.greeted = True
-                # if "name" in self.knowledge:
-                    # return "Hiiiii, " + self.knowledge["name"] + ". How are you doing? :)"
-                # else:
-                    # self.information_to_receive = "name"
-                    # self.answer_to_information = "%s! Nice to meet you :D How can I help you?"
-                    # return "Hello! I don't think I know you... What's your name?"
-            # if len(self.greet_try_stack) == 0:
-                # return ""
-            # return self.greet_try_stack.pop()
+        for s in sps:
+            doc = self.nlp(request)
 
-        # # Analizing conversation
-        # else:
-            # # stop_words = set(stopwords.words('english'))
-            # words = nltk.word_tokenize(sentence)
-            # # words = [w for w in words if not w in stop_words]
-            # tagged = nltk.pos_tag(words)
+            for token in doc:
+                print(token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.is_alpha, token.is_stop)
+                if token.pos_ in s.pos_keywords:
+                    if token.lemma_ in s.pos_keywords[token.pos_]:
+                        self.current_speech = s.next_speech
+                        response = s.responses[0]
+        return response
 
-            # suj = ''
-            # vb = ''
-            # obj = ''
-            # for t in tagged:
-                # if t[1] == 'PRP':
-                    # suj = t[0]
-                # elif t[1] == 'VB':
-                    # vb = t[0]
-                # elif t[1] == 'NN' or t[1] == 'NNS':
-                    # obj = t[0]
-                # print(t)
-            # if len(vb) > 0 and len(obj) > 0:
-                # return "Ah, so you want to " + vb + " " + obj
-            # elif len(obj) > 0:
-                # return "What about " + obj + "?"
-
-            # # Default phrase
-            # return "I see..."
-
-    # def bye(self):
-        # if not self.greeted:
-            # return "... Bye?"
-        # self.greeted = False
-        # return "Okay, bye. See you around :)"
-
-# # itze = Npc("Itzé")
