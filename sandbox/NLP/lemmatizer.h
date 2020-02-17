@@ -23,7 +23,6 @@ namespace nlp
         Lemmatizer (const std::string& lemma_lookup_path);
         std::wstring operator () (const std::wstring& token)
         {
-            std::wcout << m_lemmatize(token) << '\n';
             return m_lemmatize(token);
         }
 

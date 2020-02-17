@@ -6,7 +6,7 @@
 
 int main()
 {
-    const std::wstring sample{L"Hi, Nikte! How are you doing today? I'm so tired of working. That's right... Let's go out someday"};
+    const std::wstring sample{L"Hi, Nikte! How are you Doing today? I'm so tired of working. That's right... Let's go out someday"};
     auto sent_tokenizer = stella::nlp::SentenceTokenizer();
     auto word_tokenizer = stella::nlp::WordTokenizer();
     auto sentences = sent_tokenizer(sample);
@@ -26,9 +26,9 @@ int main()
         std::transform(sent.begin(), sent.end(), sent.begin(), lemmatizer);
         for (const auto& token : sent)
         {
-            //std::wcout << token << '\n';
+            std::wcout << token << '\n';
         }
-        //std::cout << '\n';
+        std::cout << '\n';
      }
     return 0;
 }

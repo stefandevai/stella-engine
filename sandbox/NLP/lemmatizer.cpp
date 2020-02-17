@@ -1,5 +1,6 @@
 #include "lemmatizer.h"
 #include "../../include/stella/fileutils.h"
+#include "string_utils.h"
 
 namespace stella
 {
@@ -13,14 +14,32 @@ namespace nlp
 
     std::wstring Lemmatizer::m_lemmatize(const std::wstring& str)
     {
-        std::wstring lemma = str;
+        std::wstring lemma;
         std::string sstr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(str);
+
+        // Tries to find the word in the lookup table
+        bool found_token = false;
         if (m_lemmas.find(sstr) != m_lemmas.end())
+        {
+            found_token = true;
+        }
+        // If not, check if it's possible to find lowercase word
+        else
+        {
+            StringUtils::lower(sstr);
+            if (m_lemmas.find(sstr) != m_lemmas.end())
+            {
+                found_token = true;
+            }
+        }
+
+        if (found_token)
         {
             sstr = m_lemmas[sstr];
             lemma = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(sstr);
         }
-        return lemma;
+
+        return lemma.empty() ? str : lemma;
     }
 
     void Lemmatizer::m_build_lookup_table (const std::string& file_str)

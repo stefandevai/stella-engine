@@ -2,6 +2,8 @@
 #include <string>
 #include <algorithm>
 
+#include <iostream>
+
 namespace stella
 {
     class StringUtils
@@ -27,6 +29,11 @@ namespace stella
         {
             ltrim(str);
             rtrim(str);
+        }
+
+        static inline void lower (std::string& str)
+        {
+            std::transform(str.begin(), str.end(), str.begin(), tolower);
         }
     private:
         StringUtils() {};
