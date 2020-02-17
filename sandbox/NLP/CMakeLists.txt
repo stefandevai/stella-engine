@@ -3,11 +3,11 @@ project(nlp)
 
 
 add_executable(${PROJECT_NAME} main.cpp
+                               nlp.cpp
                                lemmatizer.cpp
                                sentence_tokenizer.cpp
                                word_tokenizer.cpp)
 target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/lib/libmeta-greedy-tagger.a
-                                      ${CMAKE_SOURCE_DIR}/lib/libmeta-crf.a
                                       ${CMAKE_SOURCE_DIR}/lib/libmeta-sequence.a
                                       ${CMAKE_SOURCE_DIR}/lib/libmeta-io.a
                                       ${CMAKE_SOURCE_DIR}/lib/libmeta-util.a
@@ -17,4 +17,5 @@ target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/lib/libmeta-greedy-tag
                                       -lstdc++fs)
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_compile_options(${PROJECT_NAME} PRIVATE "-Wall" "-Wpedantic" "-Wextra")
 target_include_directories(${PROJECT_NAME} PRIVATE include/)
