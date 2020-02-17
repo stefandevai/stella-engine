@@ -1,7 +1,6 @@
 #include "sentence_tokenizer.h"
 
 #include <sstream>
-#include <regex>
 
 #include "string_utils.h"
 
@@ -17,9 +16,7 @@ namespace nlp
     std::vector<std::wstring> SentenceTokenizer::m_tokenize(const std::wstring& str)
     {
         std::vector<std::wstring> sentences;
-        //std::wregex sent_regex{L"[^.;!?]+"};
-        std::wregex sent_regex{L"[^\\W_].*?(?:[!?.]|$)+"};
-        auto tks_begin = std::wsregex_iterator (str.begin(), str.end(), sent_regex);
+        auto tks_begin = std::wsregex_iterator (str.begin(), str.end(), m_sent_regex);
         auto tks_end = std::wsregex_iterator();
 
         for (auto it = tks_begin; it != tks_end; ++it)
