@@ -35,6 +35,20 @@ namespace stella
         {
             std::transform(str.begin(), str.end(), str.begin(), tolower);
         }
+
+        static inline size_t suffix (const std::wstring& str, const std::wstring& sffx)
+        {
+            const size_t pos = str.find(sffx);
+            if (pos != std::string::npos)
+            {
+                // If the suffix found is at the end of the string
+                if (pos + sffx.size() == str.size())
+                {
+                    return pos;
+                }
+            }
+            return std::string::npos;
+        }
     private:
         StringUtils() {};
     };

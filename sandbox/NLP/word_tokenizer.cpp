@@ -1,4 +1,5 @@
 #include "word_tokenizer.h"
+#include "string_utils.h"
 
 namespace stella
 {
@@ -17,10 +18,33 @@ namespace nlp
 
         for (auto it = tks_begin; it != tks_end; ++it)
         {
-            tokens.push_back((*it).str());
+            std::wstring token = (*it).str();
+            size_t suffix_pos = m_has_suffix(token);
+            if (suffix_pos != std::string::npos)
+            {
+                tokens.push_back(token.substr(0, suffix_pos));
+                tokens.push_back(token.substr(suffix_pos));
+            }
+            else
+            {
+                tokens.push_back(token);
+            }
         }
         
         return tokens;
+    }
+
+    size_t WordTokenizer::m_has_suffix (const std::wstring& token)
+    {
+        for (const auto& suffix : SUFFIXES)
+        {
+            const size_t pos = StringUtils::suffix (token, suffix);
+            if (pos != std::string::npos)
+            {
+                return pos;
+            }
+        }
+        return std::string::npos;
     }
 }
 }

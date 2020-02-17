@@ -6,7 +6,8 @@
 
 int main()
 {
-    const std::wstring sample{L"Hi, Nikte! How are you Doing today? I'm so tired of working. That's right... Let's go out someday"};
+    // const std::wstring sample{L"Hi, Nikte! How are you Doing today? I'm so tired of working. That's right... Let's go out someday"};
+    const std::wstring sample{L"Hi, Nikte! How are you Doing today? I'm so tired of working. That's right... Let's go out-someday It's $10,93 + 700!"};
     auto sent_tokenizer = stella::nlp::SentenceTokenizer();
     auto word_tokenizer = stella::nlp::WordTokenizer();
     auto sentences = sent_tokenizer(sample);
@@ -14,16 +15,10 @@ int main()
     std::transform(sentences.begin(), sentences.end(), tokens.begin(), word_tokenizer);
 
     stella::nlp::Lemmatizer lemmatizer{"lemma_lookup.txt"};
-    
-
-    // for (const auto& sent : sentences)
-    // {
-    //     std::wcout << sent << '\n';
-    // }
 
      for (auto& sent : tokens)
      {
-        std::transform(sent.begin(), sent.end(), sent.begin(), lemmatizer);
+        //std::transform(sent.begin(), sent.end(), sent.begin(), lemmatizer);
         for (const auto& token : sent)
         {
             std::wcout << token << '\n';
