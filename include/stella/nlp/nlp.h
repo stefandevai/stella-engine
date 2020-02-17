@@ -7,8 +7,8 @@
 
 #include <string>
 #include <vector>
-#include <locale>
-#include <codecvt>
+//#include <locale>
+//#include <codecvt>
 
 #include "meta/sequence/perceptron.h"
 
@@ -23,8 +23,9 @@ namespace nlp
         stella::nlp::SentenceTokenizer m_sent_tokenizer;
         stella::nlp::WordTokenizer m_word_tokenizer;
         stella::nlp::Lemmatizer m_lemmatizer;
-        using convert_type = std::codecvt_utf8<wchar_t>;
-        std::wstring_convert<convert_type, wchar_t> m_converter;
+        // using convert_type = std::codecvt_utf8<wchar_t>;
+        // std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> m_converter;
+        //std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> m_converter;
         meta::sequence::perceptron m_tagger{m_model_dir};
 
     public:

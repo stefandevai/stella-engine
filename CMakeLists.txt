@@ -188,6 +188,21 @@ include_directories(${SOL_INCLUDE_DIR})
 set(CEREAL_INCLUDE_DIR ${DEPENDENCIES_DIR}/cereal/include)
 include_directories(${CEREAL_INCLUDE_DIR})
 
+# MetaToolkit - NLP Library
+if (LINUX)
+    set(META_TOOLKIT_LIBRARIES ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-greedy-tagger.a
+                       ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-sequence.a
+                       ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-io.a
+                       ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-util.a
+                       ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-utf.so
+                       -pthread
+                       -lz
+                       -lstdc++fs)
+endif()
+
+set(META_TOOLKIT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/include)
+include_directories(${META_TOOLKIT_INCLUDE_DIR})
+
 # Platform specific libraries
 set(PLATFORM_LIBRARIES)
 

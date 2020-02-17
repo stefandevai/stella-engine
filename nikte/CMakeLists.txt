@@ -12,13 +12,13 @@ else()
 endif()
 
 if (WIN32)
-    # Copy assets folder
+    # Copy assets directory
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PROJECT_SOURCE_DIR}/assets"
         $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets)
     
-    # Copy scripts folder
+    # Copy scripts directory
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PROJECT_SOURCE_DIR}/scripts"
@@ -29,10 +29,19 @@ if (WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/lib/win/dll-x64"
         $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+
+    # Copy config directory
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/config"
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 else()
-    # Copy assets folder
+    # Copy assets directory
     file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-    # Copy scripts folder
+    # Copy scripts directory
     file(COPY scripts DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+    # Copy config directory
+    file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif()

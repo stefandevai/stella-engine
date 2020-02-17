@@ -1,6 +1,8 @@
 
 #include "stella/nlp/nlp.h"
 #include <iostream>
+#include <locale>
+#include <codecvt>
 
 namespace stella
 {
@@ -22,12 +24,12 @@ namespace nlp
         auto token_it = tokens.begin();
 
         meta::sequence::sequence sequence;
-
+        std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
         for (auto& sent : token_text_vector)
         {
             for (const auto& token_text : sent)
             {
-                sequence.add_symbol(meta::sequence::symbol_t{m_converter.to_bytes(token_text)});
+                sequence.add_symbol(meta::sequence::symbol_t{converter.to_bytes(token_text)});
                 token_it->text = token_text;
                 token_it->lemma = m_lemmatizer(token_text);
                 ++token_it;
@@ -38,7 +40,7 @@ namespace nlp
         token_it = tokens.begin();
         for (const auto& obs : sequence)
         {
-            token_it->pos_tag = m_converter.from_bytes(obs.tag());
+            token_it->pos_tag = converter.from_bytes(obs.tag());
             ++token_it;
         }
         return tokens;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ctime>
-#include <iomanip>
+//#include <ctime>
+//#include <iomanip>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -43,10 +43,11 @@ namespace component
 
     void add_to_queue (const std::string& message)
     {
-      auto t  = std::time (nullptr);
-      auto tm = *std::localtime (&t);
+      //auto t  = std::time (nullptr);
+      //auto tm = *std::localtime (&t);
       std::stringstream log_value;
-      log_value << std::put_time (&tm, "%d-%m-%Y %H-%M-%S: ") << message << '\n';
+      //log_value << std::put_time (&tm, "%d-%m-%Y %H-%M-%S: ") << message << '\n';
+      log_value << message << '\n';
       log_queue.push_back (log_value.str());
     }
 
