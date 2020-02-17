@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../include/stella/core/resource.h"
+#include "../../include/stella/core/resource.h"
 #include <string>
 
 namespace stella

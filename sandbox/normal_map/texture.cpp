@@ -1,13 +1,13 @@
 #include "texture.h"
 
-#include "../lib/glad/include/glad/glad.h"
+#include "../../lib/glad/include/glad/glad.h"
 #include <iostream>
 
 extern "C"
 {
 //#define STBI_ONLY_PNG
 #define STB_IMAGE_IMPLEMENTATION
-#include "../lib/stb_image/stb_image.h"
+#include "../../lib/stb_image/stb_image.h"
 }
 
 namespace stella

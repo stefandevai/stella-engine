@@ -1,7 +1,7 @@
 #include "display.h"
 #include "shader.h"
 #include "texture.h"
-#include "../lib/glad/include/glad/glad.h"
+#include "../../lib/glad/include/glad/glad.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

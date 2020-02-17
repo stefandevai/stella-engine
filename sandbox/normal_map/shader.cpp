@@ -1,7 +1,7 @@
 #include "shader.h"
-#include "../include/stella/fileutils.h"
+#include "../../include/stella/fileutils.h"
 
-#include "../lib/glad/include/glad/glad.h"
+#include "../../lib/glad/include/glad/glad.h"
 #include <glm/gtc/type_ptr.hpp>
 
 namespace stella

@@ -1,6 +1,6 @@
 #include "display.h"
 
-#include "../lib/glad/include/glad/glad.h"
+#include "../../lib/glad/include/glad/glad.h"
 
 #include <iostream>
 #include <sstream>
