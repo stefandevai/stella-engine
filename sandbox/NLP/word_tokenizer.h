@@ -12,7 +12,6 @@ namespace nlp
     {
     private:
         const std::wstring WORD_CHARACTERS{L"a-zA-Z'_\\-"};
-        // const std::wstring WORD_DELIMITERS{L"$+\\-%#@!?.;:,{}*\\[\\]"};
         const std::wstring WORD_DELIMITERS{L"^a-zA-Z\\d\\s:"};
         const std::wstring REGEX_STR {L"([0-9.,]+|[" + WORD_CHARACTERS + L"]+|[" + WORD_DELIMITERS + L"])"};
         const std::wregex m_sent_regex{REGEX_STR};
