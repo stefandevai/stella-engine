@@ -5,7 +5,7 @@
 
 int main()
 {
-    const std::wstring sample{L"Hi, Nikte. How are you doing today. I'm so tired of working."};
+    const std::wstring sample{L"Hi, Nikte! How are you doing today? I'm so tired of working. That's right... Let's go out someday"};
     auto sent_tokenizer = stella::nlp::SentenceTokenizer();
     auto word_tokenizer = stella::nlp::WordTokenizer();
     auto sentences = sent_tokenizer(sample);
