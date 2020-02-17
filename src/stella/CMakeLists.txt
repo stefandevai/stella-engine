@@ -3,6 +3,7 @@ project(${STELLA_LIBRARY_NAME})
 add_subdirectory(audio)
 add_subdirectory(core)
 add_subdirectory(graphics)
+add_subdirectory(nlp)
 add_subdirectory(npc)
 add_subdirectory(physics2d)
 add_subdirectory(systems)
@@ -16,6 +17,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
                                       ${STELLA_LIBRARY_NAME}::audio
                                       ${STELLA_LIBRARY_NAME}::core
                                       ${STELLA_LIBRARY_NAME}::graphics
+                                      ${STELLA_LIBRARY_NAME}::nlp
                                       ${STELLA_LIBRARY_NAME}::npc
                                       ${STELLA_LIBRARY_NAME}::physics2d
                                       ${STELLA_LIBRARY_NAME}::topdown
