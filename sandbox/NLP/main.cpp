@@ -1,5 +1,6 @@
 #include "sentence_tokenizer.h"
 #include "word_tokenizer.h"
+#include "lemmatizer.h"
 #include <iostream>
 #include <algorithm>
 
@@ -12,18 +13,22 @@ int main()
     std::vector<std::vector<std::wstring>> tokens(sentences.size());
     std::transform(sentences.begin(), sentences.end(), tokens.begin(), word_tokenizer);
 
-    for (const auto& sent : sentences)
-    {
-        std::wcout << sent << '\n';
-    }
+    stella::nlp::Lemmatizer lemmatizer{"lemma_lookup.txt"};
+    
 
-     for (const auto& sent : tokens)
+    // for (const auto& sent : sentences)
+    // {
+    //     std::wcout << sent << '\n';
+    // }
+
+     for (auto& sent : tokens)
      {
+        std::transform(sent.begin(), sent.end(), sent.begin(), lemmatizer);
         for (const auto& token : sent)
         {
-            std::wcout << token << '\n';
+            //std::wcout << token << '\n';
         }
-        std::cout << '\n';
+        //std::cout << '\n';
      }
     return 0;
 }
