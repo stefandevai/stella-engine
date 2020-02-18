@@ -4,9 +4,7 @@ local Entity = require('scripts.Entity')
 local Player = Entity:create_player()
 
 local function load_assets()
-  load_texture("player", "assets/sprites/player.png")
   load_texture("nikte", "assets/sprites/nikte.png")
-  load_texture("tiles", "assets/sprites/tiles32x32.png")
   load_texture("tileset", "assets/sprites/tileset.png")
 
   load_font("1980", "assets/fonts/1980.ttf", 32)

@@ -4,6 +4,7 @@
 #include "stella/components/text.h"
 #include "stella/components/timer.h"
 #include "stella/components/body2d.h"
+#include "stella/components/typewriter.h"
 
 namespace stella
 {
@@ -50,8 +51,14 @@ namespace system
                   // automatically create entities and emplace_back
                   auto response = registry.create();
                   registry.assign<component::Position> (response, pos.x, pos.y - 4.f);
+                  registry.assign<component::Typewriter> (response, 5.0);
+                  registry.assign<component::Timer> (response,
+                                                     3000.0,
+                                                     0.0,
+                                                     component::Timer::Type::DECREASE,
+                                                     [](entt::registry& r, const entt::entity e) { r.destroy(e); },
+                                                     false);
                   registry.assign<component::Text> (response, res_string, "1980");
-                  registry.assign<component::Timer> (response, component::Timer::TimerEvent::Destroy, 3000);
                   
                   speech.messages.emplace_back (response);
                 }

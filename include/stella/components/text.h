@@ -14,17 +14,16 @@ namespace component
     Text (const std::wstring text,
           const std::string font_name,
           const std::string color = "#ffffffff",
-          bool is_static          = false)
-      : text (text), FontName (font_name), color (color), IsStatic (is_static)
+          const bool is_static          = false)
+      : text (text), font_name (font_name), color (color), is_static (is_static)
     {
     }
     std::wstring text;
-    std::string FontName, color;
+    std::string font_name, color;
     std::vector<entt::registry::entity_type> char_entities;
-    bool InLayer = false, IsStatic;
     double scale = 1.f;
-    int Spaces   = 0;
     bool read    = false; // If the text was already read by a NPC
+    bool is_static; 
   };
 
 } // namespace component

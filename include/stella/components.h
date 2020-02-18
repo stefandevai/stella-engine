@@ -17,6 +17,7 @@
 #include "stella/components/position.h"
 #include "stella/components/script.h"
 #include "stella/components/scroll.h"
+#include "stella/components/typewriter.h"
 #include "stella/components/sprite.h"
 #include "stella/components/text.h"
 #include "stella/components/tile.h"
