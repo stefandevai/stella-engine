@@ -7,17 +7,15 @@ namespace stella
 {
 namespace system
 {
-    Timer::Timer (entt::registry& registry)
-    {}
+  Timer::Timer (entt::registry& registry) {}
 
-    void Timer::update (entt::registry& registry, const double dt)
-    {
-      registry.view<component::Timer>().each ([&registry, dt] (auto entity, auto& timer) {
-
-        if (timer.active)
+  void Timer::update (entt::registry& registry, const double dt)
+  {
+    registry.view<component::Timer>().each ([&registry, dt] (auto entity, auto& timer) {
+      if (timer.active)
+      {
+        switch (timer.timer_type)
         {
-          switch (timer.timer_type)
-          {
           case component::Timer::Type::INCREASE:
             timer.duration += dt * 1000;
 
@@ -37,14 +35,12 @@ namespace system
               timer.fn (registry, entity);
             }
             break;
-          
+
           default:
             break;
-          }
-
-          
         }
-      });
-    }
+      }
+    });
+  }
 } // namespace system
 } // namespace stella

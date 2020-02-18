@@ -7,7 +7,7 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   m_script_api.set_function ("e_get_player_id", [this]() { return m_player.entity; });
   m_script_api.run_script ("scripts/main.lua");
   m_script_api.run_function ("load_assets");
-  
+
   this->add_system<stella::system::Render> (m_registry, m_textures, m_display);
   this->add_system<stella::system::Color> (m_registry);
   this->add_system<stella::system::Timer> (m_registry);

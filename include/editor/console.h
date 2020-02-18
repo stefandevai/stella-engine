@@ -142,13 +142,14 @@ namespace editor
               text_entity, player_pos.x + player_dim.w / 2.f, player_pos.y - 4.f);
           registry.assign<stella::component::Text> (
               text_entity, m_converter.from_bytes (std::string (editable_buffer)), "1980");
-          //registry.assign<stella::component::Timer> (text_entity, component::Timer::TimerEvent::Destroy, 3000);
-          registry.assign<component::Timer> (text_entity,
-                                             3000.0,
-                                                     0.0,
-                                                     component::Timer::Type::DECREASE,
-                                                     [](entt::registry& r, const entt::entity e) { r.destroy(e); },
-                                                     true);
+          // registry.assign<stella::component::Timer> (text_entity, component::Timer::TimerEvent::Destroy, 3000);
+          registry.assign<component::Timer> (
+              text_entity,
+              3000.0,
+              0.0,
+              component::Timer::Type::DECREASE,
+              [] (entt::registry& r, const entt::entity e) { r.destroy (e); },
+              true);
 
           auto& container = registry.get_or_assign<component::SpeechContainer> (player_entity);
           container.messages.push_back (text_entity);

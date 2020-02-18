@@ -39,7 +39,6 @@ namespace core
     //     std::make_shared<system::Timer> (m_registry),
     //     std::make_shared<system::Animation> (m_registry)};
 
-
 #ifdef STELLA_BUILD_EDITOR
     // editor::EditorGui m_editor{m_registry};
 #endif

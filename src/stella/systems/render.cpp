@@ -24,67 +24,64 @@ namespace system
 
   void Render::update (entt::registry& registry, const double dt)
   {
-    registry
-          .group<component::Sprite> (entt::get<component::Position, component::Dimension>)
-          .each ([this, &registry] (auto entity, auto& sprite, auto& pos, auto& dim) {
-            // Sprite inLayer and position changed
-            if (pos.has_changed())
-            {
-              m_layers[sprite.LayerId]->Remove (sprite.sprite);
-              sprite.InLayer = false;
+    registry.group<component::Sprite> (entt::get<component::Position, component::Dimension>)
+        .each ([this, &registry] (auto entity, auto& sprite, auto& pos, auto& dim) {
+          // Sprite inLayer and position changed
+          if (pos.has_changed())
+          {
+            m_layers[sprite.LayerId]->Remove (sprite.sprite);
+            sprite.InLayer = false;
 
-              sprite.sprite->Pos.x = (int) pos.x;
-              sprite.sprite->Pos.y = (int) pos.y;
-              sprite.sprite->Pos.z = (int) pos.z;
-            }
+            sprite.sprite->Pos.x = (int) pos.x;
+            sprite.sprite->Pos.y = (int) pos.y;
+            sprite.sprite->Pos.z = (int) pos.z;
+          }
 
-            if (dim.has_changed())
-            {
-              m_layers[sprite.LayerId]->Remove (sprite.sprite);
-              sprite.InLayer = false;
+          if (dim.has_changed())
+          {
+            m_layers[sprite.LayerId]->Remove (sprite.sprite);
+            sprite.InLayer = false;
 
-              sprite.sprite->Dimensions.x = dim.w;
-              sprite.sprite->Dimensions.y = dim.h;
-            }
-            
-            pos.last_x = pos.x;
-            pos.last_y = pos.y;
-            pos.last_z = pos.z;
-            dim.last_w = dim.w;
-            dim.last_h = dim.h;
-            if (!sprite.InLayer && sprite.sprite != nullptr)
-            {
-              m_layers[sprite.LayerId]->Add (sprite.sprite);
-              sprite.InLayer = true;
-            }
-            if (sprite.sprite == nullptr)
-            {
-                // std::cout << pos.x << '\n';
-                // std::cout << pos.y << '\n';
-                // std::cout << sprite.LayerId << '\n';
-                // std::cout << sprite.Frame << '\n';
-                // std::cout << sprite.InLayer << '\n';
-                // std::cout << sprite.Initialized << '\n';
-                // std::cout << sprite.TexName << '\n';
-                // std::cout << '\n';
-            }
-            
-          });
+            sprite.sprite->Dimensions.x = dim.w;
+            sprite.sprite->Dimensions.y = dim.h;
+          }
 
-      const auto camera_entity = *registry.view<stella::component::Camera>().begin();
-      auto& camera_pos         = registry.get<component::Position> (camera_entity);
+          pos.last_x = pos.x;
+          pos.last_y = pos.y;
+          pos.last_z = pos.z;
+          dim.last_w = dim.w;
+          dim.last_h = dim.h;
+          if (!sprite.InLayer && sprite.sprite != nullptr)
+          {
+            m_layers[sprite.LayerId]->Add (sprite.sprite);
+            sprite.InLayer = true;
+          }
+          if (sprite.sprite == nullptr)
+          {
+            // std::cout << pos.x << '\n';
+            // std::cout << pos.y << '\n';
+            // std::cout << sprite.LayerId << '\n';
+            // std::cout << sprite.Frame << '\n';
+            // std::cout << sprite.InLayer << '\n';
+            // std::cout << sprite.Initialized << '\n';
+            // std::cout << sprite.TexName << '\n';
+            // std::cout << '\n';
+          }
+        });
 
-      for (auto const& order : m_ordered_layers)
+    const auto camera_entity = *registry.view<stella::component::Camera>().begin();
+    auto& camera_pos         = registry.get<component::Position> (camera_entity);
+
+    for (auto const& order : m_ordered_layers)
+    {
+      if (!m_layers[order.second]->Fixed)
       {
-        if (!m_layers[order.second]->Fixed)
-        {
-          m_layers[order.second]->SetViewMatrix (
-              glm::lookAt (glm::vec3 (camera_pos.x, camera_pos.y, camera_pos.z),
-                           glm::vec3 (camera_pos.x, camera_pos.y, camera_pos.z - 1.f),
-                           glm::vec3 (0.f, 1.f, 0.f)));
-        }
-        m_layers[order.second]->Render();
+        m_layers[order.second]->SetViewMatrix (glm::lookAt (glm::vec3 (camera_pos.x, camera_pos.y, camera_pos.z),
+                                                            glm::vec3 (camera_pos.x, camera_pos.y, camera_pos.z - 1.f),
+                                                            glm::vec3 (0.f, 1.f, 0.f)));
       }
+      m_layers[order.second]->Render();
+    }
   }
 
   void Render::remove_sprite_from_layer (entt::registry& registry, entt::entity entity)
@@ -130,55 +127,54 @@ namespace system
 
   void Render::initialize_sprite (entt::registry& registry, entt::entity entity, component::Sprite& sprite)
   {
-      // Adds sprite to layer
-            if (!sprite.InLayer && sprite.Initialized)
-            {
-              m_layers[sprite.LayerId]->Add (sprite.sprite);
-              sprite.InLayer = true;
-            }
-            else if (!sprite.InLayer)
-            {
-              auto tex = m_textures.load (sprite.TexName);
-              if (tex == nullptr)
-              {
-                std::cout << "It was not possible to find " << sprite.TexName << " in loaded textures." << std::endl;
-              }
-              else
-              {
-                // Creates sprite if it doesn't exist yet
-                if (!sprite.Initialized)
-                {
-                    const auto& pos = registry.get<component::Position> (entity);
-                    const auto& dim = registry.get<component::Dimension> (entity);
-                  // If no frame dimensions were provided
-                  if (sprite.FrameDimensions.x == 0)
-                  {
-                    sprite.sprite = std::shared_ptr<graphics::Sprite> (
-                        new graphics::Sprite (glm::vec3 (pos.x, pos.y, pos.z), *tex, sprite.Frame));
-                  }
-                  else
-                  {
-                    sprite.sprite = std::shared_ptr<graphics::Sprite> (
-                        new graphics::Sprite (glm::vec3 (pos.x, pos.y, pos.z),
-                                              glm::vec2 (sprite.FrameDimensions.x, sprite.FrameDimensions.y),
-                                              *tex,
-                                              sprite.Frame));
-                  }
-                  if (registry.has<component::Transform> (entity))
-                  {
-                    const auto& trans = registry.get<component::Transform> (entity);
-                    sprite.sprite->SetDirectScale (
-                        glm::vec2 ((float) dim.w * trans.Scale.x, (float) dim.h * trans.Scale.y));
-                    sprite.sprite->SetRotation (trans.Rotation);
-                  }
-                  else
-                  {
-                    sprite.sprite->SetDirectScale (glm::vec2 ((float) dim.w, (float) dim.h));
-                  }
-                  sprite.Initialized = true;
-                }
-              }
-            }
+    // Adds sprite to layer
+    if (!sprite.InLayer && sprite.Initialized)
+    {
+      m_layers[sprite.LayerId]->Add (sprite.sprite);
+      sprite.InLayer = true;
+    }
+    else if (!sprite.InLayer)
+    {
+      auto tex = m_textures.load (sprite.TexName);
+      if (tex == nullptr)
+      {
+        std::cout << "It was not possible to find " << sprite.TexName << " in loaded textures." << std::endl;
+      }
+      else
+      {
+        // Creates sprite if it doesn't exist yet
+        if (!sprite.Initialized)
+        {
+          const auto& pos = registry.get<component::Position> (entity);
+          const auto& dim = registry.get<component::Dimension> (entity);
+          // If no frame dimensions were provided
+          if (sprite.FrameDimensions.x == 0)
+          {
+            sprite.sprite = std::shared_ptr<graphics::Sprite> (
+                new graphics::Sprite (glm::vec3 (pos.x, pos.y, pos.z), *tex, sprite.Frame));
+          }
+          else
+          {
+            sprite.sprite = std::shared_ptr<graphics::Sprite> (
+                new graphics::Sprite (glm::vec3 (pos.x, pos.y, pos.z),
+                                      glm::vec2 (sprite.FrameDimensions.x, sprite.FrameDimensions.y),
+                                      *tex,
+                                      sprite.Frame));
+          }
+          if (registry.has<component::Transform> (entity))
+          {
+            const auto& trans = registry.get<component::Transform> (entity);
+            sprite.sprite->SetDirectScale (glm::vec2 ((float) dim.w * trans.Scale.x, (float) dim.h * trans.Scale.y));
+            sprite.sprite->SetRotation (trans.Rotation);
+          }
+          else
+          {
+            sprite.sprite->SetDirectScale (glm::vec2 ((float) dim.w, (float) dim.h));
+          }
+          sprite.Initialized = true;
+        }
+      }
+    }
   }
 } // namespace system
 } // namespace stella
