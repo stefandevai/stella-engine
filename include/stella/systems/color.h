@@ -3,6 +3,7 @@
 #include "./system.h"
 #include "stella/components/color.h"
 #include "stella/components/sprite.h"
+#include <sstream>
 
 namespace stella
 {

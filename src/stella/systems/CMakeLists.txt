@@ -7,6 +7,7 @@ add_library(${PROJECT_NAME} STATIC animation.cpp
                                    render.cpp
                                    speech.cpp
                                    text.cpp
+                                   tile.cpp
                                    timer.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${STELLA_LIBRARY_NAME}::graphics)

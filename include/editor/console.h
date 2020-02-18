@@ -134,15 +134,12 @@ namespace editor
           AddLog ("%c", '\n');
 
           const auto player_entity = *registry.view<stella::component::Player>().begin();
-          auto& player_pos         = registry.get<component::Position> (player_entity);
-          auto& player_dim         = registry.get<component::Dimension> (player_entity);
 
           auto text_entity = registry.create();
           registry.assign<stella::component::Position> (
-              text_entity, player_pos.x + player_dim.w / 2.f, player_pos.y - 4.f);
+              text_entity, 0.0f, -100.0f);
           registry.assign<stella::component::Text> (
               text_entity, m_converter.from_bytes (std::string (editable_buffer)), "1980");
-          // registry.assign<stella::component::Timer> (text_entity, component::Timer::TimerEvent::Destroy, 3000);
           registry.assign<component::Timer> (
               text_entity,
               3000.0,

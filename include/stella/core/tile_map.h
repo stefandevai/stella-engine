@@ -20,7 +20,7 @@ namespace core
     script::BasicLuaApi m_script_api;
     std::string m_name;
     unsigned m_number_of_layers = 0;
-    unsigned m_tile_dimension   = 0;
+    int m_tile_dimension   = 0;
     unsigned m_width            = 0;
     unsigned m_height           = 0;
 
