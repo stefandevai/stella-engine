@@ -51,7 +51,8 @@ namespace system
                   // automatically create entities and emplace_back
                   auto response = registry.create();
                   registry.assign<component::Position> (response, pos.x, pos.y - 4.f);
-                  registry.assign<component::Typewriter> (response, 5.0);
+                  registry.assign<component::Typewriter> (response, 2.0);
+                  // TODO: Function to make text display duration relative to it's size
                   registry.assign<component::Timer> (response,
                                                      3000.0,
                                                      0.0,

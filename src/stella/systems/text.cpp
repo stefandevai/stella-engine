@@ -87,15 +87,17 @@ namespace system
     {
         auto& text = registry.get<component::Text> (entity);
         auto& pos  = registry.get<component::Position> (entity);
+        auto& dim  = registry.get<component::Dimension> (entity);
         auto font  = m_fonts.load (text.font_name);
         float char_maxh = 0.f;
 
         const auto& ch     = font->get_char_data (chr);
-        auto char_posx = (ch.ax >> 6) * text.scale * text.text.size();
+        auto char_posx = static_cast<float>(pos.x) + dim.w;
         const GLfloat xpos = char_posx + ch.bl * text.scale;
         const GLfloat ypos = pos.y - ch.bt * text.scale;
         const GLfloat w    = ch.bw * text.scale;
         const GLfloat h    = ch.bh * text.scale;
+        dim.w += (ch.ax >> 6) * text.scale;
 
         auto char_entity = registry.create();
 
