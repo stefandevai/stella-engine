@@ -60,13 +60,15 @@ namespace graphics
       std::cout << "It was not possible to initialize SDL2" << std::endl;
     }
 
-    //#ifdef STELLA_BUILD_EDITOR
+    #ifdef STELLA_BUILD_EDITOR
     // const SDL_WindowFlags window_flags =
     // (SDL_WindowFlags) (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
-    //#else
     const SDL_WindowFlags window_flags =
         (SDL_WindowFlags) (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
-    //#endif
+    #else
+    const SDL_WindowFlags window_flags =
+        (SDL_WindowFlags) (SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+    #endif
     this->Window = SDL_CreateWindow (
         this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, window_flags);
     SDL_ShowCursor (SDL_DISABLE);
@@ -110,7 +112,7 @@ namespace graphics
 
     glEnable (GL_BLEND);
     // glDisable(GL_DEPTH_TEST);
-    glEnable (GL_DEPTH_TEST);
+    //glEnable (GL_DEPTH_TEST);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Set default Clear Color
@@ -195,8 +197,8 @@ namespace graphics
   void Display::Clear()
   {
     glClearColor (this->ClearColor.x, this->ClearColor.y, this->ClearColor.z, 1.0f);
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // glClear (GL_COLOR_BUFFER_BIT);
+    //glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear (GL_COLOR_BUFFER_BIT);
     // glEnable(GL_DEPTH_TEST);
   }
 

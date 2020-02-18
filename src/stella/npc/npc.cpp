@@ -114,6 +114,7 @@ namespace npc
         return response;
     }
 
+    // TODO: Remove redundancy and both loops, find a better way to decide if checking keywords or NLP
     std::wstring NPC::process_nlp(const std::wstring& req)
     {
         std::wstring response{};
