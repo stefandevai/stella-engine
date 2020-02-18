@@ -2,6 +2,7 @@ local M = {}
 
 local Entity = require('scripts.Entity')
 local Player = Entity:create_player()
+local flowers = require('scripts.demo.flowers')
 
 local function load_assets()
   load_texture("nikte", "assets/sprites/nikte.png")
@@ -105,6 +106,7 @@ local function load()
   -- load_assets()
   load_player(480, 512)
   load_npc(512, 512)
+  flowers.load()
 
   -- local test_spr = Entity:create_entity()
   -- test_spr:add_component("sprite", {
@@ -145,6 +147,7 @@ local function update(dt)
   camera_position[1] = math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2))
   camera_position[2] = math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2))
   update_camera(camera_position[1], camera_position[2], 0)
+  flowers.update()
 end
 
 local function render(dt)

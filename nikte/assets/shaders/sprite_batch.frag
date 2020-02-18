@@ -63,14 +63,14 @@ void main()
   if (lighting)
   {
   vec2 screen_resolution = vec2(896.0, 504.0);
-  bool morning = false;
+  bool morning = true;
 
   if (morning)
   {
-    vec3 morning_color_shift = vec3(2.4, 0.9, 0.8);
-    float vignette_intensity = 1.2;
+    vec3 morning_color_shift = vec3(1.9, 0.9, 0.8);
+    float vignette_intensity = 0.8;
     float vignette_spread = 2.0;
-    float vignette_radius = 500.0*vignette_spread;
+    float vignette_radius = 600.0*vignette_spread;
     vec2 vignette_center = vec2(screen_resolution.x/2.0, screen_resolution.y/2.0);
     float dist_center = distance(vignette_center, gl_FragCoord.xy);
 
