@@ -27,7 +27,7 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   m_script_api.set_variable<int> ("e_screen_height", this->height());
 
   m_script_api.run_function ("load_game");
-  m_load_flowers();
+  //m_load_flowers();
 
   this->update_systems (0.0);
 }
@@ -76,14 +76,14 @@ void Game::m_load_flowers()
 
 void Game::m_load_flower(const int x, const int y)
 { 
-  int frame = 0;
+  int frame = 15;
   switch (m_flower_frame_distribution(m_generator))
   {
     case 0:
       frame = 10;
       break;
     case 1:
-      frame = 5;
+      frame = 10;
       break;
     case 2:
       frame = 15;

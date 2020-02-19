@@ -103,23 +103,47 @@ namespace editor
     {
       m_game.m_display.Running = false;
     }
+
+    // Run game without the editor
+    if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_R])
+    {
+      m_show_editor = true;
+      glViewport (0, 0, m_game_width, m_game_height);
+      
+    }
+    else if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_R])
+    {
+      m_show_editor = false;
+      glViewport (0, 0, m_game.m_display.GetWindowWidth(), m_game.m_display.GetWindowHeight());
+      m_game.m_display.m_check_viewport_proportions();
+    }
   }
 
   void EditorGui::run()
   {
     while (m_game.m_display.IsRunning())
     {
-      m_FBO->Bind();
-      m_game.m_display.Clear();
-      m_game.update (m_game.m_display.GetDT());
-      m_FBO->Unbind();
-      this->render (m_game.m_display.GetWindowWidth(),
+      if (m_show_editor)
+      {
+        m_FBO->Bind();
+        m_game.m_display.Clear();
+        m_game.update (m_game.m_display.GetDT());
+        m_FBO->Unbind();
+        this->render (m_game.m_display.GetWindowWidth(),
                     m_game.m_display.GetWindowHeight(),
                     m_game.m_display.Width,
                     m_game.m_display.Height);
 
-      m_game.m_display.Update();
-      this->configure_input();
+        m_game.m_display.Update();
+        this->configure_input();
+      }
+      else
+      {
+        m_game.m_display.Clear();
+        m_game.update (m_game.m_display.GetDT());
+        m_game.m_display.Update();
+        this->configure_input();
+      }
     }
   }
 
@@ -163,6 +187,7 @@ namespace editor
         }
         break;
       case PLAY:
+        m_show_editor = !m_show_editor;
         break;
       default:
         break;
@@ -447,6 +472,16 @@ namespace editor
         if (ImGui::MenuItem (item_text))
         {
           m_map_editor.toggle();
+        }
+
+        item_text = "Play Game";
+        if (m_show_editor)
+        {
+          item_text = "Return to editor";
+        }
+        if (ImGui::MenuItem (item_text))
+        {
+          m_show_editor = !m_show_editor;
         }
         ImGui::EndMenu();
       }

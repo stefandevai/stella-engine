@@ -55,7 +55,7 @@ namespace editor
     DebugLayer m_debug_layer{896, 504, true};
     entt::entity m_editor_layer  = entt::null;
     entt::entity m_editor_sprite = entt::null;
-    TilesetEditor m_tileset_editor{"assets/sprites/tileset.png"};
+    TilesetEditor m_tileset_editor{"assets/sprites/tilesetv2.png"};
     widget::MapEditor m_map_editor{m_game};
     widget::Inspector m_inspector;
     Toolbar m_toolbar;
@@ -67,6 +67,7 @@ namespace editor
 
     // View options
     bool m_view_physics_debug_layer = false;
+    bool m_show_editor = true;
 
     std::unique_ptr<graphics::Framebuffer> m_FBO;
     widget::Scene m_scene;

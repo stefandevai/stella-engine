@@ -80,6 +80,7 @@ namespace graphics
 
     void updateInput();
     void getDT();
+    void m_check_viewport_proportions();
   };
 } // namespace graphics
 } // namespace stella

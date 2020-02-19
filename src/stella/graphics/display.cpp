@@ -12,39 +12,6 @@
   #endif
 #endif
 
-#ifndef STELLA_BUILD_EDITOR
-namespace
-{
-// Adjust viewport proportions on fullscreen to match 16:9 proportions
-void checkViewportProportions()
-{
-  int width, height;
-  int vpcoords[4];
-  glGetIntegerv (GL_VIEWPORT, vpcoords);
-
-  width  = vpcoords[2];
-  height = vpcoords[3];
-
-  // 16/9 = 1.77777. Therefore, we check if the new proportions are greater or
-  // lower than that
-  if (width / (float) height > 1.78f)
-  { // Height is max and width is adjusted
-    int newwidth = height * 1.77777f;
-    int left     = width - newwidth;
-    // std::cout << newwidth << std::endl;
-    glViewport (left / 2, 0, newwidth, height);
-  }
-  else if (width / (float) height < 1.77f)
-  { // Width is max and height is adjusted
-    int newheight = (int) width / 1.77f;
-    int left      = height - newheight;
-    // std::cout << newheight << std::endl;
-    glViewport (0, left / 2, width, newheight);
-  }
-}
-} // namespace
-#endif
-
 namespace stella
 {
 namespace graphics
@@ -106,7 +73,7 @@ namespace graphics
     glViewport (0, 0, this->Width, this->Height);
 
 #ifndef STELLA_BUILD_EDITOR
-    checkViewportProportions();
+    m_check_viewport_proportions();
 #endif
 
     glEnable (GL_BLEND);
@@ -227,7 +194,7 @@ namespace graphics
             case SDL_WINDOWEVENT_RESIZED:
 #ifndef STELLA_BUILD_EDITOR
               glViewport (0, 0, GetWindowWidth(), GetWindowHeight());
-              checkViewportProportions();
+              m_check_viewport_proportions();
 //#else
 //              glViewport (GetWindowWidth() - Width, GetWindowHeight() - Height - 23, this->Width, this->Height);
 #endif
@@ -235,7 +202,7 @@ namespace graphics
             case SDL_WINDOWEVENT_SIZE_CHANGED:
 #ifndef STELLA_BUILD_EDITOR
               glViewport (0, 0, GetWindowWidth(), GetWindowHeight());
-              checkViewportProportions();
+              m_check_viewport_proportions();
 //#else
 //              glViewport (GetWindowWidth() - Width, GetWindowHeight() - Height - 23, this->Width, this->Height);
 #endif
@@ -286,5 +253,32 @@ namespace graphics
 
     return deltaFrame / deltaTime;
   }
+
+  void Display::m_check_viewport_proportions()
+{
+  int width, height;
+  int vpcoords[4];
+  glGetIntegerv (GL_VIEWPORT, vpcoords);
+
+  width  = vpcoords[2];
+  height = vpcoords[3];
+
+  // 16/9 = 1.77777. Therefore, we check if the new proportions are greater or
+  // lower than that
+  if (width / (float) height > 1.78f)
+  { // Height is max and width is adjusted
+    int newwidth = height * 1.77777f;
+    int left     = width - newwidth;
+    // std::cout << newwidth << std::endl;
+    glViewport (left / 2, 0, newwidth, height);
+  }
+  else if (width / (float) height < 1.77f)
+  { // Width is max and height is adjusted
+    int newheight = (int) width / 1.77f;
+    int left      = height - newheight;
+    // std::cout << newheight << std::endl;
+    glViewport (0, left / 2, width, newheight);
+  }
+}
 } // namespace graphics
 } // namespace stella
