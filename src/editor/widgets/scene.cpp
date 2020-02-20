@@ -19,7 +19,7 @@ namespace widget
     //ImGui::SetNextWindowSizeConstraints (ImVec2 (896, 504), ImVec2 (897, 505));
     if (ImGui::Begin (m_name.c_str(), &m_open))
     {
-      m_active = ImGui::IsWindowFocused() && ImGui::IsWindowHovered();
+      m_active = ImGui::IsWindowHovered();
       const auto window_pos    = ImGui::GetWindowPos();
       const auto window_size   = ImGui::GetWindowSize();
       const float frame_height = ImGui::GetFrameHeight();

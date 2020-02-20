@@ -91,9 +91,10 @@ namespace editor
     void draw_info (const ImVec2& pos);
     void draw_menu_bar();
     void handle_state (ImGuiIO& io);
-    void handle_tile_pen (ImGuiIO& io);
-    void handle_inspector (ImGuiIO& io);
+    void handle_tile_pen (const ImGuiIO& io);
+    void handle_inspector (const ImGuiIO& io);
     void m_widget_build_option (widget::Widget& widget);
+    void m_map_tile_pos(const ImGuiIO& io, std::function<void(const ImVec2&)> position_action);
   };
 
 } // namespace editor
