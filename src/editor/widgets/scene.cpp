@@ -13,7 +13,8 @@ namespace widget
     ImGui::PushStyleVar (ImGuiStyleVar_WindowPadding, ImVec2 (0, 0));
     ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (2.0f, 0.0f));
     ImGui::SetNextWindowSizeConstraints (ImVec2 (896, 504), ImVec2 (897, 505));
-    ImGui::Begin ("Scene", &m_open, ImGuiWindowFlags_NoTitleBar);
+    if (ImGui::Begin ("Scene", &m_open))
+    {
     const auto window_pos    = ImGui::GetWindowPos();
     const auto window_size   = ImGui::GetWindowSize();
     const float frame_height = ImGui::GetFrameHeight();
@@ -42,6 +43,7 @@ namespace widget
     }
 
     ImGui::Image (texture_id, ImVec2 (m_game_screen_width, m_game_screen_height), ImVec2 (0, 1), ImVec2 (1, 0));
+    }
     ImGui::End();
     ImGui::PopStyleVar();
     ImGui::PopStyleVar();

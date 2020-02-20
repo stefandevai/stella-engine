@@ -3,11 +3,13 @@ project(editor)
 add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLAD)
 add_library(${PROJECT_NAME} STATIC debug_layer.cpp
                                    editor_gui.cpp
+                                   widgets/chat.cpp
+                                   widgets/console.cpp
                                    widgets/inspector.cpp
                                    widgets/map_editor.cpp
-                                   tileset_editor.cpp
+                                   widgets/tileset_editor.cpp
                                    widgets/scene.cpp
-                                   toolbar.cpp
+                                   widgets/toolbar.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/examples/imgui_impl_sdl.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/examples/imgui_impl_opengl3.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/imgui.cpp

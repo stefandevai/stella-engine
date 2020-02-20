@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../lib/imgui/imgui.h"
+#include "widget.h"
 #include "editor/state.h"
 
 #define ICON_FA_EDIT          u8"\uf044"
@@ -9,9 +10,9 @@
 
 namespace stella
 {
-namespace editor
+namespace widget
 {
-  class Toolbar
+  class Toolbar : public Widget
   {
   public:
     Toolbar();

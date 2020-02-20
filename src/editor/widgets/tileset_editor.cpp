@@ -2,11 +2,11 @@
 #include <memory>
 #include <string>
 
-#include "editor/tileset_editor.h"
+#include "editor/widgets/tileset_editor.h"
 
 namespace stella
 {
-namespace editor
+namespace widget
 {
   TilesetEditor::TilesetEditor (const std::string& path) : m_path (path), texture (path)
   {
@@ -19,7 +19,7 @@ namespace editor
 
   void TilesetEditor::render()
   {
-    if (ImGui::Begin ("TilesetEditor"))
+    if (ImGui::Begin ("TilesetEditor", &m_open))
     {
       int w_in_tiles = m_texture_w / m_tile_dimensions[0];
       int h_in_tiles = m_texture_h / m_tile_dimensions[1];

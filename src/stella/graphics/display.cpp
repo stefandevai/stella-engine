@@ -82,7 +82,7 @@ namespace graphics
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Set default Clear Color
-    this->ClearColor = glm::vec3 (0.5f, 0.5f, 0.5f);
+    this->ClearColor = glm::vec3 (0.0f, 0.0f, 0.0f);
   }
 
   Display::~Display()

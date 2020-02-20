@@ -1,11 +1,11 @@
 
-#include "editor/toolbar.h"
+#include "editor/widgets/toolbar.h"
 
 namespace stella
 {
-namespace editor
+namespace widget
 {
-  Toolbar::Toolbar() {}
+  Toolbar::Toolbar() { m_open = true; }
 
   Toolbar::~Toolbar() {}
 
@@ -17,24 +17,24 @@ namespace editor
     ImGui::PushStyleColor (ImGuiCol_Button, ImVec4 (0.0f, 0.0f, 0.f, 0.f));
     ImGui::PushStyleColor (ImGuiCol_ButtonHovered, ImVec4 (0.2f, 0.2f, 0.2f, 1.f));
 
-    if (ImGui::Begin ("toolbar-win"))
+    if (ImGui::Begin ("toolbar-win", &m_open))
     {
       // Handling inspector button hovering and clicks
       ImGui::PushID ("inspector-button");
-      if (state == EDIT && tool == INSPECTOR)
+      if (state == editor::EDIT && tool == editor::INSPECTOR)
       {
         ImGui::PushStyleColor (ImGuiCol_Button, ImVec4 (0.2f, 0.2f, 0.2f, 1.f));
       }
       const bool clicked_inspector = ImGui::Button (ICON_FA_MOUSE_POINTER);
-      if (tool != INSPECTOR && clicked_inspector)
+      if (tool != editor::INSPECTOR && clicked_inspector)
       {
-        if (state != EDIT)
+        if (state != editor::EDIT)
         {
-          state = EDIT;
+          state = editor::EDIT;
         }
-        tool = INSPECTOR;
+        tool = editor::INSPECTOR;
       }
-      else if (state == EDIT && tool == INSPECTOR)
+      else if (state == editor::EDIT && tool == editor::INSPECTOR)
       {
         ImGui::PopStyleColor();
       }
@@ -43,20 +43,20 @@ namespace editor
 
       // Handling tile pen button hovering and clicks
       ImGui::PushID ("tile-pen-button");
-      if (state == EDIT && tool == TILE_PEN)
+      if (state == editor::EDIT && tool == editor::TILE_PEN)
       {
         ImGui::PushStyleColor (ImGuiCol_Button, ImVec4 (0.2f, 0.2f, 0.2f, 1.f));
       }
       const bool clicked_tile_pen = ImGui::Button (ICON_FA_EDIT);
-      if (tool != TILE_PEN && clicked_tile_pen)
+      if (tool != editor::TILE_PEN && clicked_tile_pen)
       {
-        if (state != EDIT)
+        if (state != editor::EDIT)
         {
-          state = EDIT;
+          state = editor::EDIT;
         }
-        tool = TILE_PEN;
+        tool = editor::TILE_PEN;
       }
-      else if (state == EDIT && tool == TILE_PEN)
+      else if (state == editor::EDIT && tool == editor::TILE_PEN)
       {
         ImGui::PopStyleColor();
       }
@@ -65,30 +65,29 @@ namespace editor
 
       // Handling play button hovering and clicks
       ImGui::PushID ("play-button");
-      if (state == PLAY)
+      if (state == editor::PLAY)
       {
         ImGui::PushStyleColor (ImGuiCol_Button, ImVec4 (0.2f, 0.2f, 0.2f, 1.f));
       }
       const bool clicked_play = ImGui::Button (ICON_FA_PLAY);
-      if (state != PLAY && clicked_play)
+      if (state != editor::PLAY && clicked_play)
       {
-        state = PLAY;
+        state = editor::PLAY;
       }
-      else if (state == PLAY)
+      else if (state == editor::PLAY)
       {
         ImGui::PopStyleColor();
       }
       ImGui::PopID();
 
-      ImGui::PopStyleColor();
-      ImGui::PopStyleColor();
-      ImGui::PopStyleVar();
-      // ImGui::PopStyleVar();
-      ImGui::PopStyleVar();
       ImGui::Dummy (ImVec2 (0.f, 2.f));
       ImGui::Separator();
     }
     ImGui::End();
+    ImGui::PopStyleColor();
+    ImGui::PopStyleColor();
+    ImGui::PopStyleVar();
+    ImGui::PopStyleVar();
   }
 } // namespace editor
 } // namespace stella

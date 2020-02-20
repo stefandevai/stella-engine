@@ -1,13 +1,14 @@
 #pragma once
 
+#include "widget.h"
 #include "../../lib/imgui/imgui.h"
 #include "stella/graphics/texture.h"
 
 namespace stella
 {
-namespace editor
+namespace widget
 {
-  class TilesetEditor
+  class TilesetEditor : public Widget
   {
   private:
     std::string m_path;

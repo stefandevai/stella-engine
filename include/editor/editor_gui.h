@@ -2,18 +2,18 @@
 
 #include "../stella/graphics/shape.h"
 #include "../stella/graphics/framebuffer.h"
-#include "./console.h"
+#include "widgets/chat.h"
 #include "./debug_layer.h"
-#include "./gui_log.h"
+#include "widgets/console.h"
 #include "widgets/inspector.h"
 #include "./log_system.h"
 #include "widgets/map_editor.h"
-#include "./tileset_editor.h"
+#include "widgets/tileset_editor.h"
 #include "widgets/scene.h"
 #include <entt/entity/registry.hpp>
 //#include "../stella/core/game.h"
 #include "state.h"
-#include "toolbar.h"
+#include "widgets/toolbar.h"
 #include "../../lib/imgui/imgui.h"
 #include "../../lib/imgui/examples/imgui_impl_opengl3.h"
 #include "../../lib/imgui/examples/imgui_impl_sdl.h"
@@ -48,17 +48,17 @@ namespace editor
         ImGuiWindowFlags_NoTitleBar;
     // const ImGuiWindowFlags m_window_flags = ImGuiWindowFlags_NoMove |
     // ImGuiWindowFlags_NoResize;
-    GuiLog m_log{m_window_flags, m_font_mono};
-    Console m_console{m_window_flags, m_font_mono};
-    LogSystem m_log_system{m_log};
+    widget::Console m_console{m_window_flags, m_font_mono};
+    widget::Chat m_chat{m_window_flags, m_font_mono};
+    LogSystem m_log_system{m_console};
     entt::registry& m_registry;
     DebugLayer m_debug_layer{896, 504, true};
     entt::entity m_editor_layer  = entt::null;
     entt::entity m_editor_sprite = entt::null;
-    TilesetEditor m_tileset_editor{"assets/sprites/tilesetv2.png"};
+    widget::TilesetEditor m_tileset_editor{"assets/sprites/tilesetv2.png"};
     widget::MapEditor m_map_editor{m_game};
     widget::Inspector m_inspector;
-    Toolbar m_toolbar;
+    widget::Toolbar m_toolbar;
     float m_window_width = 0.f, m_window_height = 0.f, m_game_width = 0.f, m_game_height = 0.f;
 
     std::vector<glm::vec2> vertices{

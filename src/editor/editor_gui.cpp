@@ -83,19 +83,19 @@ namespace editor
     // Save map
     if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_S])
     {
-      m_log.AddLog ("Saving map...\n");
+      m_console.add_log ("Saving map...\n");
       m_map_editor.update_map_settings();
       m_game.m_tile_map.save (m_map_editor.get_map_path());
-      m_log.AddLog ("Saved map...\n");
+      m_console.add_log ("Saved map...\n");
     }
 
     // Load map
     if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_O])
     {
-      m_log.AddLog ("Loading map...\n");
+      m_console.add_log ("Loading map...\n");
       m_game.m_tile_map.load (m_map_editor.get_map_path());
       m_map_editor.reset_map_settings();
-      m_log.AddLog ("Loaded map...\n");
+      m_console.add_log ("Loaded map...\n");
     }
 
     // Quit editor
@@ -127,7 +127,8 @@ namespace editor
       {
         m_FBO->Bind();
         m_game.m_display.Clear();
-        m_game.update (m_game.m_display.GetDT());
+        m_game.m_systems.front()->update(m_game.m_registry, m_game.m_display.GetDT());
+        //m_game.update (m_game.m_display.GetDT());
         m_FBO->Unbind();
         this->render (m_game.m_display.GetWindowWidth(),
                     m_game.m_display.GetWindowHeight(),
@@ -255,7 +256,7 @@ namespace editor
         m_game.m_tile_map.layers[m_map_editor.get_selected_layer_id()]->set_value (tile_pos.x, tile_pos.y, tile);
 
         auto tile2 = m_game.m_tile_map.layers[m_map_editor.get_selected_layer_id()]->get_value (tile_pos.x, tile_pos.y);
-        m_log.AddLog ("%d\n", tile2.z);
+        m_console.add_log ("%d\n", tile2.z);
       }
     }
   }
@@ -379,17 +380,31 @@ namespace editor
     ImGui::End();
 
     m_scene.render ((void*) (intptr_t) m_FBO->GetTexture());
-    m_toolbar.render (m_current_state, m_current_tool);
-
+    
+    if (m_toolbar.is_open())
+    {
+      m_toolbar.render (m_current_state, m_current_tool);
+    }
     if (m_inspector.is_open())
     {
       m_inspector.render (m_game.m_registry);
     }
-    m_map_editor.render();
-    m_tileset_editor.render();
-    m_console.Draw ("Chat", m_registry);
-    m_log.Draw ("Console");
-
+    if (m_map_editor.is_open())
+    {
+      m_map_editor.render();
+    }
+    if (m_tileset_editor.is_open())
+    {
+      m_tileset_editor.render();
+    }
+    if (m_chat.is_open())
+    {
+      m_chat.render (m_registry);
+    }
+    if (m_console.is_open())
+    {
+      m_console.render ();
+    }
     if (m_view_physics_debug_layer)
     {
       // this->draw_info (info_pos);
@@ -474,10 +489,50 @@ namespace editor
           m_map_editor.toggle();
         }
 
-        item_text = "Play Game";
+        item_text = "View Tileset Editor";
+        if (m_tileset_editor.is_open())
+        {
+          item_text = "Hide Tileset Editor";
+        }
+        if (ImGui::MenuItem (item_text))
+        {
+          m_tileset_editor.toggle();
+        }
+
+        item_text = "View Toolbar";
+        if (m_toolbar.is_open())
+        {
+          item_text = "Hide Toolbar";
+        }
+        if (ImGui::MenuItem (item_text))
+        {
+          m_toolbar.toggle();
+        }
+
+        item_text = "View Chat";
+        if (m_chat.is_open())
+        {
+          item_text = "Hide Chat";
+        }
+        if (ImGui::MenuItem (item_text))
+        {
+          m_chat.toggle();
+        }
+
+        item_text = "View Console";
+        if (m_console.is_open())
+        {
+          item_text = "Hide Console";
+        }
+        if (ImGui::MenuItem (item_text))
+        {
+          m_console.toggle();
+        }
+
+        item_text = "Return to Editor";
         if (m_show_editor)
         {
-          item_text = "Return to editor";
+          item_text = "Play Game";
         }
         if (ImGui::MenuItem (item_text))
         {

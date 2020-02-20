@@ -1,13 +1,4 @@
-#pragma once
-
-#include <entt/entity/registry.hpp>
-#include <iostream>
-#include <string>
-
-#include <codecvt>
-#include <locale>
-
-#include "../../lib/imgui/imgui.h"
+#include "editor/widgets/chat.h"
 #include "stella/components/dimension.h"
 #include "stella/components/player.h"
 #include "stella/components/position.h"
@@ -15,38 +6,27 @@
 #include "stella/components/text.h"
 #include "stella/components/timer.h"
 
+#include <iostream>
+
 namespace stella
 {
-namespace editor
+namespace widget
 {
-  class Console
-  {
-  private:
-    const ImGuiWindowFlags WindowFlags;
-    bool AutoScroll     = true;
-    bool ScrollToBottom = false;
-    ImVector<int> LineOffsets;
-    ImFont*& MonoFont;
-    ImGuiTextBuffer Buf;
-    char editable_buffer[512];
-    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> m_converter;
-
-  public:
-    Console (const ImGuiWindowFlags window_flags, ImFont*& mono_font) : WindowFlags (window_flags), MonoFont (mono_font)
+    Chat::Chat (const ImGuiWindowFlags window_flags, ImFont*& mono_font) : WindowFlags (window_flags), MonoFont (mono_font)
     {
+      m_open = true;
       strcpy (editable_buffer, "");
-      Clear();
+      clear();
     }
-    ~Console() {}
 
-    void Clear()
+    void Chat::clear()
     {
       Buf.clear();
       LineOffsets.clear();
       LineOffsets.push_back (0);
     }
 
-    void AddLog (const char* fmt, ...) IM_FMTARGS (2)
+    void Chat::add_log (const char* fmt, ...)
     {
       int old_size = Buf.size();
       va_list args;
@@ -60,29 +40,13 @@ namespace editor
         ScrollToBottom = true;
     }
 
-    void Draw (std::string title, entt::registry& registry, bool* p_open = NULL)
+    void Chat::render (entt::registry& registry)
     {
-      if (!ImGui::Begin (title.c_str(), p_open, ImGuiWindowFlags_None))
+      if (!ImGui::Begin ("Chat", &m_open, ImGuiWindowFlags_None))
       {
         ImGui::End();
         return;
       }
-
-      //   ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 2);
-      //   ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(12.0f, 6.0f));
-      //   bool clear = ImGui::Button("Clear");
-      //   ImGui::PopStyleVar();
-      //   ImGui::PopStyleVar();
-
-      //   ImGui::Dummy(ImVec2(0.0f, 3.0f));
-      //   ImGui::PushStyleColor(ImGuiCol_Separator, ImVec4(0.43f, 0.43f, 0.5f,
-      //   0.3f)); ImGui::Separator(); ImGui::PopStyleColor();
-      //   ImGui::Dummy(ImVec2(0.0f, 6.0f));
-
-      //   if (clear)
-      //   {
-      //       Clear();
-      //   }
 
       ImGui::BeginChild ("scrolling-chat", ImVec2 (0, -60.f), false, ImGuiWindowFlags_HorizontalScrollbar);
       ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (0, 0));
@@ -130,8 +94,8 @@ namespace editor
       {
         if (strlen (editable_buffer) > 0)
         {
-          AddLog ("%s", editable_buffer);
-          AddLog ("%c", '\n');
+          add_log ("%s", editable_buffer);
+          add_log ("%c", '\n');
 
           const auto player_entity = *registry.view<stella::component::Player>().begin();
 
@@ -162,6 +126,5 @@ namespace editor
 
       ImGui::End();
     }
-  };
 } // namespace editor
 } // namespace stella

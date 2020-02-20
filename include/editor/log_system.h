@@ -2,7 +2,7 @@
 
 #include "../stella/components/log.h"
 #include "../stella/systems/system.h"
-#include "gui_log.h"
+#include "widgets/console.h"
 
 #include <iostream>
 
@@ -13,10 +13,10 @@ namespace editor
   class LogSystem : public system::System
   {
   private:
-    GuiLog& m_gui_log;
+    widget::Console& m_console;
 
   public:
-    LogSystem (GuiLog& gui_log) : m_gui_log (gui_log) {}
+    LogSystem (widget::Console& console) : m_console (console) {}
     ~LogSystem() override {}
 
     void update (entt::registry& registry, const double dt) override
@@ -24,7 +24,7 @@ namespace editor
       registry.view<component::Log>().each ([this] (auto entity, auto& log) {
         for (const std::string& message : log.log_queue)
         {
-          m_gui_log.AddLog ("%s", message.c_str());
+          m_console.add_log ("%s", message.c_str());
           // std::cout << message;
         }
         if (!log.log_queue.empty())

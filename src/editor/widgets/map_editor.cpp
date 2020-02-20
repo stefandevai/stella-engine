@@ -7,7 +7,6 @@ namespace widget
 {
   MapEditor::MapEditor (nikte::Game& game) : Widget(), m_game (game), m_tile_map (game.m_tile_map)
   {
-    m_open = true;
     this->reset_map_settings();
   }
 

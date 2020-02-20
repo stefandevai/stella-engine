@@ -1,37 +1,27 @@
 #pragma once
 
-#include "../../lib/imgui/imgui.h"
+#include "editor/widgets/console.h"
 
 namespace stella
 {
-namespace editor
+namespace widget
 {
-  struct GuiLog
-  {
-    ImGuiTextBuffer Buf;
-    ImGuiTextFilter Filter;
-    ImVector<int> LineOffsets; // Index to lines offset. We maintain this with AddLog()
-                               // calls, allowing us to have a random access on lines
-    bool AutoScroll;
-    bool ScrollToBottom;
-    const ImGuiWindowFlags WindowFlags;
-    ImFont*& MonoFont;
-
-    GuiLog (const ImGuiWindowFlags window_flags, ImFont*& mono_font) : WindowFlags (window_flags), MonoFont (mono_font)
+    Console::Console (const ImGuiWindowFlags window_flags, ImFont*& mono_font) : WindowFlags (window_flags), MonoFont (mono_font)
     {
+      m_open = true;
       AutoScroll     = true;
       ScrollToBottom = false;
-      Clear();
+      clear();
     }
 
-    void Clear()
+    void Console::clear()
     {
       Buf.clear();
       LineOffsets.clear();
       LineOffsets.push_back (0);
     }
 
-    void AddLog (const char* fmt, ...) IM_FMTARGS (2)
+    void Console::add_log (const char* fmt, ...)
     {
       int old_size = Buf.size();
       va_list args;
@@ -45,9 +35,9 @@ namespace editor
         ScrollToBottom = true;
     }
 
-    void Draw (const char* title, bool* p_open = NULL)
+    void Console::render ()
     {
-      if (!ImGui::Begin (title, p_open, WindowFlags))
+      if (!ImGui::Begin ("Console", &m_open, WindowFlags))
       {
         ImGui::End();
         return;
@@ -68,9 +58,9 @@ namespace editor
       if (ImGui::Button ("Options"))
         ImGui::OpenPopup ("Options");
       ImGui::SameLine();
-      bool clear = ImGui::Button ("Clear");
+      bool b_clear = ImGui::Button ("Clear");
       ImGui::SameLine();
-      bool copy = ImGui::Button ("Copy");
+      bool b_copy = ImGui::Button ("Copy");
       ImGui::SameLine();
       Filter.Draw ("  Filter", -100.0f);
       ImGui::PopStyleVar();
@@ -83,9 +73,9 @@ namespace editor
       ImGui::Dummy (ImVec2 (0.0f, 6.0f));
       ImGui::BeginChild ("scrolling", ImVec2 (0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
 
-      if (clear)
-        Clear();
-      if (copy)
+      if (b_clear)
+        this->clear();
+      if (b_copy)
         ImGui::LogToClipboard();
 
       ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (0, 0));
@@ -147,6 +137,5 @@ namespace editor
       ImGui::EndChild();
       ImGui::End();
     }
-  };
 } // namespace editor
 } // namespace stella

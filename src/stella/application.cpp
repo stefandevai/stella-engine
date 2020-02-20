@@ -8,7 +8,7 @@ namespace core
   Application::Application (unsigned width, unsigned height, const std::string& title)
     : m_initial_width (width), m_initial_height (height), m_initial_title (title)
   {
-    m_display.SetClearColor (0.3f, 0.3f, 0.3f);
+    m_display.SetClearColor (0.0f, 0.0f, 0.0f);
     srand (time (nullptr));
   }
 
