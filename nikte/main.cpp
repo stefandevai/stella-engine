@@ -1,7 +1,7 @@
 #include "game.h"
 
 #ifdef STELLA_BUILD_EDITOR
-  #include "editor/editor_gui.h"
+  #include "editor/editor.h"
 #endif
 
 int main (int argc, char* argv[])
@@ -9,7 +9,7 @@ int main (int argc, char* argv[])
   nikte::Game game;
 
 #ifdef STELLA_BUILD_EDITOR
-  stella::editor::EditorGui editor{game};
+  stella::editor::Editor editor{game};
   editor.run();
 #else
   game.run();

@@ -30,7 +30,6 @@ namespace widget
 
   public:
     MapEditor (nikte::Game& game);
-    ~MapEditor();
     void render();
     void reset_map_settings();
     void update_map_settings();

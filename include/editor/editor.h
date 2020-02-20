@@ -30,7 +30,7 @@ namespace stella
 {
 namespace editor
 {
-  class EditorGui
+  class Editor
   {
   private:
     static const ImWchar ICON_FA_MIN = 0xf044;
@@ -73,9 +73,9 @@ namespace editor
     widget::Scene m_scene;
 
   public:
-    // EditorGui(entt::registry& registry);
-    EditorGui (nikte::Game& game);
-    ~EditorGui();
+    // Editor(entt::registry& registry);
+    Editor (nikte::Game& game);
+    ~Editor();
     // void init (SDL_Window* window, SDL_GLContext gl_context, const char* glsl_version);
     void init();
     void configure_input();
@@ -93,6 +93,7 @@ namespace editor
     void handle_state (ImGuiIO& io);
     void handle_tile_pen (ImGuiIO& io);
     void handle_inspector (ImGuiIO& io);
+    void m_widget_build_option (widget::Widget& widget);
   };
 
 } // namespace editor

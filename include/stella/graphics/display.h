@@ -19,14 +19,15 @@ typedef void* SDL_GLContext;
 typedef unsigned int GLuint;
 typedef float GLfloat;
 
+#ifdef STELLA_BUILD_EDITOR
 namespace stella
 {
 namespace editor
 {
-  class EditorGui;
+  class Editor;
 }
 } // namespace stella
-// typedef class stella::editor::EditorGui;
+#endif
 
 namespace stella
 {
@@ -67,7 +68,7 @@ namespace graphics
     SDL_Event m_event;
 
 #ifdef STELLA_BUILD_EDITOR
-    friend class stella::editor::EditorGui;
+    friend class stella::editor::Editor;
 #endif
 
 #if __APPLE__

@@ -1,8 +1,7 @@
 project(editor)
 
 add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLAD)
-add_library(${PROJECT_NAME} STATIC debug_layer.cpp
-                                   editor_gui.cpp
+add_library(${PROJECT_NAME} STATIC editor.cpp
                                    widgets/chat.cpp
                                    widgets/console.cpp
                                    widgets/inspector.cpp
@@ -10,6 +9,7 @@ add_library(${PROJECT_NAME} STATIC debug_layer.cpp
                                    widgets/tileset_editor.cpp
                                    widgets/scene.cpp
                                    widgets/toolbar.cpp
+                                   debug_layer.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/examples/imgui_impl_sdl.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/examples/imgui_impl_opengl3.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/imgui.cpp

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include "../../lib/imgui/imgui.h"
 #include "widget.h"
 #include "editor/state.h"
@@ -14,10 +15,17 @@ namespace widget
 {
   class Toolbar : public Widget
   {
+  private:
+    ImVec2 m_size{0,0};
+    const ImVec4 m_button_color{0.4f, 0.4f, 0.4f, 1.0f};
+    const ImVec4 m_button_hover_color{0.1f, 0.1f, 0.1f, 1.0f};
+    const ImVec4 m_button_selected_color{1.0f, 1.0f, 1.0f, 1.0f};
+
   public:
     Toolbar();
     ~Toolbar();
-    void render (editor::State& state, editor::Tool& tool);
+    void render (editor::State& state, editor::Tool& tool, const float width, std::function<void()> draw_menu_bar);
+    const ImVec2& size() { return m_size; }
   };
 } // namespace editor
 } // namespace stella

@@ -4,8 +4,19 @@
 #include <entt/entity/registry.hpp>
 #include <string>
 
+// #ifdef STELLA_BUILD_EDITOR
+//   #include "editor/editor.h"
+  
+// #endif
+
 #ifdef STELLA_BUILD_EDITOR
-  #include "editor/editor_gui.h"
+namespace stella
+{
+namespace editor
+{
+  class Editor;
+}
+} // namespace stella
 #endif
 
 namespace stella
@@ -32,7 +43,7 @@ namespace core
     virtual void update (const double dt) = 0;
 
 #ifdef STELLA_BUILD_EDITOR
-    friend class editor::EditorGui;
+    friend class editor::Editor;
 #endif
   };
 

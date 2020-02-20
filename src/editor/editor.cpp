@@ -1,4 +1,4 @@
-#include "editor/editor_gui.h"
+#include "editor/editor.h"
 #include "imgui_internal.h"
 
 #include "../../nikte/game.h"
@@ -17,7 +17,7 @@ namespace stella
 {
 namespace editor
 {
-  EditorGui::EditorGui (nikte::Game& game) : m_game (game), m_registry (game.m_registry)
+  Editor::Editor (nikte::Game& game) : m_game (game), m_registry (game.m_registry)
   {
     // m_game.m_display.SetEditor (this);
     // m_debug_layer.Add(shape);
@@ -37,20 +37,22 @@ namespace editor
     this->init();
   }
 
-  EditorGui::~EditorGui()
+  Editor::~Editor()
   {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
   }
 
-  // void EditorGui::init (SDL_Window* window, SDL_GLContext gl_context, const char* glsl_version)
-  void EditorGui::init()
+  // void Editor::init (SDL_Window* window, SDL_GLContext gl_context, const char* glsl_version)
+  void Editor::init()
   {
     m_window = m_game.m_display.Window;
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
+    io.IniFilename = "config/imgui.ini";
+
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     ImFontConfig config;
     config.OversampleH         = 2;
@@ -75,7 +77,7 @@ namespace editor
     m_FBO = std::make_unique<graphics::Framebuffer> (m_game.m_display);
   }
 
-  void EditorGui::configure_input()
+  void Editor::configure_input()
   {
     ImGui_ImplSDL2_ProcessEvent (&m_game.m_display.m_event);
     const Uint8* state = SDL_GetKeyboardState (nullptr);
@@ -119,7 +121,7 @@ namespace editor
     }
   }
 
-  void EditorGui::run()
+  void Editor::run()
   {
     while (m_game.m_display.IsRunning())
     {
@@ -148,9 +150,9 @@ namespace editor
     }
   }
 
-  void EditorGui::update() { m_log_system.update (m_registry, 0.0); }
+  void Editor::update() { m_log_system.update (m_registry, 0.0); }
 
-  void EditorGui::render (const float window_width,
+  void Editor::render (const float window_width,
                           const float window_height,
                           const float game_width,
                           const float game_height)
@@ -170,7 +172,7 @@ namespace editor
     }
   }
 
-  void EditorGui::handle_state (ImGuiIO& io)
+  void Editor::handle_state (ImGuiIO& io)
   {
     switch (m_current_state)
     {
@@ -195,10 +197,10 @@ namespace editor
     }
   }
 
-  void EditorGui::handle_tile_pen (ImGuiIO& io)
+  void Editor::handle_tile_pen (ImGuiIO& io)
   {
     // If the mouse is within the game screen boundaries
-    if (io.MousePos.x > m_scene.get_x() && io.MousePos.x < m_scene.get_width() &&
+    if (m_scene.active() && io.MousePos.x > m_scene.get_x() && io.MousePos.x < m_scene.get_width() &&
         io.MousePos.y < m_scene.get_height() && io.MousePos.y > m_scene.get_y())
     {
       // Set dummy sprite position with grid snapping
@@ -230,10 +232,10 @@ namespace editor
     }
   }
 
-  void EditorGui::handle_inspector (ImGuiIO& io)
+  void Editor::handle_inspector (ImGuiIO& io)
   {
     // If the mouse is within the game screen boundaries
-    if (io.MousePos.x > m_scene.get_x() && io.MousePos.x < m_scene.get_width() &&
+    if (m_scene.active() && io.MousePos.x > m_scene.get_x() && io.MousePos.x < m_scene.get_width() &&
         io.MousePos.y < m_scene.get_height() && io.MousePos.y > m_scene.get_y())
     {
       if (io.MouseClicked[0])
@@ -247,6 +249,9 @@ namespace editor
         ImVec2 tile_pos = m_tileset_editor.pos2tile (io.MousePos.x * width_factor - width_padding + camera_pos[0],
                                                      io.MousePos.y * height_factor - height_padding + camera_pos[1]);
         auto tile = m_game.m_tile_map.layers[m_map_editor.get_selected_layer_id()]->get_value (tile_pos.x, tile_pos.y);
+        
+        if (m_game.m_registry.valid(tile.entity))
+        {
         m_inspector.set_selected_entity (tile.entity);
 
         const auto& updated_pos = m_game.m_registry.get<component::Position> (tile.entity);
@@ -257,11 +262,12 @@ namespace editor
 
         auto tile2 = m_game.m_tile_map.layers[m_map_editor.get_selected_layer_id()]->get_value (tile_pos.x, tile_pos.y);
         m_console.add_log ("%d\n", tile2.z);
+        }
       }
     }
   }
 
-  void EditorGui::init_style()
+  void Editor::init_style()
   {
     ImGuiStyle& style       = ImGui::GetStyle();
     style.WindowPadding     = ImVec2 (18.0f, 12.0f);
@@ -324,7 +330,7 @@ namespace editor
     style.Colors[ImGuiCol_TitleBgActive]      = tab_color;
   }
 
-  void EditorGui::draw_dock (const float window_width,
+  void Editor::draw_dock (const float window_width,
                              const float window_height,
                              const float game_width,
                              const float game_height)
@@ -337,15 +343,33 @@ namespace editor
     ImGuiIO& io = ImGui::GetIO();
     handle_state (io);
 
-    ImGui::SetNextWindowSize (ImVec2 (window_width, window_height), ImGuiCond_Always);
-    ImGui::SetNextWindowPos (ImVec2 (0, 0), ImGuiCond_Always);
+    float dock_width = window_width;
+    float dock_height = window_height;
+    float dock_offset = 0.f;
+    // Adjust dock size if toolbar is open
+    if (m_toolbar.is_open())
+    {
+      const ImVec2& toolbar_size = m_toolbar.size();
+      dock_height -= toolbar_size.y;
+      dock_offset = toolbar_size.y;
+    }
+
+    if (m_toolbar.is_open())
+    {
+      m_toolbar.render (m_current_state, m_current_tool, m_window_width, [this](){this->draw_menu_bar();});
+    }
+
+    
     ImGui::PushStyleVar (ImGuiStyleVar_WindowRounding, 0.0f);
     ImGui::PushStyleVar (ImGuiStyleVar_WindowBorderSize, 0.0f);
-    ImGui::SetNextWindowBgAlpha (0.0f);
     ImGui::PushStyleVar (ImGuiStyleVar_WindowPadding, ImVec2 (0.0f, 0.0f));
+
+    ImGui::SetNextWindowSize (ImVec2 (dock_width, dock_height), ImGuiCond_Always);
+    ImGui::SetNextWindowPos (ImVec2 (0, dock_offset), ImGuiCond_Always);
+    ImGui::SetNextWindowBgAlpha (0.0f);
     ImGui::Begin ("MainDS",
                   nullptr,
-                  ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse |
+                  ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse |
                       ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar |
                       ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus);
     ImGui::PopStyleVar();
@@ -376,15 +400,10 @@ namespace editor
     }
 
     ImGui::DockSpace (dockspace_id, ImVec2 (0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
-    this->draw_menu_bar();
     ImGui::End();
 
     m_scene.render ((void*) (intptr_t) m_FBO->GetTexture());
     
-    if (m_toolbar.is_open())
-    {
-      m_toolbar.render (m_current_state, m_current_tool);
-    }
     if (m_inspector.is_open())
     {
       m_inspector.render (m_game.m_registry);
@@ -412,7 +431,7 @@ namespace editor
     }
   }
 
-  void EditorGui::draw_info (const ImVec2& pos)
+  void Editor::draw_info (const ImVec2& pos)
   {
     ImGui::SetNextWindowBgAlpha (0.4);
     ImGui::SetNextWindowPos (pos, ImGuiCond_Always);
@@ -429,7 +448,7 @@ namespace editor
     ImGui::End();
   }
 
-  void EditorGui::draw_menu_bar()
+  void Editor::draw_menu_bar()
   {
     if (ImGui::BeginMenuBar())
     {
@@ -459,7 +478,7 @@ namespace editor
       }
       if (ImGui::BeginMenu ("View"))
       {
-        auto item_text = "View Physics debug layer";
+        auto item_text = "Physics debug layer";
         if (m_view_physics_debug_layer)
         {
           item_text = "Hide Physics debug layer";
@@ -468,76 +487,18 @@ namespace editor
         {
           m_view_physics_debug_layer = !m_view_physics_debug_layer;
         }
-
-        item_text = "View Inspector";
-        if (m_inspector.is_open())
-        {
-          item_text = "Hide Inspector";
-        }
-        if (ImGui::MenuItem (item_text))
-        {
-          m_inspector.toggle();
-        }
-
-        item_text = "View Map Editor";
-        if (m_map_editor.is_open())
-        {
-          item_text = "Hide Map Editor";
-        }
-        if (ImGui::MenuItem (item_text))
-        {
-          m_map_editor.toggle();
-        }
-
-        item_text = "View Tileset Editor";
-        if (m_tileset_editor.is_open())
-        {
-          item_text = "Hide Tileset Editor";
-        }
-        if (ImGui::MenuItem (item_text))
-        {
-          m_tileset_editor.toggle();
-        }
-
-        item_text = "View Toolbar";
-        if (m_toolbar.is_open())
-        {
-          item_text = "Hide Toolbar";
-        }
-        if (ImGui::MenuItem (item_text))
-        {
-          m_toolbar.toggle();
-        }
-
-        item_text = "View Chat";
-        if (m_chat.is_open())
-        {
-          item_text = "Hide Chat";
-        }
-        if (ImGui::MenuItem (item_text))
-        {
-          m_chat.toggle();
-        }
-
-        item_text = "View Console";
-        if (m_console.is_open())
-        {
-          item_text = "Hide Console";
-        }
-        if (ImGui::MenuItem (item_text))
-        {
-          m_console.toggle();
-        }
-
-        item_text = "Return to Editor";
-        if (m_show_editor)
-        {
-          item_text = "Play Game";
-        }
-        if (ImGui::MenuItem (item_text))
-        {
-          m_show_editor = !m_show_editor;
-        }
+        ImGui::Dummy(ImVec2{0.0f,1.5f});
+        ImGui::Separator();
+        ImGui::Dummy(ImVec2{0.0f,1.5f});
+        m_widget_build_option(m_inspector);
+        ImGui::Dummy(ImVec2{0.0f,3.0f});
+        m_widget_build_option(m_map_editor);
+        ImGui::Dummy(ImVec2{0.0f,3.0f});
+        m_widget_build_option(m_tileset_editor);
+        ImGui::Dummy(ImVec2{0.0f,3.0f});
+        m_widget_build_option(m_chat);
+        ImGui::Dummy(ImVec2{0.0f,3.0f});
+        m_widget_build_option(m_console);
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu ("Tools"))
@@ -548,6 +509,19 @@ namespace editor
         ImGui::EndMenu();
       }
       ImGui::EndMenuBar();
+    }
+  }
+
+  void Editor::m_widget_build_option (widget::Widget& widget)
+  {
+    auto item_text = widget.get_name();
+    if (widget.is_open())
+    {
+      item_text = "Hide " + widget.get_name();
+    }
+    if (ImGui::MenuItem (item_text.c_str()))
+    {
+      widget.toggle();
     }
   }
 } // namespace editor

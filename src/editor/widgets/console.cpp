@@ -1,12 +1,10 @@
-#pragma once
-
 #include "editor/widgets/console.h"
 
 namespace stella
 {
 namespace widget
 {
-    Console::Console (const ImGuiWindowFlags window_flags, ImFont*& mono_font) : WindowFlags (window_flags), MonoFont (mono_font)
+    Console::Console (const ImGuiWindowFlags window_flags, ImFont*& mono_font) : Widget("Console"), WindowFlags (window_flags), MonoFont (mono_font)
     {
       m_open = true;
       AutoScroll     = true;
@@ -37,7 +35,7 @@ namespace widget
 
     void Console::render ()
     {
-      if (!ImGui::Begin ("Console", &m_open, WindowFlags))
+      if (!ImGui::Begin (m_name.c_str(), &m_open, WindowFlags))
       {
         ImGui::End();
         return;

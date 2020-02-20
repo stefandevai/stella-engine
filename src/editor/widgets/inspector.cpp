@@ -5,11 +5,11 @@ namespace stella
 {
 namespace widget
 {
-  Inspector::Inspector() : Widget() { m_open = true; }
+  Inspector::Inspector() : Widget("Inspector") { m_open = true; }
 
   void Inspector::render (entt::registry& registry)
   {
-    if (ImGui::Begin ("Inspector", &m_open))
+    if (ImGui::Begin (m_name.c_str(), &m_open))
     {
       ImGui::Dummy (ImVec2 (0.f, 3.f));
       if (m_selected_entity != entt::null && registry.valid (m_selected_entity))

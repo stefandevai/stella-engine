@@ -6,12 +6,26 @@
 #include <stella/perlin.h>
 
 
-#ifdef STELLA_BUILD_EDITOR
-  #include <editor/editor_gui.h>
-  #include <editor/widgets/map_editor.h>
-#endif
+// #ifdef STELLA_BUILD_EDITOR
+//   #include <editor/editor.h>
+//   #include <editor/widgets/map_editor.h>
+// #endif
 
 #include "player.h"
+
+#ifdef STELLA_BUILD_EDITOR
+namespace stella
+{
+namespace editor
+{
+  class Editor;
+}
+namespace widget
+{
+  class MapEditor;  
+}
+} // namespace stella
+#endif
 
 namespace nikte
 {
@@ -20,14 +34,13 @@ class Game : public stella::core::Game
 private:
   Player m_player{m_registry, m_display};
   stella::core::TileMap m_tile_map{"scripts/demo/church_map.xml", m_registry};
-  // stella::core::TileMap m_tile_map{"scripts/demo/map.lua", m_registry};
   stella::PerlinNoise m_perlin_generator{47};
   std::default_random_engine m_generator;
   std::uniform_real_distribution<double> m_perlin_distribution{0.0,1.0};
   std::uniform_int_distribution<int> m_flower_frame_distribution{0,3};
 
 #ifdef STELLA_BUILD_EDITOR
-  friend class stella::editor::EditorGui;
+  friend class stella::editor::Editor;
   friend class stella::widget::MapEditor;
 #endif
 

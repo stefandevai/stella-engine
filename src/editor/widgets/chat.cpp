@@ -12,7 +12,7 @@ namespace stella
 {
 namespace widget
 {
-    Chat::Chat (const ImGuiWindowFlags window_flags, ImFont*& mono_font) : WindowFlags (window_flags), MonoFont (mono_font)
+    Chat::Chat (const ImGuiWindowFlags window_flags, ImFont*& mono_font) : Widget("Chat"), WindowFlags (window_flags), MonoFont (mono_font)
     {
       m_open = true;
       strcpy (editable_buffer, "");
@@ -42,7 +42,7 @@ namespace widget
 
     void Chat::render (entt::registry& registry)
     {
-      if (!ImGui::Begin ("Chat", &m_open, ImGuiWindowFlags_None))
+      if (!ImGui::Begin (m_name.c_str(), &m_open, ImGuiWindowFlags_None))
       {
         ImGui::End();
         return;

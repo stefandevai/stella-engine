@@ -12,6 +12,8 @@ namespace widget
   private:
     int m_widget_width = 0, m_widget_height = 0, m_widget_x = 0, m_widget_y = 0, m_game_screen_width = 0,
         m_game_screen_height = 0, m_game_screen_x_spacing = 0, m_game_screen_y_spacing = 0;
+    // Wether or not the scene window is hovered and focused
+    bool m_active = false;
 
   public:
     Scene();
@@ -24,6 +26,7 @@ namespace widget
     inline int get_game_screen_height() const { return m_game_screen_height; }
     inline int get_game_screen_x_spacing() const { return m_game_screen_x_spacing; }
     inline int get_game_screen_y_spacing() const { return m_game_screen_y_spacing; }
+    inline const bool active() const { return m_active; }
   };
 } // namespace widget
 } // namespace stella

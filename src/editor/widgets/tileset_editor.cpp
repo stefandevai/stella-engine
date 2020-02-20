@@ -8,7 +8,7 @@ namespace stella
 {
 namespace widget
 {
-  TilesetEditor::TilesetEditor (const std::string& path) : m_path (path), texture (path)
+  TilesetEditor::TilesetEditor (const std::string& path) : Widget("Tileset Editor"), m_path (path), texture (path)
   {
     m_texture_w = this->texture.GetWidth();
     m_texture_h = this->texture.GetHeight();
@@ -19,7 +19,7 @@ namespace widget
 
   void TilesetEditor::render()
   {
-    if (ImGui::Begin ("TilesetEditor", &m_open))
+    if (ImGui::Begin (m_name.c_str(), &m_open))
     {
       int w_in_tiles = m_texture_w / m_tile_dimensions[0];
       int h_in_tiles = m_texture_h / m_tile_dimensions[1];

@@ -5,16 +5,14 @@ namespace stella
 {
 namespace widget
 {
-  MapEditor::MapEditor (nikte::Game& game) : Widget(), m_game (game), m_tile_map (game.m_tile_map)
+  MapEditor::MapEditor (nikte::Game& game) : Widget("Map Editor"), m_game (game), m_tile_map (game.m_tile_map)
   {
     this->reset_map_settings();
   }
 
-  MapEditor::~MapEditor() {}
-
   void MapEditor::render()
   {
-    if (ImGui::Begin ("MapEditor", &m_open))
+    if (ImGui::Begin (m_name.c_str(), &m_open))
     {
       const float item_width = ImGui::CalcItemWidth();
 

@@ -6,15 +6,16 @@ namespace stella
 {
 namespace widget
 {
-  Scene::Scene() : Widget() { m_open = true; }
+  Scene::Scene() : Widget("Scene") { m_open = true; }
 
   void Scene::render (const ImTextureID texture_id)
   {
     ImGui::PushStyleVar (ImGuiStyleVar_WindowPadding, ImVec2 (0, 0));
     ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (2.0f, 0.0f));
     ImGui::SetNextWindowSizeConstraints (ImVec2 (896, 504), ImVec2 (897, 505));
-    if (ImGui::Begin ("Scene", &m_open))
+    if (ImGui::Begin (m_name.c_str(), &m_open))
     {
+      m_active = ImGui::IsWindowFocused() && ImGui::IsWindowHovered();
     const auto window_pos    = ImGui::GetWindowPos();
     const auto window_size   = ImGui::GetWindowSize();
     const float frame_height = ImGui::GetFrameHeight();
