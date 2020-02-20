@@ -101,13 +101,11 @@ namespace editor
     // Run game without the editor
     if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_R])
     {
-      //m_show_editor = true;
       m_current_state = EDIT;
       glViewport (0, 0, m_game_width, m_game_height);
     }
     else if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_R])
     {
-      //m_show_editor = false;
       m_current_state = PLAY;
       glViewport (0, m_toolbar.size().y, m_game.m_display.GetWindowWidth(), m_game.m_display.GetWindowHeight() - m_toolbar.size().y);
       m_game.m_display.m_check_viewport_proportions();
@@ -192,7 +190,6 @@ namespace editor
         }
         break;
       case PLAY:
-        //m_show_editor = !m_show_editor;
         break;
       default:
         break;
@@ -203,20 +200,22 @@ namespace editor
   {
     // If the mouse is within the game screen boundaries
     if (m_scene.active() && io.MousePos.x > m_scene.get_x() && io.MousePos.x < m_scene.get_width() &&
-        io.MousePos.y < m_scene.get_height() && io.MousePos.y > m_scene.get_y())
+        io.MousePos.y <= m_scene.get_game_screen_height() + m_scene.get_game_screen_y_spacing() && io.MousePos.y > m_scene.get_game_screen_y_spacing())
     {
       // Set dummy sprite position with grid snapping
       const auto& camera_pos    = m_game.get_camera_pos();
-      float width_padding       = m_scene.get_x() + m_scene.get_game_screen_x_spacing();
-      float height_padding      = m_scene.get_y() * 2 + m_scene.get_game_screen_y_spacing();
-      const float width_factor  = 896 / static_cast<float> (m_scene.get_game_screen_width());
-      const float height_factor = 504 / static_cast<float> (m_scene.get_game_screen_height());
+      float width_padding       = m_scene.get_game_screen_x_spacing();
+      float height_padding      = m_scene.get_game_screen_y_spacing();
+      const float width_factor  = m_game_width / static_cast<float> (m_scene.get_game_screen_width());
+      const float height_factor = m_game_height / static_cast<float> (m_scene.get_game_screen_height());
 
       auto& sprite_pos = m_registry.get<component::Position> (m_editor_sprite);
       auto& sprite_spr = m_registry.get<component::Sprite> (m_editor_sprite);
 
-      ImVec2 tile_pos    = m_tileset_editor.pos2tile (io.MousePos.x * width_factor - width_padding + camera_pos[0],
-                                                   io.MousePos.y * height_factor - height_padding + camera_pos[1]);
+      const auto map_pos_x = (io.MousePos.x - width_padding) * width_factor + camera_pos[0] - 1.0f;
+      const auto map_pos_y = (io.MousePos.y - height_padding) * height_factor + camera_pos[1] - 3.0f;
+
+      ImVec2 tile_pos    = m_tileset_editor.pos2tile (map_pos_x, map_pos_y);
       int new_tile_value = m_tileset_editor.get_selected_tile_id();
 
       sprite_pos.x = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
@@ -409,10 +408,10 @@ namespace editor
       m_inspector.render (m_game.m_registry);
     }
     m_map_editor.render();
-    if (m_tileset_editor.is_open())
-    {
+    //if (m_tileset_editor.is_open())
+    //{
       m_tileset_editor.render();
-    }
+    //}
     if (m_chat.is_open())
     {
       m_chat.render (m_registry);

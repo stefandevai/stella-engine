@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <cmath>
 
 #include "editor/widgets/tileset_editor.h"
 
@@ -117,9 +118,9 @@ namespace widget
     ImGui::End();
   }
 
-  ImVec2 TilesetEditor::pos2tile (const int x, const int y)
+  ImVec2 TilesetEditor::pos2tile (const double x, const double y)
   {
-    return ImVec2 (x / m_tile_dimensions[0], y / m_tile_dimensions[1]);
+    return ImVec2 (std::floor(x / static_cast<double>(m_tile_dimensions[0])), std::floor(y / static_cast<double>(m_tile_dimensions[1])));
   }
 
   void TilesetEditor::render_tile_sprite (const ImVec2& pos, const float alpha)

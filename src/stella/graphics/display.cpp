@@ -34,10 +34,11 @@ namespace graphics
         (SDL_WindowFlags) (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
 #else
     const SDL_WindowFlags window_flags = (SDL_WindowFlags) (SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+    SDL_ShowCursor (SDL_DISABLE);
 #endif
     this->Window = SDL_CreateWindow (
         this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, window_flags);
-    SDL_ShowCursor (SDL_DISABLE);
+    
 
 #if __APPLE__
     SDL_GL_SetAttribute (SDL_GL_CONTEXT_FLAGS,

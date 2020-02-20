@@ -33,7 +33,7 @@ namespace widget
     TilesetEditor (const std::string& path);
     ~TilesetEditor();
     void render();
-    ImVec2 pos2tile (const int x, const int y);
+    ImVec2 pos2tile (const double x, const double y);
     void render_tile_sprite (const ImVec2& pos, const float alpha = 1.f);
 
     inline const ImVec2 get_tile_dimensions() const { return ImVec2 (m_tile_dimensions[0], m_tile_dimensions[1]); }
