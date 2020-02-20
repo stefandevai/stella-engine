@@ -83,40 +83,33 @@ namespace editor
     const Uint8* state = SDL_GetKeyboardState (nullptr);
 
     // Save map
-    if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_S])
+    if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_S])
     {
-      m_console.add_log ("Saving map...\n");
-      m_map_editor.update_map_settings();
-      m_game.m_tile_map.save (m_map_editor.get_map_path());
-      m_console.add_log ("Saved map...\n");
+      m_map_editor.save_as();
+    }
+    else if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_S])
+    {
+      m_map_editor.save();
     }
 
     // Load map
     if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_O])
     {
-      m_console.add_log ("Loading map...\n");
-      m_game.m_tile_map.load (m_map_editor.get_map_path());
-      m_map_editor.reset_map_settings();
-      m_console.add_log ("Loaded map...\n");
-    }
-
-    // Quit editor
-    if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_W])
-    {
-      m_game.m_display.Running = false;
+      m_map_editor.load();
     }
 
     // Run game without the editor
     if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_R])
     {
-      m_show_editor = true;
+      //m_show_editor = true;
+      m_current_state = EDIT;
       glViewport (0, 0, m_game_width, m_game_height);
-      
     }
     else if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_R])
     {
-      m_show_editor = false;
-      glViewport (0, 0, m_game.m_display.GetWindowWidth(), m_game.m_display.GetWindowHeight());
+      //m_show_editor = false;
+      m_current_state = PLAY;
+      glViewport (0, m_toolbar.size().y, m_game.m_display.GetWindowWidth(), m_game.m_display.GetWindowHeight() - m_toolbar.size().y);
       m_game.m_display.m_check_viewport_proportions();
     }
   }
@@ -125,7 +118,7 @@ namespace editor
   {
     while (m_game.m_display.IsRunning())
     {
-      if (m_show_editor)
+      if (m_current_state == EDIT)
       {
         m_FBO->Bind();
         m_game.m_display.Clear();
@@ -140,10 +133,14 @@ namespace editor
         m_game.m_display.Update();
         this->configure_input();
       }
-      else
+      else if (m_current_state == PLAY)
       {
         m_game.m_display.Clear();
         m_game.update (m_game.m_display.GetDT());
+        this->render (m_game.m_display.GetWindowWidth(),
+                    m_game.m_display.GetWindowHeight(),
+                    m_game.m_display.Width,
+                    m_game.m_display.Height);
         m_game.m_display.Update();
         this->configure_input();
       }
@@ -164,7 +161,12 @@ namespace editor
       ImGui::NewFrame();
       ImGui::PushFont (m_font_sans_regular);
 
-      this->draw_dock (window_width, window_height, game_width, game_height);
+      if (m_current_state == EDIT)
+      {
+        this->draw_dock (window_width, window_height, game_width, game_height);
+      }
+      m_toolbar.render (m_current_state, m_current_tool, m_window_width, [this](){this->draw_menu_bar();});
+
 
       ImGui::PopFont();
       ImGui::Render();
@@ -190,7 +192,7 @@ namespace editor
         }
         break;
       case PLAY:
-        m_show_editor = !m_show_editor;
+        //m_show_editor = !m_show_editor;
         break;
       default:
         break;
@@ -353,11 +355,7 @@ namespace editor
       dock_height -= toolbar_size.y;
       dock_offset = toolbar_size.y;
     }
-
-    if (m_toolbar.is_open())
-    {
-      m_toolbar.render (m_current_state, m_current_tool, m_window_width, [this](){this->draw_menu_bar();});
-    }
+    
 
     
     ImGui::PushStyleVar (ImGuiStyleVar_WindowRounding, 0.0f);
@@ -404,14 +402,13 @@ namespace editor
 
     m_scene.render ((void*) (intptr_t) m_FBO->GetTexture());
     
+    m_map_editor.render_file_dialog();
+
     if (m_inspector.is_open())
     {
       m_inspector.render (m_game.m_registry);
     }
-    if (m_map_editor.is_open())
-    {
-      m_map_editor.render();
-    }
+    m_map_editor.render();
     if (m_tileset_editor.is_open())
     {
       m_tileset_editor.render();
@@ -461,7 +458,7 @@ namespace editor
         if (ImGui::MenuItem ("Save", "CTRL+S")) {}
         if (ImGui::MenuItem ("Save as...", "CTRL+SHIFT+S")) {}
         ImGui::Separator();
-        if (ImGui::MenuItem ("Quit", "CTRL+W"))
+        if (ImGui::MenuItem ("Quit", "CTRL+Q"))
         {
           m_game.m_display.Running = false;
         }

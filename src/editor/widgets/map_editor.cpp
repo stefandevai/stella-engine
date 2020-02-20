@@ -1,10 +1,14 @@
 #include "editor/widgets/map_editor.h"
+#include "editor/widgets/file_dialog.h"
 #include "../../nikte/game.h"
 
 namespace stella
 {
 namespace widget
 {
+  const std::string MapEditor::SAVE_DIALOG_ID = "SaveMapDgl";
+  const std::string MapEditor::LOAD_DIALOG_ID = "LoadMapDgl";
+
   MapEditor::MapEditor (nikte::Game& game) : Widget("Map Editor"), m_game (game), m_tile_map (game.m_tile_map)
   {
     this->reset_map_settings();
@@ -12,6 +16,8 @@ namespace widget
 
   void MapEditor::render()
   {
+    if (m_open)
+    {
     if (ImGui::Begin (m_name.c_str(), &m_open))
     {
       const float item_width = ImGui::CalcItemWidth();
@@ -32,7 +38,10 @@ namespace widget
       ImGui::PopID();
       ImGui::PopItemWidth();
       ImGui::SameLine (0.f, 4.f);
-      ImGui::Button ("...", ImVec2 (60.f, 0));
+      if (ImGui::Button ("...", ImVec2 (60.f, 0)))
+      {
+        load();
+      }
       ImGui::Dummy (ImVec2 (0.f, 3.f));
       ImGui::Separator();
 
@@ -98,6 +107,7 @@ namespace widget
       ImGui::Dummy (ImVec2 (0.0f, 12.0f));
     }
     ImGui::End();
+    }
   }
 
   void MapEditor::reset_map_settings()
@@ -107,10 +117,56 @@ namespace widget
     m_map_name[length] = '\0';
     length             = m_tile_map.get_path().copy (m_path, 128);
     m_path[length]     = '\0';
-    m_map_width        = (int) m_tile_map.width();
-    m_map_height       = (int) m_tile_map.height();
+    m_map_width        = static_cast<int> (m_tile_map.width());
+    m_map_height       = static_cast<int> (m_tile_map.height());
   }
 
   void MapEditor::update_map_settings() { m_tile_map.set_name (m_map_name); }
+
+  void MapEditor::load()
+  {
+    ImGuiFileDialog::Instance()->OpenDialog(LOAD_DIALOG_ID, "Choose File", ".xml\0.lua\0\0", ".");
+  }
+
+  void MapEditor::save()
+  {
+    update_map_settings();
+    m_tile_map.save (m_map_name);
+  }
+
+  void MapEditor::save_as()
+  {
+    ImGuiFileDialog::Instance()->OpenDialog(SAVE_DIALOG_ID, "Save As...", ".xml\0\0", ".");
+  }
+
+  void MapEditor::render_file_dialog()
+  {
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0);
+    if (ImGuiFileDialog::Instance()->FileDialog(LOAD_DIALOG_ID, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking)) 
+    {
+      ImGui::SetWindowFocus(); 
+      if (ImGuiFileDialog::Instance()->IsOk == true)
+      {
+        std::string file_path_name = ImGuiFileDialog::Instance()->GetFilepathName();
+        m_tile_map.load (file_path_name);
+        reset_map_settings();
+      }
+      ImGuiFileDialog::Instance()->CloseDialog(LOAD_DIALOG_ID);
+    }
+
+    if (ImGuiFileDialog::Instance()->FileDialog(SAVE_DIALOG_ID, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking)) 
+    {
+      ImGui::SetWindowFocus(); 
+      if (ImGuiFileDialog::Instance()->IsOk == true)
+      {
+        std::string file_path_name = ImGuiFileDialog::Instance()->GetFilepathName();
+        m_tile_map.save (file_path_name);
+        m_tile_map.load (file_path_name);
+        reset_map_settings();
+      }
+      ImGuiFileDialog::Instance()->CloseDialog(SAVE_DIALOG_ID);
+    }
+    ImGui::PopStyleVar();
+  }
 } // namespace widget
 } // namespace stella

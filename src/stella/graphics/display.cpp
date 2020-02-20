@@ -179,15 +179,14 @@ namespace graphics
           this->Running = false;
           break;
         case SDL_KEYDOWN:
-          switch (event.key.keysym.sym)
           {
-            case SDLK_ESCAPE:
-              this->Running = false;
-              break;
-            default:
-              break;
+          const Uint8* state = SDL_GetKeyboardState (nullptr);
+          if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_Q])
+          {
+            this->Running = false;
           }
           break;
+          }
         case SDL_WINDOWEVENT:
           switch (event.window.event)
           {

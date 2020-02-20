@@ -28,9 +28,16 @@ namespace widget
     static const int MIN_MAP_SIZE = -300;
     static const int MAX_MAP_SIZE = 300;
 
+    static const std::string SAVE_DIALOG_ID;
+    static const std::string LOAD_DIALOG_ID;
+
   public:
     MapEditor (nikte::Game& game);
     void render();
+    void render_file_dialog();
+    void load();
+    void save();
+    void save_as();
     void reset_map_settings();
     void update_map_settings();
     inline int get_selected_layer_id() const
