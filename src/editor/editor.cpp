@@ -103,7 +103,7 @@ namespace editor
         }
 
         // Run game without the editor
-        if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_R])
+        if (!state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_R])
         {
           m_play_mode();
         }
