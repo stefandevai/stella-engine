@@ -82,33 +82,52 @@ namespace editor
     ImGui_ImplSDL2_ProcessEvent (&m_game.m_display.m_event);
     const Uint8* state = SDL_GetKeyboardState (nullptr);
 
-    // Save map
-    if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_S])
+    switch (m_current_state)
     {
-      m_map_editor.save_as();
-    }
-    else if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_S])
-    {
-      m_map_editor.save();
-    }
+    case EDIT:
+      {
+        // Save map
+        if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_S])
+        {
+          m_map_editor.save_as();
+        }
+        else if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_S])
+        {
+          m_map_editor.save();
+        }
 
-    // Load map
-    if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_O])
-    {
-      m_map_editor.load();
-    }
+        // Load map
+        if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_O])
+        {
+          m_map_editor.load();
+        }
 
-    // Run game without the editor
-    if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_R])
-    {
-      m_current_state = EDIT;
-      glViewport (0, 0, m_game_width, m_game_height);
-    }
-    else if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_R])
-    {
-      m_current_state = PLAY;
-      glViewport (0, m_toolbar.size().y, m_game.m_display.GetWindowWidth(), m_game.m_display.GetWindowHeight() - m_toolbar.size().y);
-      m_game.m_display.m_check_viewport_proportions();
+        // Run game without the editor
+        if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_R])
+        {
+          m_play_mode();
+        }
+
+        // Pan tool
+        if (state[SDL_SCANCODE_SPACE] && ImGui::IsMouseDragging(0))
+        {
+          ImGuiIO& io = ImGui::GetIO();
+          m_handle_pan_tool(io);
+        }
+      }
+      break;
+
+    case PLAY:
+      {
+        // Get back to edit mode
+        if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_R])
+        {
+          m_edit_mode();
+        }
+      }
+      break;
+    default:
+      break;
     }
   }
 
@@ -165,14 +184,13 @@ namespace editor
       }
       m_toolbar.render (m_current_state, m_current_tool, m_window_width, [this](){this->draw_menu_bar();});
 
-
       ImGui::PopFont();
       ImGui::Render();
       ImGui_ImplOpenGL3_RenderDrawData (ImGui::GetDrawData());
     }
   }
 
-  void Editor::handle_state (ImGuiIO& io)
+  void Editor::m_handle_state (ImGuiIO& io)
   {
     switch (m_current_state)
     {
@@ -180,10 +198,13 @@ namespace editor
         switch (m_current_tool)
         {
           case TILE_PEN:
-            this->handle_tile_pen (io);
+            this->m_handle_tile_pen (io);
             break;
           case INSPECTOR:
-            this->handle_inspector (io);
+            this->m_handle_inspector (io);
+            break;
+          case PAN:
+            this->m_handle_pan_tool (io);
             break;
           default:
             break;
@@ -211,17 +232,17 @@ namespace editor
       const auto map_pos_x = (io.MousePos.x - width_padding) * width_factor + camera_pos[0] - 1.0f;
       const auto map_pos_y = (io.MousePos.y - height_padding) * height_factor + camera_pos[1] - 3.0f;
 
-      position_action (m_tileset_editor.pos2tile (map_pos_x, map_pos_y));
+      position_action (ImVec2(map_pos_x, map_pos_y));
     }
   }
 
-  void Editor::handle_tile_pen (const ImGuiIO& io)
+  void Editor::m_handle_tile_pen (const ImGuiIO& io)
   {
-    m_map_tile_pos(io, [this](const ImVec2& tile_pos)
+    m_map_tile_pos(io, [this](const ImVec2& map_pos)
     {
       // Set dummy sprite position with grid snapping
       int new_tile_value = m_tileset_editor.get_selected_tile_id();
-      
+      const auto tile_pos = m_tileset_editor.pos2tile (map_pos.x, map_pos.y);
       auto& sprite_pos = m_registry.get<component::Position> (m_editor_sprite);
       auto& sprite_spr = m_registry.get<component::Sprite> (m_editor_sprite);
       sprite_pos.x = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
@@ -238,24 +259,64 @@ namespace editor
     });
   }
 
-  void Editor::handle_inspector (const ImGuiIO& io)
+  void Editor::m_handle_pan_tool (const ImGuiIO& io)
   {
-    m_map_tile_pos(io, [this](const ImVec2& tile_pos)
+    m_map_tile_pos(io, [this](const ImVec2& map_pos)
+    {
+      auto& pos = m_registry.get<stella::component::Position> (m_game.m_camera);
+      if (!is_panning)
+      {
+        camera_pos_without_pan = ImVec2{pos.x, pos.y};
+        is_panning = true;
+      }
+      ImVec2 drag = ImGui::GetMouseDragDelta();
+      pos.x = camera_pos_without_pan.x - drag.x;
+      pos.y = camera_pos_without_pan.y - drag.y;
+    });
+  }
+
+  void Editor::m_handle_inspector (const ImGuiIO& io)
+  {
+    m_map_tile_pos(io, [this](const ImVec2& map_pos)
     {
       if (ImGui::IsMouseClicked(0))
       {
-        auto tile = m_game.m_tile_map.layers[m_map_editor.get_selected_layer_id()]->get_value (tile_pos.x, tile_pos.y);
-        if (m_game.m_registry.valid(tile.entity))
+        // Sort by z value before getting the right entity
+        m_game.m_registry.sort<component::Position>([](const auto& lhs, const auto& rhs)
         {
-          m_inspector.set_selected_entity (tile.entity);
-          const auto& updated_pos = m_game.m_registry.get<component::Position> (tile.entity);
-          tile.x                  = updated_pos.x;
-          tile.y                  = updated_pos.y;
-          tile.z                  = updated_pos.z;
-          m_game.m_tile_map.layers[m_map_editor.get_selected_layer_id()]->set_value (tile_pos.x, tile_pos.y, tile);
+            return lhs.z < rhs.z;
+        });
+        // TODO: Find a better way to select entity based on position
+        auto view = m_game.m_registry.view<component::Position, component::Dimension, component::Sprite>();
+        for (auto entity : view)
+        {
+            const auto& pos = m_game.m_registry.get<component::Position>(entity);
+            const auto& dim = m_game.m_registry.get<component::Dimension>(entity);
+            
+            if (m_game.m_registry.valid(entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w && map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
+            {
+              // std::cout << map_pos.x << ' ' << map_pos.y << '\n';
+              // std::cout << pos.x << ' ' << pos.y << '\n';
+              // std::cout << '\n';
+              m_inspector.set_selected_entity(entity);
+              break;
+            }
         }
       }
     });
+  }
+
+  void Editor::m_play_mode()
+  {
+    m_current_state = PLAY;
+    glViewport (0, m_toolbar.size().y, m_game.m_display.GetWindowWidth(), m_game.m_display.GetWindowHeight() - m_toolbar.size().y);
+    m_game.m_display.m_check_viewport_proportions();
+  }
+
+  void Editor::m_edit_mode()
+  {
+    m_current_state = EDIT;
+    glViewport (0, 0, m_game_width, m_game_height);
   }
 
   void Editor::init_style()
@@ -332,7 +393,7 @@ namespace editor
     m_game_height   = game_height;
 
     ImGuiIO& io = ImGui::GetIO();
-    handle_state (io);
+    m_handle_state (io);
 
     float dock_width = window_width;
     float dock_height = window_height;

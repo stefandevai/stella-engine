@@ -20,6 +20,8 @@ namespace widget
     const ImVec4 m_button_color{0.4f, 0.4f, 0.4f, 1.0f};
     const ImVec4 m_button_hover_color{0.1f, 0.1f, 0.1f, 1.0f};
     const ImVec4 m_button_selected_color{1.0f, 1.0f, 1.0f, 1.0f};
+    
+    // If the player clicked on a tool or just used a shortcut
 
   public:
     Toolbar();

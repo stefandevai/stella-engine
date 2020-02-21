@@ -72,6 +72,10 @@ namespace editor
     std::unique_ptr<graphics::Framebuffer> m_FBO;
     widget::Scene m_scene;
 
+    ImVec2 camera_pos_without_pan = ImVec2();
+    bool is_panning = false;
+    
+
   public:
     // Editor(entt::registry& registry);
     Editor (nikte::Game& game);
@@ -90,9 +94,12 @@ namespace editor
     void draw_editor();
     void draw_info (const ImVec2& pos);
     void draw_menu_bar();
-    void handle_state (ImGuiIO& io);
-    void handle_tile_pen (const ImGuiIO& io);
-    void handle_inspector (const ImGuiIO& io);
+    void m_play_mode();
+    void m_edit_mode();
+    void m_handle_state (ImGuiIO& io);
+    void m_handle_tile_pen (const ImGuiIO& io);
+    void m_handle_pan_tool(const ImGuiIO& io);
+    void m_handle_inspector (const ImGuiIO& io);
     void m_widget_build_option (widget::Widget& widget);
     void m_map_tile_pos(const ImGuiIO& io, std::function<void(const ImVec2&)> position_action);
   };

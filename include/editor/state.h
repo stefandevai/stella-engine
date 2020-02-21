@@ -12,7 +12,8 @@ namespace editor
   enum Tool
   {
     TILE_PEN,
-    INSPECTOR
+    INSPECTOR,
+    PAN,
   };
 } // namespace editor
 } // namespace stella
