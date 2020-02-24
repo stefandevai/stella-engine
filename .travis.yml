@@ -4,7 +4,7 @@ notifications:
   email: false
 
 os: linux
-dist: xenial
+dist: bionic
 
 # cache:
 #   directories:
@@ -37,7 +37,6 @@ matrix:
             - g++-7
             - libgl1-mesa-dev
             - pkg-config
-            - libsdl2-2.0-0
             - libsdl2-dev
             - libopenal-dev
             - libalut-dev
