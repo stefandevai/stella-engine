@@ -13,15 +13,15 @@
 #include "meta/config.h"
 
 #if META_HAS_EXPERIMENTAL_OPTIONAL
-#include <experimental/optional>
+#include <optional>
 namespace meta
 {
 namespace util
 {
 template <class T>
-using optional = std::experimental::optional<T>;
+using optional = std::optional<T>;
 
-using std::experimental::nullopt;
+using std::nullopt;
 }
 }
 #else
