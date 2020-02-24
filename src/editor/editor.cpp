@@ -139,8 +139,8 @@ namespace editor
       {
         m_FBO->Bind();
         m_game.m_display.Clear();
-        m_game.m_systems.front()->update(m_game.m_registry, m_game.m_display.GetDT());
-        //m_game.update (m_game.m_display.GetDT());
+        //m_game.m_systems.front()->update(m_game.m_registry, m_game.m_display.GetDT());
+        m_game.update (m_game.m_display.GetDT());
         m_FBO->Unbind();
         this->render (m_game.m_display.GetWindowWidth(),
                     m_game.m_display.GetWindowHeight(),
@@ -459,10 +459,10 @@ namespace editor
       m_inspector.render (m_game.m_registry);
     }
     m_map_editor.render();
-    //if (m_tileset_editor.is_open())
-    //{
+    if (m_tileset_editor.is_open())
+    {
       m_tileset_editor.render();
-    //}
+    }
     if (m_chat.is_open())
     {
       m_chat.render (m_registry);

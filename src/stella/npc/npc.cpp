@@ -46,7 +46,7 @@ namespace npc
     if (std::find (Speech::GREETINGS.begin(), Speech::GREETINGS.end(), req) != Speech::GREETINGS.end())
     {
       m_state_stack.push (npc::State::GREETED);
-      response = L"Hi, Nikte... :'(";
+      response = L"Hi, Nikte...";
     }
     else if (m_engaging_try_index < m_engaging_tries.size())
     {

@@ -16,12 +16,18 @@ database = {
                 ADJ = {'sad'},
                 VERB = {'cry'}
             }
-        }
+        },
+
+        ELZ6 = {
+            keywords = {"same", "sprite", "clothes"},
+            responses = {'Haha, don\'t worry, that\'s just a prototype!'},
+            next_speech = 'NON_ATTACHED'
+        },
     },
 
     ELZ2 = {{
         keywords = {'encomienda'},
-        responses = {'I\'m tired of paying this useless tribute to the encomendero!'},
+        responses = {'It\'s their excuse to steal us. We have to pay a tribute to be "protected". Aha!'},
         next_speech = 'ELZ3',
         pos_keywords = {
             NOUN = {'encomienda'}
@@ -30,7 +36,7 @@ database = {
 
     ELZ3 = {{
         keywords = {'tribute', 'pay'},
-        responses = {'Yeah, we pay it because they said we would be better off than in'},
+        responses = {'Yeah, we pay double for all this suffering...'},
         next_speech = 'NON_ATTACHED',
         pos_keywords = {
             NOUN = {'tribute'},
@@ -39,8 +45,8 @@ database = {
     }},
 
     ELZ5 = {{
-        keywords = {'island', 'isla'},
-        responses = {'Everything changed when they arrived... now they say it\'s their encomienda'},
+        keywords = {'island', 'isla', 'happen'},
+        responses = {'Not so long ago, but before you were born, there was no encomienda!'},
         next_speech = 'ELZ2',
         pos_keywords = {
             NOUN = {'island'},

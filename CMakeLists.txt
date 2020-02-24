@@ -63,8 +63,8 @@ find_package(OpenGL REQUIRED)
 
 # SDL2 - Windowing and input library for OpenGL.
 if (USE_SYSTEM_SDL2 AND NOT WIN32)
-    #find_package(PkgConfig REQUIRED)
-    #pkg_search_module(SDL2 REQUIRED sdl2)
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(SDL2 REQUIRED sdl2)
     find_package(SDL2 REQUIRED)
 elseif(WIN32)
     if (MSVC)

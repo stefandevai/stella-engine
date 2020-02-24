@@ -105,7 +105,7 @@ local function load()
 
   -- load_assets()
   load_player(480, 512)
-  --load_npc(512, 512)
+  load_npc(512, 512)
   flowers.load()
 
   -- local test_spr = Entity:create_entity()
