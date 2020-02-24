@@ -59,6 +59,7 @@ set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(SYSTEM)
 
+
 find_package(OpenGL REQUIRED)
 
 # SDL2 - Windowing and input library for OpenGL.
