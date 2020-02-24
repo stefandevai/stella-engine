@@ -19,9 +19,9 @@ namespace meta
 namespace util
 {
 template <class T>
-using optional = std::experimental::optional<T>;
+using optional = std::optional<T>;
 
-using std::experimental::nullopt;
+using std::nullopt;
 }
 }
 #else
