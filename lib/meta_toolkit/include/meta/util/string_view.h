@@ -20,7 +20,7 @@ namespace meta
 namespace util
 {
 template <class Char, class Traits = std::char_traits<Char>>
-using basic_string_view = std::experimental::basic_string_view<Char, Traits>;
+using basic_string_view = std::basic_string_view<Char, Traits>;
 
 using string_view = basic_string_view<char>;
 using u16string_view = basic_string_view<char16_t>;
