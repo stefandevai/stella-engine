@@ -198,7 +198,8 @@ if (LINUX)
                        ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-utf.so
                        -pthread
                        -lz
-                       -lstdc++fs)
+					   -lstdc++fs
+					   -lm)
 # else()
 endif()
 set(META_TOOLKIT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/include)
