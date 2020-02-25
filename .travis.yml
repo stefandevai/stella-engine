@@ -15,17 +15,17 @@ matrix:
     - env:
         - COMPILER=clang++
         - CXXFLAGS="-std=c++1z"
-      os: osx
-      osx_image: xcode11.3
-      addons:
-        homebrew:
-          packages:
-            - sdl2
-            - libvorbis
-            - lua
-            - freealut
-            - freetype
-          update: true
+      # os: osx
+      # osx_image: xcode11.3
+      # addons:
+      #   homebrew:
+      #     packages:
+      #       - sdl2
+      #       - libvorbis
+      #       - lua
+      #       - freealut
+      #       - freetype
+      #     update: true
 
     - os: linux
       addons:
@@ -42,6 +42,7 @@ matrix:
             - libalut-dev
             - libvorbis-dev
             - liblua5.3-dev
+            - libjemalloc-dev
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 

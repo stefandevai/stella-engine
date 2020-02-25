@@ -199,10 +199,12 @@ if (LINUX)
                        -pthread
                        -lz
                        -lstdc++fs)
+# else()
 endif()
-
 set(META_TOOLKIT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/include)
 include_directories(${META_TOOLKIT_INCLUDE_DIR})
+
+#add_subdirectory(${DEPENDENCIES_DIR}/meta_toolkit/meta)
 
 # Platform specific libraries
 set(PLATFORM_LIBRARIES)
