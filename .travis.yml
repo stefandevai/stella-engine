@@ -42,7 +42,7 @@ matrix:
             - libalut-dev
             - libvorbis-dev
             - liblua5.3-dev
-            - libjemalloc-dev
+            #- libjemalloc-dev
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 

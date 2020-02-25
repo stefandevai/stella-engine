@@ -191,14 +191,23 @@ include_directories(${CEREAL_INCLUDE_DIR})
 
 # MetaToolkit - NLP Library
 if (LINUX)
-    set(META_TOOLKIT_LIBRARIES ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-greedy-tagger.a
-                       ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-sequence.a
-                       ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-io.a
-                       ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-util.a
-                       ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-utf.so
+	add_subdirectory(${CMAKE_SOURCE_DIR}/lib/meta_toolkit/meta)
+	set(META_TOOLKIT_LIBRARIES meta-greedy-tagger
+                       meta-sequence
+                       meta-io
+                       meta-util
+                       meta-utf
                        -pthread
                        -lz
 					   -lstdc++fs)
+    # set(META_TOOLKIT_LIBRARIES ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-greedy-tagger.a
+    #                    ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-sequence.a
+    #                    ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-io.a
+    #                    ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-util.a
+    #                    ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-utf.so
+    #                    -pthread
+    #                    -lz
+	# 				   -lstdc++fs)
 # else()
 endif()
 set(META_TOOLKIT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/include)
