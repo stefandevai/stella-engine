@@ -199,7 +199,8 @@ if (LINUX)
                        -pthread
                        -lz
 					   -lstdc++fs
-					   -lm)
+					   -lm
+					   -ldl)
 # else()
 endif()
 set(META_TOOLKIT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/include)
