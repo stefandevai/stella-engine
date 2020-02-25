@@ -3,6 +3,11 @@ sudo: true
 notifications:
   email: false
 
+branches:
+  only:
+  - master
+  - development
+
 os: linux
 dist: bionic
 
