@@ -198,9 +198,7 @@ if (LINUX)
                        ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/linux/libmeta-utf.so
                        -pthread
                        -lz
-					   -lstdc++fs
-					   -lm
-					   -ldl)
+					   -lstdc++fs)
 # else()
 endif()
 set(META_TOOLKIT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/include)
@@ -239,7 +237,10 @@ if (LINUX)
 			list(APPEND PLATFORM_LIBRARIES ${X11_Xcursor_LIB})
 		endif()
 
-		find_package(LibRt REQUIRED)
+		
+	endif()
+
+	find_package(LibRt REQUIRED)
 		include_directories(${LIBRT_INCLUDE_DIRS})
 		list(APPEND PLATFORM_LIBRARIES ${LIBRT_LIBRARIES})
 
@@ -249,11 +250,10 @@ if (LINUX)
 	
 		find_package(LibDL REQUIRED)
 		include_directories(${LIBDL_INCLUDE_DIR})
-    list(APPEND PLATFORM_LIBRARIES ${LIBDL_LIBRARIES})
+    	list(APPEND PLATFORM_LIBRARIES ${LIBDL_LIBRARIES})
 
 		find_package(Threads REQUIRED)
 		list(APPEND PLATFORM_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
-	endif()
 elseif(APPLE)
 	find_library(COCOA_LIBRARY Cocoa)
 	find_library(IOKIT_LIBRARY IOKit)
