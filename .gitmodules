@@ -25,6 +25,11 @@
 [submodule "lib/imgui"]
 	path = lib/imgui
 	url = https://github.com/ocornut/imgui
+  branch = docking
 [submodule "lib/freetype-windows-binaries"]
 	path = lib/freetype-windows-binaries
 	url = https://github.com/ubawurinna/freetype-windows-binaries
+[submodule "lib/meta"]
+	path = lib/meta
+	url = https://github.com/stefandevai/meta
+  branch = linux-build

@@ -21,7 +21,7 @@ namespace system
 
   private:
     Text() = delete;
-    void initialize_text (entt::registry& registry, entt::entity entity, component::Text& text);
+    void initialize_text (entt::registry& registry, entt::entity entity);
     void delete_text (entt::registry& registry, entt::entity entity);
     void m_typewrite (entt::registry& registry, entt::entity entity, const double dt);
     void m_append_to_text (entt::registry& registry, entt::entity entity, const wchar_t chr);

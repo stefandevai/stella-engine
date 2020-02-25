@@ -31,8 +31,9 @@ namespace system
   private:
     Color() = delete;
 
-    void initialize_color (entt::registry& registry, entt::entity entity, component::Color& color)
+    void initialize_color (entt::registry& registry, entt::entity entity)
     {
+      auto& color = registry.get<component::Color> (entity);
       if (registry.has<component::Sprite> (entity))
       {
         auto sprite = registry.get<component::Sprite> (entity);

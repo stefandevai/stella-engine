@@ -25,7 +25,7 @@ namespace system
   public:
     NPC (entt::registry& registry, entt::entity player_entity);
     void update (entt::registry& registry, const double dt) override;
-    void initialize_npc (entt::registry& registry, entt::entity entity, component::NPC& npc);
+    void initialize_npc (entt::registry& registry, entt::entity entity);
   };
 } // namespace system
 } // namespace stella

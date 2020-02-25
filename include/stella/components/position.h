@@ -13,7 +13,7 @@ namespace component
     float x, y, z;
     float last_x, last_y, last_z;
 
-    const bool has_changed() const { return ((last_x != x) || (last_y != y) || (last_z != z)); }
+    bool has_changed() const { return ((last_x != x) || (last_y != y) || (last_z != z)); }
   };
 } // namespace component
 } // namespace stella

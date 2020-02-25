@@ -191,7 +191,7 @@ include_directories(${CEREAL_INCLUDE_DIR})
 
 # MetaToolkit - NLP Library
 if (LINUX)
-	add_subdirectory(${CMAKE_SOURCE_DIR}/lib/meta_toolkit/meta)
+	add_subdirectory(${CMAKE_SOURCE_DIR}/lib/meta)
 	set(META_TOOLKIT_LIBRARIES meta-greedy-tagger
                        meta-sequence
                        meta-io
@@ -210,7 +210,7 @@ if (LINUX)
 	# 				   -lstdc++fs)
 # else()
 endif()
-set(META_TOOLKIT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/lib/meta_toolkit/include)
+set(META_TOOLKIT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/lib/meta/include)
 include_directories(${META_TOOLKIT_INCLUDE_DIR})
 
 #add_subdirectory(${DEPENDENCIES_DIR}/meta_toolkit/meta)

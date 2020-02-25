@@ -94,8 +94,9 @@ namespace system
     }
   }
 
-  void Render::initialize_layer (entt::registry& registry, entt::entity entity, component::Layer& layer)
+  void Render::initialize_layer (entt::registry& registry, entt::entity entity)
   {
+    auto& layer = registry.get<component::Layer> (entity);
     assert (m_ordered_layers.find (layer.Order) == m_ordered_layers.end() &&
             "You should assign different orders for layers.");
     assert (m_layers.find (layer.Id) == m_layers.end() && "You should assign different IDs for layers.");
@@ -125,8 +126,9 @@ namespace system
     m_ordered_layers[layer.Order] = layer.Id;
   }
 
-  void Render::initialize_sprite (entt::registry& registry, entt::entity entity, component::Sprite& sprite)
+  void Render::initialize_sprite (entt::registry& registry, entt::entity entity)
   {
+    auto& sprite = registry.get<component::Sprite> (entity);
     // Adds sprite to layer
     if (!sprite.InLayer && sprite.Initialized)
     {

@@ -36,9 +36,9 @@ namespace system
 
   private:
     Render() = delete;
-    void initialize_sprite (entt::registry& registry, entt::entity entity, component::Sprite& sprite);
+    void initialize_sprite (entt::registry& registry, entt::entity entity);
     void remove_sprite_from_layer (entt::registry& registry, entt::entity entity);
-    void initialize_layer (entt::registry& registry, entt::entity entity, component::Layer& layer);
+    void initialize_layer (entt::registry& registry, entt::entity entity);
   };
 } // namespace system
 } // namespace stella

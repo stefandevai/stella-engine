@@ -7,7 +7,7 @@ namespace system
 {
   Animation::Animation (entt::registry& registry)
   {
-    registry.on_construct<component::Animation>().connect<&Animation::initialize_animation> (this);
+    // registry.on_construct<component::Animation>().connect<&Animation::initialize_animation> (this);
   }
 
   void Animation::update (entt::registry& registry, const double dt)
@@ -36,8 +36,8 @@ namespace system
         });
   }
 
-  void Animation::initialize_animation (entt::registry& registry, entt::entity entity, component::Animation& animations)
-  {
+  // void Animation::initialize_animation (entt::registry& registry, entt::entity entity, component::Animation& animations)
+  // {
     // assert (registry.has<component::Sprite> (entity));
     // auto& sprite = registry.get<component::Sprite> (entity);
     // if (sprite.sprite == nullptr) std::cout << "null\n";
@@ -50,6 +50,6 @@ namespace system
     // animations.old_animation     = animations.current_animation;
     // sprite.sprite->Animations.Play (animations.current_animation);
     // animations.Initialized = true;
-  }
+  // }
 } // namespace system
 } // namespace stella

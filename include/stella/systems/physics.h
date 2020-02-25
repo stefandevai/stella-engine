@@ -21,7 +21,7 @@ namespace system
   private:
     Physics() = delete;
     void remove_body_from_world (entt::registry& registry, entt::entity entity);
-    void initialize_body (entt::registry& registry, entt::entity entity, component::Body2D& body);
+    void initialize_body (entt::registry& registry, entt::entity entity);
   };
 } // namespace system
 } // namespace stella

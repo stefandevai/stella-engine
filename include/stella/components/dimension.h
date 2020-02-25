@@ -10,7 +10,7 @@ namespace component
     float w, h;
     float last_w, last_h;
 
-    const bool has_changed() const { return ((last_w != w) || (last_h != h)); }
+    bool has_changed() const { return ((last_w != w) || (last_h != h)); }
   };
 } // namespace component
 } // namespace stella

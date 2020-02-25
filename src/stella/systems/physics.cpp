@@ -32,9 +32,10 @@ namespace system
     m_world.RemoveBody (body.Body);
   }
 
-  void Physics::initialize_body (entt::registry& registry, entt::entity entity, component::Body2D& body)
+  void Physics::initialize_body (entt::registry& registry, entt::entity entity)
   {
     // auto &log_component = get_log_component(registry, entity);
+    auto& body = registry.get<component::Body2D> (entity);
     const auto& pos = registry.get<component::Position> (entity);
     const auto& dim = registry.get<component::Dimension> (entity);
 
