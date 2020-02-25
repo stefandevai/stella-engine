@@ -11,10 +11,10 @@ dist: bionic
 #     - ${TRAVIS_BUILD_DIR}/lib
 
 matrix:
-  include:
-    - env:
-        - COMPILER=clang++
-        - CXXFLAGS="-std=c++1z"
+  # include:
+    # - env:
+    #     - COMPILER=clang++
+    #     - CXXFLAGS="-std=c++1z"
       # os: osx
       # osx_image: xcode11.3
       # addons:
@@ -43,6 +43,7 @@ matrix:
             - libvorbis-dev
             - liblua5.3-dev
             - libjemalloc-dev
+            - libjemalloc2
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
