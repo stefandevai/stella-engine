@@ -43,7 +43,6 @@ matrix:
             - libvorbis-dev
             - liblua5.3-dev
             - libjemalloc-dev
-            - libjemalloc2
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
