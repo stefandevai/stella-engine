@@ -4,9 +4,6 @@
 [submodule "lib/freealut"]
 	path = lib/freealut
 	url = https://github.com/vancegroup/freealut
-[submodule "lib/glm"]
-	path = lib/glm
-	url = https://github.com/g-truc/glm
 [submodule "lib/vorbis"]
 	path = lib/vorbis
 	url = https://github.com/xiph/vorbis
