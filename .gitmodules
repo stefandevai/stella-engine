@@ -33,3 +33,6 @@
 	path = lib/meta
 	url = https://github.com/stefandevai/meta
   branch = linux-build
+[submodule "lib/sol2"]
+	path = lib/sol2
+	url = https://github.com/ThePhD/sol2
