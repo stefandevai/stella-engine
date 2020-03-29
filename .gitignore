@@ -4,4 +4,8 @@ build/
 tools/cppcheck/html
 nikte/dialogue/__pycache__/
 .vscode/
+lib/freealut/doc
+lib/glm/doc
+lib/vorbis/doc
+lib/ogg/doc
 
