@@ -1,5 +1,5 @@
-#include "stella/nlp/lemmatizer.h"
-#include "stella/core/string_utils.h"
+#include "stella/nlp/lemmatizer.hpp"
+#include "stella/core/string_utils.hpp"
 #include <sstream>
 #include <locale>
 #include <codecvt>

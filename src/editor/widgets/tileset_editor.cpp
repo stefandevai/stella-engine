@@ -3,7 +3,7 @@
 #include <string>
 #include <cmath>
 
-#include "editor/widgets/tileset_editor.h"
+#include "editor/widgets/tileset_editor.hpp"
 
 namespace stella
 {

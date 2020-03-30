@@ -1,8 +1,8 @@
 #pragma once
 
-#include "./system.h"
-#include "stella/components/color.h"
-#include "stella/components/sprite.h"
+#include "./system.hpp"
+#include "stella/components/color.hpp"
+#include "stella/components/sprite.hpp"
 #include <sstream>
 
 namespace stella

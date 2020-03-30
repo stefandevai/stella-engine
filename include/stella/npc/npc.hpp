@@ -4,7 +4,7 @@
 #include <stack>
 #include <vector>
 #include <sol/sol.hpp>
-#include "stella/nlp/nlp.h"
+#include "stella/nlp/nlp.hpp"
 
 namespace stella
 {

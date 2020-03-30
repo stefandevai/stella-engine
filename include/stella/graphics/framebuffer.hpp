@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-#include "stella/graphics/display.h"
+#include "stella/graphics/display.hpp"
 
 typedef unsigned int GLuint;
 typedef unsigned int GLenum;

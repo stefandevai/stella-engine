@@ -1,7 +1,7 @@
 #pragma once
 
-#include <stella/components/body2d.h>
-#include <stella/components/animation.h>
+#include <stella/components/body2d.hpp>
+#include <stella/components/animation.hpp>
 #include <entt/entity/registry.hpp>
 
 namespace stella

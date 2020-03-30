@@ -2,8 +2,8 @@
 #include <ft2build.h>
 #include <map>
 #include FT_FREETYPE_H
-#include "stella/graphics/opengl.h"
-#include "stella/graphics/texture.h"
+#include "stella/graphics/opengl.hpp"
+#include "stella/graphics/texture.hpp"
 
 namespace stella
 {

@@ -1,7 +1,7 @@
-#include "game.h"
+#include "game.hpp"
 
 #ifdef STELLA_BUILD_EDITOR
-  #include "editor/editor.h"
+  #include "editor/editor.hpp"
 #endif
 
 int main (int argc, char* argv[])

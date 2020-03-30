@@ -1,6 +1,6 @@
-#include "editor/widgets/map_editor.h"
-#include "editor/widgets/file_dialog.h"
-#include "../../nikte/game.h"
+#include "editor/widgets/map_editor.hpp"
+#include "editor/widgets/file_dialog.hpp"
+#include "../../nikte/game.hpp"
 
 namespace stella
 {

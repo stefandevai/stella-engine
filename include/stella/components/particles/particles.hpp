@@ -1,5 +1,5 @@
 #pragma once
 
-#include "emitter.h"
-#include "fire_emitter.h"
-#include "snow_emitter.h"
+#include "emitter.hpp"
+#include "fire_emitter.hpp"
+#include "snow_emitter.hpp"

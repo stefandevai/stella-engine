@@ -1,11 +1,11 @@
 #pragma once
 
-#include "stella/graphics/display.h"
+#include "stella/graphics/display.hpp"
 #include <entt/entity/registry.hpp>
 #include <string>
 
 // #ifdef STELLA_BUILD_EDITOR
-//   #include "editor/editor.h"
+//   #include "editor/editor.hpp"
   
 // #endif
 

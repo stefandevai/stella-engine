@@ -1,7 +1,7 @@
 #pragma once
 
-#include "basic_lua_api.h"
-#include "stella/perlin.h"
+#include "basic_lua_api.hpp"
+#include "stella/perlin.hpp"
 #include <entt/entity/registry.hpp>
 
 namespace stella

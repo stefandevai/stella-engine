@@ -1,13 +1,13 @@
-#include "editor/editor.h"
+#include "editor/editor.hpp"
 #include "imgui_internal.h"
 
-#include "../../nikte/game.h"
-#include "stella/components/dimension.h"
-#include "stella/components/layer.h"
-#include "stella/components/position.h"
-#include "stella/components/sprite.h"
+#include "../../nikte/game.hpp"
+#include "stella/components/dimension.hpp"
+#include "stella/components/layer.hpp"
+#include "stella/components/position.hpp"
+#include "stella/components/sprite.hpp"
 
-#include "editor/debug_layer.h"
+#include "editor/debug_layer.hpp"
 
 #include <SDL2/SDL.h>
 #undef main

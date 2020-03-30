@@ -1,8 +1,8 @@
 #pragma once
 
-#include "system.h"
-#include "stella/components/body2d.h"
-#include "stella/topdown/world.h"
+#include "system.hpp"
+#include "stella/components/body2d.hpp"
+#include "stella/topdown/world.hpp"
 
 namespace stella
 {

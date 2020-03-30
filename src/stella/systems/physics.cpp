@@ -1,7 +1,7 @@
-#include "stella/systems/physics.h"
-#include "stella/components/dimension.h"
-#include "stella/components/position.h"
-#include "stella/components/movement.h"
+#include "stella/systems/physics.hpp"
+#include "stella/components/dimension.hpp"
+#include "stella/components/position.hpp"
+#include "stella/components/movement.hpp"
 #include <iostream>
 
 namespace stella

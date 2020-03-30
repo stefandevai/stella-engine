@@ -1,5 +1,5 @@
-#include "stella/nlp/sentence_tokenizer.h"
-#include "stella/core/string_utils.h"
+#include "stella/nlp/sentence_tokenizer.hpp"
+#include "stella/core/string_utils.hpp"
 
 namespace stella
 {

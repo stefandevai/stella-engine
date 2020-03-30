@@ -1,7 +1,7 @@
 #pragma once
 
-#include "application.h"
-#include "game.h"
-#include "graphics.h"
-#include "physics2d/body.h"
-#include "physics2d/world.h"
+#include "application.hpp"
+#include "game.hpp"
+#include "graphics.hpp"
+#include "physics2d/body.hpp"
+#include "physics2d/world.hpp"

@@ -1,4 +1,4 @@
-#include "stella/systems/character_animation.h"
+#include "stella/systems/character_animation.hpp"
 
 namespace stella
 {

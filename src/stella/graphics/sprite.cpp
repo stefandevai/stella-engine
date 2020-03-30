@@ -1,4 +1,4 @@
-#include "stella/graphics/sprite.h"
+#include "stella/graphics/sprite.hpp"
 
 #include <iostream>
 

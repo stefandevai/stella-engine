@@ -1,8 +1,8 @@
-#include "stella/graphics/renderer.h"
-#include "stella/graphics/sprite.h"
-#include "stella/graphics/texture.h"
+#include "stella/graphics/renderer.hpp"
+#include "stella/graphics/sprite.hpp"
+#include "stella/graphics/texture.hpp"
 
-#include "stella/graphics/opengl.h"
+#include "stella/graphics/opengl.hpp"
 
 #include <algorithm>
 #include <cstddef>

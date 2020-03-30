@@ -1,8 +1,8 @@
 #pragma once
 
-#include "graphics/display.h"
-#include "graphics/framebuffer.h"
-#include "graphics/layers/basic_layer.h"
-#include "graphics/renderer.h"
-#include "graphics/sprite.h"
-#include "graphics/texture.h"
+#include "graphics/display.hpp"
+#include "graphics/framebuffer.hpp"
+#include "graphics/layers/basic_layer.hpp"
+#include "graphics/renderer.hpp"
+#include "graphics/sprite.hpp"
+#include "graphics/texture.hpp"

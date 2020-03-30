@@ -1,9 +1,9 @@
-#include "stella/core/tile_map.h"
-#include "stella/components/dimension.h"
-#include "stella/components/log.h"
-#include "stella/components/position.h"
-#include "stella/components/sprite.h"
-#include "stella/components/tile.h"
+#include "stella/core/tile_map.hpp"
+#include "stella/components/dimension.hpp"
+#include "stella/components/log.hpp"
+#include "stella/components/position.hpp"
+#include "stella/components/sprite.hpp"
+#include "stella/components/tile.hpp"
 
 #include <cmath>
 #include <glm/glm.hpp>

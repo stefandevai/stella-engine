@@ -1,9 +1,9 @@
 #pragma once
 
 #include <functional>
-#include "../../lib/imgui/imgui.h"
-#include "widget.h"
-#include "editor/state.h"
+//#include "../../lib/imgui/imgui.hpp"
+#include "widget.hpp"
+#include "editor/state.hpp"
 
 #define ICON_FA_EDIT          u8"\uf044"
 #define ICON_FA_PLAY          u8"\uf04b"

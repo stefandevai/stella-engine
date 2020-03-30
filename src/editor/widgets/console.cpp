@@ -1,4 +1,4 @@
-#include "editor/widgets/console.h"
+#include "editor/widgets/console.hpp"
 
 namespace stella
 {

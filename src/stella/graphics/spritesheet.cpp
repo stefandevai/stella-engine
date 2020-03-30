@@ -1,5 +1,5 @@
-#include "stella/graphics/spritesheet.h"
-#include "stella/graphics/texture.h"
+#include "stella/graphics/spritesheet.hpp"
+#include "stella/graphics/texture.hpp"
 
 #include <string>
 

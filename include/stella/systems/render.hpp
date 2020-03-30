@@ -1,12 +1,12 @@
 #pragma once
 
-#include "stella/components/layer.h"
-#include "stella/components/sprite.h"
-#include "stella/core/resource.h"
-#include "stella/systems/system.h"
-#include "stella/graphics/display.h"
-#include "stella/graphics/texture.h"
-#include "stella/graphics/layers/basic_layer.h"
+#include "stella/components/layer.hpp"
+#include "stella/components/sprite.hpp"
+#include "stella/core/resource.hpp"
+#include "stella/systems/system.hpp"
+#include "stella/graphics/display.hpp"
+#include "stella/graphics/texture.hpp"
+#include "stella/graphics/layers/basic_layer.hpp"
 
 namespace stella
 {

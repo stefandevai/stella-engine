@@ -1,8 +1,8 @@
 #pragma once
 
-#include "stella/systems/system.h"
-#include "stella/components/npc.h"
-#include "stella/npc/npc.h"
+#include "stella/systems/system.hpp"
+#include "stella/components/npc.hpp"
+#include "stella/npc/npc.hpp"
 #include <sol/sol.hpp>
 #include <random>
 

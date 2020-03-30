@@ -1,7 +1,7 @@
 #pragma once
 
-#include "system.h"
-#include "stella/components/animation.h"
+#include "system.hpp"
+#include "stella/components/animation.hpp"
 
 namespace stella
 {

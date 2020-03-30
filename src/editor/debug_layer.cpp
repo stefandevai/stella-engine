@@ -1,7 +1,7 @@
-#include "editor/debug_layer.h"
+#include "editor/debug_layer.hpp"
 
-#include "stella/graphics/opengl.h"
-#include "stella/graphics/shape_renderer.h"
+#include "stella/graphics/opengl.hpp"
+#include "stella/graphics/shape_renderer.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 

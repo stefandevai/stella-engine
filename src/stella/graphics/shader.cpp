@@ -1,7 +1,7 @@
-#include "stella/graphics/shader.h"
-#include "stella/fileutils.h"
+#include "stella/graphics/shader.hpp"
+#include "stella/fileutils.hpp"
 
-#include "stella/graphics/opengl.h"
+#include "stella/graphics/opengl.hpp"
 #include <glm/gtc/type_ptr.hpp>
 
 namespace stella

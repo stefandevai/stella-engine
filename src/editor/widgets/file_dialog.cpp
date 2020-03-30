@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "editor/widgets/file_dialog.h"
-#include "../../lib/imgui/imgui.h"
+#include "editor/widgets/file_dialog.hpp"
+//#include "../../lib/imgui/imgui.h"
 
 #ifdef WIN32
 #include <dirent.h>
@@ -37,7 +37,7 @@ SOFTWARE.
 #define PATH_SEP '/'
 #endif
 
-#include "imgui.h"
+//#include "imgui.hpp"
 #ifndef IMGUI_DEFINE_MATH_OPERATORS
 #define IMGUI_DEFINE_MATH_OPERATORS
 #endif

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "./basic_lua_api.h"
-#include "./map_grid.h"
-#include "./tile.h"
+#include "./basic_lua_api.hpp"
+#include "./map_grid.hpp"
+#include "./tile.hpp"
 #include <entt/entity/registry.hpp>
 
 namespace stella

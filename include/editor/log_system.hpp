@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../stella/components/log.h"
-#include "../stella/systems/system.h"
-#include "widgets/console.h"
+#include "../stella/components/log.hpp"
+#include "../stella/systems/system.hpp"
+#include "widgets/console.hpp"
 
 #include <iostream>
 

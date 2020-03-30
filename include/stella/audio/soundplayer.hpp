@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "ogg_stream.h"
-#include "sound.h"
+#include "ogg_stream.hpp"
+#include "sound.hpp"
 
 namespace stella
 {

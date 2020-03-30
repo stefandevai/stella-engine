@@ -1,10 +1,10 @@
-#include "stella/systems/npc.h"
-#include "stella/components/position.h"
-#include "stella/components/speech_container.h"
-#include "stella/components/text.h"
-#include "stella/components/timer.h"
-#include "stella/components/body2d.h"
-#include "stella/components/typewriter.h"
+#include "stella/systems/npc.hpp"
+#include "stella/components/position.hpp"
+#include "stella/components/speech_container.hpp"
+#include "stella/components/text.hpp"
+#include "stella/components/timer.hpp"
+#include "stella/components/body2d.hpp"
+#include "stella/components/typewriter.hpp"
 
 namespace stella
 {

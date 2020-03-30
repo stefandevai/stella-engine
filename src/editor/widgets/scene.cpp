@@ -1,5 +1,5 @@
-#include "editor/widgets/scene.h"
-#include "stella/graphics/utils.h"
+#include "editor/widgets/scene.hpp"
+#include "stella/graphics/utils.hpp"
 #include <vector>
 #include <cmath>
 

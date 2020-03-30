@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "tile_position.h"
+#include "tile_position.hpp"
 
 namespace stella
 {

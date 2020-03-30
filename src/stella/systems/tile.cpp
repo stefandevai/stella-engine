@@ -1,8 +1,8 @@
-#include "stella/systems/tile.h"
-#include "stella/components/position.h"
-#include "stella/components/dimension.h"
-#include "stella/components/tile.h"
-#include "stella/core/tile_map.h"
+#include "stella/systems/tile.hpp"
+#include "stella/components/position.hpp"
+#include "stella/components/dimension.hpp"
+#include "stella/components/tile.hpp"
+#include "stella/core/tile_map.hpp"
 
 namespace stella
 {

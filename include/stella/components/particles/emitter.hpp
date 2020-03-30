@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../dimension.h"
-#include "../particle.h"
-#include "../position.h"
-#include "../sprite.h"
-#include "../transform.h"
+#include "../dimension.hpp"
+#include "../particle.hpp"
+#include "../position.hpp"
+#include "../sprite.hpp"
+#include "../transform.hpp"
 #include <entt/entity/registry.hpp>
 #include <string>
 #include <vector>

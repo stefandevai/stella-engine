@@ -1,9 +1,9 @@
 #pragma once
 
-#include "token.h"
-#include "sentence_tokenizer.h"
-#include "word_tokenizer.h"
-#include "lemmatizer.h"
+#include "token.hpp"
+#include "sentence_tokenizer.hpp"
+#include "word_tokenizer.hpp"
+#include "lemmatizer.hpp"
 
 #include <string>
 #include <vector>

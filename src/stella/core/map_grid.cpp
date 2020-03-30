@@ -1,4 +1,4 @@
-#include "stella/core/map_grid.h"
+#include "stella/core/map_grid.hpp"
 #include <cmath>
 #include <vector>
 

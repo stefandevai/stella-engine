@@ -1,4 +1,4 @@
-#include "stella/graphics/animator.h"
+#include "stella/graphics/animator.hpp"
 
 #include <iostream>
 

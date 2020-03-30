@@ -1,8 +1,8 @@
-#include "stella/systems/speech.h"
-#include "stella/components/dimension.h"
-#include "stella/components/position.h"
-#include "stella/components/speech_container.h"
-#include "stella/components/text.h"
+#include "stella/systems/speech.hpp"
+#include "stella/components/dimension.hpp"
+#include "stella/components/position.hpp"
+#include "stella/components/speech_container.hpp"
+#include "stella/components/text.hpp"
 
 namespace stella
 {

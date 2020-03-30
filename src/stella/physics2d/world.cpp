@@ -1,6 +1,6 @@
-#include "stella/physics2d/world.h"
-#include "stella/physics2d/body.h"
-#include "stella/physics2d/manifold.h"
+#include "stella/physics2d/world.hpp"
+#include "stella/physics2d/body.hpp"
+#include "stella/physics2d/manifold.hpp"
 
 #include <algorithm>
 #include <cmath>

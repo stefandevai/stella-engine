@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../components/log.h"
+#include "../components/log.hpp"
 #include <entt/entity/registry.hpp>
 
 namespace stella

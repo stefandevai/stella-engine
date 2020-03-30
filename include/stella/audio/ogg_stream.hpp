@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include "playable.h"
+#include "playable.hpp"
 
-#include "vorbisogg.h"
+#include "vorbisogg.hpp"
 
 #define STREAM_BUFFERS 4
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stella/topdown/body.h>
+#include "stella/topdown/body.hpp"
 #include <vector>
 #include <memory>
 

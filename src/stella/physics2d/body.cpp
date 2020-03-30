@@ -1,4 +1,4 @@
-#include "stella/physics2d/body.h"
+#include "stella/physics2d/body.hpp"
 
 namespace stella
 {

@@ -1,4 +1,4 @@
-#include "game.h"
+#include "game.hpp"
 #include <random>
 
 namespace nikte

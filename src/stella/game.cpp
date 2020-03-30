@@ -1,6 +1,6 @@
-#include "stella/game.h"
-#include "stella/systems.h"
-#include "stella/graphics/renderer.h"
+#include "stella/game.hpp"
+#include "stella/systems.hpp"
+#include "stella/graphics/renderer.hpp"
 
 namespace stella
 {

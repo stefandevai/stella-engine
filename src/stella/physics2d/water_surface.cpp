@@ -1,4 +1,4 @@
-#include "stella/physics2d/water_surface.h"
+#include "stella/physics2d/water_surface.hpp"
 
 #include <iostream>
 #include <math.h>

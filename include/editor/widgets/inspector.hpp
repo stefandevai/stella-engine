@@ -1,7 +1,7 @@
 #pragma once
 
-#include "widget.h"
-#include "../../lib/imgui/imgui.h"
+#include "widget.hpp"
+//#include "../../lib/imgui/imgui.hpp"
 #include <entt/entity/registry.hpp>
 
 namespace stella

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <stella/stella.h>
-#include <stella/systems.h>
-#include <stella/core/tile_map.h>
-#include <stella/perlin.h>
+#include <stella/stella.hpp>
+#include <stella/systems.hpp>
+#include <stella/core/tile_map.hpp>
+#include <stella/perlin.hpp>
 
 
 // #ifdef STELLA_BUILD_EDITOR
@@ -11,7 +11,7 @@
 //   #include <editor/widgets/map_editor.h>
 // #endif
 
-#include "player.h"
+#include "player.hpp"
 
 #ifdef STELLA_BUILD_EDITOR
 namespace stella

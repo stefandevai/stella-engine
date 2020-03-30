@@ -1,6 +1,6 @@
 #pragma once
 
-#include "opengl.h"
+#include "opengl.hpp"
 #include <iostream>
 #include <vector>
 

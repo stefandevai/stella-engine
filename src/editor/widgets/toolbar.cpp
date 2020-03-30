@@ -1,5 +1,5 @@
 
-#include "editor/widgets/toolbar.h"
+#include "editor/widgets/toolbar.hpp"
 
 #include <iostream>
 

@@ -1,5 +1,5 @@
-#include "stella/topdown/world.h"
-#include "stella/topdown/body.h"
+#include "stella/topdown/world.hpp"
+#include "stella/topdown/body.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iostream>

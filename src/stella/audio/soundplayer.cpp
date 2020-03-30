@@ -1,4 +1,4 @@
-#include "stella/audio/soundplayer.h"
+#include "stella/audio/soundplayer.hpp"
 
 #include <AL/alut.h>
 #include <iostream>

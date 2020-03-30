@@ -1,7 +1,7 @@
-#include "stella/graphics/framebuffer.h"
-#include "stella/graphics/shader.h"
+#include "stella/graphics/framebuffer.hpp"
+#include "stella/graphics/shader.hpp"
 
-#include "stella/graphics/opengl.h"
+#include "stella/graphics/opengl.hpp"
 
 #include <iostream>
 

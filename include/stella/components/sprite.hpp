@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "../graphics/sprite.h"
+#include "../graphics/sprite.hpp"
 #include <glm/glm.hpp>
 #include <memory>
 

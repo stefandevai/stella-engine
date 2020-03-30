@@ -1,5 +1,5 @@
-#include "stella/systems/animation.h"
-#include "stella/components/sprite.h"
+#include "stella/systems/animation.hpp"
+#include "stella/components/sprite.hpp"
 
 namespace stella
 {

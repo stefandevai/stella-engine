@@ -1,23 +1,23 @@
 #pragma once
 
-#include "./application.h"
-//#include "stella/audio/soundplayer.h"
-#include "stella/core/ecs_lua_api.h"
-#include "stella/core/resource.h"
-#include "stella/graphics/font.h"
-#include "stella/graphics/texture.h"
-#include "stella/physics2d/world.h"
-#include "stella/systems/animation.h"
-#include "stella/systems/color.h"
-#include "stella/systems/render.h"
-#include "stella/systems/system.h"
-#include "stella/systems/timer.h"
+#include "./application.hpp"
+//#include "stella/audio/soundplayer.hpp"
+#include "stella/core/ecs_lua_api.hpp"
+#include "stella/core/resource.hpp"
+#include "stella/graphics/font.hpp"
+#include "stella/graphics/texture.hpp"
+#include "stella/physics2d/world.hpp"
+#include "stella/systems/animation.hpp"
+#include "stella/systems/color.hpp"
+#include "stella/systems/render.hpp"
+#include "stella/systems/system.hpp"
+#include "stella/systems/timer.hpp"
 #include <memory>
 #include <string>
 #include <vector>
 
 // #ifdef STELLA_BUILD_EDITOR
-// #include "editor/editor_gui.h"
+// #include "editor/editor_gui.hpp"
 // #endif
 
 namespace stella

@@ -1,11 +1,11 @@
-#include "stella/systems/text.h"
-#include "stella/components/charcode.h"
-#include "stella/components/color.h"
-#include "stella/components/dimension.h"
-#include "stella/components/position.h"
-#include "stella/components/sprite.h"
-#include "stella/components/typewriter.h"
-#include "stella/components/timer.h"
+#include "stella/systems/text.hpp"
+#include "stella/components/charcode.hpp"
+#include "stella/components/color.hpp"
+#include "stella/components/dimension.hpp"
+#include "stella/components/position.hpp"
+#include "stella/components/sprite.hpp"
+#include "stella/components/typewriter.hpp"
+#include "stella/components/timer.hpp"
 
 namespace stella
 {

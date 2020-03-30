@@ -1,5 +1,5 @@
-#include "player.h"
-#include <stella/graphics/display.h>
+#include "player.hpp"
+#include <stella/graphics/display.hpp>
 #include <SDL2/SDL.h>
 #undef main
 #include <iostream>

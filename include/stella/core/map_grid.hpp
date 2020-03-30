@@ -6,8 +6,8 @@
 
 #include <cereal/types/vector.hpp>
 
-#include "./grid.h"
-#include "./tile.h"
+#include "./grid.hpp"
+#include "./tile.hpp"
 
 namespace stella
 {

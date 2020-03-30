@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../components.h"
-#include "./system.h"
+#include "../components.hpp"
+#include "./system.hpp"
 #include <SDL2/SDL.h>
 #undef main
 

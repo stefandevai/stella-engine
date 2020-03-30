@@ -1,10 +1,10 @@
-#include "stella/systems/render.h"
+#include "stella/systems/render.hpp"
 
-#include "stella/components/camera.h"
-#include "stella/components/dimension.h"
-#include "stella/components/position.h"
-#include "stella/components/transform.h"
-#include "stella/graphics/layers/firelayer.h"
+#include "stella/components/camera.hpp"
+#include "stella/components/dimension.hpp"
+#include "stella/components/position.hpp"
+#include "stella/components/transform.hpp"
+#include "stella/graphics/layers/firelayer.hpp"
 #include <ctime>
 
 namespace stella

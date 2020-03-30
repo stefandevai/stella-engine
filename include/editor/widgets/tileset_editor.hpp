@@ -1,8 +1,8 @@
 #pragma once
 
-#include "widget.h"
-#include "../../lib/imgui/imgui.h"
-#include "stella/graphics/texture.h"
+#include "widget.hpp"
+//#include "../../lib/imgui/imgui.hpp"
+#include "stella/graphics/texture.hpp"
 
 namespace stella
 {

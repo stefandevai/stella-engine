@@ -1,6 +1,6 @@
-#include "stella/physics2d/grid_world.h"
-#include "stella/physics2d/body.h"
-#include "stella/physics2d/water_surface.h"
+#include "stella/physics2d/grid_world.hpp"
+#include "stella/physics2d/body.hpp"
+#include "stella/physics2d/water_surface.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iostream>

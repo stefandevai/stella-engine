@@ -1,8 +1,8 @@
 #pragma once
 
-#include "stella/graphics/font.h"
-#include "stella/systems/system.h"
-#include "stella/components/text.h"
+#include "stella/graphics/font.hpp"
+#include "stella/systems/system.hpp"
+#include "stella/components/text.hpp"
 #include <string>
 #include <entt/entity/registry.hpp>
 

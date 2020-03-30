@@ -1,7 +1,7 @@
 #pragma once
 
-#include "stella/graphics/layers/shape_layer.h"
-#include "stella/graphics/texture.h"
+#include "stella/graphics/layers/shape_layer.hpp"
+#include "stella/graphics/texture.hpp"
 
 namespace stella
 {

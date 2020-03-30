@@ -1,5 +1,5 @@
-#include "stella/core/ecs_lua_api.h"
-#include "stella/components.h"
+#include "stella/core/ecs_lua_api.hpp"
+#include "stella/components.hpp"
 
 namespace stella
 {

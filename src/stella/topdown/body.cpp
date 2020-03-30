@@ -1,4 +1,4 @@
-#include "stella/topdown/body.h"
+#include "stella/topdown/body.hpp"
 
 namespace stella
 {

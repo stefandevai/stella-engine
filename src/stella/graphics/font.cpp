@@ -1,4 +1,4 @@
-#include "stella/graphics/font.h"
+#include "stella/graphics/font.hpp"
 
 #include <algorithm>
 

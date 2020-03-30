@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../core/grid.h"
-#include "../core/tile.h"
-#include "../core/tile_map.h"
+#include "../core/grid.hpp"
+#include "../core/tile.hpp"
+#include "../core/tile_map.hpp"
 #include <glm/glm.hpp>
 #include <memory>
 #include <vector>

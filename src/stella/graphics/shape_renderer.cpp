@@ -1,7 +1,7 @@
-#include "stella/graphics/shape_renderer.h"
-#include "stella/graphics/shape.h"
+#include "stella/graphics/shape_renderer.hpp"
+#include "stella/graphics/shape.hpp"
 
-#include "stella/graphics/opengl.h"
+#include "stella/graphics/opengl.hpp"
 
 #include <algorithm>
 #include <cstddef>

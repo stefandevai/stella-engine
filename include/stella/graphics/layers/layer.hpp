@@ -6,9 +6,9 @@
 #include <set>
 #include <vector>
 
-#include "stella/graphics/renderer.h"
-#include "stella/graphics/shader.h"
-#include "stella/graphics/sprite.h"
+#include "stella/graphics/renderer.hpp"
+#include "stella/graphics/shader.hpp"
+#include "stella/graphics/sprite.hpp"
 
 namespace stella
 {

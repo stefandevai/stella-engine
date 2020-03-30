@@ -1,6 +1,6 @@
 #pragma once
 
-#include "emitter.h"
+#include "emitter.hpp"
 
 #include <cmath>
 #include <iostream>

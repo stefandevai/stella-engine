@@ -1,5 +1,5 @@
-#include "stella/npc/npc.h"
-#include "stella/npc/speech.h"
+#include "stella/npc/npc.hpp"
+#include "stella/npc/speech.hpp"
 #include <iostream>
 #include <algorithm>
 #include <cwctype>

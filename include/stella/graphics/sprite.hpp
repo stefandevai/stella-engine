@@ -1,8 +1,8 @@
 #pragma once
 
-#include "animator.h"
-#include "renderable.h"
-#include "spritesheet.h"
+#include "animator.hpp"
+#include "renderable.hpp"
+#include "spritesheet.hpp"
 
 namespace stella
 {

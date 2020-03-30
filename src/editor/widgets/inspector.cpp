@@ -1,5 +1,5 @@
-#include "editor/widgets/inspector.h"
-#include "stella/components.h"
+#include "editor/widgets/inspector.hpp"
+#include "stella/components.hpp"
 
 namespace stella
 {

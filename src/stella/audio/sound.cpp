@@ -1,5 +1,5 @@
-#include "stella/audio/sound.h"
-#include "stella/audio/vorbisogg.h"
+#include "stella/audio/sound.hpp"
+#include "stella/audio/vorbisogg.hpp"
 
 namespace
 {

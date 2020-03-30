@@ -1,6 +1,6 @@
-#include "stella/graphics/layers/firelayer.h"
+#include "stella/graphics/layers/firelayer.hpp"
 
-#include "stella/graphics/opengl.h"
+#include "stella/graphics/opengl.hpp"
 #include <memory>
 
 #include <glm/glm.hpp>

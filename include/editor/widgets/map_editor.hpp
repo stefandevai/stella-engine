@@ -1,8 +1,8 @@
 #pragma once
 
-#include "widget.h"
-#include "../../lib/imgui/imgui.h"
-#include "stella/core/tile_map.h"
+#include "widget.hpp"
+//#include "../../lib/imgui/imgui.hpp"
+#include "stella/core/tile_map.hpp"
 
 namespace nikte
 {

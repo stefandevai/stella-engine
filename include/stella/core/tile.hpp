@@ -3,7 +3,7 @@
 #include <bitset>
 #include <cereal/types/bitset.hpp>
 #include <entt/entity/registry.hpp>
-#include "stella/components/position.h"
+#include "stella/components/position.hpp"
 
 namespace stella
 {

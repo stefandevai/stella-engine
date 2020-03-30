@@ -5,9 +5,9 @@
 #include <memory>
 #include <vector>
 
-#include "stella/graphics/shader.h"
-#include "stella/graphics/shape.h"
-#include "stella/graphics/shape_renderer.h"
+#include "stella/graphics/shader.hpp"
+#include "stella/graphics/shape.hpp"
+#include "stella/graphics/shape_renderer.hpp"
 
 namespace stella
 {

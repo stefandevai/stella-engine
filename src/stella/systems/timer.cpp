@@ -1,5 +1,5 @@
-#include "stella/systems/timer.h"
-#include "stella/components/timer.h"
+#include "stella/systems/timer.hpp"
+#include "stella/components/timer.hpp"
 
 #include <iostream>
 

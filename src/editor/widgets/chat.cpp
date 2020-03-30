@@ -1,10 +1,10 @@
-#include "editor/widgets/chat.h"
-#include "stella/components/dimension.h"
-#include "stella/components/player.h"
-#include "stella/components/position.h"
-#include "stella/components/speech_container.h"
-#include "stella/components/text.h"
-#include "stella/components/timer.h"
+#include "editor/widgets/chat.hpp"
+#include "stella/components/dimension.hpp"
+#include "stella/components/player.hpp"
+#include "stella/components/position.hpp"
+#include "stella/components/speech_container.hpp"
+#include "stella/components/text.hpp"
+#include "stella/components/timer.hpp"
 
 #include <iostream>
 

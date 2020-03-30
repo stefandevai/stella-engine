@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "particles/particles.h"
+#include "particles/particles.hpp"
 #include <entt/entity/registry.hpp>
 
 namespace stella
