@@ -7,19 +7,23 @@ namespace stella
 {
 namespace widget
 {
-  Toolbar::Toolbar() : Widget("Toolbar") { m_open = true; }
+  Toolbar::Toolbar() : Widget ("Toolbar") { m_open = true; }
 
   Toolbar::~Toolbar() {}
 
-  void Toolbar::render (editor::State& state, editor::Tool& tool, const float width, std::function<void()> draw_menu_bar)
+  void
+  Toolbar::render (editor::State& state, editor::Tool& tool, const float width, std::function<void()> draw_menu_bar)
   {
     ImGui::SetNextWindowSize (ImVec2 (width, 60), ImGuiCond_Always);
     ImGui::SetNextWindowPos (ImVec2 (0, 0), ImGuiCond_Always);
 
-    // if (ImGui::Begin ("toolbar-win", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize))
-    if (ImGui::Begin ("toolbar-win", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse |
-                      ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar |
-                      ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus))
+    // if (ImGui::Begin ("toolbar-win", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
+    // ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize))
+    if (ImGui::Begin ("toolbar-win",
+                      nullptr,
+                      ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse |
+                          ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar |
+                          ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus))
     {
       draw_menu_bar();
 
@@ -105,5 +109,5 @@ namespace widget
     }
     ImGui::End();
   }
-} // namespace editor
+} // namespace widget
 } // namespace stella

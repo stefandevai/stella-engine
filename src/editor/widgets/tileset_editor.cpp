@@ -9,7 +9,7 @@ namespace stella
 {
 namespace widget
 {
-  TilesetEditor::TilesetEditor (const std::string& path) : Widget("Tileset Editor"), m_path (path), texture (path)
+  TilesetEditor::TilesetEditor (const std::string& path) : Widget ("Tileset Editor"), m_path (path), texture (path)
   {
     m_texture_w = this->texture.GetWidth();
     m_texture_h = this->texture.GetHeight();
@@ -20,7 +20,7 @@ namespace widget
 
   void TilesetEditor::render()
   {
-    if (ImGui::Begin(m_name.c_str(), &m_open, ImGuiWindowFlags_NoNavFocus))
+    if (ImGui::Begin (m_name.c_str(), &m_open, ImGuiWindowFlags_NoNavFocus))
     {
       int w_in_tiles = m_texture_w / m_tile_dimensions[0];
       int h_in_tiles = m_texture_h / m_tile_dimensions[1];
@@ -120,7 +120,8 @@ namespace widget
 
   ImVec2 TilesetEditor::pos2tile (const double x, const double y)
   {
-    return ImVec2 (std::floor(x / static_cast<double>(m_tile_dimensions[0])), std::floor(y / static_cast<double>(m_tile_dimensions[1])));
+    return ImVec2 (std::floor (x / static_cast<double> (m_tile_dimensions[0])),
+                   std::floor (y / static_cast<double> (m_tile_dimensions[1])));
   }
 
   void TilesetEditor::render_tile_sprite (const ImVec2& pos, const float alpha)
@@ -142,5 +143,5 @@ namespace widget
       ImGui::End();
     }
   }
-} // namespace editor
+} // namespace widget
 } // namespace stella

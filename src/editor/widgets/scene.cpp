@@ -7,19 +7,19 @@ namespace stella
 {
 namespace widget
 {
-  Scene::Scene() : Widget("Scene") { m_open = true; }
+  Scene::Scene() : Widget ("Scene") { m_open = true; }
 
   void Scene::render (const ImTextureID texture_id)
   {
     ImGui::PushStyleVar (ImGuiStyleVar_WindowPadding, ImVec2 (0, 0));
     ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (0.0f, 0.0f));
     ImGui::PushStyleVar (ImGuiStyleVar_ItemInnerSpacing, ImVec2 (0.0f, 0.0f));
-    //ImGui::PushStyleVar (ImGuiStyleVar_IndentSpacing, ImVec2 (0.0f, 0.0f));
-    //ImGui::PushStyleVar (ImGuiStyleVar_FramePadding, ImVec2 (0.0f, 0.0f));
-    //ImGui::SetNextWindowSizeConstraints (ImVec2 (896, 504), ImVec2 (897, 505));
+    // ImGui::PushStyleVar (ImGuiStyleVar_IndentSpacing, ImVec2 (0.0f, 0.0f));
+    // ImGui::PushStyleVar (ImGuiStyleVar_FramePadding, ImVec2 (0.0f, 0.0f));
+    // ImGui::SetNextWindowSizeConstraints (ImVec2 (896, 504), ImVec2 (897, 505));
     if (ImGui::Begin (m_name.c_str(), &m_open))
     {
-      m_active = ImGui::IsWindowHovered();
+      m_active                 = ImGui::IsWindowHovered();
       const auto window_pos    = ImGui::GetWindowPos();
       const auto window_size   = ImGui::GetWindowSize();
       const float frame_height = ImGui::GetFrameHeight();
@@ -35,14 +35,14 @@ namespace widget
 
       if (m_widget_width / static_cast<float> (m_widget_height) > 1.7778f)
       {
-        ImGui::Dummy (ImVec2 (std::round(coords[0] / 2.0f), 0));
+        ImGui::Dummy (ImVec2 (std::round (coords[0] / 2.0f), 0));
         ImGui::SameLine();
         // m_game_screen_x_spacing = std::round(coords[0] / 2.0f);
         // m_game_screen_y_spacing = 0;
       }
       else if (m_widget_width / static_cast<float> (m_widget_height) < 1.7776f)
       {
-        ImGui::Dummy (ImVec2 (0, std::round(coords[0] / 2.0f)));
+        ImGui::Dummy (ImVec2 (0, std::round (coords[0] / 2.0f)));
         // m_game_screen_x_spacing = 0;
         // m_game_screen_y_spacing = std::round(coords[0] / 2.0f);
       }
@@ -52,8 +52,8 @@ namespace widget
       m_game_screen_y_spacing = ImGui::GetItemRectMin().y;
     }
     ImGui::End();
-    //ImGui::PopStyleVar();
-    //ImGui::PopStyleVar();
+    // ImGui::PopStyleVar();
+    // ImGui::PopStyleVar();
     ImGui::PopStyleVar();
     ImGui::PopStyleVar();
     ImGui::PopStyleVar();

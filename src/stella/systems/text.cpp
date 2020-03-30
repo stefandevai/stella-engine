@@ -128,7 +128,7 @@ namespace system
 
   void Text::initialize_text (entt::registry& registry, entt::entity entity)
   {
-    auto& text = registry.get<component::Text> (entity);
+    auto& text      = registry.get<component::Text> (entity);
     auto font       = m_fonts.load (text.font_name);
     const auto& pos = registry.get<component::Position> (entity);
     float char_posx = (float) pos.x;

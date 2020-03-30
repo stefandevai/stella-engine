@@ -35,7 +35,7 @@ namespace system
   void Physics::initialize_body (entt::registry& registry, entt::entity entity)
   {
     // auto &log_component = get_log_component(registry, entity);
-    auto& body = registry.get<component::Body2D> (entity);
+    auto& body      = registry.get<component::Body2D> (entity);
     const auto& pos = registry.get<component::Position> (entity);
     const auto& dim = registry.get<component::Dimension> (entity);
 

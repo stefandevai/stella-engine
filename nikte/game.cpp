@@ -27,7 +27,7 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   m_script_api.set_variable<int> ("e_screen_height", this->height());
 
   m_script_api.run_function ("load_game");
-  //m_load_flowers();
+  // m_load_flowers();
 
   this->update_systems (0.0);
 }
@@ -49,35 +49,36 @@ void Game::update (const double dt)
 void Game::m_load_flowers()
 {
   int number_of_flowers = 500;
-  int n = 0;
+  int n                 = 0;
 
-  std::uniform_int_distribution<int> m_x_distribution{0, static_cast<int>(m_tile_map.width()*m_tile_map.tile_dimension())};
-  std::uniform_int_distribution<int> m_y_distribution{0, static_cast<int>(m_tile_map.height()*m_tile_map.tile_dimension())};
-  
+  std::uniform_int_distribution<int> m_x_distribution{
+      0, static_cast<int> (m_tile_map.width() * m_tile_map.tile_dimension())};
+  std::uniform_int_distribution<int> m_y_distribution{
+      0, static_cast<int> (m_tile_map.height() * m_tile_map.tile_dimension())};
+
   while (n < number_of_flowers)
   {
-
-    int random_x = m_x_distribution(m_generator);
-    int random_y = m_y_distribution(m_generator);
+    int random_x = m_x_distribution (m_generator);
+    int random_y = m_y_distribution (m_generator);
 
     for (const auto& layer : m_tile_map.layers)
     {
-      const auto& tile = layer->get_value(random_x/m_tile_map.tile_dimension(), random_y/m_tile_map.tile_dimension());
+      const auto& tile =
+          layer->get_value (random_x / m_tile_map.tile_dimension(), random_y / m_tile_map.tile_dimension());
       if (tile.value == 1)
       {
-        m_load_flower(random_x, random_y);
+        m_load_flower (random_x, random_y);
         ++n;
         break;
       }
     }
-
   }
 }
 
-void Game::m_load_flower(const int x, const int y)
-{ 
+void Game::m_load_flower (const int x, const int y)
+{
   int frame = 15;
-  switch (m_flower_frame_distribution(m_generator))
+  switch (m_flower_frame_distribution (m_generator))
   {
     case 0:
       frame = 10;
@@ -93,8 +94,8 @@ void Game::m_load_flower(const int x, const int y)
   }
 
   auto flower = m_registry.create();
-  m_registry.assign<stella::component::Position>(flower, x, y, 2);
-  m_registry.assign<stella::component::Dimension>(flower, 16, 16);
-  m_registry.assign<stella::component::Sprite>(flower, "flowers", glm::vec2(16.f, 16.f), "tiles", frame);
+  m_registry.assign<stella::component::Position> (flower, x, y, 2);
+  m_registry.assign<stella::component::Dimension> (flower, 16, 16);
+  m_registry.assign<stella::component::Sprite> (flower, "flowers", glm::vec2 (16.f, 16.f), "tiles", frame);
 }
 } // namespace nikte

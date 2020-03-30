@@ -50,7 +50,7 @@ namespace editor
     m_window = m_game.m_display.Window;
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
+    ImGuiIO& io    = ImGui::GetIO();
     io.IniFilename = "config/imgui.ini";
 
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -84,7 +84,7 @@ namespace editor
 
     switch (m_current_state)
     {
-    case EDIT:
+      case EDIT:
       {
         // Save map
         if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_S])
@@ -109,15 +109,15 @@ namespace editor
         }
 
         // Pan tool
-        if (state[SDL_SCANCODE_SPACE] && ImGui::IsMouseDragging(0))
+        if (state[SDL_SCANCODE_SPACE] && ImGui::IsMouseDragging (0))
         {
           ImGuiIO& io = ImGui::GetIO();
-          m_handle_pan_tool(io);
+          m_handle_pan_tool (io);
         }
       }
       break;
 
-    case PLAY:
+      case PLAY:
       {
         // Get back to edit mode
         if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_R])
@@ -126,8 +126,8 @@ namespace editor
         }
       }
       break;
-    default:
-      break;
+      default:
+        break;
     }
   }
 
@@ -139,13 +139,13 @@ namespace editor
       {
         m_FBO->Bind();
         m_game.m_display.Clear();
-        //m_game.m_systems.front()->update(m_game.m_registry, m_game.m_display.GetDT());
+        // m_game.m_systems.front()->update(m_game.m_registry, m_game.m_display.GetDT());
         m_game.update (m_game.m_display.GetDT());
         m_FBO->Unbind();
         this->render (m_game.m_display.GetWindowWidth(),
-                    m_game.m_display.GetWindowHeight(),
-                    m_game.m_display.Width,
-                    m_game.m_display.Height);
+                      m_game.m_display.GetWindowHeight(),
+                      m_game.m_display.Width,
+                      m_game.m_display.Height);
 
         m_game.m_display.Update();
         this->configure_input();
@@ -155,9 +155,9 @@ namespace editor
         m_game.m_display.Clear();
         m_game.update (m_game.m_display.GetDT());
         this->render (m_game.m_display.GetWindowWidth(),
-                    m_game.m_display.GetWindowHeight(),
-                    m_game.m_display.Width,
-                    m_game.m_display.Height);
+                      m_game.m_display.GetWindowHeight(),
+                      m_game.m_display.Width,
+                      m_game.m_display.Height);
         m_game.m_display.Update();
         this->configure_input();
       }
@@ -166,10 +166,8 @@ namespace editor
 
   void Editor::update() { m_log_system.update (m_registry, 0.0); }
 
-  void Editor::render (const float window_width,
-                          const float window_height,
-                          const float game_width,
-                          const float game_height)
+  void
+  Editor::render (const float window_width, const float window_height, const float game_width, const float game_height)
   {
     if (m_window != nullptr)
     {
@@ -182,7 +180,7 @@ namespace editor
       {
         this->draw_dock (window_width, window_height, game_width, game_height);
       }
-      m_toolbar.render (m_current_state, m_current_tool, m_window_width, [this](){this->draw_menu_bar();});
+      m_toolbar.render (m_current_state, m_current_tool, m_window_width, [this]() { this->draw_menu_bar(); });
 
       ImGui::PopFont();
       ImGui::Render();
@@ -217,11 +215,12 @@ namespace editor
     }
   }
 
-  void Editor::m_map_tile_pos(const ImGuiIO& io, std::function<void(const ImVec2&)> position_action)
+  void Editor::m_map_tile_pos (const ImGuiIO& io, std::function<void (const ImVec2&)> position_action)
   {
     // If the mouse is within the game screen boundaries
     if (m_scene.active() && io.MousePos.x > m_scene.get_x() && io.MousePos.x < m_scene.get_width() &&
-        io.MousePos.y <= m_scene.get_game_screen_height() + m_scene.get_game_screen_y_spacing() && io.MousePos.y > m_scene.get_game_screen_y_spacing())
+        io.MousePos.y <= m_scene.get_game_screen_height() + m_scene.get_game_screen_y_spacing() &&
+        io.MousePos.y > m_scene.get_game_screen_y_spacing())
     {
       const auto& camera_pos    = m_game.get_camera_pos();
       float width_padding       = m_scene.get_game_screen_x_spacing();
@@ -232,24 +231,23 @@ namespace editor
       const auto map_pos_x = (io.MousePos.x - width_padding) * width_factor + camera_pos[0] - 1.0f;
       const auto map_pos_y = (io.MousePos.y - height_padding) * height_factor + camera_pos[1] - 3.0f;
 
-      position_action (ImVec2(map_pos_x, map_pos_y));
+      position_action (ImVec2 (map_pos_x, map_pos_y));
     }
   }
 
   void Editor::m_handle_tile_pen (const ImGuiIO& io)
   {
-    m_map_tile_pos(io, [this](const ImVec2& map_pos)
-    {
+    m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
       // Set dummy sprite position with grid snapping
-      int new_tile_value = m_tileset_editor.get_selected_tile_id();
+      int new_tile_value  = m_tileset_editor.get_selected_tile_id();
       const auto tile_pos = m_tileset_editor.pos2tile (map_pos.x, map_pos.y);
-      auto& sprite_pos = m_registry.get<component::Position> (m_editor_sprite);
-      auto& sprite_spr = m_registry.get<component::Sprite> (m_editor_sprite);
-      sprite_pos.x = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
-      sprite_pos.y = tile_pos.y * m_tileset_editor.get_tile_dimensions().y;
+      auto& sprite_pos    = m_registry.get<component::Position> (m_editor_sprite);
+      auto& sprite_spr    = m_registry.get<component::Sprite> (m_editor_sprite);
+      sprite_pos.x        = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
+      sprite_pos.y        = tile_pos.y * m_tileset_editor.get_tile_dimensions().y;
       sprite_spr.sprite->SetDirectFrame (new_tile_value);
 
-      if (ImGui::IsMouseDown(0))
+      if (ImGui::IsMouseDown (0))
       {
         // Update tile if user clicks
         bool collidable = m_tileset_editor.get_selected_tile_collidable();
@@ -261,46 +259,42 @@ namespace editor
 
   void Editor::m_handle_pan_tool (const ImGuiIO& io)
   {
-    m_map_tile_pos(io, [this](const ImVec2& map_pos)
-    {
+    m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
       auto& pos = m_registry.get<stella::component::Position> (m_game.m_camera);
       if (!is_panning)
       {
         camera_pos_without_pan = ImVec2{pos.x, pos.y};
-        is_panning = true;
+        is_panning             = true;
       }
       ImVec2 drag = ImGui::GetMouseDragDelta();
-      pos.x = camera_pos_without_pan.x - drag.x;
-      pos.y = camera_pos_without_pan.y - drag.y;
+      pos.x       = camera_pos_without_pan.x - drag.x;
+      pos.y       = camera_pos_without_pan.y - drag.y;
     });
   }
 
   void Editor::m_handle_inspector (const ImGuiIO& io)
   {
-    m_map_tile_pos(io, [this](const ImVec2& map_pos)
-    {
-      if (ImGui::IsMouseClicked(0))
+    m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
+      if (ImGui::IsMouseClicked (0))
       {
         // Sort by z value before getting the right entity
-        m_game.m_registry.sort<component::Position>([](const auto& lhs, const auto& rhs)
-        {
-            return lhs.z < rhs.z;
-        });
+        m_game.m_registry.sort<component::Position> ([] (const auto& lhs, const auto& rhs) { return lhs.z < rhs.z; });
         // TODO: Find a better way to select entity based on position
         auto view = m_game.m_registry.view<component::Position, component::Dimension, component::Sprite>();
         for (auto entity : view)
         {
-            const auto& pos = m_game.m_registry.get<component::Position>(entity);
-            const auto& dim = m_game.m_registry.get<component::Dimension>(entity);
-            
-            if (m_game.m_registry.valid(entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w && map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
-            {
-              // std::cout << map_pos.x << ' ' << map_pos.y << '\n';
-              // std::cout << pos.x << ' ' << pos.y << '\n';
-              // std::cout << '\n';
-              m_inspector.set_selected_entity(entity);
-              break;
-            }
+          const auto& pos = m_game.m_registry.get<component::Position> (entity);
+          const auto& dim = m_game.m_registry.get<component::Dimension> (entity);
+
+          if (m_game.m_registry.valid (entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w &&
+              map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
+          {
+            // std::cout << map_pos.x << ' ' << map_pos.y << '\n';
+            // std::cout << pos.x << ' ' << pos.y << '\n';
+            // std::cout << '\n';
+            m_inspector.set_selected_entity (entity);
+            break;
+          }
         }
       }
     });
@@ -309,7 +303,10 @@ namespace editor
   void Editor::m_play_mode()
   {
     m_current_state = PLAY;
-    glViewport (0, m_toolbar.size().y, m_game.m_display.GetWindowWidth(), m_game.m_display.GetWindowHeight() - m_toolbar.size().y);
+    glViewport (0,
+                m_toolbar.size().y,
+                m_game.m_display.GetWindowWidth(),
+                m_game.m_display.GetWindowHeight() - m_toolbar.size().y);
     m_game.m_display.m_check_viewport_proportions();
   }
 
@@ -383,9 +380,9 @@ namespace editor
   }
 
   void Editor::draw_dock (const float window_width,
-                             const float window_height,
-                             const float game_width,
-                             const float game_height)
+                          const float window_height,
+                          const float game_width,
+                          const float game_height)
   {
     m_window_width  = window_width;
     m_window_height = window_height;
@@ -395,7 +392,7 @@ namespace editor
     ImGuiIO& io = ImGui::GetIO();
     m_handle_state (io);
 
-    float dock_width = window_width;
+    float dock_width  = window_width;
     float dock_height = window_height;
     float dock_offset = 0.f;
     // Adjust dock size if toolbar is open
@@ -405,9 +402,7 @@ namespace editor
       dock_height -= toolbar_size.y;
       dock_offset = toolbar_size.y;
     }
-    
 
-    
     ImGui::PushStyleVar (ImGuiStyleVar_WindowRounding, 0.0f);
     ImGui::PushStyleVar (ImGuiStyleVar_WindowBorderSize, 0.0f);
     ImGui::PushStyleVar (ImGuiStyleVar_WindowPadding, ImVec2 (0.0f, 0.0f));
@@ -417,9 +412,9 @@ namespace editor
     ImGui::SetNextWindowBgAlpha (0.0f);
     ImGui::Begin ("MainDS",
                   nullptr,
-                  ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse |
-                      ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar |
-                      ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus);
+                  ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove |
+                      ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus |
+                      ImGuiWindowFlags_NoNavFocus);
     ImGui::PopStyleVar();
     ImGui::PopStyleVar (2);
 
@@ -451,7 +446,7 @@ namespace editor
     ImGui::End();
 
     m_scene.render ((void*) (intptr_t) m_FBO->GetTexture());
-    
+
     m_map_editor.render_file_dialog();
 
     if (m_inspector.is_open())
@@ -469,7 +464,7 @@ namespace editor
     }
     if (m_console.is_open())
     {
-      m_console.render ();
+      m_console.render();
     }
     if (m_view_physics_debug_layer)
     {
@@ -534,18 +529,18 @@ namespace editor
         {
           m_view_physics_debug_layer = !m_view_physics_debug_layer;
         }
-        ImGui::Dummy(ImVec2{0.0f,1.5f});
+        ImGui::Dummy (ImVec2{0.0f, 1.5f});
         ImGui::Separator();
-        ImGui::Dummy(ImVec2{0.0f,1.5f});
-        m_widget_build_option(m_inspector);
-        ImGui::Dummy(ImVec2{0.0f,3.0f});
-        m_widget_build_option(m_map_editor);
-        ImGui::Dummy(ImVec2{0.0f,3.0f});
-        m_widget_build_option(m_tileset_editor);
-        ImGui::Dummy(ImVec2{0.0f,3.0f});
-        m_widget_build_option(m_chat);
-        ImGui::Dummy(ImVec2{0.0f,3.0f});
-        m_widget_build_option(m_console);
+        ImGui::Dummy (ImVec2{0.0f, 1.5f});
+        m_widget_build_option (m_inspector);
+        ImGui::Dummy (ImVec2{0.0f, 3.0f});
+        m_widget_build_option (m_map_editor);
+        ImGui::Dummy (ImVec2{0.0f, 3.0f});
+        m_widget_build_option (m_tileset_editor);
+        ImGui::Dummy (ImVec2{0.0f, 3.0f});
+        m_widget_build_option (m_chat);
+        ImGui::Dummy (ImVec2{0.0f, 3.0f});
+        m_widget_build_option (m_console);
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu ("Tools"))

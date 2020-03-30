@@ -38,7 +38,6 @@ namespace graphics
 #endif
     this->Window = SDL_CreateWindow (
         this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, window_flags);
-    
 
 #if __APPLE__
     SDL_GL_SetAttribute (SDL_GL_CONTEXT_FLAGS,
@@ -180,14 +179,14 @@ namespace graphics
           this->Running = false;
           break;
         case SDL_KEYDOWN:
-          {
+        {
           const Uint8* state = SDL_GetKeyboardState (nullptr);
           if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_Q])
           {
             this->Running = false;
           }
           break;
-          }
+        }
         case SDL_WINDOWEVENT:
           switch (event.window.event)
           {
@@ -255,30 +254,30 @@ namespace graphics
   }
 
   void Display::m_check_viewport_proportions()
-{
-  int width, height;
-  int vpcoords[4];
-  glGetIntegerv (GL_VIEWPORT, vpcoords);
+  {
+    int width, height;
+    int vpcoords[4];
+    glGetIntegerv (GL_VIEWPORT, vpcoords);
 
-  width  = vpcoords[2];
-  height = vpcoords[3];
+    width  = vpcoords[2];
+    height = vpcoords[3];
 
-  // 16/9 = 1.77777. Therefore, we check if the new proportions are greater or
-  // lower than that
-  if (width / (float) height > 1.78f)
-  { // Height is max and width is adjusted
-    int newwidth = height * 1.77777f;
-    int left     = width - newwidth;
-    // std::cout << newwidth << std::endl;
-    glViewport (left / 2, 0, newwidth, height);
+    // 16/9 = 1.77777. Therefore, we check if the new proportions are greater or
+    // lower than that
+    if (width / (float) height > 1.78f)
+    { // Height is max and width is adjusted
+      int newwidth = height * 1.77777f;
+      int left     = width - newwidth;
+      // std::cout << newwidth << std::endl;
+      glViewport (left / 2, 0, newwidth, height);
+    }
+    else if (width / (float) height < 1.77f)
+    { // Width is max and height is adjusted
+      int newheight = (int) width / 1.77f;
+      int left      = height - newheight;
+      // std::cout << newheight << std::endl;
+      glViewport (0, left / 2, width, newheight);
+    }
   }
-  else if (width / (float) height < 1.77f)
-  { // Width is max and height is adjusted
-    int newheight = (int) width / 1.77f;
-    int left      = height - newheight;
-    // std::cout << newheight << std::endl;
-    glViewport (0, left / 2, width, newheight);
-  }
-}
 } // namespace graphics
 } // namespace stella

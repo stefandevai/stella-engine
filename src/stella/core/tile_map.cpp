@@ -237,16 +237,16 @@ namespace core
 
   void TileMap::create_tile_entities (const int beginx, const int endx, const int beginy, const int endy)
   {
-    //std::cout << beginx << ' ' << endx << ' ' << beginy << ' ' << endy << '\n';
+    // std::cout << beginx << ' ' << endx << ' ' << beginy << ' ' << endy << '\n';
     assert (beginx < endx);
     assert (beginy < endy);
-    int left          = std::max(beginx / m_tile_dimension, 0);
-    int right         = std::min(endx / m_tile_dimension, static_cast<int>(m_width));
-    int top           = std::max(beginy / m_tile_dimension, 0);
-    int bottom        = std::min(static_cast<int>(ceil (endy / static_cast<double> (m_tile_dimension))), static_cast<int>(m_height));
+    int left  = std::max (beginx / m_tile_dimension, 0);
+    int right = std::min (endx / m_tile_dimension, static_cast<int> (m_width));
+    int top   = std::max (beginy / m_tile_dimension, 0);
+    int bottom =
+        std::min (static_cast<int> (ceil (endy / static_cast<double> (m_tile_dimension))), static_cast<int> (m_height));
     int layer_counter = 0;
-    //std::cout << beginx / m_tile_dimension << ' ' << right << ' ' << top << ' ' << bottom << "\n\n";
-
+    // std::cout << beginx / m_tile_dimension << ' ' << right << ' ' << top << ' ' << bottom << "\n\n";
 
     for (const auto& layer : this->layers)
     {
