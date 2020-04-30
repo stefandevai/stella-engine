@@ -3,10 +3,10 @@ sudo: true
 notifications:
   email: false
 
-branches:
-  only:
-  - master
-  - development
+#branches:
+  #only:
+  #- master
+  #- development
 
 os: linux
 dist: bionic
@@ -16,21 +16,21 @@ cache:
     - ${TRAVIS_BUILD_DIR}/lib
 
 matrix:
-  # include:
-    # - env:
-    #     - COMPILER=clang++
-    #     - CXXFLAGS="-std=c++1z"
-      # os: osx
-      # osx_image: xcode11.3
-      # addons:
-      #   homebrew:
-      #     packages:
-      #       - sdl2
-      #       - libvorbis
-      #       - lua
-      #       - freealut
-      #       - freetype
-      #     update: true
+  include:
+    - env:
+        - COMPILER=clang++
+        - CXXFLAGS="-std=c++1z"
+      os: osx
+      osx_image: xcode11.3
+      addons:
+        homebrew:
+          packages:
+            - sdl2
+            - libvorbis
+            - lua
+            - freealut
+            - freetype
+          update: true
 
     - os: linux
       addons:
@@ -55,7 +55,6 @@ before_install:
   - eval "${MATRIX_EVAL}"
 
 before_script:
-  - sudo ln -s /usr/include/locale.h /usr/include/xlocale.h
   - cd "${TRAVIS_BUILD_DIR}"
   - mkdir build && cd build
   - cmake ..

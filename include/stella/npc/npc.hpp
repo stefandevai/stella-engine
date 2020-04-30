@@ -4,7 +4,6 @@
 #include <stack>
 #include <vector>
 #include <sol/sol.hpp>
-#include "stella/nlp/nlp.hpp"
 
 namespace stella
 {
@@ -26,8 +25,6 @@ namespace npc
     double m_attention_timer    = 0.0;
     std::string m_context{"NON_ATTACHED"};
     sol::state m_lua;
-    // nlp::WordTokenizer tokenizer;
-    nlp::NLP m_nlp{"./config/nlp/perceptron-tagger"};
 
   public:
     explicit NPC (const std::string& script_path);
@@ -38,7 +35,6 @@ namespace npc
     void update_current_action();
     std::wstring process_when_none (const std::wstring& req);
     std::wstring process_when_greeted (const std::wstring& req);
-    std::wstring process_nlp (const std::wstring& req);
   };
 } // namespace npc
 } // namespace stella
