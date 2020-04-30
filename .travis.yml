@@ -55,7 +55,6 @@ before_install:
   - eval "${MATRIX_EVAL}"
 
 before_script:
-  - sudo ln -s /usr/include/locale.h /usr/include/xlocale.h
   - cd "${TRAVIS_BUILD_DIR}"
   - mkdir build && cd build
   - cmake ..
