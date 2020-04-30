@@ -104,38 +104,8 @@ namespace npc
     // If there was no answer until now, process NLP
     if (response.empty())
     {
-      response = process_nlp (req);
-    }
-
-  return_response:
-    return response;
-  }
-
-  // TODO: Remove redundancy and both loops, find a better way to decide if checking keywords or NLP
-  std::wstring NPC::process_nlp (const std::wstring& req)
-  {
-    std::wstring response{};
-
-    auto tokens        = m_nlp.analyze (req);
-    sol::table context = m_lua["database"][m_context];
-    for (auto& speech_pair : context)
-    {
-      const sol::table& speech   = speech_pair.second;
-      const sol::table& keywords = speech["keywords"];
-
-      for (unsigned int i = 1; i <= keywords.size(); ++i)
-      {
-        const std::wstring& kw = keywords[i];
-        for (const auto& token : tokens)
-        {
-          if (token.lemma == kw)
-          {
-            response  = static_cast<std::wstring> (speech["responses"][1]);
-            m_context = static_cast<std::string> (speech["next_speech"]);
-            goto return_response;
-          }
-        }
-      }
+      //response = process_nlp (req);
+      response = L"No more NLP module";
     }
 
   return_response:
