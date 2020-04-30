@@ -16,21 +16,21 @@ cache:
     - ${TRAVIS_BUILD_DIR}/lib
 
 matrix:
-  # include:
-    # - env:
-    #     - COMPILER=clang++
-    #     - CXXFLAGS="-std=c++1z"
-      # os: osx
-      # osx_image: xcode11.3
-      # addons:
-      #   homebrew:
-      #     packages:
-      #       - sdl2
-      #       - libvorbis
-      #       - lua
-      #       - freealut
-      #       - freetype
-      #     update: true
+   include:
+     - env:
+         - COMPILER=clang++
+         - CXXFLAGS="-std=c++1z"
+       os: osx
+       osx_image: xcode11.3
+       addons:
+         homebrew:
+           packages:
+             - sdl2
+             - libvorbis
+             - lua
+             - freealut
+             - freetype
+           update: true
 
     - os: linux
       addons:
