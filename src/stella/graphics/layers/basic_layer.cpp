@@ -1,7 +1,7 @@
 #include "stella/graphics/layers/basic_layer.hpp"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>                  // IWYU pragma: export
+#include <glm/gtc/matrix_transform.hpp> // IWYU pragma: export
 
 namespace stella
 {

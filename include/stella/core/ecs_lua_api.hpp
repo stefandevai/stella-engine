@@ -2,7 +2,10 @@
 
 #include "basic_lua_api.hpp"
 #include "stella/perlin.hpp"
-#include <entt/entity/registry.hpp>
+#include <entt/entity/registry.hpp> // IWYU pragma: export
+#include <stdlib.h>             // for rand
+#include <tuple>                // for tuple
+#include "sol/forward.hpp"
 
 namespace stella
 {

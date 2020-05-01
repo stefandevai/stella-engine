@@ -12,10 +12,10 @@
 #ifdef _WIN32
   #include <SDL.h>
 #else
-  #include <SDL2/SDL.h>
+  #include <SDL2/SDL.h> // IWYU pragma: export
 #endif
 #undef main
-#include <cereal/cereal.hpp>
+#include <cereal/cereal.hpp> // IWYU pragma: export
 
 namespace stella
 {

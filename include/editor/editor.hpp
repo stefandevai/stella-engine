@@ -10,13 +10,13 @@
 #include "widgets/map_editor.hpp"
 #include "widgets/tileset_editor.hpp"
 #include "widgets/scene.hpp"
-#include <entt/entity/registry.hpp>
+#include <entt/entity/registry.hpp> // IWYU pragma: export
 //#include "../stella/core/game.hpp"
 #include "state.hpp"
 #include "widgets/toolbar.hpp"
-#include "../../lib/imgui/imgui.h"
-#include "../../lib/imgui/examples/imgui_impl_opengl3.h"
-#include "../../lib/imgui/examples/imgui_impl_sdl.h"
+#include "../../lib/imgui/imgui.h" // IWYU pragma: export
+#include "../../lib/imgui/examples/imgui_impl_opengl3.h" // IWYU pragma: export
+#include "../../lib/imgui/examples/imgui_impl_sdl.h" // IWYU pragma: export
 
 struct SDL_Window;
 union SDL_Event;

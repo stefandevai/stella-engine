@@ -1,7 +1,7 @@
 #pragma once
 
-#include <stella/stella.hpp>
-#include <stella/systems.hpp>
+#include <stella/stella.hpp> // IWYU pragma: export
+#include <stella/systems.hpp> // IWYU pragma: export
 #include <stella/core/tile_map.hpp>
 #include <stella/perlin.hpp>
 

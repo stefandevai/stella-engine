@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../lib/imgui/imgui.h"
+#include "../../lib/imgui/imgui.h" // IWYU pragma: export
 #include <string>
 
 namespace stella

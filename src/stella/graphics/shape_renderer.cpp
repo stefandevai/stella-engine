@@ -1,12 +1,12 @@
 #include "stella/graphics/shape_renderer.hpp"
 #include "stella/graphics/shape.hpp"
 
-#include "stella/graphics/opengl.hpp"
+#include "stella/graphics/opengl.hpp" // IWYU pragma: export
 
 #include <algorithm>
 #include <cstddef>
 
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_transform.hpp> // IWYU pragma: export
 
 #include <iostream>
 

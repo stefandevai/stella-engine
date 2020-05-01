@@ -1,4 +1,13 @@
 #include "stella/systems/character_animation.hpp"
+#include <string>
+#include <type_traits>
+#include "entt/entity/group.hpp"
+#include "entt/entity/storage.hpp"
+#include "entt/entity/utility.hpp"
+#include "stella/components/character_animation.hpp"
+#include "stella/components/body2d.hpp"
+#include "stella/components/animation.hpp"
+#include "stella/topdown/body.hpp"
 
 namespace stella
 {

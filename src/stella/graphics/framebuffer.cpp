@@ -1,7 +1,7 @@
 #include "stella/graphics/framebuffer.hpp"
 #include "stella/graphics/shader.hpp"
 
-#include "stella/graphics/opengl.hpp"
+#include "stella/graphics/opengl.hpp" // IWYU pragma: export
 
 #include <iostream>
 

@@ -3,7 +3,7 @@
 #include <string>
 
 #include "../graphics/sprite.hpp"
-#include <glm/glm.hpp>
+#include <glm/glm.hpp> // IWYU pragma: export
 #include <memory>
 
 namespace stella

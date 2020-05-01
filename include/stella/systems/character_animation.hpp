@@ -1,8 +1,6 @@
 #pragma once
 
-#include "stella/components/character_animation.hpp"
-#include "stella/components/animation.hpp"
-#include "stella/components/body2d.hpp"
+#include "entt/entity/fwd.hpp"
 #include "system.hpp"
 
 namespace stella

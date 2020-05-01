@@ -1,10 +1,10 @@
 #include "stella/graphics/layers/firelayer.hpp"
 
-#include "stella/graphics/opengl.hpp"
+#include "stella/graphics/opengl.hpp" // IWYU pragma: export
 #include <memory>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>                  // IWYU pragma: export
+#include <glm/gtc/matrix_transform.hpp> // IWYU pragma: export
 
 namespace
 {

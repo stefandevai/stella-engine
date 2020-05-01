@@ -5,7 +5,7 @@
 #include "../position.hpp"
 #include "../sprite.hpp"
 #include "../transform.hpp"
-#include <entt/entity/registry.hpp>
+#include <entt/entity/registry.hpp> // IWYU pragma: export
 #include <string>
 #include <vector>
 

@@ -1,7 +1,8 @@
 #pragma once
 
 #include <bitset>
-#include <glm/glm.hpp>
+#include "glm/detail/type_vec.hpp"
+#include "glm/detail/type_vec2.hpp"
 
 namespace stella
 {

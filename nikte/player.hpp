@@ -2,7 +2,7 @@
 
 #include <stella/components/body2d.hpp>
 #include <stella/components/animation.hpp>
-#include <entt/entity/registry.hpp>
+#include <entt/entity/registry.hpp> // IWYU pragma: export
 
 namespace stella
 {

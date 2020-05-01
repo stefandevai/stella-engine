@@ -2,12 +2,12 @@
 #include "stella/graphics/sprite.hpp"
 #include "stella/graphics/texture.hpp"
 
-#include "stella/graphics/opengl.hpp"
+#include "stella/graphics/opengl.hpp" // IWYU pragma: export
 
 #include <algorithm>
 #include <cstddef>
 
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_transform.hpp> // IWYU pragma: export
 
 #include <iostream>
 

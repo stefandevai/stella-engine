@@ -4,7 +4,7 @@
 #include <vector>
 #include <functional>
 
-#include <entt/entity/registry.hpp>
+#include <entt/entity/registry.hpp> // IWYU pragma: export
 
 namespace stella
 {

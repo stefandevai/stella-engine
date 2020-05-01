@@ -1,5 +1,5 @@
 #include "stella/graphics/layers/shape_layer.hpp"
-#include "stella/graphics/opengl.hpp"
+#include "stella/graphics/opengl.hpp" // IWYU pragma: export
 
 #include <algorithm>
 

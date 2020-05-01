@@ -1,6 +1,6 @@
 #include "stella/graphics/texture.hpp"
 
-#include "stella/graphics/opengl.hpp"
+#include "stella/graphics/opengl.hpp" // IWYU pragma: export
 #include <iostream>
 
 extern "C"

@@ -3,7 +3,7 @@
 #include "./basic_lua_api.hpp"
 #include "./map_grid.hpp"
 #include "./tile.hpp"
-#include <entt/entity/registry.hpp>
+#include <entt/entity/registry.hpp> // IWYU pragma: export
 
 namespace stella
 {

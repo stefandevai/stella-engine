@@ -1,9 +1,9 @@
 #include "stella/graphics/layers/water_layer.hpp"
 
-#include "stella/graphics/opengl.hpp"
+#include "stella/graphics/opengl.hpp" // IWYU pragma: export
 #include "stella/graphics/shape_renderer.hpp"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>                  // IWYU pragma: export
+#include <glm/gtc/matrix_transform.hpp> // IWYU pragma: export
 
 namespace stella
 {

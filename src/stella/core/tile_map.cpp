@@ -6,12 +6,12 @@
 #include "stella/components/tile.hpp"
 
 #include <cmath>
-#include <glm/glm.hpp>
+#include <glm/glm.hpp> // IWYU pragma: export
 
-#include <cereal/archives/xml.hpp>
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
-#include <cereal/types/vector.hpp>
+#include <cereal/archives/xml.hpp> // IWYU pragma: export
+#include <cereal/cereal.hpp>       // IWYU pragma: export
+#include <cereal/types/memory.hpp> // IWYU pragma: export
+#include <cereal/types/vector.hpp> // IWYU pragma: export
 #include <fstream>
 #include <algorithm>
 

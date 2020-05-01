@@ -1,6 +1,6 @@
 #include "stella/audio/soundplayer.hpp"
 
-#include <AL/alut.h>
+#include <AL/alut.h> // IWYU pragma: export
 #include <iostream>
 
 namespace stella
