@@ -27,7 +27,8 @@ namespace graphics
     SpriteRenderer();
     ~SpriteRenderer();
     void Begin();
-    void Submit (const Sprite& sprite);
+    void Submit (const std::shared_ptr<Renderable> renderable);
+    void Submit (const std::shared_ptr<Sprite> sprite);
     void End();
     void Draw();
 

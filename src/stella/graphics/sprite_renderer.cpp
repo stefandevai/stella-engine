@@ -91,20 +91,29 @@ namespace graphics
     VertexBuffer = static_cast<VertexData*> (glMapBuffer (GL_ARRAY_BUFFER, GL_WRITE_ONLY));
   }
 
-  void SpriteRenderer::Submit (const Sprite& sprite)
+  void SpriteRenderer::Submit (const std::shared_ptr<Renderable> renderable)
   {
-    const glm::vec3& position   = sprite.GetPos();
-    const glm::vec2& dimensions = sprite.GetDimensions();
-    const float rotation        = sprite.GetRotation();
-    const glm::vec2& scale      = sprite.GetScale();
-    const unsigned int c        = sprite.GetColor();
+      auto spr = std::dynamic_pointer_cast<Sprite> (renderable);
+      if (spr != nullptr)
+      {
+          Submit(spr);
+      }
+  }
 
-    const glm::vec2& uv            = sprite.GetFrameCoords();
-    const SpriteSheet& spritesheet = sprite.GetSpriteSheet();
+  void SpriteRenderer::Submit (const std::shared_ptr<Sprite> sprite)
+  {
+    const glm::vec3& position   = sprite->GetPos();
+    const glm::vec2& dimensions = sprite->GetDimensions();
+    const float rotation        = sprite->GetRotation();
+    const glm::vec2& scale      = sprite->GetScale();
+    const unsigned int c        = sprite->GetColor();
+
+    const glm::vec2& uv            = sprite->GetFrameCoords();
+    const SpriteSheet& spritesheet = sprite->GetSpriteSheet();
     const GLuint stW               = spritesheet.GetWidth();
     const GLuint stH               = spritesheet.GetHeight();
 
-    Texture* texture = sprite.GetTexture();
+    Texture* texture = sprite->GetTexture();
 
     if (!texture->IsCached())
     {

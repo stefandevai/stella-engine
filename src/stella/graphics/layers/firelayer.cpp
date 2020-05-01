@@ -147,7 +147,7 @@ namespace graphics
     // 0.0f)); this->Ren->PushTransformation(trans);
 
     for (auto i : Sprites)
-      this->Ren->Submit (*i);
+      this->Ren->Submit (i);
 
     // this->Ren->PopTransformation();
 
