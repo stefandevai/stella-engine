@@ -13,18 +13,16 @@ namespace stella
 {
 namespace graphics
 {
-  class Texture;
-
   class Renderable
   {
   public:
     glm::vec3 Pos;
     glm::vec2 Dimensions, RealDimensions;
 
-    Renderable (glm::vec3 position, glm::vec2 dimensions, Texture& texture, GLboolean visible = 1);
-    Renderable (glm::vec3 position, Texture& texture);
-    Renderable (GLint x, GLint y, GLint w, GLint h, Texture& texture, GLboolean visible = 1);
-    Renderable (GLint x, GLint y, Texture& texture);
+    Renderable (glm::vec3 position, glm::vec2 dimensions, GLboolean visible = 1);
+    //Renderable (glm::vec3 position);
+    Renderable (GLint x, GLint y, GLint w, GLint h, GLboolean visible = 1);
+    //Renderable (GLint x, GLint y);
     virtual ~Renderable();
 
     // Getters
@@ -34,8 +32,6 @@ namespace graphics
     inline GLfloat GetHeight() const { return Dimensions.y; }
     inline GLfloat GetRotation() const { return Rotation; }
     inline glm::vec2 GetScale() const { return Scale; }
-    inline GLuint GetTexID() const;
-    Texture* GetTexture() const;
     inline const GLboolean& IsVisible() const { return Visible; }
 
     // Setters
@@ -51,7 +47,6 @@ namespace graphics
     // this->Dimensions *= this->Scale; }
 
   protected:
-    Texture& Tex;
     GLboolean Visible;
     GLfloat Rotation = 0.0;
     glm::vec2 Scale  = glm::vec2 (1.f, 1.f);

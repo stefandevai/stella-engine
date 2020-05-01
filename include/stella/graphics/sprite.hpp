@@ -8,6 +8,8 @@ namespace stella
 {
 namespace graphics
 {
+  class Texture;
+
   struct VertexData
   {
     glm::vec3 vertex;
@@ -40,6 +42,8 @@ namespace graphics
     inline GLuint GetCurrentFrame() const { return Frame; }
     inline SpriteSheet GetSpriteSheet() const { return *Sprites; }
     inline glm::vec2 GetFrameCoords() const { return Sprites->GetUV (this->Frame); }
+    inline GLuint GetTexID() const;
+    Texture* GetTexture() const;
 
     // Setters
     void SetFrame (const GLuint frame);
@@ -55,6 +59,7 @@ namespace graphics
     std::vector<GLuint> Frames;
     GLuint Frame = 0, NumberOfFrames;
     SpriteSheet* Sprites;
+    Texture& Tex;
   };
 } // namespace graphics
 } // namespace stella
