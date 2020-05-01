@@ -2,13 +2,13 @@
 
 #include "../framebuffer.hpp"
 #include "../shader.hpp"
-#include "./layer.hpp"
+#include "./sprite_layer.hpp"
 
 namespace stella
 {
 namespace graphics
 {
-  class FireLayer : public stella::graphics::Layer
+  class FireLayer : public stella::graphics::SpriteLayer
   {
   public:
     explicit FireLayer (graphics::Display& display);

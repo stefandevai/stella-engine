@@ -8,7 +8,7 @@ namespace stella
 namespace graphics
 {
   BasicLayer::BasicLayer (float width, float height, const char* vspath, const char* fspath, bool fixed)
-    : Layer (std::shared_ptr<Renderer> (new Renderer()), fixed)
+    : SpriteLayer (std::shared_ptr<SpriteRenderer> (new SpriteRenderer()), fixed)
   {
     // Initialize shader and textures IDs
     this->Shad        = std::shared_ptr<Shader> (new Shader (vspath, fspath));

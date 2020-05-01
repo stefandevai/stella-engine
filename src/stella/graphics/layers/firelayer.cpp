@@ -40,7 +40,7 @@ namespace stella
 namespace graphics
 {
   FireLayer::FireLayer (graphics::Display& display)
-    : Layer (std::shared_ptr<Renderer> (new Renderer()), false), Display (display)
+    : SpriteLayer (std::shared_ptr<SpriteRenderer> (new SpriteRenderer()), false), Display (display)
   {
     this->QuadVAO = 0;
     this->QuadVBO = 0;
@@ -71,7 +71,7 @@ namespace graphics
     this->BlurFBO[1]  = new Framebuffer (display);
   }
 
-  FireLayer::FireLayer (const FireLayer& copied_layer) : Layer (copied_layer.Ren), Display (copied_layer.Display)
+  FireLayer::FireLayer (const FireLayer& copied_layer) : SpriteLayer (copied_layer.Ren), Display (copied_layer.Display)
   {
     QuadVAO = copied_layer.QuadVAO;
     QuadVBO = copied_layer.QuadVBO;

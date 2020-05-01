@@ -1,13 +1,13 @@
 #pragma once
 
 #include "stella/graphics/shader.hpp"
-#include "layer.hpp"
+#include "sprite_layer.hpp"
 
 namespace stella
 {
 namespace graphics
 {
-  class BasicLayer : public Layer
+  class BasicLayer : public SpriteLayer
   {
   public:
     BasicLayer (float width, float height, const char* vspath, const char* fspath, bool fixed = true);

@@ -6,6 +6,7 @@
 #include "stella/systems/system.hpp"
 #include "stella/graphics/display.hpp"
 #include "stella/graphics/texture.hpp"
+#include "stella/graphics/layers/layer.hpp"
 #include "stella/graphics/layers/basic_layer.hpp"
 
 namespace stella
