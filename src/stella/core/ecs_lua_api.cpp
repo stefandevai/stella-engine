@@ -213,6 +213,20 @@ namespace script
     m_registry.emplace<stella::component::CharacterAnimation> (id);
   }
 
+  void ECSLuaApi::add_shape_component (entt::registry::entity_type id, const sol::table& obj)
+  {
+    const sol::table& verts = obj["vertices"];
+    const std::string& layer_id = obj["layer"] == sol::lua_nil ? std::string() : obj["layer"];
+    const int verts_size    = verts.size();
+    std::vector<glm::vec2> vertices (verts_size);
+    for (int i = 1; i <= verts_size; ++i)
+    {
+      const sol::table& v = verts[i];
+      vertices[i - 1] = glm::vec2{v[1], v[2]};
+    }
+    m_registry.emplace<stella::component::Shape> (id, vertices, layer_id);
+  }
+
   void ECSLuaApi::add_component (const sol::table& obj)
   {
     if (obj["type"] != sol::lua_nil)
@@ -251,6 +265,10 @@ namespace script
         add_npc_component (id, obj["args"]);
       else if (ct == "character_animation")
         add_character_animation_component (id);
+      else if (ct == "shape")
+      {
+        add_shape_component (id, obj["args"]);
+      }
       else
         std::cout << "ERROR: No component named " << ct << '\n';
     }

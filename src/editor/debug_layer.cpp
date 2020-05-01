@@ -12,7 +12,7 @@ namespace stella
 namespace editor
 {
   DebugLayer::DebugLayer (float width, float height, bool fixed)
-    : ShapeLayer (std::make_shared<graphics::ShapeRenderer>(), fixed)
+    : ShapeLayer ("assets/shaders/debug_shader.vert", "assets/shaders/debug_shader.frag", fixed)
   {
     // Initialize shader and textures IDs
     this->Shad =

@@ -10,7 +10,7 @@ namespace stella
 namespace graphics
 {
   WaterLayer::WaterLayer (float width, float height, bool fixed)
-    : ShapeLayer (std::make_shared<graphics::ShapeRenderer>(), fixed)
+    : ShapeLayer ("assets/shaders/water_shader.vert", "assets/shaders/water_shader.frag", fixed)
   {
     this->Shad =
         std::make_shared<graphics::Shader> ("assets/shaders/water_shader.vert", "assets/shaders/water_shader.frag");

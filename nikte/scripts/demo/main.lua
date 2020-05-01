@@ -96,6 +96,15 @@ local function load()
   })
 
   create_layer({
+    name = "fog",
+    priority = 4,
+    fixed = true,
+    shader = "shape",
+    vert_source = "assets/shaders/fog.vert",
+    frag_source = "assets/shaders/fog.frag",
+  })
+
+  create_layer({
     name = "text",
     priority = 10,
     vert_source = "assets/shaders/sprite_batch.vert",
@@ -105,8 +114,14 @@ local function load()
 
   -- load_assets()
   load_player(480, 512)
-  load_npc(512, 512)
-  flowers.load()
+  --load_npc(512, 512)
+  --flowers.load()
+  local test_shape = Entity:create_entity()
+  test_shape:add_component("shape", {
+    vertices = {{1,2},{150,4},{100, 100}},
+    layer = "fog"
+    --vertices = {{1,2},
+  })
 
   -- local test_spr = Entity:create_entity()
   -- test_spr:add_component("sprite", {

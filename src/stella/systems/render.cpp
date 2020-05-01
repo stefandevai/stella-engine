@@ -4,7 +4,9 @@
 #include "stella/components/dimension.hpp"
 #include "stella/components/position.hpp"
 #include "stella/components/transform.hpp"
+#include "stella/components/shape.hpp"
 #include "stella/graphics/layers/firelayer.hpp"
+#include "stella/graphics/layers/shape_layer.hpp"
 #include <ctime>
 
 namespace stella
@@ -18,6 +20,7 @@ namespace system
   {
     registry.on_construct<component::Layer>().connect<&Render::initialize_layer> (this);
     registry.on_construct<component::Sprite>().connect<&Render::initialize_sprite> (this);
+    registry.on_construct<component::Shape>().connect<&Render::initialize_shape> (this);
     registry.on_destroy<component::Sprite>().connect<&Render::remove_sprite_from_layer> (this);
     std::srand (static_cast<unsigned> (std::time (nullptr)));
   }
@@ -105,6 +108,12 @@ namespace system
     {
       m_layers[layer.Id] = std::shared_ptr<stella::graphics::FireLayer> (new graphics::FireLayer (this->m_display));
     }
+    else if (layer.ShaderId == "shape" && !layer.frag_shader_source.empty() && !layer.vert_shader_source.empty())
+    {
+      m_layers[layer.Id] = std::shared_ptr<stella::graphics::ShapeLayer> (new graphics::ShapeLayer(layer.vert_shader_source.c_str(),
+                                                                                                   layer.frag_shader_source.c_str(),
+                                                                                                   layer.Fixed));
+    }
     else if (!layer.frag_shader_source.empty() && !layer.vert_shader_source.empty())
     {
       m_layers[layer.Id] =
@@ -176,6 +185,16 @@ namespace system
           sprite.Initialized = true;
         }
       }
+    }
+  }
+
+  void Render::initialize_shape (entt::registry& registry, entt::entity entity)
+  {
+    auto& shape = registry.get<component::Shape> (entity);
+    if (shape.shape && !shape.in_layer)
+    {
+      m_layers[shape.layer_id]->Add (shape.shape);
+      shape.in_layer = true;
     }
   }
 } // namespace system

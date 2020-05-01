@@ -7,9 +7,10 @@ namespace stella
 {
 namespace graphics
 {
-  ShapeLayer::ShapeLayer (std::shared_ptr<ShapeRenderer> renderer, bool fixed)
-    : Layer (renderer, fixed)
+  ShapeLayer::ShapeLayer (const char* vspath, const char* fspath, bool fixed)
+    : Layer (std::make_shared<ShapeRenderer>(), fixed)
   {
+    this->Shad = std::shared_ptr<Shader> (new Shader (vspath, fspath));
   }
 
   ShapeLayer::~ShapeLayer() { this->Shad->Disable(); }

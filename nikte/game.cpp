@@ -14,13 +14,13 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   this->add_system<stella::system::Timer> (m_registry);
   this->add_system<stella::system::Animation> (m_registry);
   this->add_system<stella::system::Physics> (m_tile_map, m_registry);
-  this->add_system<stella::system::Tile> (m_tile_map, m_camera, m_registry);
+  //this->add_system<stella::system::Tile> (m_tile_map, m_camera, m_registry);
   this->add_system<stella::system::Text> (m_registry, m_fonts);
   this->add_system<stella::system::Speech>();
   this->add_system<stella::system::NPC> (m_registry, m_player.entity);
   this->add_system<stella::system::CharacterAnimation>();
 
-  m_tile_map.create_tile_entities (0, m_display.GetWidth(), 0, m_display.GetHeight());
+  //m_tile_map.create_tile_entities (0, m_display.GetWidth(), 0, m_display.GetHeight());
   m_script_api.set_variable<int> ("e_map_width", m_tile_map.width());
   m_script_api.set_variable<int> ("e_map_height", m_tile_map.height());
   m_script_api.set_variable<int> ("e_screen_width", this->width());

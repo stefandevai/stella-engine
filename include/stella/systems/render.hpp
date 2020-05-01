@@ -38,6 +38,7 @@ namespace system
   private:
     Render() = delete;
     void initialize_sprite (entt::registry& registry, entt::entity entity);
+    void initialize_shape (entt::registry& registry, entt::entity entity);
     void remove_sprite_from_layer (entt::registry& registry, entt::entity entity);
     void initialize_layer (entt::registry& registry, entt::entity entity);
   };

@@ -24,16 +24,15 @@ namespace graphics
 
   public:
     bool Fixed;
-
+    
+    ShapeLayer (const char* vspath, const char* fspath, bool fixed = true);
     virtual ~ShapeLayer();
     virtual void Add (std::shared_ptr<Renderable> renderable);
     virtual void Remove (std::shared_ptr<Renderable> renderable);
     virtual void Add (std::shared_ptr<Shape> shape);
     virtual void Remove (std::shared_ptr<Shape> shape);
     virtual void Render();
-
-  protected:
-    ShapeLayer (std::shared_ptr<ShapeRenderer> renderer, bool fixed = true);
+    
   };
 } // namespace graphics
 } // namespace stella
