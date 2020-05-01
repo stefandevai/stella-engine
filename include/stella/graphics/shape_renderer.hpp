@@ -1,7 +1,7 @@
 #pragma once
 
+#include "renderer.hpp"
 #include <vector>
-
 #include <glm/glm.hpp>
 
 typedef unsigned int GLuint;
@@ -22,7 +22,7 @@ namespace graphics
     glm::vec2 dimensions;
   };
 
-  class ShapeRenderer
+  class ShapeRenderer : public Renderer
   {
   private:
     const unsigned S_MAX_SHAPES  = 10000;
@@ -36,8 +36,9 @@ namespace graphics
     ShapeRenderer();
     ~ShapeRenderer();
     void Begin();
-    void Submit (const Shape& shape);
-    static void End();
+    void Submit (const std::shared_ptr<Renderable> renderable);
+    void Submit (const std::shared_ptr<Shape> shape);
+    void End();
     void Draw();
 
   private:

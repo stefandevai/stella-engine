@@ -44,6 +44,8 @@ namespace graphics
     // bool Fixed;
 
     //virtual ~SpriteLayer();
+    virtual void Add (std::shared_ptr<Renderable> renderable);
+    virtual void Remove (std::shared_ptr<Renderable> renderable);
     virtual void Add (std::shared_ptr<Sprite> sprite);
     virtual void Remove (std::shared_ptr<Sprite> sprite);
     virtual void Render();

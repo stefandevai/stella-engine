@@ -66,7 +66,7 @@ namespace editor
     std::shared_ptr<graphics::Shape> shape = std::make_shared<graphics::Shape> (vertices, glm::vec3{200.f, 100.f, 1.f});
 
     // View options
-    bool m_view_physics_debug_layer = false;
+    bool m_view_physics_debug_layer = true;
     bool m_show_editor = true;
 
     std::unique_ptr<graphics::Framebuffer> m_FBO;

@@ -27,7 +27,7 @@ namespace graphics
     this->Ren->Begin();
 
     for (auto& i : Shapes)
-      this->Ren->Submit (*i);
+      this->Ren->Submit (i);
 
     this->Ren->End();
     this->Ren->Draw();

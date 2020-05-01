@@ -13,6 +13,22 @@ namespace graphics
   {
   }
 
+  void SpriteLayer::Add (std::shared_ptr<Renderable> renderable) {
+      auto spr = std::dynamic_pointer_cast<Sprite> (renderable);
+      if (spr != nullptr)
+      {
+          Add(spr);
+      }
+  }
+
+  void SpriteLayer::Remove (std::shared_ptr<Renderable> renderable) {
+    auto spr = std::dynamic_pointer_cast<Sprite> (renderable);
+    if (spr != nullptr)
+    {
+        Remove(spr);
+    }
+  }
+
   void SpriteLayer::Add (std::shared_ptr<Sprite> sprite) { m_sprites.insert (sprite); }
 
   void SpriteLayer::Remove (std::shared_ptr<Sprite> sprite)

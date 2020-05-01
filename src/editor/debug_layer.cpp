@@ -5,6 +5,8 @@
 #include <glm/glm.hpp>                  // IWYU pragma: export
 #include <glm/gtc/matrix_transform.hpp> // IWYU pragma: export
 
+#include <iostream>
+
 namespace stella
 {
 namespace editor
@@ -31,7 +33,9 @@ namespace editor
     this->Ren->Begin();
 
     for (auto i : Shapes)
-      this->Ren->Submit (*i);
+    {
+      this->Ren->Submit (i);
+    }
 
     this->Ren->End();
     this->Ren->Draw();

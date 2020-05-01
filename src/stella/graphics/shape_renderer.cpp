@@ -82,14 +82,23 @@ namespace graphics
     m_vertex_buffer = static_cast<ShapeVertexData*> (glMapBuffer (GL_ARRAY_BUFFER, GL_WRITE_ONLY));
   }
 
-  void ShapeRenderer::Submit (const Shape& shape)
+  void ShapeRenderer::Submit (const std::shared_ptr<Renderable> renderable)
   {
-    const glm::vec3& position              = shape.position();
-    const std::vector<glm::vec2>& vertices = shape.vertices();
+      auto shape = std::dynamic_pointer_cast<Shape> (renderable);
+      if (shape != nullptr)
+      {
+          Submit(shape);
+      }
+  }
+
+  void ShapeRenderer::Submit (const std::shared_ptr<Shape> shape)
+  {
+    const glm::vec3& position              = shape->GetPos();
+    const std::vector<glm::vec2>& vertices = shape->vertices();
     // const glm::vec2 &dimensions = sprite.GetDimensions();
     // const float rotation = sprite.GetRotation();
     // const glm::vec2 &scale = sprite.GetScale();
-    const unsigned int c = shape.color();
+    const unsigned int c = shape->color();
 
     // auto particular_transform = glm::mat4();
     // particular_transform = glm::translate(particular_transform,
@@ -107,7 +116,7 @@ namespace graphics
       m_vertex_buffer->vertex     = glm::vec3 (position.x + vertex.x, position.y + vertex.y, position.z);
       m_vertex_buffer->color      = c;
       m_vertex_buffer->position   = position;
-      m_vertex_buffer->dimensions = glm::vec2 (shape.width(), shape.height());
+      m_vertex_buffer->dimensions = glm::vec2 (shape->GetWidth(), shape->GetHeight());
 
       if (counter % 4 == 0)
       {

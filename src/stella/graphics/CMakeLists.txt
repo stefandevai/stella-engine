@@ -7,6 +7,7 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    renderable.cpp
                                    sprite_renderer.cpp
                                    shader.cpp
+                                   shape.cpp
                                    shape_renderer.cpp
                                    sprite.cpp
                                    spritesheet.cpp

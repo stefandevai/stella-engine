@@ -25,8 +25,8 @@ namespace graphics
     bool Fixed;
 
     virtual ~Layer();
-    virtual void Add (std::shared_ptr<Sprite> sprite) = 0;
-    virtual void Remove (std::shared_ptr<Sprite> sprite) = 0;
+    virtual void Add (std::shared_ptr<Renderable> renderable) = 0;
+    virtual void Remove (std::shared_ptr<Renderable> renderable) = 0;
     virtual void Render() = 0;
     virtual void SetViewMatrix (glm::mat4 view);
 
