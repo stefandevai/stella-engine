@@ -5,8 +5,13 @@
 
 //#include <SDL2/SDL.h>
 //#include <SDL2/SDL_opengl.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_timer.h>
+#ifdef _WIN32
+  #include <SDL.h>
+  #include <SDL_timer.h>
+#else
+  #include <SDL2/SDL.h>
+  #include <SDL2/SDL_timer.h>
+#endif
 #undef main
 #include <glm/glm.hpp>
 

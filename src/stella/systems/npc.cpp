@@ -22,7 +22,7 @@ namespace system
     {
       // Update only if the player has said something (there are messages in
       // speech container)
-      const auto& player_speech = registry.get_or_assign<component::SpeechContainer> (m_player_entity);
+      const auto& player_speech = registry.get_or_emplace<component::SpeechContainer> (m_player_entity);
       if (!player_speech.messages.empty())
       {
         auto& player_message = registry.get<component::Text> (player_speech.messages.back());
@@ -44,23 +44,23 @@ namespace system
                 if (distx < m_distx && disty < m_disty)
                 {
                   npc.state       = component::NpcState::Talking;
-                  auto& speech    = registry.get_or_assign<component::SpeechContainer> (entity);
+                  auto& speech    = registry.get_or_emplace<component::SpeechContainer> (entity);
                   auto res_string = m_npc_list.front().request (player_message.text);
 
                   // TODO: Create a method in speech_container to
                   // automatically create entities and emplace_back
                   auto response = registry.create();
-                  registry.assign<component::Position> (response, pos.x, pos.y - 4.f);
-                  registry.assign<component::Typewriter> (response, 2.0);
+                  registry.emplace<component::Position> (response, pos.x, pos.y - 4.f);
+                  registry.emplace<component::Typewriter> (response, 2.0);
                   // TODO: Function to make text display duration relative to it's size
-                  registry.assign<component::Timer> (
+                  registry.emplace<component::Timer> (
                       response,
                       3000.0,
                       0.0,
                       component::Timer::Type::DECREASE,
                       [] (entt::registry& r, const entt::entity e) { r.destroy (e); },
                       false);
-                  registry.assign<component::Text> (response, res_string, "1980");
+                  registry.emplace<component::Text> (response, res_string, "1980");
 
                   speech.messages.emplace_back (response);
                 }

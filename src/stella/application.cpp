@@ -1,5 +1,6 @@
 #include "stella/application.hpp"
 #include <iostream>
+#include <ctime>
 
 namespace stella
 {
@@ -9,7 +10,7 @@ namespace core
     : m_initial_width (width), m_initial_height (height), m_initial_title (title)
   {
     m_display.SetClearColor (0.0f, 0.0f, 0.0f);
-    srand (time (nullptr));
+    srand (std::time (nullptr));
   }
 
   Application::~Application() {}

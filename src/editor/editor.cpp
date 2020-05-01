@@ -9,7 +9,11 @@
 
 #include "editor/debug_layer.hpp"
 
-#include <SDL2/SDL.h>
+#ifdef _WIN32
+  #include <SDL.h>
+#else
+  #include <SDL2/SDL.h>
+#endif
 #undef main
 #include <cereal/cereal.hpp>
 
@@ -22,13 +26,13 @@ namespace editor
     // m_game.m_display.SetEditor (this);
     // m_debug_layer.Add(shape);
     m_editor_layer = game.m_registry.create();
-    game.m_registry.assign<component::Layer> (m_editor_layer, "editor", 9999, "", "", "");
+    game.m_registry.emplace<component::Layer> (m_editor_layer, "editor", 9999, "", "", "");
 
     ImVec2 dimensions = m_tileset_editor.get_tile_dimensions();
     m_editor_sprite   = game.m_registry.create();
-    game.m_registry.assign<component::Position> (m_editor_sprite, -dimensions.x, -dimensions.y);
-    game.m_registry.assign<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
-    game.m_registry.assign<component::Sprite> (m_editor_sprite,
+    game.m_registry.emplace<component::Position> (m_editor_sprite, -dimensions.x, -dimensions.y);
+    game.m_registry.emplace<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
+    game.m_registry.emplace<component::Sprite> (m_editor_sprite,
                                                m_tileset_editor.texture,
                                                m_tileset_editor.get_tile_dimensions().x,
                                                m_tileset_editor.get_tile_dimensions().y,
@@ -280,22 +284,14 @@ namespace editor
         // Sort by z value before getting the right entity
         m_game.m_registry.sort<component::Position> ([] (const auto& lhs, const auto& rhs) { return lhs.z < rhs.z; });
         // TODO: Find a better way to select entity based on position
-        auto view = m_game.m_registry.view<component::Position, component::Dimension, component::Sprite>();
-        for (auto entity : view)
-        {
-          const auto& pos = m_game.m_registry.get<component::Position> (entity);
-          const auto& dim = m_game.m_registry.get<component::Dimension> (entity);
-
+        m_game.m_registry.view<stella::component::Position, stella::component::Dimension, stella::component::Sprite>().each([this, &map_pos](auto entity, auto& pos, auto& dim, auto& spr) {
           if (m_game.m_registry.valid (entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w &&
               map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
           {
-            // std::cout << map_pos.x << ' ' << map_pos.y << '\n';
-            // std::cout << pos.x << ' ' << pos.y << '\n';
-            // std::cout << '\n';
             m_inspector.set_selected_entity (entity);
-            break;
+            return;
           }
-        }
+        });
       }
     });
   }

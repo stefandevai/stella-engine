@@ -28,9 +28,9 @@ namespace core
 
   void Game::create_camera (const double x, const double y, const double z)
   {
-    m_registry.assign<stella::component::Camera> (m_camera);
-    m_registry.assign<stella::component::Position> (m_camera, x, y, z);
-    m_registry.assign<stella::component::Dimension> (m_camera, m_initial_width + x, m_initial_height + y);
+    m_registry.emplace<stella::component::Camera> (m_camera);
+    m_registry.emplace<stella::component::Position> (m_camera, x, y, z);
+    m_registry.emplace<stella::component::Dimension> (m_camera, m_initial_width + x, m_initial_height + y);
   }
 
   void Game::update_camera (const double x, const double y, const double z)

@@ -12,9 +12,9 @@ namespace component
 {
   enum LogType
   {
-    ERROR,
-    WARNING,
-    VALUE
+    STELLA_LOG_ERROR,
+    STELLA_LOG_WARNING,
+    STELLA_LOG_VALUE
   };
 
   struct Log
@@ -55,13 +55,13 @@ namespace component
     {
       switch (type)
       {
-        case ERROR:
+        case STELLA_LOG_ERROR:
           return "ERROR: ";
           break;
-        case WARNING:
+        case STELLA_LOG_WARNING:
           return "WARNING: ";
           break;
-        case VALUE:
+        case STELLA_LOG_VALUE:
           return "VALUE: ";
           break;
       }

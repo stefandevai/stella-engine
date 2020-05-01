@@ -2,7 +2,11 @@
 
 #include "../components.hpp"
 #include "./system.hpp"
-#include <SDL2/SDL.h>
+#ifdef _WIN32
+  #include <SDL.h>
+#else
+  #include <SDL2/SDL.h>
+#endif
 #undef main
 
 #define MAX_PLAYER_VELOCITY 200.f

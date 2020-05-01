@@ -1,0 +1,22 @@
+version: 0.2.{build}
+image: Visual Studio 2019
+
+cache:
+  #- lib
+
+environment:
+  matrix:
+    - profile: MSVC_DEBUG
+    - profile: MSVC_RELEASE
+
+install:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - git submodule update --init --recursive
+
+build_script:
+  - if [%profile%]==[MSVC_RELEASE] cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release .
+  - if [%profile%]==[MSVC_DEBUG] cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Debug .
+
+  - if [%profile%]==[MSVC_RELEASE] cmake --build . --parallel --config Release
+  - if [%profile%]==[MSVC_DEBUG] cmake --build . --parallel --config Debug
+
