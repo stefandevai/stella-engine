@@ -14,7 +14,7 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   this->add_system<stella::system::Timer> (m_registry);
   this->add_system<stella::system::Animation> (m_registry);
   this->add_system<stella::system::Physics> (m_tile_map, m_registry);
-  //this->add_system<stella::system::Tile> (m_tile_map, m_camera, m_registry);
+  this->add_system<stella::system::Tile> (m_tile_map, m_camera, m_registry);
   this->add_system<stella::system::Text> (m_registry, m_fonts);
   this->add_system<stella::system::Speech>();
   this->add_system<stella::system::NPC> (m_registry, m_player.entity);
