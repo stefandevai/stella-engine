@@ -6,7 +6,7 @@
 #include <set>
 #include <vector>
 
-#include "stella/graphics/sprite_renderer.hpp"
+#include "stella/graphics/renderer.hpp"
 #include "stella/graphics/shader.hpp"
 #include "stella/graphics/sprite.hpp"
 
@@ -17,7 +17,7 @@ namespace graphics
   class Layer
   {
   protected:
-    std::shared_ptr<SpriteRenderer> Ren;
+    std::shared_ptr<Renderer> Ren;
     std::shared_ptr<Shader> Shad;
     glm::mat4 ViewMatrix;
 
@@ -31,7 +31,7 @@ namespace graphics
     virtual void SetViewMatrix (glm::mat4 view);
 
   protected:
-    Layer (std::shared_ptr<SpriteRenderer> renderer, bool fixed = true);
+    Layer (std::shared_ptr<Renderer> renderer, bool fixed = true);
   };
 } // namespace graphics
 } // namespace stella

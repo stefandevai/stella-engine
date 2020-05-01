@@ -8,7 +8,7 @@ namespace stella
 {
 namespace graphics
 {
-  SpriteLayer::SpriteLayer (std::shared_ptr<SpriteRenderer> renderer, bool fixed)
+  SpriteLayer::SpriteLayer (std::shared_ptr<Renderer> renderer, bool fixed)
     : Layer(renderer, fixed)
   {
   }

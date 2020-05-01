@@ -8,7 +8,7 @@ namespace stella
 {
 namespace graphics
 {
-  Layer::Layer (std::shared_ptr<SpriteRenderer> renderer, bool fixed)
+  Layer::Layer (std::shared_ptr<Renderer> renderer, bool fixed)
     : Ren (renderer), ViewMatrix (glm::mat4()), Fixed (fixed)
   {
   }

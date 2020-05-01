@@ -50,7 +50,7 @@ namespace graphics
     //virtual void SetViewMatrix (glm::mat4 view);
 
   protected:
-    SpriteLayer (std::shared_ptr<SpriteRenderer> renderer, bool fixed = true);
+    SpriteLayer (std::shared_ptr<Renderer> renderer, bool fixed = true);
   };
 } // namespace graphics
 } // namespace stella

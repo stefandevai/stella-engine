@@ -1,7 +1,7 @@
 #pragma once
 
+#include "renderer.hpp"
 #include <vector>
-
 #include <glm/glm.hpp>
 
 #define MAX_SPRITES  10000
@@ -21,14 +21,14 @@ namespace graphics
   class Texture;
   struct VertexData;
 
-  class SpriteRenderer
+  class SpriteRenderer : public Renderer
   {
   public:
     SpriteRenderer();
     ~SpriteRenderer();
     void Begin();
     void Submit (const Sprite& sprite);
-    static void End();
+    void End();
     void Draw();
 
     static void BindAsRenderTarget (int width = 720, int height = 405);

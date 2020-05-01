@@ -1,11 +1,10 @@
 #include "stella/core/ecs_lua_api.hpp"
 #include "stella/components.hpp" // IWYU pragma: export
-#include <assert.h>              // for assert
-#include <bits/exception.h>      // for exception
-#include <iostream>              // for operator<<, cout
-#include <string>                // for string, operator==
-#include <type_traits>           // for add_const_t
-#include <utility>               // for move, pair
+#include <assert.h>
+#include <iostream>
+#include <string>
+#include <type_traits>
+#include <utility>
 #include <vector>
 
 namespace stella

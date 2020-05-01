@@ -18,6 +18,7 @@ namespace graphics
   std::vector<graphics::Texture*> SpriteRenderer::Textures = std::vector<graphics::Texture*>();
 
   SpriteRenderer::SpriteRenderer()
+    : Renderer()
   {
     this->TransformationStack.push_back (glm::mat4());
     this->TransformationBack = &this->TransformationStack.back();
