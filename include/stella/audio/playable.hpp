@@ -2,6 +2,8 @@
 
 #ifdef __APPLE__
   #include <OpenAL/al.h>
+#elif defined(_WIN32)
+  #include <al.h>
 #else
   #include <AL/al.h>
 #endif

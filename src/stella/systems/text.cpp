@@ -103,22 +103,22 @@ namespace system
     // If the character has a graphical representation
     if (w > 0.f && h > 0.f)
     {
-      registry.assign<component::Charcode> (char_entity, chr);
-      registry.assign<component::Sprite> (char_entity,
+      registry.emplace<component::Charcode> (char_entity, chr);
+      registry.emplace<component::Sprite> (char_entity,
                                           glm::vec3 (xpos, ypos, 0.f),
                                           glm::vec2 (w, h),
                                           glm::vec2 (ch.tx, 0.f),
                                           *font->get_atlas(),
                                           "text");
-      registry.assign<component::Position> (char_entity, xpos, ypos);
-      registry.assign<component::Dimension> (char_entity, w, h);
-      registry.assign<component::Color> (char_entity, text.color);
+      registry.emplace<component::Position> (char_entity, xpos, ypos);
+      registry.emplace<component::Dimension> (char_entity, w, h);
+      registry.emplace<component::Color> (char_entity, text.color);
     }
     // Else, the character is an space
     else
     {
-      registry.assign<component::Charcode> (char_entity, chr);
-      registry.assign<component::Position> (char_entity, xpos, ypos);
+      registry.emplace<component::Charcode> (char_entity, chr);
+      registry.emplace<component::Position> (char_entity, xpos, ypos);
     }
     text.char_entities.push_back (char_entity);
 
@@ -172,22 +172,22 @@ namespace system
       // If the character has a graphical representation
       if (w > 0.f && h > 0.f)
       {
-        registry.assign<component::Charcode> (char_entity, c);
-        registry.assign<component::Sprite> (char_entity,
+        registry.emplace<component::Charcode> (char_entity, c);
+        registry.emplace<component::Sprite> (char_entity,
                                             glm::vec3 (xpos, ypos, 0.f),
                                             glm::vec2 (w, h),
                                             glm::vec2 (ch.tx, 0.f),
                                             *font->get_atlas(),
                                             "text");
-        registry.assign<component::Position> (char_entity, xpos, ypos);
-        registry.assign<component::Dimension> (char_entity, w, h);
-        registry.assign<component::Color> (char_entity, text.color);
+        registry.emplace<component::Position> (char_entity, xpos, ypos);
+        registry.emplace<component::Dimension> (char_entity, w, h);
+        registry.emplace<component::Color> (char_entity, text.color);
       }
       // Else, the character is an space
       else
       {
-        registry.assign<component::Charcode> (char_entity, c);
-        registry.assign<component::Position> (char_entity, xpos, ypos);
+        registry.emplace<component::Charcode> (char_entity, c);
+        registry.emplace<component::Position> (char_entity, xpos, ypos);
       }
       text.char_entities.push_back (char_entity);
 
@@ -198,7 +198,7 @@ namespace system
     // If there are no defined dimensions, the text will be in one line
     if (max_text_width == 0.f)
     {
-      auto& dim = registry.get_or_assign<component::Dimension, float, float> (entity, 0.f, 0.f);
+      auto& dim = registry.get_or_emplace<component::Dimension, float, float> (entity, 0.f, 0.f);
       dim.w     = char_posx - pos.x;
       dim.h     = char_maxh;
     }

@@ -65,12 +65,12 @@ namespace graphics
       if (scaley == -1.f)
         scaley = scalex;
 
-      registry.assign<component::Position> (particle, px, py, pos.z);
-      registry.assign<component::Dimension> (particle, dim.w, dim.h);
-      registry.assign<component::Particle> (particle, max_life, scalex, speedx, speedy);
-      registry.assign<component::Sprite> (particle, this->TextureName, "particles");
-      registry.assign<component::Transform> (particle, rotation, glm::vec2 (scalex, scaley));
-      registry.assign<component::Movement> (particle, glm::vec2 (speedx, speedy), false);
+      registry.emplace<component::Position> (particle, px, py, pos.z);
+      registry.emplace<component::Dimension> (particle, dim.w, dim.h);
+      registry.emplace<component::Particle> (particle, max_life, scalex, speedx, speedy);
+      registry.emplace<component::Sprite> (particle, this->TextureName, "particles");
+      registry.emplace<component::Transform> (particle, rotation, glm::vec2 (scalex, scaley));
+      registry.emplace<component::Movement> (particle, glm::vec2 (speedx, speedy), false);
       // particle.assign<component::Body2D>();
       return particle;
     }

@@ -100,10 +100,10 @@ namespace widget
         const auto player_entity = *registry.view<stella::component::Player>().begin();
 
         auto text_entity = registry.create();
-        registry.assign<stella::component::Position> (text_entity, 0.0f, -100.0f);
-        registry.assign<stella::component::Text> (
+        registry.emplace<stella::component::Position> (text_entity, 0.0f, -100.0f);
+        registry.emplace<stella::component::Text> (
             text_entity, m_converter.from_bytes (std::string (editable_buffer)), "1980");
-        registry.assign<component::Timer> (
+        registry.emplace<component::Timer> (
             text_entity,
             3000.0,
             0.0,
@@ -111,7 +111,7 @@ namespace widget
             [] (entt::registry& r, const entt::entity e) { r.destroy (e); },
             true);
 
-        auto& container = registry.get_or_assign<component::SpeechContainer> (player_entity);
+        auto& container = registry.get_or_emplace<component::SpeechContainer> (player_entity);
         container.messages.push_back (text_entity);
 
         // Clears the text buffer

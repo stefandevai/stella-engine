@@ -94,8 +94,8 @@ void Game::m_load_flower (const int x, const int y)
   }
 
   auto flower = m_registry.create();
-  m_registry.assign<stella::component::Position> (flower, x, y, 2);
-  m_registry.assign<stella::component::Dimension> (flower, 16, 16);
-  m_registry.assign<stella::component::Sprite> (flower, "flowers", glm::vec2 (16.f, 16.f), "tiles", frame);
+  m_registry.emplace<stella::component::Position> (flower, x, y, 2);
+  m_registry.emplace<stella::component::Dimension> (flower, 16, 16);
+  m_registry.emplace<stella::component::Sprite> (flower, "flowers", glm::vec2 (16.f, 16.f), "tiles", frame);
 }
 } // namespace nikte

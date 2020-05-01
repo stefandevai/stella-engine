@@ -53,12 +53,12 @@ namespace graphics
       float rotation = this->GetRandomValue<float> (this->Data.RotationRange);
       double scale   = this->GetRandomValue<float> (this->Data.ScaleXRange, true);
 
-      registry.assign<component::Position> (particle, px, pos.y, pos.z);
-      registry.assign<component::Dimension> (particle, dim.w, dim.h);
-      registry.assign<component::Particle> (particle, max_life, 16.f, speedx, speedy, 1);
-      registry.assign<component::Sprite> (particle, this->TextureName, "particles");
-      registry.assign<component::Transform> (particle, rotation, glm::vec2 (scale, scale));
-      registry.assign<component::Movement> (particle, glm::vec2 (0.f, 100.f * speedy), false, true);
+      registry.emplace<component::Position> (particle, px, pos.y, pos.z);
+      registry.emplace<component::Dimension> (particle, dim.w, dim.h);
+      registry.emplace<component::Particle> (particle, max_life, 16.f, speedx, speedy, 1);
+      registry.emplace<component::Sprite> (particle, this->TextureName, "particles");
+      registry.emplace<component::Transform> (particle, rotation, glm::vec2 (scale, scale));
+      registry.emplace<component::Movement> (particle, glm::vec2 (0.f, 100.f * speedy), false, true);
       // particle.assign<component::Body2D>();
       return particle;
     }

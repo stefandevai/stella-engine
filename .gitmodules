@@ -29,3 +29,9 @@
 [submodule "lib/sol2"]
 	path = lib/sol2
 	url = https://github.com/ThePhD/sol2
+[submodule "lib/sdl2"]
+	path = lib/sdl2
+	url = https://github.com/spurious/SDL-mirror
+[submodule "lib/dirent"]
+	path = lib/dirent
+	url = https://github.com/tronkko/dirent

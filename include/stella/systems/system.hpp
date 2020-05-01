@@ -20,7 +20,7 @@ namespace system
     {
       if (!registry.has<component::Log> (entity))
       {
-        registry.assign<component::Log> (entity);
+        registry.emplace<component::Log> (entity);
       }
       return registry.get<component::Log> (entity);
     }
