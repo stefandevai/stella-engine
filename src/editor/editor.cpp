@@ -33,11 +33,11 @@ namespace editor
     game.m_registry.emplace<component::Position> (m_editor_sprite, -dimensions.x, -dimensions.y);
     game.m_registry.emplace<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
     game.m_registry.emplace<component::Sprite> (m_editor_sprite,
-                                               m_tileset_editor.texture,
-                                               m_tileset_editor.get_tile_dimensions().x,
-                                               m_tileset_editor.get_tile_dimensions().y,
-                                               0,
-                                               "editor");
+                                                m_tileset_editor.texture,
+                                                m_tileset_editor.get_tile_dimensions().x,
+                                                m_tileset_editor.get_tile_dimensions().y,
+                                                0,
+                                                "editor");
     this->init();
   }
 
@@ -284,14 +284,15 @@ namespace editor
         // Sort by z value before getting the right entity
         m_game.m_registry.sort<component::Position> ([] (const auto& lhs, const auto& rhs) { return lhs.z < rhs.z; });
         // TODO: Find a better way to select entity based on position
-        m_game.m_registry.view<stella::component::Position, stella::component::Dimension, stella::component::Sprite>().each([this, &map_pos](auto entity, auto& pos, auto& dim, auto& spr) {
-          if (m_game.m_registry.valid (entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w &&
-              map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
-          {
-            m_inspector.set_selected_entity (entity);
-            return;
-          }
-        });
+        m_game.m_registry.view<stella::component::Position, stella::component::Dimension, stella::component::Sprite>()
+            .each ([this, &map_pos] (auto entity, auto& pos, auto& dim, auto& spr) {
+              if (m_game.m_registry.valid (entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w &&
+                  map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
+              {
+                m_inspector.set_selected_entity (entity);
+                return;
+              }
+            });
       }
     });
   }
