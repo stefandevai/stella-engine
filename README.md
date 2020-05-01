@@ -1,6 +1,10 @@
+![Stella Engine demo](/assets/img/stella-feb-2020.png)
+
 # Stella Engine
 
-![Stella Engine demo](/assets/img/stella-feb-2020.png)
+[![Travis-CI Build Status](https://img.shields.io/travis/com/stefandevai/stella-engine?style=flat-square&logo=travis)](https://travis-ci.org/github/stefandevai/stella-engine)
+[![AppVeyor Build Status](https://img.shields.io/appveyor/build/stefandevai/stella-engine?style=flat-square&logo=appveyor)](https://ci.appveyor.com/project/stefandevai/stella-engine)
+[![License](https://img.shields.io/badge/license-GPL-blue?style=flat-square&logo=gnu&color=blueviolet)](./COPYING)
 
 ## Description:
 
