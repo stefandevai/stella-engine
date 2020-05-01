@@ -87,7 +87,7 @@ namespace graphics
       auto shape = std::dynamic_pointer_cast<Shape> (renderable);
       if (shape != nullptr)
       {
-          Submit(shape);
+        Submit(shape);
       }
   }
 
@@ -151,6 +151,7 @@ namespace graphics
 
   void ShapeRenderer::Draw()
   {
+    std::cout << this->IndexCount << '\n';
     glBindVertexArray (this->VAO);
     glDrawElements (GL_TRIANGLES, this->IndexCount, GL_UNSIGNED_INT, 0);
     glBindVertexArray (0);

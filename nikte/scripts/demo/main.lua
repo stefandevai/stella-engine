@@ -118,7 +118,7 @@ local function load()
   --flowers.load()
   local test_shape = Entity:create_entity()
   test_shape:add_component("shape", {
-    vertices = {{1,2},{150,4},{100, 100}},
+    vertices = {{-1,-5},{150,-5},{150, 150},{-1,150}},
     layer = "fog"
     --vertices = {{1,2},
   })
