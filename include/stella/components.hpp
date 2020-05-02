@@ -19,6 +19,7 @@
 #include "stella/components/scroll.hpp"
 #include "stella/components/shape.hpp"
 #include "stella/components/sprite.hpp"
+#include "stella/components/sprite_group.hpp"
 #include "stella/components/text.hpp"
 #include "stella/components/tile.hpp"
 #include "stella/components/tileview.hpp"

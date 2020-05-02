@@ -2,7 +2,8 @@
 
 #include "./system.hpp"
 #include <entt/entity/registry.hpp>
-#include "stella/graphics/layers/shape_layer.hpp"
+//#include "stella/graphics/layers/shape_layer.hpp"
+#include "stella/graphics/layers/basic_layer.hpp"
 
 namespace stella
 {
@@ -16,10 +17,13 @@ namespace system
 
   private:
     const float m_width, m_height;
-    graphics::ShapeLayer m_fog_layer{m_width, m_height, "assets/shaders/fog.vert", "assets/shaders/fog.frag", false};
+    //graphics::ShapeLayer m_fog_layer{m_width, m_height, "assets/shaders/fog.vert", "assets/shaders/fog.frag", false};
+
+    stella::graphics::BasicLayer m_layer{m_width, m_height, "assets/shaders/fog.vert", "assets/shaders/fog.frag", false};
 
     Fog() = delete;
     void initialize_fog (entt::registry& registry, entt::entity entity);
+    void remove_fog (entt::registry& registry, entt::entity entity);
   };
 } // namespace system
 } // namespace stella

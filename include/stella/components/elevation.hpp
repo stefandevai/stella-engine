@@ -4,9 +4,9 @@ namespace stella
 {
 namespace component
 {
-  struct Fog
+  struct Elevation
   {
-    Fog (float h, bool flat = false) : h (h), flat (flat) {}
+    Elevation (float h, bool flat) : h (h), flat (flat) {}
     float h;
     bool flat;
   };

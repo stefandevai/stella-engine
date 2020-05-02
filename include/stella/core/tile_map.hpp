@@ -38,7 +38,7 @@ namespace core
     void update_tile (const int value, const int x, const int y, const unsigned layer_id, const bool collidable);
     void update_tile_sprite (entt::entity entity, const unsigned layer_id, const int value);
     void update_tile_position (entt::entity entity, const unsigned layer_id, const int x, const int y, const int z);
-    void create_tile_entity (const int value, const int x, const int y, const int z, const unsigned layer_id);
+    void create_tile_entity (const int value, const int x, const int y, const int z, const unsigned layer_id, bool initialization = false);
     void create_tile_entities (const int beginx, const int endx, const int beginy, const int endy);
     void resize (const int top, const int right, const int bottom, const int left);
     void refresh();

@@ -6,6 +6,7 @@
 #include "stella/components/transform.hpp"
 #include "stella/components/shape.hpp"
 #include "stella/components/color.hpp"
+#include "stella/components/fog.hpp"
 #include "stella/graphics/layers/firelayer.hpp"
 #include "stella/graphics/layers/shape_layer.hpp"
 #include <ctime>
@@ -90,6 +91,11 @@ namespace system
 
   void Render::remove_sprite_from_layer (entt::registry& registry, entt::entity entity)
   {
+    if (registry.has<component::Fog>(entity))
+    {
+      registry.remove<component::Fog>(entity);
+    }
+
     auto& sprite = registry.get<component::Sprite> (entity);
     if (sprite.InLayer)
     {
