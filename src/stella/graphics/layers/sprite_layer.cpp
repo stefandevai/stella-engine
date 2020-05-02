@@ -8,24 +8,23 @@ namespace stella
 {
 namespace graphics
 {
-  SpriteLayer::SpriteLayer (std::shared_ptr<Renderer> renderer, bool fixed)
-    : Layer(renderer, fixed)
+  SpriteLayer::SpriteLayer (std::shared_ptr<Renderer> renderer, bool fixed) : Layer (renderer, fixed) {}
+
+  void SpriteLayer::Add (std::shared_ptr<Renderable> renderable)
   {
-  }
-
-  void SpriteLayer::Add (std::shared_ptr<Renderable> renderable) {
-      auto spr = std::dynamic_pointer_cast<Sprite> (renderable);
-      if (spr != nullptr)
-      {
-          Add(spr);
-      }
-  }
-
-  void SpriteLayer::Remove (std::shared_ptr<Renderable> renderable) {
     auto spr = std::dynamic_pointer_cast<Sprite> (renderable);
     if (spr != nullptr)
     {
-        Remove(spr);
+      Add (spr);
+    }
+  }
+
+  void SpriteLayer::Remove (std::shared_ptr<Renderable> renderable)
+  {
+    auto spr = std::dynamic_pointer_cast<Sprite> (renderable);
+    if (spr != nullptr)
+    {
+      Remove (spr);
     }
   }
 

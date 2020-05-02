@@ -8,7 +8,8 @@ namespace stella
 namespace graphics
 {
   Sprite::Sprite (GLint x, GLint y, Texture& texture, const std::vector<GLuint>& frames)
-    : Renderable (glm::vec3(x, y, 0.f), glm::vec2(texture.GetWidth(), texture.GetHeight())), Frames (frames), Tex(texture)
+    : Renderable (glm::vec3 (x, y, 0.f), glm::vec2 (texture.GetWidth(), texture.GetHeight())), Frames (frames),
+      Tex (texture)
   {
     this->Color          = 4294967295; // r = 255, g = 255, b = 255, a = 255
     this->NumberOfFrames = this->Frames.size();
@@ -18,7 +19,7 @@ namespace graphics
   }
 
   Sprite::Sprite (GLint x, GLint y, Texture& texture, GLuint frame)
-    : Renderable (glm::vec3(x, y, 0.f), glm::vec2(texture.GetWidth(), texture.GetHeight())), Tex(texture)
+    : Renderable (glm::vec3 (x, y, 0.f), glm::vec2 (texture.GetWidth(), texture.GetHeight())), Tex (texture)
   {
     this->Color          = 4294967295; // r = 255, g = 255, b = 255, a = 255
     this->NumberOfFrames = 1;
@@ -28,7 +29,7 @@ namespace graphics
   }
 
   Sprite::Sprite (GLint x, GLint y, GLint w, GLint h, Texture& texture, GLuint frame)
-    : Renderable (x, y, w, h), Tex(texture)
+    : Renderable (x, y, w, h), Tex (texture)
   {
     this->Color          = 4294967295; // r = 255, g = 255, b = 255, a = 255
     this->NumberOfFrames = 1;
@@ -38,7 +39,7 @@ namespace graphics
   }
 
   Sprite::Sprite (glm::vec3 position, Texture& texture, GLuint frame)
-    : Renderable (position, glm::vec2(texture.GetWidth(), texture.GetHeight())), Tex(texture)
+    : Renderable (position, glm::vec2 (texture.GetWidth(), texture.GetHeight())), Tex (texture)
   {
     this->Color          = 4294967295; // r = 255, g = 255, b = 255, a = 255
     this->NumberOfFrames = 1;
@@ -48,7 +49,7 @@ namespace graphics
   }
 
   Sprite::Sprite (glm::vec3 position, glm::vec2 frame_dimensions, Texture& texture, GLuint frame)
-    : Renderable (position, frame_dimensions), Tex(texture)
+    : Renderable (position, frame_dimensions), Tex (texture)
   {
     this->Color          = 4294967295; // r = 255, g = 255, b = 255, a = 255
     this->NumberOfFrames = 1;
@@ -58,7 +59,7 @@ namespace graphics
   }
 
   Sprite::Sprite (const glm::vec3 position, const glm::vec2 dimensions, const glm::vec2 offset, Texture& texture)
-    : Renderable (position, dimensions), Tex(texture)
+    : Renderable (position, dimensions), Tex (texture)
   {
     this->Color          = 4294967295; // r = 255, g = 255, b = 255, a = 255
     this->NumberOfFrames = 1;
@@ -74,8 +75,7 @@ namespace graphics
                   copied_sprite.Dimensions.x,
                   copied_sprite.Dimensions.y,
                   copied_sprite.Visible),
-      Tex (copied_sprite.Tex),
-      Animations (copied_sprite.Animations), Frames (copied_sprite.Frames)
+      Tex (copied_sprite.Tex), Animations (copied_sprite.Animations), Frames (copied_sprite.Frames)
   {
     Color          = copied_sprite.Color;
     Frame          = copied_sprite.Frame;

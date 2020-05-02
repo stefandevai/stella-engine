@@ -91,9 +91,9 @@ namespace system
 
   void Render::remove_sprite_from_layer (entt::registry& registry, entt::entity entity)
   {
-    if (registry.has<component::Fog>(entity))
+    if (registry.has<component::Fog> (entity))
     {
-      registry.remove<component::Fog>(entity);
+      registry.remove<component::Fog> (entity);
     }
 
     auto& sprite = registry.get<component::Sprite> (entity);
@@ -117,11 +117,12 @@ namespace system
     }
     else if (layer.ShaderId == "shape" && !layer.frag_shader_source.empty() && !layer.vert_shader_source.empty())
     {
-      m_layers[layer.Id] = std::shared_ptr<stella::graphics::ShapeLayer> (new graphics::ShapeLayer(this->m_display.GetWidth(),
-                                                                                                   this->m_display.GetHeight(),
-                                                                                                   layer.vert_shader_source.c_str(),
-                                                                                                   layer.frag_shader_source.c_str(),
-                                                                                                   layer.Fixed));
+      m_layers[layer.Id] =
+          std::shared_ptr<stella::graphics::ShapeLayer> (new graphics::ShapeLayer (this->m_display.GetWidth(),
+                                                                                   this->m_display.GetHeight(),
+                                                                                   layer.vert_shader_source.c_str(),
+                                                                                   layer.frag_shader_source.c_str(),
+                                                                                   layer.Fixed));
     }
     else if (!layer.frag_shader_source.empty() && !layer.vert_shader_source.empty())
     {
@@ -202,9 +203,9 @@ namespace system
     auto& shape = registry.get<component::Shape> (entity);
     if (shape.shape && !shape.in_layer)
     {
-      if (registry.has<component::Position>(entity))
+      if (registry.has<component::Position> (entity))
       {
-        auto& pos = registry.get<component::Position>(entity);
+        auto& pos          = registry.get<component::Position> (entity);
         shape.shape->Pos.x = pos.x;
         shape.shape->Pos.y = pos.y;
         shape.shape->Pos.z = pos.z;

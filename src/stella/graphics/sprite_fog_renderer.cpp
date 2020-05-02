@@ -1,23 +1,16 @@
-#include "stella/graphics/sprite_renderer.hpp"
+#include "stella/graphics/sprite_fog_renderer.hpp"
+#include "stella/graphics/opengl.hpp" // IWYU pragma: export
 #include "stella/graphics/sprite.hpp"
 #include "stella/graphics/texture.hpp"
-
-#include "stella/graphics/opengl.hpp" // IWYU pragma: export
-
-#include <algorithm>
-#include <cstddef>
-
 #include <glm/gtc/matrix_transform.hpp> // IWYU pragma: export
-
-#include <iostream>
 
 namespace stella
 {
 namespace graphics
 {
-  //std::vector<graphics::Texture*> SpriteRenderer::Textures = std::vector<graphics::Texture*>();
+  //std::vector<graphics::Texture*> SpriteFogRenderer::Textures = std::vector<graphics::Texture*>();
 
-  SpriteRenderer::SpriteRenderer() : Renderer()
+  SpriteFogRenderer::SpriteFogRenderer()
   {
     this->TransformationStack.push_back (glm::mat4());
     this->TransformationBack = &this->TransformationStack.back();
@@ -25,20 +18,14 @@ namespace graphics
     this->init();
   }
 
-  SpriteRenderer::~SpriteRenderer()
+  SpriteFogRenderer::~SpriteFogRenderer()
   {
     glDeleteBuffers (1, &this->VBO);
     glDeleteBuffers (1, &this->EBO);
     glDeleteVertexArrays (1, &this->VAO);
   }
 
-  void SpriteRenderer::BindAsRenderTarget (int width, int height)
-  {
-    glBindFramebuffer (GL_DRAW_FRAMEBUFFER, 0);
-    // glViewport(0, 0, width, height);
-  }
-
-  void SpriteRenderer::init()
+  void SpriteFogRenderer::init()
   {
     this->IndexCount = 0;
     glGenVertexArrays (1, &this->VAO);
@@ -60,8 +47,12 @@ namespace graphics
     glEnableVertexAttribArray (TID_INDEX);
 
     glVertexAttribPointer (
-        COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE, (GLvoid*) offsetof (VertexData, color));
-    glEnableVertexAttribArray (COLOR_INDEX);
+        YORIGIN_INDEX, 1, GL_FLOAT, GL_TRUE, VERTEX_SIZE, (GLvoid*) offsetof (VertexData, yorigin));
+    glEnableVertexAttribArray (YORIGIN_INDEX);
+
+    glVertexAttribPointer (
+        HEIGHT_INDEX, 1, GL_FLOAT, GL_TRUE, VERTEX_SIZE, (GLvoid*) offsetof (VertexData, height));
+    glEnableVertexAttribArray (HEIGHT_INDEX);
 
     glBindBuffer (GL_ARRAY_BUFFER, 0);
 
@@ -84,13 +75,13 @@ namespace graphics
     glBindVertexArray (0);
   }
 
-  void SpriteRenderer::Begin()
+  void SpriteFogRenderer::Begin()
   {
     glBindBuffer (GL_ARRAY_BUFFER, this->VBO);
     VertexBuffer = static_cast<VertexData*> (glMapBuffer (GL_ARRAY_BUFFER, GL_WRITE_ONLY));
   }
 
-  void SpriteRenderer::Submit (const std::shared_ptr<Renderable> renderable)
+  void SpriteFogRenderer::Submit (const std::shared_ptr<Renderable> renderable)
   {
     auto spr = std::dynamic_pointer_cast<Sprite> (renderable);
     if (spr != nullptr)
@@ -99,13 +90,14 @@ namespace graphics
     }
   }
 
-  void SpriteRenderer::Submit (const std::shared_ptr<Sprite> sprite)
+  void SpriteFogRenderer::Submit (const std::shared_ptr<Sprite> sprite)
   {
     const glm::vec3& position   = sprite->GetPos();
     const glm::vec2& dimensions = sprite->GetDimensions();
     const float rotation        = sprite->GetRotation();
     const glm::vec2& scale      = sprite->GetScale();
-    const unsigned int c        = sprite->GetColor();
+    const float yorigin         = position.y;
+    const float height         = position.y + dimensions.y;
 
     const glm::vec2& uv            = sprite->GetFrameCoords();
     const SpriteSheet& spritesheet = sprite->GetSpriteSheet();
@@ -150,40 +142,44 @@ namespace graphics
     this->VertexBuffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
     this->VertexBuffer->uv     = glm::vec2 (uv.x, uv.y);
     this->VertexBuffer->tid    = texture->GetCacheID();
-    this->VertexBuffer->color  = c;
+    this->VertexBuffer->yorigin  = yorigin;
+    this->VertexBuffer->height  = height;
     this->VertexBuffer++;
 
     transformation_result      = particular_transform * glm::vec4 (dimensions.x, 0.f, 1.f, 1.f);
     this->VertexBuffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
     this->VertexBuffer->uv     = glm::vec2 (uv.x + uvoffsetX, uv.y);
     this->VertexBuffer->tid    = texture->GetCacheID();
-    this->VertexBuffer->color  = c;
+    this->VertexBuffer->yorigin  = yorigin;
+    this->VertexBuffer->height  = height;
     this->VertexBuffer++;
 
     transformation_result      = particular_transform * glm::vec4 (dimensions.x, dimensions.y, 1.f, 1.f);
     this->VertexBuffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
     this->VertexBuffer->uv     = glm::vec2 (uv.x + uvoffsetX, uv.y - uvoffsetY);
     this->VertexBuffer->tid    = texture->GetCacheID();
-    this->VertexBuffer->color  = c;
+    this->VertexBuffer->yorigin  = yorigin;
+    this->VertexBuffer->height  = height;
     this->VertexBuffer++;
 
     transformation_result      = particular_transform * glm::vec4 (0.f, dimensions.y, 1.f, 1.f);
     this->VertexBuffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
     this->VertexBuffer->uv     = glm::vec2 (uv.x, uv.y - uvoffsetY);
     this->VertexBuffer->tid    = texture->GetCacheID();
-    this->VertexBuffer->color  = c;
+    this->VertexBuffer->yorigin  = yorigin;
+    this->VertexBuffer->height  = height;
     this->VertexBuffer++;
 
     this->IndexCount += 6;
   }
 
-  void SpriteRenderer::End()
+  void SpriteFogRenderer::End()
   {
     glUnmapBuffer (GL_ARRAY_BUFFER);
     glBindBuffer (GL_ARRAY_BUFFER, 0);
   }
 
-  void SpriteRenderer::Draw()
+  void SpriteFogRenderer::Draw()
   {
     for (unsigned int i = 0; i < Textures.size(); ++i)
     {
@@ -196,25 +192,5 @@ namespace graphics
     glBindVertexArray (0);
     this->IndexCount = 0;
   }
-
-  void SpriteRenderer::PushTransformation (glm::mat4& mat, bool override)
-  {
-    if (override)
-      this->TransformationStack.push_back (mat);
-    else
-      this->TransformationStack.push_back (this->TransformationStack.back() * mat);
-
-    this->TransformationBack = &this->TransformationStack.back();
-  }
-
-  void SpriteRenderer::PopTransformation()
-  {
-    if (this->TransformationStack.size() > 1)
-    {
-      this->TransformationStack.pop_back();
-      this->TransformationBack = &this->TransformationStack.back();
-    }
-  }
-
 } // namespace graphics
 } // namespace stella

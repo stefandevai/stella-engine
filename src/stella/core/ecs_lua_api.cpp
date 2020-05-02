@@ -215,21 +215,20 @@ namespace script
 
   void ECSLuaApi::add_shape_component (entt::registry::entity_type id, const sol::table& obj)
   {
-    const sol::table& verts = obj["vertices"];
+    const sol::table& verts     = obj["vertices"];
     const std::string& layer_id = obj["layer"] == sol::lua_nil ? std::string() : obj["layer"];
-    const int verts_size    = verts.size();
+    const int verts_size        = verts.size();
     std::vector<glm::vec2> vertices (verts_size);
     for (int i = 1; i <= verts_size; ++i)
     {
       const sol::table& v = verts[i];
-      vertices[i - 1] = glm::vec2{v[1], v[2]};
+      vertices[i - 1]     = glm::vec2{v[1], v[2]};
     }
     m_registry.emplace<stella::component::Shape> (id, vertices, layer_id);
   }
 
   void ECSLuaApi::add_color_component (entt::registry::entity_type id, const sol::table& obj)
   {
-    
     if (obj["rgba"] != sol::lua_nil)
     {
       const sol::table& color = obj["rgba"];

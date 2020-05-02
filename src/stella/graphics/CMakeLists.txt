@@ -4,14 +4,17 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    display.cpp
                                    font.cpp
                                    framebuffer.cpp
+                                   renderer.cpp
                                    renderable.cpp
                                    sprite_renderer.cpp
+                                   sprite_fog_renderer.cpp
                                    shader.cpp
                                    shape.cpp
                                    shape_renderer.cpp
                                    sprite.cpp
                                    spritesheet.cpp
                                    texture.cpp
+                                   layers/fog_layer.cpp
                                    layers/layer.cpp
                                    layers/basic_layer.cpp
                                    layers/firelayer.cpp

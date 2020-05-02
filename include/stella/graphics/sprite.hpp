@@ -10,14 +10,6 @@ namespace graphics
 {
   class Texture;
 
-  struct VertexData
-  {
-    glm::vec3 vertex;
-    glm::vec2 uv;
-    GLfloat tid;
-    unsigned int color;
-  };
-
   class Sprite : public Renderable
   {
   public:

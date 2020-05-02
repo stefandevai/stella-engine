@@ -19,19 +19,21 @@ namespace graphics
 
   ShapeLayer::~ShapeLayer() { this->Shad->Disable(); }
 
-  void ShapeLayer::Add (std::shared_ptr<Renderable> renderable) {
-      auto shape = std::dynamic_pointer_cast<Shape> (renderable);
-      if (shape != nullptr)
-      {
-          Add(shape);
-      }
-  }
-
-  void ShapeLayer::Remove (std::shared_ptr<Renderable> renderable) {
+  void ShapeLayer::Add (std::shared_ptr<Renderable> renderable)
+  {
     auto shape = std::dynamic_pointer_cast<Shape> (renderable);
     if (shape != nullptr)
     {
-        Remove(shape);
+      Add (shape);
+    }
+  }
+
+  void ShapeLayer::Remove (std::shared_ptr<Renderable> renderable)
+  {
+    auto shape = std::dynamic_pointer_cast<Shape> (renderable);
+    if (shape != nullptr)
+    {
+      Remove (shape);
     }
   }
 

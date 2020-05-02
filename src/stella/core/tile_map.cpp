@@ -186,8 +186,8 @@ namespace core
       this->update_tile_sprite (tile.entity, layer_id, value);
       if (tile.collidable)
       {
-        auto& fog = m_registry.get<component::Fog>(tile.entity);
-        fog.flat = false;
+        auto& fog = m_registry.get<component::Fog> (tile.entity);
+        fog.flat  = false;
       }
     }
   }
@@ -226,7 +226,8 @@ namespace core
     }
   }
 
-  void TileMap::create_tile_entity (const int value, const int x, const int y, const int z, const unsigned layer_id, bool initialization)
+  void TileMap::create_tile_entity (
+      const int value, const int x, const int y, const int z, const unsigned layer_id, bool initialization)
   {
     auto tile = m_registry.create();
     m_registry.emplace<component::Tile> (tile, layer_id, false);
@@ -234,11 +235,11 @@ namespace core
     m_registry.emplace<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
     m_registry.emplace<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
     m_registry.emplace<component::Sprite> (tile,
-                                          layers[layer_id]->get_texture_name(),
-                                          glm::vec2 (m_tile_dimension, m_tile_dimension),
-                                          layers[layer_id]->get_render_layer_name(),
-                                          value);
-    m_registry.emplace<component::Fog>(tile, z, true);
+                                           layers[layer_id]->get_texture_name(),
+                                           glm::vec2 (m_tile_dimension, m_tile_dimension),
+                                           layers[layer_id]->get_render_layer_name(),
+                                           value);
+    m_registry.emplace<component::Fog> (tile, z, true);
     layers[layer_id]->set_entity (x, y, tile);
   }
 

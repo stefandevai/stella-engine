@@ -4,21 +4,17 @@ in DATA
 {
   vec2 uv;
   float tid;
-  vec4 color;
-  vec2 pos;
+  vec3 pos;
+  float yorigin;
+  float height;
 } f_in;
 
 out vec4 color;
 
 uniform sampler2D textures[11];
-
-float qinticIn(float t) {
-  return pow(t, 5.0);
-}
-
 void main()
 {
-  vec4 final_color = f_in.color;
+  vec4 final_color = vec4(1.0, 1.0, 1.0, 1.0);
   int tid = int(f_in.tid + 0.5);
 
   // Select texture (Up to 20 textures)
@@ -59,7 +55,22 @@ void main()
       break;
   }
   
-  color = vec4(1.0, 1.0, 1.0, 0.5);
+  float fog_height = 64.0;
+  float fog_intensity = 0.5;
+  float frag_height = f_in.height - f_in.pos.y;
+  float fog_factor = (fog_height - frag_height) / fog_height;
+  float final_fog = fog_factor*fog_intensity;
+  
+  // if (f_in.pos.y > 0.0 && f_in.pos.y < 10.0)
+  // {
+  //   final_color.w = 1.0;
+  // }
+  // else
+  // {
+  //   final_color.w = 0.0;
+  // }
+  //color = vec4(1.0, 1.0, 1.0, final_color.w*fog_factor);
+  color = vec4(1.0, 1.0, 1.0, final_color.w*final_fog);
 }
 
 // #version 330 core
@@ -75,4 +86,3 @@ void main()
 // { 
 // 	FragColor = v_in.color;
 // }
-
