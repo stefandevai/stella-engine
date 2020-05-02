@@ -82,6 +82,11 @@ namespace graphics
     
     glVertexAttribPointer(VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, S_VERTEX_SIZE, (void*)0);
     glEnableVertexAttribArray(VERTEX_INDEX);
+
+    glVertexAttribPointer (
+        COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, S_VERTEX_SIZE, (GLvoid*) offsetof (ShapeVertexData, color));
+    glEnableVertexAttribArray (COLOR_INDEX);
+
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
     glBindVertexArray(0); 
   }
@@ -108,7 +113,7 @@ namespace graphics
     // // const glm::vec2 &dimensions = sprite.GetDimensions();
     // // const float rotation = sprite.GetRotation();
     // // const glm::vec2 &scale = sprite.GetScale();
-    // const unsigned int c = shape->color();
+    const unsigned int c = shape->color();
 
     // // auto particular_transform = glm::mat4();
     // // particular_transform = glm::translate(particular_transform,
@@ -124,7 +129,7 @@ namespace graphics
     for (auto& vertex : vertices)
     {
       m_vertex_buffer->vertex     = glm::vec3 (position.x + vertex.x, position.y + vertex.y, position.z);
-    //   // m_vertex_buffer->color      = c;
+      m_vertex_buffer->color      = c;
     //   // m_vertex_buffer->position   = position;
     //   // m_vertex_buffer->dimensions = glm::vec2 (shape->GetWidth(), shape->GetHeight());
 
@@ -145,7 +150,7 @@ namespace graphics
   void ShapeRenderer::Draw()
   {
     glBindVertexArray(this->VAO);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, this->IndexCount, GL_UNSIGNED_INT, 0);
     this->IndexCount = 0;
   }
 

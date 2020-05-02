@@ -29,6 +29,7 @@ namespace graphics
     double calc_height();
 
     void set_vertex (const unsigned vertex, const float x, const float y);
+    inline void set_color (const unsigned color) { m_color = color; }
   };
 
 } // namespace graphics

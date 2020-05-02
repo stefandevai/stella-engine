@@ -114,14 +114,28 @@ local function load()
 
   -- load_assets()
   load_player(480, 512)
-  --load_npc(512, 512)
+  load_npc(512, 512)
   --flowers.load()
   local test_shape = Entity:create_entity()
+  -- test_shape:add_component("shape", {
+  --   vertices = {{0.6,0.5},{0.5,-0.5},{-0.5,-0.5},{-0.5,0.5}},
+  --   layer = "fog"
+    
+  -- })
+  test_shape:add_component("position", {0, 0, 1})
   test_shape:add_component("shape", {
-    vertices = {{0.6,0.5},{0.5,-0.5},{-0.5,-0.5},{-0.5,0.5}},
+    vertices = {{0.0,0.0},{896.0,0.0},{894.0,504.0},{0.0,504.0}},
     layer = "fog"
-    --vertices = {{1,2},
   })
+  test_shape:add_component("color", {
+    rgba = {100, 100, 40, 100},
+  })
+  -- local test_shape2 = Entity:create_entity()
+  -- test_shape2:add_component("shape", {
+  --   vertices = {{1.0,1.0},{1.0,0.0},{0.0,0.0},{0.0,1.0}},
+  --   layer = "fog"
+    
+  -- })
 
   -- local test_spr = Entity:create_entity()
   -- test_spr:add_component("sprite", {
@@ -158,10 +172,10 @@ local camera_position = {0.0, 0.0}
 local last_camera_x = 0.0
 
 local function update(dt)
-  -- local player_position = {get_position(Player.id)}
-  -- camera_position[1] = math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2))
-  -- camera_position[2] = math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2))
-  -- update_camera(camera_position[1], camera_position[2], 0)
+  local player_position = {get_position(Player.id)}
+  camera_position[1] = math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2))
+  camera_position[2] = math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2))
+  update_camera(camera_position[1], camera_position[2], 0)
   -- flowers.update()
 end
 

@@ -16,7 +16,7 @@ namespace graphics
   struct ShapeVertexData
   {
     glm::vec3 vertex;
-    // unsigned int color;
+    unsigned int color;
     // glm::vec3 barycentric;
     // glm::vec3 position;
     // glm::vec2 dimensions;
@@ -45,7 +45,7 @@ namespace graphics
     enum Index
     {
       VERTEX_INDEX,
-      // COLOR_INDEX,
+      COLOR_INDEX,
       // BARYCENTRIC_INDEX,
       // POSITION_INDEX,
       // DIMENSIONS_INDEX

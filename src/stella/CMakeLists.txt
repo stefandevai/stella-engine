@@ -1,6 +1,7 @@
 project(${STELLA_LIBRARY_NAME})
 
 add_subdirectory(audio)
+add_subdirectory(components)
 add_subdirectory(core)
 add_subdirectory(graphics)
 add_subdirectory(npc)
@@ -16,6 +17,7 @@ add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME} PUBLIC 
                                       ${STELLA_LIBRARY_NAME}::systems
                                       ${STELLA_LIBRARY_NAME}::audio
+                                      ${STELLA_LIBRARY_NAME}::components
                                       ${STELLA_LIBRARY_NAME}::core
                                       ${STELLA_LIBRARY_NAME}::graphics
                                       ${STELLA_LIBRARY_NAME}::npc

@@ -5,6 +5,7 @@
 #include "stella/components/position.hpp"
 #include "stella/components/transform.hpp"
 #include "stella/components/shape.hpp"
+#include "stella/components/color.hpp"
 #include "stella/graphics/layers/firelayer.hpp"
 #include "stella/graphics/layers/shape_layer.hpp"
 #include <ctime>
@@ -110,7 +111,9 @@ namespace system
     }
     else if (layer.ShaderId == "shape" && !layer.frag_shader_source.empty() && !layer.vert_shader_source.empty())
     {
-      m_layers[layer.Id] = std::shared_ptr<stella::graphics::ShapeLayer> (new graphics::ShapeLayer(layer.vert_shader_source.c_str(),
+      m_layers[layer.Id] = std::shared_ptr<stella::graphics::ShapeLayer> (new graphics::ShapeLayer(this->m_display.GetWidth(),
+                                                                                                   this->m_display.GetHeight(),
+                                                                                                   layer.vert_shader_source.c_str(),
                                                                                                    layer.frag_shader_source.c_str(),
                                                                                                    layer.Fixed));
     }
@@ -193,6 +196,13 @@ namespace system
     auto& shape = registry.get<component::Shape> (entity);
     if (shape.shape && !shape.in_layer)
     {
+      if (registry.has<component::Position>(entity))
+      {
+        auto& pos = registry.get<component::Position>(entity);
+        shape.shape->Pos.x = pos.x;
+        shape.shape->Pos.y = pos.y;
+        shape.shape->Pos.z = pos.z;
+      }
       m_layers[shape.layer_id]->Add (shape.shape);
       shape.in_layer = true;
     }

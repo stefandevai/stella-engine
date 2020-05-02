@@ -5,11 +5,12 @@ in DATA
 {
   // vec2 uv;
   // float tid;
-  // vec4 color;
+  
   vec2 pos;
+  vec4 color;
 } v_in;
 
 void main()
 { 
-	FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+	FragColor = v_in.color;
 }

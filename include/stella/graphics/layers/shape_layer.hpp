@@ -25,7 +25,7 @@ namespace graphics
   public:
     bool Fixed;
     
-    ShapeLayer (const char* vspath, const char* fspath, bool fixed = true);
+    ShapeLayer (float width, float height, const char* vspath, const char* fspath, bool fixed = true);
     virtual ~ShapeLayer();
     virtual void Add (std::shared_ptr<Renderable> renderable);
     virtual void Remove (std::shared_ptr<Renderable> renderable);

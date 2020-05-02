@@ -3,6 +3,7 @@
 #include "./system.hpp"
 #include "stella/components/color.hpp"
 #include "stella/components/sprite.hpp"
+#include "stella/components/shape.hpp"
 #include <sstream>
 
 namespace stella
@@ -36,8 +37,13 @@ namespace system
       auto& color = registry.get<component::Color> (entity);
       if (registry.has<component::Sprite> (entity))
       {
-        auto sprite = registry.get<component::Sprite> (entity);
+        auto& sprite = registry.get<component::Sprite> (entity);
         sprite.sprite->SetDirectColor (color.int_color);
+      }
+      if (registry.has<component::Shape> (entity))
+      {
+        auto& shape = registry.get<component::Shape> (entity);
+        shape.shape->set_color (color.int_color);
       }
     }
   };

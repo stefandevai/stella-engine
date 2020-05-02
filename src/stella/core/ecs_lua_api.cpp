@@ -227,6 +227,26 @@ namespace script
     m_registry.emplace<stella::component::Shape> (id, vertices, layer_id);
   }
 
+  void ECSLuaApi::add_color_component (entt::registry::entity_type id, const sol::table& obj)
+  {
+    
+    if (obj["rgba"] != sol::lua_nil)
+    {
+      const sol::table& color = obj["rgba"];
+      m_registry.emplace<stella::component::Color> (id, color[1], color[2], color[3], color[4]);
+    }
+    else if (obj["rgb"] != sol::lua_nil)
+    {
+      const sol::table& color = obj["rgb"];
+      m_registry.emplace<stella::component::Color> (id, color[1], color[2], color[3]);
+    }
+    else if (obj["hex"] != sol::lua_nil)
+    {
+      const std::string& hex_str = obj["hex"];
+      m_registry.emplace<stella::component::Color> (id, hex_str);
+    }
+  }
+
   void ECSLuaApi::add_component (const sol::table& obj)
   {
     if (obj["type"] != sol::lua_nil)
@@ -266,9 +286,9 @@ namespace script
       else if (ct == "character_animation")
         add_character_animation_component (id);
       else if (ct == "shape")
-      {
         add_shape_component (id, obj["args"]);
-      }
+      else if (ct == "color")
+        add_color_component (id, obj["args"]);
       else
         std::cout << "ERROR: No component named " << ct << '\n';
     }

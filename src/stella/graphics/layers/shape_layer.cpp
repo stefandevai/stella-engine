@@ -7,10 +7,14 @@ namespace stella
 {
 namespace graphics
 {
-  ShapeLayer::ShapeLayer (const char* vspath, const char* fspath, bool fixed)
+  ShapeLayer::ShapeLayer (float width, float height, const char* vspath, const char* fspath, bool fixed)
     : Layer (std::make_shared<ShapeRenderer>(), fixed)
   {
     this->Shad = std::shared_ptr<Shader> (new Shader (vspath, fspath));
+    this->Shad->Enable();
+    const auto projection = glm::ortho (0.0f, width, height, 0.0f, -20.0f, 0.0f);
+    this->Shad->SetMat4 ("proj", projection);
+    this->Shad->Disable();
   }
 
   ShapeLayer::~ShapeLayer() { this->Shad->Disable(); }
