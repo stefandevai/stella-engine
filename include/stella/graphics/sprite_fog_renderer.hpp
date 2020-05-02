@@ -32,6 +32,7 @@ namespace graphics
         GLfloat tid;
         GLfloat yorigin;
         GLfloat height;
+        GLfloat flat;
       };
 
       enum Index
@@ -40,7 +41,8 @@ namespace graphics
         UV_INDEX,
         TID_INDEX,
         YORIGIN_INDEX,
-        HEIGHT_INDEX
+        HEIGHT_INDEX,
+        FLAT_INDEX
       };
 
       VertexData* VertexBuffer;

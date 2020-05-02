@@ -6,8 +6,8 @@ namespace component
 {
   struct Fog
   {
-    Fog (float h, bool flat = false) : h (h), flat (flat) {}
-    float h;
+    Fog (float elevation, bool flat = false) : elevation (elevation), flat (flat) {}
+    float elevation;
     bool flat;
   };
 } // namespace component

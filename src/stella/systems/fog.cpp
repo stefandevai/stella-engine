@@ -37,6 +37,8 @@ namespace system
     if (registry.has<component::Sprite> (entity))
     {
       auto& spr = registry.get<component::Sprite> (entity);
+      auto& fog = registry.get<component::Fog> (entity);
+      spr.sprite->flat = fog.flat;
       m_layer.Add (spr.sprite);
     }
   }

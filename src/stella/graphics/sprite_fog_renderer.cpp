@@ -54,6 +54,10 @@ namespace graphics
         HEIGHT_INDEX, 1, GL_FLOAT, GL_TRUE, VERTEX_SIZE, (GLvoid*) offsetof (VertexData, height));
     glEnableVertexAttribArray (HEIGHT_INDEX);
 
+    glVertexAttribPointer (
+        FLAT_INDEX, 1, GL_FLOAT, GL_TRUE, VERTEX_SIZE, (GLvoid*) offsetof (VertexData, flat));
+    glEnableVertexAttribArray (FLAT_INDEX);
+
     glBindBuffer (GL_ARRAY_BUFFER, 0);
 
     GLint offset = 0;
@@ -97,7 +101,8 @@ namespace graphics
     const float rotation        = sprite->GetRotation();
     const glm::vec2& scale      = sprite->GetScale();
     const float yorigin         = position.y;
-    const float height         = position.y + dimensions.y;
+    const float height          = position.y + dimensions.y;
+    const float flat              = sprite->flat ? -1.0 : 1.0;
 
     const glm::vec2& uv            = sprite->GetFrameCoords();
     const SpriteSheet& spritesheet = sprite->GetSpriteSheet();
@@ -144,6 +149,7 @@ namespace graphics
     this->VertexBuffer->tid    = texture->GetCacheID();
     this->VertexBuffer->yorigin  = yorigin;
     this->VertexBuffer->height  = height;
+    this->VertexBuffer->flat    = flat;
     this->VertexBuffer++;
 
     transformation_result      = particular_transform * glm::vec4 (dimensions.x, 0.f, 1.f, 1.f);
@@ -152,6 +158,7 @@ namespace graphics
     this->VertexBuffer->tid    = texture->GetCacheID();
     this->VertexBuffer->yorigin  = yorigin;
     this->VertexBuffer->height  = height;
+    this->VertexBuffer->flat    = flat;
     this->VertexBuffer++;
 
     transformation_result      = particular_transform * glm::vec4 (dimensions.x, dimensions.y, 1.f, 1.f);
@@ -160,6 +167,7 @@ namespace graphics
     this->VertexBuffer->tid    = texture->GetCacheID();
     this->VertexBuffer->yorigin  = yorigin;
     this->VertexBuffer->height  = height;
+    this->VertexBuffer->flat    = flat;
     this->VertexBuffer++;
 
     transformation_result      = particular_transform * glm::vec4 (0.f, dimensions.y, 1.f, 1.f);
@@ -168,6 +176,7 @@ namespace graphics
     this->VertexBuffer->tid    = texture->GetCacheID();
     this->VertexBuffer->yorigin  = yorigin;
     this->VertexBuffer->height  = height;
+    this->VertexBuffer->flat    = flat;
     this->VertexBuffer++;
 
     this->IndexCount += 6;

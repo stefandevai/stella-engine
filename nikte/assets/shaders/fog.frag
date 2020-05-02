@@ -7,6 +7,7 @@ in DATA
   vec3 pos;
   float yorigin;
   float height;
+  float is_flat;
 } f_in;
 
 out vec4 color;
@@ -55,11 +56,17 @@ void main()
       break;
   }
   
+
   float fog_height = 64.0;
   float fog_intensity = 0.5;
-  float frag_height = f_in.height - f_in.pos.y;
-  float fog_factor = (fog_height - frag_height) / fog_height;
-  float final_fog = fog_factor*fog_intensity;
+  float final_fog = fog_intensity;
+
+  if (f_in.is_flat > 0.0)
+  {
+    float frag_height = f_in.height - f_in.pos.y;
+    float fog_factor = (fog_height - frag_height) / fog_height;
+    final_fog = fog_factor*fog_intensity;
+  }
   
   // if (f_in.pos.y > 0.0 && f_in.pos.y < 10.0)
   // {

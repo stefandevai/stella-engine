@@ -5,6 +5,7 @@ layout (location = 1) in vec2 uv;
 layout (location = 2) in float tid;
 layout (location = 3) in float yorigin;
 layout (location = 4) in float height;
+layout (location = 5) in int is_flat;
 
 out DATA
 {
@@ -13,6 +14,7 @@ out DATA
   vec3 pos;
   float yorigin;
   float height;
+  float is_flat;
 } v_out;
 
 uniform mat4 model = mat4(1.0);
@@ -28,6 +30,7 @@ void main()
   v_out.pos = position.xyz;
   v_out.yorigin = yorigin;
   v_out.height = height;
+  v_out.is_flat = is_flat;
 }
 
 // #version 330 core

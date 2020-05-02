@@ -14,6 +14,7 @@ namespace graphics
   {
   public:
     Animator Animations;
+    bool flat = true;
 
     Sprite (GLint x, GLint y, Texture& texture, const std::vector<GLuint>& frames);
     Sprite (GLint x, GLint y, Texture& texture, GLuint frame = 0);
