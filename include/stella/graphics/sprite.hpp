@@ -13,6 +13,7 @@ namespace graphics
   class Sprite : public Renderable
   {
   public:
+    Texture& Tex;
     Animator Animations;
     bool flat = true;
 
@@ -52,7 +53,6 @@ namespace graphics
     std::vector<GLuint> Frames;
     GLuint Frame = 0, NumberOfFrames;
     SpriteSheet* Sprites;
-    Texture& Tex;
   };
 } // namespace graphics
 } // namespace stella

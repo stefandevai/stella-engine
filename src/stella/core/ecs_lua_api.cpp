@@ -1,5 +1,6 @@
 #include "stella/core/ecs_lua_api.hpp"
 #include "stella/components.hpp" // IWYU pragma: export
+#include "stella/components/color.hpp"
 #include <assert.h>
 #include <iostream>
 #include <string>

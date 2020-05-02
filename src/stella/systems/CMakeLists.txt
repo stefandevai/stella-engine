@@ -6,6 +6,7 @@ add_library(${PROJECT_NAME} STATIC animation.cpp
                                    npc.cpp
                                    physics.cpp
                                    render.cpp
+                                   render2.cpp
                                    speech.cpp
                                    text.cpp
                                    tile.cpp

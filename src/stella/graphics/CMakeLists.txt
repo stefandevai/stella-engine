@@ -5,8 +5,10 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    font.cpp
                                    framebuffer.cpp
                                    renderer.cpp
+                                   renderer2.cpp
                                    renderable.cpp
                                    sprite_renderer.cpp
+                                   sprite_renderer2.cpp
                                    sprite_fog_renderer.cpp
                                    shader.cpp
                                    shape.cpp
@@ -16,9 +18,11 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    texture.cpp
                                    layers/fog_layer.cpp
                                    layers/layer.cpp
+                                   layers/layer2.cpp
                                    layers/basic_layer.cpp
                                    layers/firelayer.cpp
                                    layers/sprite_layer.cpp
+                                   layers/sprite_layer2.cpp
                                    layers/shape_layer.cpp)
                                    
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})

@@ -10,6 +10,7 @@ local function load_assets()
 
   load_font("1980", "assets/fonts/1980.ttf", 32)
   load_font("lato", "assets/fonts/Lato/Lato-Black.ttf", 56)
+  print("HEREEEEE")
 end
 
 local function load_npc(x, y)
