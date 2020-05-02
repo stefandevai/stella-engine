@@ -128,7 +128,8 @@ local function load()
     layer = "fog"
   })
   test_shape:add_component("color", {
-    rgba = {100, 100, 40, 100},
+    --rgba = {255, 255, 255, 100},
+    hex = "#ffffff44",
   })
   -- local test_shape2 = Entity:create_entity()
   -- test_shape2:add_component("shape", {
