@@ -118,7 +118,7 @@ local function load()
   --flowers.load()
   local test_shape = Entity:create_entity()
   test_shape:add_component("shape", {
-    vertices = {{-1,-5},{150,-5},{150, 150},{-1,150}},
+    vertices = {{0.6,0.5},{0.5,-0.5},{-0.5,-0.5},{-0.5,0.5}},
     layer = "fog"
     --vertices = {{1,2},
   })
@@ -158,11 +158,11 @@ local camera_position = {0.0, 0.0}
 local last_camera_x = 0.0
 
 local function update(dt)
-  local player_position = {get_position(Player.id)}
-  camera_position[1] = math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2))
-  camera_position[2] = math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2))
-  update_camera(camera_position[1], camera_position[2], 0)
-  flowers.update()
+  -- local player_position = {get_position(Player.id)}
+  -- camera_position[1] = math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2))
+  -- camera_position[2] = math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2))
+  -- update_camera(camera_position[1], camera_position[2], 0)
+  -- flowers.update()
 end
 
 local function render(dt)

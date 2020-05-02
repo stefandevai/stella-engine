@@ -24,7 +24,7 @@ namespace editor
   Editor::Editor (nikte::Game& game) : m_game (game), m_registry (game.m_registry)
   {
     // m_game.m_display.SetEditor (this);
-    m_debug_layer.Add(shape);
+    //m_debug_layer.Add(shape);
     m_editor_layer = game.m_registry.create();
     game.m_registry.emplace<component::Layer> (m_editor_layer, "editor", 9999, "", "", "");
 
@@ -466,7 +466,7 @@ namespace editor
     if (m_view_physics_debug_layer)
     {
       // this->draw_info (info_pos);
-      m_debug_layer.Render();
+      //m_debug_layer.Render();
     }
   }
 
