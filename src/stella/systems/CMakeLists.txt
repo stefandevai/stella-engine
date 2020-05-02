@@ -2,6 +2,7 @@ project(systems)
 
 add_library(${PROJECT_NAME} STATIC animation.cpp
                                    character_animation.cpp
+                                   fog.cpp
                                    npc.cpp
                                    physics.cpp
                                    render.cpp

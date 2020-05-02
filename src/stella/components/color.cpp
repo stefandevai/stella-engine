@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <sstream>
-#include <iostream>
 
 namespace stella
 {
@@ -31,10 +30,8 @@ Color::Color (const std::string& color) : hex_color (color)
       rgba_color.b = b;
       rgba_color.a = a;
       int_color = a << 24 | b << 16 | g << 8 | r;
-      //int_color = r << 24 | g << 16 | b << 8 | a;
       ss << '#' << std::hex << int_color;
       hex_color = ss.str();
-      std::cout << hex_color << '\n';
     }
 }
 }

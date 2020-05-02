@@ -3,6 +3,7 @@
 #include "stella/systems/animation.hpp"
 #include "stella/systems/character_animation.hpp"
 #include "stella/systems/color.hpp"
+#include "stella/systems/fog.hpp"
 #include "stella/systems/movement.hpp"
 #include "stella/systems/npc.hpp"
 #include "stella/systems/particle.hpp"

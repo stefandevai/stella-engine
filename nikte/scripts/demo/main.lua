@@ -95,14 +95,14 @@ local function load()
     fixed = false,
   })
 
-  create_layer({
-    name = "fog",
-    priority = 4,
-    fixed = true,
-    shader = "shape",
-    vert_source = "assets/shaders/fog.vert",
-    frag_source = "assets/shaders/fog.frag",
-  })
+  -- create_layer({
+  --   name = "fog",
+  --   priority = 4,
+  --   fixed = true,
+  --   shader = "shape",
+  --   vert_source = "assets/shaders/fog.vert",
+  --   frag_source = "assets/shaders/fog.frag",
+  -- })
 
   create_layer({
     name = "text",
@@ -116,25 +116,17 @@ local function load()
   load_player(480, 512)
   load_npc(512, 512)
   --flowers.load()
-  local test_shape = Entity:create_entity()
+  -- local test_shape = Entity:create_entity()
+  
+  -- test_shape:add_component("position", {0, 0, 1})
   -- test_shape:add_component("shape", {
-  --   vertices = {{0.6,0.5},{0.5,-0.5},{-0.5,-0.5},{-0.5,0.5}},
+  --   vertices = {{0.0,0.0},{896.0,0.0},{894.0,504.0},{0.0,504.0}},
   --   layer = "fog"
-    
   -- })
-  test_shape:add_component("position", {0, 0, 1})
-  test_shape:add_component("shape", {
-    vertices = {{0.0,0.0},{896.0,0.0},{894.0,504.0},{0.0,504.0}},
-    layer = "fog"
-  })
-  test_shape:add_component("color", {
-    --rgba = {255, 255, 255, 100},
-    hex = "#ffffff44",
-  })
-  -- local test_shape2 = Entity:create_entity()
-  -- test_shape2:add_component("shape", {
-  --   vertices = {{1.0,1.0},{1.0,0.0},{0.0,0.0},{0.0,1.0}},
-  --   layer = "fog"
+  -- test_shape:add_component("color", {
+  --   --rgba = {255, 255, 255, 100},
+  --   hex = "#ffffff44",
+  -- })
     
   -- })
 
