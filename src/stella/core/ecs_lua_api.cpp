@@ -129,7 +129,6 @@ namespace script
       const std::string& name        = animation[1];
       const sol::table& frames_table = animation[2];
       const int frames_table_size    = frames_table.size();
-      // std::vector<unsigned int> frames (frames_table_size);
       component::AnimationData data;
       data.frames.reserve(frames_table_size);
       for (int i = 1; i <= frames_table_size; ++i)
@@ -143,31 +142,6 @@ namespace script
 
       anim_player.add(name, data);
     }
-
-
-    // const float& framew = obj["frame_dimensions"][1];
-    // const float& frameh = obj["frame_dimensions"][2];
-
-    // std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> animations;
-    // sol::table animations_obj = obj["animations"];
-    // for (const auto& key_value_pair : animations_obj)
-    // {
-    //   const sol::table& animation    = key_value_pair.second;
-    //   const std::string& name        = animation[1];
-    //   const sol::table& frames_table = animation[2];
-    //   const int frames_table_size    = frames_table.size();
-    //   std::vector<unsigned int> frames (frames_table_size);
-    //   for (int i = 1; i < frames_table_size + 1; ++i)
-    //   {
-    //     int frame     = frames_table[i];
-    //     frames[i - 1] = frame;
-    //   }
-    //   const unsigned int speed = animation[3];
-    //   assert (speed > 0);
-    //   assert (frames.size() > 0);
-    //   animations.emplace_back (name, frames, speed);
-    // }
-
   }
 
   void ECSLuaApi::add_tileview_component (entt::registry::entity_type id, const sol::table& obj)

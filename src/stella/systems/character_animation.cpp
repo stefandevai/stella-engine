@@ -6,7 +6,7 @@
 #include "entt/entity/utility.hpp"
 #include "stella/components/character_animation.hpp"
 #include "stella/components/body2d.hpp"
-#include "stella/components/animation.hpp"
+#include "stella/components/animation2.hpp"
 #include "stella/topdown/body.hpp"
 
 namespace stella
@@ -17,7 +17,7 @@ namespace system
 
   void CharacterAnimation::update (entt::registry& registry, const double dt)
   {
-    registry.group<component::CharacterAnimation> (entt::get<component::Body2D, component::Animation>)
+    registry.group<component::CharacterAnimation> (entt::get<component::Body2D, component::AnimationPlayer>)
         .each ([this, &registry] (auto entity, auto& char_anim, auto& body, auto& anim) {
           std::string animation_name = "";
           switch (body.Body->state)
@@ -51,7 +51,7 @@ namespace system
             {
               animation_name.append (1, 'b');
             }
-            anim.current_animation = animation_name;
+            anim.current = animation_name;
           }
         });
   }
