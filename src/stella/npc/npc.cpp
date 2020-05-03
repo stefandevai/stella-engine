@@ -95,9 +95,9 @@ namespace npc
           {
             // Necessary to avoid a compilation error on MSVC
             std::wstring t_response = speech["responses"][1];
-            std::string t_context = speech["next_speech"];
-            response  = std::move(t_response);
-            m_context = std::move(t_context);
+            std::string t_context   = speech["next_speech"];
+            response                = std::move (t_response);
+            m_context               = std::move (t_context);
             goto return_response;
           }
         }
@@ -105,10 +105,10 @@ namespace npc
     }
 
     // If there was no answer until now, process NLP
-    //if (response.empty())
+    // if (response.empty())
     //{
-      ////response = process_nlp (req);
-      //response = L"No more NLP module";
+    ////response = process_nlp (req);
+    // response = L"No more NLP module";
     //}
 
   return_response:

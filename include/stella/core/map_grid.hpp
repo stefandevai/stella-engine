@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include <cereal/types/vector.hpp>
+#include <cereal/types/vector.hpp> // IWYU pragma: export
 
 #include "./grid.hpp"
 #include "./tile.hpp"

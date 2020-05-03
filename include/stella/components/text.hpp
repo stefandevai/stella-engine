@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include <entt/entity/registry.hpp>
+#include <entt/entity/registry.hpp> // IWYU pragma: export
 
 namespace stella
 {

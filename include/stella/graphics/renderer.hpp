@@ -1,59 +1,28 @@
 #pragma once
 
-#include <vector>
-
-#include <glm/glm.hpp>
-
-#define MAX_SPRITES  10000
-#define VERTEX_SIZE  sizeof (VertexData)
-#define SPRITE_SIZE  4 * VERTEX_SIZE
-#define BUFFER_SIZE  MAX_SPRITES* SPRITE_SIZE
-#define INDICES_SIZE 6 * MAX_SPRITES
-
-typedef unsigned int GLuint;
-typedef int GLsizei;
+#include <entt/entity/entity.hpp>
+#include <entt/entity/registry.hpp>
+namespace stella{ namespace graphics{ class Texture; } }
 
 namespace stella
 {
 namespace graphics
 {
-  class Sprite;
-  class Texture;
-  struct VertexData;
+  using TexPtrs = std::vector<std::shared_ptr<Texture>>;
 
-  class Renderer
+  class RendererT
   {
   public:
-    Renderer();
-    ~Renderer();
-    void Begin();
-    void Submit (const Sprite& sprite);
-    static void End();
-    void Draw();
+    RendererT() {}
+    
+    virtual void begin() = 0;
+    virtual void submit (entt::registry& registry, entt::entity entity) = 0;
+    virtual void end() = 0;
+    virtual void draw() = 0;
 
-    static void BindAsRenderTarget (int width = 720, int height = 405);
-
-    void PushTransformation (glm::mat4& mat, bool override = false);
-    void PopTransformation();
-
-    static std::vector<Texture*> Textures;
-
-  private:
-    enum Index
-    {
-      VERTEX_INDEX,
-      UV_INDEX,
-      TID_INDEX,
-      COLOR_INDEX
-    };
-    VertexData* VertexBuffer;
-    GLuint VAO, VBO, EBO;
-    std::vector<glm::mat4> TransformationStack;
-    glm::mat4* TransformationBack;
-    GLsizei IndexCount;
-    bool TexturesBinded;
-
-    void init();
+  protected:
+    virtual ~RendererT() {}
+    static TexPtrs m_textures;
   };
 } // namespace graphics
 } // namespace stella

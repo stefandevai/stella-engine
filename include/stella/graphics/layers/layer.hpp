@@ -1,55 +1,32 @@
 #pragma once
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <memory>
+#include <entt/entity/entity.hpp>
+#include <entt/entity/registry.hpp>
+#include "stella/components/position.hpp"
+#include "stella/components/dimension.hpp"
+#include <glm/mat4x4.hpp>
 #include <set>
-#include <vector>
-
-#include "stella/graphics/renderer.hpp"
-#include "stella/graphics/shader.hpp"
-#include "stella/graphics/sprite.hpp"
 
 namespace stella
 {
 namespace graphics
 {
-  class Layer
+  class LayerT
   {
-  private:
-    struct CompSpriteZ
-    {
-      bool operator() (const std::shared_ptr<Sprite>& lhs, const std::shared_ptr<Sprite>& rhs) const noexcept
-      {
-        // If their z is equal, use y position as a second parameter of differentiation
-        if (lhs->Pos.z == rhs->Pos.z)
-        {
-          return ((lhs->Pos.y + lhs->Dimensions.y) < (rhs->Pos.y + rhs->Dimensions.y));
-        }
+    protected:
+      entt::registry& m_registry;
+    public:
+      bool fixed;
+      LayerT(entt::registry& registry, const bool fixed = false);
+      
+      virtual void add (entt::entity entity) = 0;
+      virtual void remove (entt::entity entity) = 0;
+      virtual void render(entt::registry& registry) = 0;
+      inline void set_view_matrix (const glm::mat4& view) { m_view_matrix = view; };
+      virtual const bool has (const entt::entity entity) = 0;
 
-        return (lhs->Pos.z < rhs->Pos.z);
-      }
-    };
-
-  protected:
-    std::shared_ptr<Renderer> Ren;
-    std::shared_ptr<Shader> Shad;
-    std::vector<std::shared_ptr<Sprite>> Sprites;
-    glm::mat4 ViewMatrix;
-
-    std::multiset<std::shared_ptr<Sprite>, CompSpriteZ> m_sprites;
-
-  public:
-    bool Fixed;
-
-    virtual ~Layer();
-    virtual void Add (std::shared_ptr<Sprite> sprite);
-    virtual void Remove (std::shared_ptr<Sprite> sprite);
-    virtual void Render();
-    virtual void SetViewMatrix (glm::mat4 view);
-
-  protected:
-    Layer (std::shared_ptr<Renderer> renderer, bool fixed = true);
+    protected:
+      glm::mat4 m_view_matrix;
   };
-} // namespace graphics
-} // namespace stella
+}
+}

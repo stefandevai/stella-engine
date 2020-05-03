@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include <glm/glm.hpp>
+#include <glm/glm.hpp> // IWYU pragma: export
 
 namespace stella
 {
@@ -39,7 +39,7 @@ namespace graphics
     m_atlas_width  = aw;
     m_atlas_height = ah;
 
-    m_texture_atlas = new Texture{aw, ah};
+    m_texture_atlas = std::make_shared<Texture>(aw, ah);
 
     int aa = 0;
     glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
@@ -77,8 +77,6 @@ namespace graphics
     FT_Done_Face (m_face);
     FT_Done_FreeType (m_ft);
   }
-
-  Font::~Font() { delete m_texture_atlas; }
 
 } // namespace graphics
 } // namespace stella

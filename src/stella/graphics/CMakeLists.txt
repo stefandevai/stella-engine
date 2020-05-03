@@ -4,16 +4,15 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    display.cpp
                                    font.cpp
                                    framebuffer.cpp
-                                   renderable.cpp
                                    renderer.cpp
+                                   renderable.cpp
+                                   sprite_renderer.cpp
                                    shader.cpp
+                                   shape.cpp
                                    shape_renderer.cpp
-                                   sprite.cpp
-                                   spritesheet.cpp
                                    texture.cpp
-                                   layers/basic_layer.cpp
-                                   layers/firelayer.cpp
                                    layers/layer.cpp
+                                   layers/sprite_layer.cpp
                                    layers/shape_layer.cpp)
                                    
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})

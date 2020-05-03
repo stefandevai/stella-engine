@@ -2,7 +2,7 @@
 
 #include "widget.hpp"
 //#include "../../lib/imgui/imgui.hpp"
-#include <entt/entity/registry.hpp>
+#include <entt/entity/registry.hpp> // IWYU pragma: export
 
 namespace stella
 {

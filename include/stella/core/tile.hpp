@@ -2,7 +2,7 @@
 
 #include <bitset>
 #include <cereal/types/bitset.hpp>
-#include <entt/entity/registry.hpp>
+#include <entt/entity/registry.hpp> // IWYU pragma: export
 #include "stella/components/position.hpp"
 
 namespace stella

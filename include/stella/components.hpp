@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stella/components/animation.hpp"
+//#include "stella/components/animation.hpp"
 #include "stella/components/body2d.hpp"
 #include "stella/components/camera.hpp"
 #include "stella/components/character_animation.hpp"
@@ -17,10 +17,12 @@
 #include "stella/components/position.hpp"
 #include "stella/components/script.hpp"
 #include "stella/components/scroll.hpp"
-#include "stella/components/typewriter.hpp"
-#include "stella/components/sprite.hpp"
+#include "stella/components/shape.hpp"
+//#include "stella/components/sprite.hpp"
+#include "stella/components/sprite_group.hpp"
 #include "stella/components/text.hpp"
 #include "stella/components/tile.hpp"
 #include "stella/components/tileview.hpp"
 #include "stella/components/timer.hpp"
 #include "stella/components/transform.hpp"
+#include "stella/components/typewriter.hpp"

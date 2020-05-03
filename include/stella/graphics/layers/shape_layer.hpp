@@ -1,37 +1,35 @@
 #pragma once
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include <memory>
 #include <vector>
+#include <algorithm>
 
-#include "stella/graphics/shader.hpp"
+#include "stella/graphics/layers/layer.hpp"
 #include "stella/graphics/shape.hpp"
 #include "stella/graphics/shape_renderer.hpp"
+namespace stella { namespace graphics { class Shader; } }
 
 namespace stella
 {
 namespace graphics
 {
-  class ShapeLayer
+  class ShapeLayerT : public LayerT
   {
-  protected:
-    std::shared_ptr<ShapeRenderer> Ren;
-    std::shared_ptr<Shader> Shad;
-    std::vector<std::shared_ptr<Shape>> Shapes;
-    glm::mat4 ViewMatrix;
+  private:
+    std::vector<entt::entity> m_entities;
+    ShapeRendererT m_renderer{};
 
   public:
-    bool Fixed;
+    std::shared_ptr<Shader> shader;
 
-    virtual ~ShapeLayer();
-    virtual void Add (std::shared_ptr<Shape> shape);
-    virtual void Remove (std::shared_ptr<Shape> shape);
-    virtual void Render();
-    virtual void SetViewMatrix (glm::mat4 view);
+  public:
+    ShapeLayerT (entt::registry& registry, const std::string& vert_shader_path, const std::string& frag_shader_path, const bool fixed = false);
+    ~ShapeLayerT();
+    void add (entt::entity entity);
+    void remove (entt::entity entity);
+    void render(entt::registry& registry);
+    inline const bool has (const entt::entity entity) { return std::find (m_entities.begin(), m_entities.end(), entity) != m_entities.end(); }
 
-  protected:
-    ShapeLayer (std::shared_ptr<ShapeRenderer> renderer, bool fixed = true);
   };
 } // namespace graphics
 } // namespace stella

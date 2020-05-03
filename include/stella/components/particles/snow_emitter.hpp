@@ -56,9 +56,10 @@ namespace graphics
       registry.emplace<component::Position> (particle, px, pos.y, pos.z);
       registry.emplace<component::Dimension> (particle, dim.w, dim.h);
       registry.emplace<component::Particle> (particle, max_life, 16.f, speedx, speedy, 1);
-      registry.emplace<component::Sprite> (particle, this->TextureName, "particles");
       registry.emplace<component::Transform> (particle, rotation, glm::vec2 (scale, scale));
       registry.emplace<component::Movement> (particle, glm::vec2 (0.f, 100.f * speedy), false, true);
+      auto& sprite = registry.emplace<component::SpriteT> (particle, this->TextureName);
+      sprite.layer = "particles";
       // particle.assign<component::Body2D>();
       return particle;
     }

@@ -5,7 +5,7 @@
 #elif defined(_WIN32)
   #include <al.h>
 #else
-  #include <AL/al.h>
+  #include <AL/al.h> // IWYU pragma: export
 #endif
 
 #define AUDIO_BUFFER_SIZE (4096 * 8)

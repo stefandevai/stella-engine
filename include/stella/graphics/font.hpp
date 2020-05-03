@@ -24,12 +24,11 @@ namespace graphics
   {
   public:
     Font (const std::string& path, std::size_t size = 48);
-    ~Font();
     inline CharacterData get_char_data (wchar_t c)
     {
       return ((c >= CHAR_BOTTOM_LIMIT && c < CHAR_TOP_LIMIT) ? m_chars[c] : m_empty_char_data);
     };
-    inline Texture* get_atlas() const { return m_texture_atlas; };
+    inline std::shared_ptr<Texture> get_atlas() const { return m_texture_atlas; };
 
   private:
     const char* m_path;
@@ -37,7 +36,7 @@ namespace graphics
     FT_Library m_ft;
     FT_Face m_face;
     std::map<wchar_t, CharacterData> m_chars;
-    Texture* m_texture_atlas;
+    std::shared_ptr<Texture> m_texture_atlas;
     unsigned int m_atlas_width, m_atlas_height;
 
     // Limit codes for obtaining characters in the ttf font

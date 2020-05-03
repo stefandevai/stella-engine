@@ -1,43 +1,60 @@
 #include "stella/graphics/layers/shape_layer.hpp"
-#include "stella/graphics/opengl.hpp"
+#include "stella/components/shape.hpp"
+#include "stella/components/position.hpp"
+#include "stella/graphics/shader.hpp"
 
-#include <algorithm>
+#include <iostream>
+#include <glm/glm.hpp>                  // IWYU pragma: export
+#include <glm/gtc/matrix_transform.hpp> // IWYU pragma: export
 
 namespace stella
 {
 namespace graphics
 {
-  ShapeLayer::ShapeLayer (std::shared_ptr<ShapeRenderer> renderer, bool fixed)
-    : Ren (renderer), ViewMatrix (glm::mat4()), Fixed (fixed)
+  ShapeLayerT::ShapeLayerT(entt::registry& registry, const std::string& vert_shader_path, const std::string& frag_shader_path, const bool fixed)
+  : LayerT(registry, fixed), shader(std::make_shared<Shader>(vert_shader_path.c_str(), frag_shader_path.c_str()))
   {
+    GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+    shader->Enable();
+    const auto projection = glm::ortho (0.0f, 896.f, 504.f, 0.0f, -20.0f, 0.0f);
+    shader->SetMat4 ("proj", projection);
+    shader->SetIntv ("textures", tex_ids, 21);
+    shader->Disable();
   }
 
-  ShapeLayer::~ShapeLayer() { this->Shad->Disable(); }
-
-  void ShapeLayer::Add (std::shared_ptr<Shape> shape) { this->Shapes.push_back (shape); }
-
-  void ShapeLayer::Remove (std::shared_ptr<Shape> shape)
+  ShapeLayerT::~ShapeLayerT()
   {
-    auto it = std::find (this->Shapes.begin(), this->Shapes.end(), shape);
-    this->Shapes.erase (it);
+    m_entities.clear();
   }
 
-  void ShapeLayer::Render()
+  void ShapeLayerT::add (entt::entity entity) { m_entities.push_back (entity); }
+
+  void ShapeLayerT::remove (entt::entity entity)
   {
-    this->Shad->Enable();
-    if (!this->Fixed)
-    {
-      this->Shad->SetMat4 ("view", this->ViewMatrix);
-    }
-    this->Ren->Begin();
-
-    for (auto i : Shapes)
-      this->Ren->Submit (*i);
-
-    this->Ren->End();
-    this->Ren->Draw();
+      auto it = std::find (m_entities.begin(), m_entities.end(), entity);
+      if (it != m_entities.end())
+      {
+          m_entities.erase (it);
+      }
   }
 
-  void ShapeLayer::SetViewMatrix (glm::mat4 view) { this->ViewMatrix = view; }
-} // namespace graphics
-} // namespace stella
+  void ShapeLayerT::render(entt::registry& registry)
+  {
+      shader->Enable();
+      if (!fixed)
+      {
+        shader->SetMat4 ("view", m_view_matrix);
+      }
+      m_renderer.begin();
+      for (auto entity : m_entities)
+      {
+          if (registry.has<component::Shape>(entity) && registry.has<component::Position>(entity))
+          {
+            m_renderer.submit(registry, entity);
+          }
+      }
+      m_renderer.end();
+      m_renderer.draw();
+  }
+}
+}

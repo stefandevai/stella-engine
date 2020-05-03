@@ -2,7 +2,10 @@
 
 #include "basic_lua_api.hpp"
 #include "stella/perlin.hpp"
-#include <entt/entity/registry.hpp>
+#include <entt/entity/registry.hpp> // IWYU pragma: export
+#include <stdlib.h>             // for rand
+#include <tuple>                // for tuple
+#include "sol/forward.hpp"
 
 namespace stella
 {
@@ -36,6 +39,8 @@ namespace script
     void add_name_component (entt::registry::entity_type id, const sol::table& obj);
     void add_npc_component (entt::registry::entity_type id, const sol::table& obj);
     void add_character_animation_component (entt::registry::entity_type id);
+    void add_shape_component (entt::registry::entity_type id, const sol::table& obj);
+    void add_color_component (entt::registry::entity_type id, const sol::table& obj);
     void add_component (const sol::table& obj);
 
     inline double get_perlin_double (double x, double y) { return m_noise_generator.get_double (x, y); }

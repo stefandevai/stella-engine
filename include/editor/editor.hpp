@@ -3,20 +3,20 @@
 #include "../stella/graphics/shape.hpp"
 #include "../stella/graphics/framebuffer.hpp"
 #include "widgets/chat.hpp"
-#include "./debug_layer.hpp"
+#include "stella/graphics/layers/shape_layer.hpp"
 #include "widgets/console.hpp"
 #include "widgets/inspector.hpp"
 #include "./log_system.hpp"
 #include "widgets/map_editor.hpp"
 #include "widgets/tileset_editor.hpp"
 #include "widgets/scene.hpp"
-#include <entt/entity/registry.hpp>
+#include <entt/entity/registry.hpp> // IWYU pragma: export
 //#include "../stella/core/game.hpp"
 #include "state.hpp"
 #include "widgets/toolbar.hpp"
-#include "../../lib/imgui/imgui.h"
-#include "../../lib/imgui/examples/imgui_impl_opengl3.h"
-#include "../../lib/imgui/examples/imgui_impl_sdl.h"
+#include "../../lib/imgui/imgui.h" // IWYU pragma: export
+#include "../../lib/imgui/examples/imgui_impl_opengl3.h" // IWYU pragma: export
+#include "../../lib/imgui/examples/imgui_impl_sdl.h" // IWYU pragma: export
 
 struct SDL_Window;
 union SDL_Event;
@@ -52,7 +52,7 @@ namespace editor
     widget::Chat m_chat{m_window_flags, m_font_mono};
     LogSystem m_log_system{m_console};
     entt::registry& m_registry;
-    DebugLayer m_debug_layer{896, 504, true};
+    std::shared_ptr<graphics::ShapeLayerT> m_debug_layer;
     entt::entity m_editor_layer  = entt::null;
     entt::entity m_editor_sprite = entt::null;
     widget::TilesetEditor m_tileset_editor{"assets/sprites/tilesetv2.png"};
@@ -66,7 +66,7 @@ namespace editor
     std::shared_ptr<graphics::Shape> shape = std::make_shared<graphics::Shape> (vertices, glm::vec3{200.f, 100.f, 1.f});
 
     // View options
-    bool m_view_physics_debug_layer = false;
+    bool m_view_physics_debug_layer = true;
     bool m_show_editor = true;
 
     std::unique_ptr<graphics::Framebuffer> m_FBO;

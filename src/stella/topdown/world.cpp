@@ -2,7 +2,10 @@
 #include "stella/topdown/body.hpp"
 #include <algorithm>
 #include <cmath>
-#include <iostream>
+#include <bitset>
+#include "stella/core/map_grid.hpp"
+#include "stella/core/tile.hpp"
+#include "stella/core/tile_map.hpp"
 
 namespace stella
 {

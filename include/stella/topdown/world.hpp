@@ -1,18 +1,18 @@
 #pragma once
 
-#include "../core/grid.hpp"
 #include "../core/tile.hpp"
-#include "../core/tile_map.hpp"
-#include <glm/glm.hpp>
 #include <memory>
 #include <vector>
+
+#include "glm/detail/type_vec.hpp"
+#include "glm/detail/type_vec2.hpp"
+namespace stella { namespace core { class TileMap; } }
+namespace stella { namespace topdown { class Body; } }
 
 namespace stella
 {
 namespace topdown
 {
-  class Body;
-
   class World
   {
   private:

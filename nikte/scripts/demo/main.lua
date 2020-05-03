@@ -20,7 +20,7 @@ local function load_npc(x, y)
   npc:add_component("sprite", {
     texture = "nikte",
     layer = "collision",
-    frame_dimensions = {32, 64, 0},
+    frame_dimensions = {9, 6},
   })
   npc:add_component("movement")
   npc:add_component("body", {
@@ -33,16 +33,16 @@ local function load_npc(x, y)
   })
 
   animation_args = {}
-  animation_args["frame_dimensions"] = {32, 64}
+  animation_args["loop"] = true
   animation_args["animations"] = {}
-  animation_args["animations"][1] = {"idle-b", {0}, 5}
-  animation_args["animations"][2] = {"walking-r", {19,20,21,22,23,24,25,26}, 5}
-  animation_args["animations"][3] = {"walking-t", {28,29,30,31,32,33,34,35}, 5}
-  animation_args["animations"][4] = {"walking-b", {1,2,3,4,5,6,7,8}, 5}
-  animation_args["animations"][5] = {"idle-l", {45}, 5}
-  animation_args["animations"][6] = {"idle-r", {18}, 5}
-  animation_args["animations"][7] = {"idle-t", {27}, 5}
-  animation_args["animations"][8] = {"walking-l", {46,47,48,49,50,51,52,53}, 5}
+  animation_args["animations"][1] = {"idle-b", {0}, 0.1}
+  animation_args["animations"][2] = {"walking-r", {19,20,21,22,23,24,25,26}, 0.1}
+  animation_args["animations"][3] = {"walking-t", {28,29,30,31,32,33,34,35}, 0.1}
+  animation_args["animations"][4] = {"walking-b", {1,2,3,4,5,6,7,8}, 0.1}
+  animation_args["animations"][5] = {"idle-l", {45}, 0.1}
+  animation_args["animations"][6] = {"idle-r", {18}, 0.1}
+  animation_args["animations"][7] = {"idle-t", {27}, 0.1}
+  animation_args["animations"][8] = {"walking-l", {46,47,48,49,50,51,52,53}, 0.1}
   npc:add_component("animation", animation_args) 
   npc:add_component("character_animation")
 end
@@ -54,7 +54,7 @@ local function load_player(x, y)
   Player:add_component("sprite", {
     texture = "nikte",
     layer = "collision",
-    frame_dimensions = {32, 64, 0},
+    frame_dimensions = {9, 6},
   })
   Player:add_component("movement")
   Player:add_component("body", {
@@ -64,16 +64,16 @@ local function load_player(x, y)
   })
 
   animation_args = {}
-  animation_args["frame_dimensions"] = {32, 64}
+  animation_args["loop"] = true
   animation_args["animations"] = {}
-  animation_args["animations"][1] = {"walking-l", {46,47,48,49,50,51,52,53}, 5}
-  animation_args["animations"][2] = {"walking-r", {19,20,21,22,23,24,25,26}, 5}
-  animation_args["animations"][3] = {"walking-t", {28,29,30,31,32,33,34,35}, 5}
-  animation_args["animations"][4] = {"walking-b", {1,2,3,4,5,6,7,8}, 5}
-  animation_args["animations"][5] = {"idle-l", {45}, 5}
-  animation_args["animations"][6] = {"idle-r", {18}, 5}
-  animation_args["animations"][7] = {"idle-t", {27}, 5}
-  animation_args["animations"][8] = {"idle-b", {0}, 5}
+  animation_args["animations"][1] = {"walking-l", {46,47,48,49,50,51,52,53}, 0.1}
+  animation_args["animations"][2] = {"walking-r", {19,20,21,22,23,24,25,26}, 0.1}
+  animation_args["animations"][3] = {"walking-t", {28,29,30,31,32,33,34,35}, 0.1}
+  animation_args["animations"][4] = {"walking-b", {1,2,3,4,5,6,7,8}, 0.1}
+  animation_args["animations"][5] = {"idle-l", {45}, 0.1}
+  animation_args["animations"][6] = {"idle-r", {18}, 0.1}
+  animation_args["animations"][7] = {"idle-t", {27}, 0.1}
+  animation_args["animations"][8] = {"idle-b", {0}, 0.1}
   Player:add_component("animation", animation_args)
   Player:add_component("character_animation")
 end
@@ -83,17 +83,40 @@ local function load()
     name = "tiles",
     priority = 1,
     fixed = false,
+    vert_source = "assets/shaders/sprite_batch.vert",
+    frag_source = "assets/shaders/sprite_batch.frag",
   })
   create_layer({
     name = "collision",
     priority = 2,
     fixed = false,
+    vert_source = "assets/shaders/sprite_batch.vert",
+    frag_source = "assets/shaders/sprite_batch.frag",
   })
   create_layer({
     name = "foreground",
     priority = 3,
     fixed = false,
+    vert_source = "assets/shaders/sprite_batch.vert",
+    frag_source = "assets/shaders/sprite_batch.frag",
   })
+  create_layer({
+    name = "shapes",
+    priority = 4,
+    fixed = true,
+    vert_source = "assets/shaders/shape.vert",
+    frag_source = "assets/shaders/shape.frag",
+    shader = "shape",
+  })
+
+  -- create_layer({
+  --   name = "fog",
+  --   priority = 4,
+  --   fixed = true,
+  --   shader = "shape",
+  --   vert_source = "assets/shaders/fog.vert",
+  --   frag_source = "assets/shaders/fog.frag",
+  -- })
 
   create_layer({
     name = "text",
@@ -106,7 +129,20 @@ local function load()
   -- load_assets()
   load_player(480, 512)
   load_npc(512, 512)
-  flowers.load()
+  --flowers.load()
+  local test_shape = Entity:create_entity()
+  
+  test_shape:add_component("position", {0, 0, 1})
+  test_shape:add_component("shape", {
+    vertices = {{32.0,32.0},{864.0,32.0},{864.0,472.0},{32.0,472.0}},
+    layer = "shapes"
+  })
+  test_shape:add_component("color", {
+    --rgba = {255, 255, 255, 100},
+    hex = "#ffffff44",
+  })
+    
+  -- })
 
   -- local test_spr = Entity:create_entity()
   -- test_spr:add_component("sprite", {
@@ -147,7 +183,7 @@ local function update(dt)
   camera_position[1] = math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2))
   camera_position[2] = math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2))
   update_camera(camera_position[1], camera_position[2], 0)
-  flowers.update()
+  -- flowers.update()
 end
 
 local function render(dt)

@@ -1,5 +1,5 @@
 #include "editor/widgets/inspector.hpp"
-#include "stella/components.hpp"
+#include "stella/components.hpp" // IWYU pragma: export
 
 namespace stella
 {

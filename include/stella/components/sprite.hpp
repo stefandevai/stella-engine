@@ -1,54 +1,36 @@
 #pragma once
 
 #include <string>
-
-#include "../graphics/sprite.hpp"
-#include <glm/glm.hpp>
 #include <memory>
+#include <glm/vec2.hpp>
+namespace stella{ namespace graphics{ class Texture; } }
 
 namespace stella
 {
 namespace component
 {
-  struct Sprite
+  struct SpriteT
   {
-    Sprite (const std::string& tex_name, glm::vec2 frame_dimensions, std::string layer_id = "basic", unsigned frame = 0)
-      : TexName (tex_name), FrameDimensions (frame_dimensions), LayerId (layer_id), Frame (frame)
-    {
-    }
-    Sprite (const std::string& tex_name,
-            const float framex,
-            const float framey,
-            std::string layer_id = "basic",
-            unsigned frame       = 0)
-      : TexName (tex_name), FrameDimensions (glm::vec2 (framex, framey)), LayerId (layer_id), Frame (frame)
-    {
-    }
-    Sprite (const std::string& tex_name, std::string layer_id = "basic") : TexName (tex_name), LayerId (layer_id) {}
-    Sprite (const glm::vec3 position,
-            const glm::vec2 dimensions,
-            const glm::vec2 offset,
-            graphics::Texture& texture,
-            std::string layer_id = "basic")
-      : LayerId (layer_id)
-    {
-      this->sprite = std::shared_ptr<graphics::Sprite> (new graphics::Sprite (position, dimensions, offset, texture));
-      this->Initialized = true;
-    }
-    Sprite (
-        graphics::Texture& texture, const float framex, const float framey, int frame, std::string layer_id = "basic")
-      : FrameDimensions (glm::vec2 (framex, framey)), LayerId (layer_id), Frame (frame)
-    {
-      this->sprite = std::shared_ptr<graphics::Sprite> (new graphics::Sprite (0, 0, framex, framey, texture, frame));
-      this->Initialized = true;
-    }
+      SpriteT (const std::string& texture) : texture (texture) {}
+      
+      std::string texture = "";
+      std::shared_ptr<graphics::Texture> texture_ptr = nullptr;
+      std::string layer = "";
+      int frame = 0;
+      unsigned int hframes = 1;
+      unsigned int vframes = 1;
+      bool loaded = false;
+      // Coords to form an area for the sprite in the texture
+      glm::vec2 top_left = glm::vec2{0.0f, 0.0f};
+      glm::vec2 bottom_right = glm::vec2{0.0f, 0.0f};
+      glm::vec2 uv{-1.0, -1.0};
+      bool user_has_set_uv = false;
 
-    std::shared_ptr<stella::graphics::Sprite> sprite = nullptr;
-    std::string TexName;
-    glm::vec2 FrameDimensions = glm::vec2 (0.f, 0.f);
-    std::string LayerId;
-    unsigned int Frame = 0;
-    bool InLayer = false, Initialized = false, HasScaled = false;
+      int get_width();
+      int get_height();
+      glm::vec2 get_uv();
+      void set_texture(const std::string& texture);
+      void set_uv(const glm::vec2& uv);
   };
-} // namespace component
-} // namespace stella
+}
+}

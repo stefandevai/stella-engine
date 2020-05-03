@@ -1,8 +1,8 @@
 #include "stella/graphics/shader.hpp"
 #include "stella/fileutils.hpp"
 
-#include "stella/graphics/opengl.hpp"
-#include <glm/gtc/type_ptr.hpp>
+#include "stella/graphics/opengl.hpp" // IWYU pragma: export
+#include <glm/gtc/type_ptr.hpp>       // IWYU pragma: export
 
 namespace stella
 {

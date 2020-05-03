@@ -4,14 +4,15 @@
 #include "stella/components/position.hpp"
 #include "stella/components/sprite.hpp"
 #include "stella/components/tile.hpp"
+#include "stella/components/fog.hpp"
 
 #include <cmath>
-#include <glm/glm.hpp>
+#include <glm/glm.hpp> // IWYU pragma: export
 
-#include <cereal/archives/xml.hpp>
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
-#include <cereal/types/vector.hpp>
+#include <cereal/archives/xml.hpp> // IWYU pragma: export
+#include <cereal/cereal.hpp>       // IWYU pragma: export
+#include <cereal/types/memory.hpp> // IWYU pragma: export
+#include <cereal/types/vector.hpp> // IWYU pragma: export
 #include <fstream>
 #include <algorithm>
 
@@ -175,7 +176,7 @@ namespace core
 
     if (!m_registry.valid (tile.entity) || tile.entity == entt::null)
     {
-      this->create_tile_entity (value, x, y, tile.z, layer_id);
+      this->create_tile_entity (value, x, y, tile.z, layer_id, tile.collidable);
     }
     else
     {
@@ -188,19 +189,18 @@ namespace core
 
   void TileMap::update_tile_sprite (entt::entity entity, const unsigned layer_id, const int value)
   {
-    if (m_registry.has<component::Sprite> (entity))
+    if (m_registry.has<component::SpriteT> (entity))
     {
-      auto& spr = m_registry.get<component::Sprite> (entity);
-      spr.sprite->SetDirectFrame (value);
-      spr.Frame = value;
+      auto& sprite = m_registry.get<component::SpriteT> (entity);
+      sprite.frame = value;
     }
     else
     {
-      m_registry.emplace<component::Sprite> (entity,
-                                            layers[layer_id]->get_texture_name(),
-                                            glm::vec2 (m_tile_dimension, m_tile_dimension),
-                                            layers[layer_id]->get_render_layer_name(),
-                                            value);
+      auto &sprite = m_registry.emplace<component::SpriteT> (entity, layers[layer_id]->get_texture_name());
+      sprite.hframes = 8;
+      sprite.vframes = 11;
+      sprite.frame = value;
+      sprite.layer = layers[layer_id]->get_render_layer_name();
     }
   }
 
@@ -220,18 +220,21 @@ namespace core
     }
   }
 
-  void TileMap::create_tile_entity (const int value, const int x, const int y, const int z, const unsigned layer_id)
+  void TileMap::create_tile_entity (
+      const int value, const int x, const int y, const int z, const unsigned layer_id, bool collidable)
   {
     auto tile = m_registry.create();
-    m_registry.emplace<component::Tile> (tile, layer_id, false);
+    m_registry.emplace<component::Tile> (tile, layer_id, collidable);
     // if (layers[layer_id]->get_texture_name() != "tileset") std::cout << layers[layer_id]->get_texture_name() << '\n';
     m_registry.emplace<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
     m_registry.emplace<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
-    m_registry.emplace<component::Sprite> (tile,
-                                          layers[layer_id]->get_texture_name(),
-                                          glm::vec2 (m_tile_dimension, m_tile_dimension),
-                                          layers[layer_id]->get_render_layer_name(),
-                                          value);
+    auto& sprite = m_registry.emplace<component::SpriteT> (tile, layers[layer_id]->get_texture_name());
+    sprite.hframes = 8;
+    sprite.vframes = 11;
+    sprite.frame = value;
+    sprite.layer = layers[layer_id]->get_render_layer_name();
+    
+    m_registry.emplace<component::Fog> (tile, z, !collidable);
     layers[layer_id]->set_entity (x, y, tile);
   }
 
@@ -260,7 +263,7 @@ namespace core
           if (!layer_tile.visible && layer_tile.value > 0)
           {
             layer->set_visibility (x, y, true);
-            this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter);
+            this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter, layer_tile.collidable);
           }
           else if (!layer_tile.visible)
           {

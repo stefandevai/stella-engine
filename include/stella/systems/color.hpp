@@ -2,7 +2,7 @@
 
 #include "./system.hpp"
 #include "stella/components/color.hpp"
-#include "stella/components/sprite.hpp"
+#include "stella/components/shape.hpp"
 #include <sstream>
 
 namespace stella
@@ -21,11 +21,7 @@ namespace system
 
     void update (entt::registry& registry, const double dt) override
     {
-      //   registry.group<component::Color>(entt::get<component::Sprite>).each([&registry](auto
-      //   entity, auto &color, auto &sprite)
-      //   {
 
-      //   });
     }
 
   private:
@@ -34,10 +30,10 @@ namespace system
     void initialize_color (entt::registry& registry, entt::entity entity)
     {
       auto& color = registry.get<component::Color> (entity);
-      if (registry.has<component::Sprite> (entity))
+      if (registry.has<component::Shape> (entity))
       {
-        auto sprite = registry.get<component::Sprite> (entity);
-        sprite.sprite->SetDirectColor (color.int_color);
+        auto& shape = registry.get<component::Shape> (entity);
+        shape.shape->set_color (color.int_color);
       }
     }
   };
