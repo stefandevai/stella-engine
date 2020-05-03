@@ -30,13 +30,15 @@ namespace graphics
       glm::vec3 vertex;
       glm::vec2 uv;
       GLfloat tid;
+      unsigned int color;
     };
 
     enum Index
     {
       VERTEX_INDEX,
       UV_INDEX,
-      TID_INDEX
+      TID_INDEX,
+      COLOR_INDEX
     };
 
     VertexData* m_vertex_buffer;

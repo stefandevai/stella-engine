@@ -3,6 +3,7 @@
 #include "stella/graphics/opengl.hpp" // IWYU pragma: export
 #include "stella/components/sprite.hpp"
 #include "stella/components/position.hpp"
+#include "stella/components/color.hpp"
 
 #include <algorithm>
 #include <cstddef>
@@ -51,6 +52,10 @@ namespace graphics
     glVertexAttribPointer (TID_INDEX, 1, GL_FLOAT, GL_FALSE, VERTEX_SIZE, (GLvoid*) offsetof (VertexData, tid));
     glEnableVertexAttribArray (TID_INDEX);
 
+    glVertexAttribPointer (
+        COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE, (GLvoid*) offsetof (VertexData, color));
+    glEnableVertexAttribArray (COLOR_INDEX);
+
     glBindBuffer (GL_ARRAY_BUFFER, 0);
 
     GLint offset = 0;
@@ -81,12 +86,19 @@ namespace graphics
   void SpriteRendererT::submit (entt::registry& registry, entt::entity entity)
   {
     auto& sprite = registry.get<component::SpriteT>(entity);
-    auto& pos = registry.get<component::Position>(entity);
+    const auto& pos = registry.get<component::Position>(entity);
     const glm::vec3 position   = glm::vec3(pos.x, pos.y, pos.z);
     const glm::vec2 dimensions = glm::vec2(sprite.get_width(), sprite.get_height());
     const glm::vec2 uv            = sprite.get_uv();
+    unsigned int color = 4294967295;
 
     std::shared_ptr<Texture> texture = sprite.texture_ptr;
+
+    if (registry.has<component::Color>(entity))
+    {
+      const auto& colorc = registry.get<component::Color>(entity);
+      color = colorc.int_color;
+    }
 
     if (!texture->IsCached())
     {
@@ -113,24 +125,28 @@ namespace graphics
     m_vertex_buffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
     m_vertex_buffer->uv     = glm::vec2 (uv.x, uv.y);
     m_vertex_buffer->tid    = texture->GetCacheID();
+    m_vertex_buffer->color  = color;
     m_vertex_buffer++;
 
     transformation_result      = particular_transform * glm::vec4 (dimensions.x, 0.f, 1.f, 1.f);
     m_vertex_buffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
     m_vertex_buffer->uv     = glm::vec2 (uv.x + uvoffsetX, uv.y);
     m_vertex_buffer->tid    = texture->GetCacheID();
+    m_vertex_buffer->color  = color;
     m_vertex_buffer++;
 
     transformation_result      = particular_transform * glm::vec4 (dimensions.x, dimensions.y, 1.f, 1.f);
     m_vertex_buffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
     m_vertex_buffer->uv     = glm::vec2 (uv.x + uvoffsetX, uv.y - uvoffsetY);
     m_vertex_buffer->tid    = texture->GetCacheID();
+    m_vertex_buffer->color  = color;
     m_vertex_buffer++;
 
     transformation_result      = particular_transform * glm::vec4 (0.f, dimensions.y, 1.f, 1.f);
     m_vertex_buffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
     m_vertex_buffer->uv     = glm::vec2 (uv.x, uv.y - uvoffsetY);
     m_vertex_buffer->tid    = texture->GetCacheID();
+    m_vertex_buffer->color  = color;
     m_vertex_buffer++;
 
     this->m_index_count += 6;
