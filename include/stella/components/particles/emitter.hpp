@@ -3,7 +3,7 @@
 #include "../dimension.hpp"
 #include "../particle.hpp"
 #include "../position.hpp"
-#include "../sprite.hpp"
+#include "../sprite2.hpp"
 #include "../transform.hpp"
 #include <entt/entity/registry.hpp> // IWYU pragma: export
 #include <string>
@@ -68,9 +68,10 @@ namespace graphics
       registry.emplace<component::Position> (particle, px, py, pos.z);
       registry.emplace<component::Dimension> (particle, dim.w, dim.h);
       registry.emplace<component::Particle> (particle, max_life, scalex, speedx, speedy);
-      registry.emplace<component::Sprite> (particle, this->TextureName, "particles");
       registry.emplace<component::Transform> (particle, rotation, glm::vec2 (scalex, scaley));
       registry.emplace<component::Movement> (particle, glm::vec2 (speedx, speedy), false);
+      auto& sprite = registry.emplace<component::SpriteT> (particle, this->TextureName);
+      sprite.layer = "particles";
       // particle.assign<component::Body2D>();
       return particle;
     }

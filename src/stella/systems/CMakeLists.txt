@@ -1,12 +1,12 @@
 project(systems)
 
-add_library(${PROJECT_NAME} STATIC animation.cpp
+add_library(${PROJECT_NAME} STATIC #animation.cpp
                                    animation_player2.cpp
                                    character_animation.cpp
-                                   fog.cpp
+                                   #fog.cpp
                                    npc.cpp
                                    physics.cpp
-                                   render.cpp
+                                   #render.cpp
                                    render2.cpp
                                    speech.cpp
                                    text.cpp

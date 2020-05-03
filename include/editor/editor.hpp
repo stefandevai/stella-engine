@@ -3,7 +3,7 @@
 #include "../stella/graphics/shape.hpp"
 #include "../stella/graphics/framebuffer.hpp"
 #include "widgets/chat.hpp"
-#include "./debug_layer.hpp"
+#include "stella/graphics/layers/shape_layer2.hpp"
 #include "widgets/console.hpp"
 #include "widgets/inspector.hpp"
 #include "./log_system.hpp"
@@ -52,7 +52,7 @@ namespace editor
     widget::Chat m_chat{m_window_flags, m_font_mono};
     LogSystem m_log_system{m_console};
     entt::registry& m_registry;
-    DebugLayer m_debug_layer{896, 504, true};
+    std::shared_ptr<graphics::ShapeLayerT> m_debug_layer;
     entt::entity m_editor_layer  = entt::null;
     entt::entity m_editor_sprite = entt::null;
     widget::TilesetEditor m_tileset_editor{"assets/sprites/tilesetv2.png"};

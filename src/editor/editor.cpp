@@ -8,7 +8,7 @@
 //#include "stella/components/sprite.hpp"
 #include "stella/components/sprite2.hpp"
 
-#include "editor/debug_layer.hpp"
+//#include "editor/debug_layer.hpp"
 
 #ifdef _WIN32
   #include <SDL.h>
@@ -24,6 +24,8 @@ namespace editor
 {
   Editor::Editor (nikte::Game& game) : m_game (game), m_registry (game.m_registry)
   {
+    
+    m_debug_layer = std::make_shared<graphics::ShapeLayerT>(m_registry, "assets/shaders/debug_shader.vert", "assets/shaders/debug_shader.frag", true);
     // m_game.m_display.SetEditor (this);
     // m_debug_layer.Add(shape);
     m_editor_layer = game.m_registry.create();

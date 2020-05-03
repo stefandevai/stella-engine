@@ -7,9 +7,9 @@
 #include "stella/graphics/font.hpp"
 #include "stella/graphics/texture.hpp"
 #include "stella/physics2d/world.hpp"
-#include "stella/systems/animation.hpp"
+//#include "stella/systems/animation.hpp"
 #include "stella/systems/color.hpp"
-#include "stella/systems/render.hpp"
+//#include "stella/systems/render.hpp"
 #include "stella/systems/system.hpp"
 #include "stella/systems/timer.hpp"
 #include <memory>
