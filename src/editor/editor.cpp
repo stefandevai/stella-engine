@@ -5,10 +5,7 @@
 #include "stella/components/dimension.hpp"
 #include "stella/components/layer2.hpp"
 #include "stella/components/position.hpp"
-//#include "stella/components/sprite.hpp"
 #include "stella/components/sprite2.hpp"
-
-//#include "editor/debug_layer.hpp"
 
 #ifdef _WIN32
   #include <SDL.h>
@@ -52,7 +49,6 @@ namespace editor
     ImGui::DestroyContext();
   }
 
-  // void Editor::init (SDL_Window* window, SDL_GLContext gl_context, const char* glsl_version)
   void Editor::init()
   {
     m_window = m_game.m_display.Window;
@@ -147,7 +143,6 @@ namespace editor
       {
         m_FBO->Bind();
         m_game.m_display.Clear();
-        // m_game.m_systems.front()->update(m_game.m_registry, m_game.m_display.GetDT());
         m_game.update (m_game.m_display.GetDT());
         m_FBO->Unbind();
         this->render (m_game.m_display.GetWindowWidth(),
