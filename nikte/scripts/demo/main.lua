@@ -21,7 +21,7 @@ local function load_npc(x, y)
   npc:add_component("sprite", {
     texture = "nikte",
     layer = "collision",
-    frame_dimensions = {9, 6, 0},
+    frame_dimensions = {9, 6},
   })
   npc:add_component("movement")
   npc:add_component("body", {
@@ -55,7 +55,7 @@ local function load_player(x, y)
   Player:add_component("sprite", {
     texture = "nikte",
     layer = "collision",
-    frame_dimensions = {9, 6, 0},
+    frame_dimensions = {9, 6},
   })
   Player:add_component("movement")
   Player:add_component("body", {
@@ -111,13 +111,13 @@ local function load()
   --   frag_source = "assets/shaders/fog.frag",
   -- })
 
-  -- create_layer({
-  --   name = "text",
-  --   priority = 10,
-  --   vert_source = "assets/shaders/sprite_batch.vert",
-  --   frag_source = "assets/shaders/text.frag",
-  --   fixed = false,
-  -- })
+  create_layer({
+    name = "text",
+    priority = 10,
+    vert_source = "assets/shaders/sprite_batch.vert",
+    frag_source = "assets/shaders/text.frag",
+    fixed = false,
+  })
 
   -- load_assets()
   load_player(480, 512)
