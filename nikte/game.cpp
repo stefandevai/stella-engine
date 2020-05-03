@@ -25,7 +25,7 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   // this->add_system<stella::system::CharacterAnimation>();
   //this->add_system<stella::system::Fog> (m_registry, m_initial_width, m_initial_height);
 
-  // // m_tile_map.create_tile_entities (0, m_display.GetWidth(), 0, m_display.GetHeight());
+  m_tile_map.create_tile_entities (0, m_display.GetWidth(), 0, m_display.GetHeight());
   // m_script_api.set_variable<int> ("e_map_width", m_tile_map.width());
   // m_script_api.set_variable<int> ("e_map_height", m_tile_map.height());
   // m_script_api.set_variable<int> ("e_screen_width", this->width());
@@ -40,7 +40,7 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   sprite.texture = "nikte";
   sprite.vframes = 6;
   sprite.hframes = 9;
-  sprite.frame = 2;
+  sprite.frame = 9;
   m_registry.emplace<stella::component::Position>(entity, 100, 100);
   // TEMP
 

@@ -23,14 +23,6 @@ namespace system
 
     void RenderT::update (entt::registry& registry, const double dt)
     {
-        // TEMP
-        // registry.group<component::SpriteT> (entt::get<component::Position>)
-        // .each ([this, &registry] (auto entity, auto& sprite, auto& pos) {
-        //     std::cout << sprite.texture << '\n';
-        // });
-
-        m_layers[DEFAULT_LAYER_NAME]->render(registry);
-        // TEMP
         const auto camera_entity = *registry.view<stella::component::Camera>().begin();
         std::unique_ptr<component::Position> camera_pos = nullptr;
         if (camera_entity != entt::null)
@@ -67,7 +59,6 @@ namespace system
             }
             
             sprite.texture_ptr = m_textures.load(sprite.texture);
-            //test_layer.add(entity);
             sprite.loaded = true;
         }
     }

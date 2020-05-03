@@ -36,8 +36,11 @@ namespace component
             unsigned max_frames = hframes * vframes;
             float framex = static_cast<float>(frame % hframes);
             float framey = static_cast<float>((frame % max_frames) / hframes);
+            // Multiply the x coord of the frame in the tile map by the normalized value of the width one frame.
             uv.x = framex * (texw / static_cast<float>(hframes)) / static_cast<float>(texw);
-            uv.y = framey * (texh / static_cast<float>(vframes)) / static_cast<float>(texh);
+            // Multiply the y coord of the frame in the tile map by the normalized value of the height one frame.
+            // Invert the value as the y axis is upwards for OpenGL
+            uv.y = 1.0f - framey * (texh / static_cast<float>(vframes)) / static_cast<float>(texh);
         }
         return uv;
     }

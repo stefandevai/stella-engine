@@ -2,7 +2,7 @@
 #include "stella/components/dimension.hpp"
 #include "stella/components/log.hpp"
 #include "stella/components/position.hpp"
-#include "stella/components/sprite.hpp"
+#include "stella/components/sprite2.hpp"
 #include "stella/components/tile.hpp"
 #include "stella/components/fog.hpp"
 
@@ -189,19 +189,18 @@ namespace core
 
   void TileMap::update_tile_sprite (entt::entity entity, const unsigned layer_id, const int value)
   {
-    if (m_registry.has<component::Sprite> (entity))
+    if (m_registry.has<component::SpriteT> (entity))
     {
-      auto& spr = m_registry.get<component::Sprite> (entity);
-      spr.sprite->SetDirectFrame (value);
-      spr.Frame = value;
+      auto& sprite = m_registry.get<component::SpriteT> (entity);
+      sprite.frame = value;
     }
     else
     {
-      m_registry.emplace<component::Sprite> (entity,
-                                             layers[layer_id]->get_texture_name(),
-                                             glm::vec2 (m_tile_dimension, m_tile_dimension),
-                                             layers[layer_id]->get_render_layer_name(),
-                                             value);
+      auto &sprite = m_registry.emplace<component::SpriteT> (entity, layers[layer_id]->get_texture_name());
+      sprite.hframes = 8;
+      sprite.vframes = 11;
+      sprite.frame = value;
+      sprite.layer = layers[layer_id]->get_render_layer_name();
     }
   }
 
@@ -229,11 +228,12 @@ namespace core
     // if (layers[layer_id]->get_texture_name() != "tileset") std::cout << layers[layer_id]->get_texture_name() << '\n';
     m_registry.emplace<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
     m_registry.emplace<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
-    m_registry.emplace<component::Sprite> (tile,
-                                           layers[layer_id]->get_texture_name(),
-                                           glm::vec2 (m_tile_dimension, m_tile_dimension),
-                                           layers[layer_id]->get_render_layer_name(),
-                                           value);
+    auto& sprite = m_registry.emplace<component::SpriteT> (tile, layers[layer_id]->get_texture_name());
+    sprite.hframes = 8;
+    sprite.vframes = 11;
+    sprite.frame = value;
+    sprite.layer = layers[layer_id]->get_render_layer_name();
+    
     m_registry.emplace<component::Fog> (tile, z, !collidable);
     layers[layer_id]->set_entity (x, y, tile);
   }
