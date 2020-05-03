@@ -1,6 +1,8 @@
 #include "stella/core/ecs_lua_api.hpp"
 #include "stella/components.hpp" // IWYU pragma: export
 #include "stella/components/color.hpp"
+#include "stella/components/sprite2.hpp"
+#include "stella/components/layer2.hpp"
 #include <assert.h>
 #include <iostream>
 #include <string>
@@ -52,33 +54,51 @@ namespace script
     std::string frag_shader_source = obj["frag_source"] == sol::lua_nil ? std::string() : obj["frag_source"];
     const bool& fixed              = obj["fixed"] == sol::lua_nil ? true : obj["fixed"];
     auto layer                     = m_registry.create();
-    m_registry.emplace<stella::component::Layer> (
-        layer, layer_name, priority, shader_id, vert_shader_source, frag_shader_source, fixed);
+
+    component::LayerType layer_type = component::LayerType::SPRITE_LAYER;
+
+    if (shader_id == "shape")
+    {
+      layer_type = component::LayerType::SHAPE_LAYER;
+    }
+
+    m_registry.emplace<stella::component::LayerT> (
+        layer, layer_name, priority, layer_type, vert_shader_source, frag_shader_source, fixed);
   }
 
   void ECSLuaApi::add_sprite_component (entt::registry::entity_type id, const sol::table& obj)
   {
     const std::string& layer_id     = obj["layer"] == sol::lua_nil ? std::string() : obj["layer"];
     const std::string& texture_name = obj["texture"] == sol::lua_nil ? std::string() : obj["texture"];
+    const float& framew   = obj["frame_dimensions"][1] == sol::lua_nil ? 1 : obj["frame_dimensions"][1];
+    const float& frameh   = obj["frame_dimensions"][2] == sol::lua_nil ? 1 : obj["frame_dimensions"][2];
+    const unsigned& frame = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
 
-    if (!layer_id.empty() && !texture_name.empty())
-    {
-      if (obj["frame_dimensions"] == sol::lua_nil)
-      {
-        m_registry.emplace<stella::component::Sprite> (id, texture_name, layer_id);
-      }
-      else
-      {
-        const float& framew   = obj["frame_dimensions"][1];
-        const float& frameh   = obj["frame_dimensions"][2];
-        const unsigned& frame = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
-        m_registry.emplace<stella::component::Sprite> (id, texture_name, glm::vec2 (framew, frameh), layer_id, frame);
-      }
-    }
-    else
-    {
-      std::cout << "You must provide a layer and a texture.\n";
-    }
+    auto& sprite = m_registry.emplace<stella::component::SpriteT> (id, texture_name);
+    sprite.hframes = framew;
+    sprite.vframes = frameh;
+    sprite.frame = frame;
+    sprite.layer = layer_id;
+
+
+    // if (!layer_id.empty() && !texture_name.empty())
+    // {
+    //   if (obj["frame_dimensions"] == sol::lua_nil)
+    //   {
+    //     m_registry.emplace<stella::component::SpriteT> (id, texture_name, layer_id);
+    //   }
+    //   else
+    //   {
+    //     const float& framew   = obj["frame_dimensions"][1];
+    //     const float& frameh   = obj["frame_dimensions"][2];
+    //     const unsigned& frame = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
+    //     m_registry.emplace<stella::component::SpriteT> (id, texture_name, glm::vec2 (framew, frameh), layer_id, frame);
+    //   }
+    // }
+    // else
+    // {
+    //   std::cout << "You must provide a layer and a texture.\n";
+    // }
   }
 
   void ECSLuaApi::add_position_component (entt::registry::entity_type id, const sol::table& obj)

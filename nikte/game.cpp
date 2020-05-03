@@ -25,23 +25,24 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   // this->add_system<stella::system::CharacterAnimation>();
   //this->add_system<stella::system::Fog> (m_registry, m_initial_width, m_initial_height);
 
-  m_tile_map.create_tile_entities (0, m_display.GetWidth(), 0, m_display.GetHeight());
-  // m_script_api.set_variable<int> ("e_map_width", m_tile_map.width());
-  // m_script_api.set_variable<int> ("e_map_height", m_tile_map.height());
-  // m_script_api.set_variable<int> ("e_screen_width", this->width());
-  // m_script_api.set_variable<int> ("e_screen_height", this->height());
+  // m_tile_map.create_tile_entities (0, m_display.GetWidth(), 0, m_display.GetHeight());
+  m_script_api.set_variable<int> ("e_map_width", m_tile_map.width());
+  m_script_api.set_variable<int> ("e_map_height", m_tile_map.height());
+  m_script_api.set_variable<int> ("e_screen_width", this->width());
+  m_script_api.set_variable<int> ("e_screen_height", this->height());
 
-  // m_script_api.run_function ("load_game");
+  m_script_api.run_function ("load_game");
   //// m_load_flowers();
 
   // TEMP
   auto entity = m_registry.create();
   auto& sprite = m_registry.emplace<stella::component::SpriteT> (entity, "nikte");
   sprite.texture = "nikte";
+  sprite.layer = "tiles";
   sprite.vframes = 6;
   sprite.hframes = 9;
   sprite.frame = 9;
-  m_registry.emplace<stella::component::Position>(entity, 100, 100);
+  m_registry.emplace<stella::component::Position>(entity, 1000, 1000);
   // TEMP
 
   this->update_systems (0.0);
@@ -56,8 +57,8 @@ void Game::update (const double dt)
 {
   this->update_systems (dt);
 
-  // m_player.update();
-  // m_script_api.run_function ("update_game", dt);
+  m_player.update();
+  m_script_api.run_function ("update_game", dt);
   // m_script_api.run_function ("render_game", dt);
 }
 

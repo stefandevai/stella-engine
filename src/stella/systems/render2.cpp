@@ -23,6 +23,13 @@ namespace system
 
     void RenderT::update (entt::registry& registry, const double dt)
     {
+        registry.view<component::SpriteT> ()
+        .each ([this, &registry] (auto entity, auto& sprite) {
+            if (!sprite.loaded)
+            {
+                m_add_sprite_to_layer(registry, entity);
+            }
+        });
         const auto camera_entity = *registry.view<stella::component::Camera>().begin();
         std::unique_ptr<component::Position> camera_pos = nullptr;
         if (camera_entity != entt::null)
@@ -32,7 +39,7 @@ namespace system
 
         for (auto const& order : m_ordered_layers)
         {
-            if (!m_layers[order.second]->fixed && camera_entity != entt::null)
+            if (!m_layers[order.second]->fixed && camera_pos)
             {
                 m_layers[order.second]->set_view_matrix (glm::lookAt (glm::vec3 (camera_pos->x, camera_pos->y, camera_pos->z),
                                                          glm::vec3 (camera_pos->x, camera_pos->y, camera_pos->z - 1.f),
@@ -45,7 +52,7 @@ namespace system
     void RenderT::m_add_sprite_to_layer (entt::registry& registry, entt::entity entity)
     {
         auto& sprite = registry.get<component::SpriteT>(entity);
-        if (!sprite.loaded && !sprite.texture.empty())
+        if (!sprite.loaded && !sprite.texture.empty() && !sprite.layer.empty())
         {
             auto layer = m_layers.find(sprite.layer);
             if (layer != m_layers.end())
