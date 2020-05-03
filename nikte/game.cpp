@@ -38,6 +38,9 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   auto entity = m_registry.create();
   auto& sprite = m_registry.emplace<stella::component::SpriteT> (entity, "nikte");
   sprite.texture = "nikte";
+  sprite.vframes = 6;
+  sprite.hframes = 9;
+  sprite.frame = 2;
   m_registry.emplace<stella::component::Position>(entity, 100, 100);
   // TEMP
 

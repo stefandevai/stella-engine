@@ -82,31 +82,21 @@ namespace graphics
   {
     auto& sprite = registry.get<component::SpriteT>(entity);
     auto& pos = registry.get<component::Position>(entity);
-
     const glm::vec3 position   = glm::vec3(pos.x, pos.y, pos.z);
-    // const glm::vec2& dimensions = sprite->GetDimensions();
-    const glm::vec2 dimensions = glm::vec2(32.0f, 32.0f);
-
-    // const glm::vec2& uv            = sprite->GetFrameCoords();
-    const glm::vec2 uv            = glm::vec2(0.0f, 0.0f);
-    // const SpriteSheet& spritesheet = sprite->GetSpriteSheet();
-    // const GLuint stW               = spritesheet.GetWidth();
-    const GLuint stW               = 288;
-    // const GLuint stH               = spritesheet.GetHeight();
-    const GLuint stH               = 384;
+    const glm::vec2 dimensions = glm::vec2(sprite.width(), sprite.height());
+    const glm::vec2 uv            = sprite.uv();
 
     std::shared_ptr<Texture> texture = sprite.texture_ptr;
 
     if (!texture->IsCached())
     {
-      // std::cout << texture->GetID() << '\n';
       m_textures.push_back (texture);
       texture->SetCached ((GLfloat) (m_textures.size() - 1));
       this->textures_binded = false;
     }
 
-    GLfloat uvoffsetX = dimensions.x / (GLfloat) stW;
-    GLfloat uvoffsetY = dimensions.y / (GLfloat) stH;
+    GLfloat uvoffsetX = dimensions.x / static_cast<GLfloat>(texture->GetWidth());
+    GLfloat uvoffsetY = dimensions.y / static_cast<GLfloat>(texture->GetHeight());
 
     auto particular_transform = *m_transformation_back;
     particular_transform      = glm::translate (

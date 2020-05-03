@@ -10,8 +10,8 @@ namespace stella
 {
 namespace graphics
 {
-  SpriteLayerT::SpriteLayerT(const std::string& vert_shader_path, const std::string& frag_shader_path)
-  : LayerT(), shader(std::make_shared<Shader>(vert_shader_path.c_str(), frag_shader_path.c_str()))
+  SpriteLayerT::SpriteLayerT(const std::string& vert_shader_path, const std::string& frag_shader_path, const bool fixed)
+  : LayerT(fixed), shader(std::make_shared<Shader>(vert_shader_path.c_str(), frag_shader_path.c_str()))
   {
     GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
     shader->Enable();
@@ -24,13 +24,16 @@ namespace graphics
   void SpriteLayerT::render(entt::registry& registry)
   {
       shader->Enable();
+      if (!fixed)
+      {
+        shader->SetMat4 ("view", m_view_matrix);
+      }
       m_renderer.begin();
       for (auto entity : m_entities)
       {
           if (registry.has<component::SpriteT>(entity) && registry.has<component::Position>(entity))
           {
             m_renderer.submit(registry, entity);
-            //std::cout << sprite.texture << '\n';
           }
       }
       m_renderer.end();

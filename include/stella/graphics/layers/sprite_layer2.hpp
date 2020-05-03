@@ -14,7 +14,7 @@ namespace graphics
       std::shared_ptr<Shader> shader;
 
     public:
-      SpriteLayerT(const std::string& vert_shader_path, const std::string& frag_shader_path);
+      SpriteLayerT(const std::string& vert_shader_path, const std::string& frag_shader_path, const bool fixed = false);
       void render(entt::registry& registry);
 
     private:
