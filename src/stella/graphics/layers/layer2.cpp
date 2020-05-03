@@ -7,8 +7,8 @@ namespace stella
 {
 namespace graphics
 {
-    LayerT::LayerT(const bool fixed)
-    : fixed(fixed)
+    LayerT::LayerT(entt::registry& registry, const bool fixed)
+    : m_registry(registry), fixed(fixed)
     {
 
     }

@@ -57,7 +57,6 @@ namespace component
             {
                 uv.x = top_left.x / texw;
                 uv.y = 1.0 - top_left.y / texh;
-                //std::cout << uv.x << " " << uv.y << '\n';
             }
             // Otherwise it's a tilemap
             else

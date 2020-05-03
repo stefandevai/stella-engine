@@ -15,6 +15,11 @@ namespace system
     RenderT::RenderT(entt::registry& registry, TexRes& textures)
       : m_textures(textures)
     {
+        // Create a default layer in case a sprite is added to an unknown layer
+        m_layers[DEFAULT_LAYER_NAME] = std::make_shared<graphics::SpriteLayerT>(registry,
+                                                                      "assets/shaders/sprite_batch.vert",
+                                                                      "assets/shaders/sprite_batch.frag",
+                                                                      false);
         registry.on_construct<component::LayerT>().connect<&RenderT::m_init_layer> (this);
         registry.on_construct<component::SpriteT>().connect<&RenderT::m_init_sprite> (this);
         registry.on_update<component::SpriteT>().connect<&RenderT::m_update_sprite> (this);
@@ -116,7 +121,8 @@ namespace system
         switch (layer.layer_type)
         {
             case component::LayerType::SPRITE_LAYER:
-                m_layers[layer.id] = std::make_shared<graphics::SpriteLayerT>(layer.vert_shader_source,
+                m_layers[layer.id] = std::make_shared<graphics::SpriteLayerT>(registry,
+                                                                              layer.vert_shader_source,
                                                                               layer.frag_shader_source,
                                                                               layer.fixed);
                 break;

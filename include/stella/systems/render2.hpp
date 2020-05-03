@@ -23,9 +23,10 @@ namespace system
       const unsigned int DEFAULT_LAYER_ORDER = 256; 
       const std::string DEFAULT_LAYER_NAME = "__DEFAULT_LAYER";
 
-      LayerMap m_layers{{DEFAULT_LAYER_NAME,
-         std::make_shared<graphics::SpriteLayerT> ("assets/shaders/sprite_batch.vert",
-                                                   "assets/shaders/sprite_batch.frag")}};
+      // LayerMap m_layers{{DEFAULT_LAYER_NAME,
+      //    std::make_shared<graphics::SpriteLayerT> ("assets/shaders/sprite_batch.vert",
+      //                                              "assets/shaders/sprite_batch.frag")}};
+      LayerMap m_layers{};
       std::map<int, std::string> m_ordered_layers{{DEFAULT_LAYER_ORDER, DEFAULT_LAYER_NAME}};
       TexRes& m_textures;
 
