@@ -100,6 +100,14 @@ local function load()
     vert_source = "assets/shaders/sprite_batch.vert",
     frag_source = "assets/shaders/sprite_batch.frag",
   })
+  create_layer({
+    name = "shapes",
+    priority = 4,
+    fixed = true,
+    vert_source = "assets/shaders/shape.vert",
+    frag_source = "assets/shaders/shape.frag",
+    shader = "shape",
+  })
 
   -- create_layer({
   --   name = "fog",
@@ -122,17 +130,17 @@ local function load()
   load_player(480, 512)
   load_npc(512, 512)
   --flowers.load()
-  -- local test_shape = Entity:create_entity()
+  local test_shape = Entity:create_entity()
   
-  -- test_shape:add_component("position", {0, 0, 1})
-  -- test_shape:add_component("shape", {
-  --   vertices = {{0.0,0.0},{896.0,0.0},{894.0,504.0},{0.0,504.0}},
-  --   layer = "fog"
-  -- })
-  -- test_shape:add_component("color", {
-  --   --rgba = {255, 255, 255, 100},
-  --   hex = "#ffffff44",
-  -- })
+  test_shape:add_component("position", {0, 0, 1})
+  test_shape:add_component("shape", {
+    vertices = {{32.0,32.0},{864.0,32.0},{864.0,472.0},{32.0,472.0}},
+    layer = "shapes"
+  })
+  test_shape:add_component("color", {
+    --rgba = {255, 255, 255, 100},
+    hex = "#ffffff44",
+  })
     
   -- })
 

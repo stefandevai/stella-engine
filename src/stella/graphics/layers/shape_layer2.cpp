@@ -1,5 +1,5 @@
-#include "stella/graphics/layers/sprite_layer2.hpp"
-#include "stella/components/sprite2.hpp"
+#include "stella/graphics/layers/shape_layer2.hpp"
+#include "stella/components/shape.hpp"
 #include "stella/components/position.hpp"
 #include "stella/graphics/shader.hpp"
 
@@ -11,7 +11,7 @@ namespace stella
 {
 namespace graphics
 {
-  SpriteLayerT::SpriteLayerT(entt::registry& registry, const std::string& vert_shader_path, const std::string& frag_shader_path, const bool fixed)
+  ShapeLayerT::ShapeLayerT(entt::registry& registry, const std::string& vert_shader_path, const std::string& frag_shader_path, const bool fixed)
   : LayerT(registry, fixed), shader(std::make_shared<Shader>(vert_shader_path.c_str(), frag_shader_path.c_str()))
   {
     GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
@@ -22,14 +22,14 @@ namespace graphics
     shader->Disable();
   }
 
-  SpriteLayerT::~SpriteLayerT()
+  ShapeLayerT::~ShapeLayerT()
   {
     m_entities.clear();
   }
 
-  void SpriteLayerT::add (entt::entity entity) { m_entities.insert (entity); }
+  void ShapeLayerT::add (entt::entity entity) { m_entities.push_back (entity); }
 
-  void SpriteLayerT::remove (entt::entity entity)
+  void ShapeLayerT::remove (entt::entity entity)
   {
       auto it = std::find (m_entities.begin(), m_entities.end(), entity);
       if (it != m_entities.end())
@@ -42,7 +42,7 @@ namespace graphics
       }
   }
 
-  void SpriteLayerT::render(entt::registry& registry)
+  void ShapeLayerT::render(entt::registry& registry)
   {
       shader->Enable();
       if (!fixed)
@@ -52,7 +52,7 @@ namespace graphics
       m_renderer.begin();
       for (auto entity : m_entities)
       {
-          if (registry.has<component::SpriteT>(entity) && registry.has<component::Position>(entity))
+          if (registry.has<component::Shape>(entity) && registry.has<component::Position>(entity))
           {
             m_renderer.submit(registry, entity);
           }

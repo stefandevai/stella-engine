@@ -14,38 +14,37 @@ namespace graphics
 {
   class Sprite;
   
-  class SpriteRendererT : public RendererT
+  class ShapeRendererT : public RendererT
   {
   public:
-    SpriteRendererT();
-    ~SpriteRendererT();
+    ShapeRendererT();
+    ~ShapeRendererT();
     void begin();
     void submit (entt::registry& registry, entt::entity entity);
     void end();
     void draw();
 
   private:
-    struct VertexData
+    struct ShapeVertexData
     {
       glm::vec3 vertex;
-      glm::vec2 uv;
-      GLfloat tid;
+      unsigned int color;
     };
 
     enum Index
     {
       VERTEX_INDEX,
-      UV_INDEX,
-      TID_INDEX
+      COLOR_INDEX
     };
 
-    VertexData* m_vertex_buffer;
+    ShapeVertexData* m_vertex_buffer;
 
-    static const unsigned MAX_SPRITES =  10000;
-    static const unsigned VERTEX_SIZE = sizeof (VertexData);
-    static const unsigned SPRITE_SIZE = 4 * VERTEX_SIZE;
-    static const unsigned BUFFER_SIZE = MAX_SPRITES* SPRITE_SIZE;
-    static const unsigned INDICES_SIZE = 6 * MAX_SPRITES;
+    static const unsigned S_MAX_SHAPES  = 10000;
+    static const unsigned S_VERTEX_SIZE = sizeof (ShapeVertexData);
+    // TODO: expand to draw shapes with more than 4 vertices
+    static const unsigned S_SHAPE_SIZE   = 4 * S_VERTEX_SIZE;
+    static const unsigned S_BUFFER_SIZE  = S_MAX_SHAPES * S_SHAPE_SIZE;
+    static const unsigned S_INDICES_SIZE = 6 * S_MAX_SHAPES;
 
   protected:
     GLuint m_VAO, m_VBO, m_EBO;

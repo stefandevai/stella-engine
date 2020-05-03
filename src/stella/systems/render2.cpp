@@ -1,9 +1,11 @@
 #include "stella/systems/render2.hpp"
 #include "stella/components/layer2.hpp"
 #include "stella/components/sprite2.hpp"
+#include "stella/components/shape.hpp"
 #include "stella/components/position.hpp"
 #include "stella/components/camera.hpp"
 #include "stella/graphics/texture.hpp"
+#include "stella/graphics/layers/shape_layer2.hpp"
 
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
@@ -22,12 +24,15 @@ namespace system
                                                                       false);
         registry.on_construct<component::LayerT>().connect<&RenderT::m_init_layer> (this);
         registry.on_construct<component::SpriteT>().connect<&RenderT::m_init_sprite> (this);
-        registry.on_update<component::SpriteT>().connect<&RenderT::m_update_sprite> (this);
         registry.on_destroy<component::SpriteT>().connect<&RenderT::m_destroy_sprite> (this);
+        registry.on_construct<component::Shape>().connect<&RenderT::m_init_shape> (this);
+        registry.on_destroy<component::Shape>().connect<&RenderT::m_destroy_shape> (this);
     }
 
     void RenderT::update (entt::registry& registry, const double dt)
     {
+        // TODO: Find another way to add to layer so we don't have to loop over all
+        // sprites on every frame.
         registry.view<component::SpriteT> ()
         .each ([this, &registry] (auto entity, auto& sprite) {
             if (!sprite.loaded)
@@ -35,6 +40,15 @@ namespace system
                 m_add_sprite_to_layer(registry, entity);
             }
         });
+        registry.view<component::Shape> ()
+        .each ([this, &registry] (auto entity, auto& shape) {
+            if (!shape.in_layer)
+            {
+                m_add_renderable_to_layer(shape.layer_id, entity);
+                shape.in_layer = true;
+            }
+        });
+
         const auto camera_entity = *registry.view<stella::component::Camera>().begin();
         std::unique_ptr<component::Position> camera_pos = nullptr;
         if (camera_entity != entt::null)
@@ -54,21 +68,46 @@ namespace system
         }
     }
 
+    void RenderT::m_add_renderable_to_layer (const std::string& layer_name, entt::entity entity)
+    {
+        auto layer = m_layers.find(layer_name);
+        if (layer != m_layers.end())
+        {
+            layer->second->add(entity);
+        }
+        else
+        {
+            std::cout << "WARNING: Could not find layer \"" << layer_name << "\". Adding sprite to default layer.\n";
+            m_layers[DEFAULT_LAYER_NAME]->add(entity);
+        }
+    }
+
+    void RenderT::m_remove_renderable_from_layer (const std::string& layer_name, entt::entity entity)
+    {
+        auto layer = m_layers.find(layer_name);
+        if (layer != m_layers.end())
+        {
+            if (m_layers[layer_name]->has(entity))
+            {
+                m_layers[layer_name]->remove (entity);
+            }
+        }
+        else if (m_layers[DEFAULT_LAYER_NAME]->has(entity))
+        {
+            m_layers[DEFAULT_LAYER_NAME]->remove (entity);
+        }
+        else
+        {
+            std::cout << "WARNING: Could not remove sprite from unknown layer " << layer_name << '\n'; 
+        }
+    }
+
     void RenderT::m_add_sprite_to_layer (entt::registry& registry, entt::entity entity)
     {
         auto& sprite = registry.get<component::SpriteT>(entity);
         if (!sprite.loaded && !sprite.texture.empty() && !sprite.layer.empty())
         {
-            auto layer = m_layers.find(sprite.layer);
-            if (layer != m_layers.end())
-            {
-                layer->second->add(entity);
-            }
-            else
-            {
-                std::cout << "WARNING: Could not find layer \"" << sprite.layer << "\". Adding sprite to default layer.\n";
-                m_layers[DEFAULT_LAYER_NAME]->add(entity);
-            }
+            m_add_renderable_to_layer(sprite.layer, entity);
             
             // If texture_ptr is not null, we already initialized a texture,
             // most likely a font atlas texture.
@@ -84,12 +123,6 @@ namespace system
     {
         m_add_sprite_to_layer(registry, entity);
     }
-
-    void RenderT::m_update_sprite(entt::registry& registry, entt::entity entity)
-    {
-        m_add_sprite_to_layer(registry, entity);
-    }
-
     void RenderT::m_destroy_sprite(entt::registry& registry, entt::entity entity)
     {
         auto& sprite = registry.get<component::SpriteT> (entity);
@@ -111,6 +144,21 @@ namespace system
         }
     }
 
+    void RenderT::m_init_shape (entt::registry& registry, entt::entity entity)
+    {
+        auto& shape = registry.get<component::Shape> (entity);
+        if (!shape.in_layer)
+        {
+            m_add_renderable_to_layer(shape.layer_id, entity);
+            shape.in_layer = true;
+        }
+    }
+    void RenderT::m_destroy_shape(entt::registry& registry, entt::entity entity)
+    {
+        auto& shape = registry.get<component::Shape> (entity);
+        m_remove_renderable_from_layer(shape.layer_id, entity);
+    }
+
     void RenderT::m_init_layer (entt::registry& registry, entt::entity entity)
     {
         auto& layer = registry.get<component::LayerT> (entity);
@@ -126,12 +174,17 @@ namespace system
                                                                               layer.frag_shader_source,
                                                                               layer.fixed);
                 break;
+            case component::LayerType::SHAPE_LAYER:
+                m_layers[layer.id] = std::make_shared<graphics::ShapeLayerT>(registry,
+                                                                              layer.vert_shader_source,
+                                                                              layer.frag_shader_source,
+                                                                              layer.fixed);
+                break;
             default:
                 std::cout << "ERROR: Could not create layer. Undefined layer type.\n";
                 break;
         }
         m_ordered_layers[layer.order] = layer.id;
     }
-
 } // namespace system
 } // namespace stella

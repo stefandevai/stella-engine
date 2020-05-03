@@ -30,11 +30,14 @@ namespace system
       std::map<int, std::string> m_ordered_layers{{DEFAULT_LAYER_ORDER, DEFAULT_LAYER_NAME}};
       TexRes& m_textures;
 
+      void m_add_renderable_to_layer (const std::string& layer_name, entt::entity entity);
       void m_add_sprite_to_layer (entt::registry& registry, entt::entity entity);
+      void m_remove_renderable_from_layer (const std::string& layer_name, entt::entity entity);
       void m_init_layer (entt::registry& registry, entt::entity entity);
       void m_init_sprite (entt::registry& registry, entt::entity entity);
-      void m_update_sprite (entt::registry& registry, entt::entity entity);
       void m_destroy_sprite (entt::registry& registry, entt::entity entity);
+      void m_init_shape (entt::registry& registry, entt::entity entity);
+      void m_destroy_shape (entt::registry& registry, entt::entity entity);
   };
 } // namespace system
 } // namespace stella

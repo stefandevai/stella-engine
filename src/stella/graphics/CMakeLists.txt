@@ -13,6 +13,7 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    shader.cpp
                                    shape.cpp
                                    shape_renderer.cpp
+                                   shape_renderer2.cpp
                                    sprite.cpp
                                    spritesheet.cpp
                                    texture.cpp
@@ -23,7 +24,8 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    layers/firelayer.cpp
                                    layers/sprite_layer.cpp
                                    layers/sprite_layer2.cpp
-                                   layers/shape_layer.cpp)
+                                   layers/shape_layer.cpp
+                                   layers/shape_layer2.cpp)
                                    
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
