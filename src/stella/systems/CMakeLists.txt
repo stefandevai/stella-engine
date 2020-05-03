@@ -4,7 +4,7 @@ add_library(${PROJECT_NAME} STATIC animation_player2.cpp
                                    character_animation.cpp
                                    npc.cpp
                                    physics.cpp
-                                   render2.cpp
+                                   render.cpp
                                    speech.cpp
                                    text.cpp
                                    tile.cpp

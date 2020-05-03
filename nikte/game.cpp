@@ -1,6 +1,6 @@
 #include "game.hpp"
 #include <random>
-#include "stella/systems/render2.hpp"
+#include "stella/systems/render.hpp"
 #include "stella/systems/animation_player2.hpp"
 #include "stella/components/sprite2.hpp"
 #include "stella/components/position.hpp"

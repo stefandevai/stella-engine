@@ -1,4 +1,4 @@
-#include "stella/systems/render2.hpp"
+#include "stella/systems/render.hpp"
 #include "stella/components/layer2.hpp"
 #include "stella/components/sprite2.hpp"
 #include "stella/components/shape.hpp"
