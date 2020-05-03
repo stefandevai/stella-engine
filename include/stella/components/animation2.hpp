@@ -19,13 +19,16 @@ namespace component
     enum State
     {
         STOP,
-        PLAY
+        PLAY,
+        PAUSE
     };
     std::unordered_map<std::string, AnimationData> animations;
     State state = STOP;
+    State last_state = STOP;
     std::string current = "";
+    bool loop = false;
     std::string last = "";
-    int index = 0;
+    unsigned int index = 0;
     float elapsed = 0.0f;
 
     inline void add (const std::string& name, const AnimationData& data)

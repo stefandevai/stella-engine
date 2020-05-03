@@ -54,6 +54,7 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   anim_data.frames = std::vector<unsigned int>{1, 2, 3, 4, 5, 6, 7, 8}; 
   anim.add("moving", anim_data);
   anim.state = stella::component::AnimationPlayer::PLAY;
+  anim.loop = true;
   // TEMP
 
   this->update_systems (0.0);

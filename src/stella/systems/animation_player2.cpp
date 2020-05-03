@@ -16,7 +16,7 @@ namespace system
         .each ([dt] (auto entity, auto& anim, auto& sprite) {
             if (anim.state == component::AnimationPlayer::PLAY)
             {
-              if (anim.current != anim.last)
+              if (anim.current != anim.last || anim.last_state == component::AnimationPlayer::STOP)
               {
                 anim.index = 0;
                 anim.elapsed = 0.0f;
@@ -27,7 +27,19 @@ namespace system
 
               if (anim.elapsed > anim_data.step)
               {
-                anim.index = (anim.index + 1) % anim_data.frames.size();
+                ++anim.index;
+                if (anim.index >= anim_data.frames.size())
+                {
+                  if (anim.loop)
+                  {
+                    anim.index = anim.index % anim_data.frames.size();
+                  }
+                  else
+                  {
+                    anim.state = component::AnimationPlayer::STOP;
+                    anim.index = anim_data.frames.size() - 1;
+                  }
+                }
                 anim.elapsed = 0.0f;
               }
               else
@@ -35,6 +47,7 @@ namespace system
                 anim.elapsed += dt;
               }
             }
+            anim.last_state = anim.state;
         });
   }
 } // namespace system
