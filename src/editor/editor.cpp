@@ -3,9 +3,10 @@
 
 #include "../../nikte/game.hpp"
 #include "stella/components/dimension.hpp"
-#include "stella/components/layer.hpp"
+#include "stella/components/layer2.hpp"
 #include "stella/components/position.hpp"
-#include "stella/components/sprite.hpp"
+//#include "stella/components/sprite.hpp"
+#include "stella/components/sprite2.hpp"
 
 #include "editor/debug_layer.hpp"
 
@@ -26,18 +27,19 @@ namespace editor
     // m_game.m_display.SetEditor (this);
     // m_debug_layer.Add(shape);
     m_editor_layer = game.m_registry.create();
-    game.m_registry.emplace<component::Layer> (m_editor_layer, "editor", 9999, "", "", "");
+    game.m_registry.emplace<component::LayerT> (m_editor_layer, "editor", 9999, component::LayerType::SPRITE_LAYER, "assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag", false);
 
     ImVec2 dimensions = m_tileset_editor.get_tile_dimensions();
     m_editor_sprite   = game.m_registry.create();
     game.m_registry.emplace<component::Position> (m_editor_sprite, -dimensions.x, -dimensions.y);
     game.m_registry.emplace<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
-    game.m_registry.emplace<component::Sprite> (m_editor_sprite,
-                                                m_tileset_editor.texture,
-                                                m_tileset_editor.get_tile_dimensions().x,
-                                                m_tileset_editor.get_tile_dimensions().y,
-                                                0,
-                                                "editor");
+    auto& sprite = game.m_registry.emplace<component::SpriteT> (m_editor_sprite, "editor");
+
+    sprite.hframes = m_tileset_editor.get_texture_dimensions_in_tiles().x;
+    sprite.vframes = m_tileset_editor.get_texture_dimensions_in_tiles().y;
+    sprite.texture_ptr = std::make_shared<graphics::Texture>(m_tileset_editor.texture);
+    sprite.frame = 0;
+    sprite.layer = "editor";
     this->init();
   }
 
@@ -246,10 +248,10 @@ namespace editor
       int new_tile_value  = m_tileset_editor.get_selected_tile_id();
       const auto tile_pos = m_tileset_editor.pos2tile (map_pos.x, map_pos.y);
       auto& sprite_pos    = m_registry.get<component::Position> (m_editor_sprite);
-      auto& sprite_spr    = m_registry.get<component::Sprite> (m_editor_sprite);
+      auto& sprite_spr    = m_registry.get<component::SpriteT> (m_editor_sprite);
       sprite_pos.x        = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
       sprite_pos.y        = tile_pos.y * m_tileset_editor.get_tile_dimensions().y;
-      sprite_spr.sprite->SetDirectFrame (new_tile_value);
+      sprite_spr.frame = new_tile_value;
 
       if (ImGui::IsMouseDown (0))
       {
@@ -284,7 +286,7 @@ namespace editor
         // Sort by z value before getting the right entity
         m_game.m_registry.sort<component::Position> ([] (const auto& lhs, const auto& rhs) { return lhs.z < rhs.z; });
         // TODO: Find a better way to select entity based on position
-        m_game.m_registry.view<stella::component::Position, stella::component::Dimension, stella::component::Sprite>()
+        m_game.m_registry.view<stella::component::Position, stella::component::Dimension, stella::component::SpriteT>()
             .each ([this, &map_pos] (auto entity, auto& pos, auto& dim, auto& spr) {
               if (m_game.m_registry.valid (entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w &&
                   map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
