@@ -87,18 +87,12 @@ namespace system
         auto layer = m_layers.find(layer_name);
         if (layer != m_layers.end())
         {
-            if (m_layers[layer_name]->has(entity))
-            {
-                m_layers[layer_name]->remove (entity);
-            }
-        }
-        else if (m_layers[DEFAULT_LAYER_NAME]->has(entity))
-        {
-            m_layers[DEFAULT_LAYER_NAME]->remove (entity);
+            m_layers[layer_name]->remove (entity);
         }
         else
         {
             std::cout << "WARNING: Could not remove sprite from unknown layer " << layer_name << '\n'; 
+            m_layers[DEFAULT_LAYER_NAME]->remove (entity);
         }
     }
 
@@ -126,22 +120,7 @@ namespace system
     void RenderT::m_destroy_sprite(entt::registry& registry, entt::entity entity)
     {
         auto& sprite = registry.get<component::SpriteT> (entity);
-        auto layer = m_layers.find(sprite.layer);
-        if (layer != m_layers.end())
-        {
-            if (m_layers[sprite.layer]->has(entity))
-            {
-                m_layers[sprite.layer]->remove (entity);
-            }
-        }
-        else if (m_layers[DEFAULT_LAYER_NAME]->has(entity))
-        {
-            m_layers[DEFAULT_LAYER_NAME]->remove (entity);
-        }
-        else
-        {
-            std::cout << "WARNING: Could not remove sprite from unknown layer " << sprite.layer << '\n'; 
-        }
+        m_remove_renderable_from_layer(sprite.layer, entity);
     }
 
     void RenderT::m_init_shape (entt::registry& registry, entt::entity entity)

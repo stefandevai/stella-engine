@@ -36,10 +36,6 @@ namespace graphics
       {
           m_entities.erase (it);
       }
-      else
-      {
-          std::cout << "This entity is not on the layer." << '\n';
-      }
   }
 
   void SpriteLayerT::render(entt::registry& registry)
