@@ -83,8 +83,8 @@ namespace graphics
     auto& sprite = registry.get<component::SpriteT>(entity);
     auto& pos = registry.get<component::Position>(entity);
     const glm::vec3 position   = glm::vec3(pos.x, pos.y, pos.z);
-    const glm::vec2 dimensions = glm::vec2(sprite.width(), sprite.height());
-    const glm::vec2 uv            = sprite.uv();
+    const glm::vec2 dimensions = glm::vec2(sprite.get_width(), sprite.get_height());
+    const glm::vec2 uv            = sprite.get_uv();
 
     std::shared_ptr<Texture> texture = sprite.texture_ptr;
 

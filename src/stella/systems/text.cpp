@@ -3,7 +3,7 @@
 #include "stella/components/color.hpp"
 #include "stella/components/dimension.hpp"
 #include "stella/components/position.hpp"
-#include "stella/components/sprite.hpp"
+#include "stella/components/sprite2.hpp"
 #include "stella/components/typewriter.hpp"
 #include "stella/components/timer.hpp"
 
@@ -14,9 +14,6 @@ namespace system
   Text::Text (entt::registry& registry, core::ResourceManager<graphics::Font, const std::string, unsigned>& fonts)
     : m_fonts (fonts)
   {
-    // m_fonts.insert(std::pair<std::string,
-    // std::shared_ptr<graphics::Font>>("1980",
-    // std::make_shared<graphics::Font>("assets/fonts/1980.ttf")));
     registry.on_construct<component::Text>().connect<&Text::initialize_text> (this);
     registry.on_destroy<component::Text>().connect<&Text::delete_text> (this);
   }
@@ -104,12 +101,19 @@ namespace system
     if (w > 0.f && h > 0.f)
     {
       registry.emplace<component::Charcode> (char_entity, chr);
-      registry.emplace<component::Sprite> (char_entity,
-                                           glm::vec3 (xpos, ypos, 0.f),
-                                           glm::vec2 (w, h),
-                                           glm::vec2 (ch.tx, 0.f),
-                                           *font->get_atlas(),
-                                           "text");
+      auto& sprite = registry.emplace<component::SpriteT> (char_entity, text.font_name);
+      sprite.texture_ptr = font->get_atlas();
+      sprite.layer = "text";
+      sprite.top_left.x = ch.tx;
+      sprite.bottom_right.x = w + ch.tx;
+      sprite.bottom_right.y = h;
+      sprite.set_uv(glm::vec2(ch.tx, 1.0f));
+                                          //  glm::vec3 (xpos, ypos, 0.f),
+                                          //  glm::vec2 (w, h),
+                                          //  glm::vec2 (ch.tx, 0.f),
+                                          //  *font->get_atlas(),
+                                          //  "text");
+
       registry.emplace<component::Position> (char_entity, xpos, ypos);
       registry.emplace<component::Dimension> (char_entity, w, h);
       registry.emplace<component::Color> (char_entity, text.color);
@@ -173,12 +177,19 @@ namespace system
       if (w > 0.f && h > 0.f)
       {
         registry.emplace<component::Charcode> (char_entity, c);
-        registry.emplace<component::Sprite> (char_entity,
-                                             glm::vec3 (xpos, ypos, 0.f),
-                                             glm::vec2 (w, h),
-                                             glm::vec2 (ch.tx, 0.f),
-                                             *font->get_atlas(),
-                                             "text");
+        // registry.emplace<component::Sprite> (char_entity,
+        //                                      glm::vec3 (xpos, ypos, 0.f),
+        //                                      glm::vec2 (w, h),
+        //                                      glm::vec2 (ch.tx, 0.f),
+        //                                      *font->get_atlas(),
+        //                                      "text");
+        auto& sprite = registry.emplace<component::SpriteT> (char_entity, text.font_name);
+        sprite.texture_ptr = font->get_atlas();
+        sprite.layer = "text";
+        sprite.top_left.x = ch.tx;
+        sprite.bottom_right.x = w + ch.tx;
+        sprite.bottom_right.y = h;
+        sprite.set_uv(glm::vec2(ch.tx, 1.0f));
         registry.emplace<component::Position> (char_entity, xpos, ypos);
         registry.emplace<component::Dimension> (char_entity, w, h);
         registry.emplace<component::Color> (char_entity, text.color);

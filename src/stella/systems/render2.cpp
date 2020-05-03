@@ -65,7 +65,12 @@ namespace system
                 m_layers[DEFAULT_LAYER_NAME]->add(entity);
             }
             
-            sprite.texture_ptr = m_textures.load(sprite.texture);
+            // If texture_ptr is not null, we already initialized a texture,
+            // most likely a font atlas texture.
+            if (!sprite.texture_ptr)
+            {
+                sprite.texture_ptr = m_textures.load(sprite.texture);
+            }
             sprite.loaded = true;
         }
     }
