@@ -23,10 +23,10 @@ namespace component
         PAUSE
     };
     std::unordered_map<std::string, AnimationData> animations;
+    bool loop = false;
     State state = STOP;
     State last_state = STOP;
     std::string current = "";
-    bool loop = false;
     std::string last = "";
     unsigned int index = 0;
     float elapsed = 0.0f;
@@ -37,6 +37,7 @@ namespace component
         {
             current = name;
             last = name;
+            state = PLAY;
         }
         animations[name] = data;
     }

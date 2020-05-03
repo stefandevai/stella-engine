@@ -3,6 +3,7 @@
 #include "stella/components/color.hpp"
 #include "stella/components/sprite2.hpp"
 #include "stella/components/layer2.hpp"
+#include "stella/components/animation2.hpp"
 #include <assert.h>
 #include <iostream>
 #include <string>
@@ -118,10 +119,9 @@ namespace script
 
   void ECSLuaApi::add_animation_component (entt::registry::entity_type id, const sol::table& obj)
   {
-    const float& framew = obj["frame_dimensions"][1];
-    const float& frameh = obj["frame_dimensions"][2];
+    auto& anim_player = m_registry.emplace<stella::component::AnimationPlayer> (id);
+    anim_player.loop = obj["loop"] == sol::nil ? false : obj["loop"];
 
-    std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> animations;
     sol::table animations_obj = obj["animations"];
     for (const auto& key_value_pair : animations_obj)
     {
@@ -129,19 +129,45 @@ namespace script
       const std::string& name        = animation[1];
       const sol::table& frames_table = animation[2];
       const int frames_table_size    = frames_table.size();
-      std::vector<unsigned int> frames (frames_table_size);
-      for (int i = 1; i < frames_table_size + 1; ++i)
+      // std::vector<unsigned int> frames (frames_table_size);
+      component::AnimationData data;
+      data.frames.reserve(frames_table_size);
+      for (int i = 1; i <= frames_table_size; ++i)
       {
-        int frame     = frames_table[i];
-        frames[i - 1] = frame;
+        data.frames.push_back(frames_table[i]);
       }
-      const unsigned int speed = animation[3];
-      assert (speed > 0);
-      assert (frames.size() > 0);
-      animations.emplace_back (name, frames, speed);
+      
+      data.step = animation[3] == sol::nil ? 0.1f : animation[3];
+      assert (data.step > 0);
+      assert (data.frames.size() > 0);
+
+      anim_player.add(name, data);
     }
 
-    m_registry.emplace<stella::component::Animation> (id, animations, glm::vec2 (framew, frameh));
+
+    // const float& framew = obj["frame_dimensions"][1];
+    // const float& frameh = obj["frame_dimensions"][2];
+
+    // std::vector<std::tuple<std::string, std::vector<unsigned int>, unsigned int>> animations;
+    // sol::table animations_obj = obj["animations"];
+    // for (const auto& key_value_pair : animations_obj)
+    // {
+    //   const sol::table& animation    = key_value_pair.second;
+    //   const std::string& name        = animation[1];
+    //   const sol::table& frames_table = animation[2];
+    //   const int frames_table_size    = frames_table.size();
+    //   std::vector<unsigned int> frames (frames_table_size);
+    //   for (int i = 1; i < frames_table_size + 1; ++i)
+    //   {
+    //     int frame     = frames_table[i];
+    //     frames[i - 1] = frame;
+    //   }
+    //   const unsigned int speed = animation[3];
+    //   assert (speed > 0);
+    //   assert (frames.size() > 0);
+    //   animations.emplace_back (name, frames, speed);
+    // }
+
   }
 
   void ECSLuaApi::add_tileview_component (entt::registry::entity_type id, const sol::table& obj)

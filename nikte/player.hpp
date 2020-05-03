@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stella/components/body2d.hpp>
-#include <stella/components/animation.hpp>
+#include <stella/components/animation2.hpp>
 #include <entt/entity/registry.hpp> // IWYU pragma: export
 
 namespace stella
@@ -34,5 +34,5 @@ public:
   void update();
 
 private:
-  void SetState (const stella::component::Body2D& body, stella::component::Animation& anims);
+  void SetState (const stella::component::Body2D& body, stella::component::AnimationPlayer& anims);
 };

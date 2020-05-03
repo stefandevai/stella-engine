@@ -196,11 +196,11 @@ namespace core
     }
     else
     {
-      // auto &sprite = m_registry.emplace<component::SpriteT> (entity, layers[layer_id]->get_texture_name());
-      // sprite.hframes = 8;
-      // sprite.vframes = 11;
-      // sprite.frame = value;
-      // sprite.layer = layers[layer_id]->get_render_layer_name();
+      auto &sprite = m_registry.emplace<component::SpriteT> (entity, layers[layer_id]->get_texture_name());
+      sprite.hframes = 8;
+      sprite.vframes = 11;
+      sprite.frame = value;
+      sprite.layer = layers[layer_id]->get_render_layer_name();
     }
   }
 
@@ -228,11 +228,11 @@ namespace core
     // if (layers[layer_id]->get_texture_name() != "tileset") std::cout << layers[layer_id]->get_texture_name() << '\n';
     m_registry.emplace<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
     m_registry.emplace<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
-    // auto& sprite = m_registry.emplace<component::SpriteT> (tile, layers[layer_id]->get_texture_name());
-    // sprite.hframes = 8;
-    // sprite.vframes = 11;
-    // sprite.frame = value;
-    // sprite.layer = layers[layer_id]->get_render_layer_name();
+    auto& sprite = m_registry.emplace<component::SpriteT> (tile, layers[layer_id]->get_texture_name());
+    sprite.hframes = 8;
+    sprite.vframes = 11;
+    sprite.frame = value;
+    sprite.layer = layers[layer_id]->get_render_layer_name();
     
     m_registry.emplace<component::Fog> (tile, z, !collidable);
     layers[layer_id]->set_entity (x, y, tile);
