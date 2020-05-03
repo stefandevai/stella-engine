@@ -1,9 +1,9 @@
 #include "stella/core/ecs_lua_api.hpp"
 #include "stella/components.hpp" // IWYU pragma: export
 #include "stella/components/color.hpp"
-#include "stella/components/sprite2.hpp"
-#include "stella/components/layer2.hpp"
-#include "stella/components/animation2.hpp"
+#include "stella/components/sprite.hpp"
+#include "stella/components/layer.hpp"
+#include "stella/components/animation_player.hpp"
 #include <assert.h>
 #include <iostream>
 #include <string>

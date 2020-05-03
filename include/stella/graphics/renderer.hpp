@@ -1,28 +1,28 @@
 #pragma once
 
-#include <vector>
-#include <memory>
+#include <entt/entity/entity.hpp>
+#include <entt/entity/registry.hpp>
+namespace stella{ namespace graphics{ class Texture; } }
 
 namespace stella
 {
 namespace graphics
 {
-  class Renderable;
-  class Texture;
+  using TexPtrs = std::vector<std::shared_ptr<Texture>>;
 
-  class Renderer
+  class RendererT
   {
   public:
-    Renderer() {}
+    RendererT() {}
     
-    virtual void Begin() = 0;
-    virtual void Submit (const std::shared_ptr<Renderable> renderable) = 0;
-    virtual void End() = 0;
-    virtual void Draw() = 0;
-    static std::vector<Texture*> Textures;
+    virtual void begin() = 0;
+    virtual void submit (entt::registry& registry, entt::entity entity) = 0;
+    virtual void end() = 0;
+    virtual void draw() = 0;
 
   protected:
-    virtual ~Renderer() {}
+    virtual ~RendererT() {}
+    static TexPtrs m_textures;
   };
 } // namespace graphics
 } // namespace stella

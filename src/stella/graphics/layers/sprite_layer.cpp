@@ -1,5 +1,5 @@
-#include "stella/graphics/layers/sprite_layer2.hpp"
-#include "stella/components/sprite2.hpp"
+#include "stella/graphics/layers/sprite_layer.hpp"
+#include "stella/components/sprite.hpp"
 #include "stella/components/position.hpp"
 #include "stella/graphics/shader.hpp"
 

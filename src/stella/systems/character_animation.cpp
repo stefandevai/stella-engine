@@ -6,7 +6,7 @@
 #include "entt/entity/utility.hpp"
 #include "stella/components/character_animation.hpp"
 #include "stella/components/body2d.hpp"
-#include "stella/components/animation2.hpp"
+#include "stella/components/animation_player.hpp"
 #include "stella/topdown/body.hpp"
 
 namespace stella

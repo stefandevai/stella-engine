@@ -6,25 +6,31 @@ namespace stella
 {
 namespace component
 {
-  struct Layer
+  enum LayerType
   {
-    Layer (std::string id,
+      SPRITE_LAYER,
+      SHAPE_LAYER
+  };
+
+  struct LayerT
+  {
+    LayerT (std::string id,
            unsigned order,
-           std::string shader_id,
+           LayerType layer_type,
            std::string vert_shader_source,
            std::string frag_shader_source,
            bool fixed = false)
-      : Id (id), Order (order), ShaderId (shader_id), vert_shader_source (vert_shader_source),
-        frag_shader_source (frag_shader_source), Fixed (fixed)
+      : id (id), order (order), layer_type (layer_type), vert_shader_source (vert_shader_source),
+        frag_shader_source (frag_shader_source), fixed (fixed)
     {
     }
 
-    std::string Id;
-    unsigned Order;
-    std::string ShaderId;
+    std::string id;
+    unsigned order;
+    LayerType layer_type;
     std::string vert_shader_source, frag_shader_source;
-    bool Fixed;
-    bool Initialized = false;
+    bool fixed;
+    bool initialized = false;
   };
 
 } // namespace component

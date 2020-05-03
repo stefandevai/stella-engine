@@ -1,4 +1,4 @@
-#include "stella/graphics/layers/shape_layer2.hpp"
+#include "stella/graphics/layers/shape_layer.hpp"
 #include "stella/components/shape.hpp"
 #include "stella/components/position.hpp"
 #include "stella/graphics/shader.hpp"

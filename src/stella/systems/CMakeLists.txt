@@ -1,6 +1,6 @@
 project(systems)
 
-add_library(${PROJECT_NAME} STATIC animation_player2.cpp
+add_library(${PROJECT_NAME} STATIC animation_player.cpp
                                    character_animation.cpp
                                    npc.cpp
                                    physics.cpp

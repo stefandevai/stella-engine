@@ -2,7 +2,7 @@
 #include "stella/components/dimension.hpp"
 #include "stella/components/log.hpp"
 #include "stella/components/position.hpp"
-#include "stella/components/sprite2.hpp"
+#include "stella/components/sprite.hpp"
 #include "stella/components/tile.hpp"
 #include "stella/components/fog.hpp"
 

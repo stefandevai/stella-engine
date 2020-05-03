@@ -1,7 +1,7 @@
-#include "stella/graphics/sprite_renderer2.hpp"
+#include "stella/graphics/sprite_renderer.hpp"
 #include "stella/graphics/texture.hpp"
 #include "stella/graphics/opengl.hpp" // IWYU pragma: export
-#include "stella/components/sprite2.hpp"
+#include "stella/components/sprite.hpp"
 #include "stella/components/position.hpp"
 
 #include <algorithm>

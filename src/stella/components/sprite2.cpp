@@ -1,4 +1,4 @@
-#include "stella/components/sprite2.hpp"
+#include "stella/components/sprite.hpp"
 #include "stella/graphics/texture.hpp"
 
 namespace stella

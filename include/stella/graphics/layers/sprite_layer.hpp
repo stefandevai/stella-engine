@@ -1,7 +1,7 @@
 #pragma once
 
-#include "layer2.hpp"
-#include "stella/graphics/sprite_renderer2.hpp"
+#include "layer.hpp"
+#include "stella/graphics/sprite_renderer.hpp"
 namespace stella { namespace graphics { class Shader; } }
 
 namespace stella

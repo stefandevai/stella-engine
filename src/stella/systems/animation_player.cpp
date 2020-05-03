@@ -1,6 +1,6 @@
-#include "stella/systems/animation_player2.hpp"
-#include "stella/components/sprite2.hpp"
-#include "stella/components/animation2.hpp"
+#include "stella/systems/animation_player.hpp"
+#include "stella/components/sprite.hpp"
+#include "stella/components/animation_player.hpp"
 
 #include <iostream>
 

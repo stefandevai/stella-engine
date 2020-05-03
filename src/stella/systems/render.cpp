@@ -1,11 +1,11 @@
 #include "stella/systems/render.hpp"
-#include "stella/components/layer2.hpp"
-#include "stella/components/sprite2.hpp"
+#include "stella/components/layer.hpp"
+#include "stella/components/sprite.hpp"
 #include "stella/components/shape.hpp"
 #include "stella/components/position.hpp"
 #include "stella/components/camera.hpp"
 #include "stella/graphics/texture.hpp"
-#include "stella/graphics/layers/shape_layer2.hpp"
+#include "stella/graphics/layers/shape_layer.hpp"
 
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>

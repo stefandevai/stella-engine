@@ -1,10 +1,10 @@
 #include "game.hpp"
 #include <random>
 #include "stella/systems/render.hpp"
-#include "stella/systems/animation_player2.hpp"
-#include "stella/components/sprite2.hpp"
+#include "stella/systems/animation_player.hpp"
+#include "stella/components/sprite.hpp"
 #include "stella/components/position.hpp"
-#include "stella/components/animation2.hpp"
+#include "stella/components/animation_player.hpp"
 
 namespace nikte
 {

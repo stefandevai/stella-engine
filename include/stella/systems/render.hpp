@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./system.hpp"
-#include "stella/graphics/layers/sprite_layer2.hpp"
+#include "stella/graphics/layers/sprite_layer.hpp"
 #include "stella/core/resource.hpp"
 #include <map>
 namespace stella{ namespace graphics{ class Texture; } }

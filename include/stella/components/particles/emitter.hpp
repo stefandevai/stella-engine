@@ -3,7 +3,7 @@
 #include "../dimension.hpp"
 #include "../particle.hpp"
 #include "../position.hpp"
-#include "../sprite2.hpp"
+#include "../sprite.hpp"
 #include "../transform.hpp"
 #include <entt/entity/registry.hpp> // IWYU pragma: export
 #include <string>

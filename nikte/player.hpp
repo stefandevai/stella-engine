@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stella/components/body2d.hpp>
-#include <stella/components/animation2.hpp>
+#include <stella/components/animation_player.hpp>
 #include <entt/entity/registry.hpp> // IWYU pragma: export
 
 namespace stella

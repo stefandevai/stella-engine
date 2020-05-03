@@ -1,4 +1,4 @@
-#include "stella/graphics/renderer2.hpp"
+#include "stella/graphics/renderer.hpp"
 #include "stella/graphics/texture.hpp"
 #include <vector>
 

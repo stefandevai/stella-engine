@@ -1,4 +1,4 @@
-#include "stella/graphics/layers/layer2.hpp"
+#include "stella/graphics/layers/layer.hpp"
 
 #include <iostream>
 #include <algorithm>

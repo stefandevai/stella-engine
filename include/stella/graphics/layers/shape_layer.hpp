@@ -4,9 +4,9 @@
 #include <vector>
 #include <algorithm>
 
-#include "stella/graphics/layers/layer2.hpp"
+#include "stella/graphics/layers/layer.hpp"
 #include "stella/graphics/shape.hpp"
-#include "stella/graphics/shape_renderer2.hpp"
+#include "stella/graphics/shape_renderer.hpp"
 namespace stella { namespace graphics { class Shader; } }
 
 namespace stella

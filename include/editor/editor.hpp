@@ -3,7 +3,7 @@
 #include "../stella/graphics/shape.hpp"
 #include "../stella/graphics/framebuffer.hpp"
 #include "widgets/chat.hpp"
-#include "stella/graphics/layers/shape_layer2.hpp"
+#include "stella/graphics/layers/shape_layer.hpp"
 #include "widgets/console.hpp"
 #include "widgets/inspector.hpp"
 #include "./log_system.hpp"

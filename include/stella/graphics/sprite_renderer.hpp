@@ -14,24 +14,15 @@ namespace graphics
 {
   class Sprite;
   
-
-  class SpriteRenderer : public Renderer
+  class SpriteRendererT : public RendererT
   {
   public:
-    SpriteRenderer();
-    ~SpriteRenderer();
-    virtual void Begin();
-    void Submit (const std::shared_ptr<Renderable> renderable);
-    virtual void Submit (const std::shared_ptr<Sprite> sprite);
-    void End();
-    void Draw();
-
-    static void BindAsRenderTarget (int width = 720, int height = 405);
-
-    void PushTransformation (glm::mat4& mat, bool override = false);
-    void PopTransformation();
-
-    //static std::vector<Texture*> Textures;
+    SpriteRendererT();
+    ~SpriteRendererT();
+    void begin();
+    void submit (entt::registry& registry, entt::entity entity);
+    void end();
+    void draw();
 
   private:
     struct VertexData
@@ -39,18 +30,16 @@ namespace graphics
       glm::vec3 vertex;
       glm::vec2 uv;
       GLfloat tid;
-      unsigned int color;
     };
 
     enum Index
     {
       VERTEX_INDEX,
       UV_INDEX,
-      TID_INDEX,
-      COLOR_INDEX
+      TID_INDEX
     };
 
-    VertexData* VertexBuffer;
+    VertexData* m_vertex_buffer;
 
     static const unsigned MAX_SPRITES =  10000;
     static const unsigned VERTEX_SIZE = sizeof (VertexData);
@@ -59,13 +48,13 @@ namespace graphics
     static const unsigned INDICES_SIZE = 6 * MAX_SPRITES;
 
   protected:
-    GLuint VAO, VBO, EBO;
-    std::vector<glm::mat4> TransformationStack;
-    glm::mat4* TransformationBack;
-    GLsizei IndexCount;
-    bool TexturesBinded;
+    GLuint m_VAO, m_VBO, m_EBO;
+    GLsizei m_index_count;
+    bool textures_binded;
+    std::vector<glm::mat4> m_transformation_stack;
+    glm::mat4* m_transformation_back;
 
-    virtual void init();
+    void init();
   };
 } // namespace graphics
 } // namespace stella
