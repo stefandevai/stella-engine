@@ -7,6 +7,7 @@
 #include "stella/components/dimension.hpp"
 #include "stella/components/color.hpp"
 #include "stella/components/sprite.hpp"
+#include "stella/components/camera.hpp"
 #include <entt/entity/registry.hpp>
 
 // TEMP
@@ -23,7 +24,7 @@ namespace system
     registry.on_destroy<component::Selected>().connect<&Selection::m_remove_selection_handler> (this);
   }
 
-  void Selection::update (entt::registry& registry, const ImGuiIO& io)
+  void Selection::update (entt::registry& registry, const ImGuiIO& io, const ImVec2& map_pos)
   {
     registry.group<component::Selected> (entt::get<component::Position, component::Dimension>)
         .each ([this, &registry, &io] (auto entity, auto& sel, const auto& pos, const auto& dim)
@@ -41,6 +42,31 @@ namespace system
       pos_handler_move.x = pos.x + dim.w/2.f - 4.f;
       pos_handler_move.y = pos.y + dim.h/2.f - 4.f;
     });
+
+    if (ImGui::IsMouseClicked (0))
+    {
+      entt::entity clicked_entity = entt::null;
+      registry.view<component::Position, component::Dimension> (entt::exclude<component::Camera>)
+          .each ([this, &registry, &map_pos, &clicked_entity] (auto entity, auto& pos, const auto& dim)
+      {
+        if (registry.valid(entity) && selected_entity != entity)
+        {
+          const auto &mpos = map_pos;
+          // If mouse pos is on entity
+          if (mpos.x >= pos.x && mpos.x < pos.x + dim.w && mpos.y >= pos.y && mpos.y < pos.y + dim.h)
+          {
+            registry.emplace<component::Selected>(entity);
+
+            if (registry.valid(selected_entity) && selected_entity != entt::null)
+            {
+              registry.remove_if_exists<component::Selected>(selected_entity);
+            }
+            selected_entity = entity;
+            return;
+          }
+        }
+      });
+    }
   }
 
   void Selection::m_init_selection_handler (entt::registry& registry, entt::entity entity)

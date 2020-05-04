@@ -294,7 +294,9 @@ namespace editor
 
   void Editor::m_handle_inspector (const ImGuiIO& io)
   {
-    m_selection_system->update(m_game.m_registry, io);
+    m_map_tile_pos (io, [this, &io] (const ImVec2& map_pos) {
+      m_selection_system->update(m_game.m_registry, io, map_pos);
+    });
     // m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
     //   if (ImGui::IsMouseClicked (0))
     //   {
