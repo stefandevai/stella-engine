@@ -46,7 +46,7 @@ namespace editor
     m_game.m_textures.load("handler-x", "assets/editor/handler_x.png");
     m_game.m_textures.load("handler-y", "assets/editor/handler_y.png");
 
-    m_systems.push_back(std::make_shared<system::Selection>(m_game.m_registry));
+    m_selection_system = std::make_shared<system::Selection>(m_game.m_registry);
     this->init();
   }
 
@@ -294,35 +294,36 @@ namespace editor
 
   void Editor::m_handle_inspector (const ImGuiIO& io)
   {
-    m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
-      if (ImGui::IsMouseClicked (0))
-      {
-        // Sort by z value before getting the right entity
-        m_game.m_registry.sort<component::Position> ([] (const auto& lhs, const auto& rhs) { return lhs.z < rhs.z; });
-        // TODO: Find a better way to select entity based on position
-        m_game.m_registry.view<stella::component::Position>()
-            .each ([this, &map_pos] (auto entity, const auto& pos) {
-              if (m_game.m_registry.has<component::Dimension>(entity))
-              {
-                const auto& dim = m_game.m_registry.get<component::Dimension>(entity);
-                if (m_game.m_registry.valid (entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w &&
-                    map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
-                {
-                  m_inspector.set_selected_entity (entity);
-                  return;
-                }
-              }
-              else
-              {
-                if (m_game.m_registry.valid (entity) && round(map_pos.x) == round(pos.x) && round(map_pos.y) == round(pos.y))
-                {
-                  m_inspector.set_selected_entity (entity);
-                  return;
-                }
-              }
-            });
-      }
-    });
+    m_selection_system->update(m_game.m_registry, io);
+    // m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
+    //   if (ImGui::IsMouseClicked (0))
+    //   {
+    //     // Sort by z value before getting the right entity
+    //     m_game.m_registry.sort<component::Position> ([] (const auto& lhs, const auto& rhs) { return lhs.z < rhs.z; });
+    //     // TODO: Find a better way to select entity based on position
+    //     m_game.m_registry.view<stella::component::Position>()
+    //         .each ([this, &map_pos] (auto entity, const auto& pos) {
+    //           if (m_game.m_registry.has<component::Dimension>(entity))
+    //           {
+    //             const auto& dim = m_game.m_registry.get<component::Dimension>(entity);
+    //             if (m_game.m_registry.valid (entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w &&
+    //                 map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
+    //             {
+    //               m_inspector.set_selected_entity (entity);
+    //               return;
+    //             }
+    //           }
+    //           else
+    //           {
+    //             if (m_game.m_registry.valid (entity) && round(map_pos.x) == round(pos.x) && round(map_pos.y) == round(pos.y))
+    //             {
+    //               m_inspector.set_selected_entity (entity);
+    //               return;
+    //             }
+    //           }
+    //         });
+    //   }
+    // });
   }
 
   void Editor::m_play_mode()

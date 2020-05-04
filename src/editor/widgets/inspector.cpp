@@ -1,5 +1,6 @@
 #include "editor/widgets/inspector.hpp"
 #include "stella/components.hpp" // IWYU pragma: export
+#include "editor/components/selected.hpp"
 
 namespace stella
 {
@@ -9,6 +10,27 @@ namespace widget
 
   void Inspector::render (entt::registry& registry)
   {
+    std::vector<entt::entity> selected_entities;
+    registry.view<component::Selected> ().each ([&selected_entities] (auto entity, auto& sel)
+    {
+      selected_entities.push_back(entity);
+      if (selected_entities.size() > 1)
+      {
+        return;
+      }
+    });
+
+    // If only one entity is selected
+    if (selected_entities.size() == 1)
+    {
+      m_selected_entity = selected_entities.front();
+    }
+    // If none or multiple entities are selected
+    else
+    {
+      m_selected_entity = entt::null;
+    }
+
     if (ImGui::Begin (m_name.c_str(), &m_open))
     {
       ImGui::Dummy (ImVec2 (0.f, 3.f));

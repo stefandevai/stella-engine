@@ -1,17 +1,18 @@
 #pragma once
 
 #include "entt/entity/fwd.hpp"
-#include "stella/systems/system.hpp"
+#include "../../lib/imgui/imgui.h" // IWYU pragma: export
+#include "imgui_internal.h"
 
 namespace stella
 {
 namespace system
 {
-  class Selection : public System
+  class Selection
   {
   public:
     Selection (entt::registry& registry);
-    void update (entt::registry& registry, const double dt) override;
+    void update (entt::registry& registry, const ImGuiIO& io);
 
   private:
     void m_init_selection_handler (entt::registry& registry, entt::entity entity);

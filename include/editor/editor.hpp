@@ -17,6 +17,7 @@
 #include "../../lib/imgui/imgui.h" // IWYU pragma: export
 #include "../../lib/imgui/examples/imgui_impl_opengl3.h" // IWYU pragma: export
 #include "../../lib/imgui/examples/imgui_impl_sdl.h" // IWYU pragma: export
+#include "systems/selection.hpp"
 
 struct SDL_Window;
 union SDL_Event;
@@ -50,7 +51,6 @@ namespace editor
     // ImGuiWindowFlags_NoResize;
     widget::Console m_console{m_window_flags, m_font_mono};
     widget::Chat m_chat{m_window_flags, m_font_mono};
-    LogSystem m_log_system{m_console};
     entt::registry& m_registry;
     std::shared_ptr<graphics::ShapeLayerT> m_debug_layer;
     entt::entity m_editor_layer  = entt::null;
@@ -76,6 +76,8 @@ namespace editor
     bool is_panning = false;
 
     // Systems
+    LogSystem m_log_system{m_console};
+    std::shared_ptr<system::Selection> m_selection_system;
     std::vector<std::shared_ptr<system::System>> m_systems;
 
   public:
