@@ -23,6 +23,7 @@ namespace core
     int m_tile_dimension   = 0;
     unsigned m_width            = 0;
     unsigned m_height           = 0;
+    bool m_loaded = false;
 
   public:
     TileMap (const std::string& path, entt::registry& registry);
@@ -31,6 +32,7 @@ namespace core
     inline unsigned width() const { return m_width; }
     inline unsigned height() const { return m_height; }
     inline unsigned tile_dimension() const { return m_tile_dimension; }
+    inline bool has_loaded() const { return m_loaded; }
     inline std::string get_name() const { return m_name; }
     inline std::string get_path() const { return m_path; }
 
@@ -44,6 +46,7 @@ namespace core
     void refresh();
 
     void load (const std::string& path);
+    void load () { load (m_path); }
     void save (const std::string& path);
     void load_lua (const std::string& path);
     void load_xml (const std::string& path);

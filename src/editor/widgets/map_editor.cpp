@@ -112,13 +112,20 @@ namespace widget
 
   void MapEditor::reset_map_settings()
   {
-    m_selected_layer   = m_tile_map.layers.front();
-    std::size_t length = m_tile_map.get_name().copy (m_map_name, 128);
-    m_map_name[length] = '\0';
-    length             = m_tile_map.get_path().copy (m_path, 128);
-    m_path[length]     = '\0';
-    m_map_width        = static_cast<int> (m_tile_map.width());
-    m_map_height       = static_cast<int> (m_tile_map.height());
+    if (m_tile_map.has_loaded())
+    {
+      m_selected_layer   = m_tile_map.layers.front();
+      std::size_t length = m_tile_map.get_name().copy (m_map_name, 128);
+      m_map_name[length] = '\0';
+      length             = m_tile_map.get_path().copy (m_path, 128);
+      m_path[length]     = '\0';
+      m_map_width        = static_cast<int> (m_tile_map.width());
+      m_map_height       = static_cast<int> (m_tile_map.height());
+    }
+    else
+    {
+      // TODO: When map is not loaded
+    }
   }
 
   void MapEditor::update_map_settings() { m_tile_map.set_name (m_map_name); }

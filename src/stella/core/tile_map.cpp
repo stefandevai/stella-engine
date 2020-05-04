@@ -24,7 +24,7 @@ namespace core
 
   TileMap::TileMap (const std::string& path, entt::registry& registry) : m_path (path), m_registry (registry)
   {
-    this->load (path);
+    //this->load (path);
     Tile::registry = &m_registry;
   }
 
@@ -38,11 +38,13 @@ namespace core
     {
       m_path = path;
       load_lua (path);
+      m_loaded = true;
     }
     else if (extension == "xml")
     {
       m_path = path;
       load_xml (path);
+      m_loaded = true;
     }
     else
     {
