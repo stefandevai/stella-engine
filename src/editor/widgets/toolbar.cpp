@@ -2,6 +2,8 @@
 #include "editor/widgets/toolbar.hpp"
 #include "editor/components/selected.hpp"
 #include "stella/components/position.hpp"
+#include "stella/components/dimension.hpp"
+#include "stella/components/sprite.hpp"
 
 #include <iostream>
 
@@ -146,7 +148,12 @@ namespace widget
       if (ImGui::Button("Create"))
       {
         auto entity = registry.create();
-        registry.emplace<component::Position>(entity, 100.f, 100.f, 0.0f);
+        registry.emplace<component::Position>(entity, 500.f, 500.f, 0.0f);
+        registry.emplace<component::Dimension>(entity, 32.f, 64.f);
+        auto& sprite = registry.emplace<component::SpriteT>(entity, "nikte");
+        sprite.hframes = 9;
+        sprite.vframes = 6;
+        sprite.layer = "collision";
         registry.emplace<component::Selected>(entity);
       }
       ImGui::EndPopup();

@@ -9,7 +9,9 @@ namespace component
 struct Selected
 {
     bool focus = true;
-    entt::entity sprite = entt::null;
+    entt::entity handler_move = entt::null;
+    entt::entity handler_x = entt::null;
+    entt::entity handler_y = entt::null;
 };
 }
 }
