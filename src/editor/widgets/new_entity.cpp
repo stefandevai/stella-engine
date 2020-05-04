@@ -1,4 +1,5 @@
 #include "editor/widgets/new_entity.hpp"
+#include "editor/components/selected.hpp"
 
 namespace stella
 {
@@ -35,6 +36,7 @@ namespace widget
                 ComponentList::emplace_default_component (component.first, entity, registry);
               }
             }
+            registry.emplace<component::Selected>(entity);
             // add_components (entity, m_component_menu.components);
             m_component_menu.reset();
             m_open = false;

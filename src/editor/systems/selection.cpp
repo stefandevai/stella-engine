@@ -71,6 +71,14 @@ namespace system
 
   void Selection::m_init_selection_handler (entt::registry& registry, entt::entity entity)
   {
+    // if (selected_entity != entity)
+    // {
+    //   if (registry.valid(selected_entity) && selected_entity != entt::null)
+    //   {
+    //     registry.remove_if_exists<component::Selected>(selected_entity);
+    //   }
+    //   selected_entity = entity;
+    // }
     const auto& pos = registry.get<component::Position>(entity);
     const auto& dim = registry.get<component::Dimension>(entity);
     auto& sel = registry.get<component::Selected>(entity);
