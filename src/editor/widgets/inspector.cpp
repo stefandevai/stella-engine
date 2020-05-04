@@ -63,10 +63,25 @@ namespace widget
   {
     if (ImGui::CollapsingHeader ("Components", ImGuiTreeNodeFlags_DefaultOpen))
     {
+      m_render_component_node<component::AnimationPlayer> (registry, AnimationPlayer());
       m_render_component_node<component::Body2D> (registry, Body2D());
+      m_render_component_node<component::Camera> (registry, Camera());
+      m_render_component_node<component::CharacterAnimation> (registry, CharacterAnimation());
+      m_render_component_node<component::Charcode> (registry, Charcode());
+      m_render_component_node<component::Color> (registry, Color());
       m_render_component_node<component::Dimension> (registry, Dimension());
+      m_render_component_node<component::LayerT> (registry, Layer());
+      m_render_component_node<component::NPC> (registry, NPC());
       m_render_component_node<component::Position> (registry, Position());
+      m_render_component_node<component::Script> (registry, Script());
+      m_render_component_node<component::Shape> (registry, Shape());
+      m_render_component_node<component::SpeechContainer> (registry, SpeechContainer());
+      m_render_component_node<component::SpriteGroup> (registry, SpriteGroup());
+      m_render_component_node<component::SpriteT> (registry, Sprite());
+      m_render_component_node<component::Text> (registry, Text());
       m_render_component_node<component::Tile> (registry, Tile());
+      m_render_component_node<component::Timer> (registry, Timer());
+      m_render_component_node<component::Typewriter> (registry, Typewriter());
     }
   }
 } // namespace widget
