@@ -16,6 +16,7 @@ namespace component
 
   struct LayerT : public Component
   {
+    LayerT() : Component ("Layer") {}
     LayerT (std::string id,
            unsigned order,
            LayerType layer_type,
@@ -27,11 +28,11 @@ namespace component
     {
     }
 
-    std::string id;
-    unsigned order;
-    LayerType layer_type;
-    std::string vert_shader_source, frag_shader_source;
-    bool fixed;
+    std::string id = "";
+    unsigned order = 0;
+    LayerType layer_type = SPRITE_LAYER;
+    std::string vert_shader_source = "assets/shaders/sprite_batch.vert", frag_shader_source = "assets/shaders/sprite_batch.frag";
+    bool fixed = false;
     bool initialized = false;
   };
 

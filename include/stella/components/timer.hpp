@@ -20,6 +20,8 @@ namespace component
       DECREASE
     };
 
+    Timer() : Component ("Timer") {}
+
     // Timer (TimerEvent event, const int duration) : event (event), duration (duration) {}
     Timer (const double duration,
            const double target,
@@ -30,11 +32,11 @@ namespace component
     {
     }
 
-    double duration;
-    double target;
-    Type timer_type;
+    double duration = 0.0;
+    double target = 0.0;
+    Type timer_type = INCREASE;
     std::function<void (entt::registry&, const entt::entity)> fn;
-    bool active;
+    bool active = true;
   };
 
 } // namespace component

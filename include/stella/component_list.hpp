@@ -15,7 +15,6 @@ namespace stella
     Color,
     Dimension,
     Layer,
-    Log,
     NPC,
     Position,
     Script,

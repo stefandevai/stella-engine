@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../components.hpp"
+#include "stella/components/particle_emitter.hpp"
 #include "./system.hpp"
 
 namespace stella

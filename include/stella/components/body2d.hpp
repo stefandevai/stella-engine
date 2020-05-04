@@ -18,10 +18,10 @@ namespace component
     {
     }
 
-    std::shared_ptr<stella::topdown::Body> Body;
+    std::shared_ptr<stella::topdown::Body> Body = nullptr;
     bool Initialized = false;
     std::vector<double> BoundingBox, BoundingBoxPosition;
-    float movement_speed;
+    float movement_speed = 0.f;
   };
 } // namespace component
 } // namespace stella

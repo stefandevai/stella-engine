@@ -13,6 +13,7 @@ namespace component
 {
   struct SpriteT : public Component
   {
+      SpriteT() : Component ("Sprite") {}
       SpriteT (const std::string& texture) : Component ("Sprite"), texture (texture) {}
       
       std::string texture = "";

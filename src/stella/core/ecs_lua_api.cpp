@@ -3,7 +3,13 @@
 #include "stella/components/color.hpp"
 #include "stella/components/sprite.hpp"
 #include "stella/components/layer.hpp"
+#include "stella/components/tileview.hpp"
+#include "stella/components/movement.hpp"
+#include "stella/components/player.hpp"
+#include "stella/components/scroll.hpp"
+#include "stella/components/name.hpp"
 #include "stella/components/animation_player.hpp"
+#include "stella/components/particle_emitter.hpp"
 #include <assert.h>
 #include <iostream>
 #include <string>
