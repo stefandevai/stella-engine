@@ -21,6 +21,7 @@ namespace core
     {
       m_display.Clear();
       this->update (m_display.GetDT());
+      this->render (m_display.GetDT());
       m_display.Update();
     }
   }

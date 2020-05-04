@@ -1,5 +1,4 @@
 #pragma once
-
 #include "widget.hpp"
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
@@ -9,13 +8,17 @@ namespace stella
 {
 namespace widget
 {
-  struct NewEntity : public Widget
+
+  class AddComponents : public Widget
   {
-    NewEntity ();
-    void render (entt::registry& registry, const float width);
+    public:
+      AddComponents ();
+      void render(entt::registry& registry, entt::entity entity);
 
     private:
         ComponentMenu m_component_menu{};
   };
-} // namespace editor
+
+} // namespace widget
 } // namespace stella
+

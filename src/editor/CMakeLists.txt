@@ -12,6 +12,7 @@ add_library(${PROJECT_NAME} STATIC editor.cpp
                                    widgets/file_dialog.cpp
                                    widgets/new_entity.cpp
                                    widgets/component_menu.cpp
+                                   widgets/add_components.cpp
                                    systems/selection.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/examples/imgui_impl_sdl.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/examples/imgui_impl_opengl3.cpp

@@ -16,7 +16,8 @@ def create_widget(name):
     capitalized_name = ''.join(x.title() for x in name.split('_'))
     spaced_name = ' '.join(x.title() for x in name.split('_'))
 
-    header_boilerplate = ('#include \"widget.hpp\"\n\n'
+    header_boilerplate = ('#pragma once\n'
+                          '#include \"widget.hpp\"\n\n'
                           'namespace stella\n'
                           '{\n'
                           'namespace widget\n'
@@ -74,7 +75,8 @@ def create_class(path, name):
     relative_header_path = header_path.replace('include/', '')
     capitalized_name = ''.join(x.title() for x in name.split('_'))
 
-    header_boilerplate = ('namespace stella\n'
+    header_boilerplate = ('#pragma once'
+                          'namespace stella\n'
                           '{\n'
                           'namespace \n'
                           '{\n\n'

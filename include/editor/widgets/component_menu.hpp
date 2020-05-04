@@ -1,6 +1,8 @@
+#pragma once
 #include "widget.hpp"
 #include <unordered_map>
 #include "stella/component_list.hpp"
+#include <entt/entity/entity.hpp>
 
 namespace stella
 {
@@ -13,7 +15,7 @@ namespace widget
 
     public:
       ComponentMenu ();
-      void render();
+      void render(entt::entity entity = entt::null);
       void reset();
       inline const ComponentMap get_map() const { return m_selected_components; };
 

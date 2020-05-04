@@ -37,6 +37,14 @@ namespace widget
       if (m_selected_entity != entt::null && registry.valid (m_selected_entity))
       {
         m_render_component_nodes (registry);
+        ImGui::Dummy (ImVec2 (0.f, 10.f));
+        ImGui::Separator();
+        ImGui::Dummy (ImVec2 (0.f, 10.f));
+        if (ImGui::Button("Add Components", ImVec2(100, 27)))
+        {
+          m_add_components.open();
+        }
+        m_add_components.render(registry, m_selected_entity);
       }
       else
       {

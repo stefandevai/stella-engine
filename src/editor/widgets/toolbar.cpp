@@ -135,7 +135,15 @@ namespace widget
         m_new_entity.open();
         // ImGui::OpenPopup("Create new Entity"); 
       }
+      ImGui::PushStyleColor (ImGuiCol_Button, ImVec4 (0.44f, 0.44f, 0.44f, 0.40f));
+      ImGui::PushStyleColor (ImGuiCol_ButtonHovered, ImVec4 (0.46f, 0.47f, 0.48f, 1.00f));
+      ImGui::PushStyleColor (ImGuiCol_ButtonActive, ImVec4 (0.42f, 0.42f, 0.42f, 1.00f));
+      ImGui::PushStyleColor (ImGuiCol_TitleBgActive, ImVec4 (60.f / 255.f, 32.f / 255.f, 84.f / 255.f, 1.00f));
       m_new_entity.render(registry, width);
+      ImGui::PopStyleColor();
+      ImGui::PopStyleColor();
+      ImGui::PopStyleColor();
+      ImGui::PopStyleColor();
       // m_add_new_entity(registry, width);
       ImGui::PopID();
   }

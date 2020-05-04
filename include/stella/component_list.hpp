@@ -1,3 +1,5 @@
+#pragma once
+
 #include <map>
 #include <string>
 #include <entt/entity/registry.hpp>

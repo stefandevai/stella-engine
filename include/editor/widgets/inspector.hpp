@@ -3,6 +3,7 @@
 #include "widget.hpp"
 //#include "../../lib/imgui/imgui.hpp"
 #include <entt/entity/registry.hpp> // IWYU pragma: export
+#include "add_components.hpp"
 
 namespace stella
 {
@@ -12,6 +13,7 @@ namespace widget
   {
   private:
     entt::entity m_selected_entity = entt::null;
+    AddComponents m_add_components{};
 
     void m_render_component_nodes(entt::registry& registry);
 

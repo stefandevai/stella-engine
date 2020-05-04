@@ -9,7 +9,7 @@
 #include "stella/physics2d/world.hpp"
 //#include "stella/systems/animation.hpp"
 #include "stella/systems/color.hpp"
-//#include "stella/systems/render.hpp"
+#include "stella/systems/render.hpp"
 #include "stella/systems/system.hpp"
 #include "stella/systems/timer.hpp"
 #include <memory>
@@ -62,6 +62,7 @@ namespace core
     {
       m_systems.push_back (std::make_shared<T> (params...));
     }
+    std::shared_ptr<system::RenderT> m_render_system;
   };
 
 } // namespace core

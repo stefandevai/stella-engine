@@ -14,8 +14,9 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   m_script_api.run_script ("scripts/main.lua");
   m_script_api.run_function ("load_assets");
 
+  m_render_system = std::make_shared<stella::system::RenderT>(m_registry, m_textures);
   // // this->add_system<stella::system::Render> (m_registry, m_textures, m_display);
-  this->add_system<stella::system::RenderT> (m_registry, m_textures);
+  // this->add_system<stella::system::RenderT> (m_registry, m_textures);
   this->add_system<stella::system::AnimationPlayer> ();
   this->add_system<stella::system::Color> (m_registry);
   this->add_system<stella::system::Timer> (m_registry);
@@ -67,11 +68,16 @@ Game::~Game()
 
 void Game::update (const double dt)
 {
-  this->update_systems (dt);
+  update_systems (dt);
 
   m_player.update();
   m_script_api.run_function ("update_game", dt);
   // m_script_api.run_function ("render_game", dt);
+}
+
+void Game::render (const double dt)
+{
+  m_render_system->update (m_registry, dt);
 }
 
 void Game::m_load_flowers()

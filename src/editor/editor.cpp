@@ -149,18 +149,19 @@ namespace editor
     {
       if (m_current_state == EDIT)
       {
-        m_FBO->Bind();
-        m_game.m_display.Clear();
-        m_game.update (m_game.m_display.GetDT());
-        this->update(m_game.m_display.GetDT());
-        m_FBO->Unbind();
-        this->render (m_game.m_display.GetWindowWidth(),
-                      m_game.m_display.GetWindowHeight(),
-                      m_game.m_display.Width,
-                      m_game.m_display.Height);
+          m_game.update (m_game.m_display.GetDT());
+          m_game.m_display.Update();
+          this->configure_input();
+          this->update(m_game.m_display.GetDT());
 
-        m_game.m_display.Update();
-        this->configure_input();
+          m_FBO->Bind();
+          m_game.m_display.Clear();
+          m_game.render(m_game.m_display.GetDT());
+          m_FBO->Unbind();
+          this->render (m_game.m_display.GetWindowWidth(),
+                        m_game.m_display.GetWindowHeight(),
+                        m_game.m_display.Width,
+                        m_game.m_display.Height);
       }
       else if (m_current_state == PLAY)
       {
@@ -297,35 +298,6 @@ namespace editor
     m_map_tile_pos (io, [this, &io] (const ImVec2& map_pos) {
       m_selection_system->update(m_game.m_registry, io, map_pos);
     });
-    // m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
-    //   if (ImGui::IsMouseClicked (0))
-    //   {
-    //     // Sort by z value before getting the right entity
-    //     m_game.m_registry.sort<component::Position> ([] (const auto& lhs, const auto& rhs) { return lhs.z < rhs.z; });
-    //     // TODO: Find a better way to select entity based on position
-    //     m_game.m_registry.view<stella::component::Position>()
-    //         .each ([this, &map_pos] (auto entity, const auto& pos) {
-    //           if (m_game.m_registry.has<component::Dimension>(entity))
-    //           {
-    //             const auto& dim = m_game.m_registry.get<component::Dimension>(entity);
-    //             if (m_game.m_registry.valid (entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w &&
-    //                 map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
-    //             {
-    //               m_inspector.set_selected_entity (entity);
-    //               return;
-    //             }
-    //           }
-    //           else
-    //           {
-    //             if (m_game.m_registry.valid (entity) && round(map_pos.x) == round(pos.x) && round(map_pos.y) == round(pos.y))
-    //             {
-    //               m_inspector.set_selected_entity (entity);
-    //               return;
-    //             }
-    //           }
-    //         });
-    //   }
-    // });
   }
 
   void Editor::m_play_mode()
@@ -366,7 +338,8 @@ namespace editor
     style.Colors[ImGuiCol_FrameBgHovered]        = ImVec4 (0.40f, 0.40f, 0.40f, 0.40f);
     style.Colors[ImGuiCol_FrameBgActive]         = ImVec4 (0.18f, 0.18f, 0.18f, 0.67f);
     style.Colors[ImGuiCol_TitleBg]               = ImVec4 (0.04f, 0.04f, 0.04f, 1.00f);
-    style.Colors[ImGuiCol_TitleBgActive]         = ImVec4 (0.29f, 0.29f, 0.29f, 1.00f);
+    style.Colors[ImGuiCol_TitleBgActive]         = ImVec4 (0.04f, 0.04f, 0.04f, 1.00f);
+    // style.Colors[ImGuiCol_TitleBgActive]         = ImVec4 (0.29f, 0.29f, 0.29f, 1.00f);
     style.Colors[ImGuiCol_TitleBgCollapsed]      = ImVec4 (0.00f, 0.00f, 0.00f, 0.51f);
     style.Colors[ImGuiCol_MenuBarBg]             = ImVec4 (0.14f, 0.14f, 0.14f, 1.00f);
     style.Colors[ImGuiCol_ScrollbarBg]           = ImVec4 (0.02f, 0.02f, 0.02f, 0.53f);
@@ -404,7 +377,7 @@ namespace editor
     style.Colors[ImGuiCol_TabHovered]         = ImVec4 (80.f / 255.f, 41.f / 255.f, 115.f / 255.f, 1.00f);
     style.Colors[ImGuiCol_TabUnfocused]       = tab_color;
     style.Colors[ImGuiCol_TabUnfocusedActive] = tab_color;
-    style.Colors[ImGuiCol_TitleBgActive]      = tab_color;
+    //style.Colors[ImGuiCol_TitleBgActive]      = tab_color;
   }
 
   void Editor::draw_dock (const float window_width,

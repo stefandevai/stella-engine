@@ -50,6 +50,7 @@ public:
 
 private:
   void update (const double dt) override;
+  void render (const double dt) override;
   void m_load_flowers();
   void m_load_flower(const int x, const int y);
   // entt::registry::entity_type create_player();
