@@ -10,7 +10,8 @@ add_subdirectory(systems)
 add_subdirectory(topdown)
 
 add_library(${PROJECT_NAME} STATIC application.cpp
-                                   game.cpp)
+                                   game.cpp
+                                   component_list.cpp)
 
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 

@@ -18,14 +18,7 @@ namespace widget
         ImGui::SetNextWindowSize(ImVec2(width*0.7f, 500.f), ImGuiCond_Once);
         ImGui::Begin("Create a new Entity", &m_open);
 
-        ImGui::Text("Select Components:");
-        ImGui::Dummy (ImVec2 (0.f, 10.f));
-        if (ImGui::MenuItem("Body2D")) { }
-        if (ImGui::MenuItem("Color")) { }
-        if (ImGui::MenuItem("Dimension")) { }
-        if (ImGui::MenuItem("Position")) { }
-        if (ImGui::MenuItem("Sprite")) { }
-        if (ImGui::MenuItem("Tile")) { }
+        m_component_menu.render();
         
         ImGui::Dummy (ImVec2 (0.f, 10.f));
         ImGui::Separator();
@@ -33,13 +26,24 @@ namespace widget
 
         if (ImGui::Button("Create!", ImVec2(100, 40)))
         {
+            const auto& selected_components = m_component_menu.get_map();
             auto entity = registry.create();
+            for (const auto& component : selected_components)
+            {
+              if (component.second)
+              {
+                ComponentList::emplace_default_component (component.first, entity, registry);
+              }
+            }
             // add_components (entity, m_component_menu.components);
+            m_component_menu.reset();
+            m_open = false;
         }
         ImGui::SameLine();
         if (ImGui::Button("Cancel", ImVec2(100, 40)))
         {
             m_open = false;
+            m_component_menu.reset();
         }
         ImGui::End();
       }
