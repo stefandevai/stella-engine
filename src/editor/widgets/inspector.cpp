@@ -1,6 +1,10 @@
 #include "editor/widgets/inspector.hpp"
-#include "stella/components.hpp" // IWYU pragma: export
+#include "editor/widgets/components/components_widgets.hpp"
 #include "editor/components/selected.hpp"
+
+// TEMP
+#include "stella/components.hpp" // IWYU pragma: export
+// TEMP
 
 namespace stella
 {
@@ -59,54 +63,10 @@ namespace widget
   {
     if (ImGui::CollapsingHeader ("Components", ImGuiTreeNodeFlags_DefaultOpen))
     {
-      m_render_component_node<component::Position> ("Position", registry, [] (component::Position& pos) {
-        float pos_input[3] = {0.0f, 0.0f, 0.0f};
-        pos_input[0]       = pos.x;
-        pos_input[1]       = pos.y;
-        pos_input[2]       = pos.z;
-        ImGui::PushID ("position#inspector");
-        ImGui::DragFloat ("x", &pos_input[0], 1.0f, 0.0f, 0.0f, "%.3f");
-        ImGui::DragFloat ("y", &pos_input[1], 1.0f, 0.0f, 0.0f, "%.3f");
-        ImGui::DragFloat ("z", &pos_input[2], 1.0f, 0.0f, 0.0f, "%.3f");
-        ImGui::PopID();
-        pos.x = pos_input[0];
-        pos.y = pos_input[1];
-        pos.z = pos_input[2];
-      });
-
-      m_render_component_node<component::Dimension> ("Dimension", registry, [] (component::Dimension& dim) {
-        float dim_input[2] = {0.0f, 0.0f};
-        dim_input[0]       = dim.w;
-        dim_input[1]       = dim.h;
-        ImGui::PushID ("dimension#inspector");
-        ImGui::DragFloat ("width", &dim_input[0], 1.0f, 0.0f, 0.0f, "%.3f");
-        ImGui::DragFloat ("height", &dim_input[1], 1.0f, 0.0f, 0.0f, "%.3f");
-        ImGui::PopID();
-        dim.w = dim_input[0];
-        dim.h = dim_input[1];
-      });
-
-      m_render_component_node<component::Tile> ("Tile", registry, [] (component::Tile& tile) {
-        int layer_id    = static_cast<int> (tile.layer_id);
-        bool collidable = tile.collidable;
-        ImGui::PushID ("tile#inspector");
-        ImGui::InputInt ("layer_id", &layer_id);
-        ImGui::Checkbox ("collidable", &collidable);
-        ImGui::PopID();
-        tile.layer_id   = static_cast<unsigned> (layer_id);
-        tile.collidable = collidable;
-      });
-
-      m_render_component_node<component::Body2D> ("Tile", registry, [] (component::Body2D& body) {
-        float movement_speed = body.movement_speed;
-        bool is_static       = body.Body->IsStatic;
-        ImGui::PushID ("body#inspector");
-        ImGui::DragFloat ("Movement speed", &movement_speed, 1.0f, 0.0f, 0.0f);
-        ImGui::Checkbox ("Static", &is_static);
-        ImGui::PopID();
-        body.movement_speed = movement_speed;
-        body.Body->IsStatic = is_static;
-      });
+      m_render_component_node<component::Body2D> (registry, Body2D());
+      m_render_component_node<component::Dimension> (registry, Dimension());
+      m_render_component_node<component::Position> (registry, Position());
+      m_render_component_node<component::Tile> (registry, Tile());
     }
   }
 } // namespace widget
