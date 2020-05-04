@@ -130,17 +130,17 @@ local function load()
   load_player(480, 512)
   load_npc(512, 512)
   --flowers.load()
-  local test_shape = Entity:create_entity()
+  -- local test_shape = Entity:create_entity()
   
-  test_shape:add_component("position", {0, 0, 1})
-  test_shape:add_component("shape", {
-    vertices = {{32.0,32.0},{864.0,32.0},{864.0,472.0},{32.0,472.0}},
-    layer = "shapes"
-  })
-  test_shape:add_component("color", {
-    --rgba = {255, 255, 255, 100},
-    hex = "#ffffff44",
-  })
+  -- test_shape:add_component("position", {0, 0, 1})
+  -- test_shape:add_component("shape", {
+  --   vertices = {{32.0,32.0},{864.0,32.0},{864.0,472.0},{32.0,472.0}},
+  --   layer = "shapes"
+  -- })
+  -- test_shape:add_component("color", {
+  --   --rgba = {255, 255, 255, 100},
+  --   hex = "#ffffff44",
+  -- })
     
   -- })
 

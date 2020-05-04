@@ -33,8 +33,8 @@ namespace editor
   class Editor
   {
   private:
-    static const ImWchar ICON_FA_MIN = 0xf044;
-    static const ImWchar ICON_FA_MAX = 0xf245;
+    // static const ImWchar ICON_FA_MIN = 0xf044;
+    // static const ImWchar ICON_FA_MAX = 0xf245;
 
     State m_current_state = EDIT;
     Tool m_current_tool   = INSPECTOR;
@@ -74,7 +74,9 @@ namespace editor
 
     ImVec2 camera_pos_without_pan = ImVec2();
     bool is_panning = false;
-    
+
+    // Systems
+    std::vector<std::shared_ptr<system::System>> m_systems;
 
   public:
     // Editor(entt::registry& registry);
@@ -84,7 +86,7 @@ namespace editor
     void init();
     void configure_input();
     void render (const float window_width, const float window_height, const float game_width, const float game_height);
-    void update();
+    void update(const double dt);
     void run();
 
   private:

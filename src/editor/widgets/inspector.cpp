@@ -27,7 +27,7 @@ namespace widget
 
   void Inspector::m_render_component_nodes (entt::registry& registry)
   {
-    if (ImGui::CollapsingHeader ("Components"))
+    if (ImGui::CollapsingHeader ("Components", ImGuiTreeNodeFlags_DefaultOpen))
     {
       m_render_component_node<component::Position> ("Position", registry, [] (component::Position& pos) {
         float pos_input[3] = {0.0f, 0.0f, 0.0f};
@@ -42,6 +42,18 @@ namespace widget
         pos.x = pos_input[0];
         pos.y = pos_input[1];
         pos.z = pos_input[2];
+      });
+
+      m_render_component_node<component::Dimension> ("Dimension", registry, [] (component::Dimension& dim) {
+        float dim_input[2] = {0.0f, 0.0f};
+        dim_input[0]       = dim.w;
+        dim_input[1]       = dim.h;
+        ImGui::PushID ("dimension#inspector");
+        ImGui::InputFloat ("width", &dim_input[0], 0.0f, 0.0f, "%.3f");
+        ImGui::InputFloat ("height", &dim_input[1], 0.0f, 0.0f, "%.3f");
+        ImGui::PopID();
+        dim.w = dim_input[0];
+        dim.h = dim_input[1];
       });
 
       m_render_component_node<component::Tile> ("Tile", registry, [] (component::Tile& tile) {

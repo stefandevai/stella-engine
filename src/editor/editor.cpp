@@ -6,6 +6,7 @@
 #include "stella/components/layer.hpp"
 #include "stella/components/position.hpp"
 #include "stella/components/sprite.hpp"
+#include "editor/systems/selection.hpp"
 
 #ifdef _WIN32
   #include <SDL.h>
@@ -14,6 +15,7 @@
 #endif
 #undef main
 #include <cereal/cereal.hpp> // IWYU pragma: export
+#include <cmath>
 
 namespace stella
 {
@@ -39,6 +41,8 @@ namespace editor
     sprite.texture_ptr = std::make_shared<graphics::Texture>(m_tileset_editor.texture);
     sprite.frame = 0;
     sprite.layer = "editor";
+
+    m_systems.push_back(std::make_shared<system::Selection>(m_game.m_registry));
     this->init();
   }
 
@@ -144,6 +148,7 @@ namespace editor
         m_FBO->Bind();
         m_game.m_display.Clear();
         m_game.update (m_game.m_display.GetDT());
+        this->update(m_game.m_display.GetDT());
         m_FBO->Unbind();
         this->render (m_game.m_display.GetWindowWidth(),
                       m_game.m_display.GetWindowHeight(),
@@ -157,6 +162,7 @@ namespace editor
       {
         m_game.m_display.Clear();
         m_game.update (m_game.m_display.GetDT());
+        this->update(m_game.m_display.GetDT());
         this->render (m_game.m_display.GetWindowWidth(),
                       m_game.m_display.GetWindowHeight(),
                       m_game.m_display.Width,
@@ -167,7 +173,14 @@ namespace editor
     }
   }
 
-  void Editor::update() { m_log_system.update (m_registry, 0.0); }
+  void Editor::update(const double dt)
+  {
+    for (auto& s : m_systems)
+    {
+      s->update (m_registry, dt);
+    }
+    //m_log_system.update (m_registry, 0.0);
+  }
 
   void
   Editor::render (const float window_width, const float window_height, const float game_width, const float game_height)
@@ -183,7 +196,7 @@ namespace editor
       {
         this->draw_dock (window_width, window_height, game_width, game_height);
       }
-      m_toolbar.render (m_current_state, m_current_tool, m_window_width, [this]() { this->draw_menu_bar(); });
+      m_toolbar.render (m_game.m_registry, m_current_state, m_current_tool, m_window_width, [this]() { this->draw_menu_bar(); });
 
       ImGui::PopFont();
       ImGui::Render();
@@ -248,7 +261,7 @@ namespace editor
       auto& sprite_spr    = m_registry.get<component::SpriteT> (m_editor_sprite);
       sprite_pos.x        = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
       sprite_pos.y        = tile_pos.y * m_tileset_editor.get_tile_dimensions().y;
-      sprite_spr.frame = new_tile_value;
+      sprite_spr.frame    = new_tile_value;
 
       if (ImGui::IsMouseDown (0))
       {
@@ -283,13 +296,25 @@ namespace editor
         // Sort by z value before getting the right entity
         m_game.m_registry.sort<component::Position> ([] (const auto& lhs, const auto& rhs) { return lhs.z < rhs.z; });
         // TODO: Find a better way to select entity based on position
-        m_game.m_registry.view<stella::component::Position, stella::component::Dimension, stella::component::SpriteT>()
-            .each ([this, &map_pos] (auto entity, auto& pos, auto& dim, auto& spr) {
-              if (m_game.m_registry.valid (entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w &&
-                  map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
+        m_game.m_registry.view<stella::component::Position>()
+            .each ([this, &map_pos] (auto entity, const auto& pos) {
+              if (m_game.m_registry.has<component::Dimension>(entity))
               {
-                m_inspector.set_selected_entity (entity);
-                return;
+                const auto& dim = m_game.m_registry.get<component::Dimension>(entity);
+                if (m_game.m_registry.valid (entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w &&
+                    map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
+                {
+                  m_inspector.set_selected_entity (entity);
+                  return;
+                }
+              }
+              else
+              {
+                if (m_game.m_registry.valid (entity) && round(map_pos.x) == round(pos.x) && round(map_pos.y) == round(pos.y))
+                {
+                  m_inspector.set_selected_entity (entity);
+                  return;
+                }
               }
             });
       }

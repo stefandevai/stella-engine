@@ -1,5 +1,7 @@
 
 #include "editor/widgets/toolbar.hpp"
+#include "editor/components/selected.hpp"
+#include "stella/components/position.hpp"
 
 #include <iostream>
 
@@ -7,12 +9,14 @@ namespace stella
 {
 namespace widget
 {
-  Toolbar::Toolbar() : Widget ("Toolbar") { m_open = true; }
+  Toolbar::Toolbar()
+  : Widget ("Toolbar")
+  { m_open = true; }
 
   Toolbar::~Toolbar() {}
 
   void
-  Toolbar::render (editor::State& state, editor::Tool& tool, const float width, std::function<void()> draw_menu_bar)
+  Toolbar::render (entt::registry& registry, editor::State& state, editor::Tool& tool, const float width, std::function<void()> draw_menu_bar)
   {
     ImGui::SetNextWindowSize (ImVec2 (width, 60), ImGuiCond_Always);
     ImGui::SetNextWindowPos (ImVec2 (0, 0), ImGuiCond_Always);
@@ -34,11 +38,29 @@ namespace widget
       ImGui::PushStyleColor (ImGuiCol_ButtonHovered, m_button_hover_color);
       ImGui::PushStyleColor (ImGuiCol_ButtonActive, ImVec4 (0.3f, 0.3f, 0.3f, 1.0f));
       m_size = ImGui::GetWindowSize();
-      // Handling inspector button hovering and clicks
-      ImGui::PushID ("inspector-button");
 
-      ImVec4 col_test{1.f, 1.f, 1.f, 1.0};
-      if (state == editor::EDIT && tool == editor::INSPECTOR)
+      m_render_inspector_button (state, tool);
+      ImGui::SameLine();
+      m_render_tilepen_button (state, tool);
+      ImGui::SameLine();
+      m_render_play_button (state, tool);
+      ImGui::SameLine();
+      m_render_plus_button (registry, width);
+
+      ImGui::PopStyleColor();
+      ImGui::PopStyleColor();
+      ImGui::PopStyleColor();
+      ImGui::PopStyleColor();
+      ImGui::PopStyleVar();
+      ImGui::PopStyleVar();
+    }
+    ImGui::End();
+  }
+
+  void Toolbar::m_render_inspector_button (editor::State& state, editor::Tool& tool)
+  {
+    ImGui::PushID ("inspector-button");
+    if (state == editor::EDIT && tool == editor::INSPECTOR)
       {
         ImGui::PushStyleColor (ImGuiCol_Text, m_button_selected_color);
       }
@@ -57,10 +79,11 @@ namespace widget
         ImGui::PopStyleColor();
       }
       ImGui::PopID();
-      ImGui::SameLine();
+  }
 
-      // Handling tile pen button hovering and clicks
-      ImGui::PushID ("tile-pen-button");
+  void Toolbar::m_render_tilepen_button (editor::State& state, editor::Tool& tool)
+  {
+    ImGui::PushID ("tile-pen-button");
       if (state == editor::EDIT && tool == editor::TILE_PEN)
       {
         ImGui::PushStyleColor (ImGuiCol_Text, m_button_selected_color);
@@ -79,10 +102,11 @@ namespace widget
         ImGui::PopStyleColor();
       }
       ImGui::PopID();
-      ImGui::SameLine();
+  }
 
-      // Handling play button hovering and clicks
-      ImGui::PushID ("play-button");
+  void Toolbar::m_render_play_button (editor::State& state, editor::Tool& tool)
+  {
+    ImGui::PushID ("play-button");
       if (state == editor::PLAY)
       {
         ImGui::PushStyleColor (ImGuiCol_Text, m_button_selected_color);
@@ -97,17 +121,37 @@ namespace widget
         ImGui::PopStyleColor();
       }
       ImGui::PopID();
-
-      // ImGui::Dummy (ImVec2 (0.f, 2.f));
-      // ImGui::Separator();
-      ImGui::PopStyleColor();
-      ImGui::PopStyleColor();
-      ImGui::PopStyleColor();
-      ImGui::PopStyleColor();
-      ImGui::PopStyleVar();
-      ImGui::PopStyleVar();
-    }
-    ImGui::End();
   }
+
+  void Toolbar::m_render_plus_button (entt::registry& registry, const float width)
+  {
+    ImGui::PushID ("plus-button");
+      // const bool clicked_plus = ;
+      if (ImGui::Button (ICON_FA_PLUS))
+      {
+        // registry.create();
+        ImGui::OpenPopup("Create new Entity"); 
+      }
+      m_add_new_entity(registry, width);
+      ImGui::PopID();
+  }
+
+  void Toolbar::m_add_new_entity(entt::registry& registry, const float width)
+  {
+    ImGui::SetNextWindowPos(ImVec2(width/2.f - width*0.7f/2.f, 30.f), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(width*0.7f, 500.f), ImGuiCond_Always);
+    if (ImGui::BeginPopup("Create new Entity"))
+    {
+      ImGui::Text("Create a new Entity");
+      if (ImGui::Button("Create"))
+      {
+        auto entity = registry.create();
+        registry.emplace<component::Position>(entity, 100.f, 100.f, 0.0f);
+        registry.emplace<component::Selected>(entity);
+      }
+      ImGui::EndPopup();
+    }
+  }
+
 } // namespace widget
 } // namespace stella
