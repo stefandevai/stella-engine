@@ -1,5 +1,7 @@
 #pragma once
 
+#include "component.hpp"
+
 #include <string>
 #include <vector>
 
@@ -9,13 +11,13 @@ namespace stella
 {
 namespace component
 {
-  struct Text
+  struct Text : public Component
   {
     Text (const std::wstring text,
           const std::string font_name,
           const std::string color = "#ffffffff",
           const bool is_static    = false)
-      : text (text), font_name (font_name), color (color), is_static (is_static)
+      : Component ("Text"), text (text), font_name (font_name), color (color), is_static (is_static)
     {
     }
     std::wstring text;

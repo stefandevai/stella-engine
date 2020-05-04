@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include "component.hpp"
 
 namespace stella
 {
@@ -14,8 +15,9 @@ namespace component
       float step = 0.1;
   };
 
-  struct AnimationPlayer
+  struct AnimationPlayer : public Component
   {
+    AnimationPlayer() : Component ("Animation Player") {}
     enum State
     {
         STOP,

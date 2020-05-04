@@ -5,6 +5,7 @@
 #include "widget.hpp"
 #include "editor/state.hpp"
 #include <entt/entity/registry.hpp>
+#include "new_entity.hpp"
 
 #define ICON_FA_MIN 0xf044
 #define ICON_FA_MAX 0xf245
@@ -24,6 +25,7 @@ namespace widget
     const ImVec4 m_button_color{0.4f, 0.4f, 0.4f, 1.0f};
     const ImVec4 m_button_hover_color{0.1f, 0.1f, 0.1f, 1.0f};
     const ImVec4 m_button_selected_color{1.0f, 1.0f, 1.0f, 1.0f};
+    NewEntity m_new_entity{};
 
   private:
     void m_render_inspector_button (editor::State& state, editor::Tool& tool);

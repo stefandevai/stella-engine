@@ -57,9 +57,9 @@ namespace widget
         pos_input[1]       = pos.y;
         pos_input[2]       = pos.z;
         ImGui::PushID ("position#inspector");
-        ImGui::InputFloat ("x", &pos_input[0], 0.0f, 0.0f, "%.3f");
-        ImGui::InputFloat ("y", &pos_input[1], 0.0f, 0.0f, "%.3f");
-        ImGui::InputFloat ("z", &pos_input[2], 0.0f, 0.0f, "%.3f");
+        ImGui::DragFloat ("x", &pos_input[0], 1.0f, 0.0f, 0.0f, "%.3f");
+        ImGui::DragFloat ("y", &pos_input[1], 1.0f, 0.0f, 0.0f, "%.3f");
+        ImGui::DragFloat ("z", &pos_input[2], 1.0f, 0.0f, 0.0f, "%.3f");
         ImGui::PopID();
         pos.x = pos_input[0];
         pos.y = pos_input[1];
@@ -71,8 +71,8 @@ namespace widget
         dim_input[0]       = dim.w;
         dim_input[1]       = dim.h;
         ImGui::PushID ("dimension#inspector");
-        ImGui::InputFloat ("width", &dim_input[0], 0.0f, 0.0f, "%.3f");
-        ImGui::InputFloat ("height", &dim_input[1], 0.0f, 0.0f, "%.3f");
+        ImGui::DragFloat ("width", &dim_input[0], 1.0f, 0.0f, 0.0f, "%.3f");
+        ImGui::DragFloat ("height", &dim_input[1], 1.0f, 0.0f, 0.0f, "%.3f");
         ImGui::PopID();
         dim.w = dim_input[0];
         dim.h = dim_input[1];
@@ -93,7 +93,7 @@ namespace widget
         float movement_speed = body.movement_speed;
         bool is_static       = body.Body->IsStatic;
         ImGui::PushID ("body#inspector");
-        ImGui::InputFloat ("Movement speed", &movement_speed);
+        ImGui::DragFloat ("Movement speed", &movement_speed, 1.0f, 0.0f, 0.0f);
         ImGui::Checkbox ("Static", &is_static);
         ImGui::PopID();
         body.movement_speed = movement_speed;

@@ -1,12 +1,14 @@
 #pragma once
 
+#include "component.hpp"
+
 namespace stella
 {
 namespace component
 {
-  struct Charcode
+  struct Charcode : public Component
   {
-    Charcode (wchar_t c) : code (c) {}
+    Charcode (wchar_t c) : Component ("Charcode"), code (c) {}
     wchar_t code;
   };
 } // namespace component

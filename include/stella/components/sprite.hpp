@@ -1,5 +1,7 @@
 #pragma once
 
+#include "component.hpp"
+
 #include <string>
 #include <memory>
 #include <glm/vec2.hpp>
@@ -9,9 +11,9 @@ namespace stella
 {
 namespace component
 {
-  struct SpriteT
+  struct SpriteT : public Component
   {
-      SpriteT (const std::string& texture) : texture (texture) {}
+      SpriteT (const std::string& texture) : Component ("Sprite"), texture (texture) {}
       
       std::string texture = "";
       std::shared_ptr<graphics::Texture> texture_ptr = nullptr;

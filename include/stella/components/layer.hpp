@@ -1,5 +1,7 @@
 #pragma once
 
+#include "component.hpp"
+
 #include <string>
 
 namespace stella
@@ -12,7 +14,7 @@ namespace component
       SHAPE_LAYER
   };
 
-  struct LayerT
+  struct LayerT : public Component
   {
     LayerT (std::string id,
            unsigned order,
@@ -20,7 +22,7 @@ namespace component
            std::string vert_shader_source,
            std::string frag_shader_source,
            bool fixed = false)
-      : id (id), order (order), layer_type (layer_type), vert_shader_source (vert_shader_source),
+      : Component ("Layer"), id (id), order (order), layer_type (layer_type), vert_shader_source (vert_shader_source),
         frag_shader_source (frag_shader_source), fixed (fixed)
     {
     }

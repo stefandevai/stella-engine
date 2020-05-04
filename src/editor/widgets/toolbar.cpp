@@ -132,32 +132,36 @@ namespace widget
       if (ImGui::Button (ICON_FA_PLUS))
       {
         // registry.create();
-        ImGui::OpenPopup("Create new Entity"); 
+        m_new_entity.open();
+        // ImGui::OpenPopup("Create new Entity"); 
       }
-      m_add_new_entity(registry, width);
+      m_new_entity.render(registry, width);
+      // m_add_new_entity(registry, width);
       ImGui::PopID();
   }
 
   void Toolbar::m_add_new_entity(entt::registry& registry, const float width)
   {
-    ImGui::SetNextWindowPos(ImVec2(width/2.f - width*0.7f/2.f, 30.f), ImGuiCond_Always);
-    ImGui::SetNextWindowSize(ImVec2(width*0.7f, 500.f), ImGuiCond_Always);
-    if (ImGui::BeginPopup("Create new Entity"))
-    {
-      ImGui::Text("Create a new Entity");
-      if (ImGui::Button("Create"))
-      {
-        auto entity = registry.create();
-        registry.emplace<component::Position>(entity, 500.f, 500.f, 0.0f);
-        registry.emplace<component::Dimension>(entity, 32.f, 64.f);
-        auto& sprite = registry.emplace<component::SpriteT>(entity, "nikte");
-        sprite.hframes = 9;
-        sprite.vframes = 6;
-        sprite.layer = "collision";
-        registry.emplace<component::Selected>(entity);
-      }
-      ImGui::EndPopup();
-    }
+    // ImGui::SetNextWindowPos(ImVec2(width/2.f - width*0.7f/2.f, 30.f), ImGuiCond_Always);
+    // ImGui::SetNextWindowSize(ImVec2(width*0.7f, 500.f), ImGuiCond_Always);
+    // if (ImGui::Begin("Create new Entity"))
+    // {
+    //   m_new_entity.render();
+      // ImGui::Text("Create a new Entity");
+      // if (ImGui::Button("Create"))
+      // {
+      //   auto entity = registry.create();
+      //   registry.emplace<component::Position>(entity, 500.f, 500.f, 0.0f);
+      //   registry.emplace<component::Dimension>(entity, 32.f, 64.f);
+      //   auto& sprite = registry.emplace<component::SpriteT>(entity, "nikte");
+      //   sprite.hframes = 9;
+      //   sprite.vframes = 6;
+      //   sprite.layer = "collision";
+      //   registry.emplace<component::Selected>(entity);
+      // }
+      
+    // }
+    // ImGui::EndPopup();
   }
 
 } // namespace widget

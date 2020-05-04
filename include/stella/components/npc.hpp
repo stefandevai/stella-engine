@@ -1,5 +1,7 @@
 #pragma once
 
+#include "component.hpp"
+
 #include <string>
 #include "tile_position.hpp"
 
@@ -13,9 +15,9 @@ namespace component
     Walking,
     Talking
   };
-  struct NPC
+  struct NPC : public Component
   {
-    NPC (std::string script_path) : script_path (script_path) {}
+    NPC (std::string script_path) : Component ("NPC"), script_path (script_path) {}
     std::string script_path;
     NpcState state = None;
     TilePosition origin{0, 0};

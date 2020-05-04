@@ -1,5 +1,7 @@
 #pragma once
 
+#include "component.hpp"
+
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
@@ -10,9 +12,9 @@ namespace stella
 {
 namespace component
 {
-  struct Shape
+  struct Shape : public Component
   {
-    Shape (std::vector<glm::vec2>& vertices, std::string layer_id) : vertices (vertices), layer_id(layer_id)
+    Shape (std::vector<glm::vec2>& vertices, std::string layer_id) : Component ("Shape"), vertices (vertices), layer_id(layer_id)
     {
       shape = std::make_shared<graphics::Shape>(vertices, glm::vec3());
     }

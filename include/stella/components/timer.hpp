@@ -1,5 +1,7 @@
 #pragma once
 
+#include "component.hpp"
+
 #include <string>
 #include <vector>
 #include <functional>
@@ -10,7 +12,7 @@ namespace stella
 {
 namespace component
 {
-  struct Timer
+  struct Timer : public Component
   {
     enum Type
     {
@@ -24,7 +26,7 @@ namespace component
            const Type timer_type,
            std::function<void (entt::registry&, const entt::entity)> fn,
            bool active = true)
-      : duration (duration), target (target), timer_type (timer_type), fn (fn), active (active)
+      : Component ("Timer"), duration (duration), target (target), timer_type (timer_type), fn (fn), active (active)
     {
     }
 

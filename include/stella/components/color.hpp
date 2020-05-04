@@ -2,11 +2,13 @@
 
 #include <string>
 
+#include "component.hpp"
+
 namespace stella
 {
 namespace component
 {
-  struct Color
+  struct Color : public Component
   {
   private:
     struct rgba_color_info

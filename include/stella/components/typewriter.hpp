@@ -1,14 +1,16 @@
 #pragma once
 
+#include "component.hpp"
+
 #include <string>
 
 namespace stella
 {
 namespace component
 {
-  struct Typewriter
+  struct Typewriter : public Component
   {
-    Typewriter (const double type_delay = 1000.0f) : type_delay (type_delay) {}
+    Typewriter (const double type_delay = 1000.0f) : Component ("Typewriter"), type_delay (type_delay) {}
 
     std::wstring target_text;
     double type_delay;

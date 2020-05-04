@@ -1,5 +1,7 @@
 #pragma once
 
+#include "component.hpp"
+
 #include <entt/entity/registry.hpp>
 #include <vector>
 
@@ -7,9 +9,9 @@ namespace stella
 {
 namespace component
 {
-  struct SpeechContainer
+  struct SpeechContainer : public Component
   {
-    SpeechContainer() {}
+    SpeechContainer() : Component ("Speech Container") {}
     std::vector<entt::entity> messages;
   };
 } // namespace component

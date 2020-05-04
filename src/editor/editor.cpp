@@ -349,7 +349,7 @@ namespace editor
     ImGuiStyle& style       = ImGui::GetStyle();
     style.WindowPadding     = ImVec2 (18.0f, 12.0f);
     style.WindowBorderSize  = 0.f;
-    style.WindowRounding    = 3.0f;
+    style.WindowRounding    = 0.0f;
     style.ScrollbarSize     = 11.0f;
     style.ScrollbarRounding = 10.0f;
     style.TabRounding       = 0.f;
