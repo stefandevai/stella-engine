@@ -14,6 +14,7 @@ def create_widget(name):
     source_path = f'src/editor/widgets/{name}.cpp'
     relative_header_path = header_path.replace('include/', '')
     capitalized_name = ''.join(x.title() for x in name.split('_'))
+    spaced_name = ' '.join(x.title() for x in name.split('_'))
 
     header_boilerplate = ('#include \"widget.hpp\"\n\n'
                           'namespace stella\n'
@@ -30,12 +31,13 @@ def create_widget(name):
                           '} // namespace widget\n'
                           '} // namespace stella\n\n')
 
-    source_boilerplate = (f'#include \"{header_path}\"\n\n'
+    source_boilerplate = (f'#include \"{relative_header_path}\"\n\n'
                           'namespace stella\n'
                           '{\n'
                           'namespace widget\n'
                           '{\n\n'
                           f'  {capitalized_name}::{capitalized_name} ()\n'
+                          f'  : Widget ("{spaced_name}")\n'
                           '  {\n\n'
                           '  }\n\n'
                           f'  void {capitalized_name}::render ()\n'
