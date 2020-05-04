@@ -14,7 +14,8 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    layers/layer.cpp
                                    layers/sprite_layer.cpp
                                    layers/shape_layer.cpp)
-                                   
+                             
+target_link_libraries(${PROJECT_NAME} ${STELLA_LIBRARY_NAME}::components)
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 if (STELLA_BUILD_EDITOR)

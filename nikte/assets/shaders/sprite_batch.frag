@@ -93,6 +93,10 @@ void main()
   }
   }
   
+  if (final_color.a * f_in.color.a < 0.5)
+  {
+    discard;
+  }
   color = vec4(final_color.rgb, final_color.a * f_in.color.a);
 }
 

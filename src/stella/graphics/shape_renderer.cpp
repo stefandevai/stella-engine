@@ -4,6 +4,8 @@
 #include "stella/components/shape.hpp"
 #include "stella/components/position.hpp"
 #include "stella/components/color.hpp"
+#include "stella/components/transform.hpp"
+#include "stella/components/dimension.hpp"
 
 #include <algorithm>
 #include <cstddef>
@@ -81,16 +83,33 @@ namespace graphics
     auto& pos = registry.get<component::Position>(entity);
     auto& color = registry.get<component::Color>(entity);
     const glm::vec3 position   = glm::vec3(pos.x, pos.y, pos.z);
-    const std::vector<glm::vec2>& vertices = shape.vertices;
+    const std::vector<glm::vec3>& vertices = shape.vertices;
     const unsigned int c = color.int_color;
+    const auto dim = shape.calc_dimensions();
 
-    unsigned counter = 1;
+    auto particular_transform = *m_transformation_back;
+    if (registry.has<component::Transform>(entity))
+    {
+      const auto& trans = registry.get<component::Transform>(entity);
+      // Translating half dimension to set the point of rotation to the center of the sprite
+      particular_transform = glm::translate (particular_transform, glm::vec3 (position + glm::vec3 (dim.x, dim.y, dim.z) / 2.f));
+      particular_transform = glm::scale (particular_transform, trans.scale);
+      particular_transform = glm::rotate (particular_transform, glm::radians (trans.rotation.x), glm::vec3 (1.f, 0.f, 0.f));
+      particular_transform = glm::rotate (particular_transform, glm::radians (trans.rotation.y), glm::vec3 (0.f, 1.f, 0.f));
+      particular_transform = glm::rotate (particular_transform, glm::radians (trans.rotation.z), glm::vec3 (0.f, 0.f, 1.f));
+      // Removing the added half dimension
+      particular_transform = glm::translate (particular_transform, glm::vec3 (-dim.x, -dim.y, -dim.z) / 2.f);
+    }
+
     for (auto& vertex : vertices)
     {
-      m_vertex_buffer->vertex = glm::vec3 (position.x + vertex.x, position.y + vertex.y, position.z);
+      auto transformation_result = particular_transform * glm::vec4 (position.x + vertex.x,
+                                                                     position.y + vertex.y,
+                                                                     position.z + vertex.z,
+                                                                     1.f);
+      m_vertex_buffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
       m_vertex_buffer->color  = c;
       ++m_vertex_buffer;
-      ++counter;
     }
 
     // // TODO: Update when allowing shapes with more than 4 vertices

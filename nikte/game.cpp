@@ -14,17 +14,17 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   m_script_api.run_script ("scripts/main.lua");
   m_script_api.run_function ("load_assets");
 
-  //m_tile_map.load();
+  m_tile_map.load();
   m_render_system = std::make_shared<stella::system::RenderT>(m_registry, m_textures);
-  // this->add_system<stella::system::AnimationPlayer> ();
-  // this->add_system<stella::system::Color> (m_registry);
-  // this->add_system<stella::system::Timer> (m_registry);
-  // this->add_system<stella::system::Physics> (m_tile_map, m_registry);
-  // this->add_system<stella::system::Tile> (m_tile_map, m_camera, m_registry);
-  // this->add_system<stella::system::Text> (m_registry, m_fonts);
-  // this->add_system<stella::system::Speech>();
-  // this->add_system<stella::system::NPC> (m_registry, m_player.entity);
-  // this->add_system<stella::system::CharacterAnimation>();
+  this->add_system<stella::system::AnimationPlayer> ();
+  this->add_system<stella::system::Color> (m_registry);
+  this->add_system<stella::system::Timer> (m_registry);
+  this->add_system<stella::system::Physics> (m_tile_map, m_registry);
+  this->add_system<stella::system::Tile> (m_tile_map, m_camera, m_registry);
+  this->add_system<stella::system::Text> (m_registry, m_fonts);
+  this->add_system<stella::system::Speech>();
+  this->add_system<stella::system::NPC> (m_registry, m_player.entity);
+  this->add_system<stella::system::CharacterAnimation>();
   // //this->add_system<stella::system::Fog> (m_registry, m_initial_width, m_initial_height);
 
   // // m_tile_map.create_tile_entities (0, m_display.GetWidth(), 0, m_display.GetHeight());
@@ -68,7 +68,7 @@ void Game::update (const double dt)
 {
   update_systems (dt);
 
-  //m_player.update();
+  m_player.update();
   m_script_api.run_function ("update_game", dt);
   // m_script_api.run_function ("render_game", dt);
 }

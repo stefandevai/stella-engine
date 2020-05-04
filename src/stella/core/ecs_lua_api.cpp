@@ -9,9 +9,8 @@
 #include "stella/components/scroll.hpp"
 #include "stella/components/name.hpp"
 #include "stella/components/animation_player.hpp"
-#include "stella/components/particle_emitter.hpp"
+// #include "stella/components/particle_emitter.hpp"
 #include <assert.h>
-#include <iostream>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -86,26 +85,6 @@ namespace script
     sprite.vframes = frameh;
     sprite.frame = frame;
     sprite.layer = layer_id;
-
-
-    // if (!layer_id.empty() && !texture_name.empty())
-    // {
-    //   if (obj["frame_dimensions"] == sol::lua_nil)
-    //   {
-    //     m_registry.emplace<stella::component::SpriteT> (id, texture_name, layer_id);
-    //   }
-    //   else
-    //   {
-    //     const float& framew   = obj["frame_dimensions"][1];
-    //     const float& frameh   = obj["frame_dimensions"][2];
-    //     const unsigned& frame = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
-    //     m_registry.emplace<stella::component::SpriteT> (id, texture_name, glm::vec2 (framew, frameh), layer_id, frame);
-    //   }
-    // }
-    // else
-    // {
-    //   std::cout << "You must provide a layer and a texture.\n";
-    // }
   }
 
   void ECSLuaApi::add_position_component (entt::registry::entity_type id, const sol::table& obj)
@@ -168,6 +147,35 @@ namespace script
     m_registry.emplace<stella::component::Player> (id);
   }
 
+  void ECSLuaApi::add_transform_component (entt::registry::entity_type id, const sol::table& obj)
+  {
+    glm::vec3 rotation{0.f, 0.f, 0.f}, scale{0.f, 0.f, 0.f};
+
+    const sol::table rotation_table = obj["rotation"];
+    if (rotation_table != sol::nil)
+    {
+      if (rotation_table.size() == 3)
+      {
+        rotation.x = rotation_table[1];
+        rotation.y = rotation_table[2];
+        rotation.z = rotation_table[3];
+      }
+    }
+
+    const sol::table scale_table = obj["scale"];
+    if (scale_table != sol::nil)
+    {
+      if (scale_table.size() == 3)
+      {
+        scale.x = scale_table[1];
+        scale.y = scale_table[2];
+        scale.z = scale_table[3];
+      }
+    }
+
+    m_registry.emplace<stella::component::Transform> (id, rotation, scale);
+  }
+
   void ECSLuaApi::add_body_component (entt::registry::entity_type id, const sol::table& obj)
   {
     std::vector<double> bb    = {0.f, 0.f};
@@ -196,21 +204,21 @@ namespace script
     m_registry.emplace<stella::component::Text> (id, text, font_name, color, is_static);
   }
 
-  void ECSLuaApi::add_particle_emitter_component (entt::registry::entity_type id, const sol::table& obj)
-  {
-    const std::string& type                               = obj["type"];
-    const unsigned int quantity                           = obj["quantity"];
-    stella::component::ParticleEmitter::Type emitter_type = stella::component::ParticleEmitter::FIRE_EMITTER;
-    if (type == "fire")
-    {
-      emitter_type = stella::component::ParticleEmitter::Type::FIRE_EMITTER;
-    }
-    else if (type == "snow")
-    {
-      emitter_type = stella::component::ParticleEmitter::Type::SNOW_EMITTER;
-    }
-    m_registry.emplace<stella::component::ParticleEmitter> (id, emitter_type, quantity);
-  }
+  // void ECSLuaApi::add_particle_emitter_component (entt::registry::entity_type id, const sol::table& obj)
+  // {
+  //   const std::string& type                               = obj["type"];
+  //   const unsigned int quantity                           = obj["quantity"];
+  //   stella::component::ParticleEmitter::Type emitter_type = stella::component::ParticleEmitter::FIRE_EMITTER;
+  //   if (type == "fire")
+  //   {
+  //     emitter_type = stella::component::ParticleEmitter::Type::FIRE_EMITTER;
+  //   }
+  //   else if (type == "snow")
+  //   {
+  //     emitter_type = stella::component::ParticleEmitter::Type::SNOW_EMITTER;
+  //   }
+  //   m_registry.emplace<stella::component::ParticleEmitter> (id, emitter_type, quantity);
+  // }
 
   void ECSLuaApi::add_tile_component (entt::registry::entity_type id, const sol::table& obj)
   {
@@ -245,11 +253,12 @@ namespace script
     const sol::table& verts     = obj["vertices"];
     const std::string& layer_id = obj["layer"] == sol::lua_nil ? std::string() : obj["layer"];
     const int verts_size        = verts.size();
-    std::vector<glm::vec2> vertices (verts_size);
+    std::vector<glm::vec3> vertices (verts_size);
     for (int i = 1; i <= verts_size; ++i)
     {
       const sol::table& v = verts[i];
-      vertices[i - 1]     = glm::vec2{v[1], v[2]};
+      assert (v.size() == 3);
+      vertices[i - 1]     = glm::vec3{v[1], v[2], v[3]};
     }
     m_registry.emplace<stella::component::Shape> (id, vertices, layer_id);
   }
@@ -299,14 +308,16 @@ namespace script
         add_movement_component (id, obj["args"]);
       else if (ct == "tileview")
         add_tileview_component (id, obj["args"]);
-      else if (ct == "particle_emitter")
-        add_particle_emitter_component (id, obj["args"]);
+      // else if (ct == "particle_emitter")
+      //   add_particle_emitter_component (id, obj["args"]);
       else if (ct == "scroll")
         add_scroll_component (id, obj["args"]);
       else if (ct == "player")
         add_player_component (id, obj["args"]);
       else if (ct == "name")
         add_name_component (id, obj["args"]);
+      else if (ct == "transform")
+        add_transform_component (id, obj["args"]);
       else if (ct == "npc")
         add_npc_component (id, obj["args"]);
       else if (ct == "character_animation")

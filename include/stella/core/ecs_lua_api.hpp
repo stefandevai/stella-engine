@@ -31,9 +31,10 @@ namespace script
     void add_tileview_component (entt::registry::entity_type id, const sol::table& obj);
     void add_movement_component (entt::registry::entity_type id, const sol::table& obj);
     void add_player_component (entt::registry::entity_type id, const sol::table& obj);
+    void add_transform_component (entt::registry::entity_type id, const sol::table& obj);
     void add_body_component (entt::registry::entity_type id, const sol::table& obj);
     void add_text_component (entt::registry::entity_type id, const sol::table& obj);
-    void add_particle_emitter_component (entt::registry::entity_type id, const sol::table& obj);
+    // void add_particle_emitter_component (entt::registry::entity_type id, const sol::table& obj);
     void add_tile_component (entt::registry::entity_type id, const sol::table& obj);
     void add_scroll_component (entt::registry::entity_type id, const sol::table& obj);
     void add_name_component (entt::registry::entity_type id, const sol::table& obj);

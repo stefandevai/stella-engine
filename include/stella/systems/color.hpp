@@ -14,7 +14,7 @@ namespace system
   public:
     Color (entt::registry& registry)
     {
-      registry.on_construct<component::Color>().connect<&Color::initialize_color> (this);
+      // registry.on_construct<component::Color>().connect<&Color::initialize_color> (this);
     }
 
     ~Color() override {}
@@ -27,15 +27,15 @@ namespace system
   private:
     Color() = delete;
 
-    void initialize_color (entt::registry& registry, entt::entity entity)
-    {
-      auto& color = registry.get<component::Color> (entity);
-      if (registry.has<component::Shape> (entity))
-      {
-        auto& shape = registry.get<component::Shape> (entity);
-        shape.shape->set_color (color.int_color);
-      }
-    }
+    // void initialize_color (entt::registry& registry, entt::entity entity)
+    // {
+    //   auto& color = registry.get<component::Color> (entity);
+    //   if (registry.has<component::Shape> (entity))
+    //   {
+    //     auto& shape = registry.get<component::Shape> (entity);
+    //     shape.shape->set_color (color.int_color);
+    //   }
+    // }
   };
 } // namespace system
 } // namespace stella

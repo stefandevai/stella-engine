@@ -49,7 +49,7 @@ end
 
 local function load_player(x, y)
   Player:add_component("player")
-  Player:add_component("position", {x, y, 1})
+  Player:add_component("position", {x, y, 9})
   Player:add_component("dimension", {32, 64})
   Player:add_component("sprite", {
     texture = "nikte",
@@ -130,19 +130,42 @@ local function load()
   load_player(480, 512)
   load_npc(512, 512)
   --flowers.load()
-  -- local test_shape = Entity:create_entity()
-  
-  -- test_shape:add_component("position", {0, 0, 1})
-  -- test_shape:add_component("shape", {
-  --   vertices = {{32.0,32.0},{864.0,32.0},{864.0,472.0},{32.0,472.0}},
-  --   layer = "shapes"
+
+  local test_shape = Entity:create_entity()
+  test_shape:add_component("position", {0, 10, 5})
+  test_shape:add_component("shape", {
+    vertices = {{32.0,32.0,0.0},{864.0,32.0,0.0},{864.0,472.0,0.0},{32.0,472.0,0.0}},
+    layer = "shapes"
+  })
+
+  test_shape:add_component("color", {
+    --rgba = {255, 255, 255, 100},
+    hex = "#3769ab44",
+  })
+
+  test_shape:add_component("transform", {
+    rotation = {1,0,0},
+    scale = {1,1,1},
+  })
+
+  local test_spr = Entity:create_entity()
+  test_spr:add_component("position", {410, 224, 9})
+  test_spr:add_component("dimension", {32, 64})
+  test_spr:add_component("sprite", {
+    texture = "nikte",
+    layer = "collision",
+    frame_dimensions = {9, 6},
+  })
+
+  -- local test_spr2 = Entity:create_entity()
+  -- test_spr2:add_component("position", {400, 200, 10})
+  -- test_spr2:add_component("dimension", {32, 64})
+  -- test_spr2:add_component("sprite", {
+  --   texture = "nikte",
+  --   layer = "tiles",
+  --   frame_dimensions = {9, 6},
   -- })
-  -- test_shape:add_component("color", {
-  --   --rgba = {255, 255, 255, 100},
-  --   hex = "#ffffff44",
-  -- })
-    
-  -- })
+
 
   -- local test_spr = Entity:create_entity()
   -- test_spr:add_component("sprite", {

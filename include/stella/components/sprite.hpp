@@ -22,7 +22,6 @@ namespace component
       int frame = 0;
       unsigned int hframes = 1;
       unsigned int vframes = 1;
-      bool loaded = false;
       // Coords to form an area for the sprite in the texture
       glm::vec2 top_left = glm::vec2{0.0f, 0.0f};
       glm::vec2 bottom_right = glm::vec2{0.0f, 0.0f};
