@@ -17,7 +17,7 @@ namespace core
   {
   private:
     std::string m_name              = "Layer";
-    std::string m_render_layer_name = "basic";
+    std::string m_render_layer_name = "tiles";
     std::string m_texture_name      = "";
     bool m_is_collision_grid        = false;
     int m_id                        = -1;

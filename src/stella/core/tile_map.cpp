@@ -209,7 +209,6 @@ namespace core
     else
     {
       auto& sprite = m_registry.emplace<component::SpriteT> (entity, layers[layer_id]->get_texture_name());
-      if (value == 0) std::cout << "2222222ZEROOOOOO\n";
       sprite.frame = value;
       sprite.layer = layers[layer_id]->get_render_layer_name();
     }
@@ -238,7 +237,6 @@ namespace core
     {
       auto tile = m_registry.create();
       m_registry.emplace<component::Tile> (tile, layer_id, collidable);
-      // if (layers[layer_id]->get_texture_name() != "tileset") std::cout << layers[layer_id]->get_texture_name() << '\n';
       m_registry.emplace<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
       m_registry.emplace<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
     
@@ -297,14 +295,26 @@ namespace core
     }
   }
 
+  void TileMap::create_layer (const std::string& texture, std::string name)
+  {
+    if (name.empty())
+    {
+      name = "Layer " + std::to_string(layers.size() + 1);
+    }
+    auto layer = std::make_shared<MapGrid>(m_width, m_height);
+    layers.push_back (layer);
+    layer->set_name(name);
+    layer->set_id(layers.size() - 1);
+    layer->set_texture_name (texture);
+  }
+
+
   void TileMap::resize (const int top, const int right, const int bottom, const int left)
   {
     for (auto& layer : layers)
     {
       layer->resize (top, right, bottom, left);
     }
-    m_width += right + left;
-    m_height += top + bottom;
     this->refresh();
   }
 
@@ -338,9 +348,9 @@ namespace core
     }
     layers.clear();
     m_number_of_layers = 0;
-    m_tile_dimension        = 0;
-    m_width            = 0;
-    m_height           = 0;
+    m_tile_dimension   = 32;
+    m_width = 28;
+    m_height = 16;
   }
 } // namespace core
 } // namespace stella

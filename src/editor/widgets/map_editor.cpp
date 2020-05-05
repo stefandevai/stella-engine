@@ -48,7 +48,7 @@ namespace widget
         ImGui::Separator();
 
         // Map dimensions
-        ImGui::Text ("Map dimensions: %d x %d (top, right, bottom, left)", m_map_width, m_map_height);
+        ImGui::Text ("Map dimensions: %d x %d (top, right, bottom, left)", m_tile_map.width(), m_tile_map.height());
         ImGui::PushItemWidth (item_width - 64.f);
         ImGui::PushID ("map-slider");
         if (ImGui::InputInt4 ("", m_map_size))
@@ -72,12 +72,10 @@ namespace widget
         if (ImGui::Button ("Resize", ImVec2 (60.f, 0)))
         {
           m_tile_map.resize (m_map_size[0], m_map_size[1], m_map_size[2], m_map_size[3]);
-          m_map_width += m_map_size[1] + m_map_size[3];
-          m_map_height += m_map_size[0] + m_map_size[2];
           m_map_size[0] = m_map_size[1] = m_map_size[2] = m_map_size[3] = 0;
 
-          m_game.m_script_api.set_variable<int> ("e_map_width", m_map_width);
-          m_game.m_script_api.set_variable<int> ("e_map_height", m_map_height);
+          m_game.m_script_api.set_variable<int> ("e_map_width", m_tile_map.width());
+          m_game.m_script_api.set_variable<int> ("e_map_height", m_tile_map.height());
         }
         ImGui::Dummy (ImVec2 (0.f, 3.f));
         ImGui::Separator();
@@ -91,7 +89,7 @@ namespace widget
           {
             auto& layer   = *it;
             bool selected = false;
-            if (layer->get_id() == get_selected_layer_id())
+            if (get_selected_layer_id() != -1 && layer->get_id() == get_selected_layer_id())
             {
               selected = true;
             }
@@ -102,6 +100,10 @@ namespace widget
               m_selected_layer = layer;
             }
             ImGui::PopID();
+          }
+          if (ImGui::Button("Create Layer"))
+          {
+            m_tile_map.create_layer("tileset");
           }
           ImGui::EndGroup();
           ImGui::TreePop();
@@ -126,16 +128,12 @@ namespace widget
       m_map_name[length] = '\0';
       length             = m_tile_map.get_path().copy (m_path, 128);
       m_path[length]     = '\0';
-      m_map_width        = static_cast<int> (m_tile_map.width());
-      m_map_height       = static_cast<int> (m_tile_map.height());
     }
     else
     {
       m_selected_layer   = nullptr;
       memset(m_map_name, 0, sizeof m_map_name);
       memset(m_path, 0, sizeof m_path);
-      m_map_width        = 0;
-      m_map_height       = 0;
     }
   }
 

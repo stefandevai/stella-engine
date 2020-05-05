@@ -20,9 +20,9 @@ namespace core
     script::BasicLuaApi m_script_api;
     std::string m_name{};
     unsigned m_number_of_layers = 0;
-    int m_tile_dimension        = 0;
-    unsigned m_width            = 0;
-    unsigned m_height           = 0;
+    int m_tile_dimension        = 32;
+    unsigned m_width            = 28;
+    unsigned m_height           = 16;
     bool m_loaded               = false;
 
   public:
@@ -37,6 +37,7 @@ namespace core
     inline std::string get_name() const { return m_name; }
     inline std::string get_path() const { return m_path; }
 
+    void set_tile_dimension (const int tile_dimension) { m_tile_dimension = tile_dimension; }
     void set_name (const std::string& name) { m_name = name; }
     void update_tile (const int value, const int x, const int y, const unsigned layer_id, const bool collidable);
     void update_tile_sprite (entt::entity entity, const unsigned layer_id, const int value);
@@ -44,6 +45,7 @@ namespace core
     void create_tile_entity (
         const int value, const int x, const int y, const int z, const unsigned layer_id, bool collidable = false);
     void create_tile_entities (const int beginx, const int endx, const int beginy, const int endy);
+    void create_layer (const std::string& texture, std::string name = "");
     void resize (const int top, const int right, const int bottom, const int left);
     void refresh();
 
