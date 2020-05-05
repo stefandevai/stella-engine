@@ -11,10 +11,12 @@ namespace system
   class Group : public System
   {
     public:
-      Group ();
+      Group (entt::registry& registry);
       void update (entt::registry& registry, const double dt) override;
 
     private:
+      std::shared_ptr<entt::observer> m_group_observer;
+      std::shared_ptr<entt::observer> m_pos_observer;
   };
 
 } // namespace 

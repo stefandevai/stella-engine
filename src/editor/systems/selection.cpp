@@ -8,6 +8,7 @@
 #include "stella/components/color.hpp"
 #include "stella/components/sprite.hpp"
 #include "stella/components/camera.hpp"
+#include "stella/components/in_group.hpp"
 #include <entt/entity/registry.hpp>
 
 // TEMP
@@ -46,7 +47,7 @@ namespace system
     if (ImGui::IsMouseClicked (0))
     {
       entt::entity clicked_entity = entt::null;
-      registry.view<component::Position, component::Dimension> (entt::exclude<component::Camera>)
+      registry.view<component::Position, component::Dimension> (entt::exclude<component::Camera, component::InGroup>)
           .each ([this, &registry, &map_pos, &clicked_entity] (auto entity, auto& pos, const auto& dim)
       {
         if (registry.valid(entity) && selected_entity != entity)

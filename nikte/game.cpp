@@ -19,7 +19,7 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   m_render_system = std::make_shared<stella::system::RenderT>(m_registry, m_textures);
   // this->add_system<stella::system::AnimationPlayer> ();
   // this->add_system<stella::system::Color> (m_registry);
-  this->add_system<stella::system::Group> ();
+  this->add_system<stella::system::Group> (m_registry);
   // this->add_system<stella::system::Timer> (m_registry);
   // this->add_system<stella::system::Physics> (m_tile_map, m_registry);
   // this->add_system<stella::system::Tile> (m_tile_map, m_camera, m_registry);
@@ -52,7 +52,6 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   auto group = m_registry.create();
   auto& groupc = m_registry.emplace<stella::component::Group>(group);
   auto& groupp = m_registry.emplace<stella::component::Position>(group, 0, 0);
-  groupp.x += 300;
 
   auto entity2 = m_registry.create();
   auto& sprite2 = m_registry.emplace<stella::component::SpriteT> (entity2, "nikte");
@@ -64,8 +63,16 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   m_registry.emplace<stella::component::Position>(entity2, 120, 120);
   m_registry.emplace<stella::component::Dimension>(entity2, 32, 64);
 
-  groupc.add (entity, m_registry);
-  groupc.add (entity2, m_registry);
+  m_registry.patch<stella::component::Group>(group, [&entity, &entity2, this](auto& group)
+  {
+    group.add (entity, m_registry);
+    group.add (entity2, m_registry);
+  });
+
+  m_registry.patch<stella::component::Position>(group, [](auto& pos)
+  {
+    pos.x += 300;
+  });
 
   // auto& anim = m_registry.emplace<stella::component::AnimationPlayer>(entity);
   // stella::component::AnimationData anim_data;
