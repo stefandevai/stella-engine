@@ -95,9 +95,9 @@ namespace graphics
     glBindRenderbuffer (GL_RENDERBUFFER, RBO);
     glRenderbufferStorage (
         GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, this->CurrentTextureResolution.x, this->CurrentTextureResolution.y);
-    // glBindRenderbuffer(GL_RENDERBUFFER, 0);
-    // glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,
-    // GL_RENDERBUFFER, RBO);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,
+    GL_RENDERBUFFER, RBO);
 
     if (glCheckFramebufferStatus (GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
       std::cout << "Error: Framebuffer is not complete." << std::endl;

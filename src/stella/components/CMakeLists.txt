@@ -1,6 +1,7 @@
 project(components)
 
 add_library(${PROJECT_NAME} STATIC color.cpp
+                                   sprite_group.cpp
                                    sprite.cpp)
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 

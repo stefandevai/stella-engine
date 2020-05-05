@@ -131,31 +131,31 @@ local function load()
   load_npc(512, 512)
   --flowers.load()
 
-  local test_shape = Entity:create_entity()
-  test_shape:add_component("position", {0, 10, 5})
-  test_shape:add_component("shape", {
-    vertices = {{32.0,32.0,0.0},{864.0,32.0,0.0},{864.0,472.0,0.0},{32.0,472.0,0.0}},
-    layer = "shapes"
-  })
+  -- local test_shape = Entity:create_entity()
+  -- test_shape:add_component("position", {0, 10, 5})
+  -- test_shape:add_component("shape", {
+  --   vertices = {{32.0,32.0,0.0},{864.0,32.0,0.0},{864.0,472.0,0.0},{32.0,472.0,0.0}},
+  --   layer = "shapes"
+  -- })
 
-  test_shape:add_component("color", {
-    --rgba = {255, 255, 255, 100},
-    hex = "#3769ab44",
-  })
+  -- test_shape:add_component("color", {
+  --   --rgba = {255, 255, 255, 100},
+  --   hex = "#3769ab44",
+  -- })
 
-  test_shape:add_component("transform", {
-    rotation = {1,0,0},
-    scale = {1,1,1},
-  })
+  -- test_shape:add_component("transform", {
+  --   rotation = {1,0,0},
+  --   scale = {1,1,1},
+  -- })
 
-  local test_spr = Entity:create_entity()
-  test_spr:add_component("position", {410, 224, 9})
-  test_spr:add_component("dimension", {32, 64})
-  test_spr:add_component("sprite", {
-    texture = "nikte",
-    layer = "collision",
-    frame_dimensions = {9, 6},
-  })
+  -- local test_spr = Entity:create_entity()
+  -- test_spr:add_component("position", {410, 224, 9})
+  -- test_spr:add_component("dimension", {32, 64})
+  -- test_spr:add_component("sprite", {
+  --   texture = "nikte",
+  --   layer = "collision",
+  --   frame_dimensions = {9, 6},
+  -- })
 
   -- local test_spr2 = Entity:create_entity()
   -- test_spr2:add_component("position", {400, 200, 10})
@@ -202,11 +202,11 @@ local camera_position = {0.0, 0.0}
 local last_camera_x = 0.0
 
 local function update(dt)
-  local player_position = {get_position(Player.id)}
-  camera_position[1] = math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2))
-  camera_position[2] = math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2))
-  update_camera(camera_position[1], camera_position[2], 0)
-  -- flowers.update()
+  -- local player_position = {get_position(Player.id)}
+  -- camera_position[1] = math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2))
+  -- camera_position[2] = math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2))
+  -- update_camera(camera_position[1], camera_position[2], 0)
+  -- -- flowers.update()
 end
 
 local function render(dt)

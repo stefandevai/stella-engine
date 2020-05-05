@@ -99,7 +99,8 @@ namespace system
     void RenderT::m_add_sprite_to_layer (entt::registry& registry, entt::entity entity)
     {
         auto& sprite = registry.get<component::SpriteT>(entity);
-        if (!sprite.loaded && !sprite.texture.empty() && !sprite.layer.empty())
+        if (!sprite.loaded && !sprite.texture.empty() && !sprite.layer.empty()
+            && registry.has<component::Position>(entity) && registry.has<component::Dimension>(entity))
         {
             m_add_renderable_to_layer(sprite.layer, entity);
             

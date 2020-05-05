@@ -22,3 +22,4 @@
 
 // TODO: Add widgets for the following new components
 #include "stella/components/transform.hpp"
+#include "stella/components/in_group.hpp"
