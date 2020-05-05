@@ -15,16 +15,21 @@
 #include <cereal/types/vector.hpp> // IWYU pragma: export
 #include <fstream>
 #include <algorithm>
+#include <chrono>
 
 namespace stella
 {
 namespace core
 {
   entt::registry* Tile::registry = nullptr;
+  TileMap::TileMap (entt::registry& registry) : m_registry (registry)
+  {
+    Tile::registry = &m_registry;
+  }
 
   TileMap::TileMap (const std::string& path, entt::registry& registry) : m_path (path), m_registry (registry)
   {
-    // this->load (path);
+    this->load (path);
     Tile::registry = &m_registry;
   }
 
@@ -240,7 +245,9 @@ namespace core
     }
     else
     {
+      // TODO: Destroy entity if exists on the layer
       layers[layer_id]->set_entity (x, y, entt::null);
+      layers[layer_id]->set_visibility (x, y, false);
     }
   }
 
@@ -265,8 +272,12 @@ namespace core
         for (auto x = left; x < right; ++x)
         {
           const auto& layer_tile = layer->get_value (x, y);
-
           if (!layer_tile.visible && layer_tile.value > 0)
+          {
+            layer->set_visibility (x, y, true);
+            this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter, layer_tile.collidable);
+          }
+          else if (layer_tile.value > 0 && (!m_registry.valid(layer_tile.entity) || !m_registry.has<component::SpriteT>(layer_tile.entity)))
           {
             layer->set_visibility (x, y, true);
             this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter, layer_tile.collidable);
@@ -321,6 +332,10 @@ namespace core
       layer->m_grid.clear();
     }
     layers.clear();
+    m_number_of_layers = 0;
+    m_tile_dimension        = 0;
+    m_width            = 0;
+    m_height           = 0;
   }
 } // namespace core
 } // namespace stella

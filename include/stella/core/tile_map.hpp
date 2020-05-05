@@ -15,10 +15,10 @@ namespace core
     std::vector<std::shared_ptr<MapGrid>> layers;
 
   private:
-    std::string m_path;
+    std::string m_path{};
     entt::registry& m_registry;
     script::BasicLuaApi m_script_api;
-    std::string m_name;
+    std::string m_name{};
     unsigned m_number_of_layers = 0;
     int m_tile_dimension        = 0;
     unsigned m_width            = 0;
@@ -26,6 +26,7 @@ namespace core
     bool m_loaded               = false;
 
   public:
+    TileMap (entt::registry& registry);
     TileMap (const std::string& path, entt::registry& registry);
     ~TileMap();
     inline unsigned number_of_layers() const { return m_number_of_layers; }

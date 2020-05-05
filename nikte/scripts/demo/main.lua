@@ -127,8 +127,8 @@ local function load()
   })
 
   -- load_assets()
-  load_player(480, 512)
-  load_npc(512, 512)
+  load_player(100, 100)
+  load_npc(200, 200)
   --flowers.load()
 
   -- local test_shape = Entity:create_entity()
@@ -203,8 +203,8 @@ local last_camera_x = 0.0
 
 local function update(dt)
   local player_position = {get_position(Player.id)}
-  camera_position[1] = math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2))
-  camera_position[2] = math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2))
+  camera_position[1] = math.max(0, math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2)))
+  camera_position[2] = math.max(0, math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2)))
   update_camera(camera_position[1], camera_position[2], 0)
   -- flowers.update()
 end

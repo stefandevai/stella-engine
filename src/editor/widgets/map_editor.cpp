@@ -20,13 +20,15 @@ namespace widget
     {
       if (ImGui::Begin (m_name.c_str(), &m_open))
       {
+        // if (m_tile_map.has_loaded())
+        // {
         const float item_width = ImGui::CalcItemWidth();
 
         // Map Name
         ImGui::Dummy (ImVec2 (0.f, 3.f));
         ImGui::Text ("Map name:");
         ImGui::PushID ("map-input#1");
-        ImGui::InputText ("", m_map_name, IM_ARRAYSIZE (m_map_name));
+        ImGui::InputTextWithHint ("", "Give a name...", m_map_name, IM_ARRAYSIZE (m_map_name));
         ImGui::PopID();
         ImGui::Dummy (ImVec2 (0.f, 3.f));
 
@@ -34,7 +36,7 @@ namespace widget
         ImGui::Text ("Map file location:");
         ImGui::PushItemWidth (item_width - 64.f);
         ImGui::PushID ("map-input#2");
-        ImGui::InputTextWithHint ("", "Map file location.", m_path, IM_ARRAYSIZE (m_path));
+        ImGui::InputTextWithHint ("", "Choose a path...", m_path, IM_ARRAYSIZE (m_path));
         ImGui::PopID();
         ImGui::PopItemWidth();
         ImGui::SameLine (0.f, 4.f);
@@ -106,6 +108,11 @@ namespace widget
         }
         ImGui::Dummy (ImVec2 (0.0f, 12.0f));
       }
+      // else
+      // {
+      //   ImGui::Text ("Create a new map or load an existing one.");
+      // }
+      // }
       ImGui::End();
     }
   }
@@ -124,7 +131,11 @@ namespace widget
     }
     else
     {
-      // TODO: When map is not loaded
+      m_selected_layer   = nullptr;
+      memset(m_map_name, 0, sizeof m_map_name);
+      memset(m_path, 0, sizeof m_path);
+      m_map_width        = 0;
+      m_map_height       = 0;
     }
   }
 
