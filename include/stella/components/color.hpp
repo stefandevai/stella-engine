@@ -22,7 +22,7 @@ namespace component
     Color (const unsigned r, const unsigned g, const unsigned b, const unsigned a = 255);
 
     std::string hex_color = "#ffffff";
-    unsigned int_color = 4294967295;
+    unsigned int_color    = 4294967295;
     rgba_color_info rgba_color{255, 255, 255, 255};
   };
 } // namespace component

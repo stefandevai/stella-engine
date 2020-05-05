@@ -21,8 +21,7 @@ namespace component
     rgba_color.r = (int_color & 0x000000FF);
   }
 
-  Color::Color (const unsigned r, const unsigned g, const unsigned b, const unsigned a)
-  : Component ("Color")
+  Color::Color (const unsigned r, const unsigned g, const unsigned b, const unsigned a) : Component ("Color")
   {
     std::stringstream ss;
 

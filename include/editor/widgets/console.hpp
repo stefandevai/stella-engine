@@ -21,7 +21,7 @@ namespace widget
     Console (const ImGuiWindowFlags window_flags, ImFont*& mono_font);
     void clear();
     void add_log (const char* fmt, ...) IM_FMTARGS (2);
-    void render ();
+    void render();
   };
-} // namespace editor
+} // namespace widget
 } // namespace stella

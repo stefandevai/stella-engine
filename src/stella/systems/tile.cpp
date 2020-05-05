@@ -39,8 +39,8 @@ namespace system
         .each ([this, &registry, &camera_position, &camera_dimension] (auto entity, auto& tile, auto& pos, auto& dim) {
           // Fix to weird bug where camera values suddenly get messed up
           // I still don't understand why this happens.
-          auto camera_pos = camera_position;
-          auto camera_dim = camera_dimension;
+          const auto& camera_pos = camera_position;
+          const auto& camera_dim = camera_dimension;
 
           // if (camera_dim.w < 1 || camera_dim.h < 1 || camera_pos.x < 0 ||
           // camera_pos.y < 0)

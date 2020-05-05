@@ -20,10 +20,10 @@ namespace core
     script::BasicLuaApi m_script_api;
     std::string m_name;
     unsigned m_number_of_layers = 0;
-    int m_tile_dimension   = 0;
+    int m_tile_dimension        = 0;
     unsigned m_width            = 0;
     unsigned m_height           = 0;
-    bool m_loaded = false;
+    bool m_loaded               = false;
 
   public:
     TileMap (const std::string& path, entt::registry& registry);
@@ -40,13 +40,14 @@ namespace core
     void update_tile (const int value, const int x, const int y, const unsigned layer_id, const bool collidable);
     void update_tile_sprite (entt::entity entity, const unsigned layer_id, const int value);
     void update_tile_position (entt::entity entity, const unsigned layer_id, const int x, const int y, const int z);
-    void create_tile_entity (const int value, const int x, const int y, const int z, const unsigned layer_id, bool collidable = false);
+    void create_tile_entity (
+        const int value, const int x, const int y, const int z, const unsigned layer_id, bool collidable = false);
     void create_tile_entities (const int beginx, const int endx, const int beginy, const int endy);
     void resize (const int top, const int right, const int bottom, const int left);
     void refresh();
 
     void load (const std::string& path);
-    void load () { load (m_path); }
+    void load() { load (m_path); }
     void save (const std::string& path);
     void load_lua (const std::string& path);
     void load_xml (const std::string& path);

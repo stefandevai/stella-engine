@@ -7,12 +7,9 @@ namespace stella
 {
 namespace widget
 {
-    struct Timer
-    {
-        void operator () (entt::registry& registry, const entt::entity entity)
-        {
-
-        }
-    };
-}
-}
+  struct Timer
+  {
+    void operator() (entt::registry& registry, const entt::entity entity) {}
+  };
+} // namespace widget
+} // namespace stella

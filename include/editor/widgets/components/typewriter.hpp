@@ -7,12 +7,9 @@ namespace stella
 {
 namespace widget
 {
-    struct Typewriter
-    {
-        void operator () (entt::registry& registry, const entt::entity entity)
-        {
-
-        }
-    };
-}
-}
+  struct Typewriter
+  {
+    void operator() (entt::registry& registry, const entt::entity entity) {}
+  };
+} // namespace widget
+} // namespace stella

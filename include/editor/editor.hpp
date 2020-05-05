@@ -14,9 +14,9 @@
 //#include "../stella/core/game.hpp"
 #include "state.hpp"
 #include "widgets/toolbar.hpp"
-#include "../../lib/imgui/imgui.h" // IWYU pragma: export
+#include "../../lib/imgui/imgui.h"                       // IWYU pragma: export
 #include "../../lib/imgui/examples/imgui_impl_opengl3.h" // IWYU pragma: export
-#include "../../lib/imgui/examples/imgui_impl_sdl.h" // IWYU pragma: export
+#include "../../lib/imgui/examples/imgui_impl_sdl.h"     // IWYU pragma: export
 #include "systems/selection.hpp"
 
 struct SDL_Window;
@@ -67,13 +67,13 @@ namespace editor
 
     // View options
     bool m_view_physics_debug_layer = true;
-    bool m_show_editor = true;
+    bool m_show_editor              = true;
 
     std::unique_ptr<graphics::Framebuffer> m_FBO;
     widget::Scene m_scene;
 
     ImVec2 camera_pos_without_pan = ImVec2();
-    bool is_panning = false;
+    bool is_panning               = false;
 
     // Systems
     LogSystem m_log_system{m_console};
@@ -88,7 +88,7 @@ namespace editor
     void init();
     void configure_input();
     void render (const float window_width, const float window_height, const float game_width, const float game_height);
-    void update(const double dt);
+    void update (const double dt);
     void run();
 
   private:
@@ -102,10 +102,10 @@ namespace editor
     void m_edit_mode();
     void m_handle_state (ImGuiIO& io);
     void m_handle_tile_pen (const ImGuiIO& io);
-    void m_handle_pan_tool(const ImGuiIO& io);
+    void m_handle_pan_tool (const ImGuiIO& io);
     void m_handle_inspector (const ImGuiIO& io);
     void m_widget_build_option (widget::Widget& widget);
-    void m_map_tile_pos(const ImGuiIO& io, std::function<void(const ImVec2&)> position_action);
+    void m_map_tile_pos (const ImGuiIO& io, std::function<void (const ImVec2&)> position_action);
   };
 
 } // namespace editor

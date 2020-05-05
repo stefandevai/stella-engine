@@ -8,17 +8,15 @@ namespace stella
 {
 namespace widget
 {
-
   class AddComponents : public Widget
   {
-    public:
-      AddComponents ();
-      void render(entt::registry& registry, entt::entity entity);
+  public:
+    AddComponents();
+    void render (entt::registry& registry, entt::entity entity);
 
-    private:
-        ComponentMenu m_component_menu{};
+  private:
+    ComponentMenu m_component_menu{};
   };
 
 } // namespace widget
 } // namespace stella
-

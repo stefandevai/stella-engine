@@ -8,7 +8,7 @@ namespace component
 {
   struct InGroup : public Component
   {
-      InGroup() : Component ("In Group") {}
+    InGroup() : Component ("In Group") {}
   };
-}
-}
+} // namespace component
+} // namespace stella

@@ -140,10 +140,10 @@ ${class_camel_name}::~${class_camel_name}() {
 
 # Formats cpp code using clang-format
 function format_code {
-	find include/ -iname "*.h" -o -iname "*.cpp" | xargs clang-format --verbose -i -style=file
-	find src/ -type f \( -iname "*.h" -or -iname "*.cpp" ! -iname "lemmatizer.cpp" \) | xargs clang-format --verbose -i -style=file
-	find nikte/ -iname "*.h" -o -iname "*.cpp" | xargs clang-format --verbose -i -style=file
-	find test/ -iname "*.h" -o -iname "*.cpp" | xargs clang-format --verbose -i -style=file
+	find include/ -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --verbose -i -style=file
+	find src/ -type f \( -iname "*.hpp" -or -iname "*.cpp" ! -iname "lemmatizer.cpp" \) | xargs clang-format --verbose -i -style=file
+	find nikte/ -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --verbose -i -style=file
+  find test/ -type f \( -iname "*.h" -o -iname "*.cpp" ! -iname "catch.cpp" \) | xargs clang-format --verbose -i -style=file
 }
 
 function copy_assets {

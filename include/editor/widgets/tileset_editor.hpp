@@ -37,7 +37,10 @@ namespace widget
     void render_tile_sprite (const ImVec2& pos, const float alpha = 1.f);
 
     inline const ImVec2 get_tile_dimensions() const { return ImVec2 (m_tile_dimensions[0], m_tile_dimensions[1]); }
-    inline const ImVec2 get_texture_dimensions_in_tiles() const { return ImVec2 (m_texture_w / m_tile_dimensions[0], m_texture_h / m_tile_dimensions[1]); }
+    inline const ImVec2 get_texture_dimensions_in_tiles() const
+    {
+      return ImVec2 (m_texture_w / m_tile_dimensions[0], m_texture_h / m_tile_dimensions[1]);
+    }
 
     inline int get_selected_tile_id() { return m_selected_tile_id; }
 
@@ -45,5 +48,5 @@ namespace widget
 
     inline bool get_selected_tile_scriptable() { return m_tile_scriptable; }
   };
-} // namespace editor
+} // namespace widget
 } // namespace stella

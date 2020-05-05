@@ -11,11 +11,11 @@ namespace widget
 {
   struct NewEntity : public Widget
   {
-    NewEntity ();
+    NewEntity();
     void render (entt::registry& registry, const float width);
 
-    private:
-        ComponentMenu m_component_menu{};
+  private:
+    ComponentMenu m_component_menu{};
   };
-} // namespace editor
+} // namespace widget
 } // namespace stella

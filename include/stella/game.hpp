@@ -46,7 +46,10 @@ namespace core
     void create_camera (const double x, const double y, const double z);
     void update_camera (const double x, const double y, const double z);
     float get_camera_z();
-    void load_texture (const std::string& name, const std::string& path, const unsigned hframes = 1, const unsigned vframes = 1);
+    void load_texture (const std::string& name,
+                       const std::string& path,
+                       const unsigned hframes = 1,
+                       const unsigned vframes = 1);
     void load_font (const std::string& name, const std::string& path, const unsigned size);
     void update_systems (const double dt);
 

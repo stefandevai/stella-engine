@@ -23,12 +23,18 @@ namespace editor
 {
   Editor::Editor (nikte::Game& game) : m_game (game), m_registry (game.m_registry)
   {
-    
-    m_debug_layer = std::make_shared<graphics::ShapeLayerT>(m_registry, "assets/shaders/debug_shader.vert", "assets/shaders/debug_shader.frag", true);
+    m_debug_layer = std::make_shared<graphics::ShapeLayerT> (
+        m_registry, "assets/shaders/debug_shader.vert", "assets/shaders/debug_shader.frag", true);
     // m_game.m_display.SetEditor (this);
     // m_debug_layer.Add(shape);
     m_editor_layer = game.m_registry.create();
-    game.m_registry.emplace<component::LayerT> (m_editor_layer, "editor", 9999, component::LayerType::SPRITE_LAYER, "assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag", false);
+    game.m_registry.emplace<component::LayerT> (m_editor_layer,
+                                                "editor",
+                                                9999,
+                                                component::LayerType::SPRITE_LAYER,
+                                                "assets/shaders/sprite_batch.vert",
+                                                "assets/shaders/sprite_batch.frag",
+                                                false);
 
     ImVec2 dimensions = m_tileset_editor.get_tile_dimensions();
     m_editor_sprite   = game.m_registry.create();
@@ -36,18 +42,17 @@ namespace editor
     game.m_registry.emplace<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
     auto& sprite = game.m_registry.emplace<component::SpriteT> (m_editor_sprite, "editor");
 
-    
-    sprite.texture_ptr = std::make_shared<graphics::Texture>(m_tileset_editor.texture);
+    sprite.texture_ptr          = std::make_shared<graphics::Texture> (m_tileset_editor.texture);
     sprite.texture_ptr->hframes = m_tileset_editor.get_texture_dimensions_in_tiles().x;
     sprite.texture_ptr->vframes = m_tileset_editor.get_texture_dimensions_in_tiles().y;
-    sprite.frame = 0;
-    sprite.layer = "editor";
+    sprite.frame                = 0;
+    sprite.layer                = "editor";
 
-    m_game.m_textures.load("handler-move", "assets/editor/handler_move.png", 1, 1);
-    m_game.m_textures.load("handler-x", "assets/editor/handler_x.png", 1, 1);
-    m_game.m_textures.load("handler-y", "assets/editor/handler_y.png", 1, 1);
+    m_game.m_textures.load ("handler-move", "assets/editor/handler_move.png", 1, 1);
+    m_game.m_textures.load ("handler-x", "assets/editor/handler_x.png", 1, 1);
+    m_game.m_textures.load ("handler-y", "assets/editor/handler_y.png", 1, 1);
 
-    m_selection_system = std::make_shared<system::Selection>(m_game.m_registry);
+    m_selection_system = std::make_shared<system::Selection> (m_game.m_registry);
     this->init();
   }
 
@@ -150,25 +155,25 @@ namespace editor
     {
       if (m_current_state == EDIT)
       {
-          m_game.update (m_game.m_display.GetDT());
-          m_game.m_display.Update();
-          this->configure_input();
-          this->update(m_game.m_display.GetDT());
+        m_game.update (m_game.m_display.GetDT());
+        m_game.m_display.Update();
+        this->configure_input();
+        this->update (m_game.m_display.GetDT());
 
-          m_FBO->Bind();
-          m_game.m_display.Clear();
-          m_game.render(m_game.m_display.GetDT());
-          m_FBO->Unbind();
-          this->render (m_game.m_display.GetWindowWidth(),
-                        m_game.m_display.GetWindowHeight(),
-                        m_game.m_display.Width,
-                        m_game.m_display.Height);
+        m_FBO->Bind();
+        m_game.m_display.Clear();
+        m_game.render (m_game.m_display.GetDT());
+        m_FBO->Unbind();
+        this->render (m_game.m_display.GetWindowWidth(),
+                      m_game.m_display.GetWindowHeight(),
+                      m_game.m_display.Width,
+                      m_game.m_display.Height);
       }
       else if (m_current_state == PLAY)
       {
         m_game.m_display.Clear();
         m_game.update (m_game.m_display.GetDT());
-        this->update(m_game.m_display.GetDT());
+        this->update (m_game.m_display.GetDT());
         this->render (m_game.m_display.GetWindowWidth(),
                       m_game.m_display.GetWindowHeight(),
                       m_game.m_display.Width,
@@ -179,13 +184,13 @@ namespace editor
     }
   }
 
-  void Editor::update(const double dt)
+  void Editor::update (const double dt)
   {
     for (auto& s : m_systems)
     {
       s->update (m_registry, dt);
     }
-    //m_log_system.update (m_registry, 0.0);
+    // m_log_system.update (m_registry, 0.0);
   }
 
   void
@@ -202,7 +207,8 @@ namespace editor
       {
         this->draw_dock (window_width, window_height, game_width, game_height);
       }
-      m_toolbar.render (m_game.m_registry, m_current_state, m_current_tool, m_window_width, [this]() { this->draw_menu_bar(); });
+      m_toolbar.render (
+          m_game.m_registry, m_current_state, m_current_tool, m_window_width, [this]() { this->draw_menu_bar(); });
 
       ImGui::PopFont();
       ImGui::Render();
@@ -296,10 +302,9 @@ namespace editor
 
   void Editor::m_handle_inspector (const ImGuiIO& io)
   {
-    m_map_tile_pos (io, [this, &io] (const ImVec2& map_pos) {
-      m_selection_system->on_click(m_game.m_registry, io, map_pos);
-    });
-    m_selection_system->update(m_game.m_registry);
+    m_map_tile_pos (
+        io, [this, &io] (const ImVec2& map_pos) { m_selection_system->on_click (m_game.m_registry, io, map_pos); });
+    m_selection_system->update (m_game.m_registry);
   }
 
   void Editor::m_play_mode()
@@ -329,18 +334,18 @@ namespace editor
     style.TabRounding       = 0.f;
     style.TabBorderSize     = 0.f;
 
-    style.Colors[ImGuiCol_Text]                  = ImVec4 (1.00f, 1.00f, 1.00f, 1.00f);
-    style.Colors[ImGuiCol_TextDisabled]          = ImVec4 (0.50f, 0.50f, 0.50f, 1.00f);
-    style.Colors[ImGuiCol_WindowBg]              = ImVec4 (0.06f, 0.06f, 0.06f, 0.94f);
-    style.Colors[ImGuiCol_ChildBg]               = ImVec4 (1.00f, 1.00f, 1.00f, 0.00f);
-    style.Colors[ImGuiCol_PopupBg]               = ImVec4 (0.08f, 0.08f, 0.08f, 0.94f);
-    style.Colors[ImGuiCol_Border]                = ImVec4 (0.43f, 0.43f, 0.50f, 0.50f);
-    style.Colors[ImGuiCol_BorderShadow]          = ImVec4 (0.00f, 0.00f, 0.00f, 0.00f);
-    style.Colors[ImGuiCol_FrameBg]               = ImVec4 (0.20f, 0.21f, 0.22f, 0.54f);
-    style.Colors[ImGuiCol_FrameBgHovered]        = ImVec4 (0.40f, 0.40f, 0.40f, 0.40f);
-    style.Colors[ImGuiCol_FrameBgActive]         = ImVec4 (0.18f, 0.18f, 0.18f, 0.67f);
-    style.Colors[ImGuiCol_TitleBg]               = ImVec4 (0.04f, 0.04f, 0.04f, 1.00f);
-    style.Colors[ImGuiCol_TitleBgActive]         = ImVec4 (0.04f, 0.04f, 0.04f, 1.00f);
+    style.Colors[ImGuiCol_Text]           = ImVec4 (1.00f, 1.00f, 1.00f, 1.00f);
+    style.Colors[ImGuiCol_TextDisabled]   = ImVec4 (0.50f, 0.50f, 0.50f, 1.00f);
+    style.Colors[ImGuiCol_WindowBg]       = ImVec4 (0.06f, 0.06f, 0.06f, 0.94f);
+    style.Colors[ImGuiCol_ChildBg]        = ImVec4 (1.00f, 1.00f, 1.00f, 0.00f);
+    style.Colors[ImGuiCol_PopupBg]        = ImVec4 (0.08f, 0.08f, 0.08f, 0.94f);
+    style.Colors[ImGuiCol_Border]         = ImVec4 (0.43f, 0.43f, 0.50f, 0.50f);
+    style.Colors[ImGuiCol_BorderShadow]   = ImVec4 (0.00f, 0.00f, 0.00f, 0.00f);
+    style.Colors[ImGuiCol_FrameBg]        = ImVec4 (0.20f, 0.21f, 0.22f, 0.54f);
+    style.Colors[ImGuiCol_FrameBgHovered] = ImVec4 (0.40f, 0.40f, 0.40f, 0.40f);
+    style.Colors[ImGuiCol_FrameBgActive]  = ImVec4 (0.18f, 0.18f, 0.18f, 0.67f);
+    style.Colors[ImGuiCol_TitleBg]        = ImVec4 (0.04f, 0.04f, 0.04f, 1.00f);
+    style.Colors[ImGuiCol_TitleBgActive]  = ImVec4 (0.04f, 0.04f, 0.04f, 1.00f);
     // style.Colors[ImGuiCol_TitleBgActive]         = ImVec4 (0.29f, 0.29f, 0.29f, 1.00f);
     style.Colors[ImGuiCol_TitleBgCollapsed]      = ImVec4 (0.00f, 0.00f, 0.00f, 0.51f);
     style.Colors[ImGuiCol_MenuBarBg]             = ImVec4 (0.14f, 0.14f, 0.14f, 1.00f);
@@ -379,7 +384,7 @@ namespace editor
     style.Colors[ImGuiCol_TabHovered]         = ImVec4 (80.f / 255.f, 41.f / 255.f, 115.f / 255.f, 1.00f);
     style.Colors[ImGuiCol_TabUnfocused]       = tab_color;
     style.Colors[ImGuiCol_TabUnfocusedActive] = tab_color;
-    //style.Colors[ImGuiCol_TitleBgActive]      = tab_color;
+    // style.Colors[ImGuiCol_TitleBgActive]      = tab_color;
   }
 
   void Editor::draw_dock (const float window_width,

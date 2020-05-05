@@ -1,10 +1,9 @@
 #pragma once
 
-#include <stella/stella.hpp> // IWYU pragma: export
+#include <stella/stella.hpp>  // IWYU pragma: export
 #include <stella/systems.hpp> // IWYU pragma: export
 #include <stella/core/tile_map.hpp>
 #include <stella/perlin.hpp>
-
 
 // #ifdef STELLA_BUILD_EDITOR
 //   #include <editor/editor.h>
@@ -22,7 +21,7 @@ namespace editor
 }
 namespace widget
 {
-  class MapEditor;  
+  class MapEditor;
 }
 } // namespace stella
 #endif
@@ -52,7 +51,7 @@ private:
   void update (const double dt) override;
   void render (const double dt) override;
   void m_load_flowers();
-  void m_load_flower(const int x, const int y);
+  void m_load_flower (const int x, const int y);
   // entt::registry::entity_type create_player();
   // void update_player(const double dt);
 };

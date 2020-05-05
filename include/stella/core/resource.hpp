@@ -34,7 +34,7 @@ namespace core
       if (!res)
       {
         m_resources[name] = res = std::make_shared<T> (args...);
-        m_id_list.push_back(name);
+        m_id_list.push_back (name);
       }
       return std::dynamic_pointer_cast<T> (res);
     }
@@ -51,10 +51,7 @@ namespace core
       return return_value;
     }
 
-    std::vector<std::string> get_list()
-    {
-      return m_id_list;
-    }
+    std::vector<std::string> get_list() { return m_id_list; }
   };
 } // namespace core
 } // namespace stella

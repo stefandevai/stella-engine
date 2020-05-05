@@ -17,7 +17,7 @@ namespace graphics
   // Texture::Texture(const std::string &name, const char *texPath) : Name(name)
   // {
   Texture::Texture (const std::string& path, const unsigned hframes, const unsigned vframes)
-  : Resource (path), hframes (hframes), vframes (vframes)
+    : Resource (path), hframes (hframes), vframes (vframes)
   {
     this->Cached = false;
     glGenTextures (1, &this->ID);

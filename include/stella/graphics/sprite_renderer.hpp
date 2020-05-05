@@ -13,7 +13,7 @@ namespace stella
 namespace graphics
 {
   class Sprite;
-  
+
   class SpriteRendererT : public RendererT
   {
   public:
@@ -43,10 +43,10 @@ namespace graphics
 
     VertexData* m_vertex_buffer;
 
-    static const unsigned MAX_SPRITES =  10000;
-    static const unsigned VERTEX_SIZE = sizeof (VertexData);
-    static const unsigned SPRITE_SIZE = 4 * VERTEX_SIZE;
-    static const unsigned BUFFER_SIZE = MAX_SPRITES* SPRITE_SIZE;
+    static const unsigned MAX_SPRITES  = 10000;
+    static const unsigned VERTEX_SIZE  = sizeof (VertexData);
+    static const unsigned SPRITE_SIZE  = 4 * VERTEX_SIZE;
+    static const unsigned BUFFER_SIZE  = MAX_SPRITES * SPRITE_SIZE;
     static const unsigned INDICES_SIZE = 6 * MAX_SPRITES;
 
   protected:

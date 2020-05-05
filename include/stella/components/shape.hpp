@@ -16,9 +16,9 @@ namespace component
   {
     Shape() : Component ("Shape") {}
     Shape (std::vector<glm::vec3>& vertices, std::string layer_id)
-    : Component ("Shape"), vertices (vertices), layer_id(layer_id)
+      : Component ("Shape"), vertices (vertices), layer_id (layer_id)
     {
-      //shape = std::make_shared<graphics::Shape>(vertices, glm::vec3());
+      // shape = std::make_shared<graphics::Shape>(vertices, glm::vec3());
     }
 
     inline glm::vec3 calc_dimensions()
@@ -60,9 +60,9 @@ namespace component
     }
 
     std::vector<glm::vec3> vertices{};
-    bool in_layer = false;
+    bool in_layer        = false;
     std::string layer_id = "";
-    //std::shared_ptr<graphics::Shape> shape = nullptr;
+    // std::shared_ptr<graphics::Shape> shape = nullptr;
   };
 } // namespace component
 } // namespace stella

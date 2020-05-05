@@ -33,7 +33,7 @@ namespace component
     }
 
     double duration = 0.0;
-    double target = 0.0;
+    double target   = 0.0;
     Type timer_type = INCREASE;
     std::function<void (entt::registry&, const entt::entity)> fn;
     bool active = true;

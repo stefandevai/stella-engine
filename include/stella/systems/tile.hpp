@@ -8,7 +8,7 @@ namespace core
 {
   class TileMap;
 }
-}
+} // namespace stella
 
 namespace stella
 {
@@ -19,7 +19,7 @@ namespace system
   private:
     core::TileMap& m_tile_map;
     entt::registry::entity_type m_camera;
-    unsigned m_tile_dimension = 32;
+    unsigned m_tile_dimension           = 32;
     int m_last_camera_x                 = 0;
     int m_last_camera_y                 = 0;
     const int m_frustrum_culling_offset = 1;

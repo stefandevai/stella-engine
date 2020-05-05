@@ -16,9 +16,8 @@ namespace widget
   void Inspector::render (entt::registry& registry, const std::vector<std::string>& texture_list)
   {
     std::vector<entt::entity> selected_entities;
-    registry.view<component::Selected> ().each ([&selected_entities] (auto entity, auto& sel)
-    {
-      selected_entities.push_back(entity);
+    registry.view<component::Selected>().each ([&selected_entities] (auto entity, auto& sel) {
+      selected_entities.push_back (entity);
       if (selected_entities.size() > 1)
       {
         return;
@@ -45,11 +44,11 @@ namespace widget
         ImGui::Dummy (ImVec2 (0.f, 10.f));
         ImGui::Separator();
         ImGui::Dummy (ImVec2 (0.f, 10.f));
-        if (ImGui::Button("Add Components", ImVec2(100, 27)))
+        if (ImGui::Button ("Add Components", ImVec2 (100, 27)))
         {
           m_add_components.open();
         }
-        m_add_components.render(registry, m_selected_entity);
+        m_add_components.render (registry, m_selected_entity);
       }
       else
       {
@@ -74,11 +73,11 @@ namespace widget
       m_render_component_node<component::Group> (registry, Group());
       m_render_component_node<component::LayerT> (registry, Layer());
       m_render_component_node<component::NPC> (registry, NPC());
-      m_render_component_node<component::Position> (registry, Position ());
+      m_render_component_node<component::Position> (registry, Position());
       m_render_component_node<component::Script> (registry, Script());
       m_render_component_node<component::Shape> (registry, Shape());
       m_render_component_node<component::SpeechContainer> (registry, SpeechContainer());
-      m_render_component_node<component::SpriteT> (registry, Sprite(texture_list));
+      m_render_component_node<component::SpriteT> (registry, Sprite (texture_list));
       m_render_component_node<component::Text> (registry, Text());
       m_render_component_node<component::Tile> (registry, Tile());
       m_render_component_node<component::Timer> (registry, Timer());

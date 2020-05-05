@@ -25,8 +25,8 @@ namespace component
   {
     Script() : Component ("Script") {}
     Script (const std::string& path, ScriptType type = Once) : Component ("Script"), path (path), type (type) {}
-    std::string path = "";
-    ScriptType type = Once;
+    std::string path  = "";
+    ScriptType type   = Once;
     ScriptState state = Waiting;
   };
 } // namespace component

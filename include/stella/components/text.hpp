@@ -24,8 +24,8 @@ namespace component
     std::wstring text{};
     std::string font_name{}, color{};
     std::vector<entt::registry::entity_type> char_entities{};
-    double scale = 1.f;
-    bool read    = false; // If the text was already read by a NPC
+    double scale   = 1.f;
+    bool read      = false; // If the text was already read by a NPC
     bool is_static = false;
   };
 

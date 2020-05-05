@@ -76,7 +76,7 @@ namespace script
   {
     const std::string& layer_id     = obj["layer"] == sol::lua_nil ? std::string() : obj["layer"];
     const std::string& texture_name = obj["texture"] == sol::lua_nil ? std::string() : obj["texture"];
-    const unsigned& frame = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
+    const unsigned& frame           = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
 
     auto& sprite = m_registry.emplace<stella::component::SpriteT> (id, texture_name);
     sprite.frame = frame;
@@ -101,7 +101,7 @@ namespace script
   void ECSLuaApi::add_animation_component (entt::registry::entity_type id, const sol::table& obj)
   {
     auto& anim_player = m_registry.emplace<stella::component::AnimationPlayer> (id);
-    anim_player.loop = obj["loop"] == sol::nil ? false : obj["loop"];
+    anim_player.loop  = obj["loop"] == sol::nil ? false : obj["loop"];
 
     sol::table animations_obj = obj["animations"];
     for (const auto& key_value_pair : animations_obj)
@@ -111,17 +111,17 @@ namespace script
       const sol::table& frames_table = animation[2];
       const int frames_table_size    = frames_table.size();
       component::AnimationData data;
-      data.frames.reserve(frames_table_size);
+      data.frames.reserve (frames_table_size);
       for (int i = 1; i <= frames_table_size; ++i)
       {
-        data.frames.push_back(frames_table[i]);
+        data.frames.push_back (frames_table[i]);
       }
-      
+
       data.step = animation[3] == sol::nil ? 0.1f : animation[3];
       assert (data.step > 0);
       assert (data.frames.size() > 0);
 
-      anim_player.add(name, data);
+      anim_player.add (name, data);
     }
   }
 
@@ -254,7 +254,7 @@ namespace script
     {
       const sol::table& v = verts[i];
       assert (v.size() == 3);
-      vertices[i - 1]     = glm::vec3{v[1], v[2], v[3]};
+      vertices[i - 1] = glm::vec3{v[1], v[2], v[3]};
     }
     m_registry.emplace<stella::component::Shape> (id, vertices, layer_id);
   }

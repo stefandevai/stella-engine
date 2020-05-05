@@ -24,7 +24,7 @@ namespace core
 
   TileMap::TileMap (const std::string& path, entt::registry& registry) : m_path (path), m_registry (registry)
   {
-    //this->load (path);
+    // this->load (path);
     Tile::registry = &m_registry;
   }
 
@@ -198,7 +198,8 @@ namespace core
     }
     else
     {
-      auto &sprite = m_registry.emplace<component::SpriteT> (entity, layers[layer_id]->get_texture_name());
+      auto& sprite = m_registry.emplace<component::SpriteT> (entity, layers[layer_id]->get_texture_name());
+      if (value == 0) std::cout << "2222222ZEROOOOOO\n";
       sprite.frame = value;
       sprite.layer = layers[layer_id]->get_render_layer_name();
     }
@@ -223,17 +224,24 @@ namespace core
   void TileMap::create_tile_entity (
       const int value, const int x, const int y, const int z, const unsigned layer_id, bool collidable)
   {
-    auto tile = m_registry.create();
-    m_registry.emplace<component::Tile> (tile, layer_id, collidable);
-    // if (layers[layer_id]->get_texture_name() != "tileset") std::cout << layers[layer_id]->get_texture_name() << '\n';
-    m_registry.emplace<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
-    m_registry.emplace<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
-    auto& sprite = m_registry.emplace<component::SpriteT> (tile, layers[layer_id]->get_texture_name());
-    sprite.frame = value;
-    sprite.layer = layers[layer_id]->get_render_layer_name();
+    if (value != 0)
+    {
+      auto tile = m_registry.create();
+      m_registry.emplace<component::Tile> (tile, layer_id, collidable);
+      // if (layers[layer_id]->get_texture_name() != "tileset") std::cout << layers[layer_id]->get_texture_name() << '\n';
+      m_registry.emplace<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
+      m_registry.emplace<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
     
-    m_registry.emplace<component::Fog> (tile, z, !collidable);
-    layers[layer_id]->set_entity (x, y, tile);
+      auto& sprite = m_registry.emplace<component::SpriteT> (tile, layers[layer_id]->get_texture_name());
+      sprite.frame = value;
+      sprite.layer = layers[layer_id]->get_render_layer_name();
+      //m_registry.emplace<component::Fog> (tile, z, !collidable);
+      layers[layer_id]->set_entity (x, y, tile);
+    }
+    else
+    {
+      layers[layer_id]->set_entity (x, y, entt::null);
+    }
   }
 
   void TileMap::create_tile_entities (const int beginx, const int endx, const int beginy, const int endy)

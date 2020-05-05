@@ -7,12 +7,9 @@ namespace stella
 {
 namespace widget
 {
-    struct Charcode
-    {
-        void operator () (entt::registry& registry, const entt::entity entity)
-        {
-
-        }
-    };
-}
-}
+  struct Charcode
+  {
+    void operator() (entt::registry& registry, const entt::entity entity) {}
+  };
+} // namespace widget
+} // namespace stella

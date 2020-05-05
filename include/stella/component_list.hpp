@@ -7,34 +7,33 @@
 
 namespace stella
 {
-    enum Components
+enum Components
 {
-    AnimationPlayer,
-    Body2D,
-    Camera,
-    CharacterAnimation,
-    Charcode,
-    Color,
-    Dimension,
-    Group,
-    Layer,
-    NPC,
-    Position,
-    Script,
-    Shape,
-    SpeechContainer,
-    Sprite,
-    Text,
-    Tile,
-    Timer,
-    Typewriter
+  AnimationPlayer,
+  Body2D,
+  Camera,
+  CharacterAnimation,
+  Charcode,
+  Color,
+  Dimension,
+  Group,
+  Layer,
+  NPC,
+  Position,
+  Script,
+  Shape,
+  SpeechContainer,
+  Sprite,
+  Text,
+  Tile,
+  Timer,
+  Typewriter
 };
 
 struct ComponentList
 {
+  static const std::map<Components, std::string> component_map;
 
-static const std::map<Components, std::string> component_map;
-
-    static void emplace_default_component (Components component_type, entt::entity entity, entt::registry& registry);
+  static void emplace_default_component (Components component_type, entt::entity entity, entt::registry& registry);
 };
-}
+} // namespace stella

@@ -7,12 +7,9 @@ namespace stella
 {
 namespace widget
 {
-    struct SpeechContainer
-    {
-        void operator () (entt::registry& registry, const entt::entity entity)
-        {
-
-        }
-    };
-}
-}
+  struct SpeechContainer
+  {
+    void operator() (entt::registry& registry, const entt::entity entity) {}
+  };
+} // namespace widget
+} // namespace stella

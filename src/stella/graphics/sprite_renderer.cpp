@@ -85,19 +85,19 @@ namespace graphics
 
   void SpriteRendererT::submit (entt::registry& registry, entt::entity entity)
   {
-    auto& sprite = registry.get<component::SpriteT>(entity);
-    const auto& pos = registry.get<component::Position>(entity);
-    const glm::vec3 position   = glm::vec3(pos.x, pos.y, pos.z);
-    const glm::vec2 dimensions = glm::vec2(sprite.get_width(), sprite.get_height());
-    const glm::vec2 uv            = sprite.get_uv();
-    unsigned int color = 4294967295;
+    auto& sprite               = registry.get<component::SpriteT> (entity);
+    const auto& pos            = registry.get<component::Position> (entity);
+    const glm::vec3 position   = glm::vec3 (pos.x, pos.y, pos.z);
+    const glm::vec2 dimensions = glm::vec2 (sprite.get_width(), sprite.get_height());
+    const glm::vec2 uv         = sprite.get_uv();
+    unsigned int color         = 4294967295;
 
     std::shared_ptr<Texture> texture = sprite.texture_ptr;
 
-    if (registry.has<component::Color>(entity))
+    if (registry.has<component::Color> (entity))
     {
-      const auto& colorc = registry.get<component::Color>(entity);
-      color = colorc.int_color;
+      const auto& colorc = registry.get<component::Color> (entity);
+      color              = colorc.int_color;
     }
 
     if (!texture->IsCached())
@@ -107,8 +107,8 @@ namespace graphics
       this->textures_binded = false;
     }
 
-    GLfloat uvoffsetX = dimensions.x / static_cast<GLfloat>(texture->GetWidth());
-    GLfloat uvoffsetY = dimensions.y / static_cast<GLfloat>(texture->GetHeight());
+    GLfloat uvoffsetX = dimensions.x / static_cast<GLfloat> (texture->GetWidth());
+    GLfloat uvoffsetY = dimensions.y / static_cast<GLfloat> (texture->GetHeight());
 
     auto particular_transform = *m_transformation_back;
     particular_transform      = glm::translate (
@@ -122,27 +122,27 @@ namespace graphics
                                                       0.f)); // Removing the added half dimension
 
     auto transformation_result = particular_transform * glm::vec4 (0.f, 0.f, 1.f, 1.f);
-    m_vertex_buffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
-    m_vertex_buffer->uv     = glm::vec2 (uv.x, uv.y);
-    m_vertex_buffer->tid    = texture->GetCacheID();
-    m_vertex_buffer->color  = color;
+    m_vertex_buffer->vertex    = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
+    m_vertex_buffer->uv        = glm::vec2 (uv.x, uv.y);
+    m_vertex_buffer->tid       = texture->GetCacheID();
+    m_vertex_buffer->color     = color;
     m_vertex_buffer++;
 
-    transformation_result      = particular_transform * glm::vec4 (dimensions.x, 0.f, 1.f, 1.f);
+    transformation_result   = particular_transform * glm::vec4 (dimensions.x, 0.f, 1.f, 1.f);
     m_vertex_buffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
     m_vertex_buffer->uv     = glm::vec2 (uv.x + uvoffsetX, uv.y);
     m_vertex_buffer->tid    = texture->GetCacheID();
     m_vertex_buffer->color  = color;
     m_vertex_buffer++;
 
-    transformation_result      = particular_transform * glm::vec4 (dimensions.x, dimensions.y, 1.f, 1.f);
+    transformation_result   = particular_transform * glm::vec4 (dimensions.x, dimensions.y, 1.f, 1.f);
     m_vertex_buffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
     m_vertex_buffer->uv     = glm::vec2 (uv.x + uvoffsetX, uv.y - uvoffsetY);
     m_vertex_buffer->tid    = texture->GetCacheID();
     m_vertex_buffer->color  = color;
     m_vertex_buffer++;
 
-    transformation_result      = particular_transform * glm::vec4 (0.f, dimensions.y, 1.f, 1.f);
+    transformation_result   = particular_transform * glm::vec4 (0.f, dimensions.y, 1.f, 1.f);
     m_vertex_buffer->vertex = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
     m_vertex_buffer->uv     = glm::vec2 (uv.x, uv.y - uvoffsetY);
     m_vertex_buffer->tid    = texture->GetCacheID();

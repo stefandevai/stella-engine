@@ -13,7 +13,7 @@ namespace stella
 namespace graphics
 {
   class Sprite;
-  
+
   class ShapeRendererT : public RendererT
   {
   public:

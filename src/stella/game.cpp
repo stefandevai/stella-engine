@@ -47,8 +47,11 @@ namespace core
     return std::vector<float>{pos.x, pos.y, pos.z};
   }
 
-  void Game::load_texture (const std::string& name, const std::string& path, const unsigned hframes, const unsigned vframes)
-  { m_textures.load (name, path, hframes, vframes); }
+  void
+  Game::load_texture (const std::string& name, const std::string& path, const unsigned hframes, const unsigned vframes)
+  {
+    m_textures.load (name, path, hframes, vframes);
+  }
 
   void Game::load_font (const std::string& name, const std::string& path, const unsigned size)
   {

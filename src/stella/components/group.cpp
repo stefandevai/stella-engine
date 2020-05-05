@@ -7,22 +7,21 @@ namespace stella
 {
 namespace component
 {
-
-void Group::add (const entt::entity entity, entt::registry& registry)
-{
-    registry.emplace_or_replace<InGroup> (entity);
-    children.push_back(entity);
-}
-
-void Group::remove (const entt::entity entity, entt::registry& registry)
-{
-  registry.remove<InGroup>(entity);
-  auto it = std::find (children.begin(), children.end(), entity);
-  if (it != children.end())
+  void Group::add (const entt::entity entity, entt::registry& registry)
   {
-    children.erase(it);
+    registry.emplace_or_replace<InGroup> (entity);
+    children.push_back (entity);
   }
-}
+
+  void Group::remove (const entt::entity entity, entt::registry& registry)
+  {
+    registry.remove<InGroup> (entity);
+    auto it = std::find (children.begin(), children.end(), entity);
+    if (it != children.end())
+    {
+      children.erase (it);
+    }
+  }
 
 } // namespace component
 } // namespace stella
