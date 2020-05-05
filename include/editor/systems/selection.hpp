@@ -16,7 +16,8 @@ namespace system
 
   public:
     Selection (entt::registry& registry);
-    void update (entt::registry& registry, const ImGuiIO& io, const ImVec2& map_pos);
+    void update (entt::registry& registry);
+    void on_click (entt::registry& registry, const ImGuiIO& io, const ImVec2& map_pos);
 
   private:
     void m_init_selection_handler (entt::registry& registry, entt::entity entity);

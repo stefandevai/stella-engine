@@ -15,6 +15,7 @@ namespace system
 
   Group::Group (entt::registry& registry)
   {
+    registry.on_construct<component::Group>().connect<&Group::m_init_group> (this);
     m_group_observer = std::make_shared<entt::observer>(registry, entt::collector.replace<component::Group>().where<component::Position>());
     m_pos_observer = std::make_shared<entt::observer>(registry, entt::collector.replace<component::Position>().where<component::Group>());
   }
@@ -129,6 +130,18 @@ namespace system
       }
     }
     m_group_observer->clear();
+  }
+
+  void Group::m_init_group (entt::registry& registry, entt::entity entity)
+  {
+    if (!registry.has<component::Position>(entity))
+    {
+      registry.emplace<component::Position>(entity);
+    }
+    if (!registry.has<component::Dimension>(entity))
+    {
+      registry.emplace<component::Dimension>(entity);
+    }
   }
 
 } // namespace 

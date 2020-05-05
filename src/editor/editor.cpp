@@ -296,8 +296,9 @@ namespace editor
   void Editor::m_handle_inspector (const ImGuiIO& io)
   {
     m_map_tile_pos (io, [this, &io] (const ImVec2& map_pos) {
-      m_selection_system->update(m_game.m_registry, io, map_pos);
+      m_selection_system->on_click(m_game.m_registry, io, map_pos);
     });
+    m_selection_system->update(m_game.m_registry);
   }
 
   void Editor::m_play_mode()

@@ -17,6 +17,7 @@ namespace system
     private:
       std::shared_ptr<entt::observer> m_group_observer;
       std::shared_ptr<entt::observer> m_pos_observer;
+      void m_init_group (entt::registry& registry, entt::entity entity);
   };
 
 } // namespace 

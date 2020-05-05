@@ -25,10 +25,10 @@ namespace system
     registry.on_destroy<component::Selected>().connect<&Selection::m_remove_selection_handler> (this);
   }
 
-  void Selection::update (entt::registry& registry, const ImGuiIO& io, const ImVec2& map_pos)
+  void Selection::update (entt::registry& registry)
   {
     registry.group<component::Selected> (entt::get<component::Position, component::Dimension>)
-        .each ([this, &registry, &io] (auto entity, auto& sel, const auto& pos, const auto& dim)
+        .each ([this, &registry] (auto entity, auto& sel, const auto& pos, const auto& dim)
     {
       auto& pos_handler_x = registry.get<component::Position>(sel.handler_x);
       auto& pos_handler_y = registry.get<component::Position>(sel.handler_y);
@@ -43,7 +43,10 @@ namespace system
       pos_handler_move.x = pos.x + dim.w/2.f - 4.f;
       pos_handler_move.y = pos.y + dim.h/2.f - 4.f;
     });
+  }
 
+  void Selection::on_click (entt::registry& registry, const ImGuiIO& io, const ImVec2& map_pos)
+  {
     if (ImGui::IsMouseClicked (0))
     {
       entt::entity clicked_entity = entt::null;
