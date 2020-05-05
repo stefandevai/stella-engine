@@ -15,18 +15,18 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   m_script_api.run_script ("scripts/main.lua");
   m_script_api.run_function ("load_assets");
 
-  //m_tile_map.load();
+  m_tile_map.load();
   m_render_system = std::make_shared<stella::system::RenderT>(m_registry, m_textures);
-  // this->add_system<stella::system::AnimationPlayer> ();
+  this->add_system<stella::system::AnimationPlayer> ();
   // this->add_system<stella::system::Color> (m_registry);
   this->add_system<stella::system::Group> (m_registry);
-  // this->add_system<stella::system::Timer> (m_registry);
-  // this->add_system<stella::system::Physics> (m_tile_map, m_registry);
-  // this->add_system<stella::system::Tile> (m_tile_map, m_camera, m_registry);
-  // this->add_system<stella::system::Text> (m_registry, m_fonts);
-  // this->add_system<stella::system::Speech>();
-  // this->add_system<stella::system::NPC> (m_registry, m_player.entity);
-  // this->add_system<stella::system::CharacterAnimation>();
+  this->add_system<stella::system::Timer> (m_registry);
+  this->add_system<stella::system::Physics> (m_tile_map, m_registry);
+  this->add_system<stella::system::Tile> (m_tile_map, m_camera, m_registry);
+  this->add_system<stella::system::Text> (m_registry, m_fonts);
+  this->add_system<stella::system::Speech>();
+  this->add_system<stella::system::NPC> (m_registry, m_player.entity);
+  this->add_system<stella::system::CharacterAnimation>();
   // //this->add_system<stella::system::Fog> (m_registry, m_initial_width, m_initial_height);
 
   // // m_tile_map.create_tile_entities (0, m_display.GetWidth(), 0, m_display.GetHeight());
@@ -39,35 +39,35 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   //// m_load_flowers();
 
   // TEMP
-  auto entity = m_registry.create();
-  m_registry.emplace<stella::component::Position>(entity, 100, 100);
-  auto& sprite = m_registry.emplace<stella::component::SpriteT> (entity, "nikte");
-  sprite.texture = "nikte";
-  sprite.layer = "tiles";
-  sprite.frame = 0;
-  m_registry.emplace<stella::component::Dimension>(entity, 32, 64);
+  // auto entity = m_registry.create();
+  // m_registry.emplace<stella::component::Position>(entity, 100, 100);
+  // auto& sprite = m_registry.emplace<stella::component::SpriteT> (entity, "nikte");
+  // sprite.texture = "nikte";
+  // sprite.layer = "tiles";
+  // sprite.frame = 0;
+  // m_registry.emplace<stella::component::Dimension>(entity, 32, 64);
 
-  auto group = m_registry.create();
-  m_registry.emplace_or_replace<stella::component::Group>(group);
+  // auto group = m_registry.create();
+  // m_registry.emplace_or_replace<stella::component::Group>(group);
 
-  auto entity2 = m_registry.create();
-  auto& sprite2 = m_registry.emplace<stella::component::SpriteT> (entity2, "nikte");
-  sprite2.texture = "nikte";
-  sprite2.layer = "tiles";
-  sprite2.frame = 0;
-  m_registry.emplace<stella::component::Position>(entity2, 120, 120);
-  m_registry.emplace<stella::component::Dimension>(entity2, 32, 64);
+  // auto entity2 = m_registry.create();
+  // auto& sprite2 = m_registry.emplace<stella::component::SpriteT> (entity2, "nikte");
+  // sprite2.texture = "nikte";
+  // sprite2.layer = "tiles";
+  // sprite2.frame = 0;
+  // m_registry.emplace<stella::component::Position>(entity2, 120, 120);
+  // m_registry.emplace<stella::component::Dimension>(entity2, 32, 64);
 
-  m_registry.patch<stella::component::Group>(group, [&entity, &entity2, this](auto& group)
-  {
-    group.add (entity, m_registry);
-    group.add (entity2, m_registry);
-  });
+  // m_registry.patch<stella::component::Group>(group, [&entity, &entity2, this](auto& group)
+  // {
+  //   group.add (entity, m_registry);
+  //   group.add (entity2, m_registry);
+  // });
 
-  m_registry.patch<stella::component::Position>(group, [](auto& pos)
-  {
-    pos.x += 300;
-  });
+  // m_registry.patch<stella::component::Position>(group, [](auto& pos)
+  // {
+  //   pos.x += 300;
+  // });
 
   // auto& anim = m_registry.emplace<stella::component::AnimationPlayer>(entity);
   // stella::component::AnimationData anim_data;
@@ -90,8 +90,8 @@ void Game::update (const double dt)
 {
   update_systems (dt);
 
-  //m_player.update();
-  //m_script_api.run_function ("update_game", dt);
+  m_player.update();
+  m_script_api.run_function ("update_game", dt);
   // m_script_api.run_function ("render_game", dt);
 }
 

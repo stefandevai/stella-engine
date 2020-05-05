@@ -35,15 +35,6 @@ namespace core
     FontManager m_fonts;
     entt::registry::entity_type m_camera = m_registry.create();
     std::vector<std::shared_ptr<system::System>> m_systems;
-    // std::vector<std::shared_ptr<system::System>> m_systems{
-    //     std::make_shared<system::Render> (m_registry, m_textures, m_display),
-    //     std::make_shared<system::Color> (m_registry),
-    //     std::make_shared<system::Timer> (m_registry),
-    //     std::make_shared<system::Animation> (m_registry)};
-
-#ifdef STELLA_BUILD_EDITOR
-    // editor::EditorGui m_editor{m_registry};
-#endif
 
   public:
     Game (const unsigned width, const unsigned height, const std::string& title);

@@ -12,7 +12,8 @@ namespace widget
 {
   Inspector::Inspector() : Widget ("Inspector") { m_open = true; }
 
-  void Inspector::render (entt::registry& registry)
+  // void Inspector::render (entt::registry& registry, const std::vector<std::string&>& texture_list)
+  void Inspector::render (entt::registry& registry, const std::vector<std::string>& texture_list)
   {
     std::vector<entt::entity> selected_entities;
     registry.view<component::Selected> ().each ([&selected_entities] (auto entity, auto& sel)
@@ -40,7 +41,7 @@ namespace widget
       ImGui::Dummy (ImVec2 (0.f, 3.f));
       if (m_selected_entity != entt::null && registry.valid (m_selected_entity))
       {
-        m_render_component_nodes (registry);
+        m_render_component_nodes (registry, texture_list);
         ImGui::Dummy (ImVec2 (0.f, 10.f));
         ImGui::Separator();
         ImGui::Dummy (ImVec2 (0.f, 10.f));
@@ -59,7 +60,7 @@ namespace widget
     ImGui::End();
   }
 
-  void Inspector::m_render_component_nodes (entt::registry& registry)
+  void Inspector::m_render_component_nodes (entt::registry& registry, const std::vector<std::string>& texture_list)
   {
     if (ImGui::CollapsingHeader ("Components", ImGuiTreeNodeFlags_DefaultOpen))
     {
@@ -77,7 +78,7 @@ namespace widget
       m_render_component_node<component::Script> (registry, Script());
       m_render_component_node<component::Shape> (registry, Shape());
       m_render_component_node<component::SpeechContainer> (registry, SpeechContainer());
-      m_render_component_node<component::SpriteT> (registry, Sprite());
+      m_render_component_node<component::SpriteT> (registry, Sprite(texture_list));
       m_render_component_node<component::Text> (registry, Text());
       m_render_component_node<component::Tile> (registry, Tile());
       m_render_component_node<component::Timer> (registry, Timer());

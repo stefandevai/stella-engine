@@ -454,7 +454,7 @@ namespace editor
 
     if (m_inspector.is_open())
     {
-      m_inspector.render (m_game.m_registry);
+      m_inspector.render (m_game.m_registry, m_game.m_textures.get_list());
     }
     m_map_editor.render();
     if (m_tileset_editor.is_open())

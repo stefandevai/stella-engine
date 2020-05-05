@@ -49,7 +49,7 @@ namespace system
   {
     if (ImGui::IsMouseClicked (0))
     {
-      entt::entity clicked_entity = entt::null;
+      bool clicked_entity = false;
       registry.view<component::Position, component::Dimension> (entt::exclude<component::Camera, component::InGroup>)
           .each ([this, &registry, &map_pos, &clicked_entity] (auto entity, auto& pos, const auto& dim)
       {
@@ -66,10 +66,20 @@ namespace system
               registry.remove_if_exists<component::Selected>(selected_entity);
             }
             selected_entity = entity;
+            clicked_entity = true;
             return;
           }
         }
       });
+
+      if (!clicked_entity)
+      {
+        if (registry.valid(selected_entity) && selected_entity != entt::null)
+        {
+          registry.remove_if_exists<component::Selected>(selected_entity);
+          selected_entity = entt::null;
+        }
+      }
     }
   }
 
