@@ -9,7 +9,7 @@ namespace widget
 {
     struct Typewriter
     {
-        void operator () (component::Typewriter& typewriter)
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
 
         }

@@ -9,7 +9,7 @@ namespace widget
 {
     struct Camera
     {
-        void operator () (component::Camera& camera)
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
 
         }

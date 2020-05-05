@@ -110,18 +110,21 @@ namespace system
           }
         }
 
-        group.minx = minx;
-        group.maxx = maxx;
-        group.miny = miny;
-        group.maxy = maxy;
-        group.minz = minz;
-        group.maxz = maxz;
-        std::cout << minx << " " << maxx << '\n';
-        std::cout << miny << " " << maxy << '\n';
-        std::cout << "------------------------\n";
+        // group.minx = minx;
+        // group.maxx = maxx;
+        // group.miny = miny;
+        // group.maxy = maxy;
+        // group.minz = minz;
+        // group.maxz = maxz;
+        // std::cout << minx << " " << maxx << '\n';
+        // std::cout << miny << " " << maxy << '\n';
+        // std::cout << "------------------------\n";
         pos.x = minx;
         pos.y = miny;
         pos.z = minz;
+        pos.last_x = minx;
+        pos.last_y = miny;
+        pos.last_z = minz;
         registry.emplace_or_replace<component::Dimension>(entity, maxx - minx, maxy - miny, maxz - minz);
       }
     }

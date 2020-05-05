@@ -9,7 +9,7 @@ namespace widget
 {
     struct Timer
     {
-        void operator () (component::Timer& timer)
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
 
         }

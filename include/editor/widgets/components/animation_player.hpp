@@ -9,7 +9,7 @@ namespace widget
 {
     struct AnimationPlayer
     {
-        void operator () (component::AnimationPlayer& animation_player)
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
 
         }

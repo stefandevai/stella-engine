@@ -9,7 +9,7 @@ namespace widget
 {
     struct Color
     {
-        void operator () (component::Color& color)
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
 
         }

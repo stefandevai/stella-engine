@@ -9,7 +9,7 @@ namespace widget
 {
     struct Script
     {
-        void operator () (component::Script& script)
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
 
         }

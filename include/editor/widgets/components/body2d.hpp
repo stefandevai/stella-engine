@@ -9,8 +9,9 @@ namespace widget
 {
     struct Body2D
     {
-        void operator () (component::Body2D& body)
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
+            auto& body = registry.get<component::Body2D>(entity);
             float movement_speed = body.movement_speed;
             bool is_static       = body.Body->IsStatic;
             ImGui::PushID ("body#inspector");

@@ -9,7 +9,7 @@ namespace widget
 {
     struct NPC
     {
-        void operator () (component::NPC& npc)
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
 
         }

@@ -9,7 +9,7 @@ namespace widget
 {
     struct Charcode
     {
-        void operator () (component::Charcode& charcode)
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
 
         }

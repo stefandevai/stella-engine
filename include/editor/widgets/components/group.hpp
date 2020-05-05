@@ -9,7 +9,7 @@ namespace widget
 {
     struct Group
     {
-        void operator () (component::Group& group)
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
 
         }

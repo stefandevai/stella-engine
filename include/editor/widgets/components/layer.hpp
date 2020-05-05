@@ -9,7 +9,7 @@ namespace widget
 {
     struct Layer
     {
-        void operator () (component::LayerT& )
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
 
         }

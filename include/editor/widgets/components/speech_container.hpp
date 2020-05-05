@@ -9,7 +9,7 @@ namespace widget
 {
     struct SpeechContainer
     {
-        void operator () (component::SpeechContainer& speech_container)
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
 
         }

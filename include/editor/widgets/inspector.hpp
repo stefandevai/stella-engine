@@ -18,14 +18,14 @@ namespace widget
     void m_render_component_nodes (entt::registry& registry);
 
     template <class T>
-    void m_render_component_node (entt::registry& registry, std::function<void(T&)> render_params)
+    void m_render_component_node (entt::registry& registry, std::function<void(entt::registry&, const entt::entity)> render_params)
     {
       if (registry.has<T> (m_selected_entity))
       {
         T& component = registry.get<T>(m_selected_entity);
         if (ImGui::TreeNode(component.name.c_str()))
         {
-          render_params(component);
+          render_params(registry, m_selected_entity);
           ImGui::Dummy(ImVec2(0, 2.0));
           ImGui::Separator();
           ImGui::Dummy(ImVec2(0, 2.0));

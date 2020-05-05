@@ -73,7 +73,7 @@ namespace widget
       m_render_component_node<component::Group> (registry, Group());
       m_render_component_node<component::LayerT> (registry, Layer());
       m_render_component_node<component::NPC> (registry, NPC());
-      m_render_component_node<component::Position> (registry, Position());
+      m_render_component_node<component::Position> (registry, Position ());
       m_render_component_node<component::Script> (registry, Script());
       m_render_component_node<component::Shape> (registry, Shape());
       m_render_component_node<component::SpeechContainer> (registry, SpeechContainer());

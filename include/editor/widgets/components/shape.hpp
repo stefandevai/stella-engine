@@ -9,7 +9,7 @@ namespace widget
 {
     struct Shape
     {
-        void operator () (component::Shape& shape)
+        void operator () (entt::registry& registry, const entt::entity entity)
         {
 
         }
