@@ -13,7 +13,7 @@
 #include "script.hpp"
 #include "shape.hpp"
 #include "speech_container.hpp"
-#include "sprite_group.hpp"
+#include "group.hpp"
 #include "sprite.hpp"
 #include "text.hpp"
 #include "tile.hpp"

@@ -70,13 +70,13 @@ namespace widget
       m_render_component_node<component::Charcode> (registry, Charcode());
       m_render_component_node<component::Color> (registry, Color());
       m_render_component_node<component::Dimension> (registry, Dimension());
+      m_render_component_node<component::Group> (registry, Group());
       m_render_component_node<component::LayerT> (registry, Layer());
       m_render_component_node<component::NPC> (registry, NPC());
       m_render_component_node<component::Position> (registry, Position());
       m_render_component_node<component::Script> (registry, Script());
       m_render_component_node<component::Shape> (registry, Shape());
       m_render_component_node<component::SpeechContainer> (registry, SpeechContainer());
-      m_render_component_node<component::SpriteGroup> (registry, SpriteGroup());
       m_render_component_node<component::SpriteT> (registry, Sprite());
       m_render_component_node<component::Text> (registry, Text());
       m_render_component_node<component::Tile> (registry, Tile());

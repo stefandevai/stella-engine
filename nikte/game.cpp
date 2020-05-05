@@ -50,7 +50,7 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   m_registry.emplace<stella::component::Dimension>(entity, 32, 64);
 
   auto group = m_registry.create();
-  auto& groupc = m_registry.emplace<stella::component::SpriteGroup>(group);
+  auto& groupc = m_registry.emplace<stella::component::Group>(group);
   auto& groupp = m_registry.emplace<stella::component::Position>(group, 0, 0);
   groupp.x += 300;
 

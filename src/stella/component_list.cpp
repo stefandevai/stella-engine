@@ -29,6 +29,9 @@ namespace stella
         case Dimension:
             registry.emplace_or_replace<component::Dimension>(entity);
             break;
+        case Group:
+            registry.emplace_or_replace<component::Group>(entity);
+            break;
         case Layer:
             registry.emplace_or_replace<component::LayerT>(entity);
             break;
@@ -46,9 +49,6 @@ namespace stella
             break;
         case SpeechContainer:
             registry.emplace_or_replace<component::SpeechContainer>(entity);
-            break;
-        case SpriteGroup:
-            registry.emplace_or_replace<component::SpriteGroup>(entity);
             break;
         case Sprite:
             registry.emplace_or_replace<component::SpriteT>(entity);
@@ -79,13 +79,13 @@ namespace stella
     { Charcode, "Charcode" },
     { Color, "Color" },
     { Dimension, "Dimension" },
+    { Group, "Group" },
     { Layer, "Layer" },
     { NPC, "NPC" },
     { Position, "Position" },
     { Script, "Script" },
     { Shape, "Shape" },
     { SpeechContainer, "Speech Container" },
-    { SpriteGroup, "Sprite Group" },
     { Sprite, "Sprite" },
     { Text, "Text" },
     { Tile, "Tile" },

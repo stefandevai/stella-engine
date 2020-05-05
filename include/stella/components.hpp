@@ -13,7 +13,7 @@
 #include "stella/components/script.hpp"
 #include "stella/components/shape.hpp"
 #include "stella/components/speech_container.hpp"
-#include "stella/components/sprite_group.hpp"
+#include "stella/components/group.hpp"
 #include "stella/components/sprite.hpp"
 #include "stella/components/text.hpp"
 #include "stella/components/tile.hpp"
@@ -22,4 +22,4 @@
 
 // TODO: Add widgets for the following new components
 #include "stella/components/transform.hpp"
-#include "stella/components/in_group.hpp"
+

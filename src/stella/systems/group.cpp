@@ -1,5 +1,5 @@
 #include "stella/systems/group.hpp"
-#include "stella/components/sprite_group.hpp"
+#include "stella/components/group.hpp"
 #include "stella/components/position.hpp"
 
 // TEMP
@@ -18,7 +18,7 @@ namespace system
 
   void Group::update (entt::registry& registry, const double dt)
   {
-    registry.group<component::SpriteGroup> (entt::get<component::Position>)
+    registry.group<component::Group> (entt::get<component::Position>)
     .each([&registry] (auto entity, auto& group, auto& pos)
     {
       if (pos.has_changed())

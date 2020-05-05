@@ -9,11 +9,11 @@ namespace stella
 {
 namespace component
 {
-  struct SpriteGroup : public Component
+  struct Group : public Component
   {
-    SpriteGroup() : Component ("Sprite Group") {}
-    SpriteGroup(const unsigned width, const unsigned height, const std::vector<entt::entity>& children)
-    : Component ("Sprite Group"), width(width), height(height), children (children)
+    Group() : Component ("Group") {}
+    Group(const unsigned width, const unsigned height, const std::vector<entt::entity>& children)
+    : Component ("Group"), width(width), height(height), children (children)
     {}
     unsigned width = 0, height = 0;
     std::vector<entt::entity> children{};
