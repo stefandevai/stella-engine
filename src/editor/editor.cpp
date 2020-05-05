@@ -42,9 +42,9 @@ namespace editor
     sprite.frame = 0;
     sprite.layer = "editor";
 
-    m_game.m_textures.load("handler-move", "assets/editor/handler_move.png");
-    m_game.m_textures.load("handler-x", "assets/editor/handler_x.png");
-    m_game.m_textures.load("handler-y", "assets/editor/handler_y.png");
+    m_game.m_textures.load("handler-move", "assets/editor/handler_move.png", 1, 1);
+    m_game.m_textures.load("handler-x", "assets/editor/handler_x.png", 1, 1);
+    m_game.m_textures.load("handler-y", "assets/editor/handler_y.png", 1, 1);
 
     m_selection_system = std::make_shared<system::Selection>(m_game.m_registry);
     this->init();

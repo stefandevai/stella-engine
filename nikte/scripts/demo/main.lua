@@ -5,8 +5,8 @@ local Player = Entity:create_player()
 local flowers = require('scripts.demo.flowers')
 
 local function load_assets()
-  load_texture("nikte", "assets/sprites/nikte.png")
-  load_texture("tileset", "assets/sprites/tilesetv2.png")
+  load_texture("nikte", "assets/sprites/nikte.png", 1, 1)
+  load_texture("tileset", "assets/sprites/tilesetv2.png", 1, 1)
 
   load_font("1980", "assets/fonts/1980.ttf", 32)
   load_font("lato", "assets/fonts/Lato/Lato-Black.ttf", 56)

@@ -6,6 +6,8 @@
 #include <string>
 #include <entt/entity/registry.hpp>
 
+#include "stella/types.hpp"
+
 namespace stella
 {
 namespace system
@@ -13,7 +15,7 @@ namespace system
   class Text : public System
   {
   private:
-    core::ResourceManager<graphics::Font, const std::string, unsigned>& m_fonts;
+    FontManager& m_fonts;
 
   public:
     Text (entt::registry& registry, core::ResourceManager<graphics::Font, const std::string, unsigned>& fonts);

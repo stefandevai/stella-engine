@@ -83,34 +83,37 @@ namespace system
     //   }
     //   selected_entity = entity;
     // }
-    const auto& pos = registry.get<component::Position>(entity);
-    const auto& dim = registry.get<component::Dimension>(entity);
-    auto& sel = registry.get<component::Selected>(entity);
+    if (registry.has<component::Position>(entity) && registry.has<component::Dimension>(entity))
+    {
+      const auto& pos = registry.get<component::Position>(entity);
+      const auto& dim = registry.get<component::Dimension>(entity);
+      auto& sel = registry.get<component::Selected>(entity);
 
-    auto handler_move = registry.create();
-    registry.emplace<component::Position>(handler_move, pos.x + dim.w/2.f - 4.f, pos.y + dim.h/2.f - 4.f, pos.z + 1);
-    registry.emplace<component::Dimension>(handler_move, 8.f, 8.f);
-    registry.emplace<component::Color>(handler_move, "#ffffff88");
-    auto& sprite1 = registry.emplace<component::SpriteT>(handler_move, "handler-move");
-    sprite1.layer = "editor";
+      auto handler_move = registry.create();
+      registry.emplace<component::Position>(handler_move, pos.x + dim.w/2.f - 4.f, pos.y + dim.h/2.f - 4.f, pos.z + 1);
+      registry.emplace<component::Dimension>(handler_move, 8.f, 8.f);
+      registry.emplace<component::Color>(handler_move, "#ffffff88");
+      auto& sprite1 = registry.emplace<component::SpriteT>(handler_move, "handler-move");
+      sprite1.layer = "editor";
 
-    auto handler_x = registry.create();
-    registry.emplace<component::Position>(handler_x, pos.x + dim.w/2.f, pos.y + dim.h/2.f - 4.f, pos.z);
-    registry.emplace<component::Dimension>(handler_x, 52.f, 11.f);
-    registry.emplace<component::Color>(handler_x, "#ffffff88");
-    auto& sprite2 = registry.emplace<component::SpriteT>(handler_x, "handler-x");
-    sprite2.layer = "editor";
+      auto handler_x = registry.create();
+      registry.emplace<component::Position>(handler_x, pos.x + dim.w/2.f, pos.y + dim.h/2.f - 4.f, pos.z);
+      registry.emplace<component::Dimension>(handler_x, 52.f, 11.f);
+      registry.emplace<component::Color>(handler_x, "#ffffff88");
+      auto& sprite2 = registry.emplace<component::SpriteT>(handler_x, "handler-x");
+      sprite2.layer = "editor";
 
-    auto handler_y = registry.create();
-    registry.emplace<component::Position>(handler_y, pos.x + dim.w/2.f - 4.f, pos.y - 52.f + dim.h/2.f, pos.z);
-    registry.emplace<component::Dimension>(handler_y, 11.f, 52.f);
-    registry.emplace<component::Color>(handler_y, "#ffffff88");
-    auto& sprite3 = registry.emplace<component::SpriteT>(handler_y, "handler-y");
-    sprite3.layer = "editor";
+      auto handler_y = registry.create();
+      registry.emplace<component::Position>(handler_y, pos.x + dim.w/2.f - 4.f, pos.y - 52.f + dim.h/2.f, pos.z);
+      registry.emplace<component::Dimension>(handler_y, 11.f, 52.f);
+      registry.emplace<component::Color>(handler_y, "#ffffff88");
+      auto& sprite3 = registry.emplace<component::SpriteT>(handler_y, "handler-y");
+      sprite3.layer = "editor";
 
-    sel.handler_move = handler_move;
-    sel.handler_x = handler_x;
-    sel.handler_y = handler_y;
+      sel.handler_move = handler_move;
+      sel.handler_x = handler_x;
+      sel.handler_y = handler_y;
+    }
   }
 
   void Selection::m_remove_selection_handler (entt::registry& registry, entt::entity entity)

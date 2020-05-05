@@ -14,7 +14,7 @@ namespace stella
 {
 namespace system
 {
-    RenderT::RenderT(entt::registry& registry, TexRes& textures)
+    RenderT::RenderT(entt::registry& registry, TextureManager& textures)
       : m_textures(textures)
     {
         // Create a default layer in case a sprite is added to an unknown layer

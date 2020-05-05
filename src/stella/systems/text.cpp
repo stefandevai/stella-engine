@@ -11,7 +11,7 @@ namespace stella
 {
 namespace system
 {
-  Text::Text (entt::registry& registry, core::ResourceManager<graphics::Font, const std::string, unsigned>& fonts)
+  Text::Text (entt::registry& registry, FontManager& fonts)
     : m_fonts (fonts)
   {
     registry.on_construct<component::Text>().connect<&Text::initialize_text> (this);

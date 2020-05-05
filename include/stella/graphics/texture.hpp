@@ -10,8 +10,12 @@ namespace graphics
   class Texture : public core::Resource
   {
   public:
+    // Horizontal and vertical frames
+    unsigned hframes = 1, vframes = 1;
+
+  public:
     // Texture(const std::string &name, const char *texPath);
-    Texture (const std::string& path);
+    Texture (const std::string& path, const unsigned hframes = 1, const unsigned vframes = 1);
     Texture (const unsigned w, const unsigned h);
     Texture();
     ~Texture();

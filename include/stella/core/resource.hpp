@@ -41,7 +41,7 @@ namespace core
       auto res = m_resources[name];
       if (!res)
       {
-        std::cout << "There is no resource named " << res << '\n';
+        std::cout << "There is no resource named " << name << '\n';
         return nullptr;
       }
       auto return_value = std::dynamic_pointer_cast<T> (res);
