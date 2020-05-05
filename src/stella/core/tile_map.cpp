@@ -37,6 +37,11 @@ namespace core
 
   void TileMap::load (const std::string& path)
   {
+    // Clear map if there's one already loaded
+    if (m_loaded)
+    {
+      this->clear();
+    }
     auto pos                    = path.find_last_of ('.');
     const std::string extension = path.substr (pos + 1);
     if (extension == "lua")
