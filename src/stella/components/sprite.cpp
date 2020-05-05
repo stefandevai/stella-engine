@@ -18,7 +18,7 @@ namespace component
             // Otherwise it's a tilemap
             else
             {
-                width = static_cast<int>(texture_ptr->GetWidth()) / hframes;
+                width = static_cast<int>(texture_ptr->GetWidth()) / texture_ptr->hframes;
             }
         }
         return width;
@@ -38,7 +38,7 @@ namespace component
             // Otherwise it's a tilemap
             else
             {
-                height = static_cast<int>(texture_ptr->GetHeight()) / vframes;
+                height = static_cast<int>(texture_ptr->GetHeight()) / texture_ptr->vframes;
             }
         }
         return height;
@@ -61,14 +61,14 @@ namespace component
             // Otherwise it's a tilemap
             else
             {
-                unsigned max_frames = hframes * vframes;
-                float framex = static_cast<float>(frame % hframes);
-                float framey = static_cast<float>((frame % max_frames) / hframes);
+                unsigned max_frames = texture_ptr->hframes * texture_ptr->vframes;
+                float framex = static_cast<float>(frame % texture_ptr->hframes);
+                float framey = static_cast<float>((frame % max_frames) / texture_ptr->hframes);
                 // Multiply the x coord of the frame in the tile map by the normalized value of the width one frame.
-                uv.x = framex * (texw / static_cast<float>(hframes)) / texw;
+                uv.x = framex * (texw / static_cast<float>(texture_ptr->hframes)) / texw;
                 // Multiply the y coord of the frame in the tile map by the normalized value of the height one frame.
                 // Invert the value as the y axis is upwards for OpenGL
-                uv.y = 1.0f - framey * (texh / static_cast<float>(vframes)) / texh;
+                uv.y = 1.0f - framey * (texh / static_cast<float>(texture_ptr->vframes)) / texh;
             }
         }
         return uv;

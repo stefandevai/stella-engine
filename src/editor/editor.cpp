@@ -36,9 +36,10 @@ namespace editor
     game.m_registry.emplace<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
     auto& sprite = game.m_registry.emplace<component::SpriteT> (m_editor_sprite, "editor");
 
-    sprite.hframes = m_tileset_editor.get_texture_dimensions_in_tiles().x;
-    sprite.vframes = m_tileset_editor.get_texture_dimensions_in_tiles().y;
+    
     sprite.texture_ptr = std::make_shared<graphics::Texture>(m_tileset_editor.texture);
+    sprite.texture_ptr->hframes = m_tileset_editor.get_texture_dimensions_in_tiles().x;
+    sprite.texture_ptr->vframes = m_tileset_editor.get_texture_dimensions_in_tiles().y;
     sprite.frame = 0;
     sprite.layer = "editor";
 

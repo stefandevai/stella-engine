@@ -44,8 +44,6 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   auto& sprite = m_registry.emplace<stella::component::SpriteT> (entity, "nikte");
   sprite.texture = "nikte";
   sprite.layer = "tiles";
-  sprite.vframes = 6;
-  sprite.hframes = 9;
   sprite.frame = 0;
   m_registry.emplace<stella::component::Dimension>(entity, 32, 64);
 
@@ -56,8 +54,6 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   auto& sprite2 = m_registry.emplace<stella::component::SpriteT> (entity2, "nikte");
   sprite2.texture = "nikte";
   sprite2.layer = "tiles";
-  sprite2.vframes = 6;
-  sprite2.hframes = 9;
   sprite2.frame = 0;
   m_registry.emplace<stella::component::Position>(entity2, 120, 120);
   m_registry.emplace<stella::component::Dimension>(entity2, 32, 64);

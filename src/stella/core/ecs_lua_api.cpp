@@ -76,13 +76,9 @@ namespace script
   {
     const std::string& layer_id     = obj["layer"] == sol::lua_nil ? std::string() : obj["layer"];
     const std::string& texture_name = obj["texture"] == sol::lua_nil ? std::string() : obj["texture"];
-    const float& framew   = obj["frame_dimensions"][1] == sol::lua_nil ? 1 : obj["frame_dimensions"][1];
-    const float& frameh   = obj["frame_dimensions"][2] == sol::lua_nil ? 1 : obj["frame_dimensions"][2];
     const unsigned& frame = obj["frame"] == sol::lua_nil ? 0 : obj["frame"];
 
     auto& sprite = m_registry.emplace<stella::component::SpriteT> (id, texture_name);
-    sprite.hframes = framew;
-    sprite.vframes = frameh;
     sprite.frame = frame;
     sprite.layer = layer_id;
   }
