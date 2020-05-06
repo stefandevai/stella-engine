@@ -4,6 +4,7 @@
 #include "stella/components/sprite.hpp"
 #include "stella/components/position.hpp"
 #include "stella/components/color.hpp"
+#include "stella/components/transform.hpp"
 
 #include <algorithm>
 #include <cstddef>
@@ -111,15 +112,43 @@ namespace graphics
     GLfloat uvoffsetY = dimensions.y / static_cast<GLfloat> (texture->GetHeight());
 
     auto particular_transform = *m_transformation_back;
-    particular_transform      = glm::translate (
-        particular_transform,
-        glm::vec3 (position + glm::vec3 (dimensions, 0.f) / 2.f)); // Translating half dimension to set the point of
-                                                                        // rotation to the center of the sprite
-    // particular_transform = glm::scale (particular_transform, glm::vec3 (scale, 1.f));
-    // particular_transform = glm::rotate (particular_transform, glm::radians (rotation), glm::vec3 (0.f, 0.f, 1.f));
-    particular_transform = glm::translate (particular_transform,
-                                           glm::vec3 (-dimensions / 2.f,
-                                                      0.f)); // Removing the added half dimension
+    if (registry.has<component::Transform> (entity))
+    {
+      // Translation before scale and rotation
+      // Also we multiply the height (dim.y) by sin(45deg) in order to compensate
+      // the decrease in z position after rotation 
+      particular_transform =
+          glm::translate (particular_transform, glm::vec3(position.x, position.y, position.z + dimensions.y*0.70710678118f));
+      
+      // Scale in the y axis by 1 / (cos 45deg) in order to compensate for the scale reduction when rotating 
+      particular_transform = glm::scale (particular_transform, glm::vec3(1.f, 1.41421356237f, 1.f));
+
+      // Rotate -45deg in the x axis from the top in order to have depth information for lighting and other effects
+      particular_transform =
+          glm::rotate (particular_transform, glm::radians (-45.f), glm::vec3 (1.f, 0.f, 0.f));
+    }
+
+    else
+    {
+      auto trans = component::Transform();
+      if (registry.has<component::Transform>(entity))
+      {
+        trans = registry.get<component::Transform> (entity);
+      }
+      // // Translating half dimension to set the point of rotation to the center of the sprite
+      particular_transform =
+          glm::translate (particular_transform, position + glm::vec3(dimensions.x, dimensions.y, 0.f)/2.f);
+      particular_transform = glm::scale (particular_transform, trans.scale);
+      particular_transform =
+          glm::rotate (particular_transform, glm::radians (trans.rotation.x), glm::vec3 (1.f, 0.f, 0.f));
+      particular_transform =
+          glm::rotate (particular_transform, glm::radians (trans.rotation.y), glm::vec3 (0.f, 1.f, 0.f));
+      particular_transform =
+          glm::rotate (particular_transform, glm::radians (trans.rotation.z), glm::vec3 (0.f, 0.f, 1.f));
+      // Removing the added half dimension
+      particular_transform = glm::translate (particular_transform, glm::vec3(-dimensions.x, -dimensions.y, 0.f)/2.f);
+      // std::cout << position.z << ' ' << (position + dim/2.f).z << '\n';
+    }
 
     auto transformation_result = particular_transform * glm::vec4 (0.f, 0.f, 1.f, 1.f);
     m_vertex_buffer->vertex    = glm::vec3 (transformation_result.x, transformation_result.y, transformation_result.z);
@@ -149,7 +178,9 @@ namespace graphics
     m_vertex_buffer->color  = color;
     m_vertex_buffer++;
 
-    // std::cout << transformation_result.z << '\n';
+    // std::cout << transformation_result.x << '\n';
+    // std::cout << position.x << '\n';
+    // std::cout << "-----------" << '\n';
 
     this->m_index_count += 6;
   }

@@ -113,7 +113,7 @@ namespace graphics
       }
       // // Translating half dimension to set the point of rotation to the center of the sprite
       particular_transform =
-          glm::translate (particular_transform, glm::vec3(position.x + dim.x, position.y + dim.y, 0.f)/2.f);
+          glm::translate (particular_transform, position + glm::vec3(dim.x, dim.y, 0.f)/2.f);
       particular_transform = glm::scale (particular_transform, trans.scale);
       particular_transform =
           glm::rotate (particular_transform, glm::radians (trans.rotation.x), glm::vec3 (1.f, 0.f, 0.f));
