@@ -70,7 +70,7 @@ namespace widget
       m_render_component_node<component::Charcode> (registry, Charcode());
       m_render_component_node<component::Color> (registry, Color());
       m_render_component_node<component::Dimension> (registry, Dimension());
-      m_render_component_node<component::Group> (registry, Group());
+      m_render_component_node<component::Group> (registry, Group(texture_list));
       m_render_component_node<component::LayerT> (registry, Layer());
       m_render_component_node<component::NPC> (registry, NPC());
       m_render_component_node<component::Position> (registry, Position());
