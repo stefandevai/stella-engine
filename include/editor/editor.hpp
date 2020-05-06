@@ -14,9 +14,10 @@
 //#include "../stella/core/game.hpp"
 #include "state.hpp"
 #include "widgets/toolbar.hpp"
-#include "../../lib/imgui/imgui.h" // IWYU pragma: export
+#include "../../lib/imgui/imgui.h"                       // IWYU pragma: export
 #include "../../lib/imgui/examples/imgui_impl_opengl3.h" // IWYU pragma: export
-#include "../../lib/imgui/examples/imgui_impl_sdl.h" // IWYU pragma: export
+#include "../../lib/imgui/examples/imgui_impl_sdl.h"     // IWYU pragma: export
+#include "systems/selection.hpp"
 
 struct SDL_Window;
 union SDL_Event;
@@ -33,8 +34,8 @@ namespace editor
   class Editor
   {
   private:
-    static const ImWchar ICON_FA_MIN = 0xf044;
-    static const ImWchar ICON_FA_MAX = 0xf245;
+    // static const ImWchar ICON_FA_MIN = 0xf044;
+    // static const ImWchar ICON_FA_MAX = 0xf245;
 
     State m_current_state = EDIT;
     Tool m_current_tool   = INSPECTOR;
@@ -50,7 +51,6 @@ namespace editor
     // ImGuiWindowFlags_NoResize;
     widget::Console m_console{m_window_flags, m_font_mono};
     widget::Chat m_chat{m_window_flags, m_font_mono};
-    LogSystem m_log_system{m_console};
     entt::registry& m_registry;
     std::shared_ptr<graphics::ShapeLayerT> m_debug_layer;
     entt::entity m_editor_layer  = entt::null;
@@ -67,14 +67,18 @@ namespace editor
 
     // View options
     bool m_view_physics_debug_layer = true;
-    bool m_show_editor = true;
+    bool m_show_editor              = true;
 
     std::unique_ptr<graphics::Framebuffer> m_FBO;
     widget::Scene m_scene;
 
     ImVec2 camera_pos_without_pan = ImVec2();
-    bool is_panning = false;
-    
+    bool is_panning               = false;
+
+    // Systems
+    LogSystem m_log_system{m_console};
+    std::shared_ptr<system::Selection> m_selection_system;
+    std::vector<std::shared_ptr<system::System>> m_systems;
 
   public:
     // Editor(entt::registry& registry);
@@ -84,7 +88,7 @@ namespace editor
     void init();
     void configure_input();
     void render (const float window_width, const float window_height, const float game_width, const float game_height);
-    void update();
+    void update (const double dt);
     void run();
 
   private:
@@ -98,10 +102,10 @@ namespace editor
     void m_edit_mode();
     void m_handle_state (ImGuiIO& io);
     void m_handle_tile_pen (const ImGuiIO& io);
-    void m_handle_pan_tool(const ImGuiIO& io);
+    void m_handle_pan_tool (const ImGuiIO& io);
     void m_handle_inspector (const ImGuiIO& io);
-    void m_widget_build_option (widget::Widget& widget);
-    void m_map_tile_pos(const ImGuiIO& io, std::function<void(const ImVec2&)> position_action);
+    void m_widget_build_option (widget::Widget& widget, const std::string& shortcut);
+    void m_map_tile_pos (const ImGuiIO& io, std::function<void (const ImVec2&)> position_action);
   };
 
 } // namespace editor

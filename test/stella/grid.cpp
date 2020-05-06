@@ -1,5 +1,5 @@
-#include "stella/core/map_grid.h"
-#include "stella/core/tile.h"
+#include "stella/core/map_grid.hpp"
+#include "stella/core/tile.hpp"
 
 #include "../catch.hpp"
 

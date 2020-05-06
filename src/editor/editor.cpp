@@ -6,6 +6,7 @@
 #include "stella/components/layer.hpp"
 #include "stella/components/position.hpp"
 #include "stella/components/sprite.hpp"
+#include "editor/systems/selection.hpp"
 
 #ifdef _WIN32
   #include <SDL.h>
@@ -14,6 +15,7 @@
 #endif
 #undef main
 #include <cereal/cereal.hpp> // IWYU pragma: export
+#include <cmath>
 
 namespace stella
 {
@@ -21,12 +23,18 @@ namespace editor
 {
   Editor::Editor (nikte::Game& game) : m_game (game), m_registry (game.m_registry)
   {
-    
-    m_debug_layer = std::make_shared<graphics::ShapeLayerT>(m_registry, "assets/shaders/debug_shader.vert", "assets/shaders/debug_shader.frag", true);
+    m_debug_layer = std::make_shared<graphics::ShapeLayerT> (
+        m_registry, "assets/shaders/debug_shader.vert", "assets/shaders/debug_shader.frag", true);
     // m_game.m_display.SetEditor (this);
     // m_debug_layer.Add(shape);
     m_editor_layer = game.m_registry.create();
-    game.m_registry.emplace<component::LayerT> (m_editor_layer, "editor", 9999, component::LayerType::SPRITE_LAYER, "assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag", false);
+    game.m_registry.emplace<component::LayerT> (m_editor_layer,
+                                                "editor",
+                                                9999,
+                                                component::LayerType::SPRITE_LAYER,
+                                                "assets/shaders/sprite_batch.vert",
+                                                "assets/shaders/sprite_batch.frag",
+                                                false);
 
     ImVec2 dimensions = m_tileset_editor.get_tile_dimensions();
     m_editor_sprite   = game.m_registry.create();
@@ -34,11 +42,17 @@ namespace editor
     game.m_registry.emplace<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
     auto& sprite = game.m_registry.emplace<component::SpriteT> (m_editor_sprite, "editor");
 
-    sprite.hframes = m_tileset_editor.get_texture_dimensions_in_tiles().x;
-    sprite.vframes = m_tileset_editor.get_texture_dimensions_in_tiles().y;
-    sprite.texture_ptr = std::make_shared<graphics::Texture>(m_tileset_editor.texture);
-    sprite.frame = 0;
-    sprite.layer = "editor";
+    sprite.texture_ptr          = std::make_shared<graphics::Texture> (m_tileset_editor.texture);
+    sprite.texture_ptr->hframes = m_tileset_editor.get_texture_dimensions_in_tiles().x;
+    sprite.texture_ptr->vframes = m_tileset_editor.get_texture_dimensions_in_tiles().y;
+    sprite.frame                = 0;
+    sprite.layer                = "editor";
+
+    m_game.m_textures.load ("handler-move", "assets/editor/handler_move.png", 1, 1);
+    m_game.m_textures.load ("handler-x", "assets/editor/handler_x.png", 1, 1);
+    m_game.m_textures.load ("handler-y", "assets/editor/handler_y.png", 1, 1);
+
+    m_selection_system = std::make_shared<system::Selection> (m_game.m_registry);
     this->init();
   }
 
@@ -118,6 +132,68 @@ namespace editor
           ImGuiIO& io = ImGui::GetIO();
           m_handle_pan_tool (io);
         }
+
+        // Inspector tool
+        if (state[SDL_SCANCODE_ESCAPE])
+        {
+          m_current_tool = INSPECTOR;
+        }
+
+        // Tile pen tool
+        if (state[SDL_SCANCODE_I] && !state[SDL_SCANCODE_O])
+        {
+          m_current_tool = TILE_PEN;
+        }
+
+        // Open commands
+        if (state[SDL_SCANCODE_O])
+        {
+          if (state[SDL_SCANCODE_M])
+          {
+            m_map_editor.open();
+          }
+          else if (state[SDL_SCANCODE_T])
+          {
+            m_tileset_editor.open();
+          }
+          else if (state[SDL_SCANCODE_I])
+          {
+            m_inspector.open();
+          }
+          else if (state[SDL_SCANCODE_H])
+          {
+            m_chat.open();
+          }
+          else if (state[SDL_SCANCODE_Y])
+          {
+            m_console.open();
+          }
+        }
+
+        // Close commands
+        if (state[SDL_SCANCODE_C])
+        {
+          if (state[SDL_SCANCODE_M])
+          {
+            m_map_editor.close();
+          }
+          else if (state[SDL_SCANCODE_T])
+          {
+            m_tileset_editor.close();
+          }
+          else if (state[SDL_SCANCODE_I])
+          {
+            m_inspector.close();
+          }
+          else if (state[SDL_SCANCODE_H])
+          {
+            m_chat.close();
+          }
+          else if (state[SDL_SCANCODE_Y])
+          {
+            m_console.close();
+          }
+        }
       }
       break;
 
@@ -141,22 +217,25 @@ namespace editor
     {
       if (m_current_state == EDIT)
       {
+        m_game.update (m_game.m_display.GetDT());
+        m_game.m_display.Update();
+        this->configure_input();
+        this->update (m_game.m_display.GetDT());
+
         m_FBO->Bind();
         m_game.m_display.Clear();
-        m_game.update (m_game.m_display.GetDT());
+        m_game.render (m_game.m_display.GetDT());
         m_FBO->Unbind();
         this->render (m_game.m_display.GetWindowWidth(),
                       m_game.m_display.GetWindowHeight(),
                       m_game.m_display.Width,
                       m_game.m_display.Height);
-
-        m_game.m_display.Update();
-        this->configure_input();
       }
       else if (m_current_state == PLAY)
       {
         m_game.m_display.Clear();
         m_game.update (m_game.m_display.GetDT());
+        this->update (m_game.m_display.GetDT());
         this->render (m_game.m_display.GetWindowWidth(),
                       m_game.m_display.GetWindowHeight(),
                       m_game.m_display.Width,
@@ -167,7 +246,14 @@ namespace editor
     }
   }
 
-  void Editor::update() { m_log_system.update (m_registry, 0.0); }
+  void Editor::update (const double dt)
+  {
+    for (auto& s : m_systems)
+    {
+      s->update (m_registry, dt);
+    }
+    // m_log_system.update (m_registry, 0.0);
+  }
 
   void
   Editor::render (const float window_width, const float window_height, const float game_width, const float game_height)
@@ -183,7 +269,8 @@ namespace editor
       {
         this->draw_dock (window_width, window_height, game_width, game_height);
       }
-      m_toolbar.render (m_current_state, m_current_tool, m_window_width, [this]() { this->draw_menu_bar(); });
+      m_toolbar.render (
+          m_game.m_registry, m_current_state, m_current_tool, m_window_width, [this]() { this->draw_menu_bar(); });
 
       ImGui::PopFont();
       ImGui::Render();
@@ -248,14 +335,31 @@ namespace editor
       auto& sprite_spr    = m_registry.get<component::SpriteT> (m_editor_sprite);
       sprite_pos.x        = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
       sprite_pos.y        = tile_pos.y * m_tileset_editor.get_tile_dimensions().y;
-      sprite_spr.frame = new_tile_value;
+      sprite_spr.frame    = new_tile_value;
 
       if (ImGui::IsMouseDown (0))
       {
         // Update tile if user clicks
-        bool collidable = m_tileset_editor.get_selected_tile_collidable();
-        int layer_id    = m_map_editor.get_selected_layer_id();
-        m_game.m_tile_map.update_tile (new_tile_value, tile_pos.x, tile_pos.y, layer_id, collidable);
+        // bool collidable = m_tileset_editor.get_selected_tile_collidable();
+        // int layer_id    = m_map_editor.get_selected_layer_id();
+        // m_game.m_tile_map.update_tile (new_tile_value, tile_pos.x, tile_pos.y, layer_id, collidable);
+        
+        if (m_map_editor.get_selected_layer_id() >= 0)
+        {
+          const auto entity = m_tileset_editor.get_entity(m_game.m_registry);
+          m_game.m_registry.patch<component::Position>(entity, [&sprite_pos](auto& pos)
+          {
+            pos.x = sprite_pos.x;
+            pos.y = sprite_pos.y;
+          });
+          auto& tile = m_game.m_registry.get<component::Tile>(entity);
+          tile.layer_id = m_map_editor.get_selected_layer_id();
+          m_game.m_tile_map.update_tile (entity, m_game.m_registry);
+        }
+        else
+        {
+          std::cout << "Please select a layer first.\n";
+        }
       }
     });
   }
@@ -277,23 +381,9 @@ namespace editor
 
   void Editor::m_handle_inspector (const ImGuiIO& io)
   {
-    m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
-      if (ImGui::IsMouseClicked (0))
-      {
-        // Sort by z value before getting the right entity
-        m_game.m_registry.sort<component::Position> ([] (const auto& lhs, const auto& rhs) { return lhs.z < rhs.z; });
-        // TODO: Find a better way to select entity based on position
-        m_game.m_registry.view<stella::component::Position, stella::component::Dimension, stella::component::SpriteT>()
-            .each ([this, &map_pos] (auto entity, auto& pos, auto& dim, auto& spr) {
-              if (m_game.m_registry.valid (entity) && map_pos.x >= pos.x && map_pos.x < pos.x + dim.w &&
-                  map_pos.y >= pos.y && map_pos.y < pos.y + dim.h)
-              {
-                m_inspector.set_selected_entity (entity);
-                return;
-              }
-            });
-      }
-    });
+    m_map_tile_pos (
+        io, [this, &io] (const ImVec2& map_pos) { m_selection_system->on_click (m_game.m_registry, io, map_pos); });
+    m_selection_system->update (m_game.m_registry);
   }
 
   void Editor::m_play_mode()
@@ -317,24 +407,25 @@ namespace editor
     ImGuiStyle& style       = ImGui::GetStyle();
     style.WindowPadding     = ImVec2 (18.0f, 12.0f);
     style.WindowBorderSize  = 0.f;
-    style.WindowRounding    = 3.0f;
+    style.WindowRounding    = 0.0f;
     style.ScrollbarSize     = 11.0f;
     style.ScrollbarRounding = 10.0f;
     style.TabRounding       = 0.f;
     style.TabBorderSize     = 0.f;
 
-    style.Colors[ImGuiCol_Text]                  = ImVec4 (1.00f, 1.00f, 1.00f, 1.00f);
-    style.Colors[ImGuiCol_TextDisabled]          = ImVec4 (0.50f, 0.50f, 0.50f, 1.00f);
-    style.Colors[ImGuiCol_WindowBg]              = ImVec4 (0.06f, 0.06f, 0.06f, 0.94f);
-    style.Colors[ImGuiCol_ChildBg]               = ImVec4 (1.00f, 1.00f, 1.00f, 0.00f);
-    style.Colors[ImGuiCol_PopupBg]               = ImVec4 (0.08f, 0.08f, 0.08f, 0.94f);
-    style.Colors[ImGuiCol_Border]                = ImVec4 (0.43f, 0.43f, 0.50f, 0.50f);
-    style.Colors[ImGuiCol_BorderShadow]          = ImVec4 (0.00f, 0.00f, 0.00f, 0.00f);
-    style.Colors[ImGuiCol_FrameBg]               = ImVec4 (0.20f, 0.21f, 0.22f, 0.54f);
-    style.Colors[ImGuiCol_FrameBgHovered]        = ImVec4 (0.40f, 0.40f, 0.40f, 0.40f);
-    style.Colors[ImGuiCol_FrameBgActive]         = ImVec4 (0.18f, 0.18f, 0.18f, 0.67f);
-    style.Colors[ImGuiCol_TitleBg]               = ImVec4 (0.04f, 0.04f, 0.04f, 1.00f);
-    style.Colors[ImGuiCol_TitleBgActive]         = ImVec4 (0.29f, 0.29f, 0.29f, 1.00f);
+    style.Colors[ImGuiCol_Text]           = ImVec4 (1.00f, 1.00f, 1.00f, 1.00f);
+    style.Colors[ImGuiCol_TextDisabled]   = ImVec4 (0.50f, 0.50f, 0.50f, 1.00f);
+    style.Colors[ImGuiCol_WindowBg]       = ImVec4 (0.06f, 0.06f, 0.06f, 0.94f);
+    style.Colors[ImGuiCol_ChildBg]        = ImVec4 (1.00f, 1.00f, 1.00f, 0.00f);
+    style.Colors[ImGuiCol_PopupBg]        = ImVec4 (0.08f, 0.08f, 0.08f, 0.94f);
+    style.Colors[ImGuiCol_Border]         = ImVec4 (0.43f, 0.43f, 0.50f, 0.50f);
+    style.Colors[ImGuiCol_BorderShadow]   = ImVec4 (0.00f, 0.00f, 0.00f, 0.00f);
+    style.Colors[ImGuiCol_FrameBg]        = ImVec4 (0.20f, 0.21f, 0.22f, 0.54f);
+    style.Colors[ImGuiCol_FrameBgHovered] = ImVec4 (0.40f, 0.40f, 0.40f, 0.40f);
+    style.Colors[ImGuiCol_FrameBgActive]  = ImVec4 (0.18f, 0.18f, 0.18f, 0.67f);
+    style.Colors[ImGuiCol_TitleBg]        = ImVec4 (0.04f, 0.04f, 0.04f, 1.00f);
+    style.Colors[ImGuiCol_TitleBgActive]  = ImVec4 (0.04f, 0.04f, 0.04f, 1.00f);
+    // style.Colors[ImGuiCol_TitleBgActive]         = ImVec4 (0.29f, 0.29f, 0.29f, 1.00f);
     style.Colors[ImGuiCol_TitleBgCollapsed]      = ImVec4 (0.00f, 0.00f, 0.00f, 0.51f);
     style.Colors[ImGuiCol_MenuBarBg]             = ImVec4 (0.14f, 0.14f, 0.14f, 1.00f);
     style.Colors[ImGuiCol_ScrollbarBg]           = ImVec4 (0.02f, 0.02f, 0.02f, 0.53f);
@@ -372,7 +463,7 @@ namespace editor
     style.Colors[ImGuiCol_TabHovered]         = ImVec4 (80.f / 255.f, 41.f / 255.f, 115.f / 255.f, 1.00f);
     style.Colors[ImGuiCol_TabUnfocused]       = tab_color;
     style.Colors[ImGuiCol_TabUnfocusedActive] = tab_color;
-    style.Colors[ImGuiCol_TitleBgActive]      = tab_color;
+    // style.Colors[ImGuiCol_TitleBgActive]      = tab_color;
   }
 
   void Editor::draw_dock (const float window_width,
@@ -447,7 +538,7 @@ namespace editor
 
     if (m_inspector.is_open())
     {
-      m_inspector.render (m_game.m_registry);
+      m_inspector.render (m_game.m_registry, m_game.m_textures.get_list());
     }
     m_map_editor.render();
     if (m_tileset_editor.is_open())
@@ -528,15 +619,15 @@ namespace editor
         ImGui::Dummy (ImVec2{0.0f, 1.5f});
         ImGui::Separator();
         ImGui::Dummy (ImVec2{0.0f, 1.5f});
-        m_widget_build_option (m_inspector);
+        m_widget_build_option (m_inspector, "oi/ci");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        m_widget_build_option (m_map_editor);
+        m_widget_build_option (m_map_editor, "om/cm");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        m_widget_build_option (m_tileset_editor);
+        m_widget_build_option (m_tileset_editor, "ot/ct");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        m_widget_build_option (m_chat);
+        m_widget_build_option (m_chat, "oh/ch");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        m_widget_build_option (m_console);
+        m_widget_build_option (m_console, "oy/cy");
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu ("Tools"))
@@ -550,14 +641,14 @@ namespace editor
     }
   }
 
-  void Editor::m_widget_build_option (widget::Widget& widget)
+  void Editor::m_widget_build_option (widget::Widget& widget, const std::string& shortcut)
   {
     auto item_text = widget.get_name();
     if (widget.is_open())
     {
       item_text = "Hide " + widget.get_name();
     }
-    if (ImGui::MenuItem (item_text.c_str()))
+    if (ImGui::MenuItem (item_text.c_str(), shortcut.c_str()))
     {
       widget.toggle();
     }

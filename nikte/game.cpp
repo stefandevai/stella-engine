@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include <random>
 #include "stella/systems/render.hpp"
+#include "stella/systems/group.hpp"
 #include "stella/systems/animation_player.hpp"
 #include "stella/components/sprite.hpp"
 #include "stella/components/position.hpp"
@@ -14,12 +15,12 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   m_script_api.run_script ("scripts/main.lua");
   m_script_api.run_function ("load_assets");
 
-  // // this->add_system<stella::system::Render> (m_registry, m_textures, m_display);
-  this->add_system<stella::system::RenderT> (m_registry, m_textures);
-  this->add_system<stella::system::AnimationPlayer> ();
-  this->add_system<stella::system::Color> (m_registry);
+  //m_tile_map.load();
+  m_render_system = std::make_shared<stella::system::RenderT> (m_registry, m_textures);
+  this->add_system<stella::system::AnimationPlayer>();
+  // this->add_system<stella::system::Color> (m_registry);
+  this->add_system<stella::system::Group> (m_registry);
   this->add_system<stella::system::Timer> (m_registry);
-  // // this->add_system<stella::system::Animation> (m_registry);
   this->add_system<stella::system::Physics> (m_tile_map, m_registry);
   this->add_system<stella::system::Tile> (m_tile_map, m_camera, m_registry);
   this->add_system<stella::system::Text> (m_registry, m_fonts);
@@ -39,14 +40,34 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
 
   // TEMP
   // auto entity = m_registry.create();
+  // m_registry.emplace<stella::component::Position>(entity, 100, 100);
   // auto& sprite = m_registry.emplace<stella::component::SpriteT> (entity, "nikte");
   // sprite.texture = "nikte";
   // sprite.layer = "tiles";
-  // sprite.vframes = 6;
-  // sprite.hframes = 9;
   // sprite.frame = 0;
+  // m_registry.emplace<stella::component::Dimension>(entity, 32, 64);
 
-  // m_registry.emplace<stella::component::Position>(entity, 100, 100);
+  // auto group = m_registry.create();
+  // m_registry.emplace_or_replace<stella::component::Group>(group);
+
+  // auto entity2 = m_registry.create();
+  // auto& sprite2 = m_registry.emplace<stella::component::SpriteT> (entity2, "nikte");
+  // sprite2.texture = "nikte";
+  // sprite2.layer = "tiles";
+  // sprite2.frame = 0;
+  // m_registry.emplace<stella::component::Position>(entity2, 120, 120);
+  // m_registry.emplace<stella::component::Dimension>(entity2, 32, 64);
+
+  // m_registry.patch<stella::component::Group>(group, [&entity, &entity2, this](auto& group)
+  // {
+  //   group.add (entity, m_registry);
+  //   group.add (entity2, m_registry);
+  // });
+
+  // m_registry.patch<stella::component::Position>(group, [](auto& pos)
+  // {
+  //   pos.x += 300;
+  // });
 
   // auto& anim = m_registry.emplace<stella::component::AnimationPlayer>(entity);
   // stella::component::AnimationData anim_data;
@@ -67,12 +88,23 @@ Game::~Game()
 
 void Game::update (const double dt)
 {
-  this->update_systems (dt);
+  update_systems (dt);
 
   m_player.update();
   m_script_api.run_function ("update_game", dt);
+
+  // TODO: Create a reactive system
+  if (m_script_api.get_variable<unsigned int> ("e_map_width") != m_tile_map.width() ||
+      m_script_api.get_variable<unsigned int> ("e_map_width") != m_tile_map.height())
+  {
+    m_script_api.set_variable<int> ("e_map_width", m_tile_map.width());
+    m_script_api.set_variable<int> ("e_map_height", m_tile_map.height());
+  }
+  
   // m_script_api.run_function ("render_game", dt);
 }
+
+void Game::render (const double dt) { m_render_system->update (m_registry, dt); }
 
 void Game::m_load_flowers()
 {

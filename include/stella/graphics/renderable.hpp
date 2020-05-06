@@ -20,9 +20,9 @@ namespace graphics
     glm::vec2 Dimensions, RealDimensions;
 
     Renderable (glm::vec3 position, glm::vec2 dimensions, GLboolean visible = 1);
-    //Renderable (glm::vec3 position);
+    // Renderable (glm::vec3 position);
     Renderable (GLint x, GLint y, GLint w, GLint h, GLboolean visible = 1);
-    //Renderable (GLint x, GLint y);
+    // Renderable (GLint x, GLint y);
     virtual ~Renderable();
 
     // Getters

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../components.hpp"
+#include "stella/components/scroll.hpp"
 #include "./system.hpp"
 
 #include <glm/glm.hpp>

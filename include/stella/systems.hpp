@@ -6,7 +6,7 @@
 //#include "stella/systems/fog.hpp"
 #include "stella/systems/movement.hpp"
 #include "stella/systems/npc.hpp"
-#include "stella/systems/particle.hpp"
+// #include "stella/systems/particle.hpp"
 #include "stella/systems/physics.hpp"
 //#include "stella/systems/player.hpp"
 //#include "stella/systems/render.hpp"

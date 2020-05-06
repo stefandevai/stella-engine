@@ -9,7 +9,7 @@ namespace system
   class AnimationPlayer : public System
   {
   public:
-    AnimationPlayer ();
+    AnimationPlayer();
     void update (entt::registry& registry, const double dt) override;
   };
 } // namespace system

@@ -11,8 +11,7 @@ namespace stella
 {
 namespace system
 {
-  Text::Text (entt::registry& registry, core::ResourceManager<graphics::Font, const std::string, unsigned>& fonts)
-    : m_fonts (fonts)
+  Text::Text (entt::registry& registry, FontManager& fonts) : m_fonts (fonts)
   {
     registry.on_construct<component::Text>().connect<&Text::initialize_text> (this);
     registry.on_destroy<component::Text>().connect<&Text::delete_text> (this);
@@ -101,13 +100,13 @@ namespace system
     if (w > 0.f && h > 0.f)
     {
       registry.emplace<component::Charcode> (char_entity, chr);
-      auto& sprite = registry.emplace<component::SpriteT> (char_entity, text.font_name);
-      sprite.texture_ptr = font->get_atlas();
-      sprite.layer = "text";
-      sprite.top_left.x = ch.tx;
+      auto& sprite          = registry.emplace<component::SpriteT> (char_entity, text.font_name);
+      sprite.texture_ptr    = font->get_atlas();
+      sprite.layer          = "text";
+      sprite.top_left.x     = ch.tx;
       sprite.bottom_right.x = w + ch.tx;
       sprite.bottom_right.y = h;
-      sprite.set_uv(glm::vec2(ch.tx, 1.0f));
+      sprite.set_uv (glm::vec2 (ch.tx, 1.0f));
 
       registry.emplace<component::Position> (char_entity, xpos, ypos);
       registry.emplace<component::Dimension> (char_entity, w, h);
@@ -180,13 +179,13 @@ namespace system
         // sprite.bottom_right.x = w + ch.tx;
         // sprite.bottom_right.y = h;
         // sprite.set_uv(glm::vec2(ch.tx, 1.0f));
-        auto& sprite = registry.emplace<component::SpriteT> (char_entity, text.font_name);
-        sprite.texture_ptr = font->get_atlas();
-        sprite.layer = "text";
-        sprite.top_left.x = ch.tx;
+        auto& sprite          = registry.emplace<component::SpriteT> (char_entity, text.font_name);
+        sprite.texture_ptr    = font->get_atlas();
+        sprite.layer          = "text";
+        sprite.top_left.x     = ch.tx;
         sprite.bottom_right.x = w + ch.tx;
         sprite.bottom_right.y = h;
-        sprite.set_uv(glm::vec2(ch.tx, 1.0f));
+        sprite.set_uv (glm::vec2 (ch.tx, 1.0f));
 
         registry.emplace<component::Position> (char_entity, xpos, ypos);
         registry.emplace<component::Dimension> (char_entity, w, h);

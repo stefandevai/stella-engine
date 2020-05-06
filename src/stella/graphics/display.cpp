@@ -77,10 +77,9 @@ namespace graphics
 #endif
 
     glEnable (GL_BLEND);
-    // glDisable(GL_DEPTH_TEST);
-    // glEnable (GL_DEPTH_TEST);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+    // glDisable(GL_DEPTH_TEST);
+    glEnable (GL_DEPTH_TEST);
     // Set default Clear Color
     this->ClearColor = glm::vec3 (0.0f, 0.0f, 0.0f);
   }
@@ -163,8 +162,8 @@ namespace graphics
   void Display::Clear()
   {
     glClearColor (this->ClearColor.x, this->ClearColor.y, this->ClearColor.z, 1.0f);
-    // glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClear (GL_COLOR_BUFFER_BIT);
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // glClear (GL_COLOR_BUFFER_BIT);
     // glEnable(GL_DEPTH_TEST);
   }
 

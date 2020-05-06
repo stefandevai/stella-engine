@@ -1,5 +1,7 @@
 #pragma once
 
+#include "stella/components/scroll.hpp"
+#include "stella/components/tileview.hpp"
 #include "../components.hpp"
 #include "./system.hpp"
 

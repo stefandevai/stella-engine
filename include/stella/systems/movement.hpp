@@ -1,6 +1,8 @@
 #pragma once
 
-#include "../components.hpp"
+#include "stella/components/movement.hpp"
+#include "stella/components/player.hpp"
+#include "stella/components.hpp"
 #include "./system.hpp"
 
 namespace stella

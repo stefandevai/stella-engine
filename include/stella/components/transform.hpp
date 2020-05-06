@@ -8,14 +8,14 @@ namespace component
 {
   struct Transform
   {
-    Transform (const double rotation = 0.0f, const glm::vec2 scale = glm::vec2 (1.f, 1.f))
-      : Rotation (rotation), Scale (scale)
+    Transform (const glm::vec3& rotation = glm::vec3 (0.f, 0.f, 0.f),
+               const glm::vec3& scale    = glm::vec3 (1.f, 1.f, 1.f))
+      : rotation (rotation), scale (scale)
     {
     }
 
-    double Rotation;
-    glm::vec2 Scale;
-    bool ResizedX = false, ResizedY = false;
+    glm::vec3 rotation;
+    glm::vec3 scale;
   };
 } // namespace component
 } // namespace stella

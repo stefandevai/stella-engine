@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 #include <unordered_map>
+#include <vector>
 
 namespace stella
 {
@@ -20,6 +21,7 @@ namespace core
   {
   private:
     std::unordered_map<std::string, std::shared_ptr<Resource>> m_resources;
+    std::vector<std::string> m_id_list{};
 
   public:
     ResourceManager(){};
@@ -32,6 +34,7 @@ namespace core
       if (!res)
       {
         m_resources[name] = res = std::make_shared<T> (args...);
+        m_id_list.push_back (name);
       }
       return std::dynamic_pointer_cast<T> (res);
     }
@@ -41,12 +44,14 @@ namespace core
       auto res = m_resources[name];
       if (!res)
       {
-        std::cout << "There is no resource named " << res << '\n';
+        std::cout << "There is no resource named " << name << '\n';
         return nullptr;
       }
       auto return_value = std::dynamic_pointer_cast<T> (res);
       return return_value;
     }
+
+    std::vector<std::string> get_list() { return m_id_list; }
   };
 } // namespace core
 } // namespace stella

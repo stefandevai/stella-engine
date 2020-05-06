@@ -12,6 +12,7 @@ namespace widget
   MapEditor::MapEditor (nikte::Game& game) : Widget ("Map Editor"), m_game (game), m_tile_map (game.m_tile_map)
   {
     this->reset_map_settings();
+    m_open = true;
   }
 
   void MapEditor::render()
@@ -20,13 +21,15 @@ namespace widget
     {
       if (ImGui::Begin (m_name.c_str(), &m_open))
       {
+        // if (m_tile_map.has_loaded())
+        // {
         const float item_width = ImGui::CalcItemWidth();
 
         // Map Name
         ImGui::Dummy (ImVec2 (0.f, 3.f));
         ImGui::Text ("Map name:");
         ImGui::PushID ("map-input#1");
-        ImGui::InputText ("", m_map_name, IM_ARRAYSIZE (m_map_name));
+        ImGui::InputTextWithHint ("", "Give a name...", m_map_name, IM_ARRAYSIZE (m_map_name));
         ImGui::PopID();
         ImGui::Dummy (ImVec2 (0.f, 3.f));
 
@@ -34,7 +37,7 @@ namespace widget
         ImGui::Text ("Map file location:");
         ImGui::PushItemWidth (item_width - 64.f);
         ImGui::PushID ("map-input#2");
-        ImGui::InputTextWithHint ("", "Map file location.", m_path, IM_ARRAYSIZE (m_path));
+        ImGui::InputTextWithHint ("", "Choose a path...", m_path, IM_ARRAYSIZE (m_path));
         ImGui::PopID();
         ImGui::PopItemWidth();
         ImGui::SameLine (0.f, 4.f);
@@ -46,7 +49,7 @@ namespace widget
         ImGui::Separator();
 
         // Map dimensions
-        ImGui::Text ("Map dimensions: %d x %d (top, right, bottom, left)", m_map_width, m_map_height);
+        ImGui::Text ("Map dimensions: %d x %d (top, right, bottom, left)", m_tile_map.width(), m_tile_map.height());
         ImGui::PushItemWidth (item_width - 64.f);
         ImGui::PushID ("map-slider");
         if (ImGui::InputInt4 ("", m_map_size))
@@ -70,12 +73,10 @@ namespace widget
         if (ImGui::Button ("Resize", ImVec2 (60.f, 0)))
         {
           m_tile_map.resize (m_map_size[0], m_map_size[1], m_map_size[2], m_map_size[3]);
-          m_map_width += m_map_size[1] + m_map_size[3];
-          m_map_height += m_map_size[0] + m_map_size[2];
           m_map_size[0] = m_map_size[1] = m_map_size[2] = m_map_size[3] = 0;
 
-          m_game.m_script_api.set_variable<int> ("e_map_width", m_map_width);
-          m_game.m_script_api.set_variable<int> ("e_map_height", m_map_height);
+          m_game.m_script_api.set_variable<int> ("e_map_width", m_tile_map.width());
+          m_game.m_script_api.set_variable<int> ("e_map_height", m_tile_map.height());
         }
         ImGui::Dummy (ImVec2 (0.f, 3.f));
         ImGui::Separator();
@@ -89,7 +90,7 @@ namespace widget
           {
             auto& layer   = *it;
             bool selected = false;
-            if (layer->get_id() == get_selected_layer_id())
+            if (get_selected_layer_id() != -1 && layer->get_id() == get_selected_layer_id())
             {
               selected = true;
             }
@@ -101,24 +102,40 @@ namespace widget
             }
             ImGui::PopID();
           }
+          if (ImGui::Button("Create Layer"))
+          {
+            m_tile_map.create_layer("tileset");
+          }
           ImGui::EndGroup();
           ImGui::TreePop();
         }
         ImGui::Dummy (ImVec2 (0.0f, 12.0f));
       }
+      // else
+      // {
+      //   ImGui::Text ("Create a new map or load an existing one.");
+      // }
+      // }
       ImGui::End();
     }
   }
 
   void MapEditor::reset_map_settings()
   {
-    m_selected_layer   = m_tile_map.layers.front();
-    std::size_t length = m_tile_map.get_name().copy (m_map_name, 128);
-    m_map_name[length] = '\0';
-    length             = m_tile_map.get_path().copy (m_path, 128);
-    m_path[length]     = '\0';
-    m_map_width        = static_cast<int> (m_tile_map.width());
-    m_map_height       = static_cast<int> (m_tile_map.height());
+    if (m_tile_map.has_loaded())
+    {
+      m_selected_layer   = m_tile_map.layers.front();
+      std::size_t length = m_tile_map.get_name().copy (m_map_name, 128);
+      m_map_name[length] = '\0';
+      length             = m_tile_map.get_path().copy (m_path, 128);
+      m_path[length]     = '\0';
+    }
+    else
+    {
+      m_selected_layer   = nullptr;
+      memset(m_map_name, 0, sizeof m_map_name);
+      memset(m_path, 0, sizeof m_path);
+    }
   }
 
   void MapEditor::update_map_settings() { m_tile_map.set_name (m_map_name); }

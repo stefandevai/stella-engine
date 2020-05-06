@@ -8,4 +8,4 @@ namespace graphics
 {
   TexPtrs RendererT::m_textures = std::vector<std::shared_ptr<graphics::Texture>>();
 }
-}
+} // namespace stella

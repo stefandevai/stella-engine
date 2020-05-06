@@ -39,7 +39,7 @@ namespace graphics
     m_atlas_width  = aw;
     m_atlas_height = ah;
 
-    m_texture_atlas = std::make_shared<Texture>(aw, ah);
+    m_texture_atlas = std::make_shared<Texture> (aw, ah);
 
     int aa = 0;
     glPixelStorei (GL_UNPACK_ALIGNMENT, 1);

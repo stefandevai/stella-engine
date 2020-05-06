@@ -10,8 +10,8 @@ namespace system
   class System
   {
   public:
-    virtual ~System() = default;
-    virtual void update (entt::registry& registry, const double dt) {}
+    virtual ~System()                                               = default;
+    virtual void update (entt::registry& registry, const double dt) = 0;
 
   protected:
     System() = default;

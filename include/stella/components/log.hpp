@@ -1,5 +1,7 @@
 #pragma once
 
+#include "component.hpp"
+
 //#include <ctime>
 //#include <iomanip>
 #include <sstream>
@@ -17,9 +19,11 @@ namespace component
     STELLA_LOG_VALUE
   };
 
-  struct Log
+  struct Log : public Component
   {
     std::vector<std::string> log_queue;
+
+    Log() : Component ("Log") {}
 
     template<typename T>
     void log (T value, LogType type)

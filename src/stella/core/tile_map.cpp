@@ -15,12 +15,17 @@
 #include <cereal/types/vector.hpp> // IWYU pragma: export
 #include <fstream>
 #include <algorithm>
+#include <chrono>
 
 namespace stella
 {
 namespace core
 {
   entt::registry* Tile::registry = nullptr;
+  TileMap::TileMap (entt::registry& registry) : m_registry (registry)
+  {
+    Tile::registry = &m_registry;
+  }
 
   TileMap::TileMap (const std::string& path, entt::registry& registry) : m_path (path), m_registry (registry)
   {
@@ -32,17 +37,24 @@ namespace core
 
   void TileMap::load (const std::string& path)
   {
+    // Clear map if there's one already loaded
+    if (m_loaded)
+    {
+      this->clear();
+    }
     auto pos                    = path.find_last_of ('.');
     const std::string extension = path.substr (pos + 1);
     if (extension == "lua")
     {
       m_path = path;
       load_lua (path);
+      m_loaded = true;
     }
     else if (extension == "xml")
     {
       m_path = path;
       load_xml (path);
+      m_loaded = true;
     }
     else
     {
@@ -180,11 +192,35 @@ namespace core
     }
     else
     {
-      if (layer_id == 0 && value == 0) {}
+      // if (layer_id == 0 && value == 0) {}
       // if (y == 0) this->update_tile_sprite(tile.entity, 2, layer_id);
       this->update_tile_position (tile.entity, layer_id, x, y, tile.z);
       this->update_tile_sprite (tile.entity, layer_id, value);
     }
+  }
+
+  void TileMap::update_tile (const entt::entity entity, entt::registry& registry)
+  {
+    const auto& tile_component = m_registry.get<component::Tile>(entity);
+    const auto& sprite_component = m_registry.get<component::SpriteT>(entity);
+    const auto& position_component = m_registry.get<component::Position>(entity);
+    const int x = position_component.x/m_tile_dimension;
+    const int y = position_component.y/m_tile_dimension;
+    auto layer = layers[tile_component.layer_id];
+    auto tile  = layer->get_value (x, y);
+
+    tile.value      = sprite_component.frame;
+    tile.collidable = tile_component.collidable;
+    tile.x          = x;
+    tile.y          = y;
+
+    auto old_tile = layers[tile_component.layer_id]->get_value (x, y);
+    if (registry.valid(old_tile.entity) && old_tile.entity != entt::null)
+    {
+      registry.destroy(old_tile.entity);
+    }
+    tile.entity = entity;
+    layers[tile_component.layer_id]->set_value (x, y, tile);
   }
 
   void TileMap::update_tile_sprite (entt::entity entity, const unsigned layer_id, const int value)
@@ -193,12 +229,11 @@ namespace core
     {
       auto& sprite = m_registry.get<component::SpriteT> (entity);
       sprite.frame = value;
+      
     }
     else
     {
-      auto &sprite = m_registry.emplace<component::SpriteT> (entity, layers[layer_id]->get_texture_name());
-      sprite.hframes = 8;
-      sprite.vframes = 11;
+      auto& sprite = m_registry.emplace<component::SpriteT> (entity, layers[layer_id]->get_texture_name());
       sprite.frame = value;
       sprite.layer = layers[layer_id]->get_render_layer_name();
     }
@@ -223,19 +258,25 @@ namespace core
   void TileMap::create_tile_entity (
       const int value, const int x, const int y, const int z, const unsigned layer_id, bool collidable)
   {
-    auto tile = m_registry.create();
-    m_registry.emplace<component::Tile> (tile, layer_id, collidable);
-    // if (layers[layer_id]->get_texture_name() != "tileset") std::cout << layers[layer_id]->get_texture_name() << '\n';
-    m_registry.emplace<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
-    m_registry.emplace<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
-    auto& sprite = m_registry.emplace<component::SpriteT> (tile, layers[layer_id]->get_texture_name());
-    sprite.hframes = 8;
-    sprite.vframes = 11;
-    sprite.frame = value;
-    sprite.layer = layers[layer_id]->get_render_layer_name();
+    if (value != 0)
+    {
+      auto tile = m_registry.create();
+      m_registry.emplace<component::Tile> (tile, layer_id, collidable);
+      m_registry.emplace<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
+      m_registry.emplace<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
     
-    m_registry.emplace<component::Fog> (tile, z, !collidable);
-    layers[layer_id]->set_entity (x, y, tile);
+      auto& sprite = m_registry.emplace<component::SpriteT> (tile, layers[layer_id]->get_texture_name());
+      sprite.frame = value;
+      sprite.layer = layers[layer_id]->get_render_layer_name();
+      //m_registry.emplace<component::Fog> (tile, z, !collidable);
+      layers[layer_id]->set_entity (x, y, tile);
+    }
+    else
+    {
+      // TODO: Destroy entity if exists on the layer
+      layers[layer_id]->set_entity (x, y, entt::null);
+      layers[layer_id]->set_visibility (x, y, false);
+    }
   }
 
   void TileMap::create_tile_entities (const int beginx, const int endx, const int beginy, const int endy)
@@ -259,8 +300,12 @@ namespace core
         for (auto x = left; x < right; ++x)
         {
           const auto& layer_tile = layer->get_value (x, y);
-
           if (!layer_tile.visible && layer_tile.value > 0)
+          {
+            layer->set_visibility (x, y, true);
+            this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter, layer_tile.collidable);
+          }
+          else if (layer_tile.value > 0 && (!m_registry.valid(layer_tile.entity) || !m_registry.has<component::SpriteT>(layer_tile.entity)))
           {
             layer->set_visibility (x, y, true);
             this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter, layer_tile.collidable);
@@ -275,14 +320,26 @@ namespace core
     }
   }
 
+  void TileMap::create_layer (const std::string& texture, std::string name)
+  {
+    if (name.empty())
+    {
+      name = "Layer " + std::to_string(layers.size() + 1);
+    }
+    auto layer = std::make_shared<MapGrid>(m_width, m_height);
+    layers.push_back (layer);
+    layer->set_name(name);
+    layer->set_id(layers.size() - 1);
+    layer->set_texture_name (texture);
+  }
+
+
   void TileMap::resize (const int top, const int right, const int bottom, const int left)
   {
     for (auto& layer : layers)
     {
       layer->resize (top, right, bottom, left);
     }
-    m_width += right + left;
-    m_height += top + bottom;
     this->refresh();
   }
 
@@ -315,6 +372,10 @@ namespace core
       layer->m_grid.clear();
     }
     layers.clear();
+    m_number_of_layers = 0;
+    m_tile_dimension   = 32;
+    m_width = 28;
+    m_height = 16;
   }
 } // namespace core
 } // namespace stella

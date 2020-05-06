@@ -1,5 +1,7 @@
 #pragma once
 
+#include "component.hpp"
+
 #include <string>
 
 namespace stella
@@ -19,11 +21,12 @@ namespace component
     Finished
   };
 
-  struct ScriptComponent
+  struct Script : public Component
   {
-    ScriptComponent (const std::string& path, ScriptType type = Once) : path (path), type (type) {}
-    std::string path;
-    ScriptType type;
+    Script() : Component ("Script") {}
+    Script (const std::string& path, ScriptType type = Once) : Component ("Script"), path (path), type (type) {}
+    std::string path  = "";
+    ScriptType type   = Once;
     ScriptState state = Waiting;
   };
 } // namespace component

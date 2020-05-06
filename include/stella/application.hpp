@@ -6,7 +6,7 @@
 
 // #ifdef STELLA_BUILD_EDITOR
 //   #include "editor/editor.hpp"
-  
+
 // #endif
 
 #ifdef STELLA_BUILD_EDITOR
@@ -41,6 +41,7 @@ namespace core
   protected:
     virtual void load()                   = 0;
     virtual void update (const double dt) = 0;
+    virtual void render (const double dt) = 0;
 
 #ifdef STELLA_BUILD_EDITOR
     friend class editor::Editor;

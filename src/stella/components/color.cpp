@@ -7,7 +7,7 @@ namespace stella
 {
 namespace component
 {
-  Color::Color (const std::string& color) : hex_color (color)
+  Color::Color (const std::string& color) : Component ("Color"), hex_color (color)
   {
     std::stringstream ss;
     std::string only_hex_str{hex_color.substr (1)};
@@ -21,7 +21,7 @@ namespace component
     rgba_color.r = (int_color & 0x000000FF);
   }
 
-  Color::Color (const unsigned r, const unsigned g, const unsigned b, const unsigned a)
+  Color::Color (const unsigned r, const unsigned g, const unsigned b, const unsigned a) : Component ("Color")
   {
     std::stringstream ss;
 

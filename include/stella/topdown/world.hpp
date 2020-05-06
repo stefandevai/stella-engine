@@ -6,8 +6,20 @@
 
 #include "glm/detail/type_vec.hpp"
 #include "glm/detail/type_vec2.hpp"
-namespace stella { namespace core { class TileMap; } }
-namespace stella { namespace topdown { class Body; } }
+namespace stella
+{
+namespace core
+{
+  class TileMap;
+}
+} // namespace stella
+namespace stella
+{
+namespace topdown
+{
+  class Body;
+}
+} // namespace stella
 
 namespace stella
 {

@@ -1,5 +1,10 @@
 #include "editor/widgets/inspector.hpp"
+#include "editor/widgets/components/components_widgets.hpp"
+#include "editor/components/selected.hpp"
+
+// TEMP
 #include "stella/components.hpp" // IWYU pragma: export
+// TEMP
 
 namespace stella
 {
@@ -7,14 +12,43 @@ namespace widget
 {
   Inspector::Inspector() : Widget ("Inspector") { m_open = true; }
 
-  void Inspector::render (entt::registry& registry)
+  // void Inspector::render (entt::registry& registry, const std::vector<std::string&>& texture_list)
+  void Inspector::render (entt::registry& registry, const std::vector<std::string>& texture_list)
   {
+    std::vector<entt::entity> selected_entities;
+    registry.view<component::Selected>().each ([&selected_entities] (auto entity, auto& sel) {
+      selected_entities.push_back (entity);
+      if (selected_entities.size() > 1)
+      {
+        return;
+      }
+    });
+
+    // If only one entity is selected
+    if (selected_entities.size() == 1)
+    {
+      m_selected_entity = selected_entities.front();
+    }
+    // If none or multiple entities are selected
+    else
+    {
+      m_selected_entity = entt::null;
+    }
+
     if (ImGui::Begin (m_name.c_str(), &m_open))
     {
       ImGui::Dummy (ImVec2 (0.f, 3.f));
       if (m_selected_entity != entt::null && registry.valid (m_selected_entity))
       {
-        m_render_component_nodes (registry);
+        m_render_component_nodes (registry, texture_list);
+        ImGui::Dummy (ImVec2 (0.f, 10.f));
+        ImGui::Separator();
+        ImGui::Dummy (ImVec2 (0.f, 10.f));
+        if (ImGui::Button ("Add Components", ImVec2 (100, 27)))
+        {
+          m_add_components.open();
+        }
+        m_add_components.render (registry, m_selected_entity);
       }
       else
       {
@@ -25,46 +59,30 @@ namespace widget
     ImGui::End();
   }
 
-  void Inspector::m_render_component_nodes (entt::registry& registry)
+  void Inspector::m_render_component_nodes (entt::registry& registry, const std::vector<std::string>& texture_list)
   {
-    if (ImGui::CollapsingHeader ("Components"))
+    if (ImGui::CollapsingHeader ("Components", ImGuiTreeNodeFlags_DefaultOpen))
     {
-      m_render_component_node<component::Position> ("Position", registry, [] (component::Position& pos) {
-        float pos_input[3] = {0.0f, 0.0f, 0.0f};
-        pos_input[0]       = pos.x;
-        pos_input[1]       = pos.y;
-        pos_input[2]       = pos.z;
-        ImGui::PushID ("position#inspector");
-        ImGui::InputFloat ("x", &pos_input[0], 0.0f, 0.0f, "%.3f");
-        ImGui::InputFloat ("y", &pos_input[1], 0.0f, 0.0f, "%.3f");
-        ImGui::InputFloat ("z", &pos_input[2], 0.0f, 0.0f, "%.3f");
-        ImGui::PopID();
-        pos.x = pos_input[0];
-        pos.y = pos_input[1];
-        pos.z = pos_input[2];
-      });
-
-      m_render_component_node<component::Tile> ("Tile", registry, [] (component::Tile& tile) {
-        int layer_id    = static_cast<int> (tile.layer_id);
-        bool collidable = tile.collidable;
-        ImGui::PushID ("tile#inspector");
-        ImGui::InputInt ("layer_id", &layer_id);
-        ImGui::Checkbox ("collidable", &collidable);
-        ImGui::PopID();
-        tile.layer_id   = static_cast<unsigned> (layer_id);
-        tile.collidable = collidable;
-      });
-
-      m_render_component_node<component::Body2D> ("Tile", registry, [] (component::Body2D& body) {
-        float movement_speed = body.movement_speed;
-        bool is_static       = body.Body->IsStatic;
-        ImGui::PushID ("body#inspector");
-        ImGui::InputFloat ("Movement speed", &movement_speed);
-        ImGui::Checkbox ("Static", &is_static);
-        ImGui::PopID();
-        body.movement_speed = movement_speed;
-        body.Body->IsStatic = is_static;
-      });
+      m_render_component_node<component::AnimationPlayer> (registry, AnimationPlayer());
+      m_render_component_node<component::Body2D> (registry, Body2D());
+      m_render_component_node<component::Camera> (registry, Camera());
+      m_render_component_node<component::CharacterAnimation> (registry, CharacterAnimation());
+      m_render_component_node<component::Charcode> (registry, Charcode());
+      m_render_component_node<component::Color> (registry, Color());
+      m_render_component_node<component::Dimension> (registry, Dimension());
+      m_render_component_node<component::Group> (registry, Group());
+      m_render_component_node<component::LayerT> (registry, Layer());
+      m_render_component_node<component::NPC> (registry, NPC());
+      m_render_component_node<component::Position> (registry, Position());
+      m_render_component_node<component::Script> (registry, Script());
+      m_render_component_node<component::Shape> (registry, Shape());
+      m_render_component_node<component::SpeechContainer> (registry, SpeechContainer());
+      m_render_component_node<component::SpriteT> (registry, Sprite (texture_list));
+      m_render_component_node<component::Text> (registry, Text());
+      m_render_component_node<component::Tile> (registry, Tile());
+      m_render_component_node<component::Timer> (registry, Timer());
+      m_render_component_node<component::Typewriter> (registry, Typewriter());
+      m_render_component_node<component::Vertical> (registry, Vertical());
     }
   }
 } // namespace widget

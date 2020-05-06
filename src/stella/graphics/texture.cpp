@@ -16,7 +16,8 @@ namespace graphics
 {
   // Texture::Texture(const std::string &name, const char *texPath) : Name(name)
   // {
-  Texture::Texture (const std::string& path) : Resource (path)
+  Texture::Texture (const std::string& path, const unsigned hframes, const unsigned vframes)
+    : Resource (path), hframes (hframes), vframes (vframes)
   {
     this->Cached = false;
     glGenTextures (1, &this->ID);
@@ -69,7 +70,9 @@ namespace graphics
     int width, height, channels;
     unsigned char* img = stbi_load (texPath, &width, &height, &channels, STBI_rgb_alpha);
     if (img == nullptr)
+    {
       std::cout << "It wasn't possible to load " << texPath << std::endl;
+    }
 
     this->Width  = (unsigned int) width;
     this->Height = (unsigned int) height;

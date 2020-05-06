@@ -5,8 +5,8 @@ local Player = Entity:create_player()
 local flowers = require('scripts.demo.flowers')
 
 local function load_assets()
-  load_texture("nikte", "assets/sprites/nikte.png")
-  load_texture("tileset", "assets/sprites/tilesetv2.png")
+  load_texture("nikte", "assets/sprites/nikte.png", 9, 6)
+  load_texture("tileset", "assets/sprites/tilesetv2.png", 8, 11)
 
   load_font("1980", "assets/fonts/1980.ttf", 32)
   load_font("lato", "assets/fonts/Lato/Lato-Black.ttf", 56)
@@ -15,7 +15,7 @@ end
 local function load_npc(x, y)
   local npc = Entity:create_entity()
   -- npc:add_component("name", "Test")
-  npc:add_component("position", {x, y, 1})
+  npc:add_component("position", {x, y, 0})
   npc:add_component("dimension", {32, 64})
   npc:add_component("sprite", {
     texture = "nikte",
@@ -31,6 +31,7 @@ local function load_npc(x, y)
   npc:add_component("npc", {
     script_path = "scripts/npcs/test.lua"
   })
+  npc:add_component("vertical")
 
   animation_args = {}
   animation_args["loop"] = true
@@ -62,6 +63,7 @@ local function load_player(x, y)
     bounding_box = {32, 32},
     bounding_box_position = {0, 32},
   })
+  Player:add_component("vertical")
 
   animation_args = {}
   animation_args["loop"] = true
@@ -127,22 +129,62 @@ local function load()
   })
 
   -- load_assets()
-  load_player(480, 512)
-  load_npc(512, 512)
+  load_player(100, 100)
+  load_npc(200, 200)
   --flowers.load()
-  local test_shape = Entity:create_entity()
-  
-  test_shape:add_component("position", {0, 0, 1})
-  test_shape:add_component("shape", {
-    vertices = {{32.0,32.0},{864.0,32.0},{864.0,472.0},{32.0,472.0}},
-    layer = "shapes"
-  })
-  test_shape:add_component("color", {
-    --rgba = {255, 255, 255, 100},
-    hex = "#ffffff44",
-  })
-    
+
+  -- local test_shape = Entity:create_entity()
+  -- test_shape:add_component("position", {300, 0, 0})
+  -- test_shape:add_component("shape", {
+  --   -- vertices = {{32.0,32.0,0.0},{864.0,32.0,0.0},{864.0,472.0,0.0},{32.0,472.0,0.0}},
+  --   vertices = {{0.0,0.0,0.0},{100.0,0.0,0.0},{100.0,100.0,0.0},{0.0,100.0,0.0}},
+  --   layer = "shapes"
   -- })
+
+  -- test_shape:add_component("color", {
+  --   --rgba = {255, 255, 255, 100},
+  --   hex = "#3769ab44",
+  -- })
+
+  -- test_shape:add_component("vertical")
+
+  -- local test_shape2 = Entity:create_entity()
+  -- test_shape2:add_component("position", {0, 0, 0})
+  -- test_shape2:add_component("shape", {
+  --   -- vertices = {{32.0,32.0,0.0},{864.0,32.0,0.0},{864.0,472.0,0.0},{32.0,472.0,0.0}},
+  --   vertices = {{0.0,0.0,0.0},{200.0,0.0,0.0},{200.0,200.0,0.0},{0.0,200.0,0.0}},
+  --   layer = "shapes"
+  -- })
+
+  -- test_shape2:add_component("color", {
+  --   --rgba = {255, 255, 255, 100},
+  --   hex = "#cdeb3488",
+  -- })
+
+  -- test_shape2:add_component("transform", {
+  --   -- rotation = {20,0,0},
+  --   rotation = {-45,0,0},
+  --   scale = {1,1,1},
+  -- })
+
+  -- local test_spr = Entity:create_entity()
+  -- test_spr:add_component("position", {410, 224, 9})
+  -- test_spr:add_component("dimension", {32, 64})
+  -- test_spr:add_component("sprite", {
+  --   texture = "nikte",
+  --   layer = "collision",
+  --   frame_dimensions = {9, 6},
+  -- })
+
+  -- local test_spr2 = Entity:create_entity()
+  -- test_spr2:add_component("position", {400, 200, 10})
+  -- test_spr2:add_component("dimension", {32, 64})
+  -- test_spr2:add_component("sprite", {
+  --   texture = "nikte",
+  --   layer = "tiles",
+  --   frame_dimensions = {9, 6},
+  -- })
+
 
   -- local test_spr = Entity:create_entity()
   -- test_spr:add_component("sprite", {
@@ -180,8 +222,8 @@ local last_camera_x = 0.0
 
 local function update(dt)
   local player_position = {get_position(Player.id)}
-  camera_position[1] = math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2))
-  camera_position[2] = math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2))
+  camera_position[1] = math.max(0, math.min(e_map_width*32 - e_screen_width, math.max(0, player_position[1] - e_screen_width/2)))
+  camera_position[2] = math.max(0, math.min(e_map_height*32 - e_screen_height, math.max(0, player_position[2] - e_screen_height/2)))
   update_camera(camera_position[1], camera_position[2], 0)
   -- flowers.update()
 end

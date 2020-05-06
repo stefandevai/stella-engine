@@ -31,5 +31,5 @@ namespace widget
     void add_log (const char* fmt, ...) IM_FMTARGS (2);
     void render (entt::registry& registry);
   };
-} // namespace editor
+} // namespace widget
 } // namespace stella
