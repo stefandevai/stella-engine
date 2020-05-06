@@ -15,7 +15,7 @@ end
 local function load_npc(x, y)
   local npc = Entity:create_entity()
   -- npc:add_component("name", "Test")
-  npc:add_component("position", {x, y, 1})
+  npc:add_component("position", {x, y, 9})
   npc:add_component("dimension", {32, 64})
   npc:add_component("sprite", {
     texture = "nikte",
@@ -131,20 +131,41 @@ local function load()
   load_npc(200, 200)
   --flowers.load()
 
-  -- local test_shape = Entity:create_entity()
-  -- test_shape:add_component("position", {0, 10, 5})
-  -- test_shape:add_component("shape", {
-  --   vertices = {{32.0,32.0,0.0},{864.0,32.0,0.0},{864.0,472.0,0.0},{32.0,472.0,0.0}},
+  local test_shape = Entity:create_entity()
+  test_shape:add_component("position", {0, 472, 23})
+  test_shape:add_component("shape", {
+    -- vertices = {{32.0,32.0,0.0},{864.0,32.0,0.0},{864.0,472.0,0.0},{32.0,472.0,0.0}},
+    vertices = {{0.0,0.0,0.0},{32.0,0.0,0.0},{32.0,32.0,0.0},{0.0,32.0,0.0}},
+    layer = "shapes"
+  })
+
+  test_shape:add_component("color", {
+    --rgba = {255, 255, 255, 100},
+    hex = "#3769ab44",
+  })
+
+  test_shape:add_component("transform", {
+    -- rotation = {20,0,0},
+    rotation = {-45,0,0},
+    scale = {1,1,1},
+  })
+
+  -- local test_shape2 = Entity:create_entity()
+  -- test_shape2:add_component("position", {0, 0, 0})
+  -- test_shape2:add_component("shape", {
+  --   -- vertices = {{32.0,32.0,0.0},{864.0,32.0,0.0},{864.0,472.0,0.0},{32.0,472.0,0.0}},
+  --   vertices = {{0.0,200.0,0.0},{200.0,200.0,0.0},{200.0,400.0,0.0},{0.0,400.0,0.0}},
   --   layer = "shapes"
   -- })
 
-  -- test_shape:add_component("color", {
+  -- test_shape2:add_component("color", {
   --   --rgba = {255, 255, 255, 100},
-  --   hex = "#3769ab44",
+  --   hex = "#cdeb3488",
   -- })
 
-  -- test_shape:add_component("transform", {
-  --   rotation = {1,0,0},
+  -- test_shape2:add_component("transform", {
+  --   -- rotation = {20,0,0},
+  --   rotation = {-45,0,0},
   --   scale = {1,1,1},
   -- })
 

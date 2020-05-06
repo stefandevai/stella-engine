@@ -55,15 +55,19 @@ namespace system
     {
       if (!m_layers[order.second]->fixed && camera_pos)
       {
-        m_layers[order.second]->set_view_matrix (
-            glm::lookAt (glm::vec3 (camera_pos->x, camera_pos->y, camera_pos->z),
-                         glm::vec3 (camera_pos->x, camera_pos->y, camera_pos->z - 1.f),
-                         glm::vec3 (0.f, 1.f, 0.f)));
+        // m_layers[order.second]->set_view_matrix (
+        //     glm::lookAt (glm::vec3(camera_pos->x, camera_pos->y, 0.f),
+        //                  glm::vec3 (camera_pos->x, camera_pos->y, -1.f),
+        //                  glm::vec3 (0.f, 1.f, 0.f)));
+        
+        m_layers[order.second]->set_view_matrix (glm::lookAt (glm::vec3 (camera_pos->x, camera_pos->y, 30.0f),
+                                                         glm::vec3 (camera_pos->x, camera_pos->y, -1.f),
+                                                         glm::vec3 (0.f, 1.f, 0.f)));
+        
       }
       m_layers[order.second]->render (registry);
     }
   }
-
   void RenderT::m_add_renderable_to_layer (const std::string& layer_name, entt::entity entity)
   {
     auto layer = m_layers.find (layer_name);

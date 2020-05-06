@@ -19,7 +19,7 @@ namespace graphics
   {
     GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
     shader->Enable();
-    const auto projection = glm::ortho (0.0f, 896.f, 504.f, 0.0f, -20.0f, 0.0f);
+    const auto projection = glm::ortho (0.0f, 896.f, 504.f, 0.0f, -100.0f, 100.0f);
     shader->SetMat4 ("proj", projection);
     shader->SetIntv ("textures", tex_ids, 21);
     shader->Disable();

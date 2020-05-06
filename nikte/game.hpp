@@ -32,8 +32,8 @@ class Game : public stella::core::Game
 {
 private:
   Player m_player{m_registry, m_display};
-  // stella::core::TileMap m_tile_map{m_registry};
   stella::core::TileMap m_tile_map{m_registry};
+  // stella::core::TileMap m_tile_map{"scripts/demo/church_map.xml", m_registry};
   // stella::PerlinNoise m_perlin_generator{47};
   // std::default_random_engine m_generator;
   // std::uniform_real_distribution<double> m_perlin_distribution{0.0,1.0};
