@@ -214,9 +214,10 @@ namespace core
     tile.x          = x;
     tile.y          = y;
 
-    if (registry.valid(entity) && tile.entity != entt::null)
+    auto old_tile = layers[tile_component.layer_id]->get_value (x, y);
+    if (registry.valid(old_tile.entity) && old_tile.entity != entt::null)
     {
-      registry.destroy(entity);
+      registry.destroy(old_tile.entity);
     }
     tile.entity = entity;
     layers[tile_component.layer_id]->set_value (x, y, tile);

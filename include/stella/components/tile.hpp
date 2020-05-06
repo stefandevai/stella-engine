@@ -13,7 +13,7 @@ namespace component
       : Component ("Tile"), layer_id (layer_id), collidable (collidable)
     {
     }
-    unsigned layer_id = 0;
+    int layer_id = -1;
     bool collidable   = false;
   };
 } // namespace component

@@ -49,7 +49,6 @@ namespace widget
       ImGui::Checkbox (" Collidable", &m_tile_collidable);
       ImGui::SameLine();
       ImGui::Checkbox (" Scriptable", &m_tile_scriptable);
-      ImGui::SliderInt (" z", &m_z_coord, -100, 100);
       if (m_tile_scriptable)
       {
         ImGui::Dummy (ImVec2 (0.f, 3.f));
@@ -59,6 +58,7 @@ namespace widget
         ImGui::PopID();
         ImGui::Dummy (ImVec2 (0.f, 3.f));
       }
+      ImGui::SliderInt (" z", &m_z_coord, -100, 100);
       ImGui::Dummy (ImVec2 (0.0f, 3.0f));
 
       ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (0.0f, 0.0f));

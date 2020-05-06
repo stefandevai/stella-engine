@@ -12,6 +12,7 @@ namespace widget
   MapEditor::MapEditor (nikte::Game& game) : Widget ("Map Editor"), m_game (game), m_tile_map (game.m_tile_map)
   {
     this->reset_map_settings();
+    m_open = true;
   }
 
   void MapEditor::render()

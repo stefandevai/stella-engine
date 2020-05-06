@@ -31,6 +31,7 @@ local function load_npc(x, y)
   npc:add_component("npc", {
     script_path = "scripts/npcs/test.lua"
   })
+  npc:add_component("vertical")
 
   animation_args = {}
   animation_args["loop"] = true

@@ -132,6 +132,68 @@ namespace editor
           ImGuiIO& io = ImGui::GetIO();
           m_handle_pan_tool (io);
         }
+
+        // Inspector tool
+        if (state[SDL_SCANCODE_ESCAPE])
+        {
+          m_current_tool = INSPECTOR;
+        }
+
+        // Tile pen tool
+        if (state[SDL_SCANCODE_I] && !state[SDL_SCANCODE_O])
+        {
+          m_current_tool = TILE_PEN;
+        }
+
+        // Open commands
+        if (state[SDL_SCANCODE_O])
+        {
+          if (state[SDL_SCANCODE_M])
+          {
+            m_map_editor.open();
+          }
+          else if (state[SDL_SCANCODE_T])
+          {
+            m_tileset_editor.open();
+          }
+          else if (state[SDL_SCANCODE_I])
+          {
+            m_inspector.open();
+          }
+          else if (state[SDL_SCANCODE_H])
+          {
+            m_chat.open();
+          }
+          else if (state[SDL_SCANCODE_Y])
+          {
+            m_console.open();
+          }
+        }
+
+        // Close commands
+        if (state[SDL_SCANCODE_C])
+        {
+          if (state[SDL_SCANCODE_M])
+          {
+            m_map_editor.close();
+          }
+          else if (state[SDL_SCANCODE_T])
+          {
+            m_tileset_editor.close();
+          }
+          else if (state[SDL_SCANCODE_I])
+          {
+            m_inspector.close();
+          }
+          else if (state[SDL_SCANCODE_H])
+          {
+            m_chat.close();
+          }
+          else if (state[SDL_SCANCODE_Y])
+          {
+            m_console.close();
+          }
+        }
       }
       break;
 
@@ -281,17 +343,23 @@ namespace editor
         // bool collidable = m_tileset_editor.get_selected_tile_collidable();
         // int layer_id    = m_map_editor.get_selected_layer_id();
         // m_game.m_tile_map.update_tile (new_tile_value, tile_pos.x, tile_pos.y, layer_id, collidable);
-
-
-        const auto entity = m_tileset_editor.get_entity(m_game.m_registry);
-        m_game.m_registry.patch<component::Position>(entity, [&sprite_pos](auto& pos)
+        
+        if (m_map_editor.get_selected_layer_id() >= 0)
         {
-          pos.x = sprite_pos.x;
-          pos.y = sprite_pos.y;
-        });
-        auto& tile = m_game.m_registry.get<component::Tile>(entity);
-        tile.layer_id = m_map_editor.get_selected_layer_id();
-        m_game.m_tile_map.update_tile (entity, m_game.m_registry);
+          const auto entity = m_tileset_editor.get_entity(m_game.m_registry);
+          m_game.m_registry.patch<component::Position>(entity, [&sprite_pos](auto& pos)
+          {
+            pos.x = sprite_pos.x;
+            pos.y = sprite_pos.y;
+          });
+          auto& tile = m_game.m_registry.get<component::Tile>(entity);
+          tile.layer_id = m_map_editor.get_selected_layer_id();
+          m_game.m_tile_map.update_tile (entity, m_game.m_registry);
+        }
+        else
+        {
+          std::cout << "Please select a layer first.\n";
+        }
       }
     });
   }
@@ -551,15 +619,15 @@ namespace editor
         ImGui::Dummy (ImVec2{0.0f, 1.5f});
         ImGui::Separator();
         ImGui::Dummy (ImVec2{0.0f, 1.5f});
-        m_widget_build_option (m_inspector);
+        m_widget_build_option (m_inspector, "oi/ci");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        m_widget_build_option (m_map_editor);
+        m_widget_build_option (m_map_editor, "om/cm");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        m_widget_build_option (m_tileset_editor);
+        m_widget_build_option (m_tileset_editor, "ot/ct");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        m_widget_build_option (m_chat);
+        m_widget_build_option (m_chat, "oh/ch");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        m_widget_build_option (m_console);
+        m_widget_build_option (m_console, "oy/cy");
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu ("Tools"))
@@ -573,14 +641,14 @@ namespace editor
     }
   }
 
-  void Editor::m_widget_build_option (widget::Widget& widget)
+  void Editor::m_widget_build_option (widget::Widget& widget, const std::string& shortcut)
   {
     auto item_text = widget.get_name();
     if (widget.is_open())
     {
       item_text = "Hide " + widget.get_name();
     }
-    if (ImGui::MenuItem (item_text.c_str()))
+    if (ImGui::MenuItem (item_text.c_str(), shortcut.c_str()))
     {
       widget.toggle();
     }

@@ -104,7 +104,7 @@ namespace editor
     void m_handle_tile_pen (const ImGuiIO& io);
     void m_handle_pan_tool (const ImGuiIO& io);
     void m_handle_inspector (const ImGuiIO& io);
-    void m_widget_build_option (widget::Widget& widget);
+    void m_widget_build_option (widget::Widget& widget, const std::string& shortcut);
     void m_map_tile_pos (const ImGuiIO& io, std::function<void (const ImVec2&)> position_action);
   };
 
