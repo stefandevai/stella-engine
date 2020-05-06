@@ -9,6 +9,7 @@
 #include "stella/components/scroll.hpp"
 #include "stella/components/name.hpp"
 #include "stella/components/animation_player.hpp"
+#include "stella/components/vertical.hpp"
 // #include "stella/components/particle_emitter.hpp"
 #include <assert.h>
 #include <string>
@@ -278,6 +279,11 @@ namespace script
     }
   }
 
+  void ECSLuaApi::add_vertical_component (entt::registry::entity_type id)
+  {
+    m_registry.emplace<stella::component::Vertical> (id);
+  }
+
   void ECSLuaApi::add_component (const sol::table& obj)
   {
     if (obj["type"] != sol::lua_nil)
@@ -322,6 +328,8 @@ namespace script
         add_shape_component (id, obj["args"]);
       else if (ct == "color")
         add_color_component (id, obj["args"]);
+      else if (ct == "vertical")
+        add_vertical_component (id);
       else
         std::cout << "ERROR: No component named " << ct << '\n';
     }

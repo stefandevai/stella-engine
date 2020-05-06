@@ -97,6 +97,14 @@ void main()
   {
     discard;
   }
-  color = vec4(final_color.rgb, final_color.a * f_in.color.a);
+  vec3 fog_factor = vec3(smoothstep(0, 2, gl_FragCoord.z) - 0.1);
+  color = vec4(final_color.rgb + fog_factor*4.0, final_color.a * f_in.color.a);
 }
+
+
+
+
+
+
+
 

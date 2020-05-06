@@ -62,11 +62,7 @@ local function load_player(x, y)
     bounding_box = {32, 32},
     bounding_box_position = {0, 32},
   })
-  Player:add_component("transform", {
-    -- rotation = {20,0,0},
-    rotation = {0,0,0},
-    scale = {1,1,1},
-  })
+  Player:add_component("vertical")
 
   animation_args = {}
   animation_args["loop"] = true
@@ -137,10 +133,10 @@ local function load()
   --flowers.load()
 
   -- local test_shape = Entity:create_entity()
-  -- test_shape:add_component("position", {300, 200, 0})
+  -- test_shape:add_component("position", {300, 0, 0})
   -- test_shape:add_component("shape", {
   --   -- vertices = {{32.0,32.0,0.0},{864.0,32.0,0.0},{864.0,472.0,0.0},{32.0,472.0,0.0}},
-  --   vertices = {{0.0,0.0,0.0},{32.0,0.0,0.0},{32.0,32.0,0.0},{0.0,32.0,0.0}},
+  --   vertices = {{0.0,0.0,0.0},{100.0,0.0,0.0},{100.0,100.0,0.0},{0.0,100.0,0.0}},
   --   layer = "shapes"
   -- })
 
@@ -149,11 +145,7 @@ local function load()
   --   hex = "#3769ab44",
   -- })
 
-  -- test_shape:add_component("transform", {
-  --   -- rotation = {20,0,0},
-  --   rotation = {-45,0,0},
-  --   scale = {1,1,1},
-  -- })
+  -- test_shape:add_component("vertical")
 
   -- local test_shape2 = Entity:create_entity()
   -- test_shape2:add_component("position", {0, 0, 0})
