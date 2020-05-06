@@ -4,18 +4,21 @@ in DATA
 {
   vec2 uv;
   float tid;
-  vec3 pos;
-  float yorigin;
-  float height;
-  float is_flat;
+  vec4 color;
+  vec2 pos;
 } f_in;
 
 out vec4 color;
 
 uniform sampler2D textures[11];
+
+float qinticIn(float t) {
+  return pow(t, 5.0);
+}
+
 void main()
 {
-  vec4 final_color = vec4(1.0, 1.0, 1.0, 1.0);
+  vec4 final_color = f_in.color;
   int tid = int(f_in.tid + 0.5);
 
   // Select texture (Up to 20 textures)
@@ -56,40 +59,44 @@ void main()
       break;
   }
   
-
-  float fog_height = 64.0;
-  float fog_intensity = 0.5;
-  float final_fog = fog_intensity;
-
-  if (f_in.is_flat > 0.0)
+  bool lighting = true;
+  if (lighting)
   {
-    float frag_height = f_in.height - f_in.pos.y;
-    float fog_factor = (fog_height - frag_height) / fog_height;
-    final_fog = fog_factor*fog_intensity;
+  vec2 screen_resolution = vec2(896.0, 504.0);
+  bool morning = false;
+
+  if (morning)
+  {
+    vec3 morning_color_shift = vec3(1.9, 0.9, 0.8);
+    float vignette_intensity = 0.8;
+    float vignette_spread = 2.0;
+    float vignette_radius = 600.0*vignette_spread;
+    vec2 vignette_center = vec2(screen_resolution.x/2.0, screen_resolution.y/2.0);
+    float dist_center = distance(vignette_center, gl_FragCoord.xy);
+
+    float vignette_factor = qinticIn(smoothstep(vignette_radius, 0, dist_center))*vignette_intensity;
+    final_color.rg *= morning_color_shift.rg*(vignette_factor+0.1);
+    final_color.b *= 0.4;
+  }
+  else
+  {
+    vec3 night_color_shift = vec3(0.3, 0.7, 1.8);
+    float vignette_intensity = 0.7;
+    float vignette_spread = 2.0;
+    float vignette_radius = 500.0*vignette_spread;
+    vec2 vignette_center = vec2(screen_resolution.x/2.0, screen_resolution.y/2.0);
+    float dist_center = distance(vignette_center, gl_FragCoord.xy);
+
+    float vignette_factor = qinticIn(smoothstep(vignette_radius, 0, dist_center))*vignette_intensity;
+  
+    final_color.rgb *= night_color_shift*vignette_factor;
+  }
   }
   
-  // if (f_in.pos.y > 0.0 && f_in.pos.y < 10.0)
-  // {
-  //   final_color.w = 1.0;
-  // }
-  // else
-  // {
-  //   final_color.w = 0.0;
-  // }
-  //color = vec4(1.0, 1.0, 1.0, final_color.w*fog_factor);
-  color = vec4(1.0, 1.0, 1.0, final_color.w*final_fog);
+  if (final_color.a * f_in.color.a < 0.5)
+  {
+    discard;
+  }
+  vec3 fog_factor = vec3(smoothstep(0, 2, gl_FragCoord.z) - 0.1);
+  color = vec4(final_color.rgb + fog_factor*1.0, final_color.a * f_in.color.a);
 }
-
-// #version 330 core
-// out vec4 FragColor;
-  
-// in DATA
-// {
-//   vec2 pos;
-//   vec4 color;
-// } v_in;
-
-// void main()
-// { 
-// 	FragColor = v_in.color;
-// }

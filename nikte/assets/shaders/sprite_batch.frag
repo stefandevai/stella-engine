@@ -63,7 +63,7 @@ void main()
   if (lighting)
   {
   vec2 screen_resolution = vec2(896.0, 504.0);
-  bool morning = true;
+  bool morning = false;
 
   if (morning)
   {
@@ -97,8 +97,7 @@ void main()
   {
     discard;
   }
-  vec3 fog_factor = vec3(smoothstep(0, 2, gl_FragCoord.z) - 0.1);
-  color = vec4(final_color.rgb + fog_factor*4.0, final_color.a * f_in.color.a);
+  color = vec4(final_color.rgb, final_color.a * f_in.color.a);
 }
 
 
