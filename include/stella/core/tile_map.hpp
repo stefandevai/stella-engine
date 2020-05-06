@@ -40,6 +40,7 @@ namespace core
     void set_tile_dimension (const int tile_dimension) { m_tile_dimension = tile_dimension; }
     void set_name (const std::string& name) { m_name = name; }
     void update_tile (const int value, const int x, const int y, const unsigned layer_id, const bool collidable);
+    void update_tile (const entt::entity entity, entt::registry& registry);
     void update_tile_sprite (entt::entity entity, const unsigned layer_id, const int value);
     void update_tile_position (entt::entity entity, const unsigned layer_id, const int x, const int y, const int z);
     void create_tile_entity (

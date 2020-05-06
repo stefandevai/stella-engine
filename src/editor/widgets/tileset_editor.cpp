@@ -3,6 +3,11 @@
 #include <string>
 #include <cmath>
 
+#include "stella/components/position.hpp"
+#include "stella/components/dimension.hpp"
+#include "stella/components/sprite.hpp"
+#include "stella/components/tile.hpp"
+
 #include "editor/widgets/tileset_editor.hpp"
 
 namespace stella
@@ -44,6 +49,7 @@ namespace widget
       ImGui::Checkbox (" Collidable", &m_tile_collidable);
       ImGui::SameLine();
       ImGui::Checkbox (" Scriptable", &m_tile_scriptable);
+      ImGui::SliderInt (" z", &m_z_coord, -100, 100);
       if (m_tile_scriptable)
       {
         ImGui::Dummy (ImVec2 (0.f, 3.f));
@@ -142,6 +148,19 @@ namespace widget
                     ImVec4 (1.f, 1.f, 1.f, alpha));
       ImGui::End();
     }
+  }
+
+  entt::entity TilesetEditor::get_entity(entt::registry& registry)
+  {
+    auto entity = registry.create();
+    registry.emplace<component::Position>(entity, 0, 0, m_z_coord);
+    registry.emplace<component::Dimension>(entity, m_tile_dimensions[0], m_tile_dimensions[1]);
+    auto& tile = registry.emplace<component::Tile>(entity);
+    auto& sprite = registry.emplace<component::SpriteT>(entity, "tileset");
+    tile.collidable = m_tile_collidable;
+    sprite.frame = m_selected_tile_id;
+    sprite.layer = "tiles";
+    return entity;
   }
 } // namespace widget
 } // namespace stella

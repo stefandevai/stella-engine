@@ -278,9 +278,20 @@ namespace editor
       if (ImGui::IsMouseDown (0))
       {
         // Update tile if user clicks
-        bool collidable = m_tileset_editor.get_selected_tile_collidable();
-        int layer_id    = m_map_editor.get_selected_layer_id();
-        m_game.m_tile_map.update_tile (new_tile_value, tile_pos.x, tile_pos.y, layer_id, collidable);
+        // bool collidable = m_tileset_editor.get_selected_tile_collidable();
+        // int layer_id    = m_map_editor.get_selected_layer_id();
+        // m_game.m_tile_map.update_tile (new_tile_value, tile_pos.x, tile_pos.y, layer_id, collidable);
+
+
+        const auto entity = m_tileset_editor.get_entity(m_game.m_registry);
+        m_game.m_registry.patch<component::Position>(entity, [&sprite_pos](auto& pos)
+        {
+          pos.x = sprite_pos.x;
+          pos.y = sprite_pos.y;
+        });
+        auto& tile = m_game.m_registry.get<component::Tile>(entity);
+        tile.layer_id = m_map_editor.get_selected_layer_id();
+        m_game.m_tile_map.update_tile (entity, m_game.m_registry);
       }
     });
   }

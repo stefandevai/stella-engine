@@ -65,6 +65,9 @@ void ComponentList::emplace_default_component (Components component_type, entt::
     case Typewriter:
       registry.emplace_or_replace<component::Typewriter> (entity);
       break;
+    case Vertical:
+      registry.emplace_or_replace<component::Vertical> (entity);
+      break;
     default:
       std::cout << "ERROR: Trying to emplace unknown component.\n";
       break;
@@ -89,5 +92,6 @@ const std::map<Components, std::string> ComponentList::component_map = {{Animati
                                                                         {Text, "Text"},
                                                                         {Tile, "Tile"},
                                                                         {Timer, "Timer"},
-                                                                        {Typewriter, "Typewriter"}};
+                                                                        {Typewriter, "Typewriter"},
+                                                                        {Vertical, "Vertical"}};
 } // namespace stella

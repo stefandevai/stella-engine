@@ -27,7 +27,8 @@ enum Components
   Text,
   Tile,
   Timer,
-  Typewriter
+  Typewriter,
+  Vertical
 };
 
 struct ComponentList

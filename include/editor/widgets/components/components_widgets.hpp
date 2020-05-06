@@ -19,3 +19,4 @@
 #include "tile.hpp"
 #include "timer.hpp"
 #include "typewriter.hpp"
+#include "vertical.hpp"

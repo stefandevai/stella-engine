@@ -82,6 +82,7 @@ namespace widget
       m_render_component_node<component::Tile> (registry, Tile());
       m_render_component_node<component::Timer> (registry, Timer());
       m_render_component_node<component::Typewriter> (registry, Typewriter());
+      m_render_component_node<component::Vertical> (registry, Vertical());
     }
   }
 } // namespace widget

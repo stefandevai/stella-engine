@@ -3,6 +3,8 @@
 #include "widget.hpp"
 //#include "../../lib/imgui/imgui.hpp"
 #include "stella/graphics/texture.hpp"
+#include <entt/entity/entity.hpp> 
+#include <entt/entity/registry.hpp> 
 
 namespace stella
 {
@@ -16,6 +18,7 @@ namespace widget
 
     int m_tile_dimensions[2] = {32, 32};
     int m_texture_w = 0, m_texture_h = 0;
+    int m_z_coord = 0;
 
     bool m_tile_collidable              = false;
     bool m_tile_scriptable              = false;
@@ -42,6 +45,7 @@ namespace widget
       return ImVec2 (m_texture_w / m_tile_dimensions[0], m_texture_h / m_tile_dimensions[1]);
     }
 
+    entt::entity get_entity (entt::registry& registry);
     inline int get_selected_tile_id() { return m_selected_tile_id; }
 
     inline bool get_selected_tile_collidable() { return m_tile_collidable; }

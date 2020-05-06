@@ -192,11 +192,34 @@ namespace core
     }
     else
     {
-      if (layer_id == 0 && value == 0) {}
+      // if (layer_id == 0 && value == 0) {}
       // if (y == 0) this->update_tile_sprite(tile.entity, 2, layer_id);
       this->update_tile_position (tile.entity, layer_id, x, y, tile.z);
       this->update_tile_sprite (tile.entity, layer_id, value);
     }
+  }
+
+  void TileMap::update_tile (const entt::entity entity, entt::registry& registry)
+  {
+    const auto& tile_component = m_registry.get<component::Tile>(entity);
+    const auto& sprite_component = m_registry.get<component::SpriteT>(entity);
+    const auto& position_component = m_registry.get<component::Position>(entity);
+    const int x = position_component.x/m_tile_dimension;
+    const int y = position_component.y/m_tile_dimension;
+    auto layer = layers[tile_component.layer_id];
+    auto tile  = layer->get_value (x, y);
+
+    tile.value      = sprite_component.frame;
+    tile.collidable = tile_component.collidable;
+    tile.x          = x;
+    tile.y          = y;
+
+    if (registry.valid(entity) && tile.entity != entt::null)
+    {
+      registry.destroy(entity);
+    }
+    tile.entity = entity;
+    layers[tile_component.layer_id]->set_value (x, y, tile);
   }
 
   void TileMap::update_tile_sprite (entt::entity entity, const unsigned layer_id, const int value)
@@ -205,6 +228,7 @@ namespace core
     {
       auto& sprite = m_registry.get<component::SpriteT> (entity);
       sprite.frame = value;
+      
     }
     else
     {
