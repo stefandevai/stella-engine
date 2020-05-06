@@ -5,6 +5,7 @@
 #include "stella/components/position.hpp"
 #include "stella/components/color.hpp"
 #include "stella/components/transform.hpp"
+#include "stella/components/vertical.hpp"
 
 #include <algorithm>
 #include <cstddef>
@@ -91,7 +92,7 @@ namespace graphics
     const glm::vec3 position   = glm::vec3 (pos.x, pos.y, pos.z);
     const glm::vec2 dimensions = glm::vec2 (sprite.get_width(), sprite.get_height());
     const glm::vec2 uv         = sprite.get_uv();
-    unsigned int color         = 4294967295;
+    unsigned int color         = 4294967295; // Default white color
 
     std::shared_ptr<Texture> texture = sprite.texture_ptr;
 
@@ -112,7 +113,7 @@ namespace graphics
     GLfloat uvoffsetY = dimensions.y / static_cast<GLfloat> (texture->GetHeight());
 
     auto particular_transform = *m_transformation_back;
-    if (registry.has<component::Transform> (entity))
+    if (registry.has<component::Vertical> (entity))
     {
       // Translation before scale and rotation
       // Also we multiply the height (dim.y) by sin(45deg) in order to compensate

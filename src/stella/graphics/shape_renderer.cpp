@@ -6,6 +6,7 @@
 #include "stella/components/color.hpp"
 #include "stella/components/transform.hpp"
 #include "stella/components/dimension.hpp"
+#include "stella/components/vertical.hpp"
 
 #include <algorithm>
 #include <cstddef>
@@ -88,7 +89,7 @@ namespace graphics
     const auto dim                         = shape.calc_dimensions();
 
     auto particular_transform = *m_transformation_back;
-    if (registry.has<component::Transform> (entity))
+    if (registry.has<component::Vertical> (entity))
     {
       // Translation before scale and rotation
       // Also we multiply the height (dim.y) by sin(45deg) in order to compensate
