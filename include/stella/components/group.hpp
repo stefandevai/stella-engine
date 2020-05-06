@@ -20,8 +20,11 @@ namespace component
     void remove (const entt::entity entity, entt::registry& registry);
 
     unsigned width = 0, height = 0;
-    std::vector<entt::entity> children{};
+    int tile_width = 0, tile_height = 0;
     float minx = 0.f, miny = 0.f, minz = 0.f, maxx = 0.f, maxy = 0.f, maxz = 0.f;
+    
+    std::vector<entt::entity> children{};
+    std::string texture = "";
 
     struct update_event
     {

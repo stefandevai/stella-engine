@@ -1,6 +1,7 @@
 #include "editor/widgets/inspector.hpp"
-#include "editor/widgets/components/components_widgets.hpp"
 #include "editor/components/selected.hpp"
+#include "editor/widgets/entity_components.hpp"
+#include "editor/widgets/components/components_widgets.hpp" // IWYU pragma: export
 
 // TEMP
 #include "stella/components.hpp" // IWYU pragma: export
@@ -63,26 +64,28 @@ namespace widget
   {
     if (ImGui::CollapsingHeader ("Components", ImGuiTreeNodeFlags_DefaultOpen))
     {
-      m_render_component_node<component::AnimationPlayer> (registry, AnimationPlayer());
-      m_render_component_node<component::Body2D> (registry, Body2D());
-      m_render_component_node<component::Camera> (registry, Camera());
-      m_render_component_node<component::CharacterAnimation> (registry, CharacterAnimation());
-      m_render_component_node<component::Charcode> (registry, Charcode());
-      m_render_component_node<component::Color> (registry, Color());
-      m_render_component_node<component::Dimension> (registry, Dimension());
-      m_render_component_node<component::Group> (registry, Group(texture_list));
-      m_render_component_node<component::LayerT> (registry, Layer());
-      m_render_component_node<component::NPC> (registry, NPC());
-      m_render_component_node<component::Position> (registry, Position());
-      m_render_component_node<component::Script> (registry, Script());
-      m_render_component_node<component::Shape> (registry, Shape());
-      m_render_component_node<component::SpeechContainer> (registry, SpeechContainer());
-      m_render_component_node<component::SpriteT> (registry, Sprite (texture_list));
-      m_render_component_node<component::Text> (registry, Text());
-      m_render_component_node<component::Tile> (registry, Tile());
-      m_render_component_node<component::Timer> (registry, Timer());
-      m_render_component_node<component::Typewriter> (registry, Typewriter());
-      m_render_component_node<component::Vertical> (registry, Vertical());
+      m_components.set_entity(m_selected_entity);
+      m_components.render_component_node<component::AnimationPlayer> (registry, AnimationPlayer());
+      m_components.render_component_node<component::Body2D> (registry, Body2D());
+      m_components.render_component_node<component::Camera> (registry, Camera());
+      m_components.render_component_node<component::CharacterAnimation> (registry, CharacterAnimation());
+      m_components.render_component_node<component::Charcode> (registry, Charcode());
+      m_components.render_component_node<component::Color> (registry, Color());
+      m_components.render_component_node<component::Dimension> (registry, Dimension());
+      m_group_widget.set_texture_list (texture_list);
+      m_components.render_component_node<component::Group> (registry, m_group_widget);
+      m_components.render_component_node<component::LayerT> (registry, Layer());
+      m_components.render_component_node<component::NPC> (registry, NPC());
+      m_components.render_component_node<component::Position> (registry, Position());
+      m_components.render_component_node<component::Script> (registry, Script());
+      m_components.render_component_node<component::Shape> (registry, Shape());
+      m_components.render_component_node<component::SpeechContainer> (registry, SpeechContainer());
+      m_components.render_component_node<component::SpriteT> (registry, Sprite (texture_list));
+      m_components.render_component_node<component::Text> (registry, Text());
+      m_components.render_component_node<component::Tile> (registry, Tile());
+      m_components.render_component_node<component::Timer> (registry, Timer());
+      m_components.render_component_node<component::Typewriter> (registry, Typewriter());
+      m_components.render_component_node<component::Vertical> (registry, Vertical());
     }
   }
 } // namespace widget
