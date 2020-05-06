@@ -33,7 +33,7 @@ namespace editor
                                                 9999,
                                                 component::LayerType::SPRITE_LAYER,
                                                 "assets/shaders/sprite_batch.vert",
-                                                "assets/shaders/sprite_batch.frag",
+                                                "assets/shaders/gui.frag",
                                                 false);
 
     ImVec2 dimensions = m_tileset_editor.get_tile_dimensions();

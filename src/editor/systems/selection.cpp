@@ -50,6 +50,10 @@ namespace system
     if (ImGui::IsMouseClicked (0))
     {
       bool clicked_entity = false;
+      registry.sort<component::Position>([](const auto &lhs, const auto &rhs)
+      {
+        return lhs.z < rhs.z;
+      });
       registry.view<component::Position, component::Dimension> (entt::exclude<component::Camera, component::InGroup>)
           .each ([this, &registry, &map_pos, &clicked_entity] (auto entity, auto& pos, const auto& dim) {
             if (registry.valid (entity) && selected_entity != entity)
@@ -100,21 +104,21 @@ namespace system
 
       auto handler_move = registry.create();
       registry.emplace<component::Position> (
-          handler_move, pos.x + dim.w / 2.f - 4.f, pos.y + dim.h / 2.f - 4.f, pos.z + 1);
+          handler_move, pos.x + dim.w / 2.f - 4.f, pos.y + dim.h / 2.f - 4.f, 91.f);
       registry.emplace<component::Dimension> (handler_move, 8.f, 8.f);
       registry.emplace<component::Color> (handler_move, "#ffffff88");
       auto& sprite1 = registry.emplace<component::SpriteT> (handler_move, "handler-move");
       sprite1.layer = "editor";
 
       auto handler_x = registry.create();
-      registry.emplace<component::Position> (handler_x, pos.x + dim.w / 2.f, pos.y + dim.h / 2.f - 4.f, pos.z);
+      registry.emplace<component::Position> (handler_x, pos.x + dim.w / 2.f, pos.y + dim.h / 2.f - 4.f, 90.f);
       registry.emplace<component::Dimension> (handler_x, 52.f, 11.f);
       registry.emplace<component::Color> (handler_x, "#ffffff88");
       auto& sprite2 = registry.emplace<component::SpriteT> (handler_x, "handler-x");
       sprite2.layer = "editor";
 
       auto handler_y = registry.create();
-      registry.emplace<component::Position> (handler_y, pos.x + dim.w / 2.f - 4.f, pos.y - 52.f + dim.h / 2.f, pos.z);
+      registry.emplace<component::Position> (handler_y, pos.x + dim.w / 2.f - 4.f, pos.y - 52.f + dim.h / 2.f, 90.f);
       registry.emplace<component::Dimension> (handler_y, 11.f, 52.f);
       registry.emplace<component::Color> (handler_y, "#ffffff88");
       auto& sprite3 = registry.emplace<component::SpriteT> (handler_y, "handler-y");

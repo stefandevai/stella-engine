@@ -10,11 +10,15 @@ in DATA
 
 out vec4 color;
 
-uniform sampler2D textures[32];
+uniform sampler2D textures[11];
+
+float qinticIn(float t) {
+  return pow(t, 5.0);
+}
 
 void main()
 {
-  vec4 final_color = f_in.color;
+  vec4 final_color = vec4(0.f);
   int tid = int(f_in.tid + 0.5);
 
   // Select texture (Up to 20 textures)
@@ -53,39 +57,11 @@ void main()
     case 10:
       final_color = texture(textures[10], f_in.uv);
       break;
-    case 11:
-      final_color = texture(textures[11], f_in.uv);
-      break;
-    case 12:
-      final_color = texture(textures[11], f_in.uv);
-      break;
-    case 13:
-      final_color = texture(textures[11], f_in.uv);
-      break;
-    case 14:
-      final_color = texture(textures[11], f_in.uv);
-      break;
-    case 15:
-      final_color = texture(textures[11], f_in.uv);
-      break;
-    case 16:
-      final_color = texture(textures[11], f_in.uv);
-      break;
-    case 17:
-      final_color = texture(textures[11], f_in.uv);
-      break;
-    case 18:
-      final_color = texture(textures[11], f_in.uv);
-      break;
-    case 19:
-      final_color = texture(textures[11], f_in.uv);
-      break;
-    case 20:
-      final_color = texture(textures[11], f_in.uv);
-      break;
-  } 
-
-  //color = vec4(final_color.xyz * f_in.color.xyz, final_color.w * f_in.color.w);
-  color = vec4(final_color.xyz * f_in.color.xyz, final_color.w);
+  }
+  
+  if (final_color.a * f_in.color.a < 0.5)
+  {
+    discard;
+  }
+  color = vec4(final_color.rgb, final_color.a * f_in.color.a);
 }
-
