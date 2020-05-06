@@ -149,6 +149,8 @@ namespace graphics
     m_vertex_buffer->color  = color;
     m_vertex_buffer++;
 
+    // std::cout << transformation_result.z << '\n';
+
     this->m_index_count += 6;
   }
 

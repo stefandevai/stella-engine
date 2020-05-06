@@ -17,7 +17,7 @@ namespace graphics
                             const bool fixed)
     : LayerT (registry, fixed), shader (std::make_shared<Shader> (vert_shader_path.c_str(), frag_shader_path.c_str()))
   {
-    GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+    // GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
     
     auto projection = glm::ortho (0.f, 896.f, 504.f, 0.0f, -200.f, 200.f);
     // projection = glm::translate (projection, glm::vec3 (glm::vec3 (0.f, 504.f, 0.f)));
@@ -27,7 +27,7 @@ namespace graphics
 
     shader->Enable();
     shader->SetMat4 ("proj", projection);
-    shader->SetIntv ("textures", tex_ids, 21);
+    // shader->SetIntv ("textures", tex_ids, 21);
     shader->Disable();
   }
 
