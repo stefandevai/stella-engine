@@ -38,9 +38,9 @@ namespace widget
   {
     Group () {}
 
-    void set_texture_list (const std::vector<std::string>& texture_list) { m_texture_list = texture_list; }
+    void set_texture_list (const std::vector<std::string>& texture_list) {m_texture_list = texture_list;}
 
-    void operator() (entt::registry& registry, const entt::entity entity)
+    void render (entt::registry& registry, const entt::entity entity)
     {
       auto& group = registry.get<component::Group>(entity);
       entt::entity new_entity = entt::null;
@@ -104,7 +104,7 @@ namespace widget
   private:
     std::vector<std::string> m_texture_list{};
     AddComponents m_add_components{};
-    entt::entity m_selected_entity;
+    entt::entity m_selected_entity = entt::null;
   };
 } // namespace widget
 } // namespace stella

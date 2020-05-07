@@ -11,7 +11,8 @@ namespace stella
 {
 namespace widget
 {
-  Inspector::Inspector() : Widget ("Inspector") { m_open = true; }
+  Inspector::Inspector() : Widget ("Inspector") { 
+    m_open = true; }
 
   // void Inspector::render (entt::registry& registry, const std::vector<std::string&>& texture_list)
   void Inspector::render (entt::registry& registry, const std::vector<std::string>& texture_list)
@@ -72,8 +73,21 @@ namespace widget
       m_components.render_component_node<component::Charcode> (registry, Charcode());
       m_components.render_component_node<component::Color> (registry, Color());
       m_components.render_component_node<component::Dimension> (registry, Dimension());
+
+      // TODO: Understand why the functor is always passed by value in this case
       m_group_widget.set_texture_list (texture_list);
-      m_components.render_component_node<component::Group> (registry, m_group_widget);
+      if (registry.has<component::Group> (m_selected_entity))
+      {
+        auto& group = registry.get<component::Group> (m_selected_entity);
+        if (ImGui::TreeNode (group.name.c_str()))
+        {
+          m_group_widget.render (registry, m_selected_entity);
+          ImGui::Dummy (ImVec2 (0, 2.0));
+          ImGui::TreePop();
+        }
+      }
+
+      // m_components.render_component_node<component::Group> (registry, m_group_widget);
       m_components.render_component_node<component::LayerT> (registry, Layer());
       m_components.render_component_node<component::NPC> (registry, NPC());
       m_components.render_component_node<component::Position> (registry, Position());
