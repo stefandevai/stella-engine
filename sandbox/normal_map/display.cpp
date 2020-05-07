@@ -1,4 +1,4 @@
-#include "display.h"
+#include "display.hpp"
 
 #include "../../lib/glad/include/glad/glad.h"
 

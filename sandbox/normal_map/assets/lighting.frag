@@ -19,8 +19,8 @@ void main()
     vec4 object_color = texture(ourTexture, TexCoord);
 
     // Normal
-    //vec3 normal = Normal;
-    vec3 normal = texture(normalMap, TexCoord).rgb;
+    vec3 normal = Normal;
+    //vec3 normal = texture(normalMap, TexCoord).rgb;
     //vec3 normal = texture(normalMap, TexCoord).rgb;
     normal = normalize(normal * 2.0 - 1.0);
 

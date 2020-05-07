@@ -1,5 +1,5 @@
-#include "shader.h"
-#include "../../include/stella/fileutils.h"
+#include "shader.hpp"
+#include "../../include/stella/fileutils.hpp"
 
 #include "../../lib/glad/include/glad/glad.h"
 #include <glm/gtc/type_ptr.hpp>

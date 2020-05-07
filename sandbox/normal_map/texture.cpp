@@ -1,4 +1,4 @@
-#include "texture.h"
+#include "texture.hpp"
 
 #include "../../lib/glad/include/glad/glad.h"
 #include <iostream>

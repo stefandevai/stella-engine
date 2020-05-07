@@ -1,6 +1,6 @@
-#include "display.h"
-#include "shader.h"
-#include "texture.h"
+#include "display.hpp"
+#include "shader.hpp"
+#include "texture.hpp"
 #include "../../lib/glad/include/glad/glad.h"
 
 #include <glm/glm.hpp>
@@ -22,16 +22,16 @@ int main(void)
     Display display{SCR_WIDTH, SCR_HEIGHT, "Lighting test"};
     Shader shader{"./assets/lighting.vert", "./assets/lighting.frag"};
     Shader light_shader{"./assets/basic.vert", "./assets/basic.frag"};
-    Texture texture{"assets/church_sprite.png", true};
-    Texture texture_normal{"assets/church_normal.png", true};
+    Texture texture{"assets/texture.jpg", false};
+    Texture texture_normal{"assets/texture_normal.jpg", false};
     Texture light_texture{"assets/light_texture.png", true};
 
     display.SetClearColor(0.1f, 0.1f, 0.1f);
 
     // Use orthographic projection if true, perspective if false
-    bool use_ortho = true;
+    bool use_ortho = false;
     // Draw quad if true, draw cube if false
-    bool use_quad = true;
+    bool use_quad = false;
 
     // ***************
     // ** QUAD DATA **
@@ -184,7 +184,7 @@ int main(void)
         // *****************
         display.Clear();
         shader.Enable();
-        //auto current_time = display.GetTime();
+        auto current_time = display.GetTime();
         double mouse_pos_x, mouse_pos_y;
         display.GetMousePos(mouse_pos_x, mouse_pos_y);
 
@@ -194,7 +194,7 @@ int main(void)
         glm::mat4 model         = glm::mat4(1.0f);
         glm::mat4 view          = glm::mat4(1.0f);
         //float ortho_scale = 300.f;
-        float view_zoom = -2.f;
+        float view_zoom = -5.f;
 
         if (use_ortho)
         {
@@ -210,7 +210,7 @@ int main(void)
             view = glm::translate(view, glm::vec3(0.0f, 0.0f, view_zoom));
             shader.SetVec3f("lightPos", glm::vec3((light_pos.x - 448.0f)/(float)SCR_WIDTH, (-light_pos.y + 252.f)/(float)SCR_HEIGHT, 1.0f));
         }
-        //model = glm::rotate(model, 0.01f*current_time*glm::radians(5.0f), glm::vec3(1.0f, 0.5f, 0.3f));  
+        model = glm::rotate(model, 0.01f*current_time*glm::radians(5.0f), glm::vec3(1.0f, 0.5f, 0.3f));  
         
         shader.SetMat4("model", model);
         shader.SetMat4("view", view);
