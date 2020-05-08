@@ -52,7 +52,7 @@ def create_widget(name):
             f.write(header_boilerplate)
         with open(source_path, 'w') as f:
             f.write(source_boilerplate)
-        print(f'Created new WIDGET on \'{header_path}\' and \'{source_path}\'')
+        print(f'Created a new WIDGET on \'{header_path}\' and \'{source_path}\'')
 
     if os.path.isfile(header_path) or os.path.isfile(source_path):
         print(f'Either {header_path} or {source_path} already exist.\nDo you want to override them?')
@@ -105,7 +105,7 @@ def create_class(path, name):
             f.write(header_boilerplate)
         with open(source_path, 'w') as f:
             f.write(source_boilerplate)
-        print(f'Created new WIDGET on \'{header_path}\' and \'{source_path}\'')
+        print(f'Created a new CLASS on \'{header_path}\' and \'{source_path}\'')
 
     if os.path.isfile(header_path) or os.path.isfile(source_path):
         print(f'Either {header_path} or {source_path} already exist.\nDo you want to override them?')
