@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stella/components/sprite.hpp"
+#include "stella/components/layer.hpp"
 #include "imgui.h"
 
 namespace stella
@@ -14,9 +15,10 @@ namespace widget
     {
       const auto& sprite = registry.get<component::SpriteT> (entity);
       int frame          = sprite.frame;
-      ImGui::PushID ("sprite#inspector");
-
+      std::string new_layer = sprite.layer;
       std::string new_texture = sprite.texture;
+
+      ImGui::PushID ("sprite#inspector");
       if (ImGui::BeginCombo ("Texture", sprite.texture.c_str(), 0))
       {
         for (const auto& tex : m_texture_list)
@@ -34,18 +36,41 @@ namespace widget
         }
         ImGui::EndCombo();
       }
+
       ImGui::InputInt ("Frame", &frame);
+      if (ImGui::BeginCombo ("Render layer", nullptr, 0))
+      {
+        registry.view<component::LayerT>().each ([&sprite, &new_layer] (auto entity, auto& layer)
+        {
+          const bool is_selected = (sprite.layer == layer.id);
+          if (ImGui::Selectable (layer.id.c_str(), is_selected))
+          {
+            new_layer = layer.id;
+          }
+
+          if (is_selected)
+          {
+            ImGui::SetItemDefaultFocus();
+          }
+        });
+        ImGui::EndCombo();
+      }
       ImGui::PopID();
 
-      if (frame != sprite.frame || new_texture != sprite.texture)
+      if (frame != sprite.frame)
       {
         registry.patch<component::SpriteT> (entity, [&frame, &new_texture] (auto& spr)
         {
           spr.frame       = frame;
-          spr.texture     = new_texture;
-          spr.texture_ptr = nullptr;
           spr.loaded      = false;
         });
+      }
+      if (new_texture != sprite.texture || new_layer != sprite.layer)
+      {
+        auto old_frame = sprite.frame;
+        auto& spr = registry.replace<component::SpriteT> (entity, new_texture);
+        spr.frame = old_frame;
+        spr.layer = new_layer;
       }
     }
 

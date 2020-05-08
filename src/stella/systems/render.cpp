@@ -55,15 +55,9 @@ namespace system
     {
       if (!m_layers[order.second]->fixed && camera_pos)
       {
-        // m_layers[order.second]->set_view_matrix (
-        //     glm::lookAt (glm::vec3(camera_pos->x, camera_pos->y, 0.f),
-        //                  glm::vec3 (camera_pos->x, camera_pos->y, -1.f),
-        //                  glm::vec3 (0.f, 1.f, 0.f)));
-        
         m_layers[order.second]->set_view_matrix (glm::lookAt (glm::vec3 (camera_pos->x, camera_pos->y, 30.0f),
                                                          glm::vec3 (camera_pos->x, camera_pos->y, -1.f),
                                                          glm::vec3 (0.f, 1.f, 0.f)));
-        
       }
       m_layers[order.second]->render (registry);
     }
