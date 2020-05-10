@@ -271,6 +271,7 @@ namespace editor
       }
       m_toolbar.render (
           m_game.m_registry, m_current_state, m_current_tool, m_window_width, [this]() { this->draw_menu_bar(); });
+      m_block_editor.render();
 
       ImGui::PopFont();
       ImGui::Render();
@@ -584,6 +585,7 @@ namespace editor
       if (ImGui::BeginMenu ("File"))
       {
         if (ImGui::MenuItem ("New Tilemap", "CTRL+N")) {}
+        if (ImGui::MenuItem ("New Block", "CTRL+B")) { m_block_editor.open(); }
         if (ImGui::MenuItem ("Open Tilemap", "CTRL+O")) {}
         if (ImGui::MenuItem ("Open Tileset", "SHIFT+O")) {}
         ImGui::Separator();

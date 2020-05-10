@@ -14,6 +14,7 @@
 //#include "../stella/core/game.hpp"
 #include "state.hpp"
 #include "widgets/toolbar.hpp"
+#include "widgets/block_editor.hpp"
 #include "../../lib/imgui/imgui.h"                       // IWYU pragma: export
 #include "../../lib/imgui/examples/imgui_impl_opengl3.h" // IWYU pragma: export
 #include "../../lib/imgui/examples/imgui_impl_sdl.h"     // IWYU pragma: export
@@ -59,6 +60,7 @@ namespace editor
     widget::MapEditor m_map_editor{m_game};
     widget::Inspector m_inspector;
     widget::Toolbar m_toolbar;
+    widget::BlockEditor m_block_editor;
     float m_window_width = 0.f, m_window_height = 0.f, m_game_width = 0.f, m_game_height = 0.f;
 
     std::vector<glm::vec2> vertices{

@@ -119,7 +119,7 @@ namespace graphics
       // Also we multiply the height (dim.y) by sin(45deg) in order to compensate
       // the decrease in z position after rotation 
       particular_transform =
-          glm::translate (particular_transform, glm::vec3(position.x, position.y, position.z + dimensions.y*0.70710678118f));
+          glm::translate (particular_transform, glm::vec3(position.x, position.y - position.z, position.z + dimensions.y*0.70710678118f));
       
       // Scale in the y axis by 1 / (cos 45deg) in order to compensate for the scale reduction when rotating 
       particular_transform = glm::scale (particular_transform, glm::vec3(1.f, 1.41421356237f, 1.f));
@@ -138,7 +138,7 @@ namespace graphics
       }
       // // Translating half dimension to set the point of rotation to the center of the sprite
       particular_transform =
-          glm::translate (particular_transform, position + glm::vec3(dimensions.x, dimensions.y, 0.f)/2.f);
+          glm::translate (particular_transform, position + glm::vec3(dimensions.x, dimensions.y - position.z, 0.f)/2.f);
       particular_transform = glm::scale (particular_transform, trans.scale);
       particular_transform =
           glm::rotate (particular_transform, glm::radians (trans.rotation.x), glm::vec3 (1.f, 0.f, 0.f));
