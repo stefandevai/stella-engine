@@ -108,7 +108,7 @@ namespace system
       sprite.bottom_right.y = h;
       sprite.set_uv (glm::vec2 (ch.tx, 1.0f));
 
-      registry.emplace<component::Position> (char_entity, xpos, ypos);
+      registry.emplace<component::Position> (char_entity, xpos, ypos, 30);
       registry.emplace<component::Dimension> (char_entity, w, h);
       registry.emplace<component::Color> (char_entity, text.color);
     }
@@ -187,7 +187,7 @@ namespace system
         sprite.bottom_right.y = h;
         sprite.set_uv (glm::vec2 (ch.tx, 1.0f));
 
-        registry.emplace<component::Position> (char_entity, xpos, ypos);
+        registry.emplace<component::Position> (char_entity, xpos, ypos, 30);
         registry.emplace<component::Dimension> (char_entity, w, h);
         registry.emplace<component::Color> (char_entity, text.color);
       }
