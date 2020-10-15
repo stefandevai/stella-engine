@@ -59,7 +59,8 @@ namespace widget
 
       if (frame != sprite.frame)
       {
-        registry.patch<component::SpriteT> (entity, [&frame, &new_texture] (auto& spr)
+        //registry.patch<component::SpriteT> (entity, [&frame, &new_texture] (auto& spr)
+        registry.patch<component::SpriteT> (entity, [&frame] (auto& spr)
         {
           spr.frame       = frame;
           spr.loaded      = false;

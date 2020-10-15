@@ -12,8 +12,8 @@ namespace stella
 {
 namespace widget
 {
-  Chat::Chat (const ImGuiWindowFlags window_flags, ImFont*& mono_font)
-    : Widget ("Chat"), WindowFlags (window_flags), MonoFont (mono_font)
+  Chat::Chat (ImFont*& mono_font)
+    : Widget ("Chat"), MonoFont (mono_font)
   {
     m_open = true;
     strcpy (editable_buffer, "");

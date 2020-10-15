@@ -51,7 +51,7 @@ namespace editor
     // const ImGuiWindowFlags m_window_flags = ImGuiWindowFlags_NoMove |
     // ImGuiWindowFlags_NoResize;
     widget::Console m_console{m_window_flags, m_font_mono};
-    widget::Chat m_chat{m_window_flags, m_font_mono};
+    widget::Chat m_chat{m_font_mono};
     entt::registry& m_registry;
     std::shared_ptr<graphics::ShapeLayerT> m_debug_layer;
     entt::entity m_editor_layer  = entt::null;

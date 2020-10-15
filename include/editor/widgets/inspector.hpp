@@ -17,7 +17,7 @@ namespace widget
     AddComponents m_add_components{};
     EntityComponents m_components;
     Group m_group_widget;
-    int teste = 0;
+    //int teste = 0;
 
     void m_render_component_nodes (entt::registry& registry, const std::vector<std::string>& texture_list);
 

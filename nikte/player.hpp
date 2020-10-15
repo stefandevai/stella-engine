@@ -26,8 +26,8 @@ public:
 
 private:
   stella::graphics::Display& Display;
-  State current_state = IDLE;
-  char direction      = 'd'; // Direction to which the player is facing (u, d, l, r)
+  //State current_state = IDLE;
+  //char direction      = 'd'; // Direction to which the player is facing (u, d, l, r)
 
 public:
   Player (entt::registry& registry, stella::graphics::Display& display);

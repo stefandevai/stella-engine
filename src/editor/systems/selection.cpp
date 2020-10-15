@@ -29,7 +29,7 @@ namespace system
   void Selection::update (entt::registry& registry)
   {
     registry.group<component::Selected> (entt::get<component::Position, component::Dimension>)
-        .each ([this, &registry] (auto entity, auto& sel, const auto& pos, const auto& dim) {
+        .each ([&registry] (auto entity, auto& sel, const auto& pos, const auto& dim) {
           auto& pos_handler_x    = registry.get<component::Position> (sel.handler_x);
           auto& pos_handler_y    = registry.get<component::Position> (sel.handler_y);
           auto& pos_handler_move = registry.get<component::Position> (sel.handler_move);

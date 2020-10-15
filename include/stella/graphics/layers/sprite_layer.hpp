@@ -24,7 +24,7 @@ namespace graphics
                   const std::string& vert_shader_path,
                   const std::string& frag_shader_path,
                   const bool fixed = false);
-    ~SpriteLayerT();
+    virtual ~SpriteLayerT();
     void add (entt::entity entity);
     void remove (entt::entity entity);
     void render (entt::registry& registry);

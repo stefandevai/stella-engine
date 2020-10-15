@@ -18,7 +18,7 @@ namespace system
   void CharacterAnimation::update (entt::registry& registry, const double dt)
   {
     registry.group<component::CharacterAnimation> (entt::get<component::Body2D, component::AnimationPlayer>)
-        .each ([this, &registry] (auto entity, auto& char_anim, auto& body, auto& anim) {
+        .each ([] (auto entity, auto& char_anim, auto& body, auto& anim) {
           std::string animation_name = "";
           switch (body.Body->state)
           {

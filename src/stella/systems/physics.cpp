@@ -17,7 +17,7 @@ namespace system
   void Physics::update (entt::registry& registry, const double dt)
   {
     registry.group<component::Body2D> (entt::get<component::Position, component::Dimension>)
-        .each ([this, &registry] (auto entity, auto& body, auto& pos, auto& dim) {
+        .each ([] (auto entity, auto& body, auto& pos, auto& dim) {
           const glm::vec2& new_position = body.Body->GetPosition();
           pos.x                         = new_position.x;
           pos.y                         = new_position.y - body.BoundingBoxPosition[1];

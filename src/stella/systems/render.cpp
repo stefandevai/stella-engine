@@ -36,7 +36,7 @@ namespace system
         m_add_sprite_to_layer (registry, entity);
       }
     });
-    registry.view<component::Shape>().each ([this, &registry] (auto entity, auto& shape) {
+    registry.view<component::Shape>().each ([this] (auto entity, auto& shape) {
       if (!shape.in_layer)
       {
         m_add_renderable_to_layer (shape.layer_id, entity);
