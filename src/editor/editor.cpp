@@ -27,8 +27,6 @@ namespace editor
   {
     m_debug_layer = std::make_shared<graphics::ShapeLayerT> (
         m_registry, "assets/shaders/debug_shader.vert", "assets/shaders/debug_shader.frag", true);
-    // m_game.m_display.SetEditor (this);
-    // m_debug_layer.Add(shape);
     m_editor_layer = game.m_registry.create();
     game.m_registry.emplace<component::LayerT> (m_editor_layer,
                                                 "editor",
@@ -254,7 +252,6 @@ namespace editor
     {
       s->update (m_registry, dt);
     }
-    // m_log_system.update (m_registry, 0.0);
   }
 
   void

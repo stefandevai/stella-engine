@@ -14,7 +14,9 @@ namespace graphics
   Framebuffer::~Framebuffer()
   {
     if (this->FBO)
+    {
       glDeleteFramebuffers (1, &this->FBO);
+    }
   }
 
   void Framebuffer::Draw()
@@ -33,7 +35,11 @@ namespace graphics
 
     // Updates FBO's texture resolution on window resizing
     if (TexW != this->Display.GetWidth() || TexH != this->Display.GetHeight())
+    {
       this->RefreshTextureResolution();
+    }
+    //std::cout << this->Display.GetWindowWidth() << '\n';
+    //std::cout << this->Display.GetWidth() << "\n\n";
 
     glBindFramebuffer (GL_FRAMEBUFFER, this->FBO);
   }
@@ -99,14 +105,14 @@ namespace graphics
     glFramebufferRenderbuffer (GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
 
     if (glCheckFramebufferStatus (GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+    {
       std::cout << "Error: Framebuffer is not complete." << std::endl;
+    }
 
     glBindFramebuffer (GL_FRAMEBUFFER, 0);
 
     // Quad
-    float vertices[] = {// Positions   // Texture coords
-                        -1.0f, 1.0f, 0.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, -1.0f, 1.0f, 0.0f,
-
+    float vertices[] = {-1.0f, 1.0f, 0.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, -1.0f, 1.0f, 0.0f,
                         -1.0f, 1.0f, 0.0f, 1.0f, 1.0f,  -1.0f, 1.0f, 0.0f, 1.0f, 1.0f,  1.0f, 1.0f};
     glGenVertexArrays (1, &this->VAO);
     glGenBuffers (1, &this->VBO);

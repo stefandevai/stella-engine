@@ -27,15 +27,14 @@ namespace graphics
       std::cout << "It was not possible to initialize SDL2" << std::endl;
     }
 
-#ifdef STELLA_BUILD_EDITOR
     // const SDL_WindowFlags window_flags =
     // (SDL_WindowFlags) (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
-    const SDL_WindowFlags window_flags =
-        (SDL_WindowFlags) (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
-#else
-    const SDL_WindowFlags window_flags = (SDL_WindowFlags) (SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+    const SDL_WindowFlags window_flags = (SDL_WindowFlags) (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+
+#ifndef STELLA_BUILD_EDITOR
     SDL_ShowCursor (SDL_DISABLE);
 #endif
+
     this->Window = SDL_CreateWindow (
         this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, window_flags);
 
@@ -129,10 +128,10 @@ namespace graphics
 
     this->getDT();
     this->Frame++;
-    if (this->Frame >= 10000000)
-    {
-      this->Frame = 0;
-    }
+    //if (this->Frame >= 10000000)
+    //{
+      //this->Frame = 0;
+    //}
 
     this->updateInput();
     SDL_GL_SwapWindow (this->Window);
@@ -190,19 +189,12 @@ namespace graphics
           switch (event.window.event)
           {
             case SDL_WINDOWEVENT_RESIZED:
-#ifndef STELLA_BUILD_EDITOR
-              glViewport (0, 0, GetWindowWidth(), GetWindowHeight());
-              m_check_viewport_proportions();
-//#else
-//              glViewport (GetWindowWidth() - Width, GetWindowHeight() - Height - 23, this->Width, this->Height);
-#endif
-              break;
             case SDL_WINDOWEVENT_SIZE_CHANGED:
 #ifndef STELLA_BUILD_EDITOR
               glViewport (0, 0, GetWindowWidth(), GetWindowHeight());
               m_check_viewport_proportions();
-//#else
-//              glViewport (GetWindowWidth() - Width, GetWindowHeight() - Height - 23, this->Width, this->Height);
+#else
+              glViewport (0, 0, this->Width, this->Height);
 #endif
               break;
           }
@@ -265,17 +257,17 @@ namespace graphics
     // lower than that
     if (width / (float) height > 1.78f)
     { // Height is max and width is adjusted
-      int newwidth = height * 1.77777f;
-      int left     = width - newwidth;
+      int new_width = height * 1.77777f;
+      int left     = width - new_width;
       // std::cout << newwidth << std::endl;
-      glViewport (left / 2, 0, newwidth, height);
+      glViewport (left / 2, 0, new_width, height);
     }
     else if (width / (float) height < 1.77f)
     { // Width is max and height is adjusted
-      int newheight = (int) width / 1.77f;
-      int left      = height - newheight;
+      int new_height = (int) width / 1.77f;
+      int left      = height - new_height;
       // std::cout << newheight << std::endl;
-      glViewport (0, left / 2, width, newheight);
+      glViewport (0, left / 2, width, new_height);
     }
   }
 } // namespace graphics

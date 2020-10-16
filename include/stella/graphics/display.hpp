@@ -77,14 +77,14 @@ namespace graphics
 
 #ifdef STELLA_BUILD_EDITOR
     friend class stella::editor::Editor;
-#endif
 
-#if __APPLE__
-    // GL 3.2 Core + GLSL 150
-    const char* m_glsl_version = "#version 150";
-#else
-    // GL 3.0 + GLSL 130
-    const char* m_glsl_version = "#version 130";
+  #if __APPLE__
+      // GL 3.2 Core + GLSL 150
+      const char* m_glsl_version = "#version 150";
+  #else
+      // GL 3.0 + GLSL 130
+      const char* m_glsl_version = "#version 130";
+  #endif
 #endif
 
     void updateInput();
