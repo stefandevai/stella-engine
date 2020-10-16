@@ -48,8 +48,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS off)
 
 # Turn on these options to use the libraries contained in your machine (Linux and OSX only).
 option(USE_SYSTEM_SDL2 "Search your system for SDL2 library" on)
-option(USE_SYSTEM_OPENAL "Search your system for OpenAL and ALut libraries" on)
-option(USE_SYSTEM_VORBIS "Search your system for ogg and vorbis libraries" on)
 option(USE_SYSTEM_ENTT "Search your system for entt library" off)
 option(USE_SYSTEM_FREETYPE "Search your system for FreeType2 library" on)
 option(USE_SYSTEM_LUA "Search your system for lua" off)
@@ -68,7 +66,7 @@ if (USE_SYSTEM_SDL2 AND NOT WIN32)
 		find_package(SDL2 REQUIRED)
 	else()
 		find_package(PkgConfig REQUIRED)
-    	pkg_search_module(SDL2 REQUIRED sdl2)
+    pkg_search_module(SDL2 REQUIRED sdl2)
 	endif()
 elseif(WIN32)
     set(SDL2_INCLUDE_DIRS ${DEPENDENCIES_DIR}/sdl2/include)
@@ -97,55 +95,6 @@ include_directories(${DEPENDENCIES_DIR}/glm)
 
 # stb_image - Handles image loading in various formats.
 include_directories(${DEPENDENCIES_DIR}/stb_image)
-
-# OpenAL - Audio library (Using OpenAL-Soft for static library).
-# ALut - Utility Toolkit for OpenAL.
-if (USE_SYSTEM_OPENAL AND NOT WIN32)
-	find_package(OpenAL REQUIRED)
-	find_package(ALUT REQUIRED)
-elseif (WIN32)
-	if (MINGW)
-		add_definitions(-D_TIMESPEC_DEFINED)
-		set(OpenAL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/openal-soft/include/AL)
-		set(OpenAL_LIBRARIES OpenAL32)
-	elseif(MSVC)
-    set(OpenAL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/openal-soft/include/AL)
-    set(OpenAL_LIBRARIES ${DEPENDENCIES_DIR}/win/openal-soft-x64/OpenAL32.lib)
-
-    set(ALUT_INCLUDE_DIRS ${DEPENDENCIES_DIR}/freealut/include)
-    set(ALUT_LIBRARIES ${DEPENDENCIES_DIR}/win/freealut-x64/alut.lib
-               ${DEPENDENCIES_DIR}/win/freealut-x64/alut_static.lib)
-	endif()
-else()
-  if (APPLE) # Apple already comes with OpenAL
-    set(OpenAL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/openal-soft/include)
-    set(OpenAL_LIBRARIES OpenAL)
-  else()
-    set(OpenAL_INCLUDE_DIRS ${DEPENDENCIES_DIR}/openal-soft/include)
-    set(OpenAL_LIBRARIES openal)
-  endif()
-	
-	set(ALUT_INCLUDE_DIRS ${DEPENDENCIES_DIR}/freealut/include)
-	set(ALUT_LIBRARIES alut)
-endif()
-include_directories(${OpenAL_INCLUDE_DIRS})
-include_directories(${ALUT_INCLUDE_DIRS})
-
-# Ogg Vorbis - Libraries for handling .ogg audio format.
-if (USE_SYSTEM_VORBIS AND NOT WIN32)
-	find_package(OGG REQUIRED)
-	find_package(VORBIS REQUIRED)
-elseif(WIN32)
-	set(OGG_INCLUDE_DIRS ${DEPENDENCIES_DIR}/ogg/include)
-	set(OGG_LIBRARIES ${DEPENDENCIES_DIR}/win/ogg-x64/libogg.lib)
-
-	set(VORBIS_INCLUDE_DIR ${DEPENDENCIES_DIR}/vorbis/include)
-	set(VORBIS_LIBRARIES ${DEPENDENCIES_DIR}/win/vorbis-x64/vorbis.lib
-						 ${DEPENDENCIES_DIR}/win/vorbis-x64/vorbisfile.lib
-						 ${DEPENDENCIES_DIR}/win/vorbis-x64/vorbisenc.lib)
-endif()
-include_directories(${OGG_INCLUDE_DIRS})
-include_directories(${VORBIS_INCLUDE_DIR})
 
 # Entt - Entity Component System
 if (USE_SYSTEM_ENTT)

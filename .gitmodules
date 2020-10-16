@@ -1,15 +1,3 @@
-[submodule "lib/openal-soft"]
-	path = lib/openal-soft
-	url = https://github.com/kcat/openal-soft
-[submodule "lib/freealut"]
-	path = lib/freealut
-	url = https://github.com/vancegroup/freealut
-[submodule "lib/vorbis"]
-	path = lib/vorbis
-	url = https://github.com/xiph/vorbis
-[submodule "lib/ogg"]
-	path = lib/ogg
-	url = https://github.com/xiph/ogg
 [submodule "lib/entt"]
 	path = lib/entt
 	url = https://github.com/skypjack/entt
