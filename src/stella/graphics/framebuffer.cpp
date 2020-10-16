@@ -9,51 +9,49 @@ namespace stella
 {
 namespace graphics
 {
-  Framebuffer::Framebuffer (stella::graphics::Display& display) : Display (display) { this->init(); }
+  Framebuffer::Framebuffer (stella::graphics::Display& display) : m_display (display) { m_init(); }
 
   Framebuffer::~Framebuffer()
   {
-    if (this->FBO)
+    if (m_fbo)
     {
-      glDeleteFramebuffers (1, &this->FBO);
+      glDeleteFramebuffers (1, &m_fbo);
     }
   }
 
-  void Framebuffer::Draw()
+  void Framebuffer::draw()
   {
-    Display.SetClearColor (0.f, 0.f, 0.f);
-    Display.Clear();
-    glBindVertexArray (this->VAO);
-    glBindTexture (GL_TEXTURE_2D, this->GetTexture());
+    m_display.set_clear_color (0.f, 0.f, 0.f);
+    m_display.clear();
+    glBindVertexArray (m_vao);
+    glBindTexture (GL_TEXTURE_2D, get_texture());
     glDrawArrays (GL_TRIANGLES, 0, 6);
   }
 
-  void Framebuffer::Bind()
+  void Framebuffer::bind()
   {
-    float TexW = this->CurrentTextureResolution.x;
-    float TexH = this->CurrentTextureResolution.y;
+    float TexW = m_current_texture_resolution.x;
+    float TexH = m_current_texture_resolution.y;
 
     // Updates FBO's texture resolution on window resizing
-    if (TexW != this->Display.GetWidth() || TexH != this->Display.GetHeight())
+    if (TexW != m_display.get_width() || TexH != m_display.get_height())
     {
-      this->RefreshTextureResolution();
+      m_refresh_texture_resolution();
     }
-    //std::cout << this->Display.GetWindowWidth() << '\n';
-    //std::cout << this->Display.GetWidth() << "\n\n";
 
-    glBindFramebuffer (GL_FRAMEBUFFER, this->FBO);
+    glBindFramebuffer (GL_FRAMEBUFFER, m_fbo);
   }
 
-  void Framebuffer::RefreshTextureResolution()
+  void Framebuffer::m_refresh_texture_resolution()
   {
-    this->CurrentTextureResolution = glm::vec2 (this->Display.GetWidth(), this->Display.GetHeight());
+    m_current_texture_resolution = glm::vec2 (m_display.get_width(), m_display.get_height());
 
-    glBindTexture (GL_TEXTURE_2D, this->FBOtex);
+    glBindTexture (GL_TEXTURE_2D, m_fbo_texture);
     glTexImage2D (GL_TEXTURE_2D,
                   0,
                   GL_RGBA,
-                  this->CurrentTextureResolution.x,
-                  this->CurrentTextureResolution.y,
+                  m_current_texture_resolution.x,
+                  m_current_texture_resolution.y,
                   0,
                   GL_RGBA,
                   GL_UNSIGNED_BYTE,
@@ -61,29 +59,29 @@ namespace graphics
     glBindTexture (GL_TEXTURE_2D, 0);
   }
 
-  void Framebuffer::ActivateTexture (GLenum tex_id)
+  void Framebuffer::activate_texture (GLenum texture_id)
   {
-    glActiveTexture (tex_id);
-    glBindTexture (GL_TEXTURE_2D, this->GetTexture());
+    glActiveTexture (texture_id);
+    glBindTexture (GL_TEXTURE_2D, get_texture());
   }
 
-  void Framebuffer::Unbind() { glBindFramebuffer (GL_FRAMEBUFFER, 0); }
+  void Framebuffer::unbind() { glBindFramebuffer (GL_FRAMEBUFFER, 0); }
 
-  void Framebuffer::init()
+  void Framebuffer::m_init()
   {
-    this->CurrentTextureResolution = glm::vec2 (this->Display.GetWidth(), this->Display.GetHeight());
+    m_current_texture_resolution = glm::vec2 (m_display.get_width(), m_display.get_height());
 
     // Framebuffer
-    glGenFramebuffers (1, &this->FBO);
-    glBindFramebuffer (GL_FRAMEBUFFER, this->FBO);
+    glGenFramebuffers (1, &m_fbo);
+    glBindFramebuffer (GL_FRAMEBUFFER, m_fbo);
 
-    glGenTextures (1, &this->FBOtex);
-    glBindTexture (GL_TEXTURE_2D, this->FBOtex);
+    glGenTextures (1, &m_fbo_texture);
+    glBindTexture (GL_TEXTURE_2D, m_fbo_texture);
     glTexImage2D (GL_TEXTURE_2D,
                   0,
                   GL_RGBA,
-                  this->CurrentTextureResolution.x,
-                  this->CurrentTextureResolution.y,
+                  m_current_texture_resolution.x,
+                  m_current_texture_resolution.y,
                   0,
                   GL_RGBA,
                   GL_UNSIGNED_BYTE,
@@ -94,13 +92,13 @@ namespace graphics
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glBindTexture (GL_TEXTURE_2D, 0);
 
-    glFramebufferTexture2D (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->FBOtex, 0);
+    glFramebufferTexture2D (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_fbo_texture, 0);
 
     unsigned int RBO;
     glGenRenderbuffers (1, &RBO);
     glBindRenderbuffer (GL_RENDERBUFFER, RBO);
     glRenderbufferStorage (
-        GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, this->CurrentTextureResolution.x, this->CurrentTextureResolution.y);
+        GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_current_texture_resolution.x, m_current_texture_resolution.y);
     glBindRenderbuffer (GL_RENDERBUFFER, 0);
     glFramebufferRenderbuffer (GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
 
@@ -114,10 +112,10 @@ namespace graphics
     // Quad
     float vertices[] = {-1.0f, 1.0f, 0.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, -1.0f, 1.0f, 0.0f,
                         -1.0f, 1.0f, 0.0f, 1.0f, 1.0f,  -1.0f, 1.0f, 0.0f, 1.0f, 1.0f,  1.0f, 1.0f};
-    glGenVertexArrays (1, &this->VAO);
-    glGenBuffers (1, &this->VBO);
-    glBindVertexArray (this->VAO);
-    glBindBuffer (GL_ARRAY_BUFFER, this->VBO);
+    glGenVertexArrays (1, &m_vao);
+    glGenBuffers (1, &m_vbo);
+    glBindVertexArray (m_vao);
+    glBindBuffer (GL_ARRAY_BUFFER, m_vbo);
     glBufferData (GL_ARRAY_BUFFER, sizeof (vertices), &vertices, GL_STATIC_DRAW);
     glEnableVertexAttribArray (0);
     glVertexAttribPointer (0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof (float), (void*) 0);

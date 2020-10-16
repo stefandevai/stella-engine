@@ -19,7 +19,7 @@ namespace graphics
   double MouseX, MouseY;
 
   Display::Display (GLuint width, GLuint height, const std::string& title)
-    : Width (width), Height (height), Title (title)
+    : m_width (width), m_height (height), m_title (title)
   {
     // SDL initialization
     if (SDL_Init (SDL_INIT_VIDEO) < 0)
@@ -35,8 +35,8 @@ namespace graphics
     SDL_ShowCursor (SDL_DISABLE);
 #endif
 
-    this->Window = SDL_CreateWindow (
-        this->Title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->Width, this->Height, window_flags);
+    m_window = SDL_CreateWindow (
+        m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, window_flags);
 
 #if __APPLE__
     SDL_GL_SetAttribute (SDL_GL_CONTEXT_FLAGS,
@@ -52,16 +52,16 @@ namespace graphics
 #endif
 
     SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
-    m_gl_context = SDL_GL_CreateContext (this->Window);
-    SDL_GL_MakeCurrent (this->Window, m_gl_context);
+    m_gl_context = SDL_GL_CreateContext (m_window);
+    SDL_GL_MakeCurrent (m_window, m_gl_context);
     SDL_GL_SetSwapInterval (1);
 
-    this->Running = true;
+    m_running = true;
 
     // Set initial value for Frame
-    this->Frame        = 1; // Setting as 1 to avoid division by 0
-    this->LastFPSCheck = this->LastTime = (float) SDL_GetTicks() / 1000.0f;
-    this->LastFrame                     = 0;
+    m_frame        = 1; // Setting as 1 to avoid division by 0
+    m_last_fps_check = m_last_time = (float) SDL_GetTicks() / 1000.0f;
+    m_last_frame                     = 0;
 
     if (!gladLoadGLLoader (SDL_GL_GetProcAddress))
     {
@@ -69,7 +69,7 @@ namespace graphics
     }
 
     // OpenGL Viewport settings
-    glViewport (0, 0, this->Width, this->Height);
+    glViewport (0, 0, m_width, m_height);
 
 #ifndef STELLA_BUILD_EDITOR
     m_check_viewport_proportions();
@@ -80,37 +80,37 @@ namespace graphics
     // glDisable(GL_DEPTH_TEST);
     glEnable (GL_DEPTH_TEST);
     // Set default Clear Color
-    this->ClearColor = glm::vec3 (0.0f, 0.0f, 0.0f);
+    m_clear_color = glm::vec3 (0.0f, 0.0f, 0.0f);
   }
 
   Display::~Display()
   {
     SDL_GL_DeleteContext (m_gl_context);
-    SDL_DestroyWindow (this->Window);
+    SDL_DestroyWindow (m_window);
     SDL_Quit();
   }
 
-  GLuint Display::GetWidth() const { return this->Width; }
+  GLuint Display::get_width() const { return m_width; }
 
-  GLuint Display::GetWindowWidth() const
+  GLuint Display::get_window_width() const
   {
     int width, height;
-    SDL_GetWindowSize (this->Window, &width, &height);
+    SDL_GetWindowSize (m_window, &width, &height);
     return width;
   }
 
-  GLuint Display::GetHeight() const { return this->Height; }
+  GLuint Display::get_height() const { return m_height; }
 
-  GLuint Display::GetWindowHeight() const
+  GLuint Display::get_window_height() const
   {
     int width, height;
-    SDL_GetWindowSize (this->Window, &width, &height);
+    SDL_GetWindowSize (m_window, &width, &height);
     return height;
   }
 
-  bool Display::IsRunning() const { return this->Running; }
+  bool Display::is_running() const { return m_running; }
 
-  void Display::Update()
+  void Display::update()
   {
 #if DISABLE_VSYNC == 1
   #ifdef __APPLE__
@@ -120,31 +120,31 @@ namespace graphics
   #endif
 
     // Print FPS
-    if (this->Frame % 120 == 0)
+    if (m_frame % 120 == 0)
     {
-      std::cout << this->getFPS() << '\n';
+      std::cout << this->get_fps() << '\n';
     }
 #endif
 
-    this->getDT();
-    this->Frame++;
-    //if (this->Frame >= 10000000)
+    this->m_get_dt();
+    m_frame++;
+    //if (m_frame >= 10000000)
     //{
-      //this->Frame = 0;
+      //m_frame = 0;
     //}
 
-    this->updateInput();
-    SDL_GL_SwapWindow (this->Window);
+    this->m_update_input();
+    SDL_GL_SwapWindow (m_window);
   }
 
-  void Display::SetClearColor (int r, int g, int b)
+  void Display::set_clear_color (int r, int g, int b)
   {
-    this->ClearColor.x = r / 255.0f;
-    this->ClearColor.y = g / 255.0f;
-    this->ClearColor.z = b / 255.0f;
+    m_clear_color.x = r / 255.0f;
+    m_clear_color.y = g / 255.0f;
+    m_clear_color.z = b / 255.0f;
   }
 
-  void Display::SetClearColor (GLfloat x, GLfloat y, GLfloat z)
+  void Display::set_clear_color (GLfloat x, GLfloat y, GLfloat z)
   {
     if (x > 1.0f)
       x = 1.0f;
@@ -153,20 +153,20 @@ namespace graphics
     if (z > 1.0f)
       z = 1.0f;
 
-    this->ClearColor.x = x;
-    this->ClearColor.y = y;
-    this->ClearColor.z = z;
+    m_clear_color.x = x;
+    m_clear_color.y = y;
+    m_clear_color.z = z;
   }
 
-  void Display::Clear()
+  void Display::clear()
   {
-    glClearColor (this->ClearColor.x, this->ClearColor.y, this->ClearColor.z, 1.0f);
+    glClearColor (m_clear_color.x, m_clear_color.y, m_clear_color.z, 1.0f);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // glClear (GL_COLOR_BUFFER_BIT);
     // glEnable(GL_DEPTH_TEST);
   }
 
-  void Display::updateInput()
+  void Display::m_update_input()
   {
     SDL_Event event;
     while (SDL_PollEvent (&event))
@@ -174,14 +174,14 @@ namespace graphics
       switch (event.type)
       {
         case SDL_QUIT:
-          this->Running = false;
+          m_running = false;
           break;
         case SDL_KEYDOWN:
         {
           const Uint8* state = SDL_GetKeyboardState (nullptr);
           if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_Q])
           {
-            this->Running = false;
+            m_running = false;
           }
           break;
         }
@@ -191,10 +191,10 @@ namespace graphics
             case SDL_WINDOWEVENT_RESIZED:
             case SDL_WINDOWEVENT_SIZE_CHANGED:
 #ifndef STELLA_BUILD_EDITOR
-              glViewport (0, 0, GetWindowWidth(), GetWindowHeight());
+              glViewport (0, 0, get_window_width(), get_window_height());
               m_check_viewport_proportions();
 #else
-              glViewport (0, 0, this->Width, this->Height);
+              glViewport (0, 0, m_width, m_height);
 #endif
               break;
           }
@@ -208,38 +208,38 @@ namespace graphics
     m_event = event;
   }
 
-  bool Display::IsKeyDown (int key)
+  bool Display::is_key_down (int key)
   {
     const Uint8* keys = SDL_GetKeyboardState (NULL);
     return keys[key];
   }
 
-  void Display::getDT()
+  void Display::m_get_dt()
   {
     GLfloat currentTime = (float) SDL_GetTicks() / 1000.0f;
-    this->DT            = currentTime - this->LastTime;
-    this->LastTime      = currentTime;
+    m_dt            = currentTime - m_last_time;
+    m_last_time      = currentTime;
   }
 
-  void Display::GetMousePos (double& mx, double& my)
+  void Display::get_mouse_pos (double& mx, double& my)
   {
     mx = MouseX;
     my = MouseY;
   }
 
-  const unsigned char* Display::GetGlVersion() { return glGetString (GL_VERSION); }
+  const unsigned char* Display::get_gl_version() { return glGetString (GL_VERSION); }
 
-  const unsigned char* Display::GetGlRenderer() { return glGetString (GL_RENDERER); }
+  const unsigned char* Display::get_gl_renderer() { return glGetString (GL_RENDERER); }
 
-  GLfloat Display::getFPS()
+  GLfloat Display::get_fps()
   {
-    GLuint currentFrame = this->Frame;
-    GLuint deltaFrame   = currentFrame - this->LastFrame;
-    this->LastFrame     = currentFrame;
+    GLuint currentFrame = m_frame;
+    GLuint deltaFrame   = currentFrame - m_last_frame;
+    m_last_frame     = currentFrame;
 
     GLfloat currentTime = (float) SDL_GetTicks() / 1000.0f;
-    GLfloat deltaTime   = currentTime - this->LastFPSCheck;
-    this->LastFPSCheck  = currentTime;
+    GLfloat deltaTime   = currentTime - m_last_fps_check;
+    m_last_fps_check  = currentTime;
 
     return deltaFrame / deltaTime;
   }

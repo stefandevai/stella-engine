@@ -35,8 +35,8 @@ namespace core
     Application (const unsigned width, const unsigned height, const std::string& title);
     virtual ~Application();
     void run();
-    inline const uint_fast32_t width() const { return m_display.GetWidth(); };
-    inline const uint_fast32_t height() const { return m_display.GetHeight(); };
+    inline const uint_fast32_t width() const { return m_display.get_width(); };
+    inline const uint_fast32_t height() const { return m_display.get_height(); };
 
   protected:
     virtual void load()                   = 0;

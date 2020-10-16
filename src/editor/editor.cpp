@@ -65,7 +65,7 @@ namespace editor
 
   void Editor::init()
   {
-    m_window = m_game.m_display.Window;
+    m_window = m_game.m_display.m_window;
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io    = ImGui::GetIO();
@@ -213,34 +213,34 @@ namespace editor
 
   void Editor::run()
   {
-    while (m_game.m_display.IsRunning())
+    while (m_game.m_display.is_running())
     {
       if (m_current_state == EDIT)
       {
-        m_game.update (m_game.m_display.GetDT());
-        m_game.m_display.Update();
+        m_game.update (m_game.m_display.get_dt());
+        m_game.m_display.update();
         this->configure_input();
-        this->update (m_game.m_display.GetDT());
+        this->update (m_game.m_display.get_dt());
 
-        m_FBO->Bind();
-        m_game.m_display.Clear();
-        m_game.render (m_game.m_display.GetDT());
-        m_FBO->Unbind();
-        this->render (m_game.m_display.GetWindowWidth(),
-                      m_game.m_display.GetWindowHeight(),
-                      m_game.m_display.Width,
-                      m_game.m_display.Height);
+        m_FBO->bind();
+        m_game.m_display.clear();
+        m_game.render (m_game.m_display.get_dt());
+        m_FBO->unbind();
+        this->render (m_game.m_display.get_window_width(),
+                      m_game.m_display.get_window_height(),
+                      m_game.m_display.m_width,
+                      m_game.m_display.m_height);
       }
       else if (m_current_state == PLAY)
       {
-        m_game.m_display.Clear();
-        m_game.update (m_game.m_display.GetDT());
-        this->update (m_game.m_display.GetDT());
-        this->render (m_game.m_display.GetWindowWidth(),
-                      m_game.m_display.GetWindowHeight(),
-                      m_game.m_display.Width,
-                      m_game.m_display.Height);
-        m_game.m_display.Update();
+        m_game.m_display.clear();
+        m_game.update (m_game.m_display.get_dt());
+        this->update (m_game.m_display.get_dt());
+        this->render (m_game.m_display.get_window_width(),
+                      m_game.m_display.get_window_height(),
+                      m_game.m_display.m_width,
+                      m_game.m_display.m_height);
+        m_game.m_display.update();
         this->configure_input();
       }
     }
@@ -390,8 +390,8 @@ namespace editor
     m_current_state = PLAY;
     glViewport (0,
                 m_toolbar.size().y,
-                m_game.m_display.GetWindowWidth(),
-                m_game.m_display.GetWindowHeight() - m_toolbar.size().y);
+                m_game.m_display.get_window_width(),
+                m_game.m_display.get_window_height() - m_toolbar.size().y);
     m_game.m_display.m_check_viewport_proportions();
   }
 
@@ -531,7 +531,7 @@ namespace editor
     ImGui::DockSpace (dockspace_id, ImVec2 (0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
     ImGui::End();
 
-    m_scene.render ((void*) (intptr_t) m_FBO->GetTexture());
+    m_scene.render ((void*) (intptr_t) m_FBO->get_texture());
 
     m_map_editor.render_file_dialog();
 
@@ -595,7 +595,7 @@ namespace editor
         ImGui::Separator();
         if (ImGui::MenuItem ("Quit", "CTRL+Q"))
         {
-          m_game.m_display.Running = false;
+          m_game.m_display.m_running = false;
         }
         ImGui::EndMenu();
       }

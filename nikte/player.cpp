@@ -18,22 +18,22 @@ void Player::update()
 {
   auto& body = m_registry.get<stella::component::Body2D> (entity);
 
-  if (this->Display.IsKeyDown (SDL_SCANCODE_UP))
+  if (this->Display.is_key_down (SDL_SCANCODE_UP))
   {
     body.Body->MoveTop();
   }
 
-  if (this->Display.IsKeyDown (SDL_SCANCODE_DOWN))
+  if (this->Display.is_key_down (SDL_SCANCODE_DOWN))
   {
     body.Body->MoveBottom();
   }
 
-  if (this->Display.IsKeyDown (SDL_SCANCODE_LEFT))
+  if (this->Display.is_key_down (SDL_SCANCODE_LEFT))
   {
     body.Body->MoveLeft();
   }
 
-  if (this->Display.IsKeyDown (SDL_SCANCODE_RIGHT))
+  if (this->Display.is_key_down (SDL_SCANCODE_RIGHT))
   {
     body.Body->MoveRight();
   }

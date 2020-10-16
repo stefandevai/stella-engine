@@ -46,33 +46,32 @@ namespace graphics
   public:
     Display (GLuint width, GLuint height, const std::string& title);
     ~Display();
-    bool IsRunning() const;
-    void Update();
-    void Clear();
-    void SetClearColor (int r, int g, int b);
-    void SetClearColor (GLfloat x, GLfloat y, GLfloat z);
-    GLuint GetWidth() const;
-    GLuint GetHeight() const;
-    GLuint GetWindowWidth() const;
-    GLuint GetWindowHeight() const;
-    static GLfloat GetTime() { return (GLfloat) SDL_GetTicks(); }
-    GLuint GetFrame() const { return Frame; }
-    GLfloat GetDT() const { return DT; }
-    GLfloat getFPS();
-    static void GetMousePos (double& mx, double& my);
-    static const unsigned char* GetGlVersion();
-    static const unsigned char* GetGlRenderer();
-    static bool IsKeyDown (int key);
+    bool is_running() const;
+    void update();
+    void clear();
+    void set_clear_color (int r, int g, int b);
+    void set_clear_color (GLfloat x, GLfloat y, GLfloat z);
+    GLuint get_width() const;
+    GLuint get_height() const;
+    GLuint get_window_width() const;
+    GLuint get_window_height() const;
+    static GLfloat get_time() { return (GLfloat) SDL_GetTicks(); }
+    GLuint get_frame() const { return m_frame; }
+    GLfloat get_dt() const { return m_dt; }
+    GLfloat get_fps();
+    static void get_mouse_pos (double& mx, double& my);
+    static const unsigned char* get_gl_version();
+    static const unsigned char* get_gl_renderer();
+    static bool is_key_down (int key);
 
   private:
-    GLuint Width, Height, Frame, LastFrame;
-
-    GLfloat LastTime, LastFPSCheck, DT = 0.0f;
-    std::string Title;
-    SDL_Window* Window;
+    GLuint m_width, m_height, m_frame, m_last_frame;
+    GLfloat m_last_time, m_last_fps_check, m_dt = 0.0f;
+    std::string m_title;
+    SDL_Window* m_window;
     SDL_GLContext m_gl_context;
-    bool Running;
-    glm::vec3 ClearColor;
+    bool m_running;
+    glm::vec3 m_clear_color;
     SDL_Event m_event;
 
 #ifdef STELLA_BUILD_EDITOR
@@ -87,8 +86,8 @@ namespace graphics
   #endif
 #endif
 
-    void updateInput();
-    void getDT();
+    void m_update_input();
+    void m_get_dt();
     void m_check_viewport_proportions();
   };
 } // namespace graphics

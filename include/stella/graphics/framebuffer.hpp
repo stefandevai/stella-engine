@@ -18,20 +18,20 @@ namespace graphics
     explicit Framebuffer (stella::graphics::Display& display);
     ~Framebuffer();
 
-    void Bind();
-    static void Unbind();
-    void Draw();
+    void bind();
+    static void unbind();
+    void draw();
 
-    void ActivateTexture (GLenum tex_id);
-    inline GLuint GetTexture() const { return FBOtex; }
+    void activate_texture (GLenum texture_id);
+    inline GLuint get_texture() const { return m_fbo_texture; }
 
   private:
-    GLuint FBO, FBOtex, VAO, VBO;
-    stella::graphics::Display& Display;
-    glm::vec2 CurrentTextureResolution;
+    GLuint m_fbo, m_fbo_texture, m_vao, m_vbo;
+    stella::graphics::Display& m_display;
+    glm::vec2 m_current_texture_resolution;
 
-    void init();
-    void RefreshTextureResolution();
+    void m_init();
+    void m_refresh_texture_resolution();
   };
 } // namespace graphics
 } // namespace stella
