@@ -36,13 +36,13 @@ namespace widget
 {
   struct Group
   {
-    Group () {}
+    Group() {}
 
-    void set_texture_list (const std::vector<std::string>& texture_list) {m_texture_list = texture_list;}
+    void set_texture_list (const std::vector<std::string>& texture_list) { m_texture_list = texture_list; }
 
     void render (entt::registry& registry, const entt::entity entity)
     {
-      auto& group = registry.get<component::Group>(entity);
+      auto& group             = registry.get<component::Group> (entity);
       entt::entity new_entity = entt::null;
 
       ImGui::PushID ("group#widget");
@@ -50,7 +50,7 @@ namespace widget
       int entt_counter = 1;
       for (auto child : group.children)
       {
-        std::string entt_name = "Entity " + std::to_string(entt_counter);
+        std::string entt_name = "Entity " + std::to_string (entt_counter);
         if (ImGui::CollapsingHeader (entt_name.c_str(), 0))
         {
           EntityComponents components{child};
@@ -74,7 +74,7 @@ namespace widget
           components.render_component_node<component::Timer> (registry, Timer());
           components.render_component_node<component::Typewriter> (registry, Typewriter());
           components.render_component_node<component::Vertical> (registry, Vertical());
-          
+
           if (ImGui::Button ("Add Components#2", ImVec2 (100, 27)))
           {
             m_add_components.open();
@@ -84,20 +84,18 @@ namespace widget
         ++entt_counter;
       }
 
-      m_add_components.render(registry, m_selected_entity);
+      m_add_components.render (registry, m_selected_entity);
 
-      if (ImGui::Button("Add Entity"))
+      if (ImGui::Button ("Add Entity"))
       {
         new_entity = registry.create();
-      }  
+      }
       ImGui::PopID();
 
       if (new_entity != entt::null)
       {
-        registry.patch<component::Group> (entity, [&new_entity] (auto& group)
-        {
-          group.children.push_back (new_entity);
-        });
+        registry.patch<component::Group> (entity,
+                                          [&new_entity] (auto& group) { group.children.push_back (new_entity); });
       }
     }
 

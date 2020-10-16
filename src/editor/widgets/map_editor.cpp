@@ -102,9 +102,9 @@ namespace widget
             }
             ImGui::PopID();
           }
-          if (ImGui::Button("Create Layer"))
+          if (ImGui::Button ("Create Layer"))
           {
-            m_tile_map.create_layer("tileset");
+            m_tile_map.create_layer ("tileset");
           }
           ImGui::EndGroup();
           ImGui::TreePop();
@@ -132,9 +132,9 @@ namespace widget
     }
     else
     {
-      m_selected_layer   = nullptr;
-      memset(m_map_name, 0, sizeof m_map_name);
-      memset(m_path, 0, sizeof m_path);
+      m_selected_layer = nullptr;
+      memset (m_map_name, 0, sizeof m_map_name);
+      memset (m_path, 0, sizeof m_path);
     }
   }
 

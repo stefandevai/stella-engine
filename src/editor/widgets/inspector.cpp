@@ -11,8 +11,7 @@ namespace stella
 {
 namespace widget
 {
-  Inspector::Inspector() : Widget ("Inspector") { 
-    m_open = true; }
+  Inspector::Inspector() : Widget ("Inspector") { m_open = true; }
 
   // void Inspector::render (entt::registry& registry, const std::vector<std::string&>& texture_list)
   void Inspector::render (entt::registry& registry, const std::vector<std::string>& texture_list)
@@ -65,7 +64,7 @@ namespace widget
   {
     if (ImGui::CollapsingHeader ("Components", ImGuiTreeNodeFlags_DefaultOpen))
     {
-      m_components.set_entity(m_selected_entity);
+      m_components.set_entity (m_selected_entity);
       m_components.render_component_node<component::AnimationPlayer> (registry, AnimationPlayer());
       m_components.render_component_node<component::Body2D> (registry, Body2D());
       m_components.render_component_node<component::Camera> (registry, Camera());

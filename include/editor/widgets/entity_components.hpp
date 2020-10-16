@@ -11,12 +11,12 @@ namespace widget
 {
   struct EntityComponents
   {
-    EntityComponents (entt::entity entity) {m_selected_entity = entity;}
-    EntityComponents () {}
+    EntityComponents (entt::entity entity) { m_selected_entity = entity; }
+    EntityComponents() {}
 
     template<class T>
     void render_component_node (entt::registry& registry,
-                                  const std::function<void (entt::registry&, const entt::entity)>& render_params)
+                                const std::function<void (entt::registry&, const entt::entity)>& render_params)
     {
       if (registry.has<T> (m_selected_entity))
       {
@@ -30,12 +30,9 @@ namespace widget
       }
     }
 
-    void set_entity (const entt::entity entity)
-    {
-      m_selected_entity = entity;
-    }
+    void set_entity (const entt::entity entity) { m_selected_entity = entity; }
 
-    private:
+  private:
     entt::entity m_selected_entity = entt::null;
   };
 

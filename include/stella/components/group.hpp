@@ -22,7 +22,7 @@ namespace component
     unsigned width = 0, height = 0;
     int tile_width = 0, tile_height = 0;
     float minx = 0.f, miny = 0.f, minz = 0.f, maxx = 0.f, maxy = 0.f, maxz = 0.f;
-    
+
     std::vector<entt::entity> children{};
     std::string texture = "";
 

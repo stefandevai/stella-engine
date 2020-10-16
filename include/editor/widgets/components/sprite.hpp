@@ -13,9 +13,9 @@ namespace widget
     Sprite (const std::vector<std::string>& texture_list) : m_texture_list (texture_list) {}
     void operator() (entt::registry& registry, const entt::entity entity)
     {
-      const auto& sprite = registry.get<component::SpriteT> (entity);
-      int frame          = sprite.frame;
-      std::string new_layer = sprite.layer;
+      const auto& sprite      = registry.get<component::SpriteT> (entity);
+      int frame               = sprite.frame;
+      std::string new_layer   = sprite.layer;
       std::string new_texture = sprite.texture;
 
       ImGui::PushID ("sprite#inspector");
@@ -40,8 +40,7 @@ namespace widget
       ImGui::InputInt ("Frame", &frame);
       if (ImGui::BeginCombo ("Render layer", nullptr, 0))
       {
-        registry.view<component::LayerT>().each ([&sprite, &new_layer] (auto entity, auto& layer)
-        {
+        registry.view<component::LayerT>().each ([&sprite, &new_layer] (auto entity, auto& layer) {
           const bool is_selected = (sprite.layer == layer.id);
           if (ImGui::Selectable (layer.id.c_str(), is_selected))
           {
@@ -59,19 +58,18 @@ namespace widget
 
       if (frame != sprite.frame)
       {
-        //registry.patch<component::SpriteT> (entity, [&frame, &new_texture] (auto& spr)
-        registry.patch<component::SpriteT> (entity, [&frame] (auto& spr)
-        {
-          spr.frame       = frame;
-          spr.loaded      = false;
+        // registry.patch<component::SpriteT> (entity, [&frame, &new_texture] (auto& spr)
+        registry.patch<component::SpriteT> (entity, [&frame] (auto& spr) {
+          spr.frame  = frame;
+          spr.loaded = false;
         });
       }
       if (new_texture != sprite.texture || new_layer != sprite.layer)
       {
         auto old_frame = sprite.frame;
-        auto& spr = registry.replace<component::SpriteT> (entity, new_texture);
-        spr.frame = old_frame;
-        spr.layer = new_layer;
+        auto& spr      = registry.replace<component::SpriteT> (entity, new_texture);
+        spr.frame      = old_frame;
+        spr.layer      = new_layer;
       }
     }
 

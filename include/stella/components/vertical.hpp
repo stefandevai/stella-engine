@@ -8,7 +8,7 @@ namespace component
 {
   struct Vertical : public Component
   {
-    Vertical () : Component ("Vertical") {}
+    Vertical() : Component ("Vertical") {}
   };
 } // namespace component
 } // namespace stella

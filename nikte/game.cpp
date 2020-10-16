@@ -15,7 +15,7 @@ Game::Game() : stella::core::Game (896, 504, "Nikte")
   m_script_api.run_script ("scripts/main.lua");
   m_script_api.run_function ("load_assets");
 
-  //m_tile_map.load();
+  // m_tile_map.load();
   m_render_system = std::make_shared<stella::system::RenderT> (m_registry, m_textures);
   this->add_system<stella::system::AnimationPlayer>();
   // this->add_system<stella::system::Color> (m_registry);
@@ -100,7 +100,7 @@ void Game::update (const double dt)
     m_script_api.set_variable<int> ("e_map_width", m_tile_map.width());
     m_script_api.set_variable<int> ("e_map_height", m_tile_map.height());
   }
-  
+
   // m_script_api.run_function ("render_game", dt);
 }
 

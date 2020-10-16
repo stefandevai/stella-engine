@@ -3,8 +3,8 @@
 #include "widget.hpp"
 //#include "../../lib/imgui/imgui.hpp"
 #include "stella/graphics/texture.hpp"
-#include <entt/entity/entity.hpp> 
-#include <entt/entity/registry.hpp> 
+#include <entt/entity/entity.hpp>
+#include <entt/entity/registry.hpp>
 
 namespace stella
 {

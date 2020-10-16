@@ -50,10 +50,7 @@ namespace system
     if (ImGui::IsMouseClicked (0))
     {
       bool clicked_entity = false;
-      registry.sort<component::Position>([](const auto &lhs, const auto &rhs)
-      {
-        return lhs.z < rhs.z;
-      });
+      registry.sort<component::Position> ([] (const auto& lhs, const auto& rhs) { return lhs.z < rhs.z; });
       registry.view<component::Position, component::Dimension> (entt::exclude<component::Camera, component::InGroup>)
           .each ([this, &registry, &map_pos, &clicked_entity] (auto entity, auto& pos, const auto& dim) {
             if (registry.valid (entity) && selected_entity != entity)
@@ -103,8 +100,7 @@ namespace system
       auto& sel       = registry.get<component::Selected> (entity);
 
       auto handler_move = registry.create();
-      registry.emplace<component::Position> (
-          handler_move, pos.x + dim.w / 2.f - 4.f, pos.y + dim.h / 2.f - 4.f, 91.f);
+      registry.emplace<component::Position> (handler_move, pos.x + dim.w / 2.f - 4.f, pos.y + dim.h / 2.f - 4.f, 91.f);
       registry.emplace<component::Dimension> (handler_move, 8.f, 8.f);
       registry.emplace<component::Color> (handler_move, "#ffffff88");
       auto& sprite1 = registry.emplace<component::SpriteT> (handler_move, "handler-move");

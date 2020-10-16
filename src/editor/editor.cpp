@@ -346,16 +346,15 @@ namespace editor
         // bool collidable = m_tileset_editor.get_selected_tile_collidable();
         // int layer_id    = m_map_editor.get_selected_layer_id();
         // m_game.m_tile_map.update_tile (new_tile_value, tile_pos.x, tile_pos.y, layer_id, collidable);
-        
+
         if (m_map_editor.get_selected_layer_id() >= 0)
         {
-          const auto entity = m_tileset_editor.get_entity(m_game.m_registry);
-          m_game.m_registry.patch<component::Position>(entity, [&sprite_pos](auto& pos)
-          {
+          const auto entity = m_tileset_editor.get_entity (m_game.m_registry);
+          m_game.m_registry.patch<component::Position> (entity, [&sprite_pos] (auto& pos) {
             pos.x = sprite_pos.x;
             pos.y = sprite_pos.y;
           });
-          auto& tile = m_game.m_registry.get<component::Tile>(entity);
+          auto& tile    = m_game.m_registry.get<component::Tile> (entity);
           tile.layer_id = m_map_editor.get_selected_layer_id();
           m_game.m_tile_map.update_tile (entity, m_game.m_registry);
         }
@@ -587,7 +586,10 @@ namespace editor
       if (ImGui::BeginMenu ("File"))
       {
         if (ImGui::MenuItem ("New Tilemap", "CTRL+N")) {}
-        if (ImGui::MenuItem ("New Block", "CTRL+B")) { m_block_editor.open(); }
+        if (ImGui::MenuItem ("New Block", "CTRL+B"))
+        {
+          m_block_editor.open();
+        }
         if (ImGui::MenuItem ("Open Tilemap", "CTRL+O")) {}
         if (ImGui::MenuItem ("Open Tileset", "SHIFT+O")) {}
         ImGui::Separator();

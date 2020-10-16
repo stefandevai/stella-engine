@@ -10,7 +10,7 @@ namespace component
   {
     Component (const std::string& name) : name (name) {}
     std::string name = "";
-    bool loaded = false;
+    bool loaded      = false;
   };
 } // namespace component
 } // namespace stella

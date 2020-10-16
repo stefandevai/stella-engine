@@ -13,8 +13,8 @@ namespace component
       : Component ("Tile"), layer_id (layer_id), collidable (collidable)
     {
     }
-    int layer_id = -1;
-    bool collidable   = false;
+    int layer_id    = -1;
+    bool collidable = false;
   };
 } // namespace component
 } // namespace stella

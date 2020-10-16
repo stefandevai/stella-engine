@@ -22,10 +22,7 @@ namespace stella
 namespace core
 {
   entt::registry* Tile::registry = nullptr;
-  TileMap::TileMap (entt::registry& registry) : m_registry (registry)
-  {
-    Tile::registry = &m_registry;
-  }
+  TileMap::TileMap (entt::registry& registry) : m_registry (registry) { Tile::registry = &m_registry; }
 
   TileMap::TileMap (const std::string& path, entt::registry& registry) : m_path (path), m_registry (registry)
   {
@@ -201,13 +198,13 @@ namespace core
 
   void TileMap::update_tile (const entt::entity entity, entt::registry& registry)
   {
-    const auto& tile_component = m_registry.get<component::Tile>(entity);
-    const auto& sprite_component = m_registry.get<component::SpriteT>(entity);
-    const auto& position_component = m_registry.get<component::Position>(entity);
-    const int x = position_component.x/m_tile_dimension;
-    const int y = position_component.y/m_tile_dimension;
-    auto layer = layers[tile_component.layer_id];
-    auto tile  = layer->get_value (x, y);
+    const auto& tile_component     = m_registry.get<component::Tile> (entity);
+    const auto& sprite_component   = m_registry.get<component::SpriteT> (entity);
+    const auto& position_component = m_registry.get<component::Position> (entity);
+    const int x                    = position_component.x / m_tile_dimension;
+    const int y                    = position_component.y / m_tile_dimension;
+    auto layer                     = layers[tile_component.layer_id];
+    auto tile                      = layer->get_value (x, y);
 
     tile.value      = sprite_component.frame;
     tile.collidable = tile_component.collidable;
@@ -215,9 +212,9 @@ namespace core
     tile.y          = y;
 
     auto old_tile = layers[tile_component.layer_id]->get_value (x, y);
-    if (registry.valid(old_tile.entity) && old_tile.entity != entt::null)
+    if (registry.valid (old_tile.entity) && old_tile.entity != entt::null)
     {
-      registry.destroy(old_tile.entity);
+      registry.destroy (old_tile.entity);
     }
     tile.entity = entity;
     layers[tile_component.layer_id]->set_value (x, y, tile);
@@ -229,7 +226,6 @@ namespace core
     {
       auto& sprite = m_registry.get<component::SpriteT> (entity);
       sprite.frame = value;
-      
     }
     else
     {
@@ -264,11 +260,11 @@ namespace core
       m_registry.emplace<component::Tile> (tile, layer_id, collidable);
       m_registry.emplace<component::Position> (tile, x * m_tile_dimension, y * m_tile_dimension, z);
       m_registry.emplace<component::Dimension> (tile, m_tile_dimension, m_tile_dimension);
-    
+
       auto& sprite = m_registry.emplace<component::SpriteT> (tile, layers[layer_id]->get_texture_name());
       sprite.frame = value;
       sprite.layer = layers[layer_id]->get_render_layer_name();
-      //m_registry.emplace<component::Fog> (tile, z, !collidable);
+      // m_registry.emplace<component::Fog> (tile, z, !collidable);
       layers[layer_id]->set_entity (x, y, tile);
     }
     else
@@ -305,7 +301,8 @@ namespace core
             layer->set_visibility (x, y, true);
             this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter, layer_tile.collidable);
           }
-          else if (layer_tile.value > 0 && (!m_registry.valid(layer_tile.entity) || !m_registry.has<component::SpriteT>(layer_tile.entity)))
+          else if (layer_tile.value > 0 &&
+                   (!m_registry.valid (layer_tile.entity) || !m_registry.has<component::SpriteT> (layer_tile.entity)))
           {
             layer->set_visibility (x, y, true);
             this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter, layer_tile.collidable);
@@ -324,15 +321,14 @@ namespace core
   {
     if (name.empty())
     {
-      name = "Layer " + std::to_string(layers.size() + 1);
+      name = "Layer " + std::to_string (layers.size() + 1);
     }
-    auto layer = std::make_shared<MapGrid>(m_width, m_height);
+    auto layer = std::make_shared<MapGrid> (m_width, m_height);
     layers.push_back (layer);
-    layer->set_name(name);
-    layer->set_id(layers.size() - 1);
+    layer->set_name (name);
+    layer->set_id (layers.size() - 1);
     layer->set_texture_name (texture);
   }
-
 
   void TileMap::resize (const int top, const int right, const int bottom, const int left)
   {
@@ -374,8 +370,8 @@ namespace core
     layers.clear();
     m_number_of_layers = 0;
     m_tile_dimension   = 32;
-    m_width = 28;
-    m_height = 16;
+    m_width            = 28;
+    m_height           = 16;
   }
 } // namespace core
 } // namespace stella

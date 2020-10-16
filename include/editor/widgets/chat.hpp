@@ -16,7 +16,7 @@ namespace widget
   class Chat : public Widget
   {
   private:
-    //const ImGuiWindowFlags WindowFlags;
+    // const ImGuiWindowFlags WindowFlags;
     bool AutoScroll     = true;
     bool ScrollToBottom = false;
     ImVector<int> LineOffsets;

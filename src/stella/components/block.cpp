@@ -2,14 +2,9 @@
 
 namespace stella
 {
-namespace 
+namespace
 {
+  Block::Block() {}
 
-  Block::Block ()
-  {
-
-  }
-
-} // namespace 
+} // namespace
 } // namespace stella
-
