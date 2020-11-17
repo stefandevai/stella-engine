@@ -5,7 +5,7 @@ add_library(${PROJECT_NAME} STATIC editor.cpp
                                    widgets/chat.cpp
                                    widgets/console.cpp
                                    widgets/inspector.cpp
-                                   widgets/map_editor.cpp
+                                   #widgets/map_editor.cpp
                                    widgets/tileset_editor.cpp
                                    widgets/scene.cpp
                                    widgets/toolbar.cpp

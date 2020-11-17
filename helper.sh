@@ -15,8 +15,8 @@ fi
 
 # Variables
 BUILD_DIR="build"
-TARGET_DIR="nikte"
-TARGET="nikte"
+TARGET_DIR="nikte2"
+TARGET="nikte2"
 OPT1=$1
 OPT2=$2
 
@@ -65,7 +65,7 @@ function exec_func {
 		cd $BUILD_DIR
 	fi
 
-	cp -r ../nikte/assets example
+	cp -r ../nikte2/assets example
 
 	cd $TARGET_DIR
 	./"$TARGET"
@@ -84,7 +84,7 @@ function clean_func {
 		-ca|--clean-all)
 			if [ -d "$BUILD_DIR" ]; then
 				rm -rf $BUILD_DIR/example
-				rm -rf $BUILD_DIR/nikte
+				rm -rf $BUILD_DIR/nikte2
 				rm -rf $BUILD_DIR/src
 				rm -rf $BUILD_DIR/test
 			fi
@@ -142,16 +142,16 @@ ${class_camel_name}::~${class_camel_name}() {
 function format_code {
 	find include/ -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --verbose -i -style=file
 	find src/ -type f \( -iname "*.hpp" -or -iname "*.cpp" ! -iname "lemmatizer.cpp" \) | xargs clang-format --verbose -i -style=file
-	find nikte/ -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --verbose -i -style=file
+	find nikte2/ -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --verbose -i -style=file
   find test/ -type f \( -iname "*.h" -o -iname "*.cpp" ! -iname "catch.cpp" \) | xargs clang-format --verbose -i -style=file
 }
 
 function copy_assets {
-	cp -r nikte/assets $BUILD_DIR/nikte
+	cp -r nikte2/assets $BUILD_DIR/nikte2
 }
 
 function copy_scripts {
-	cp -r nikte/scripts $BUILD_DIR/nikte
+	cp -r nikte2/scripts $BUILD_DIR/nikte2
 }
 
 # Args evalutation

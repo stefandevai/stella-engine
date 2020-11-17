@@ -225,7 +225,7 @@ add_subdirectory(src)
 
 # Build examples if specified
 if (BUILD_STELLA_EXAMPLE)
-  add_subdirectory(nikte)
+  add_subdirectory(nikte2)
 endif()
 
 # Build tests if specified

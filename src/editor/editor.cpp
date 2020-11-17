@@ -1,7 +1,7 @@
 #include "editor/editor.hpp"
 #include "imgui_internal.h"
 
-#include "../../nikte/game.hpp"
+#include "stella/game2.hpp"
 #include "stella/components/dimension.hpp"
 #include "stella/components/layer.hpp"
 #include "stella/components/position.hpp"
@@ -23,7 +23,7 @@ namespace stella
 {
 namespace editor
 {
-  Editor::Editor (nikte::Game& game) : m_game (game), m_registry (game.m_registry)
+  Editor::Editor (stella::Game& game) : m_game (game), m_registry (game.m_registry)
   {
     m_debug_layer = std::make_shared<graphics::ShapeLayerT> (
         m_registry, "assets/shaders/debug_shader.vert", "assets/shaders/debug_shader.frag", true);
@@ -107,17 +107,17 @@ namespace editor
         // Save map
         if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_S])
         {
-          m_map_editor.save_as();
+          //m_map_editor.save_as();
         }
         else if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_S])
         {
-          m_map_editor.save();
+          //m_map_editor.save();
         }
 
         // Load map
         if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_O])
         {
-          m_map_editor.load();
+          //m_map_editor.load();
         }
 
         // Run game without the editor
@@ -150,7 +150,7 @@ namespace editor
         {
           if (state[SDL_SCANCODE_M])
           {
-            m_map_editor.open();
+            //m_map_editor.open();
           }
           else if (state[SDL_SCANCODE_T])
           {
@@ -175,7 +175,7 @@ namespace editor
         {
           if (state[SDL_SCANCODE_M])
           {
-            m_map_editor.close();
+            //m_map_editor.close();
           }
           else if (state[SDL_SCANCODE_T])
           {
@@ -307,60 +307,60 @@ namespace editor
 
   void Editor::m_map_tile_pos (const ImGuiIO& io, std::function<void (const ImVec2&)> position_action)
   {
-    // If the mouse is within the game screen boundaries
-    if (m_scene.active() && io.MousePos.x > m_scene.get_x() && io.MousePos.x < m_scene.get_width() &&
-        io.MousePos.y <= m_scene.get_game_screen_height() + m_scene.get_game_screen_y_spacing() &&
-        io.MousePos.y > m_scene.get_game_screen_y_spacing())
-    {
-      const auto& camera_pos    = m_game.get_camera_pos();
-      float width_padding       = m_scene.get_game_screen_x_spacing();
-      float height_padding      = m_scene.get_game_screen_y_spacing();
-      const float width_factor  = m_game_width / static_cast<float> (m_scene.get_game_screen_width());
-      const float height_factor = m_game_height / static_cast<float> (m_scene.get_game_screen_height());
+    //// If the mouse is within the game screen boundaries
+    //if (m_scene.active() && io.MousePos.x > m_scene.get_x() && io.MousePos.x < m_scene.get_width() &&
+        //io.MousePos.y <= m_scene.get_game_screen_height() + m_scene.get_game_screen_y_spacing() &&
+        //io.MousePos.y > m_scene.get_game_screen_y_spacing())
+    //{
+      //const auto& camera_pos    = m_game.get_camera_pos();
+      //float width_padding       = m_scene.get_game_screen_x_spacing();
+      //float height_padding      = m_scene.get_game_screen_y_spacing();
+      //const float width_factor  = m_game_width / static_cast<float> (m_scene.get_game_screen_width());
+      //const float height_factor = m_game_height / static_cast<float> (m_scene.get_game_screen_height());
 
-      const auto map_pos_x = (io.MousePos.x - width_padding) * width_factor + camera_pos[0] - 1.0f;
-      const auto map_pos_y = (io.MousePos.y - height_padding) * height_factor + camera_pos[1] - 3.0f;
+      //const auto map_pos_x = (io.MousePos.x - width_padding) * width_factor + camera_pos[0] - 1.0f;
+      //const auto map_pos_y = (io.MousePos.y - height_padding) * height_factor + camera_pos[1] - 3.0f;
 
-      position_action (ImVec2 (map_pos_x, map_pos_y));
-    }
+      //position_action (ImVec2 (map_pos_x, map_pos_y));
+    //}
   }
 
   void Editor::m_handle_tile_pen (const ImGuiIO& io)
   {
-    m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
-      // Set dummy sprite position with grid snapping
-      int new_tile_value  = m_tileset_editor.get_selected_tile_id();
-      const auto tile_pos = m_tileset_editor.pos2tile (map_pos.x, map_pos.y);
-      auto& sprite_pos    = m_registry.get<component::Position> (m_editor_sprite);
-      auto& sprite_spr    = m_registry.get<component::SpriteT> (m_editor_sprite);
-      sprite_pos.x        = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
-      sprite_pos.y        = tile_pos.y * m_tileset_editor.get_tile_dimensions().y;
-      sprite_spr.frame    = new_tile_value;
+    //m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
+      //// Set dummy sprite position with grid snapping
+      //int new_tile_value  = m_tileset_editor.get_selected_tile_id();
+      //const auto tile_pos = m_tileset_editor.pos2tile (map_pos.x, map_pos.y);
+      //auto& sprite_pos    = m_registry.get<component::Position> (m_editor_sprite);
+      //auto& sprite_spr    = m_registry.get<component::SpriteT> (m_editor_sprite);
+      //sprite_pos.x        = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
+      //sprite_pos.y        = tile_pos.y * m_tileset_editor.get_tile_dimensions().y;
+      //sprite_spr.frame    = new_tile_value;
 
-      if (ImGui::IsMouseDown (0))
-      {
-        // Update tile if user clicks
-        // bool collidable = m_tileset_editor.get_selected_tile_collidable();
-        // int layer_id    = m_map_editor.get_selected_layer_id();
-        // m_game.m_tile_map.update_tile (new_tile_value, tile_pos.x, tile_pos.y, layer_id, collidable);
+      //if (ImGui::IsMouseDown (0))
+      //{
+        //// Update tile if user clicks
+        //// bool collidable = m_tileset_editor.get_selected_tile_collidable();
+        //// int layer_id    = m_map_editor.get_selected_layer_id();
+        //// m_game.m_tile_map.update_tile (new_tile_value, tile_pos.x, tile_pos.y, layer_id, collidable);
 
-        if (m_map_editor.get_selected_layer_id() >= 0)
-        {
-          const auto entity = m_tileset_editor.get_entity (m_game.m_registry);
-          m_game.m_registry.patch<component::Position> (entity, [&sprite_pos] (auto& pos) {
-            pos.x = sprite_pos.x;
-            pos.y = sprite_pos.y;
-          });
-          auto& tile    = m_game.m_registry.get<component::Tile> (entity);
-          tile.layer_id = m_map_editor.get_selected_layer_id();
-          m_game.m_tile_map.update_tile (entity, m_game.m_registry);
-        }
-        else
-        {
-          std::cout << "Please select a layer first.\n";
-        }
-      }
-    });
+        //if (m_map_editor.get_selected_layer_id() >= 0)
+        //{
+          //const auto entity = m_tileset_editor.get_entity (m_game.m_registry);
+          //m_game.m_registry.patch<component::Position> (entity, [&sprite_pos] (auto& pos) {
+            //pos.x = sprite_pos.x;
+            //pos.y = sprite_pos.y;
+          //});
+          //auto& tile    = m_game.m_registry.get<component::Tile> (entity);
+          //tile.layer_id = m_map_editor.get_selected_layer_id();
+          //m_game.m_tile_map.update_tile (entity, m_game.m_registry);
+        //}
+        //else
+        //{
+          //std::cout << "Please select a layer first.\n";
+        //}
+      //}
+    //});
   }
 
   void Editor::m_handle_pan_tool (const ImGuiIO& io)
@@ -533,13 +533,13 @@ namespace editor
 
     m_scene.render ((void*) (intptr_t) m_FBO->get_texture());
 
-    m_map_editor.render_file_dialog();
+    //m_map_editor.render_file_dialog();
 
     if (m_inspector.is_open())
     {
       m_inspector.render (m_game.m_registry, m_game.m_textures.get_list());
     }
-    m_map_editor.render();
+    //m_map_editor.render();
     if (m_tileset_editor.is_open())
     {
       m_tileset_editor.render();
@@ -624,8 +624,8 @@ namespace editor
         ImGui::Dummy (ImVec2{0.0f, 1.5f});
         m_widget_build_option (m_inspector, "oi/ci");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        m_widget_build_option (m_map_editor, "om/cm");
-        ImGui::Dummy (ImVec2{0.0f, 3.0f});
+        //m_widget_build_option (m_map_editor, "om/cm");
+        //ImGui::Dummy (ImVec2{0.0f, 3.0f});
         m_widget_build_option (m_tileset_editor, "ot/ct");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
         m_widget_build_option (m_chat, "oh/ch");

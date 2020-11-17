@@ -6,10 +6,11 @@ add_subdirectory(npc)
 add_subdirectory(physics2d)
 add_subdirectory(components)
 add_subdirectory(systems)
+add_subdirectory(tilemap)
 add_subdirectory(topdown)
 
 add_library(${PROJECT_NAME} STATIC application.cpp
-                                   game.cpp
+                                   game2.cpp
                                    component_list.cpp)
 
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
@@ -18,6 +19,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
                                       ${STELLA_LIBRARY_NAME}::components
                                       ${STELLA_LIBRARY_NAME}::systems
                                       ${STELLA_LIBRARY_NAME}::core
+                                      ${STELLA_LIBRARY_NAME}::tilemap
                                       ${STELLA_LIBRARY_NAME}::graphics
                                       ${STELLA_LIBRARY_NAME}::npc
                                       ${STELLA_LIBRARY_NAME}::physics2d

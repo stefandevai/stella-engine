@@ -12,6 +12,14 @@ namespace core
 
   void Scene::update() {}
 
+  void Scene::update_systems (const double dt)
+  {
+    for (auto& s : m_systems)
+    {
+      s->update (m_registry, dt);
+    }
+  }
+
   void Scene::render() {}
 
 } // namespace core

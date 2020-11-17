@@ -7,7 +7,7 @@
 #include "widgets/console.hpp"
 #include "widgets/inspector.hpp"
 #include "./log_system.hpp"
-#include "widgets/map_editor.hpp"
+//#include "widgets/map_editor.hpp"
 #include "widgets/tileset_editor.hpp"
 #include "widgets/scene.hpp"
 #include <entt/entity/registry.hpp> // IWYU pragma: export
@@ -23,7 +23,7 @@
 struct SDL_Window;
 union SDL_Event;
 typedef void* SDL_GLContext;
-namespace nikte
+namespace stella
 {
 class Game;
 }
@@ -41,7 +41,7 @@ namespace editor
     State m_current_state = EDIT;
     Tool m_current_tool   = INSPECTOR;
 
-    nikte::Game& m_game;
+    stella::Game& m_game;
     SDL_Window* m_window = nullptr;
     ImFont *m_font_mono = nullptr, *m_font_sans_regular = nullptr, *m_font_sans_bold = nullptr;
     const ImGuiWindowFlags m_window_flags =
@@ -57,7 +57,7 @@ namespace editor
     entt::entity m_editor_layer  = entt::null;
     entt::entity m_editor_sprite = entt::null;
     widget::TilesetEditor m_tileset_editor{"assets/sprites/tilesetv2.png"};
-    widget::MapEditor m_map_editor{m_game};
+    //widget::MapEditor m_map_editor{m_game};
     widget::Inspector m_inspector;
     widget::Toolbar m_toolbar;
     widget::BlockEditor m_block_editor;
@@ -84,7 +84,7 @@ namespace editor
 
   public:
     // Editor(entt::registry& registry);
-    Editor (nikte::Game& game);
+    Editor (stella::Game& game);
     ~Editor();
     // void init (SDL_Window* window, SDL_GLContext gl_context, const char* glsl_version);
     void init();

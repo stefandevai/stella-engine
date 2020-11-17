@@ -4,11 +4,6 @@
 #include <entt/entity/registry.hpp>
 #include <string>
 
-// #ifdef STELLA_BUILD_EDITOR
-//   #include "editor/editor.hpp"
-
-// #endif
-
 #ifdef STELLA_BUILD_EDITOR
 namespace stella
 {
