@@ -20,6 +20,11 @@ namespace widget
 
   void SceneEditor::render (std::shared_ptr<core::Scene>& scene)
   {
+    if (!m_open)
+    {
+      return;
+    }
+
     if (ImGui::Begin (m_title_string.c_str(), &m_open))
     {
       static char scene_name[128] = "";

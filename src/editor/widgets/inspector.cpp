@@ -16,6 +16,11 @@ namespace widget
   // void Inspector::render (entt::registry& registry, const std::vector<std::string&>& texture_list)
   void Inspector::render (entt::registry& registry, const std::vector<std::string>& texture_list)
   {
+    if (!m_open)
+    {
+      return;
+    }
+
     std::vector<entt::entity> selected_entities;
     registry.view<component::Selected>().each ([&selected_entities] (auto entity, auto& sel) {
       selected_entities.push_back (entity);

@@ -27,9 +27,7 @@ namespace graphics
       std::cout << "It was not possible to initialize SDL2" << std::endl;
     }
 
-    // const SDL_WindowFlags window_flags =
-    // (SDL_WindowFlags) (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
-    const SDL_WindowFlags window_flags = (SDL_WindowFlags) (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+    const SDL_WindowFlags window_flags = (SDL_WindowFlags) (SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED | SDL_WINDOW_OPENGL);
 
 #ifndef STELLA_BUILD_EDITOR
     SDL_ShowCursor (SDL_DISABLE);

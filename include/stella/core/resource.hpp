@@ -12,8 +12,17 @@ namespace core
   class Resource
   {
   public:
-    Resource (const std::string& path) {}
+    Resource (const std::string& path) : m_path(path) {}
     virtual ~Resource() {}
+
+    template<class Archive>
+    void serialize (Archive& archive)
+    {
+      archive(m_path);
+    }
+
+  private:
+    std::string m_path;
   };
 
   template<class T, typename... Args>
@@ -25,7 +34,6 @@ namespace core
 
   public:
     ResourceManager(){};
-    ~ResourceManager(){};
     // std::shared_ptr<T> load(const std::string &name, const std::string &path)
     std::shared_ptr<T> load (const std::string& name, Args... args)
     {
@@ -52,6 +60,13 @@ namespace core
     }
 
     std::vector<std::string> get_list() { return m_id_list; }
+
+    template<class Archive>
+    void serialize (Archive& archive)
+    {
+      archive (m_resources,
+               m_id_list);
+    }
   };
 } // namespace core
 } // namespace stella

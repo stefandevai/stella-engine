@@ -11,6 +11,11 @@ namespace widget
 
   void Scene::render (const ImTextureID texture_id)
   {
+    if (!m_open)
+    {
+      return;
+    }
+
     ImGui::PushStyleVar (ImGuiStyleVar_WindowPadding, ImVec2 (0, 0));
     ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (0.0f, 0.0f));
     ImGui::PushStyleVar (ImGuiStyleVar_ItemInnerSpacing, ImVec2 (0.0f, 0.0f));

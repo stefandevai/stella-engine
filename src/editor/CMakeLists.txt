@@ -1,8 +1,8 @@
 project(editor)
 
 add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLAD)
-add_library(${PROJECT_NAME} STATIC editor.cpp
-                                   project.cpp
+add_library(${PROJECT_NAME} STATIC editor2.cpp
+                                   #editor.cpp
                                    widgets/chat.cpp
                                    widgets/console.cpp
                                    widgets/inspector.cpp

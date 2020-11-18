@@ -1,8 +1,12 @@
 #include <stella/game2.hpp>  // IWYU pragma: export
 
 #ifdef STELLA_BUILD_EDITOR
-  #include "editor/editor.hpp"
+#include "editor/editor2.hpp"
 #endif
+
+// TEMP
+#include <iostream>
+// TEMP
 
 int main (int argc, char* argv[])
 {

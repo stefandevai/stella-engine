@@ -18,8 +18,7 @@ namespace widget
   void Toolbar::render (entt::registry& registry,
                         editor::State& state,
                         editor::Tool& tool,
-                        const float width,
-                        std::function<void()> draw_menu_bar)
+                        const float width)
   {
     ImGui::SetNextWindowSize (ImVec2 (width, 60), ImGuiCond_Always);
     ImGui::SetNextWindowPos (ImVec2 (0, 0), ImGuiCond_Always);
@@ -32,8 +31,6 @@ namespace widget
                           ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar |
                           ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus))
     {
-      draw_menu_bar();
-
       ImGui::PushStyleVar (ImGuiStyleVar_FramePadding, ImVec2 (4.f, 2.f));
       ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (1.0f, 0.0f));
       ImGui::PushStyleColor (ImGuiCol_Text, m_button_color);

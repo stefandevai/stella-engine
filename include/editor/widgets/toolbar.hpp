@@ -4,15 +4,9 @@
 //#include "../../lib/imgui/imgui.hpp"
 #include "widget.hpp"
 #include "editor/state.hpp"
+#include "editor/icons.hpp"
 #include <entt/entity/registry.hpp>
 #include "new_entity.hpp"
-
-#define ICON_FA_MIN           0xf044
-#define ICON_FA_MAX           0xf245
-#define ICON_FA_EDIT          u8"\uf044"
-#define ICON_FA_PLAY          u8"\uf04b"
-#define ICON_FA_PLUS          u8"\uf067"
-#define ICON_FA_MOUSE_POINTER u8"\uf245"
 
 namespace stella
 {
@@ -40,8 +34,7 @@ namespace widget
     void render (entt::registry& registry,
                  editor::State& state,
                  editor::Tool& tool,
-                 const float width,
-                 std::function<void()> draw_menu_bar);
+                 const float width);
     const ImVec2& size() { return m_size; }
   };
 } // namespace widget

@@ -36,6 +36,11 @@ namespace widget
 
   void Console::render()
   {
+    if (!m_open)
+    {
+      return;
+    }
+
     if (!ImGui::Begin (m_title_string.c_str(), &m_open, WindowFlags))
     {
       ImGui::End();

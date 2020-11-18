@@ -36,6 +36,12 @@ namespace graphics
       this->CacheID = cache_id;
     }
 
+    //template <class Archive>
+    //void serialize(Archive& archive)
+    //{
+      //archive(ID);
+    //}
+
   private:
     unsigned int ID, Width, Height;
     float CacheID;

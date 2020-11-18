@@ -25,6 +25,24 @@ namespace stella
     void update (const double dt);
     void render (const double dt);
 
+    template<class Archive>
+    void save (Archive& archive) const
+    {
+      archive (m_initial_width,
+               m_initial_height,
+               m_initial_title,
+               m_textures);
+    }
+
+    template<class Archive>
+    void load (Archive& archive)
+    {
+      archive (m_initial_width,
+               m_initial_height,
+               m_initial_title,
+               m_textures);
+    }
+
   private:
     entt::registry m_registry;
     const unsigned m_initial_width, m_initial_height;
