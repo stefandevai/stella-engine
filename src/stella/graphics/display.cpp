@@ -77,8 +77,6 @@ namespace graphics
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     // glDisable(GL_DEPTH_TEST);
     glEnable (GL_DEPTH_TEST);
-    // Set default Clear Color
-    m_clear_color = glm::vec3 (0.0f, 0.0f, 0.0f);
   }
 
   Display::~Display()
@@ -133,6 +131,27 @@ namespace graphics
 
     this->m_update_input();
     SDL_GL_SwapWindow (m_window);
+  }
+
+  void Display::set_title (const std::string& title)
+  {
+    SDL_SetWindowTitle(m_window, title.c_str());
+  }
+
+  void Display::set_size (const int width, const int height)
+  {
+    m_width = width;
+    m_height = height;
+
+    auto flags = SDL_GetWindowFlags(m_window);
+
+    // If the window is maximazed, don't resize it
+    if (flags & SDL_WINDOW_MAXIMIZED)
+    {
+      return;
+    }
+
+    SDL_SetWindowSize(m_window, width, height);
   }
 
   void Display::set_clear_color (int r, int g, int b)

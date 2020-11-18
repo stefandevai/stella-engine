@@ -24,7 +24,9 @@ namespace widget
 
       if(ImGui::Button("Create"))
       {
-        m_game.create_scene(std::string(scene_name), std::string(scene_script_path));
+        auto scene_name_str = std::string(scene_name);
+        m_game.create_scene(scene_name_str, std::string(scene_script_path));
+        m_game.load_scene(scene_name_str);
         created_scene = true;
         memset(scene_name, 0, sizeof scene_name);
         memset(scene_script_path, 0, sizeof scene_script_path);

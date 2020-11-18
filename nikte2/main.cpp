@@ -10,7 +10,7 @@
 
 int main (int argc, char* argv[])
 {
-  stella::Game game{896, 504, "Nikte"};
+  stella::Game game{"/Users/stefandevai/Developer/games/stella-engine/nikte2/game.lua"};
 
 #ifdef STELLA_BUILD_EDITOR
   stella::editor::Editor editor{game};

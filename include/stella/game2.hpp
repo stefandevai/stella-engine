@@ -1,9 +1,13 @@
 #pragma once
 
+#define SOL_CHECK_ARGUMENTS 1
+#define SOL_ALL_SAFETIES_ON 1
+
 #include <string>
 #include <vector>
 #include <memory>
 #include <entt/entity/registry.hpp>
+#include <sol/sol.hpp> // IWYU pragma: export
 #include "stella/graphics/display.hpp"
 #include "stella/graphics/font.hpp"
 #include "stella/types.hpp"
@@ -14,7 +18,7 @@ namespace stella
   class Game
   {
   public:
-    Game (const unsigned width, const unsigned height, const std::string& title);
+    Game (const std::string& script_path);
     void run();
     inline const uint_fast32_t get_width() const { return m_display.get_width(); };
     inline const uint_fast32_t get_height() const { return m_display.get_height(); };
@@ -25,28 +29,13 @@ namespace stella
     void update (const double dt);
     void render (const double dt);
 
-    template<class Archive>
-    void save (Archive& archive) const
-    {
-      archive (m_initial_width,
-               m_initial_height,
-               m_initial_title,
-               m_textures);
-    }
-
-    template<class Archive>
-    void load (Archive& archive)
-    {
-      archive (m_initial_width,
-               m_initial_height,
-               m_initial_title,
-               m_textures);
-    }
-
   private:
+    sol::state m_lua;
     entt::registry m_registry;
-    const unsigned m_initial_width, m_initial_height;
-    const std::string& m_initial_title;
+    unsigned m_initial_width = 0;
+    unsigned m_initial_height = 0;
+    std::string m_initial_title;
+    std::string m_script_path;
     graphics::Display m_display{m_initial_width, m_initial_height, m_initial_title};
     TextureManager m_textures;
 
@@ -57,5 +46,9 @@ namespace stella
 #ifdef STELLA_BUILD_EDITOR
     friend class editor::Editor;
 #endif
+
+  private:
+    void m_init_variables();
+    void m_init_scenes();
   };
 }

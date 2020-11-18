@@ -3,11 +3,12 @@
 
 namespace stella
 {
-  Game::Game (unsigned width, unsigned height, const std::string& title)
-    : m_initial_width (width), m_initial_height (height), m_initial_title (title)
+  Game::Game (const std::string& script_path)
+    : m_script_path (script_path)
   {
-    m_display.set_clear_color (0.0f, 0.0f, 0.0f);
-    srand (std::time (nullptr));
+    m_lua.script_file(m_script_path);
+    m_init_variables();
+    m_init_scenes();
   }
 
   void Game::add_scene(std::shared_ptr<core::Scene>& scene)
@@ -18,9 +19,8 @@ namespace stella
   // Syntatic sugar for scene creation
   void Game::create_scene(const std::string& name, const std::string& script_path)
   {
-    auto scene = std::make_shared<core::Scene>(name, script_path);
+    auto scene = std::make_shared<core::Scene>(script_path);
     add_scene(scene);
-    load_scene(name);
   }
 
   void Game::load_scene(const std::string& name)
@@ -71,6 +71,43 @@ namespace stella
       this->update (m_display.get_dt());
       this->render (m_display.get_dt());
       m_display.update();
+    }
+  }
+
+  void Game::m_init_variables()
+  {
+    auto game_table = m_lua["game"];
+    if (game_table == sol::lua_nil)
+    {
+      return;
+    }
+
+    if (game_table["title"] != sol::lua_nil)
+    {
+      std::string game_title = game_table["title"];
+      m_display.set_title(game_title);
+    }
+
+    if (game_table["width"] != sol::lua_nil && game_table["height"] != sol::lua_nil)
+    {
+      int game_width = game_table["width"];
+      int game_height = game_table["height"];
+      m_display.set_size(game_width, game_height);
+    }
+  }
+
+  void Game::m_init_scenes()
+  {
+    if (m_lua["scenes"] == sol::lua_nil)
+    {
+      return;
+    }
+    auto scenes = m_lua["scenes"].get<std::vector<std::string>>();
+
+    for (auto& scene_path : scenes)
+    {
+      auto scene = std::make_shared<core::Scene>(scene_path);
+      add_scene(scene);
     }
   }
 }

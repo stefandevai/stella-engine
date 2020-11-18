@@ -51,8 +51,6 @@ namespace editor
     void m_deinit_imgui();
     void m_handle_input();
     void m_handle_state (ImGuiIO& io);
-    void m_save_game (const std::string& path);
-    void m_build_game ();
 
     // Render methods
     void m_render_menu_bar();

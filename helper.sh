@@ -150,9 +150,9 @@ function copy_assets {
 	cp -r nikte2/assets $BUILD_DIR/nikte2
 }
 
-function copy_scripts {
-	cp -r nikte2/scripts $BUILD_DIR/nikte2
-}
+#function copy_scripts {
+	# cp -r nikte2/scripts $BUILD_DIR/nikte2
+#}
 
 # Args evalutation
 case $OPT1 in
@@ -235,7 +235,7 @@ case $MODE in
     shift
     ;;
   EXECUTE)
-		copy_scripts
+		##copy_scripts
     exec_func
     shift
     ;;
@@ -259,7 +259,7 @@ case $MODE in
 		;;
 	COPY_ASSETS)
 		copy_assets
-		copy_scripts
+		#copy_scripts
 		shift
 		;;
 esac

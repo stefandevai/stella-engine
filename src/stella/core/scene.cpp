@@ -4,7 +4,18 @@ namespace stella
 {
 namespace core
 {
-  Scene::Scene (const std::string& name, const std::string& script_path) : m_name (name), m_script_path (script_path) {}
+  Scene::Scene (const std::string& script_path)
+    : m_script_path (script_path)
+  {
+    m_lua.open_libraries (sol::lib::base);
+    m_lua.script_file(m_script_path);
+
+    // TODO: Error handling when no scene object is provided
+    if (m_lua["scene"] != sol::lua_nil && m_lua["scene"]["name"] != sol::lua_nil)
+    {
+      m_name = m_lua["scene"]["name"].get<std::string>();
+    }
+  }
 
   Scene::~Scene() {}
 

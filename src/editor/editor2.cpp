@@ -8,13 +8,6 @@
 #include "../../lib/imgui/examples/imgui_impl_sdl.h"     // IWYU pragma: export
 #include "imgui_internal.h"
 
-#include <cereal/types/string.hpp>
-#include <cereal/types/vector.hpp>
-#include <cereal/types/unordered_map.hpp>
-#include <cereal/types/memory.hpp>
-#include <cereal/archives/portable_binary.hpp>
-#include <sstream>
-
 // TEMP
 #include <iostream>
 // TEMP
@@ -251,21 +244,6 @@ namespace editor
       default:
         break;
     }
-  }
-
-  void Editor::m_save_game (const std::string& path)
-  {
-    std::stringstream ss;
-
-    {
-      cereal::PortableBinaryOutputArchive oarchive(ss);
-      oarchive(m_game);
-    }
-  }
-
-  void Editor::m_build_game ()
-  {
-
   }
 
   void Editor::m_render_menu_bar()

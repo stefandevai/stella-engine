@@ -15,12 +15,6 @@ namespace core
     Resource (const std::string& path) : m_path(path) {}
     virtual ~Resource() {}
 
-    template<class Archive>
-    void serialize (Archive& archive)
-    {
-      archive(m_path);
-    }
-
   private:
     std::string m_path;
   };
@@ -60,13 +54,6 @@ namespace core
     }
 
     std::vector<std::string> get_list() { return m_id_list; }
-
-    template<class Archive>
-    void serialize (Archive& archive)
-    {
-      archive (m_resources,
-               m_id_list);
-    }
   };
 } // namespace core
 } // namespace stella
