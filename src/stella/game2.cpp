@@ -6,9 +6,11 @@ namespace stella
   Game::Game (const std::string& script_path)
     : m_script_path (script_path)
   {
-    m_lua.script_file(m_script_path);
+    m_json.set_filepath(m_script_path);
+    m_json.load();
+    //m_lua.script_file(m_script_path);
     m_init_variables();
-    m_init_scenes();
+    //m_init_scenes();
   }
 
   void Game::add_scene(std::shared_ptr<core::Scene>& scene)
@@ -76,23 +78,24 @@ namespace stella
 
   void Game::m_init_variables()
   {
-    auto game_table = m_lua["game"];
-    if (game_table == sol::lua_nil)
+    auto game_object = m_json.object["game"];
+    if (game_object == nullptr)
     {
+      std::cout << "[x] No game object was found on config file.\n";
       return;
     }
 
-    if (game_table["title"] != sol::lua_nil)
+    if (game_object["width"] != nullptr && game_object["height"] != nullptr)
     {
-      std::string game_title = game_table["title"];
-      m_display.set_title(game_title);
+      auto width = game_object["width"].get<int>();
+      auto height = game_object["height"].get<int>();
+      m_display.set_size(width, height);
     }
 
-    if (game_table["width"] != sol::lua_nil && game_table["height"] != sol::lua_nil)
+    if (game_object["title"] != nullptr)
     {
-      int game_width = game_table["width"];
-      int game_height = game_table["height"];
-      m_display.set_size(game_width, game_height);
+      auto title = game_object["title"].get<std::string>();
+      m_display.set_title(title);
     }
   }
 

@@ -12,6 +12,7 @@
 #include "stella/graphics/font.hpp"
 #include "stella/types.hpp"
 #include "stella/core/scene.hpp"
+#include "stella/core/json.hpp"
 
 namespace stella
 {
@@ -31,6 +32,7 @@ namespace stella
 
   private:
     sol::state m_lua;
+    core::JSON m_json{m_script_path};
     entt::registry m_registry;
     unsigned m_initial_width = 0;
     unsigned m_initial_height = 0;

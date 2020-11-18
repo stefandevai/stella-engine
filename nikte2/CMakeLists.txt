@@ -16,11 +16,11 @@ if (WIN32)
         "${PROJECT_SOURCE_DIR}/assets"
         $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets)
     
-    # Copy scripts directory
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${PROJECT_SOURCE_DIR}/scripts"
-        $<TARGET_FILE_DIR:${PROJECT_NAME}>/scripts)
+    ## Copy scripts directory
+    #add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        #COMMAND ${CMAKE_COMMAND} -E copy_directory
+        #"${PROJECT_SOURCE_DIR}/scripts"
+        #$<TARGET_FILE_DIR:${PROJECT_NAME}>/scripts)
     
     # Copy DLLS
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -37,8 +37,8 @@ else()
     # Copy assets directory
     file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-    # Copy scripts directory
-    file(COPY scripts DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+    ## Copy scripts directory
+    #file(COPY scripts DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
     # Copy config directory
     file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
