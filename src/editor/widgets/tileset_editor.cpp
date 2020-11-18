@@ -25,7 +25,7 @@ namespace widget
 
   void TilesetEditor::render()
   {
-    if (ImGui::Begin (m_name.c_str(), &m_open, ImGuiWindowFlags_NoNavFocus))
+    if (ImGui::Begin (m_title_string.c_str(), &m_open, ImGuiWindowFlags_NoNavFocus))
     {
       int w_in_tiles = m_texture_w / m_tile_dimensions[0];
       int h_in_tiles = m_texture_h / m_tile_dimensions[1];

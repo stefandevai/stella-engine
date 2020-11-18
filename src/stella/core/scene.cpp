@@ -10,7 +10,9 @@ namespace core
 
   void Scene::load() {}
 
-  void Scene::update() {}
+  void Scene::update(const double dt) {}
+
+  void Scene::render(const double dt) {}
 
   void Scene::update_systems (const double dt)
   {
@@ -19,8 +21,5 @@ namespace core
       s->update (m_registry, dt);
     }
   }
-
-  void Scene::render() {}
-
 } // namespace core
 } // namespace stella

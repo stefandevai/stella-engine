@@ -36,7 +36,7 @@ namespace widget
       m_selected_entity = entt::null;
     }
 
-    if (ImGui::Begin (m_name.c_str(), &m_open))
+    if (ImGui::Begin (m_title_string.c_str(), &m_open))
     {
       ImGui::Dummy (ImVec2 (0.f, 3.f));
       if (m_selected_entity != entt::null && registry.valid (m_selected_entity))

@@ -2,6 +2,7 @@ project(editor)
 
 add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLAD)
 add_library(${PROJECT_NAME} STATIC editor.cpp
+                                   project.cpp
                                    widgets/chat.cpp
                                    widgets/console.cpp
                                    widgets/inspector.cpp
@@ -11,6 +12,8 @@ add_library(${PROJECT_NAME} STATIC editor.cpp
                                    widgets/toolbar.cpp
                                    widgets/file_dialog.cpp
                                    widgets/new_entity.cpp
+                                   widgets/new_scene_popup.cpp
+                                   widgets/scene_editor.cpp
                                    widgets/component_menu.cpp
                                    widgets/add_components.cpp
                                    widgets/block_editor.cpp

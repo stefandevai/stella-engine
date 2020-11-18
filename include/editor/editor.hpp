@@ -6,6 +6,8 @@
 #include "stella/graphics/layers/shape_layer.hpp"
 #include "widgets/console.hpp"
 #include "widgets/inspector.hpp"
+#include "widgets/new_scene_popup.hpp"
+#include "widgets/scene_editor.hpp"
 #include "./log_system.hpp"
 //#include "widgets/map_editor.hpp"
 #include "widgets/tileset_editor.hpp"
@@ -56,16 +58,18 @@ namespace editor
     std::shared_ptr<graphics::ShapeLayerT> m_debug_layer;
     entt::entity m_editor_layer  = entt::null;
     entt::entity m_editor_sprite = entt::null;
-    widget::TilesetEditor m_tileset_editor{"assets/sprites/tilesetv2.png"};
+    //widget::TilesetEditor m_tileset_editor{"assets/sprites/tilesetv2.png"};
     //widget::MapEditor m_map_editor{m_game};
     widget::Inspector m_inspector;
     widget::Toolbar m_toolbar;
     widget::BlockEditor m_block_editor;
+    widget::SceneEditor m_scene_editor;
+    widget::NewScenePopup m_new_scene_popup{m_game};
     float m_window_width = 0.f, m_window_height = 0.f, m_game_width = 0.f, m_game_height = 0.f;
 
-    std::vector<glm::vec2> vertices{
-        glm::vec2{0.0f, 20.0f}, glm::vec2{128.0f, 80.0f}, glm::vec2{128.0f, 128.0f}, glm::vec2{0.0f, 128.0f}};
-    std::shared_ptr<graphics::Shape> shape = std::make_shared<graphics::Shape> (vertices, glm::vec3{200.f, 100.f, 1.f});
+    //std::vector<glm::vec2> vertices{
+        //glm::vec2{0.0f, 20.0f}, glm::vec2{128.0f, 80.0f}, glm::vec2{128.0f, 128.0f}, glm::vec2{0.0f, 128.0f}};
+    //std::shared_ptr<graphics::Shape> shape = std::make_shared<graphics::Shape> (vertices, glm::vec3{200.f, 100.f, 1.f});
 
     // View options
     bool m_view_physics_debug_layer = true;

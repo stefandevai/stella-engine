@@ -10,14 +10,57 @@ namespace stella
     srand (std::time (nullptr));
   }
 
+  void Game::add_scene(std::shared_ptr<core::Scene>& scene)
+  {
+    m_scenes.push_back(scene);
+  }
+
+  // Syntatic sugar for scene creation
+  void Game::create_scene(const std::string& name, const std::string& script_path)
+  {
+    auto scene = std::make_shared<core::Scene>(name, script_path);
+    add_scene(scene);
+    load_scene(name);
+  }
+
+  void Game::load_scene(const std::string& name)
+  {
+    auto scene_it = std::find_if(m_scenes.begin(), m_scenes.end(),
+        [name](auto& scene)
+        {
+          return (scene->get_name() == name);
+        });
+
+    // Scene not found
+    if (scene_it == m_scenes.end())
+    {
+      return;
+    }
+
+    m_current_scene = *scene_it;
+    m_current_scene->load();
+  }
+
   void Game::update(const double dt)
   {
+    // No scene is loaded yet
+    if (m_current_scene == nullptr)
+    {
+      return;
+    }
 
+    m_current_scene->update(dt);
   }
 
   void Game::render(const double dt)
   {
+    // No scene is loaded yet
+    if (m_current_scene == nullptr)
+    {
+      return;
+    }
 
+    m_current_scene->render(dt);
   }
 
   void Game::run()
@@ -30,12 +73,5 @@ namespace stella
       m_display.update();
     }
   }
-
-  //std::vector<float> Game::get_camera_pos()
-  //{
-    ////auto& pos = m_registry.get<stella::component::Position> (m_camera);
-    ////return std::vector<float>{pos.x, pos.y, pos.z};
-    //return std::vector<float>{0.f, 0.f, 0.f};
-  //}
 }
 

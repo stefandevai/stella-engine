@@ -36,17 +36,17 @@ namespace editor
                                                 "assets/shaders/gui.frag",
                                                 false);
 
-    ImVec2 dimensions = m_tileset_editor.get_tile_dimensions();
-    m_editor_sprite   = game.m_registry.create();
-    game.m_registry.emplace<component::Position> (m_editor_sprite, -dimensions.x, -dimensions.y);
-    game.m_registry.emplace<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
-    auto& sprite = game.m_registry.emplace<component::SpriteT> (m_editor_sprite, "editor");
+    //ImVec2 dimensions = m_tileset_editor.get_tile_dimensions();
+    //m_editor_sprite   = game.m_registry.create();
+    //game.m_registry.emplace<component::Position> (m_editor_sprite, -dimensions.x, -dimensions.y);
+    //game.m_registry.emplace<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
+    //auto& sprite = game.m_registry.emplace<component::SpriteT> (m_editor_sprite, "editor");
 
-    sprite.texture_ptr          = std::make_shared<graphics::Texture> (m_tileset_editor.texture);
-    sprite.texture_ptr->hframes = m_tileset_editor.get_texture_dimensions_in_tiles().x;
-    sprite.texture_ptr->vframes = m_tileset_editor.get_texture_dimensions_in_tiles().y;
-    sprite.frame                = 0;
-    sprite.layer                = "editor";
+    //sprite.texture_ptr          = std::make_shared<graphics::Texture> (m_tileset_editor.texture);
+    //sprite.texture_ptr->hframes = m_tileset_editor.get_texture_dimensions_in_tiles().x;
+    //sprite.texture_ptr->vframes = m_tileset_editor.get_texture_dimensions_in_tiles().y;
+    //sprite.frame                = 0;
+    //sprite.layer                = "editor";
 
     m_game.m_textures.load ("handler-move", "assets/editor/handler_move.png", 1, 1);
     m_game.m_textures.load ("handler-x", "assets/editor/handler_x.png", 1, 1);
@@ -152,10 +152,10 @@ namespace editor
           {
             //m_map_editor.open();
           }
-          else if (state[SDL_SCANCODE_T])
-          {
-            m_tileset_editor.open();
-          }
+          //else if (state[SDL_SCANCODE_T])
+          //{
+            //m_tileset_editor.open();
+          //}
           else if (state[SDL_SCANCODE_I])
           {
             m_inspector.open();
@@ -177,10 +177,10 @@ namespace editor
           {
             //m_map_editor.close();
           }
-          else if (state[SDL_SCANCODE_T])
-          {
-            m_tileset_editor.close();
-          }
+          //else if (state[SDL_SCANCODE_T])
+          //{
+            //m_tileset_editor.close();
+          //}
           else if (state[SDL_SCANCODE_I])
           {
             m_inspector.close();
@@ -271,6 +271,7 @@ namespace editor
       m_toolbar.render (
           m_game.m_registry, m_current_state, m_current_tool, m_window_width, [this]() { this->draw_menu_bar(); });
       m_block_editor.render();
+
 
       ImGui::PopFont();
       ImGui::Render();
@@ -365,17 +366,17 @@ namespace editor
 
   void Editor::m_handle_pan_tool (const ImGuiIO& io)
   {
-    m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
-      auto& pos = m_registry.get<stella::component::Position> (m_game.m_camera);
-      if (!is_panning)
-      {
-        camera_pos_without_pan = ImVec2{pos.x, pos.y};
-        is_panning             = true;
-      }
-      ImVec2 drag = ImGui::GetMouseDragDelta();
-      pos.x       = camera_pos_without_pan.x - drag.x;
-      pos.y       = camera_pos_without_pan.y - drag.y;
-    });
+    //m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
+      //auto& pos = m_registry.get<stella::component::Position> (m_game.m_camera);
+      //if (!is_panning)
+      //{
+        //camera_pos_without_pan = ImVec2{pos.x, pos.y};
+        //is_panning             = true;
+      //}
+      //ImVec2 drag = ImGui::GetMouseDragDelta();
+      //pos.x       = camera_pos_without_pan.x - drag.x;
+      //pos.y       = camera_pos_without_pan.y - drag.y;
+    //});
   }
 
   void Editor::m_handle_inspector (const ImGuiIO& io)
@@ -519,17 +520,18 @@ namespace editor
       ImGuiID dock_down_right_id =
           ImGui::DockBuilderSplitNode (dock_down_id, ImGuiDir_Right, 0.5f, nullptr, &dock_down_id);
 
-      ImGui::DockBuilderDockWindow ("Inspector", dock_right_id);
-      ImGui::DockBuilderDockWindow ("TilesetEditor", dock_right_down_id);
-      ImGui::DockBuilderDockWindow ("Chat", dock_down_id);
-      ImGui::DockBuilderDockWindow ("Console", dock_down_right_id);
-      ImGui::DockBuilderDockWindow ("Scene", dock_main_id);
+      ImGui::DockBuilderDockWindow (m_scene_editor.get_title_string().c_str(), dock_right_id);
+      ImGui::DockBuilderDockWindow (m_inspector.get_title_string().c_str(), dock_right_down_id);
+      ImGui::DockBuilderDockWindow (m_chat.get_title_string().c_str(), dock_down_id);
+      ImGui::DockBuilderDockWindow (m_console.get_title_string().c_str(), dock_down_right_id);
+      ImGui::DockBuilderDockWindow (m_scene.get_title_string().c_str(), dock_main_id);
 
       ImGui::DockBuilderFinish (dock_main_id);
     }
 
     ImGui::DockSpace (dockspace_id, ImVec2 (0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
     ImGui::End();
+
 
     m_scene.render ((void*) (intptr_t) m_FBO->get_texture());
 
@@ -540,9 +542,13 @@ namespace editor
       m_inspector.render (m_game.m_registry, m_game.m_textures.get_list());
     }
     //m_map_editor.render();
-    if (m_tileset_editor.is_open())
+    //if (m_tileset_editor.is_open())
+    //{
+      //m_tileset_editor.render();
+    //}
+    if (m_scene_editor.is_open())
     {
-      m_tileset_editor.render();
+      m_scene_editor.render (m_game.m_current_scene);
     }
     if (m_chat.is_open())
     {
@@ -578,14 +584,20 @@ namespace editor
 
   void Editor::draw_menu_bar()
   {
+    // TODO: Use a enum for menu actions
+    std::string menu_action = "";
+
     if (ImGui::BeginMenuBar())
     {
       if (ImGui::BeginMenu ("File"))
       {
-        if (ImGui::MenuItem ("New Tilemap", "CTRL+N")) {}
+        if (ImGui::MenuItem ("New Scene", "CTRL+N"))
+        {
+          menu_action = "new_scene";
+        }
         if (ImGui::MenuItem ("New Block", "CTRL+B"))
         {
-          m_block_editor.open();
+          menu_action = "new_block";
         }
         if (ImGui::MenuItem ("Open Tilemap", "CTRL+O")) {}
         if (ImGui::MenuItem ("Open Tileset", "SHIFT+O")) {}
@@ -595,7 +607,7 @@ namespace editor
         ImGui::Separator();
         if (ImGui::MenuItem ("Quit", "CTRL+Q"))
         {
-          m_game.m_display.m_running = false;
+          menu_action = "quit_editor";
         }
         ImGui::EndMenu();
       }
@@ -626,7 +638,7 @@ namespace editor
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
         //m_widget_build_option (m_map_editor, "om/cm");
         //ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        m_widget_build_option (m_tileset_editor, "ot/ct");
+        //m_widget_build_option (m_tileset_editor, "ot/ct");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
         m_widget_build_option (m_chat, "oh/ch");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
@@ -642,14 +654,42 @@ namespace editor
       }
       ImGui::EndMenuBar();
     }
+
+    if (menu_action == "new_scene")
+    {
+      m_new_scene_popup.open();
+    }
+    else if (menu_action == "new_block")
+    {
+      m_block_editor.open();
+    }
+    else if (menu_action == "quit_editor")
+    {
+      m_game.m_display.m_running = false;
+    }
+
+    const bool created_scene = m_new_scene_popup.render();
+
+    // If a new scene was created
+    if (created_scene)
+    {
+      // Set Scene widget title
+      if (m_game.m_current_scene != nullptr)
+      {
+        m_scene.set_title("Scene: " + m_game.m_current_scene->get_name());
+      }
+
+      // Reload scene editor
+      m_scene_editor.reload();
+    }
   }
 
   void Editor::m_widget_build_option (widget::Widget& widget, const std::string& shortcut)
   {
-    auto item_text = widget.get_name();
+    auto item_text = widget.get_title_string();
     if (widget.is_open())
     {
-      item_text = "Hide " + widget.get_name();
+      item_text = "Hide " + widget.get_title_string();
     }
     if (ImGui::MenuItem (item_text.c_str(), shortcut.c_str()))
     {

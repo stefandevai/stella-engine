@@ -6,7 +6,6 @@ add_subdirectory(npc)
 add_subdirectory(physics2d)
 add_subdirectory(components)
 add_subdirectory(systems)
-add_subdirectory(tilemap)
 add_subdirectory(topdown)
 
 add_library(${PROJECT_NAME} STATIC application.cpp
@@ -19,7 +18,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
                                       ${STELLA_LIBRARY_NAME}::components
                                       ${STELLA_LIBRARY_NAME}::systems
                                       ${STELLA_LIBRARY_NAME}::core
-                                      ${STELLA_LIBRARY_NAME}::tilemap
                                       ${STELLA_LIBRARY_NAME}::graphics
                                       ${STELLA_LIBRARY_NAME}::npc
                                       ${STELLA_LIBRARY_NAME}::physics2d
