@@ -12,10 +12,10 @@ namespace core
     nlohmann::json object;
 
   public:
-    JSON(const std::string& filepath);
+    JSON();
 
-    void load();
-    void save();
+    void load(const std::string& filepath);
+    void save(const std::string& filepath);
     inline void set_filepath(const std::string& filepath) { m_filepath = filepath; };
     inline void set_pretty_print(const bool status) { m_pretty_print = status; };
     inline std::string get_filepath() const { return m_filepath; };

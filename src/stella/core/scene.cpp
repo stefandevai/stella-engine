@@ -1,29 +1,36 @@
 #include "stella/core/scene.hpp"
+#include <iostream>
 
 namespace stella
 {
 namespace core
 {
-  Scene::Scene (const std::string& script_path)
-    : m_script_path (script_path)
+  Scene::Scene () { }
+
+  void Scene::load(const std::string& filepath)
   {
-    m_lua.open_libraries (sol::lib::base);
-    m_lua.script_file(m_script_path);
+    m_filepath = filepath;
+    m_json.load(m_filepath);
 
     // TODO: Error handling when no scene object is provided
-    if (m_lua["scene"] != sol::lua_nil && m_lua["scene"]["name"] != sol::lua_nil)
+    if (m_json.object["name"] != nullptr)
     {
-      m_name = m_lua["scene"]["name"].get<std::string>();
+      m_name = m_json.object["name"].get<std::string>();
     }
   }
 
-  Scene::~Scene() {}
+  void Scene::save(const std::string& filepath)
+  {
+    m_json.object["name"] = m_name;
+    m_json.save(filepath);
+    m_filepath = filepath;
+  }
 
-  void Scene::load() {}
+  void Scene::start() {}
 
-  void Scene::update(const double dt) {}
+  void Scene::update (const double dt) {}
 
-  void Scene::render(const double dt) {}
+  void Scene::render (const double dt) {}
 
   void Scene::update_systems (const double dt)
   {

@@ -255,18 +255,60 @@ namespace editor
     {
       if (ImGui::BeginMenu ("File"))
       {
-        if (ImGui::MenuItem ("New Scene", "CTRL+N"))
+        if (ImGui::MenuItem ("New Game", "CTRL+N"))
         {
-          menu_action = "new_scene";
+          menu_action = "new_game";
         }
+
+        if (ImGui::MenuItem ("Load Game", "CTRL+N"))
+        {
+          menu_action = "load_game";
+        }
+
         ImGui::Separator();
-        if (ImGui::MenuItem ("Save", "CTRL+S")) {}
-        if (ImGui::MenuItem ("Save as...", "CTRL+SHIFT+S")) {}
+
+        if (ImGui::MenuItem ("Save Game", "CTRL+S"))
+        {
+          menu_action = "load_game";
+        }
+
+        if (ImGui::MenuItem ("Save Game as...", "CTRL+SHIFT+S"))
+        {
+          menu_action = "load_game";
+        }
+
         ImGui::Separator();
+
         if (ImGui::MenuItem ("Quit", "CTRL+Q"))
         {
           menu_action = "quit_editor";
         }
+        ImGui::EndMenu();
+      }
+      if (ImGui::BeginMenu ("Scene"))
+      {
+        if (ImGui::MenuItem ("New Scene", "CTRL+N"))
+        {
+          menu_action = "new_scene";
+        }
+
+        if (ImGui::MenuItem ("Load Scene", "CTRL+S"))
+        {
+          menu_action = "load_scene";
+        }
+
+        ImGui::Separator();
+
+        if (ImGui::MenuItem ("Save Scene", "CTRL+S"))
+        {
+          menu_action = "save_scene";
+        }
+
+        if (ImGui::MenuItem ("Save Scene as...", "CTRL+SHIFT+S"))
+        {
+          menu_action = "save_scene_as";
+        }
+
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu ("View"))
@@ -284,15 +326,20 @@ namespace editor
     {
       m_new_scene_popup.open();
     }
+    else if (menu_action == "load_scene")
+    {
+      m_load_scene_popup.open();
+    }
     else if (menu_action == "quit_editor")
     {
       m_game.m_display.m_running = false;
     }
 
     const bool created_scene = m_new_scene_popup.render();
+    const bool loaded_scene = m_load_scene_popup.render();
 
     // If a new scene was created
-    if (created_scene)
+    if (created_scene || loaded_scene)
     {
       // Set Scene widget title
       if (m_game.m_current_scene != nullptr)

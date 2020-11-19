@@ -2,6 +2,13 @@
   "game": {
     "title": "Nikte",
     "width": 896,
-    "height": 504
-  }
+    "height": 504,
+    "firstScene": "Scene 2"
+  },
+
+  "scenes": [
+    "/Users/stefandevai/Developer/games/stella-engine/nikte2/scenes/scene1.json",
+    "/Users/stefandevai/Developer/games/stella-engine/nikte2/scenes/scene2.json",
+    "/Users/stefandevai/Developer/games/stella-engine/nikte2/scenes/scene3.json"
+  ]
 }

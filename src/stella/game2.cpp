@@ -3,14 +3,12 @@
 
 namespace stella
 {
-  Game::Game (const std::string& script_path)
-    : m_script_path (script_path)
+  Game::Game (const std::string& config_filepath)
+    : m_config_filepath (config_filepath)
   {
-    m_json.set_filepath(m_script_path);
-    m_json.load();
-    //m_lua.script_file(m_script_path);
+    m_json.load(m_config_filepath);
     m_init_variables();
-    //m_init_scenes();
+    m_init_scenes();
   }
 
   void Game::add_scene(std::shared_ptr<core::Scene>& scene)
@@ -18,14 +16,23 @@ namespace stella
     m_scenes.push_back(scene);
   }
 
-  // Syntatic sugar for scene creation
-  void Game::create_scene(const std::string& name, const std::string& script_path)
+  void Game::load_scene(const std::string& filepath)
   {
-    auto scene = std::make_shared<core::Scene>(script_path);
+    auto scene = std::make_shared<core::Scene>();
+    scene->load(filepath);
+    add_scene(scene);
+    m_current_scene = scene;
+  }
+
+  void Game::create_scene(const std::string& name, const std::string& filepath)
+  {
+    auto scene = std::make_shared<core::Scene>();
+    scene->set_name (name);
+    scene->save (filepath);
     add_scene(scene);
   }
 
-  void Game::load_scene(const std::string& name)
+  void Game::start_scene(const std::string& name)
   {
     auto scene_it = std::find_if(m_scenes.begin(), m_scenes.end(),
         [name](auto& scene)
@@ -40,7 +47,16 @@ namespace stella
     }
 
     m_current_scene = *scene_it;
-    m_current_scene->load();
+    m_current_scene->start();
+  }
+
+  void Game::start_current_scene()
+  {
+    if (m_current_scene == nullptr)
+    {
+      return;
+    }
+    m_current_scene->start();
   }
 
   void Game::update(const double dt)
@@ -101,17 +117,30 @@ namespace stella
 
   void Game::m_init_scenes()
   {
-    if (m_lua["scenes"] == sol::lua_nil)
+    if (m_json.object["scenes"] == nullptr)
     {
       return;
     }
-    auto scenes = m_lua["scenes"].get<std::vector<std::string>>();
+    auto scenes = m_json.object["scenes"].get<std::vector<std::string>>();
 
     for (auto& scene_path : scenes)
     {
-      auto scene = std::make_shared<core::Scene>(scene_path);
-      add_scene(scene);
+      load_scene(scene_path);
     }
+
+    if (m_json.object["game"]["firstScene"] == nullptr)
+    {
+      if (m_scenes.empty())
+      {
+        std::cout << "No scenes were loaded.\n";
+      }
+
+      start_current_scene();
+      return;
+    }
+
+    auto first_scene = m_json.object["game"]["firstScene"].get<std::string>();
+    start_scene (first_scene);
   }
 }
 

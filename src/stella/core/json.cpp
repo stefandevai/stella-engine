@@ -6,27 +6,24 @@ namespace stella
 {
 namespace core
 {
-  JSON::JSON(const std::string& filepath)
-    : m_filepath (filepath)
-  {
+  JSON::JSON() { }
 
-  }
-
-  void JSON::load ()
+  void JSON::load (const std::string& filepath)
   {
-    if (m_filepath.empty())
+    if (filepath.empty())
     {
       std::cout << "[x] No filepath was provided to load the json.\n";
       return;
     }
 
-    auto json_string = FileUtils::read_file(m_filepath.c_str());
+    auto json_string = FileUtils::read_file(filepath.c_str());
     object = nlohmann::json::parse(json_string);
+    m_filepath = filepath;
   }
 
-  void JSON::save ()
+  void JSON::save (const std::string& filepath)
   {
-    if (m_filepath.empty())
+    if (filepath.empty())
     {
       std::cout << "[x] No filepath was provided to save the json.\n";
       return;
@@ -42,7 +39,8 @@ namespace core
       json_string = object.dump();
     }
 
-    FileUtils::write_file(json_string, m_filepath);
+    FileUtils::write_file(json_string, filepath);
+    m_filepath = filepath;
   }
 }
 }

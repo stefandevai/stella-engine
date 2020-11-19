@@ -14,6 +14,7 @@
 #include "widgets/scene.hpp"
 #include "widgets/scene_editor.hpp"
 #include "widgets/new_scene_popup.hpp"
+#include "widgets/load_scene_popup.hpp"
 
 struct SDL_Window;
 struct ImFont;
@@ -86,6 +87,7 @@ namespace editor
     widget::Console m_console{m_window_flags, m_font_mono};
     widget::Inspector m_inspector;
     widget::NewScenePopup m_new_scene_popup{m_game};
+    widget::LoadScenePopup m_load_scene_popup{m_game};
 
     // Hardcoded strings
     const std::string m_imgui_ini_path = "config/imgui.ini";

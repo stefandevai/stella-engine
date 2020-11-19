@@ -206,13 +206,13 @@ add_subdirectory(${DEPENDENCIES_DIR}) # Dependencies folder
 if (UNIX)
 	if(STELLA_DEBUG_MODE)
 		#set(CXX_COMPILE_FLAGS "-std=gnu++1z -Wall -g -O0")
-    set(CXX_COMPILE_FLAGS "-std=c++17 -Wall -g -O0")
+    set(CXX_COMPILE_FLAGS "-std=c++1z -Wall -g -O0")
 
     	# Uncomment for profiling
 		#set(CXX_COMPILE_FLAGS "-std=gnu++11 -Wall -pg -g -O0 -no-pie")
 		#set(CXX_LINK_FLAGS "-pg")
 	else()
-		set(CXX_COMPILE_FLAGS "-std=c++17 -O2")
+		set(CXX_COMPILE_FLAGS "-std=c++1z -O2")
 	endif()
 elseif(WIN32)
 	set(CXX_COMPILE_FLAGS "/wd4068")

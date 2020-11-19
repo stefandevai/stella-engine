@@ -11,11 +11,11 @@ namespace stella
 {
 namespace widget
 {
-  struct NewScenePopup : public Widget
+  struct LoadScenePopup : public Widget
   {
   public:
-    NewScenePopup (stella::Game& game);
-
+    LoadScenePopup (stella::Game& game);
+    void open();
     bool render();
 
   private:

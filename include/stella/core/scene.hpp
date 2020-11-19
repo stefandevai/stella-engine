@@ -1,14 +1,11 @@
 #pragma once
 
-#define SOL_CHECK_ARGUMENTS 1
-#define SOL_ALL_SAFETIES_ON 1
-
 #include <string>
 #include <vector>
 #include <memory>
 #include <entt/entity/registry.hpp>
-#include <sol/sol.hpp> // IWYU pragma: export
 #include "stella/systems/system.hpp"
+#include "stella/core/json.hpp"
 
 #ifdef STELLA_BUILD_EDITOR
 namespace stella
@@ -31,15 +28,18 @@ namespace core
   class Scene
   {
   public:
-    Scene (const std::string& script_path);
-    ~Scene();
+    Scene ();
 
-    void load();
+    void load(const std::string& filepath);
+    void save(const std::string& filepath);
+    void start();
     void update(const double dt);
     void render(const double dt);
     void update_systems (const double dt);
-    inline std::string get_name() { return m_name; };
-    inline std::string get_script_path() { return m_script_path; };
+    inline std::string get_name() const { return m_name; };
+    inline std::string get_filepath() const { return m_filepath; };
+    inline void set_name(const std::string& name) { m_name = name; };
+    inline void set_filepath(const std::string& filepath) { m_filepath = filepath; };
 
 #ifdef STELLA_BUILD_EDITOR
   friend class stella::editor::Editor;
@@ -47,9 +47,9 @@ namespace core
 #endif
 
   private:
-    sol::state m_lua;
+    JSON m_json;
     std::string m_name;
-    std::string m_script_path;
+    std::string m_filepath;
     std::vector<std::shared_ptr<system::System>> m_systems;
     entt::registry m_registry;
   };
