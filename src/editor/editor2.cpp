@@ -344,9 +344,21 @@ namespace editor
         }
         break;
 
+      case Action::NEW_GAME:
+        {
+          m_new_game.open();
+        }
+        break;
+
       case Action::NEW_SCENE:
         {
           m_new_scene_popup.open();
+        }
+        break;
+
+      case Action::LOAD_SCENE:
+        {
+          m_load_scene_popup.open();
         }
         break;
 
@@ -393,6 +405,7 @@ namespace editor
   {
     m_current_action = m_edit_mode_main_menu_options.render();
 
+    m_new_game.render();
     m_new_scene_popup.render();
     m_load_scene_popup.render();
 

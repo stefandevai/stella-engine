@@ -10,7 +10,7 @@ namespace editor
 
     // Edit mode actions
     NEW_GAME,
-    LOAD_GAME,
+    OPEN_GAME,
     SAVE_GAME,
     SAVE_GAME_AS,
     NEW_SCENE,

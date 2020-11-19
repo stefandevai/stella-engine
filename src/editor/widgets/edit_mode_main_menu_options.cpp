@@ -19,9 +19,9 @@ namespace widget
           action = editor::Action::NEW_GAME;
         }
 
-        if (ImGui::MenuItem ("Load Game", "CTRL+N"))
+        if (ImGui::MenuItem ("Open Game", "CTRL+O"))
         {
-          action = editor::Action::LOAD_GAME;
+          action = editor::Action::OPEN_GAME;
         }
 
         ImGui::Separator();

@@ -32,7 +32,7 @@ namespace widget
       ImGui::SameLine (0.f, 4.f);
       if (ImGui::Button ("...###scene-file-dialog-button1", ImVec2 (60.f, 0)))
       {
-        ImGuiFileDialog::Instance()->OpenDialog ("new-scene-file-dialog1", "New Scene", ".json", ".");
+        ImGuiFileDialog::Instance()->OpenModal ("new-scene-file-dialog1", "New Scene", ".json", ".");
       }
 
       ImGui::Dummy (ImVec2 (0.f, 5.f));
@@ -53,7 +53,7 @@ namespace widget
       {
         if (ImGuiFileDialog::Instance()->IsOk == true)
         {
-          std::string filepath = ImGuiFileDialog::Instance()->GetFilepathName();
+          std::string filepath = ImGuiFileDialog::Instance()->GetFilePathName();
           strcpy(scene_script_path, filepath.c_str());
         }
         ImGuiFileDialog::Instance()->CloseDialog("new-scene-file-dialog1");

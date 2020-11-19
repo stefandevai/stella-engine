@@ -16,6 +16,7 @@
 #include "widgets/scene.hpp"
 #include "widgets/scene_editor.hpp"
 #include "widgets/new_scene_popup.hpp"
+#include "widgets/new_game.hpp"
 #include "widgets/load_scene_popup.hpp"
 #include "widgets/edit_mode_main_menu_options.hpp"
 
@@ -91,6 +92,7 @@ namespace editor
     widget::Console m_console{m_window_flags, m_font_mono};
     widget::Inspector m_inspector;
     widget::NewScenePopup m_new_scene_popup{m_game};
+    widget::NewGame m_new_game{m_game};
     widget::LoadScenePopup m_load_scene_popup{m_game};
     widget::EditModeMainMenuOptions m_edit_mode_main_menu_options;
 

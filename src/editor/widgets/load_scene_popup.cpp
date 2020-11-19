@@ -10,7 +10,7 @@ namespace widget
 
   void LoadScenePopup::open ()
   {
-    ImGuiFileDialog::Instance()->OpenDialog ("load-scene-file-dialog1", "New Scene", ".json", ".");
+    ImGuiFileDialog::Instance()->OpenModal ("load-scene-file-dialog1", "New Scene", ".json", ".");
   }
 
   void LoadScenePopup::render ()
@@ -19,7 +19,7 @@ namespace widget
     {
       if (ImGuiFileDialog::Instance()->IsOk == true)
       {
-        std::string filepath = ImGuiFileDialog::Instance()->GetFilepathName();
+        std::string filepath = ImGuiFileDialog::Instance()->GetFilePathName();
         m_game.load_scene(filepath);
         m_game.start_current_scene();
       }

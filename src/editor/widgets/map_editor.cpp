@@ -142,7 +142,7 @@ namespace widget
 
   void MapEditor::load()
   {
-    ImGuiFileDialog::Instance()->OpenDialog (LOAD_DIALOG_ID, "Choose File", ".xml\0.lua\0\0", ".");
+    ImGuiFileDialog::Instance()->OpenModal (LOAD_DIALOG_ID, "Choose File", ".xml\0.lua\0\0", ".");
   }
 
   void MapEditor::save()
@@ -151,7 +151,7 @@ namespace widget
     m_tile_map.save (m_map_name);
   }
 
-  void MapEditor::save_as() { ImGuiFileDialog::Instance()->OpenDialog (SAVE_DIALOG_ID, "Save As...", ".xml\0\0", "."); }
+  void MapEditor::save_as() { ImGuiFileDialog::Instance()->OpenModal (SAVE_DIALOG_ID, "Save As...", ".xml\0\0", "."); }
 
   void MapEditor::render_file_dialog()
   {
