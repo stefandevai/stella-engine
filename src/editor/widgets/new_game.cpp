@@ -1,14 +1,15 @@
 #include "editor/widgets/new_game.hpp"
 #include "editor/widgets/file_dialog.hpp"
+#include "editor/actions.hpp"
 #include "stella/game2.hpp"
 
 namespace editor
 {
 namespace widget
 {
-  NewGame::NewGame(stella::Game& game) : Widget ("new-scene-popup"), m_game(game) {}
+  NewGame::NewGame() : Widget ("new-scene-popup") {}
 
-  void NewGame::render ()
+  void NewGame::render (NewGameFunction create_new_game)
   {
     if (!m_open)
     {
@@ -19,14 +20,15 @@ namespace widget
     {
       static char name[128] = "";
       static char path[512] = "";
-      static unsigned int width = 0;
-      static unsigned int height = 0;
+      static int dimensions[2] = { 0, 0 };
       const float item_width = ImGui::CalcItemWidth();
 
       ImGui::Text("Create a new Game");
       ImGui::Separator();
       ImGui::Text("Name:");
       ImGui::InputText("###input-new-game1", name, IM_ARRAYSIZE(name));
+      ImGui::Text("Dimensions:");
+      ImGui::InputInt2("###input-new-game3", dimensions);
       ImGui::PushItemWidth (item_width - 64.f);
       ImGui::Text("Path:");
       ImGui::InputText("###input-new-game2", path, IM_ARRAYSIZE(path));
@@ -40,14 +42,14 @@ namespace widget
       ImGui::Dummy (ImVec2 (0.f, 5.f));
 
       // Create game if params are not empty
-      if(ImGui::Button("Create") && name[0] != 0 && path[0] != 0)
+      if(ImGui::Button("Create") && name[0] != 0 && path[0] != 0 && dimensions[0] != 0 && dimensions[1] != 0)
       {
-        //auto scene_name_str = std::string(scene_name);
-        //m_game.create_scene(scene_name_str, std::string(scene_script_path));
-        //m_game.start_scene(scene_name_str);
-        //memset(scene_name, 0, sizeof scene_name);
-        //memset(scene_script_path, 0, sizeof scene_script_path);
-        //m_open = false;
+        create_new_game (path, name, dimensions[0], dimensions[1]);
+        memset(name, 0, sizeof name);
+        memset(path, 0, sizeof path);
+        dimensions[0] = 0;
+        dimensions[1] = 0;
+        m_open = false;
       }
 
       // File dialog

@@ -24,6 +24,12 @@ namespace editor
     m_deinit_imgui();
   }
 
+  void Editor::create_game (const std::string& path, const std::string& name, const int width, const int height)
+  {
+
+
+  }
+
   void Editor::run()
   {
     while (m_game.m_display.is_running())
@@ -405,7 +411,8 @@ namespace editor
   {
     m_current_action = m_edit_mode_main_menu_options.render();
 
-    m_new_game.render();
+    m_new_game.render([this](const std::string& path, const std::string& name, const int width, const int height)
+      { create_game(path, name, width, height); });
     m_new_scene_popup.render();
     m_load_scene_popup.render();
 

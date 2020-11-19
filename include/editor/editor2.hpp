@@ -44,6 +44,8 @@ namespace editor
     Editor (stella::Game& game);
     ~Editor();
 
+    void load_game (const std::string& path);
+    void create_game (const std::string& path, const std::string& name, const int width, const int height);
     void run();
 
   private:
@@ -68,6 +70,7 @@ namespace editor
 
   private:
     // Editor related properties
+    //std::shared_ptr<stella::Game> m_game;
     stella::Game& m_game;
     SDL_Window* m_window = nullptr;
     float m_window_width = 0.f;
@@ -92,7 +95,7 @@ namespace editor
     widget::Console m_console{m_window_flags, m_font_mono};
     widget::Inspector m_inspector;
     widget::NewScenePopup m_new_scene_popup{m_game};
-    widget::NewGame m_new_game{m_game};
+    widget::NewGame m_new_game;
     widget::LoadScenePopup m_load_scene_popup{m_game};
     widget::EditModeMainMenuOptions m_edit_mode_main_menu_options;
 

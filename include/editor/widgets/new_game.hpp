@@ -2,24 +2,18 @@
 
 #include "widget.hpp"
 
-namespace stella
-{
-  class Game;
-}
-
 namespace editor
 {
 namespace widget
 {
+  typedef std::function<void(const std::string&, const std::string&, const int, const int)> NewGameFunction;
+
   struct NewGame : public Widget
   {
   public:
-    NewGame (stella::Game& game);
+    NewGame ();
 
-    void render();
-
-  private:
-    stella::Game& m_game;
+    void render(NewGameFunction create_new_game);
   };
 } // namespace widget
 } // namespace editor
