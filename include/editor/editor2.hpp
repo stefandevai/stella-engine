@@ -41,7 +41,7 @@ namespace editor
   class Editor
   {
   public:
-    Editor (stella::Game& game);
+    Editor();
     ~Editor();
 
     void load_game (const std::string& path);
@@ -52,33 +52,42 @@ namespace editor
     void m_init();
     void m_init_imgui();
     void m_deinit_imgui();
+
+    // Edit mode
     void m_run_edit_mode();
-    void m_run_play_mode();
     void m_handle_edit_mode_input();
-    void m_handle_play_mode_input();
     void m_handle_edit_mode_tool (ImGuiIO& io);
-    void m_handle_play_mode_tool (ImGuiIO& io);
     void m_handle_edit_mode_actions ();
+
+    // Play mode
+    void m_run_play_mode();
+    void m_handle_play_mode_input();
     void m_handle_play_mode_actions ();
+    void m_handle_play_mode_tool (ImGuiIO& io);
+    void m_render_play_mode (const float window_width, const float window_height, const float game_width, const float game_height);
+
+    // None mode
+    void m_run_none_mode();
+    void m_handle_none_mode_input();
+    void m_handle_none_mode_actions();
+    void m_render_none_mode();
 
     // Render methods
     void m_render_edit_mode (const float window_width, const float window_height, const float game_width, const float game_height);
-    void m_render_play_mode (const float window_width, const float window_height, const float game_width, const float game_height);
     void m_render_menu_bar();
     void m_render_dock();
     void m_render_view_menu_option (widget::Widget& widget, const std::string& shortcut);
 
   private:
     // Editor related properties
-    //std::shared_ptr<stella::Game> m_game;
-    stella::Game& m_game;
+    std::shared_ptr<stella::Game> m_game;
     SDL_Window* m_window = nullptr;
     float m_window_width = 0.f;
     float m_window_height = 0.f;
     float m_game_width = 0.f;
     float m_game_height = 0.f;
     std::unique_ptr<stella::graphics::Framebuffer> m_FBO;
-    EditorMode m_current_mode = EditorMode::EDIT;
+    EditorMode m_current_mode = EditorMode::NONE;
     EditorTool m_current_tool = EditorTool::INSPECTOR;
     Action m_current_action = Action::NONE;
 

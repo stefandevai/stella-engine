@@ -14,13 +14,13 @@ namespace widget
   struct LoadScenePopup : public Widget
   {
   public:
-    LoadScenePopup (stella::Game& game);
+    LoadScenePopup (std::shared_ptr<stella::Game>& game);
 
     void open();
     void render();
 
   private:
-    stella::Game& m_game;
+    std::shared_ptr<stella::Game>& m_game;
   };
 } // namespace widget
 } // namespace editor

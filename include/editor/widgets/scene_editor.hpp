@@ -19,7 +19,7 @@ namespace widget
     SceneEditor();
 
     void reload();
-    void render(stella::Game& game);
+    void render(std::shared_ptr<stella::Game>& game);
     void open();
 
   private:

@@ -5,6 +5,8 @@
 
 namespace stella
 {
+  Game::Game () { }
+
   Game::Game (const std::string& config_filepath)
     : m_config_filepath (config_filepath)
   {

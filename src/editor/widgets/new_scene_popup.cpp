@@ -6,7 +6,7 @@ namespace editor
 {
 namespace widget
 {
-  NewScenePopup::NewScenePopup(stella::Game& game) : Widget ("new-scene-popup"), m_game(game) {}
+  NewScenePopup::NewScenePopup(std::shared_ptr<stella::Game>& game) : Widget ("new-scene-popup"), m_game(game) {}
 
   void NewScenePopup::render ()
   {
@@ -41,8 +41,8 @@ namespace widget
       if(ImGui::Button("Create") && scene_name[0] != 0 && scene_script_path[0] != 0)
       {
         auto scene_name_str = std::string(scene_name);
-        m_game.create_scene(scene_name_str, std::string(scene_script_path));
-        m_game.start_scene(scene_name_str);
+        m_game->create_scene(scene_name_str, std::string(scene_script_path));
+        m_game->start_scene(scene_name_str);
         memset(scene_name, 0, sizeof scene_name);
         memset(scene_script_path, 0, sizeof scene_script_path);
         m_open = false;

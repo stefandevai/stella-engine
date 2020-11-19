@@ -11,10 +11,13 @@
 
 #include <stdexcept>
 
+// TEMP
+#include <spdlog/spdlog.h>
+// TEMP
+
 namespace editor
 {
-  Editor::Editor (stella::Game& game)
-    : m_game(game)
+  Editor::Editor ()
   {
     m_init();
   }
@@ -32,10 +35,16 @@ namespace editor
 
   void Editor::run()
   {
-    while (m_game.m_display.is_running())
+    while (m_game->m_display.is_running())
     {
       switch (m_current_mode)
       {
+        case EditorMode::NONE:
+          {
+            m_run_none_mode();
+          }
+          break;
+
         case EditorMode::EDIT:
           {
             m_run_edit_mode();
@@ -54,26 +63,35 @@ namespace editor
     }
   }
 
+  void Editor::m_run_none_mode()
+  {
+    m_game->m_display.update();
+    m_handle_none_mode_input();
+    m_handle_none_mode_actions();
+    m_game->m_display.clear();
+    m_render_none_mode();
+  }
+
   void Editor::m_run_edit_mode()
   {
     ImGuiIO& io = ImGui::GetIO();
     m_handle_edit_mode_tool (io);
 
     // TODO: Save current state to restore when getting back from play mode
-    //m_game.update (m_game.m_display.get_dt());
-    m_game.m_display.update();
+    //m_game->update (m_game->m_display.get_dt());
+    m_game->m_display.update();
     m_handle_edit_mode_input();
     m_handle_edit_mode_actions();
 
     m_FBO->bind();
-    m_game.m_display.clear();
-    m_game.render (m_game.m_display.get_dt());
+    m_game->m_display.clear();
+    m_game->render (m_game->m_display.get_dt());
     m_FBO->unbind();
 
-    m_render_edit_mode (m_game.m_display.get_window_width(),
-                        m_game.m_display.get_window_height(),
-                        m_game.m_display.m_width,
-                        m_game.m_display.m_height);
+    m_render_edit_mode (m_game->m_display.get_window_width(),
+                        m_game->m_display.get_window_height(),
+                        m_game->m_display.m_width,
+                        m_game->m_display.m_height);
   }
 
   void Editor::m_run_play_mode()
@@ -81,20 +99,39 @@ namespace editor
     ImGuiIO& io = ImGui::GetIO();
     m_handle_play_mode_tool (io);
 
-    m_game.update (m_game.m_display.get_dt());
-    m_game.m_display.update();
+    m_game->update (m_game->m_display.get_dt());
+    m_game->m_display.update();
     m_handle_play_mode_input();
     m_handle_play_mode_actions();
 
-    m_game.m_display.clear();
-    m_game.render (m_game.m_display.get_dt());
+    m_game->m_display.clear();
+    m_game->render (m_game->m_display.get_dt());
 
-    m_render_play_mode (m_game.m_display.get_window_width(),
-                        m_game.m_display.get_window_height(),
-                        m_game.m_display.m_width,
-                        m_game.m_display.m_height);
+    m_render_play_mode (m_game->m_display.get_window_width(),
+                        m_game->m_display.get_window_height(),
+                        m_game->m_display.m_width,
+                        m_game->m_display.m_height);
   }
 
+
+  void Editor::m_render_none_mode()
+  {
+    if (m_window == nullptr)
+    {
+      throw std::runtime_error("[x] Window is invalid");
+    }
+
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame (m_window);
+    ImGui::NewFrame();
+    ImGui::PushFont (m_font_sans_regular);
+
+    m_render_menu_bar();
+
+    ImGui::PopFont();
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData (ImGui::GetDrawData());
+  }
 
   void Editor::m_render_edit_mode (const float window_width, const float window_height, const float game_width, const float game_height)
   {
@@ -114,22 +151,22 @@ namespace editor
     ImGui::PushFont (m_font_sans_regular);
 
     m_render_menu_bar();
-    m_toolbar.render (m_game.m_registry, m_current_mode, m_current_tool, m_window_width);
+    m_toolbar.render (m_game->m_registry, m_current_mode, m_current_tool, m_window_width);
 
     m_render_dock();
 
     // If the current scene was modified, change the title
-    if (m_game.m_current_scene != nullptr)
+    if (m_game->m_current_scene != nullptr)
     {
-      if (m_game.m_current_scene->is_modified() != m_scene.has_modify_indication())
+      if (m_game->m_current_scene->is_modified() != m_scene.has_modify_indication())
       {
-        m_scene.set_modify_indication(m_game.m_current_scene->is_modified());
+        m_scene.set_modify_indication(m_game->m_current_scene->is_modified());
       }
 
       m_scene.render ((void*) (intptr_t) m_FBO->get_texture());
     }
 
-    m_inspector.render (m_game.m_registry, m_game.m_textures.get_list());
+    m_inspector.render (m_game->m_registry, m_game->m_textures.get_list());
     m_scene_editor.render (m_game);
     m_console.render();
 
@@ -156,7 +193,7 @@ namespace editor
     ImGui::PushFont (m_font_sans_regular);
 
     m_render_menu_bar();
-    m_toolbar.render (m_game.m_registry, m_current_mode, m_current_tool, m_window_width);
+    m_toolbar.render (m_game->m_registry, m_current_mode, m_current_tool, m_window_width);
 
     ImGui::PopFont();
     ImGui::Render();
@@ -165,14 +202,16 @@ namespace editor
 
   void Editor::m_init()
   {
+    m_game = std::make_shared<stella::Game>();
+
     // Set initial Scene Viewer title
-    if (m_game.m_current_scene != nullptr)
+    if (m_game->m_current_scene != nullptr)
     {
-      m_scene.set_title("Scene: " + m_game.m_current_scene->get_name());
+      m_scene.set_title("Scene: " + m_game->m_current_scene->get_name());
     }
 
-    m_window = m_game.m_display.m_window;
-    m_FBO = std::make_unique<stella::graphics::Framebuffer> (m_game.m_display);
+    m_window = m_game->m_display.m_window;
+    m_FBO = std::make_unique<stella::graphics::Framebuffer> (m_game->m_display);
     m_init_imgui();
   }
 
@@ -259,8 +298,8 @@ namespace editor
     style.Colors[ImGuiCol_TabUnfocused]       = tab_color;
     style.Colors[ImGuiCol_TabUnfocusedActive] = tab_color;
 
-    ImGui_ImplSDL2_InitForOpenGL (m_window, m_game.m_display.m_gl_context);
-    ImGui_ImplOpenGL3_Init (m_game.m_display.m_glsl_version);
+    ImGui_ImplSDL2_InitForOpenGL (m_window, m_game->m_display.m_gl_context);
+    ImGui_ImplOpenGL3_Init (m_game->m_display.m_glsl_version);
   }
 
   void Editor::m_deinit_imgui()
@@ -270,9 +309,15 @@ namespace editor
     ImGui::DestroyContext();
   }
 
+  void Editor::m_handle_none_mode_input()
+  {
+    //ImGui_ImplSDL2_ProcessEvent (&m_game->m_display.m_event);
+    //const Uint8* state = SDL_GetKeyboardState (nullptr);
+  }
+
   void Editor::m_handle_edit_mode_input()
   {
-    ImGui_ImplSDL2_ProcessEvent (&m_game.m_display.m_event);
+    ImGui_ImplSDL2_ProcessEvent (&m_game->m_display.m_event);
     const Uint8* state = SDL_GetKeyboardState (nullptr);
 
     // TODO: replace with a map of shortcuts
@@ -290,7 +335,7 @@ namespace editor
 
   void Editor::m_handle_play_mode_input()
   {
-    ImGui_ImplSDL2_ProcessEvent (&m_game.m_display.m_event);
+    ImGui_ImplSDL2_ProcessEvent (&m_game->m_display.m_event);
     const Uint8* state = SDL_GetKeyboardState (nullptr);
 
     // TODO: replace with a map of shortcuts
@@ -334,19 +379,45 @@ namespace editor
     }
   }
 
+  void Editor::m_handle_none_mode_actions ()
+  {
+    switch (m_current_action)
+    {
+      case Action::QUIT_EDITOR:
+        {
+          m_game->quit();
+        }
+        break;
+
+      case Action::NEW_GAME:
+        {
+          m_new_game.open();
+        }
+        break;
+
+      case Action::OPEN_GAME:
+        {
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
+
   void Editor::m_handle_edit_mode_actions ()
   {
     switch (m_current_action)
     {
       case Action::QUIT_EDITOR:
         {
-          m_game.quit();
+          m_game->quit();
         }
         break;
 
       case Action::SAVE_GAME:
         {
-          m_game.save();
+          m_game->save();
         }
         break;
 
@@ -370,9 +441,9 @@ namespace editor
 
       case Action::SAVE_SCENE:
         {
-          if (m_game.m_current_scene != nullptr)
+          if (m_game->m_current_scene != nullptr)
           {
-            m_game.m_current_scene->save();
+            m_game->m_current_scene->save();
           }
         }
         break;
@@ -390,7 +461,7 @@ namespace editor
     {
       case Action::QUIT_EDITOR:
         {
-          m_game.quit();
+          m_game->quit();
         }
         break;
 
@@ -407,6 +478,7 @@ namespace editor
     m_current_action = Action::NONE;
   }
 
+  // TODO: Render a diferent menu bar for each mode
   void Editor::m_render_menu_bar()
   {
     m_current_action = m_edit_mode_main_menu_options.render();
@@ -417,9 +489,9 @@ namespace editor
     m_load_scene_popup.render();
 
     // If a new scene was created, loaded or started
-    if (m_game.m_current_scene != nullptr && m_scene.get_title() != ("Scene: " + m_game.m_current_scene->get_name()))
+    if (m_game != nullptr && m_game->m_current_scene != nullptr && m_scene.get_title() != ("Scene: " + m_game->m_current_scene->get_name()))
     {
-      m_scene.set_title("Scene: " + m_game.m_current_scene->get_name());
+      m_scene.set_title("Scene: " + m_game->m_current_scene->get_name());
       m_scene_editor.reload();
     }
   }

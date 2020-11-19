@@ -7,20 +7,17 @@
 
 int main (int argc, char* argv[])
 {
+  const std::string game_filepath = "/Users/stefandevai/Developer/games/stella-engine/nikte2/config.json";
+
   if constexpr (STELLA_BUILD_EDITOR)
   {
     spdlog::set_level(spdlog::level::debug);
-  }
-
-  stella::Game game{"/Users/stefandevai/Developer/games/stella-engine/nikte2/config.json"};
-
-  if constexpr (STELLA_BUILD_EDITOR)
-  {
-    editor::Editor editor{game};
+    editor::Editor editor;
     editor.run();
   }
   else
   {
+    stella::Game game{game_filepath};
     game.run();
   }
 

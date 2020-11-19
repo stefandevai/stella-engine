@@ -1,7 +1,6 @@
 #include "editor/widgets/new_game.hpp"
 #include "editor/widgets/file_dialog.hpp"
 #include "editor/actions.hpp"
-#include "stella/game2.hpp"
 
 namespace editor
 {

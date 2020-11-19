@@ -15,6 +15,7 @@ namespace stella
   class Game
   {
   public:
+    Game ();
     Game (const std::string& config_filepath);
     void run();
     inline const uint_fast32_t get_width() const { return m_display.get_width(); };
@@ -33,8 +34,8 @@ namespace stella
   private:
     core::JSON m_json;
     entt::registry m_registry;
-    unsigned m_initial_width = 0;
-    unsigned m_initial_height = 0;
+    unsigned m_initial_width = 800;
+    unsigned m_initial_height = 600;
     std::string m_initial_title;
     std::string m_config_filepath;
     graphics::Display m_display{m_initial_width, m_initial_height, m_initial_title};
