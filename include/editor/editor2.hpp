@@ -1,7 +1,9 @@
 #pragma once
 
 #include "stella/systems/system.hpp"
-#include "state.hpp"
+#include "modes.hpp"
+#include "actions.hpp"
+#include "tools.hpp"
 #include <memory>
 #include <string>
 #include <entt/entity/registry.hpp> // IWYU pragma: export
@@ -15,6 +17,7 @@
 #include "widgets/scene_editor.hpp"
 #include "widgets/new_scene_popup.hpp"
 #include "widgets/load_scene_popup.hpp"
+#include "widgets/edit_mode_main_menu_options.hpp"
 
 struct SDL_Window;
 struct ImFont;
@@ -42,18 +45,24 @@ namespace editor
     Editor (stella::Game& game);
     ~Editor();
 
-    void render (const float window_width, const float window_height, const float game_width, const float game_height);
-    void update (const double dt);
     void run();
 
   private:
     void m_init();
     void m_init_imgui();
     void m_deinit_imgui();
-    void m_handle_input();
-    void m_handle_state (ImGuiIO& io);
+    void m_run_edit_mode();
+    void m_run_play_mode();
+    void m_handle_edit_mode_input();
+    void m_handle_play_mode_input();
+    void m_handle_edit_mode_tool (ImGuiIO& io);
+    void m_handle_play_mode_tool (ImGuiIO& io);
+    void m_handle_edit_mode_actions ();
+    void m_handle_play_mode_actions ();
 
     // Render methods
+    void m_render_edit_mode (const float window_width, const float window_height, const float game_width, const float game_height);
+    void m_render_play_mode (const float window_width, const float window_height, const float game_width, const float game_height);
     void m_render_menu_bar();
     void m_render_dock();
     void m_render_view_menu_option (widget::Widget& widget, const std::string& shortcut);
@@ -67,18 +76,15 @@ namespace editor
     float m_game_width = 0.f;
     float m_game_height = 0.f;
     std::unique_ptr<graphics::Framebuffer> m_FBO;
-    State m_current_state = EDIT;
-    Tool m_current_tool   = INSPECTOR;
+    EditorMode m_current_mode = EditorMode::EDIT;
+    EditorTool m_current_tool = EditorTool::INSPECTOR;
+    Action m_current_action = Action::NONE;
 
     // ImGui related properties
     ImFont* m_font_mono = nullptr;
     ImFont* m_font_sans_regular = nullptr;
     ImFont* m_font_sans_bold = nullptr;
     const ImGuiWindowFlags m_window_flags = ImGuiWindowFlags_NoTitleBar;
-
-    // Entt related properties
-    entt::registry m_registry;
-    SystemContainer m_systems;
 
     // Widgets
     widget::Toolbar m_toolbar;
@@ -88,6 +94,7 @@ namespace editor
     widget::Inspector m_inspector;
     widget::NewScenePopup m_new_scene_popup{m_game};
     widget::LoadScenePopup m_load_scene_popup{m_game};
+    widget::EditModeMainMenuOptions m_edit_mode_main_menu_options;
 
     // Hardcoded strings
     const std::string m_imgui_ini_path = "config/imgui.ini";

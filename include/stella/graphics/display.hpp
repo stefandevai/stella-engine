@@ -49,6 +49,7 @@ namespace graphics
     bool is_running() const;
     void update();
     void clear();
+    void quit();
     void set_title (const std::string& title);
     void set_size (const int width, const int height);
     void set_clear_color (int r, int g, int b);

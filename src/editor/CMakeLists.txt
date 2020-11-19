@@ -11,6 +11,7 @@ add_library(${PROJECT_NAME} STATIC editor2.cpp
                                    widgets/scene.cpp
                                    widgets/toolbar.cpp
                                    widgets/file_dialog.cpp
+                                   widgets/edit_mode_main_menu_options.cpp
                                    widgets/new_entity.cpp
                                    widgets/new_scene_popup.cpp
                                    widgets/load_scene_popup.cpp

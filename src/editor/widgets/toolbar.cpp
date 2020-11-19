@@ -16,8 +16,8 @@ namespace widget
   Toolbar::~Toolbar() {}
 
   void Toolbar::render (entt::registry& registry,
-                        editor::State& state,
-                        editor::Tool& tool,
+                        editor::EditorMode& mode,
+                        editor::EditorTool& tool,
                         const float width)
   {
     ImGui::SetNextWindowSize (ImVec2 (width, 60), ImGuiCond_Always);
@@ -39,11 +39,11 @@ namespace widget
       ImGui::PushStyleColor (ImGuiCol_ButtonActive, ImVec4 (0.3f, 0.3f, 0.3f, 1.0f));
       m_size = ImGui::GetWindowSize();
 
-      m_render_inspector_button (state, tool);
+      m_render_inspector_button (mode, tool);
       ImGui::SameLine();
-      m_render_tilepen_button (state, tool);
+      m_render_tilepen_button (mode, tool);
       ImGui::SameLine();
-      m_render_play_button (state, tool);
+      m_render_play_button (mode, tool);
       ImGui::SameLine();
       m_render_plus_button (registry, width);
 
@@ -57,66 +57,66 @@ namespace widget
     ImGui::End();
   }
 
-  void Toolbar::m_render_inspector_button (editor::State& state, editor::Tool& tool)
+  void Toolbar::m_render_inspector_button (editor::EditorMode& mode, editor::EditorTool& tool)
   {
     ImGui::PushID ("inspector-button");
-    if (state == editor::EDIT && tool == editor::INSPECTOR)
+    if (mode == editor::EditorMode::EDIT && tool == editor::EditorTool::INSPECTOR)
     {
       ImGui::PushStyleColor (ImGuiCol_Text, m_button_selected_color);
     }
 
     const bool clicked_inspector = ImGui::Button (ICON_FA_MOUSE_POINTER);
-    if (tool != editor::INSPECTOR && clicked_inspector)
+    if (tool != editor::EditorTool::INSPECTOR && clicked_inspector)
     {
-      if (state != editor::EDIT)
+      if (mode != editor::EditorMode::EDIT)
       {
-        state = editor::EDIT;
+        mode = editor::EditorMode::EDIT;
       }
-      tool = editor::INSPECTOR;
+      tool = editor::EditorTool::INSPECTOR;
     }
-    else if (state == editor::EDIT && tool == editor::INSPECTOR)
+    else if (mode == editor::EditorMode::EDIT && tool == editor::EditorTool::INSPECTOR)
     {
       ImGui::PopStyleColor();
     }
     ImGui::PopID();
   }
 
-  void Toolbar::m_render_tilepen_button (editor::State& state, editor::Tool& tool)
+  void Toolbar::m_render_tilepen_button (editor::EditorMode& mode, editor::EditorTool& tool)
   {
     ImGui::PushID ("tile-pen-button");
-    if (state == editor::EDIT && tool == editor::TILE_PEN)
+    if (mode == editor::EditorMode::EDIT && tool == editor::EditorTool::TILE_PEN)
     {
       ImGui::PushStyleColor (ImGuiCol_Text, m_button_selected_color);
     }
     const bool clicked_tile_pen = ImGui::Button (ICON_FA_EDIT);
-    if (tool != editor::TILE_PEN && clicked_tile_pen)
+    if (tool != editor::EditorTool::TILE_PEN && clicked_tile_pen)
     {
-      if (state != editor::EDIT)
+      if (mode != editor::EditorMode::EDIT)
       {
-        state = editor::EDIT;
+        mode = editor::EditorMode::EDIT;
       }
-      tool = editor::TILE_PEN;
+      tool = editor::EditorTool::TILE_PEN;
     }
-    else if (state == editor::EDIT && tool == editor::TILE_PEN)
+    else if (mode == editor::EditorMode::EDIT && tool == editor::EditorTool::TILE_PEN)
     {
       ImGui::PopStyleColor();
     }
     ImGui::PopID();
   }
 
-  void Toolbar::m_render_play_button (editor::State& state, editor::Tool& tool)
+  void Toolbar::m_render_play_button (editor::EditorMode& mode, editor::EditorTool& tool)
   {
     ImGui::PushID ("play-button");
-    if (state == editor::PLAY)
+    if (mode == editor::EditorMode::PLAY)
     {
       ImGui::PushStyleColor (ImGuiCol_Text, m_button_selected_color);
     }
     const bool clicked_play = ImGui::Button (ICON_FA_PLAY);
-    if (state != editor::PLAY && clicked_play)
+    if (mode != editor::EditorMode::PLAY && clicked_play)
     {
-      state = editor::PLAY;
+      mode = editor::EditorMode::PLAY;
     }
-    else if (state == editor::PLAY)
+    else if (mode == editor::EditorMode::PLAY)
     {
       ImGui::PopStyleColor();
     }

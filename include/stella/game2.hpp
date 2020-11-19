@@ -28,6 +28,7 @@ namespace stella
     void save ();
     void update (const double dt);
     void render (const double dt);
+    void quit ();
 
   private:
     core::JSON m_json;

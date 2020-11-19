@@ -109,10 +109,15 @@ namespace stella
     while (m_display.is_running())
     {
       m_display.clear();
-      this->update (m_display.get_dt());
-      this->render (m_display.get_dt());
+      update (m_display.get_dt());
+      render (m_display.get_dt());
       m_display.update();
     }
+  }
+
+  void Game::quit()
+  {
+    m_display.quit();
   }
 
   void Game::m_init_variables()

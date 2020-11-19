@@ -183,6 +183,11 @@ namespace graphics
     // glEnable(GL_DEPTH_TEST);
   }
 
+  void Display::quit()
+  {
+    m_running = false;
+  }
+
   void Display::m_update_input()
   {
     SDL_Event event;

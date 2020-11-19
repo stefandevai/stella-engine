@@ -1,5 +1,6 @@
 #include "editor/editor2.hpp"
 #include "editor/icons.hpp"
+#include "editor/actions.hpp"
 #include "stella/game2.hpp"
 #include "stella/graphics/framebuffer.hpp"
 
@@ -27,7 +28,73 @@ namespace editor
     m_deinit_imgui();
   }
 
-  void Editor::render (const float window_width, const float window_height, const float game_width, const float game_height)
+  void Editor::run()
+  {
+    while (m_game.m_display.is_running())
+    {
+      switch (m_current_mode)
+      {
+        case EditorMode::EDIT:
+          {
+            m_run_edit_mode();
+          }
+          break;
+
+        case EditorMode::PLAY:
+          {
+            m_run_play_mode();
+          }
+          break;
+
+        default:
+          break;
+      }
+    }
+  }
+
+  void Editor::m_run_edit_mode()
+  {
+    ImGuiIO& io = ImGui::GetIO();
+    m_handle_edit_mode_tool (io);
+
+    // TODO: Save current state to restore when getting back from play mode
+    //m_game.update (m_game.m_display.get_dt());
+    m_game.m_display.update();
+    m_handle_edit_mode_input();
+    m_handle_edit_mode_actions();
+
+    m_FBO->bind();
+    m_game.m_display.clear();
+    m_game.render (m_game.m_display.get_dt());
+    m_FBO->unbind();
+
+    m_render_edit_mode (m_game.m_display.get_window_width(),
+                        m_game.m_display.get_window_height(),
+                        m_game.m_display.m_width,
+                        m_game.m_display.m_height);
+  }
+
+  void Editor::m_run_play_mode()
+  {
+    ImGuiIO& io = ImGui::GetIO();
+    m_handle_play_mode_tool (io);
+
+    m_game.update (m_game.m_display.get_dt());
+    m_game.m_display.update();
+    m_handle_play_mode_input();
+    m_handle_play_mode_actions();
+
+    m_game.m_display.clear();
+    m_game.render (m_game.m_display.get_dt());
+
+    m_render_play_mode (m_game.m_display.get_window_width(),
+                        m_game.m_display.get_window_height(),
+                        m_game.m_display.m_width,
+                        m_game.m_display.m_height);
+  }
+
+
+  void Editor::m_render_edit_mode (const float window_width, const float window_height, const float game_width, const float game_height)
   {
     m_window_width  = window_width;
     m_window_height = window_height;
@@ -45,55 +112,49 @@ namespace editor
     ImGui::PushFont (m_font_sans_regular);
 
     m_render_menu_bar();
-    m_toolbar.render (m_game.m_registry, m_current_state, m_current_tool, m_window_width);
+    m_toolbar.render (m_game.m_registry, m_current_mode, m_current_tool, m_window_width);
 
-    if (m_current_state == EDIT)
+    m_render_dock();
+
+    // If the current scene was modified, change the title
+    if (m_game.m_current_scene != nullptr && m_game.m_current_scene->is_modified() != m_scene.has_modify_indication())
     {
-      m_render_dock();
-
-      // If the current scene was modified, change the title
-      if (m_game.m_current_scene != nullptr && m_game.m_current_scene->is_modified() != m_scene.has_modify_indication())
-      {
-        m_scene.set_modify_indication(m_game.m_current_scene->is_modified());
-      }
-
-      m_scene.render ((void*) (intptr_t) m_FBO->get_texture());
-      m_inspector.render (m_game.m_registry, m_game.m_textures.get_list());
-      m_scene_editor.render (m_game.m_current_scene);
-      m_console.render();
+      m_scene.set_modify_indication(m_game.m_current_scene->is_modified());
     }
+
+    m_scene.render ((void*) (intptr_t) m_FBO->get_texture());
+    m_inspector.render (m_game.m_registry, m_game.m_textures.get_list());
+    m_scene_editor.render (m_game.m_current_scene);
+    m_console.render();
 
     ImGui::PopFont();
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData (ImGui::GetDrawData());
   }
 
-  void Editor::update (const double dt)
+  void Editor::m_render_play_mode (const float window_width, const float window_height, const float game_width, const float game_height)
   {
-    for (auto& s : m_systems)
-    {
-      s->update (m_registry, dt);
-    }
-  }
+    m_window_width  = window_width;
+    m_window_height = window_height;
+    m_game_width    = game_width;
+    m_game_height   = game_height;
 
-  void Editor::run()
-  {
-    while (m_game.m_display.is_running())
+    if (m_window == nullptr)
     {
-      m_game.update (m_game.m_display.get_dt());
-      m_game.m_display.update();
-      m_handle_input();
-      update (m_game.m_display.get_dt());
-
-      m_FBO->bind();
-      m_game.m_display.clear();
-      m_game.render (m_game.m_display.get_dt());
-      m_FBO->unbind();
-      render (m_game.m_display.get_window_width(),
-              m_game.m_display.get_window_height(),
-              m_game.m_display.m_width,
-              m_game.m_display.m_height);
+      return;
     }
+
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame (m_window);
+    ImGui::NewFrame();
+    ImGui::PushFont (m_font_sans_regular);
+
+    m_render_menu_bar();
+    m_toolbar.render (m_game.m_registry, m_current_mode, m_current_tool, m_window_width);
+
+    ImGui::PopFont();
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData (ImGui::GetDrawData());
   }
 
   void Editor::m_init()
@@ -203,162 +264,134 @@ namespace editor
     ImGui::DestroyContext();
   }
 
-  void Editor::m_handle_input()
+  void Editor::m_handle_edit_mode_input()
   {
     ImGui_ImplSDL2_ProcessEvent (&m_game.m_display.m_event);
     const Uint8* state = SDL_GetKeyboardState (nullptr);
 
     // TODO: replace with a map of shortcuts
-    switch (m_current_state)
+    // Save game as
+    if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_S])
     {
-      case EDIT:
-      {
-        // Save game as
-        if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_S])
-        {
-        }
-        // Save game
-        else if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_S])
-        {
-        }
-      }
-      break;
+      m_current_action = Action::SAVE_GAME_AS;
+    }
+    // Save game
+    else if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_S])
+    {
+      m_current_action = Action::SAVE_GAME;
+    }
+  }
 
-      case PLAY:
-      {
-      }
-      break;
+  void Editor::m_handle_play_mode_input()
+  {
+    ImGui_ImplSDL2_ProcessEvent (&m_game.m_display.m_event);
+    const Uint8* state = SDL_GetKeyboardState (nullptr);
+
+    // TODO: replace with a map of shortcuts
+    // Save game as
+    if (state[SDL_SCANCODE_ESCAPE])
+    {
+      m_current_action = Action::QUIT_PLAY_MODE;
+    }
+  }
+
+  void Editor::m_handle_edit_mode_tool (ImGuiIO& io)
+  {
+    switch (m_current_tool)
+    {
+      case EditorTool::TILE_PEN:
+        {
+          //this->m_handle_tile_pen (io);
+        }
+        break;
+      case EditorTool::INSPECTOR:
+        {
+          //this->m_handle_inspector (io);
+        }
+        break;
+      case EditorTool::PAN:
+        {
+          //this->m_handle_pan_tool (io);
+        }
+        break;
       default:
         break;
     }
   }
 
-  void Editor::m_handle_state (ImGuiIO& io)
+  void Editor::m_handle_play_mode_tool (ImGuiIO& io)
   {
-    switch (m_current_state)
+    switch (m_current_tool)
     {
-      case EDIT:
-        switch (m_current_tool)
-        {
-          case TILE_PEN:
-            //this->m_handle_tile_pen (io);
-            break;
-          case INSPECTOR:
-            //this->m_handle_inspector (io);
-            break;
-          case PAN:
-            //this->m_handle_pan_tool (io);
-            break;
-          default:
-            break;
-        }
-        break;
-      case PLAY:
-        break;
       default:
         break;
     }
+  }
+
+  void Editor::m_handle_edit_mode_actions ()
+  {
+    switch (m_current_action)
+    {
+      case Action::QUIT_EDITOR:
+        {
+          m_game.quit();
+        }
+        break;
+
+      case Action::SAVE_GAME:
+        {
+          m_game.save();
+        }
+        break;
+
+      case Action::NEW_SCENE:
+        {
+          m_new_scene_popup.open();
+        }
+        break;
+
+      case Action::SAVE_SCENE:
+        {
+          if (m_game.m_current_scene != nullptr)
+          {
+            m_game.m_current_scene->save();
+          }
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    m_current_action = Action::NONE;
+  }
+
+  void Editor::m_handle_play_mode_actions ()
+  {
+    switch (m_current_action)
+    {
+      case Action::QUIT_EDITOR:
+        {
+          m_game.quit();
+        }
+        break;
+
+      case Action::QUIT_PLAY_MODE:
+        {
+          m_current_mode = EditorMode::EDIT;
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    m_current_action = Action::NONE;
   }
 
   void Editor::m_render_menu_bar()
   {
-    // TODO: Use a enum for menu actions
-    std::string menu_action = "";
-
-    if (ImGui::BeginMainMenuBar())
-    {
-      if (ImGui::BeginMenu ("File"))
-      {
-        if (ImGui::MenuItem ("New Game", "CTRL+N"))
-        {
-          menu_action = "new_game";
-        }
-
-        if (ImGui::MenuItem ("Load Game", "CTRL+N"))
-        {
-          menu_action = "load_game";
-        }
-
-        ImGui::Separator();
-
-        if (ImGui::MenuItem ("Save Game", "CTRL+S"))
-        {
-          menu_action = "save_game";
-        }
-
-        if (ImGui::MenuItem ("Save Game as...", "CTRL+SHIFT+S"))
-        {
-          menu_action = "save_game_as";
-        }
-
-        ImGui::Separator();
-
-        if (ImGui::MenuItem ("Quit", "CTRL+Q"))
-        {
-          menu_action = "quit_editor";
-        }
-        ImGui::EndMenu();
-      }
-      if (ImGui::BeginMenu ("Scene"))
-      {
-        if (ImGui::MenuItem ("New Scene", "CTRL+N"))
-        {
-          menu_action = "new_scene";
-        }
-
-        if (ImGui::MenuItem ("Load Scene", "CTRL+S"))
-        {
-          menu_action = "load_scene";
-        }
-
-        ImGui::Separator();
-
-        if (ImGui::MenuItem ("Save Scene", "CTRL+S"))
-        {
-          menu_action = "save_scene";
-        }
-
-        if (ImGui::MenuItem ("Save Scene as...", "CTRL+SHIFT+S"))
-        {
-          menu_action = "save_scene_as";
-        }
-
-        ImGui::EndMenu();
-      }
-      if (ImGui::BeginMenu ("View"))
-      {
-        ImGui::Dummy (ImVec2{0.0f, 1.5f});
-        m_render_view_menu_option (m_inspector, "oi/ci");
-        ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        m_render_view_menu_option (m_console, "oy/cy");
-        ImGui::EndMenu();
-      }
-      ImGui::EndMainMenuBar();
-    }
-
-    if (menu_action == "save_game")
-    {
-      m_game.save();
-    }
-    else if (menu_action == "new_scene")
-    {
-      m_new_scene_popup.open();
-    }
-    else if (menu_action == "load_scene")
-    {
-      m_load_scene_popup.open();
-    }
-    else if (menu_action == "save_scene")
-    {
-      if (m_game.m_current_scene != nullptr)
-      {
-        m_game.m_current_scene->save();
-      }
-    }
-    else if (menu_action == "quit_editor")
-    {
-      m_game.m_display.m_running = false;
-    }
+    m_current_action = m_edit_mode_main_menu_options.render();
 
     const bool created_scene = m_new_scene_popup.render();
     const bool loaded_scene = m_load_scene_popup.render();
@@ -379,9 +412,6 @@ namespace editor
 
   void Editor::m_render_dock()
   {
-    ImGuiIO& io = ImGui::GetIO();
-    m_handle_state (io);
-
     float dock_width  = m_window_width;
     float dock_height = m_window_height;
     float dock_offset = 0.f;
