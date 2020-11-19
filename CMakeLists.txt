@@ -95,6 +95,9 @@ include_directories(${DEPENDENCIES_DIR}/glm)
 # stb_image - Handles image loading in various formats.
 include_directories(${DEPENDENCIES_DIR}/stb_image)
 
+# spdlog - Logging library
+include_directories(${DEPENDENCIES_DIR}/spdlog/include)
+
 # Entt - Entity Component System
 if (USE_SYSTEM_ENTT)
 	find_package(entt)

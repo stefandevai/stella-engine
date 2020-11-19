@@ -9,6 +9,8 @@
 #include "../../lib/imgui/examples/imgui_impl_sdl.h"     // IWYU pragma: export
 #include "imgui_internal.h"
 
+#include <stdexcept>
+
 // TEMP
 #include <iostream>
 // TEMP
@@ -101,7 +103,7 @@ namespace editor
 
     if (m_window == nullptr)
     {
-      return;
+      throw std::runtime_error("[x] Window is invalid");
     }
 
     ImGui_ImplOpenGL3_NewFrame();
@@ -115,12 +117,16 @@ namespace editor
     m_render_dock();
 
     // If the current scene was modified, change the title
-    if (m_game.m_current_scene != nullptr && m_game.m_current_scene->is_modified() != m_scene.has_modify_indication())
+    if (m_game.m_current_scene != nullptr)
     {
-      m_scene.set_modify_indication(m_game.m_current_scene->is_modified());
+      if (m_game.m_current_scene->is_modified() != m_scene.has_modify_indication())
+      {
+        m_scene.set_modify_indication(m_game.m_current_scene->is_modified());
+      }
+
+      m_scene.render ((void*) (intptr_t) m_FBO->get_texture());
     }
 
-    m_scene.render ((void*) (intptr_t) m_FBO->get_texture());
     m_inspector.render (m_game.m_registry, m_game.m_textures.get_list());
     m_scene_editor.render (m_game.m_current_scene);
     m_console.render();
@@ -139,7 +145,7 @@ namespace editor
 
     if (m_window == nullptr)
     {
-      return;
+      throw std::runtime_error("[x] Window is invalid");
     }
 
     ImGui_ImplOpenGL3_NewFrame();

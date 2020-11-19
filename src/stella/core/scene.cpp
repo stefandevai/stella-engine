@@ -1,5 +1,6 @@
 #include "stella/core/scene.hpp"
 #include <iostream>
+#include <stdexcept>
 
 namespace stella
 {
@@ -9,18 +10,27 @@ namespace core
 
   void Scene::load(const std::string& filepath)
   {
-    m_filepath = filepath;
-    m_json.load(m_filepath);
+    m_json.load(filepath);
 
-    // TODO: Error handling when no scene object is provided
-    if (m_json.object["name"] != nullptr)
+    if (m_json.object["name"] == nullptr)
     {
-      m_name = m_json.object["name"].get<std::string>();
+      throw std::invalid_argument("No Scene name was provided.");
     }
+
+    m_name = m_json.object["name"].get<std::string>();
+    m_filepath = filepath;
   }
 
   void Scene::save(const std::string& filepath)
   {
+    if (filepath.empty())
+    {
+      throw std::invalid_argument("Filepath is empty.");
+    }
+    if (m_name.empty())
+    {
+      throw std::invalid_argument("Scene name should not be empty.");
+    }
     m_json.object["name"] = m_name;
     m_json.save(filepath);
     m_filepath = filepath;
@@ -29,10 +39,6 @@ namespace core
 
   void Scene::save()
   {
-    if (m_filepath.empty())
-    {
-      return;
-    }
     save(m_filepath);
   }
 

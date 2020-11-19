@@ -21,7 +21,16 @@ namespace stella
     // TODO: Check if scene already exists
     // If not, add to config.json file
     auto scene = std::make_shared<core::Scene>();
-    scene->load(filepath);
+
+    try
+    {
+      scene->load(filepath);
+    }
+    catch (std::invalid_argument& e)
+    {
+      std::cerr << "[x] Caught: " << e.what() << '\n';
+    }
+
     add_scene(scene);
     m_current_scene = scene;
   }

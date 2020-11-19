@@ -4,19 +4,28 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <stdexcept>
 
 namespace stella
 {
+
+class invalid_file : public std::invalid_argument
+{
+  public:
+    invalid_file(const std::string& message)
+      : std::invalid_argument(message)
+    { }
+};
+
 class FileUtils
 {
 public:
-  static std::string read_file (const char* filepath)
+  static std::string read_file (const std::string& filepath)
   {
-    FILE* file = fopen (filepath, "rt");
+    FILE* file = fopen (filepath.c_str(), "rt");
     if (!file)
     {
-      std::cout << "[x] Could not open file: " << filepath << '\n';
-      return "";
+      throw invalid_file{"Could not open file: " + filepath};
     }
 
     fseek (file, 0, SEEK_END);
@@ -37,8 +46,7 @@ public:
     std::ofstream outfile{filepath};
     if (!outfile.is_open())
     {
-      std::cout << "[x] Could not open file: " << filepath << '\n';
-      return;
+      throw invalid_file{"Could not open file: " + filepath};
     }
     outfile << content;
     outfile.close();

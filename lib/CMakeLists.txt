@@ -10,6 +10,7 @@ endif()
 
 if (STELLA_DEBUG_MODE)
   include_directories(imgui)
-  #add_subdirectory(imgui)
 endif()
+
+add_subdirectory(spdlog)
 
