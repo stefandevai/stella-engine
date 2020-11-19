@@ -18,6 +18,8 @@ namespace stella
 
   void Game::load_scene(const std::string& filepath)
   {
+    // TODO: Check if scene already exists
+    // If not, add to config.json file
     auto scene = std::make_shared<core::Scene>();
     scene->load(filepath);
     add_scene(scene);
@@ -26,10 +28,12 @@ namespace stella
 
   void Game::create_scene(const std::string& name, const std::string& filepath)
   {
+    // TODO: Check if scene with same filepath already exists
     auto scene = std::make_shared<core::Scene>();
     scene->set_name (name);
     scene->save (filepath);
     add_scene(scene);
+    m_json.object["scenes"].emplace_back(filepath);
   }
 
   void Game::start_scene(const std::string& name)
@@ -57,6 +61,25 @@ namespace stella
       return;
     }
     m_current_scene->start();
+  }
+
+  void Game::save()
+  {
+    if (m_config_filepath.empty())
+    {
+      std::cout << "[x] Trying to save with an empty config filepath.\n";
+      return;
+    }
+
+    m_json.save(m_config_filepath);
+
+    for (auto& scene : m_scenes)
+    {
+      if (scene->is_modified())
+      {
+        scene->save();
+      }
+    }
   }
 
   void Game::update(const double dt)

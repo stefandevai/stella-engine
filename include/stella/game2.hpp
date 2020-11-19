@@ -25,6 +25,7 @@ namespace stella
     void create_scene (const std::string& name, const std::string& config_filepath);
     void start_scene (const std::string& name);
     void start_current_scene();
+    void save ();
     void update (const double dt);
     void render (const double dt);
 

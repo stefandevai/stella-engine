@@ -24,6 +24,16 @@ namespace core
     m_json.object["name"] = m_name;
     m_json.save(filepath);
     m_filepath = filepath;
+    m_modified = false;
+  }
+
+  void Scene::save()
+  {
+    if (m_filepath.empty())
+    {
+      return;
+    }
+    save(m_filepath);
   }
 
   void Scene::start() {}

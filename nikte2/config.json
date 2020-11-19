@@ -1,14 +1,13 @@
 {
-  "game": {
-    "title": "Nikte",
-    "width": 896,
-    "height": 504,
-    "firstScene": "Scene 2"
-  },
-
-  "scenes": [
-    "/Users/stefandevai/Developer/games/stella-engine/nikte2/scenes/scene1.json",
-    "/Users/stefandevai/Developer/games/stella-engine/nikte2/scenes/scene2.json",
-    "/Users/stefandevai/Developer/games/stella-engine/nikte2/scenes/scene3.json"
-  ]
+    "game": {
+        "firstScene": "Scene 2",
+        "height": 504,
+        "title": "Nikte",
+        "width": 896
+    },
+    "scenes": [
+        "/Users/stefandevai/Developer/games/stella-engine/nikte2/scenes/scene1.json",
+        "/Users/stefandevai/Developer/games/stella-engine/nikte2/scenes/scene2.json",
+        "/Users/stefandevai/Developer/games/stella-engine/nikte2/scenes/scene3.json"
+    ]
 }

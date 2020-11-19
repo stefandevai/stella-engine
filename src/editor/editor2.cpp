@@ -34,30 +34,38 @@ namespace editor
     m_game_width    = game_width;
     m_game_height   = game_height;
 
-    if (m_window != nullptr)
+    if (m_window == nullptr)
     {
-      ImGui_ImplOpenGL3_NewFrame();
-      ImGui_ImplSDL2_NewFrame (m_window);
-      ImGui::NewFrame();
-      ImGui::PushFont (m_font_sans_regular);
+      return;
+    }
 
-      m_render_menu_bar();
-      m_toolbar.render (m_game.m_registry, m_current_state, m_current_tool, m_window_width);
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame (m_window);
+    ImGui::NewFrame();
+    ImGui::PushFont (m_font_sans_regular);
 
-      if (m_current_state == EDIT)
+    m_render_menu_bar();
+    m_toolbar.render (m_game.m_registry, m_current_state, m_current_tool, m_window_width);
+
+    if (m_current_state == EDIT)
+    {
+      m_render_dock();
+
+      // If the current scene was modified, change the title
+      if (m_game.m_current_scene != nullptr && m_game.m_current_scene->is_modified() != m_scene.has_modify_indication())
       {
-        m_render_dock();
-
-        m_scene.render ((void*) (intptr_t) m_FBO->get_texture());
-        m_inspector.render (m_game.m_registry, m_game.m_textures.get_list());
-        m_scene_editor.render (m_game.m_current_scene);
-        m_console.render();
+        m_scene.set_modify_indication(m_game.m_current_scene->is_modified());
       }
 
-      ImGui::PopFont();
-      ImGui::Render();
-      ImGui_ImplOpenGL3_RenderDrawData (ImGui::GetDrawData());
+      m_scene.render ((void*) (intptr_t) m_FBO->get_texture());
+      m_inspector.render (m_game.m_registry, m_game.m_textures.get_list());
+      m_scene_editor.render (m_game.m_current_scene);
+      m_console.render();
     }
+
+    ImGui::PopFont();
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData (ImGui::GetDrawData());
   }
 
   void Editor::update (const double dt)
@@ -90,6 +98,12 @@ namespace editor
 
   void Editor::m_init()
   {
+    // Set initial Scene Viewer title
+    if (m_game.m_current_scene != nullptr)
+    {
+      m_scene.set_title("Scene: " + m_game.m_current_scene->get_name());
+    }
+
     m_window = m_game.m_display.m_window;
     m_FBO = std::make_unique<graphics::Framebuffer> (m_game.m_display);
     m_init_imgui();
@@ -269,12 +283,12 @@ namespace editor
 
         if (ImGui::MenuItem ("Save Game", "CTRL+S"))
         {
-          menu_action = "load_game";
+          menu_action = "save_game";
         }
 
         if (ImGui::MenuItem ("Save Game as...", "CTRL+SHIFT+S"))
         {
-          menu_action = "load_game";
+          menu_action = "save_game_as";
         }
 
         ImGui::Separator();
@@ -322,13 +336,24 @@ namespace editor
       ImGui::EndMainMenuBar();
     }
 
-    if (menu_action == "new_scene")
+    if (menu_action == "save_game")
+    {
+      m_game.save();
+    }
+    else if (menu_action == "new_scene")
     {
       m_new_scene_popup.open();
     }
     else if (menu_action == "load_scene")
     {
       m_load_scene_popup.open();
+    }
+    else if (menu_action == "save_scene")
+    {
+      if (m_game.m_current_scene != nullptr)
+      {
+        m_game.m_current_scene->save();
+      }
     }
     else if (menu_action == "quit_editor")
     {
@@ -338,7 +363,7 @@ namespace editor
     const bool created_scene = m_new_scene_popup.render();
     const bool loaded_scene = m_load_scene_popup.render();
 
-    // If a new scene was created
+    // If a new scene was created or loaded
     if (created_scene || loaded_scene)
     {
       // Set Scene widget title

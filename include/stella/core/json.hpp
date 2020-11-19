@@ -23,7 +23,7 @@ namespace core
 
   private:
     std::string m_filepath;
-    bool m_pretty_print = false;
+    bool m_pretty_print = true;
   };
 }
 }

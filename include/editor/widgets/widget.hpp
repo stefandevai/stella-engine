@@ -18,13 +18,13 @@ namespace widget
 
   public:
     virtual ~Widget() = default;
+    inline bool is_open() const { return m_open; }
+    virtual inline std::string get_title_string() const { return m_title_string; }
     virtual inline void toggle() { m_open = !m_open; }
     virtual inline void open() { m_open = true; }
     virtual inline void close() { m_open = false; }
-    inline bool is_open() const { return m_open; }
-    inline const std::string& get_title_string() const { return m_title_string; }
-    inline void set_id(const std::string& id) { m_id = id; }
-    inline void set_title(const std::string& title)
+    virtual inline void set_id(const std::string& id) { m_id = id; }
+    virtual inline void set_title(const std::string& title)
     {
       m_title = title;
       m_title_string = m_title + "###" + m_id;

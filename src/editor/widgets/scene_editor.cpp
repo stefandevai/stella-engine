@@ -29,18 +29,14 @@ namespace widget
     if (ImGui::Begin (m_title_string.c_str(), &m_open))
     {
       static char scene_name[128] = "";
-      static char scene_filepath[512] = "";
 
       if (m_should_reload)
       {
         if (scene != nullptr)
         {
           auto original_scene_name = scene->get_name();
-          auto original_scene_filepath = scene->get_filepath();
           original_scene_name.copy(scene_name, original_scene_name.size());
-          original_scene_filepath.copy(scene_filepath, original_scene_filepath.size());
           scene_name[original_scene_name.size()] = '\0';
-          scene_filepath[original_scene_filepath.size()] = '\0';
         }
         m_should_reload = false;
       }
@@ -50,13 +46,6 @@ namespace widget
       ImGui::Text ("Name:");
       ImGui::PushID ("scene-editor-input#1");
       ImGui::InputTextWithHint ("", "", scene_name, IM_ARRAYSIZE (scene_name));
-      ImGui::PopID();
-      ImGui::Dummy (ImVec2 (0.f, 3.f));
-
-      // Scene script path
-      ImGui::Text ("Script path:");
-      ImGui::PushID ("scene-editor-input#2");
-      ImGui::InputTextWithHint ("", "", scene_filepath, IM_ARRAYSIZE (scene_filepath));
       ImGui::PopID();
       ImGui::Dummy (ImVec2 (0.f, 3.f));
       ImGui::Separator();
@@ -84,6 +73,11 @@ namespace widget
             m_number_of_objects++;
           }
         }
+      }
+
+      if (scene != nullptr && scene_name != scene->get_name())
+      {
+        scene->set_name(scene_name);
       }
     }
     ImGui::End();
