@@ -5,7 +5,7 @@
 #include "../../lib/imgui/imgui.h" // IWYU pragma: export
 #include "imgui_internal.h"
 
-namespace stella
+namespace editor
 {
 namespace system
 {
@@ -24,4 +24,4 @@ namespace system
     void m_remove_selection_handler (entt::registry& registry, entt::entity entity);
   };
 } // namespace system
-} // namespace stella
+} // namespace editor

@@ -3,7 +3,7 @@
 #include <vector>
 #include <cmath>
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -29,7 +29,7 @@ namespace widget
       const auto window_pos    = ImGui::GetWindowPos();
       const auto window_size   = ImGui::GetWindowSize();
       const float frame_height = ImGui::GetFrameHeight();
-      std::vector<int> coords  = graphics::Utils::get_16x9_viewport_coords (m_widget_width, m_widget_height);
+      std::vector<int> coords  = stella::graphics::Utils::get_16x9_viewport_coords (m_widget_width, m_widget_height);
 
       m_widget_width  = window_size[0];
       m_widget_height = window_size[1] - frame_height;
@@ -65,4 +65,4 @@ namespace widget
     ImGui::PopStyleVar();
   }
 } // namespace widget
-} // namespace stella
+} // namespace editor

@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -34,5 +34,5 @@ namespace widget
     return loaded_scene;
   }
 } // namespace widget
-} // namespace stella
+} // namespace editor
 

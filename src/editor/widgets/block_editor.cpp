@@ -1,7 +1,7 @@
 #include "editor/widgets/block_editor.hpp"
 #include <string>
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -67,4 +67,4 @@ namespace widget
   }
 
 } // namespace widget
-} // namespace stella
+} // namespace editor

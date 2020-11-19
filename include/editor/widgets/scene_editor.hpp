@@ -12,7 +12,7 @@ namespace core
 }
 }
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -22,7 +22,7 @@ namespace widget
     SceneEditor();
 
     void reload();
-    void render(std::shared_ptr<core::Scene>& scene);
+    void render(std::shared_ptr<stella::core::Scene>& scene);
     void open();
 
   private:
@@ -30,5 +30,5 @@ namespace widget
     int m_number_of_objects = 0;
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor
 

@@ -1,7 +1,7 @@
 #include "editor/widgets/add_components.hpp"
 #include "editor/components/selected.hpp"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -22,7 +22,7 @@ namespace widget
         {
           if (component.second)
           {
-            ComponentList::emplace_default_component (component.first, entity, registry);
+            stella::ComponentList::emplace_default_component (component.first, entity, registry);
           }
         }
         m_component_menu.reset();
@@ -38,4 +38,4 @@ namespace widget
     }
   }
 } // namespace widget
-} // namespace stella
+} // namespace editor

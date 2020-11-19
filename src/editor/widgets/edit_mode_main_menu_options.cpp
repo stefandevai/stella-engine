@@ -1,6 +1,6 @@
 #include "editor/widgets/edit_mode_main_menu_options.hpp"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -80,6 +80,6 @@ namespace widget
     return action;
   }
 } // namespace widget
-} // namespace stella
+} // namespace editor
 
 

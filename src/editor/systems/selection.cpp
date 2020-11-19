@@ -16,7 +16,7 @@
 #include <iostream>
 // TEMP
 
-namespace stella
+namespace editor
 {
 namespace system
 {
@@ -28,11 +28,11 @@ namespace system
 
   void Selection::update (entt::registry& registry)
   {
-    registry.group<component::Selected> (entt::get<component::Position, component::Dimension>)
+    registry.group<component::Selected> (entt::get<stella::component::Position, stella::component::Dimension>)
         .each ([&registry] (auto entity, auto& sel, const auto& pos, const auto& dim) {
-          auto& pos_handler_x    = registry.get<component::Position> (sel.handler_x);
-          auto& pos_handler_y    = registry.get<component::Position> (sel.handler_y);
-          auto& pos_handler_move = registry.get<component::Position> (sel.handler_move);
+          auto& pos_handler_x    = registry.get<stella::component::Position> (sel.handler_x);
+          auto& pos_handler_y    = registry.get<stella::component::Position> (sel.handler_y);
+          auto& pos_handler_move = registry.get<stella::component::Position> (sel.handler_move);
 
           pos_handler_x.x = pos.x + dim.w / 2.f;
           pos_handler_x.y = pos.y + dim.h / 2.f - 4.f;
@@ -50,8 +50,8 @@ namespace system
     if (ImGui::IsMouseClicked (0))
     {
       bool clicked_entity = false;
-      registry.sort<component::Position> ([] (const auto& lhs, const auto& rhs) { return lhs.z < rhs.z; });
-      registry.view<component::Position, component::Dimension> (entt::exclude<component::Camera, component::InGroup>)
+      registry.sort<stella::component::Position> ([] (const auto& lhs, const auto& rhs) { return lhs.z < rhs.z; });
+      registry.view<stella::component::Position, stella::component::Dimension> (entt::exclude<stella::component::Camera, stella::component::InGroup>)
           .each ([this, &registry, &map_pos, &clicked_entity] (auto entity, auto& pos, const auto& dim) {
             if (registry.valid (entity) && selected_entity != entity)
             {
@@ -93,31 +93,31 @@ namespace system
     //   }
     //   selected_entity = entity;
     // }
-    if (registry.has<component::Position> (entity) && registry.has<component::Dimension> (entity))
+    if (registry.has<stella::component::Position> (entity) && registry.has<stella::component::Dimension> (entity))
     {
-      const auto& pos = registry.get<component::Position> (entity);
-      const auto& dim = registry.get<component::Dimension> (entity);
+      const auto& pos = registry.get<stella::component::Position> (entity);
+      const auto& dim = registry.get<stella::component::Dimension> (entity);
       auto& sel       = registry.get<component::Selected> (entity);
 
       auto handler_move = registry.create();
-      registry.emplace<component::Position> (handler_move, pos.x + dim.w / 2.f - 4.f, pos.y + dim.h / 2.f - 4.f, 91.f);
-      registry.emplace<component::Dimension> (handler_move, 8.f, 8.f);
-      registry.emplace<component::Color> (handler_move, "#ffffff88");
-      auto& sprite1 = registry.emplace<component::SpriteT> (handler_move, "handler-move");
+      registry.emplace<stella::component::Position> (handler_move, pos.x + dim.w / 2.f - 4.f, pos.y + dim.h / 2.f - 4.f, 91.f);
+      registry.emplace<stella::component::Dimension> (handler_move, 8.f, 8.f);
+      registry.emplace<stella::component::Color> (handler_move, "#ffffff88");
+      auto& sprite1 = registry.emplace<stella::component::SpriteT> (handler_move, "handler-move");
       sprite1.layer = "editor";
 
       auto handler_x = registry.create();
-      registry.emplace<component::Position> (handler_x, pos.x + dim.w / 2.f, pos.y + dim.h / 2.f - 4.f, 90.f);
-      registry.emplace<component::Dimension> (handler_x, 52.f, 11.f);
-      registry.emplace<component::Color> (handler_x, "#ffffff88");
-      auto& sprite2 = registry.emplace<component::SpriteT> (handler_x, "handler-x");
+      registry.emplace<stella::component::Position> (handler_x, pos.x + dim.w / 2.f, pos.y + dim.h / 2.f - 4.f, 90.f);
+      registry.emplace<stella::component::Dimension> (handler_x, 52.f, 11.f);
+      registry.emplace<stella::component::Color> (handler_x, "#ffffff88");
+      auto& sprite2 = registry.emplace<stella::component::SpriteT> (handler_x, "handler-x");
       sprite2.layer = "editor";
 
       auto handler_y = registry.create();
-      registry.emplace<component::Position> (handler_y, pos.x + dim.w / 2.f - 4.f, pos.y - 52.f + dim.h / 2.f, 90.f);
-      registry.emplace<component::Dimension> (handler_y, 11.f, 52.f);
-      registry.emplace<component::Color> (handler_y, "#ffffff88");
-      auto& sprite3 = registry.emplace<component::SpriteT> (handler_y, "handler-y");
+      registry.emplace<stella::component::Position> (handler_y, pos.x + dim.w / 2.f - 4.f, pos.y - 52.f + dim.h / 2.f, 90.f);
+      registry.emplace<stella::component::Dimension> (handler_y, 11.f, 52.f);
+      registry.emplace<stella::component::Color> (handler_y, "#ffffff88");
+      auto& sprite3 = registry.emplace<stella::component::SpriteT> (handler_y, "handler-y");
       sprite3.layer = "editor";
 
       sel.handler_move = handler_move;
@@ -143,4 +143,4 @@ namespace system
     }
   }
 } // namespace system
-} // namespace stella
+} // namespace editor

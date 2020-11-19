@@ -30,7 +30,7 @@
 #include <iostream>
 // TEMP
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -42,7 +42,7 @@ namespace widget
 
     void render (entt::registry& registry, const entt::entity entity)
     {
-      auto& group             = registry.get<component::Group> (entity);
+      auto& group             = registry.get<stella::component::Group> (entity);
       entt::entity new_entity = entt::null;
 
       ImGui::PushID ("group#widget");
@@ -54,26 +54,26 @@ namespace widget
         if (ImGui::CollapsingHeader (entt_name.c_str(), 0))
         {
           EntityComponents components{child};
-          components.render_component_node<component::AnimationPlayer> (registry, AnimationPlayer());
-          components.render_component_node<component::Body2D> (registry, Body2D());
-          components.render_component_node<component::Camera> (registry, Camera());
-          components.render_component_node<component::CharacterAnimation> (registry, CharacterAnimation());
-          components.render_component_node<component::Charcode> (registry, Charcode());
-          components.render_component_node<component::Color> (registry, Color());
-          components.render_component_node<component::Dimension> (registry, Dimension());
-          // components.render_component_node<component::Group> (registry, Group(m_texture_list));
-          components.render_component_node<component::LayerT> (registry, Layer());
-          components.render_component_node<component::NPC> (registry, NPC());
-          components.render_component_node<component::Position> (registry, Position());
-          components.render_component_node<component::Script> (registry, Script());
-          components.render_component_node<component::Shape> (registry, Shape());
-          components.render_component_node<component::SpeechContainer> (registry, SpeechContainer());
-          components.render_component_node<component::SpriteT> (registry, Sprite (m_texture_list));
-          components.render_component_node<component::Text> (registry, Text());
-          components.render_component_node<component::Tile> (registry, Tile());
-          components.render_component_node<component::Timer> (registry, Timer());
-          components.render_component_node<component::Typewriter> (registry, Typewriter());
-          components.render_component_node<component::Vertical> (registry, Vertical());
+          components.render_component_node<stella::component::AnimationPlayer> (registry, AnimationPlayer());
+          components.render_component_node<stella::component::Body2D> (registry, Body2D());
+          components.render_component_node<stella::component::Camera> (registry, Camera());
+          components.render_component_node<stella::component::CharacterAnimation> (registry, CharacterAnimation());
+          components.render_component_node<stella::component::Charcode> (registry, Charcode());
+          components.render_component_node<stella::component::Color> (registry, Color());
+          components.render_component_node<stella::component::Dimension> (registry, Dimension());
+          // components.render_component_node<stella::component::Group> (registry, Group(m_texture_list));
+          components.render_component_node<stella::component::LayerT> (registry, Layer());
+          components.render_component_node<stella::component::NPC> (registry, NPC());
+          components.render_component_node<stella::component::Position> (registry, Position());
+          components.render_component_node<stella::component::Script> (registry, Script());
+          components.render_component_node<stella::component::Shape> (registry, Shape());
+          components.render_component_node<stella::component::SpeechContainer> (registry, SpeechContainer());
+          components.render_component_node<stella::component::SpriteT> (registry, Sprite (m_texture_list));
+          components.render_component_node<stella::component::Text> (registry, Text());
+          components.render_component_node<stella::component::Tile> (registry, Tile());
+          components.render_component_node<stella::component::Timer> (registry, Timer());
+          components.render_component_node<stella::component::Typewriter> (registry, Typewriter());
+          components.render_component_node<stella::component::Vertical> (registry, Vertical());
 
           if (ImGui::Button ("Add Components#2", ImVec2 (100, 27)))
           {
@@ -94,7 +94,7 @@ namespace widget
 
       if (new_entity != entt::null)
       {
-        registry.patch<component::Group> (entity,
+        registry.patch<stella::component::Group> (entity,
                                           [&new_entity] (auto& group) { group.children.push_back (new_entity); });
       }
     }
@@ -105,4 +105,4 @@ namespace widget
     entt::entity m_selected_entity = entt::null;
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor

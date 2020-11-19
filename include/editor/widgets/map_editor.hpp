@@ -9,7 +9,7 @@ namespace nikte
 class Game;
 }
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -51,4 +51,4 @@ namespace widget
     inline const std::string get_map_path() const { return std::string (m_path); }
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor

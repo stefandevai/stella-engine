@@ -2,7 +2,7 @@
 #include "editor/components/selected.hpp"
 #include <cmath>
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -30,7 +30,7 @@ namespace widget
         {
           if (component.second)
           {
-            ComponentList::emplace_default_component (component.first, entity, registry);
+            stella::ComponentList::emplace_default_component (component.first, entity, registry);
           }
         }
         registry.emplace<component::Selected> (entity);
@@ -48,4 +48,4 @@ namespace widget
     }
   }
 } // namespace widget
-} // namespace stella
+} // namespace editor

@@ -8,7 +8,7 @@
 #include <iostream>
 // TEMP
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -19,7 +19,7 @@ namespace widget
     m_should_reload = true;
   }
 
-  void SceneEditor::render (std::shared_ptr<core::Scene>& scene)
+  void SceneEditor::render (std::shared_ptr<stella::core::Scene>& scene)
   {
     if (!m_open)
     {
@@ -58,7 +58,7 @@ namespace widget
       {
         if (ImGui::CollapsingHeader("Objects###scene-editor-input3"))
         {
-          scene->m_registry.view<component::GameObject, component::Name>().each ([] (auto entity, auto& obj, auto& name) {
+          scene->m_registry.view<stella::component::GameObject, stella::component::Name>().each ([] (auto entity, auto& obj, auto& name) {
             ImGui::PushID ((name.name + "#object-list").c_str());
             if (ImGui::MenuItem (name.name.c_str(), "", false)) {}
             ImGui::PopID();
@@ -68,8 +68,8 @@ namespace widget
           {
             std::string object_label = "Object ";
             auto entity = scene->m_registry.create();
-            scene->m_registry.emplace<component::GameObject> (entity);
-            scene->m_registry.emplace<component::Name> (entity, object_label.append(std::to_string(m_number_of_objects)));
+            scene->m_registry.emplace<stella::component::GameObject> (entity);
+            scene->m_registry.emplace<stella::component::Name> (entity, object_label.append(std::to_string(m_number_of_objects)));
             m_number_of_objects++;
           }
         }
@@ -89,6 +89,6 @@ namespace widget
     m_open = true;
   }
 } // namespace widget
-} // namespace stella
+} // namespace editor
 
 

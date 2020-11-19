@@ -6,7 +6,7 @@
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -31,7 +31,7 @@ namespace widget
     bool has_changed_id = false;
 
   public:
-    graphics::Texture texture;
+    stella::graphics::Texture texture;
 
     TilesetEditor (const std::string& path);
     ~TilesetEditor();
@@ -53,4 +53,4 @@ namespace widget
     inline bool get_selected_tile_scriptable() { return m_tile_scriptable; }
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor

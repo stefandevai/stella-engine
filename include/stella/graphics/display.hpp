@@ -28,12 +28,9 @@ typedef unsigned int GLuint;
 typedef float GLfloat;
 
 #ifdef STELLA_BUILD_EDITOR
-namespace stella
-{
 namespace editor
 {
   class Editor;
-}
 } // namespace stella
 #endif
 
@@ -78,7 +75,7 @@ namespace graphics
     SDL_Event m_event;
 
 #ifdef STELLA_BUILD_EDITOR
-    friend class stella::editor::Editor;
+    friend class ::editor::Editor;
 
   #if __APPLE__
       // GL 3.2 Core + GLSL 150

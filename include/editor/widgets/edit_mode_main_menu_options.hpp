@@ -3,7 +3,7 @@
 #include "widget.hpp"
 #include "editor/actions.hpp"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -14,6 +14,6 @@ namespace widget
     editor::Action render();
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor
 
 

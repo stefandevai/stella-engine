@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -63,12 +63,11 @@ namespace widget
         }
         ImGuiFileDialog::Instance()->CloseDialog("new-scene-file-dialog1");
       }
-
     }
     ImGui::End();
 
     return created_scene;
   }
 } // namespace widget
-} // namespace stella
+} // namespace editor
 

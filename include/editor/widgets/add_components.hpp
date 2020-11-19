@@ -4,7 +4,7 @@
 #include <entt/entity/registry.hpp>
 #include "component_menu.hpp"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -19,4 +19,4 @@ namespace widget
   };
 
 } // namespace widget
-} // namespace stella
+} // namespace editor

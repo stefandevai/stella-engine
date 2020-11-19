@@ -9,7 +9,7 @@
 #include "widget.hpp"
 //#include "../../lib/imgui/imgui.hpp"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -32,4 +32,4 @@ namespace widget
     void render (entt::registry& registry);
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor

@@ -6,7 +6,7 @@
 #include "add_components.hpp"
 #include "components/group.hpp"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -28,4 +28,4 @@ namespace widget
     inline entt::entity get_selected_entity() const { return m_selected_entity; }
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor

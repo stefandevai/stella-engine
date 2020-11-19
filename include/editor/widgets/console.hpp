@@ -3,7 +3,7 @@
 #include "widget.hpp"
 //#include "../../lib/imgui/imgui.hpp"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -24,4 +24,4 @@ namespace widget
     void render();
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor

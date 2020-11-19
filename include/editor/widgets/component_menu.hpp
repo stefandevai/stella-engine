@@ -4,13 +4,13 @@
 #include "stella/component_list.hpp"
 #include <entt/entity/entity.hpp>
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
   class ComponentMenu : public Widget
   {
-    using ComponentMap = std::unordered_map<Components, bool>;
+    using ComponentMap = std::unordered_map<stella::Components, bool>;
 
   public:
     ComponentMenu();
@@ -23,4 +23,4 @@ namespace widget
   };
 
 } // namespace widget
-} // namespace stella
+} // namespace editor

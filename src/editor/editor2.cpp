@@ -13,8 +13,6 @@
 #include <iostream>
 // TEMP
 
-namespace stella
-{
 namespace editor
 {
   Editor::Editor (stella::Game& game)
@@ -166,7 +164,7 @@ namespace editor
     }
 
     m_window = m_game.m_display.m_window;
-    m_FBO = std::make_unique<graphics::Framebuffer> (m_game.m_display);
+    m_FBO = std::make_unique<stella::graphics::Framebuffer> (m_game.m_display);
     m_init_imgui();
   }
 
@@ -476,5 +474,4 @@ namespace editor
       widget.toggle();
     }
   }
-}
 }

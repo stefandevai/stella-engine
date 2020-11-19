@@ -5,7 +5,7 @@
 #include <entt/entity/entity.hpp>
 // #include "editor/widgets/components/components_widgets.hpp" // IWYU pragma: export
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -37,4 +37,4 @@ namespace widget
   };
 
 } // namespace widget
-} // namespace stella
+} // namespace editor

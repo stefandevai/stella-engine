@@ -9,7 +9,7 @@
 #include <entt/entity/registry.hpp>
 #include "new_entity.hpp"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -39,4 +39,4 @@ namespace widget
     const ImVec2& size() { return m_size; }
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor

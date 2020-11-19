@@ -45,7 +45,7 @@ namespace stella
     std::shared_ptr<core::Scene> m_current_scene = nullptr;
     
 #ifdef STELLA_BUILD_EDITOR
-    friend class editor::Editor;
+    friend class ::editor::Editor;
 #endif
 
   private:

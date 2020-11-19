@@ -10,7 +10,7 @@
 
 #include "editor/widgets/tileset_editor.hpp"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -153,14 +153,14 @@ namespace widget
   entt::entity TilesetEditor::get_entity (entt::registry& registry)
   {
     auto entity = registry.create();
-    registry.emplace<component::Position> (entity, 0, 0, m_z_coord);
-    registry.emplace<component::Dimension> (entity, m_tile_dimensions[0], m_tile_dimensions[1]);
-    auto& tile      = registry.emplace<component::Tile> (entity);
-    auto& sprite    = registry.emplace<component::SpriteT> (entity, "tileset");
+    registry.emplace<stella::component::Position> (entity, 0, 0, m_z_coord);
+    registry.emplace<stella::component::Dimension> (entity, m_tile_dimensions[0], m_tile_dimensions[1]);
+    auto& tile      = registry.emplace<stella::component::Tile> (entity);
+    auto& sprite    = registry.emplace<stella::component::SpriteT> (entity, "tileset");
     tile.collidable = m_tile_collidable;
     sprite.frame    = m_selected_tile_id;
     sprite.layer    = "tiles";
     return entity;
   }
 } // namespace widget
-} // namespace stella
+} // namespace editor

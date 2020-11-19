@@ -2,7 +2,7 @@
 
 #include <entt/entity/entity.hpp>
 
-namespace stella
+namespace editor
 {
 namespace component
 {
@@ -14,4 +14,4 @@ namespace component
     entt::entity handler_y    = entt::null;
   };
 } // namespace component
-} // namespace stella
+} // namespace editor

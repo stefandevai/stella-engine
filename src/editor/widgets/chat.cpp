@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -102,15 +102,15 @@ namespace widget
         registry.emplace<stella::component::Position> (text_entity, 0.0f, -100.0f);
         registry.emplace<stella::component::Text> (
             text_entity, m_converter.from_bytes (std::string (editable_buffer)), "1980");
-        registry.emplace<component::Timer> (
+        registry.emplace<stella::component::Timer> (
             text_entity,
             3000.0,
             0.0,
-            component::Timer::Type::DECREASE,
+            stella::component::Timer::Type::DECREASE,
             [] (entt::registry& r, const entt::entity e) { r.destroy (e); },
             true);
 
-        auto& container = registry.get_or_emplace<component::SpeechContainer> (player_entity);
+        auto& container = registry.get_or_emplace<stella::component::SpeechContainer> (player_entity);
         container.messages.push_back (text_entity);
 
         // Clears the text buffer
@@ -125,4 +125,4 @@ namespace widget
     ImGui::End();
   }
 } // namespace widget
-} // namespace stella
+} // namespace editor

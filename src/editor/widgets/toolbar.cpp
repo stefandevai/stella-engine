@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -171,4 +171,4 @@ namespace widget
   }
 
 } // namespace widget
-} // namespace stella
+} // namespace editor

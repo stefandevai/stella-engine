@@ -3,7 +3,7 @@
 #include "stella/components/body2d.hpp"
 #include "imgui.h"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -11,7 +11,7 @@ namespace widget
   {
     void operator() (entt::registry& registry, const entt::entity entity)
     {
-      auto& body           = registry.get<component::Body2D> (entity);
+      auto& body           = registry.get<stella::component::Body2D> (entity);
       float movement_speed = body.movement_speed;
       bool is_static       = body.Body->IsStatic;
       ImGui::PushID ("body#inspector");
@@ -23,4 +23,4 @@ namespace widget
     }
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor

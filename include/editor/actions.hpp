@@ -1,7 +1,5 @@
 #pragma once
 
-namespace stella
-{
 namespace editor
 {
   enum class Action
@@ -23,5 +21,4 @@ namespace editor
     // Play mode actions
     QUIT_PLAY_MODE,
   };
-}
 }

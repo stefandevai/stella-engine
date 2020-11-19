@@ -3,7 +3,7 @@
 #include "stella/components/text.hpp"
 #include "imgui.h"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -12,4 +12,4 @@ namespace widget
     void operator() (entt::registry& registry, const entt::entity entity) {}
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor

@@ -1,7 +1,5 @@
 #pragma once
 
-namespace stella
-{
 namespace editor
 {
 
@@ -11,6 +9,5 @@ namespace editor
     PLAY,
   };
 
-}
 }
 

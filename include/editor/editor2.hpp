@@ -21,7 +21,7 @@
 
 struct SDL_Window;
 struct ImFont;
-namespace stella
+namespace editor
 {
   class Game;
 }
@@ -35,8 +35,6 @@ namespace graphics
 
 typedef std::vector<std::shared_ptr<stella::system::System>> SystemContainer;
 
-namespace stella
-{
 namespace editor
 {
   class Editor
@@ -75,7 +73,7 @@ namespace editor
     float m_window_height = 0.f;
     float m_game_width = 0.f;
     float m_game_height = 0.f;
-    std::unique_ptr<graphics::Framebuffer> m_FBO;
+    std::unique_ptr<stella::graphics::Framebuffer> m_FBO;
     EditorMode m_current_mode = EditorMode::EDIT;
     EditorTool m_current_tool = EditorTool::INSPECTOR;
     Action m_current_action = Action::NONE;
@@ -103,5 +101,4 @@ namespace editor
     const std::string m_font_sans_bold_path = "assets/fonts/Lato/Lato-Bold.ttf";
     const std::string m_font_awesome_path = "assets/fonts/fa-solid-900.ttf";
   };
-}
 }

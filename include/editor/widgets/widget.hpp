@@ -3,7 +3,7 @@
 #include "../../lib/imgui/imgui.h" // IWYU pragma: export
 #include <string>
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -31,4 +31,4 @@ namespace widget
     }
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor

@@ -7,7 +7,7 @@ namespace stella
   class Game;
 }
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -22,5 +22,5 @@ namespace widget
     stella::Game& m_game;
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor
 

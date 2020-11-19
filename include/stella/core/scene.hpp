@@ -8,17 +8,18 @@
 #include "stella/core/json.hpp"
 
 #ifdef STELLA_BUILD_EDITOR
-namespace stella
-{
 namespace editor
 {
   class Editor;
 }
+
+namespace editor
+{
 namespace widget
 {
   struct SceneEditor;
 }
-} // namespace stella
+}
 #endif
 
 namespace stella
@@ -44,8 +45,8 @@ namespace core
     inline void set_filepath(const std::string& filepath) { m_filepath = filepath; m_modified = true; };
 
 #ifdef STELLA_BUILD_EDITOR
-  friend class stella::editor::Editor;
-  friend struct stella::widget::SceneEditor;
+  friend class ::editor::Editor;
+  friend struct ::editor::widget::SceneEditor;
 #endif
 
   private:

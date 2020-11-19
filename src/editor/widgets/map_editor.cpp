@@ -2,7 +2,7 @@
 #include "editor/widgets/file_dialog.hpp"
 #include "../../nikte/game.hpp"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -185,4 +185,4 @@ namespace widget
     ImGui::PopStyleVar();
   }
 } // namespace widget
-} // namespace stella
+} // namespace editor

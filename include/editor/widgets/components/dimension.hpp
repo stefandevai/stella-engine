@@ -3,7 +3,7 @@
 #include "stella/components/dimension.hpp"
 #include "imgui.h"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -11,7 +11,7 @@ namespace widget
   {
     void operator() (entt::registry& registry, const entt::entity entity)
     {
-      auto& dim          = registry.get<component::Dimension> (entity);
+      auto& dim          = registry.get<stella::component::Dimension> (entity);
       float dim_input[2] = {0.0f, 0.0f};
       dim_input[0]       = dim.w;
       dim_input[1]       = dim.h;
@@ -24,4 +24,4 @@ namespace widget
     }
   };
 } // namespace widget
-} // namespace stella
+} // namespace editor

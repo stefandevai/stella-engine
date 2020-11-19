@@ -1,6 +1,6 @@
 #include "editor/widgets/console.hpp"
 
-namespace stella
+namespace editor
 {
 namespace widget
 {
@@ -142,4 +142,4 @@ namespace widget
     ImGui::End();
   }
 } // namespace widget
-} // namespace stella
+} // namespace editor
