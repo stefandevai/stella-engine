@@ -1,5 +1,4 @@
 #include "stella/application.hpp"
-#include <iostream>
 #include <ctime>
 
 namespace stella

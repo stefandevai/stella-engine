@@ -358,7 +358,7 @@ namespace editor
         //}
         //else
         //{
-          //std::cout << "Please select a layer first.\n";
+          //std:: << "Please select a layer first.\n";
         //}
       //}
     //});

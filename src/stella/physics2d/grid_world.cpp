@@ -3,7 +3,6 @@
 #include "stella/physics2d/water_surface.hpp"
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 
 namespace stella
 {
@@ -226,7 +225,6 @@ namespace physics2d
       {
         collision.body->Collisions.set (1);
         collision.body->Position.x -= collision.intersection.x;
-        // std::cout << "colliding right\n";
       }
     }
     // Left collision
@@ -237,7 +235,6 @@ namespace physics2d
       {
         collision.body->Collisions.set (3);
         collision.body->Position.x += collision.intersection.x;
-        // std::cout << "colliding left\n";
       }
     }
     // Bottom collision
@@ -248,7 +245,6 @@ namespace physics2d
       {
         collision.body->Collisions.set (2);
         collision.body->Position.y -= collision.intersection.y - 1;
-        // std::cout << "colliding bottom\n";
       }
 
       // If the next or previous tile is the air, set y velocity to zero
@@ -268,7 +264,6 @@ namespace physics2d
         collision.body->Position.y += collision.intersection.y;
         collision.body->Velocity.y     = 0;
         collision.body->Acceleration.y = 0;
-        // std::cout << "colliding top\n";
       }
     }
     else

@@ -5,8 +5,6 @@
 #include "stella/components/dimension.hpp"
 #include "stella/components/sprite.hpp"
 
-#include <iostream>
-
 namespace editor
 {
 namespace widget

@@ -3,6 +3,7 @@
 
 #include "stella/graphics/opengl.hpp" // IWYU pragma: export
 #include <glm/gtc/type_ptr.hpp>       // IWYU pragma: export
+#include <spdlog/spdlog.h>
 
 namespace stella
 {
@@ -34,7 +35,7 @@ namespace graphics
     if (!success)
     {
       glGetShaderInfoLog (vertexShader, 512, nullptr, infoLog);
-      std::cout << "Vertex Shader compilation failed!\n" << infoLog << std::endl;
+      spdlog::critical("Vertex Shader compilation failed: \n" + std::string(infoLog));
     }
 
     std::string fragmentSourceStr = FileUtils::read_file (this->FsPath);
@@ -48,7 +49,7 @@ namespace graphics
     if (!success)
     {
       glGetShaderInfoLog (fragmentShader, 512, nullptr, infoLog);
-      std::cout << "Fragment Shader compilation failed!\n" << infoLog << std::endl;
+      spdlog::critical("Fragment Shader compilation failed: \n" + std::string(infoLog));
     }
 
     GLuint program = glCreateProgram();
@@ -61,7 +62,7 @@ namespace graphics
     if (!success)
     {
       glGetProgramInfoLog (program, 512, nullptr, infoLog);
-      std::cout << "Program linking failed!\n" << infoLog << std::endl;
+      spdlog::critical("Program linking failed: \n" + std::string(infoLog));
     }
 
     glDeleteShader (fragmentShader);

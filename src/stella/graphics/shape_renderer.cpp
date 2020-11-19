@@ -13,7 +13,6 @@
 
 #include <entt/entity/registry.hpp>
 #include <glm/gtc/matrix_transform.hpp> // IWYU pragma: export
-#include <iostream>
 
 namespace stella
 {
@@ -122,7 +121,6 @@ namespace graphics
           glm::rotate (particular_transform, glm::radians (trans.rotation.z), glm::vec3 (0.f, 0.f, 1.f));
       // Removing the added half dimension
       particular_transform = glm::translate (particular_transform, glm::vec3 (-dim.x, -dim.y, 0.f) / 2.f);
-      // std::cout << position.z << ' ' << (position + dim/2.f).z << '\n';
     }
 
     for (auto& vertex : vertices)

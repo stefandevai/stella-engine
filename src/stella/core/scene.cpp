@@ -1,5 +1,4 @@
 #include "stella/core/scene.hpp"
-#include <iostream>
 #include <stdexcept>
 
 namespace stella

@@ -9,6 +9,7 @@
 #include <cmath>
 #include <glm/glm.hpp> // IWYU pragma: export
 
+#include <spdlog/spdlog.h>
 #include <cereal/archives/xml.hpp> // IWYU pragma: export
 #include <cereal/cereal.hpp>       // IWYU pragma: export
 #include <cereal/types/memory.hpp> // IWYU pragma: export
@@ -55,7 +56,7 @@ namespace core
     }
     else
     {
-      std::cout << "ERROR: Unknown file extension \"" + extension + "\"\n";
+      spdlog::critical("Unknown file extension: " + extension);
     }
   }
 
@@ -127,7 +128,7 @@ namespace core
       layers.emplace_back (layer);
     }
 
-    std::cout << "Loaded TileMap: " << m_name << " from " << path << '\n';
+    spdlog::info("Loaded TileMap: " + m_name + " from " + path);
   }
 
   void TileMap::load_xml (const std::string& path)
@@ -150,7 +151,7 @@ namespace core
       }
     }
     this->refresh();
-    std::cout << "Loaded TileMap: " << m_name << " from " << path << '\n';
+    spdlog::info("Loaded TileMap: " + m_name + " from " + path);
   }
 
   void TileMap::save (const std::string& path)
@@ -166,7 +167,7 @@ namespace core
              CEREAL_NVP (m_height),
              CEREAL_NVP (layers));
 
-    std::cout << "Saved TileMap: " << m_name << " in " << path << '\n';
+    spdlog::info("Tile Map saved: " + m_name + " in " + path);
   }
 
   void TileMap::update_tile (const int value, const int x, const int y, const unsigned layer_id, const bool collidable)
@@ -277,7 +278,6 @@ namespace core
 
   void TileMap::create_tile_entities (const int beginx, const int endx, const int beginy, const int endy)
   {
-    // std::cout << beginx << ' ' << endx << ' ' << beginy << ' ' << endy << '\n';
     assert (beginx < endx);
     assert (beginy < endy);
     int left  = std::max (beginx / m_tile_dimension, 0);
@@ -286,7 +286,6 @@ namespace core
     int bottom =
         std::min (static_cast<int> (ceil (endy / static_cast<double> (m_tile_dimension))), static_cast<int> (m_height));
     int layer_counter = 0;
-    // std::cout << beginx / m_tile_dimension << ' ' << right << ' ' << top << ' ' << bottom << "\n\n";
 
     for (const auto& layer : this->layers)
     {

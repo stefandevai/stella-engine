@@ -1,5 +1,4 @@
 #include "stella/npc/speech.hpp"
-#include <iostream>
 
 namespace stella
 {

@@ -1,6 +1,7 @@
 #include "stella/graphics/font.hpp"
 
 #include <algorithm>
+#include <spdlog/spdlog.h>
 
 #include <glm/glm.hpp> // IWYU pragma: export
 
@@ -12,15 +13,15 @@ namespace graphics
   {
     if (FT_Init_FreeType (&m_ft))
     {
-      std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
+      spdlog::critical("Could not init FreeType Library");
     }
     if (FT_New_Face (m_ft, m_path, 0, &m_face))
     {
-      std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
+      spdlog::critical("Failed to load font");
     }
     if (FT_Select_Charmap (m_face, FT_ENCODING_UNICODE))
     {
-      std::cout << "ERROR::FREETYPE: Failed to load unicode charmap" << std::endl;
+      spdlog::critical("Failed to load unicode charmap");
     }
     FT_Set_Pixel_Sizes (m_face, 0, m_size);
 
@@ -29,7 +30,7 @@ namespace graphics
     {
       if (FT_Load_Char (m_face, c, FT_LOAD_RENDER))
       {
-        std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
+        spdlog::critical("Failed to load Glyph");
         continue;
       }
       aw += m_face->glyph->bitmap.width;
@@ -49,7 +50,7 @@ namespace graphics
     {
       if (FT_Load_Char (m_face, c, FT_LOAD_RENDER))
       {
-        std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
+        spdlog::critical("Failed to load Glyph");
         continue;
       }
       glTexSubImage2D (GL_TEXTURE_2D,

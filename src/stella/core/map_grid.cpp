@@ -1,6 +1,7 @@
 #include "stella/core/map_grid.hpp"
 #include <cmath>
 #include <vector>
+#include <spdlog/spdlog.h>
 
 namespace stella
 {
@@ -10,7 +11,7 @@ namespace core
   {
     if ((top != 0 && bottom != 0) || (right != 0 && left != 0))
     {
-      std::cout << "ERROR: Can't resize a grid to opposite sides at the same time.\n";
+      spdlog::warn("Can't resize a grid to opposite sides at the same time.");
       return;
     }
 

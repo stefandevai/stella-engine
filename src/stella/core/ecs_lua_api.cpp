@@ -16,6 +16,7 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
+#include <spdlog/spdlog.h>
 
 namespace stella
 {
@@ -41,7 +42,7 @@ namespace script
     }
     else
     {
-      std::cout << "Entity has no Position\n";
+      spdlog::warn("Entity has no Position");
       return std::make_tuple (0, 0, 0);
     }
   }
@@ -331,11 +332,11 @@ namespace script
       else if (ct == "vertical")
         add_vertical_component (id);
       else
-        std::cout << "ERROR: No component named " << ct << '\n';
+        spdlog::warn("No component named " + ct);
     }
     else
     {
-      std::cout << "ERROR: Please add a non nil component type\n";
+      spdlog::warn("Component type is nil");
     }
   }
 } // namespace script

@@ -6,8 +6,6 @@
 #include "stella/components/text.hpp"
 #include "stella/components/timer.hpp"
 
-#include <iostream>
-
 namespace editor
 {
 namespace widget

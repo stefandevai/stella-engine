@@ -1,7 +1,7 @@
 #include "stella/graphics/texture.hpp"
 
 #include "stella/graphics/opengl.hpp" // IWYU pragma: export
-#include <iostream>
+#include <stdexcept>
 
 extern "C"
 {
@@ -71,7 +71,7 @@ namespace graphics
     unsigned char* img = stbi_load (texPath, &width, &height, &channels, STBI_rgb_alpha);
     if (img == nullptr)
     {
-      std::cout << "It wasn't possible to load " << texPath << std::endl;
+      throw std::runtime_error("It wasn't possible to load " + std::string(texPath));
     }
 
     this->Width  = (unsigned int) width;

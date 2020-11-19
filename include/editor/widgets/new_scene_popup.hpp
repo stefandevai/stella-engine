@@ -16,7 +16,7 @@ namespace widget
   public:
     NewScenePopup (stella::Game& game);
 
-    bool render();
+    void render();
 
   private:
     stella::Game& m_game;

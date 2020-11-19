@@ -1,5 +1,7 @@
 #include "stella/game2.hpp"
 #include "stella/components/position.hpp"
+#include <spdlog/spdlog.h>
+#include <stdexcept>
 
 namespace stella
 {
@@ -56,7 +58,7 @@ namespace stella
     // Scene not found
     if (scene_it == m_scenes.end())
     {
-      return;
+      throw std::invalid_argument("Scene not found.");
     }
 
     m_current_scene = *scene_it;
@@ -76,7 +78,7 @@ namespace stella
   {
     if (m_config_filepath.empty())
     {
-      std::cout << "[x] Trying to save with an empty config filepath.\n";
+      spdlog::warn("Trying to save with an empty config filepath.");
       return;
     }
 
@@ -134,7 +136,7 @@ namespace stella
     auto game_object = m_json.object["game"];
     if (game_object == nullptr)
     {
-      std::cout << "[x] No game object was found on config file.\n";
+      spdlog::warn("[x] No game object was found on config file.\n");
       return;
     }
 
@@ -169,7 +171,8 @@ namespace stella
     {
       if (m_scenes.empty())
       {
-        std::cout << "No scenes were loaded.\n";
+        spdlog::warn("No scenes were loaded.");
+        return;
       }
 
       start_current_scene();
@@ -177,7 +180,14 @@ namespace stella
     }
 
     auto first_scene = m_json.object["game"]["firstScene"].get<std::string>();
-    start_scene (first_scene);
+    try
+    {
+      start_scene (first_scene);
+    }
+    catch (std::invalid_argument& e)
+    {
+      spdlog::warn("Unable to load first scene: {} {}", first_scene, e.what());
+    }
   }
 }
 

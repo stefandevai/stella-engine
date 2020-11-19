@@ -1,6 +1,6 @@
 #include "stella/graphics/animator.hpp"
 
-#include <iostream>
+#include <spdlog/spdlog.h>
 
 namespace stella
 {
@@ -32,7 +32,9 @@ namespace graphics
       this->Reseted           = true;
     }
     else
-      std::cout << "There's no animation named '" << name << "\'\n";
+    {
+      spdlog::warn("There's no animation named " + name);
+    }
   }
 
   unsigned int Animator::Update()

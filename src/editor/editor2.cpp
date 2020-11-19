@@ -11,10 +11,6 @@
 
 #include <stdexcept>
 
-// TEMP
-#include <iostream>
-// TEMP
-
 namespace editor
 {
   Editor::Editor (stella::Game& game)
@@ -128,7 +124,7 @@ namespace editor
     }
 
     m_inspector.render (m_game.m_registry, m_game.m_textures.get_list());
-    m_scene_editor.render (m_game.m_current_scene);
+    m_scene_editor.render (m_game);
     m_console.render();
 
     ImGui::PopFont();
@@ -397,19 +393,13 @@ namespace editor
   {
     m_current_action = m_edit_mode_main_menu_options.render();
 
-    const bool created_scene = m_new_scene_popup.render();
-    const bool loaded_scene = m_load_scene_popup.render();
+    m_new_scene_popup.render();
+    m_load_scene_popup.render();
 
-    // If a new scene was created or loaded
-    if (created_scene || loaded_scene)
+    // If a new scene was created, loaded or started
+    if (m_game.m_current_scene != nullptr && m_scene.get_title() != ("Scene: " + m_game.m_current_scene->get_name()))
     {
-      // Set Scene widget title
-      if (m_game.m_current_scene != nullptr)
-      {
-        m_scene.set_title("Scene: " + m_game.m_current_scene->get_name());
-      }
-
-      // Reload scene editor
+      m_scene.set_title("Scene: " + m_game.m_current_scene->get_name());
       m_scene_editor.reload();
     }
   }

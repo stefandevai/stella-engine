@@ -1,6 +1,5 @@
 #include "stella/graphics/layers/layer.hpp"
 
-#include <iostream>
 #include <algorithm>
 
 namespace stella

@@ -1,6 +1,6 @@
 #include "stella/core/json.hpp"
 #include "stella/fileutils.hpp"
-#include <iostream>
+#include <stdexcept>
 
 namespace stella
 {
@@ -12,8 +12,7 @@ namespace core
   {
     if (filepath.empty())
     {
-      std::cout << "[x] No filepath was provided to load the json.\n";
-      return;
+      throw std::invalid_argument("Filepath is empty.");
     }
 
     auto json_string = FileUtils::read_file(filepath.c_str());
@@ -25,8 +24,7 @@ namespace core
   {
     if (filepath.empty())
     {
-      std::cout << "[x] No filepath was provided to save the json.\n";
-      return;
+      throw std::invalid_argument("Filepath is empty.");
     }
 
     std::string json_string;

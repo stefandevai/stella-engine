@@ -4,7 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
-#include <iostream>
+#include <spdlog/spdlog.h>
 
 namespace stella
 {
@@ -180,7 +180,7 @@ namespace physics2d
     // Shouldn't get to this point. Left for debug purposes.
     else
     {
-      std::cout << "Shouldn't be here! - Resolve Manifold\n";
+      spdlog::debug("Shouldn't be here! Resolve Manifold");
     }
   }
 
@@ -207,10 +207,7 @@ namespace physics2d
         {
           if (fabs (body->Velocity.x) - body->Drag.x * dt > 0.f)
           {
-            // std::cout << "here\n";
             body->Velocity.x -= body->Drag.x * dt * body->Velocity.x / fabs (body->Velocity.x);
-            // std::cout << body->Drag.x << std::endl;
-            // std::cout << body->Velocity.x << " " <<
             // body->Drag.x*body->Velocity.x/fabs(body->Velocity.x) << std::endl;
           }
           else

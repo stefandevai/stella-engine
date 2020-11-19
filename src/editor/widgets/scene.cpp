@@ -22,7 +22,6 @@ namespace widget
     // ImGui::PushStyleVar (ImGuiStyleVar_IndentSpacing, ImVec2 (0.0f, 0.0f));
     // ImGui::PushStyleVar (ImGuiStyleVar_FramePadding, ImVec2 (0.0f, 0.0f));
     // ImGui::SetNextWindowSizeConstraints (ImVec2 (896, 504), ImVec2 (897, 505));
-    //std::cout << m_name.append("###").append(m_title) << '\n';
     if (ImGui::Begin (get_title_string().c_str(), &m_open))
     {
       m_active                 = ImGui::IsWindowHovered();

@@ -2,8 +2,6 @@
 #include "stella/components/sprite.hpp"
 #include "stella/components/animation_player.hpp"
 
-#include <iostream>
-
 namespace stella
 {
 namespace system

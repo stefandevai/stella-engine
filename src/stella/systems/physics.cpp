@@ -2,7 +2,6 @@
 #include "stella/components/dimension.hpp"
 #include "stella/components/position.hpp"
 #include "stella/components/movement.hpp"
-#include <iostream>
 
 namespace stella
 {
@@ -34,16 +33,12 @@ namespace system
 
   void Physics::initialize_body (entt::registry& registry, entt::entity entity)
   {
-    // auto &log_component = get_log_component(registry, entity);
     auto& body      = registry.get<component::Body2D> (entity);
     const auto& pos = registry.get<component::Position> (entity);
     const auto& dim = registry.get<component::Dimension> (entity);
 
     double bbw = body.BoundingBox[0] != dim.w ? body.BoundingBox[0] : dim.w;
     double bbh = body.BoundingBox[1] != dim.h ? body.BoundingBox[1] : dim.h;
-
-    // std::cout << pos.y + body.BoundingBoxPosition[1] << '\n';
-    // std::cout << pos.y << '\n';
 
     body.Body = std::make_shared<stella::topdown::Body> (
         glm::vec2 (pos.x + body.BoundingBoxPosition[0], pos.y + body.BoundingBoxPosition[1]),

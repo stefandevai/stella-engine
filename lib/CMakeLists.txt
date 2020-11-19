@@ -12,5 +12,6 @@ if (STELLA_DEBUG_MODE)
   include_directories(imgui)
 endif()
 
+option(SPDLOG_BUILD_SHARED "" ON)
 add_subdirectory(spdlog)
 

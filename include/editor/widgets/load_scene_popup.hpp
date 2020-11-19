@@ -15,8 +15,9 @@ namespace widget
   {
   public:
     LoadScenePopup (stella::Game& game);
+
     void open();
-    bool render();
+    void render();
 
   private:
     stella::Game& m_game;

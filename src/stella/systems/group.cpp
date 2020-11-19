@@ -4,10 +4,6 @@
 #include "stella/components/dimension.hpp"
 #include <entt/entity/observer.hpp>
 
-// TEMP
-#include <iostream>
-// TEMP
-
 namespace stella
 {
 namespace system
@@ -120,15 +116,6 @@ namespace system
           }
         }
 
-        // group.minx = minx;
-        // group.maxx = maxx;
-        // group.miny = miny;
-        // group.maxy = maxy;
-        // group.minz = minz;
-        // group.maxz = maxz;
-        // std::cout << minx << " " << maxx << '\n';
-        // std::cout << miny << " " << maxy << '\n';
-        // std::cout << "------------------------\n";
         pos.x      = minx;
         pos.y      = miny;
         pos.z      = minz;

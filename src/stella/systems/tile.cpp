@@ -51,7 +51,7 @@ namespace system
                 // if (camera_dim.w < 1 || camera_dim.h < 1 || camera_pos.x < 0 ||
                 // camera_pos.y < 0)
                 // {
-                //   std::cout << "Camera values messed up. Requesting its
+                //   std:: << "Camera values messed up. Requesting its
                 //   components again.\n"; camera_pos =
                 //   registry.get<component::Position>(m_camera);
                 //   camera_dim =

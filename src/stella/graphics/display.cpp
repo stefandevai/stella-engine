@@ -2,8 +2,9 @@
 
 #include "stella/graphics/opengl.hpp" // IWYU pragma: export
 
-#include <iostream>
+#include <spdlog/spdlog.h>
 #include <sstream>
+#include <stdexcept>
 
 #if DISABLE_VSYNC == 1
   #ifdef __APPLE__
@@ -24,7 +25,7 @@ namespace graphics
     // SDL initialization
     if (SDL_Init (SDL_INIT_VIDEO) < 0)
     {
-      std::cout << "It was not possible to initialize SDL2" << std::endl;
+      throw std::runtime_error("It was not possible to initialize SDL2");
     }
 
     const SDL_WindowFlags window_flags = (SDL_WindowFlags) (SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED | SDL_WINDOW_OPENGL);
@@ -63,7 +64,7 @@ namespace graphics
 
     if (!gladLoadGLLoader (SDL_GL_GetProcAddress))
     {
-      std::cout << "Failed to initialize GLAD" << std::endl;
+      spdlog::critical("Failed to initialize GLAD");
     }
 
     // OpenGL Viewport settings
@@ -118,7 +119,7 @@ namespace graphics
     // Print FPS
     if (m_frame % 120 == 0)
     {
-      std::cout << this->get_fps() << '\n';
+      spdlog::debug(this->get_fps());
     }
 #endif
 
@@ -281,14 +282,12 @@ namespace graphics
     { // Height is max and width is adjusted
       int new_width = height * 1.77777f;
       int left     = width - new_width;
-      // std::cout << newwidth << std::endl;
       glViewport (left / 2, 0, new_width, height);
     }
     else if (width / (float) height < 1.77f)
     { // Width is max and height is adjusted
       int new_height = (int) width / 1.77f;
       int left      = height - new_height;
-      // std::cout << newheight << std::endl;
       glViewport (0, left / 2, width, new_height);
     }
   }

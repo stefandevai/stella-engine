@@ -20,6 +20,7 @@ namespace widget
     virtual ~Widget() = default;
     inline bool is_open() const { return m_open; }
     virtual inline std::string get_title_string() const { return m_title_string; }
+    virtual inline std::string get_title() const { return m_title; }
     virtual inline void toggle() { m_open = !m_open; }
     virtual inline void open() { m_open = true; }
     virtual inline void close() { m_open = false; }

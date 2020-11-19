@@ -6,10 +6,7 @@
 
 namespace stella
 {
-namespace core
-{
-  class Scene;
-}
+  class Game;
 }
 
 namespace editor
@@ -22,12 +19,24 @@ namespace widget
     SceneEditor();
 
     void reload();
-    void render(std::shared_ptr<stella::core::Scene>& scene);
+    void render(stella::Game& game);
     void open();
 
   private:
-    bool m_should_reload = true;
+    enum class SceneEditorAction
+    {
+      NONE,
+      SELECT_SCENE,
+      UPDATE_SCENE,
+      RELOAD_EDITOR,
+    };
+
+  private:
+    void m_set_action(SceneEditorAction action);
+
+  private:
     int m_number_of_objects = 0;
+    SceneEditorAction m_action = SceneEditorAction::RELOAD_EDITOR;
   };
 } // namespace widget
 } // namespace editor

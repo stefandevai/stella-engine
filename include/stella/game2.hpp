@@ -46,6 +46,7 @@ namespace stella
     
 #ifdef STELLA_BUILD_EDITOR
     friend class ::editor::Editor;
+    friend struct ::editor::widget::SceneEditor;
 #endif
 
   private:

@@ -1,8 +1,6 @@
 #include "stella/systems/timer.hpp"
 #include "stella/components/timer.hpp"
 
-#include <iostream>
-
 namespace stella
 {
 namespace system

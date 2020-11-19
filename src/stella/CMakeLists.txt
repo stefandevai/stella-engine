@@ -23,6 +23,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
                                       ${STELLA_LIBRARY_NAME}::physics2d
                                       ${STELLA_LIBRARY_NAME}::topdown
                                       OpenGL::GL
+                                      spdlog::spdlog
                                       ${GLAD_LIBRARIES}
                                       ${SDL2_LIBRARIES}
                                       ${ENTT_LIBRARIES}

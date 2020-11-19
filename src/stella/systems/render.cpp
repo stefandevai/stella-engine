@@ -7,7 +7,7 @@
 #include "stella/graphics/texture.hpp"
 #include "stella/graphics/layers/shape_layer.hpp"
 
-#include <iostream>
+#include <spdlog/spdlog.h>
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace stella
@@ -71,7 +71,7 @@ namespace system
     }
     else
     {
-      std::cout << "WARNING: Could not find layer \"" << layer_name << "\". Adding sprite to default layer.\n";
+      spdlog::warn("Could not find layer \"" + layer_name + "\". Adding sprite to default layer.");
       m_layers[DEFAULT_LAYER_NAME]->add (entity);
     }
   }
@@ -85,7 +85,7 @@ namespace system
     }
     else
     {
-      std::cout << "WARNING: Could not remove sprite from unknown layer " << layer_name << '\n';
+      spdlog::warn("Could not remove sprite from unknown layer: " + layer_name);
       m_layers[DEFAULT_LAYER_NAME]->remove (entity);
     }
   }
@@ -151,7 +151,7 @@ namespace system
             registry, layer.vert_shader_source, layer.frag_shader_source, layer.fixed);
         break;
       default:
-        std::cout << "ERROR: Could not create layer. Undefined layer type.\n";
+        spdlog::warn ("Undefined layer type");
         break;
     }
     m_ordered_layers[layer.order] = layer.id;

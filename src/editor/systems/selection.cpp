@@ -12,10 +12,6 @@
 #include "stella/components/tile.hpp"
 #include <entt/entity/registry.hpp>
 
-// TEMP
-#include <iostream>
-// TEMP
-
 namespace editor
 {
 namespace system

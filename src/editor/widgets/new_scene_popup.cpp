@@ -2,22 +2,18 @@
 #include "editor/widgets/file_dialog.hpp"
 #include "stella/game2.hpp"
 
-#include <iostream>
-
 namespace editor
 {
 namespace widget
 {
   NewScenePopup::NewScenePopup(stella::Game& game) : Widget ("new-scene-popup"), m_game(game) {}
 
-  bool NewScenePopup::render ()
+  void NewScenePopup::render ()
   {
     if (!m_open)
     {
-      return false;
+      return;
     }
-
-    bool created_scene = false;
 
     if (ImGui::Begin("Create a new Scene", &m_open))
     {
@@ -47,7 +43,6 @@ namespace widget
         auto scene_name_str = std::string(scene_name);
         m_game.create_scene(scene_name_str, std::string(scene_script_path));
         m_game.start_scene(scene_name_str);
-        created_scene = true;
         memset(scene_name, 0, sizeof scene_name);
         memset(scene_script_path, 0, sizeof scene_script_path);
         m_open = false;
@@ -65,8 +60,6 @@ namespace widget
       }
     }
     ImGui::End();
-
-    return created_scene;
   }
 } // namespace widget
 } // namespace editor

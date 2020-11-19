@@ -7,16 +7,22 @@
 
 int main (int argc, char* argv[])
 {
+  if constexpr (STELLA_BUILD_EDITOR)
+  {
+    spdlog::set_level(spdlog::level::debug);
+  }
+
   stella::Game game{"/Users/stefandevai/Developer/games/stella-engine/nikte2/config.json"};
 
-#ifdef STELLA_BUILD_EDITOR
-  spdlog::set_level(spdlog::level::debug);
-  editor::Editor editor{game};
-  editor.run();
-#else
-  spdlog::set_level(spdlog::level::warn);
-  game.run();
-#endif
+  if constexpr (STELLA_BUILD_EDITOR)
+  {
+    editor::Editor editor{game};
+    editor.run();
+  }
+  else
+  {
+    game.run();
+  }
 
   return 0;
 }

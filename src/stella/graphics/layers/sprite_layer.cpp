@@ -3,7 +3,6 @@
 #include "stella/components/position.hpp"
 #include "stella/graphics/shader.hpp"
 
-#include <iostream>
 #include <glm/glm.hpp>                  // IWYU pragma: export
 #include <glm/gtc/matrix_transform.hpp> // IWYU pragma: export
 
