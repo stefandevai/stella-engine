@@ -2,13 +2,14 @@
 #include "stella/components/position.hpp"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
+#include <iostream>
 
 namespace stella
 {
-  Game::Game (const std::string& config_filepath)
-    : m_config_filepath (config_filepath)
+  Game::Game (const std::filesystem::path& filepath)
+    : m_filepath (filepath)
   {
-    m_json.load(m_config_filepath);
+    m_json.load(m_filepath / m_config_filepath);
     m_init_variables();
     m_init_scenes();
   }
@@ -30,7 +31,7 @@ namespace stella
     }
     catch (std::invalid_argument& e)
     {
-      std::cerr << "[x] Caught: " << e.what() << '\n';
+      spdlog::warn("Unable to load file: {}\n{}", filepath, e.what());
     }
 
     add_scene(scene);
@@ -44,7 +45,7 @@ namespace stella
     scene->set_name (name);
     scene->save (filepath);
     add_scene(scene);
-    m_json.object["scenes"].emplace_back(filepath);
+    m_json.object["scenes"].emplace_back(std::filesystem::relative(filepath, m_filepath));
   }
 
   void Game::start_scene(const std::string& name)
@@ -76,7 +77,7 @@ namespace stella
 
   void Game::save()
   {
-    if (m_config_filepath.empty())
+    if (m_filepath.empty())
     {
       spdlog::warn("Trying to save with an empty config filepath.");
       return;
@@ -86,7 +87,7 @@ namespace stella
     m_json.object["game"]["width"] = m_display.get_width();
     m_json.object["game"]["height"] = m_display.get_height();
 
-    m_json.save(m_config_filepath);
+    m_json.save(m_filepath / m_config_filepath);
 
     for (auto& scene : m_scenes)
     {
@@ -168,7 +169,7 @@ namespace stella
 
     for (auto& scene_path : scenes)
     {
-      load_scene(scene_path);
+      load_scene(m_filepath / m_scenes_dir / scene_path);
     }
 
     if (m_json.object["game"]["firstScene"] == nullptr)

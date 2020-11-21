@@ -160,7 +160,7 @@ namespace editor
       m_scene.render ((void*) (intptr_t) m_FBO->get_texture());
     }
 
-    m_inspector.render (m_game->m_registry, m_game->m_textures.get_list());
+    //m_inspector.render (m_game->m_registry, m_game->m_textures.get_list());
     m_scene_editor.render (m_game);
     m_console.render();
 
@@ -510,12 +510,12 @@ namespace editor
 
       ImGuiID dock_main_id  = dockspace_id;
       ImGuiID dock_right_id = ImGui::DockBuilderSplitNode (dock_main_id, ImGuiDir_Right, 0.2f, nullptr, &dock_main_id);
-      ImGuiID dock_right_down_id =
-          ImGui::DockBuilderSplitNode (dock_right_id, ImGuiDir_Down, 0.5f, nullptr, &dock_right_id);
+      //ImGuiID dock_right_down_id =
+          //ImGui::DockBuilderSplitNode (dock_right_id, ImGuiDir_Down, 0.5f, nullptr, &dock_right_id);
       ImGuiID dock_down_id = ImGui::DockBuilderSplitNode (dock_main_id, ImGuiDir_Down, 0.25f, nullptr, &dock_main_id);
 
       ImGui::DockBuilderDockWindow (m_scene_editor.get_title_string().c_str(), dock_right_id);
-      ImGui::DockBuilderDockWindow (m_inspector.get_title_string().c_str(), dock_right_down_id);
+      //ImGui::DockBuilderDockWindow (m_inspector.get_title_string().c_str(), dock_right_down_id);
       ImGui::DockBuilderDockWindow (m_console.get_title_string().c_str(), dock_down_id);
       ImGui::DockBuilderDockWindow (m_scene.get_title_string().c_str(), dock_main_id);
 

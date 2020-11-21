@@ -6,8 +6,8 @@
         "width": 896
     },
     "scenes": [
-        "/Users/stefandevai/Developer/games/stella-engine/nikte2/scenes/scene1.json",
-        "/Users/stefandevai/Developer/games/stella-engine/nikte2/scenes/scene2.json",
-        "/Users/stefandevai/Developer/games/stella-engine/nikte2/scenes/scene3.json"
+        "scene1.json",
+        "scene2.json",
+        "scene3.json"
     ]
 }

@@ -6,11 +6,11 @@
 
 int main (int argc, char* argv[])
 {
-  const std::string game_filepath = "/Users/stefandevai/Developer/games/stella-engine/nikte2/config.json";
+  const std::string game_dir = "/Users/stefandevai/Developer/games/stella-engine/nikte2";
 
   //if constexpr (STELLA_BUILD_EDITOR)
   //{
-  editor::Editor editor{game_filepath};
+  editor::Editor editor{game_dir};
   editor.run();
   //}
   //else

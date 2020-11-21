@@ -35,6 +35,9 @@ namespace core
 
     m_name = m_json.object["name"].get<std::string>();
     m_filepath = filepath;
+
+    // Scene is not modified when loaded
+    m_modified = false;
   }
 
   void Scene::save(const std::string& filepath)
@@ -81,11 +84,13 @@ namespace core
       return;
     }
     
+    m_modified = true;
+
     switch (system_tag)
     {
       case SystemTag::RENDER:
         {
-          m_add_system<stella::system::RenderT>(m_registry, m_textures);
+          //m_add_system<stella::system::RenderT>(m_registry, m_textures);
         }
         break;
 
@@ -98,6 +103,7 @@ namespace core
       default:
         {
           spdlog::warn("Unknown system: {}", system_name);
+          m_modified = false;
         }
       break;
     }

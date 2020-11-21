@@ -1,9 +1,7 @@
 #pragma once
 
 #include "stella/systems/system.hpp"
-#include "stella/graphics/texture.hpp"
 #include "stella/core/json.hpp"
-#include "stella/types.hpp"
 #include <string>
 #include <vector>
 #include <memory>
@@ -57,7 +55,6 @@ namespace core
     JSON m_json;
     std::string m_name;
     std::string m_filepath;
-    TextureManager m_textures;
     std::vector<std::shared_ptr<system::System>> m_systems;
     entt::registry m_registry;
     bool m_modified = false;
