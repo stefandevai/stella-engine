@@ -9,8 +9,6 @@ namespace editor
     QUIT_EDITOR,
 
     // Edit mode actions
-    NEW_GAME,
-    OPEN_GAME,
     SAVE_GAME,
     SAVE_GAME_AS,
     NEW_SCENE,

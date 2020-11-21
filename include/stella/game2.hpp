@@ -15,11 +15,13 @@ namespace stella
   class Game
   {
   public:
-    Game ();
     Game (const std::string& config_filepath);
     void run();
     inline const uint_fast32_t get_width() const { return m_display.get_width(); };
     inline const uint_fast32_t get_height() const { return m_display.get_height(); };
+    inline void set_size(const int width, const int height) { m_display.set_size(width, height); };
+    inline void set_title(const std::string& title) { m_title = title; m_display.set_title(title); };
+    inline void set_config_filepath(const std::string& filepath) { m_config_filepath = filepath; };
 
     void add_scene (std::shared_ptr<core::Scene>& scene);
     void load_scene (const std::string& filepath);
@@ -34,11 +36,12 @@ namespace stella
   private:
     core::JSON m_json;
     entt::registry m_registry;
-    unsigned m_initial_width = 800;
+    unsigned m_iniitial_width = 800;
     unsigned m_initial_height = 600;
-    std::string m_initial_title;
+    std::string m_initial_title = "Stella Engine";
+    std::string m_title;
     std::string m_config_filepath;
-    graphics::Display m_display{m_initial_width, m_initial_height, m_initial_title};
+    graphics::Display m_display{m_iniitial_width, m_initial_height, m_initial_title};
     TextureManager m_textures;
 
     // TODO: Use another data structure to hold scenes and names

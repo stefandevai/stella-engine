@@ -1,11 +1,13 @@
 #pragma once
 
+#include "stella/systems/system.hpp"
+#include "stella/graphics/texture.hpp"
+#include "stella/core/json.hpp"
+#include "stella/types.hpp"
 #include <string>
 #include <vector>
 #include <memory>
 #include <entt/entity/registry.hpp>
-#include "stella/systems/system.hpp"
-#include "stella/core/json.hpp"
 
 #ifdef STELLA_BUILD_EDITOR
 namespace editor
@@ -18,6 +20,7 @@ namespace editor
 namespace widget
 {
   struct SceneEditor;
+  struct NewSystem;
 }
 }
 #endif
@@ -37,7 +40,7 @@ namespace core
     void start();
     void update(const double dt);
     void render(const double dt);
-    void update_systems (const double dt);
+    void add_system (const std::string& system_name);
     inline bool is_modified() const { return m_modified; };
     inline std::string get_name() const { return m_name; };
     inline std::string get_filepath() const { return m_filepath; };
@@ -47,15 +50,26 @@ namespace core
 #ifdef STELLA_BUILD_EDITOR
   friend class ::editor::Editor;
   friend struct ::editor::widget::SceneEditor;
+  friend struct ::editor::widget::NewSystem;
 #endif
 
   private:
     JSON m_json;
     std::string m_name;
     std::string m_filepath;
+    TextureManager m_textures;
     std::vector<std::shared_ptr<system::System>> m_systems;
     entt::registry m_registry;
     bool m_modified = false;
+
+  private:
+    void m_update_systems (const double dt);
+
+    template<typename T, typename... Params>
+    void m_add_system (Params&... params)
+    {
+      m_systems.push_back (std::make_shared<T> (params...));
+    }
   };
 
 } // namespace core

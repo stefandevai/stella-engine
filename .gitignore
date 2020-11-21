@@ -8,3 +8,5 @@ lib/glm/doc
 lib/glm/cmake
 lib/glm/test
 lib/glm/util
+.ccls-cache/
+compile_commands.json

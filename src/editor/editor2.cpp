@@ -10,27 +10,21 @@
 #include "imgui_internal.h"
 
 #include <stdexcept>
-
-// TEMP
 #include <spdlog/spdlog.h>
-// TEMP
+#include <filesystem>
 
 namespace editor
 {
-  Editor::Editor ()
+  Editor::Editor (const std::string& path)
+    : m_config_path(path)
   {
+    spdlog::set_level(spdlog::level::debug);
     m_init();
   }
 
   Editor::~Editor()
   {
     m_deinit_imgui();
-  }
-
-  void Editor::create_game (const std::string& path, const std::string& name, const int width, const int height)
-  {
-
-
   }
 
   void Editor::run()
@@ -202,7 +196,7 @@ namespace editor
 
   void Editor::m_init()
   {
-    m_game = std::make_shared<stella::Game>();
+    m_game = std::make_shared<stella::Game>(m_config_path);
 
     // Set initial Scene Viewer title
     if (m_game->m_current_scene != nullptr)
@@ -212,6 +206,7 @@ namespace editor
 
     m_window = m_game->m_display.m_window;
     m_FBO = std::make_unique<stella::graphics::Framebuffer> (m_game->m_display);
+    m_current_mode = EditorMode::EDIT;
     m_init_imgui();
   }
 
@@ -311,7 +306,7 @@ namespace editor
 
   void Editor::m_handle_none_mode_input()
   {
-    //ImGui_ImplSDL2_ProcessEvent (&m_game->m_display.m_event);
+    ImGui_ImplSDL2_ProcessEvent (&m_game->m_display.m_event);
     //const Uint8* state = SDL_GetKeyboardState (nullptr);
   }
 
@@ -389,17 +384,6 @@ namespace editor
         }
         break;
 
-      case Action::NEW_GAME:
-        {
-          m_new_game.open();
-        }
-        break;
-
-      case Action::OPEN_GAME:
-        {
-        }
-        break;
-
       default:
         break;
     }
@@ -418,12 +402,6 @@ namespace editor
       case Action::SAVE_GAME:
         {
           m_game->save();
-        }
-        break;
-
-      case Action::NEW_GAME:
-        {
-          m_new_game.open();
         }
         break;
 
@@ -483,8 +461,6 @@ namespace editor
   {
     m_current_action = m_edit_mode_main_menu_options.render();
 
-    m_new_game.render([this](const std::string& path, const std::string& name, const int width, const int height)
-      { create_game(path, name, width, height); });
     m_new_scene_popup.render();
     m_load_scene_popup.render();
 

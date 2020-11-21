@@ -6,7 +6,10 @@ namespace stella
 {
 namespace system
 {
-  AnimationPlayer::AnimationPlayer() {}
+  AnimationPlayer::AnimationPlayer()
+  {
+    m_tag = "animation";
+  }
 
   void AnimationPlayer::update (entt::registry& registry, const double dt)
   {

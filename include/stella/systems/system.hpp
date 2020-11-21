@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../components/log.hpp"
+#include "stella/system_tags.hpp"
 #include <entt/entity/registry.hpp>
 
 namespace stella
@@ -12,18 +12,11 @@ namespace system
   public:
     virtual ~System()                                               = default;
     virtual void update (entt::registry& registry, const double dt) = 0;
+    const inline std::string get_tag() const { return m_tag; }
 
   protected:
     System() = default;
-
-    auto& get_log_component (entt::registry& registry, entt::registry::entity_type entity)
-    {
-      if (!registry.has<component::Log> (entity))
-      {
-        registry.emplace<component::Log> (entity);
-      }
-      return registry.get<component::Log> (entity);
-    }
+    std::string m_tag;
   };
 
 } // namespace system

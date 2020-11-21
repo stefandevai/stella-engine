@@ -4,10 +4,7 @@
 #include "stella/core/scene.hpp"
 #include "stella/components/game_object.hpp"
 #include "stella/components/name.hpp"
-
-// TEMP
 #include <spdlog/spdlog.h>
-// TEMP
 
 namespace editor
 {
@@ -52,18 +49,24 @@ namespace widget
         }
         ImGui::EndCombo();
       }
-      ImGui::Separator();
 
+      ImGui::Dummy (ImVec2 (0.f, 3.f));
+      ImGui::Separator();
+      ImGui::Dummy (ImVec2 (0.f, 3.f));
+      
       if (game->m_current_scene != nullptr)
       {
+
         if (ImGui::CollapsingHeader("Objects###scene-editor-input3"))
         {
-          game->m_current_scene->m_registry.view<stella::component::GameObject, stella::component::Name>().each ([] (auto entity, auto& obj, auto& name) {
+          game->m_current_scene->m_registry.view<stella::component::GameObject, stella::component::Name>().each ([] (auto entity, auto& obj, auto& name)
+          {
             ImGui::PushID ((name.name + "#object-list").c_str());
             if (ImGui::MenuItem (name.name.c_str(), "", false)) {}
             ImGui::PopID();
           });
 
+          ImGui::Dummy (ImVec2 (0.f, 1.f));
           if (ImGui::Button ("New Object"))
           {
             std::string object_label = "Object ";
@@ -73,6 +76,30 @@ namespace widget
             m_number_of_objects++;
           }
         }
+
+        ImGui::Dummy (ImVec2 (0.f, 3.f));
+
+        if (ImGui::CollapsingHeader("Systems###scene-editor-input4"))
+        {
+          for (auto& system : game->m_current_scene->m_systems)
+          {
+            ImGui::PushID ((system->get_tag() + "#system-list").c_str());
+            if (ImGui::MenuItem (system->get_tag().c_str(), "", false)) {}
+            ImGui::PopID();
+          }
+
+          ImGui::Dummy (ImVec2 (0.f, 1.f));
+          if (ImGui::Button ("Add System"))
+          {
+            m_new_system.open();
+          }
+        }
+      }
+
+      auto new_system_tag = m_new_system.render(game->m_current_scene);
+      if (!new_system_tag.empty())
+      {
+        m_set_action(SceneEditorAction::ADD_SYSTEM);
       }
 
       //if (game->m_current_scene != nullptr && scene_name != game.m_current_scene->get_name())
@@ -103,6 +130,12 @@ namespace widget
           {
             game->start_scene(selected_scene_name);
             m_action = SceneEditorAction::RELOAD_EDITOR;
+          }
+          break;
+        case SceneEditorAction::ADD_SYSTEM:
+          {
+            game->m_current_scene->add_system(new_system_tag);
+            m_action = SceneEditorAction::NONE;
           }
           break;
         default:

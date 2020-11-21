@@ -5,8 +5,6 @@
 
 namespace stella
 {
-  Game::Game () { }
-
   Game::Game (const std::string& config_filepath)
     : m_config_filepath (config_filepath)
   {
@@ -83,6 +81,10 @@ namespace stella
       spdlog::warn("Trying to save with an empty config filepath.");
       return;
     }
+    m_json.object["game"] = nullptr;
+    m_json.object["game"]["name"] = m_title;
+    m_json.object["game"]["width"] = m_display.get_width();
+    m_json.object["game"]["height"] = m_display.get_height();
 
     m_json.save(m_config_filepath);
 

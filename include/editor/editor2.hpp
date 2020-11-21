@@ -16,7 +16,6 @@
 #include "widgets/scene.hpp"
 #include "widgets/scene_editor.hpp"
 #include "widgets/new_scene_popup.hpp"
-#include "widgets/new_game.hpp"
 #include "widgets/load_scene_popup.hpp"
 #include "widgets/edit_mode_main_menu_options.hpp"
 
@@ -41,17 +40,16 @@ namespace editor
   class Editor
   {
   public:
-    Editor();
+    Editor(const std::string& path);
     ~Editor();
 
-    void load_game (const std::string& path);
-    void create_game (const std::string& path, const std::string& name, const int width, const int height);
     void run();
 
   private:
     void m_init();
     void m_init_imgui();
     void m_deinit_imgui();
+    std::string m_normalize_name(const std::string& name);
 
     // Edit mode
     void m_run_edit_mode();
@@ -80,6 +78,7 @@ namespace editor
 
   private:
     // Editor related properties
+    const std::string& m_config_path;
     std::shared_ptr<stella::Game> m_game;
     SDL_Window* m_window = nullptr;
     float m_window_width = 0.f;
@@ -104,7 +103,6 @@ namespace editor
     widget::Console m_console{m_window_flags, m_font_mono};
     widget::Inspector m_inspector;
     widget::NewScenePopup m_new_scene_popup{m_game};
-    widget::NewGame m_new_game;
     widget::LoadScenePopup m_load_scene_popup{m_game};
     widget::EditModeMainMenuOptions m_edit_mode_main_menu_options;
 

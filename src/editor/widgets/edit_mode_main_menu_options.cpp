@@ -14,18 +14,6 @@ namespace widget
     {
       if (ImGui::BeginMenu ("File"))
       {
-        if (ImGui::MenuItem ("New Game", "CTRL+N"))
-        {
-          action = editor::Action::NEW_GAME;
-        }
-
-        if (ImGui::MenuItem ("Open Game", "CTRL+O"))
-        {
-          action = editor::Action::OPEN_GAME;
-        }
-
-        ImGui::Separator();
-
         if (ImGui::MenuItem ("Save Game", "CTRL+S"))
         {
           action = editor::Action::SAVE_GAME;

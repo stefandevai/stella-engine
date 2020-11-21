@@ -16,6 +16,7 @@ namespace system
 {
   RenderT::RenderT (entt::registry& registry, TextureManager& textures) : m_textures (textures)
   {
+    m_tag = "render";
     // Create a default layer in case a sprite is added to an unknown layer
     m_layers[DEFAULT_LAYER_NAME] = std::make_shared<graphics::SpriteLayerT> (
         registry, "assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag", false);

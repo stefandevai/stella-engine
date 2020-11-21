@@ -1,6 +1,7 @@
 #pragma once
 
 #include "widget.hpp"
+#include "editor/widgets/new_system.hpp"
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
@@ -29,6 +30,7 @@ namespace widget
       SELECT_SCENE,
       UPDATE_SCENE,
       RELOAD_EDITOR,
+      ADD_SYSTEM,
     };
 
   private:
@@ -37,6 +39,7 @@ namespace widget
   private:
     int m_number_of_objects = 0;
     SceneEditorAction m_action = SceneEditorAction::RELOAD_EDITOR;
+    NewSystem m_new_system;
   };
 } // namespace widget
 } // namespace editor

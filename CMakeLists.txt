@@ -31,6 +31,9 @@ endif()
 # Library name
 set(STELLA_LIBRARY_NAME "stella")
 
+# Generate compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS on)
+
 # Debug mode
 option(STELLA_DEBUG_MODE "Build in debug mode" on)
 
@@ -42,9 +45,6 @@ option(BUILD_STELLA_EXAMPLE "Build example" on)
 
 # Build tests
 option(BUILD_STELLA_TESTS "Build tests" off)
-
-# Generate compile_commands.json
-set(CMAKE_EXPORT_COMPILE_COMMANDS off)
 
 # Turn on these options to use the libraries contained in your machine (Linux and OSX only).
 option(USE_SYSTEM_SDL2 "Search your system for SDL2 library" on)
