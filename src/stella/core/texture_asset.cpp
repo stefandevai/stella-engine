@@ -6,7 +6,6 @@ namespace core
 {
 
   TextureAsset::TextureAsset (const std::string& filepath)
-    : Asset(AssetType::TEXTURE, filepath)
   {
 
   }

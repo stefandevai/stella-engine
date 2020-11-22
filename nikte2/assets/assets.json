@@ -1,0 +1,16 @@
+{
+    "assets":
+    [
+        {
+            "name": "Nikte",
+            "type": "texture",
+            "path": "textures/nikte.png"
+        },
+
+        {
+            "name": "Tileset",
+            "type": "texture",
+            "path": "textures/tileset.png"
+        }
+    ]
+}

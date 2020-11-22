@@ -17,12 +17,21 @@ namespace core
 
   class Asset
   {
+  };
+
+  struct AssetData
+  {
   public:
-    Asset (const AssetType type, const std::string& filepath) : m_type (type), m_filepath (filepath) {};
+    const std::string filepath;
+    const AssetType type;
+
+  public:
+    virtual ~AssetData() {}
+
+    virtual std::shared_ptr<Asset> construct() = 0;
 
   protected:
-    AssetType m_type = AssetType::NONE;
-    std::string m_filepath;
+    AssetData (const std::string& filepath, const AssetType type) : filepath (filepath), type (type) {}
   };
 
 }

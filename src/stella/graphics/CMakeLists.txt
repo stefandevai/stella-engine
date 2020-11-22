@@ -10,7 +10,7 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    shader.cpp
                                    shape.cpp
                                    shape_renderer.cpp
-                                   texture.cpp
+                                   texture2.cpp
                                    layers/layer.cpp
                                    layers/sprite_layer.cpp
                                    layers/shape_layer.cpp)

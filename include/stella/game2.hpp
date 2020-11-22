@@ -49,7 +49,7 @@ namespace stella
     // General fields
     const std::filesystem::path m_filepath;
     core::JSON m_json;
-    core::AssetManager m_asset_manager{m_filepath};
+    core::AssetManager m_asset_manager{m_filepath / m_assets_config_filepath};
     entt::registry m_registry;
     std::string m_title;
     graphics::Display m_display{m_iniitial_width, m_initial_height, m_initial_title};
