@@ -8,6 +8,7 @@ namespace stella
 namespace graphics
 {
   class ShaderProgram;
+  class Texture;
 }
 }
 
@@ -28,15 +29,9 @@ namespace system
   private:
     core::AssetManager& m_asset_manager;
 
-    unsigned int VBO, VAO;
+    unsigned int VBO, VAO, EBO;
     std::shared_ptr<graphics::ShaderProgram> m_shader_program;
-    //int shaderProgram;
-    float vertices[9] =
-    {
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f,
-    }; 
+    std::shared_ptr<graphics::Texture> m_texture;
 
   };
 

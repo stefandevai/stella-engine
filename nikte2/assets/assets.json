@@ -2,13 +2,13 @@
     "assets":
     [
         {
-            "name": "Nikte",
+            "name": "nikte",
             "type": "texture",
             "path": "textures/nikte.png"
         },
 
         {
-            "name": "Tileset",
+            "name": "tileset",
             "type": "texture",
             "path": "textures/tileset.png"
         },
