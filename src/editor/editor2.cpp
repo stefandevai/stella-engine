@@ -72,16 +72,15 @@ namespace editor
     m_handle_edit_mode_tool (io);
 
     // TODO: Save current state to restore when getting back from play mode
-    //m_game->update (m_game->m_display.get_dt());
+    m_game->update (m_game->m_display.get_dt());
     m_game->m_display.update();
-    m_handle_edit_mode_input();
-    m_handle_edit_mode_actions();
-
     m_FBO->bind();
     m_game->m_display.clear();
     m_game->render (m_game->m_display.get_dt());
     m_FBO->unbind();
 
+    m_handle_edit_mode_input();
+    m_handle_edit_mode_actions();
     m_render_edit_mode (m_game->m_display.get_window_width(),
                         m_game->m_display.get_window_height(),
                         m_game->m_display.m_width,

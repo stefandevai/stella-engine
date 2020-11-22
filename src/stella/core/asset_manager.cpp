@@ -1,7 +1,7 @@
 #include "stella/core/asset_manager.hpp"
-#include "stella/core/texture_asset.hpp"
-#include "stella/core/model_asset.hpp"
-#include "stella/core/sound_asset.hpp"
+#include "stella/core/texture_loader.hpp"
+#include "stella/core/model_loader.hpp"
+#include "stella/core/shader_loader.hpp"
 
 #include "../../../lib/json/json.hpp"
 #include <spdlog/spdlog.h>
@@ -45,10 +45,10 @@ namespace core
         // TODO: Load resource
         auto asset = asset_pair.second->construct();
         asset_ptr = asset;
-        spdlog::critical("Getting new asset");
+        spdlog::critical("Getting new asset: {}", name);
         return asset;
       }
-      spdlog::critical("Getting existing asset");
+      spdlog::critical("Getting existing asset: {}", name);
       return asset_ptr.lock();
     }
     catch (std::out_of_range& e)
@@ -72,8 +72,6 @@ namespace core
     {
       auto name = asset_info["name"].get<std::string>();
       auto type_tag = asset_info["type"].get<std::string>();
-      auto filepath = asset_info["path"].get<std::string>();
-      auto full_path = m_base_dir / filepath;
       AssetType type = AssetType::NONE;
 
       try
@@ -90,21 +88,27 @@ namespace core
       {
         case AssetType::TEXTURE:
           {
+            auto filepath = asset_info["path"].get<std::string>();
+            auto full_path = m_base_dir / filepath;
             add<TextureLoader>(name, full_path);
           }
           break;
 
         case AssetType::MODEL:
           {
+            auto filepath = asset_info["path"].get<std::string>();
+            auto full_path = m_base_dir / filepath;
             // TODO: Implement model loading
             add<ModelLoader>(name, full_path);
           }
           break;
 
-        case AssetType::SOUND:
+        case AssetType::SHADER:
           {
+            auto vertex_filepath = asset_info["vertexFilepath"].get<std::string>();
+            auto fragment_filepath = asset_info["fragmentFilepath"].get<std::string>();
             // TODO: Implement sound loading
-            add<SoundLoader>(name, full_path);
+            add<ShaderLoader>(name, m_base_dir / vertex_filepath, m_base_dir / fragment_filepath);
           }
           break;
 

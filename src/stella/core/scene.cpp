@@ -1,6 +1,6 @@
 #include "stella/core/scene.hpp"
 #include "stella/system_tags.hpp"
-#include "stella/systems/render.hpp"
+#include "stella/systems/render2.hpp"
 #include "stella/systems/animation_player.hpp"
 #include <stdexcept>
 #include <spdlog/spdlog.h>
@@ -10,7 +10,8 @@ namespace stella
 {
 namespace core
 {
-  Scene::Scene ()
+  Scene::Scene (AssetManager& asset_manager)
+    : m_asset_manager (asset_manager)
   {
     spdlog::set_level(spdlog::level::debug);
   }
@@ -55,10 +56,10 @@ namespace core
     m_json.object["name"] = m_name;
 
     // Update system tags
-    m_json.object["systems"] = nullptr;
+    m_json.object["systems"] = nlohmann::json::array();
     for (auto& s : m_systems)
     {
-      m_json.object["systems"].emplace(s->get_tag());
+      m_json.object["systems"].emplace_back(s->get_tag());
     }
 
     // Save json file
@@ -79,7 +80,10 @@ namespace core
     m_update_systems(dt);
   }
 
-  void Scene::render (const double dt) {}
+  void Scene::render (const double dt)
+  {
+    m_render_systems(dt);
+  }
 
   void Scene::add_system (const std::string& system_name)
   {
@@ -101,7 +105,7 @@ namespace core
     {
       case SystemTag::RENDER:
         {
-          //m_add_system<stella::system::RenderT>(m_registry, m_textures);
+          m_add_system<stella::system::Render>(m_asset_manager);
         }
         break;
 
@@ -117,6 +121,14 @@ namespace core
           m_modified = false;
         }
       break;
+    }
+  }
+
+  void Scene::m_render_systems (const double dt)
+  {
+    for (auto& s : m_systems)
+    {
+      s->render (m_registry, dt);
     }
   }
 

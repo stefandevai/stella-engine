@@ -11,6 +11,13 @@
             "name": "Tileset",
             "type": "texture",
             "path": "textures/tileset.png"
+        },
+
+        {
+            "name": "simple-shader",
+            "type": "shader",
+            "vertexFilepath": "shaders/no_effect.vert",
+            "fragmentFilepath": "shaders/no_effect.frag"
         }
     ]
 }

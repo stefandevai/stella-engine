@@ -12,6 +12,7 @@ namespace system
   public:
     virtual ~System()                                               = default;
     virtual void update (entt::registry& registry, const double dt) = 0;
+    virtual void render (entt::registry& registry, const double dt) {}
     const inline std::string get_tag() const { return m_tag; }
 
   protected:

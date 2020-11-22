@@ -8,6 +8,7 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    renderable.cpp
                                    sprite_renderer.cpp
                                    shader.cpp
+                                   shader_program.cpp
                                    shape.cpp
                                    shape_renderer.cpp
                                    texture2.cpp

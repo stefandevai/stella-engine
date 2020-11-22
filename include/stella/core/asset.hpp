@@ -11,27 +11,28 @@ namespace core
   {
     NONE,
     TEXTURE,
-    SOUND,
+    SHADER,
     MODEL,
   };
 
   class Asset
   {
+  public:
+    virtual ~Asset() {}
   };
 
-  struct AssetLoader
+  class AssetLoader
   {
-  public:
-    const std::string filepath;
-    const AssetType type;
-
   public:
     virtual ~AssetLoader() {}
 
     virtual std::shared_ptr<Asset> construct() = 0;
 
   protected:
-    AssetLoader (const std::string& filepath, const AssetType type) : filepath (filepath), type (type) {}
+    const AssetType m_type;
+
+  protected:
+    AssetLoader (const AssetType type) : m_type (type) {}
   };
 
 }

@@ -36,7 +36,7 @@ namespace core
     {
       {"texture", AssetType::TEXTURE},
       {"model", AssetType::MODEL},
-      {"sound", AssetType::SOUND},
+      {"shader", AssetType::SHADER},
     };
 
   private:

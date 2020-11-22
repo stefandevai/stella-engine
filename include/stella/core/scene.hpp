@@ -27,10 +27,12 @@ namespace stella
 {
 namespace core
 {
+  class AssetManager;
+
   class Scene
   {
   public:
-    Scene ();
+    Scene (AssetManager& asset_manager);
 
     void load(const std::string& filepath);
     void save(const std::string& filepath);
@@ -55,11 +57,13 @@ namespace core
     JSON m_json;
     std::string m_name;
     std::string m_filepath;
+    AssetManager& m_asset_manager;
     std::vector<std::shared_ptr<system::System>> m_systems;
     entt::registry m_registry;
     bool m_modified = false;
 
   private:
+    void m_render_systems (const double dt);
     void m_update_systems (const double dt);
 
     template<typename T, typename... Params>
