@@ -5,6 +5,7 @@
 #include <string>
 #include <filesystem>
 #include <unordered_map>
+#include <spdlog/spdlog.h>
 
 namespace stella
 {
@@ -23,7 +24,32 @@ namespace core
     void add (const std::string& name, const std::string& filepath, Args... args);
 
     // Gets a loaded asset by its name
-    std::shared_ptr<Asset> get (const std::string& name);
+    template <typename T>
+    std::shared_ptr<T> get (const std::string& name)
+    {
+      try
+      {
+        auto& asset_pair = m_assets.at(name);
+        auto& asset_ptr = asset_pair.first;
+
+        if (asset_ptr.expired())
+        {
+          // TODO: Load resource
+          auto asset = asset_pair.second->construct();
+          asset_ptr = asset;
+          spdlog::critical("Getting new asset: {}", name);
+          return std::dynamic_pointer_cast<T>(asset);
+        }
+
+        spdlog::critical("Getting existing asset: {}", name);
+        return std::dynamic_pointer_cast<T>(asset_ptr.lock());
+      }
+      catch (std::out_of_range& e)
+      {
+        spdlog::warn ("There's no asset named {}.\n{}", name, e.what());
+        return nullptr;
+      }
+    }
 
   private:
     const std::filesystem::path m_filepath;

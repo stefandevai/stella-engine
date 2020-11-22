@@ -4,7 +4,6 @@
 #include "stella/core/shader_loader.hpp"
 
 #include "../../../lib/json/json.hpp"
-#include <spdlog/spdlog.h>
 
 namespace stella
 {
@@ -33,30 +32,7 @@ namespace core
     m_assets.emplace(name, std::make_pair(std::move(asset_ptr), std::move(asset_loader)));
   }
 
-  std::shared_ptr<Asset> AssetManager::get (const std::string& name)
-  {
-    try
-    {
-      auto& asset_pair = m_assets.at(name);
-      auto& asset_ptr = asset_pair.first;
-
-      if (asset_ptr.expired())
-      {
-        // TODO: Load resource
-        auto asset = asset_pair.second->construct();
-        asset_ptr = asset;
-        spdlog::critical("Getting new asset: {}", name);
-        return asset;
-      }
-      spdlog::critical("Getting existing asset: {}", name);
-      return asset_ptr.lock();
-    }
-    catch (std::out_of_range& e)
-    {
-      spdlog::warn ("There's no asset named {}.\n{}", name, e.what());
-      return nullptr;
-    }
-  }
+  //std::shared_ptr<Asset> AssetManager::get (const std::string& name)
 
   void AssetManager::m_init_assets()
   {

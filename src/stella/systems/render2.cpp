@@ -28,8 +28,10 @@ namespace system
   Render::Render (core::AssetManager& asset_manager)
     : m_asset_manager (asset_manager)
   {
-    m_shader_program = std::dynamic_pointer_cast<graphics::ShaderProgram>(m_asset_manager.get("simple-shader"));
-    m_texture = std::dynamic_pointer_cast<graphics::Texture>(m_asset_manager.get("nikte"));
+    //m_shader_program = std::dynamic_pointer_cast<graphics::ShaderProgram>(m_asset_manager.get("simple-shader"));
+    //m_texture = std::dynamic_pointer_cast<graphics::Texture>(m_asset_manager.get("nikte"));
+    m_shader_program = m_asset_manager.get<graphics::ShaderProgram>("simple-shader");
+    m_texture = m_asset_manager.get<graphics::Texture>("nikte");
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
