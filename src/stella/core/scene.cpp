@@ -50,7 +50,18 @@ namespace core
     {
       throw std::invalid_argument("Scene name should not be empty.");
     }
+
+    // Update name
     m_json.object["name"] = m_name;
+
+    // Update system tags
+    m_json.object["systems"] = nullptr;
+    for (auto& s : m_systems)
+    {
+      m_json.object["systems"].emplace(s->get_tag());
+    }
+
+    // Save json file
     m_json.save(filepath);
     m_filepath = filepath;
     m_modified = false;

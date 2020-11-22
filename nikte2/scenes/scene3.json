@@ -2,7 +2,6 @@
     "name": "Scene 3",
     "systems": [
         "render",
-        "animation",
-        "lala"
+        "animation"
     ]
 }
