@@ -26,25 +26,29 @@ namespace core
   template <typename T, typename... Args>
   void AssetManager::add (const std::string& name, const std::string& filepath, Args... args)
   {
-    auto asset_data = std::make_unique<T>(filepath, args...);
-    assert(asset_data != nullptr);
-    m_assets.emplace(name, std::make_pair(std::weak_ptr<Asset>(), std::move(asset_data)));
+    auto asset_loader = std::make_unique<T>(filepath, args...);
+    std::weak_ptr<Asset> asset_ptr;
+    assert(asset_loader != nullptr);
+    assert(asset_ptr != nullptr);
+    m_assets.emplace(name, std::make_pair(std::move(asset_ptr), std::move(asset_loader)));
   }
 
-  template <typename T>
-  std::shared_ptr<T> AssetManager::get (const std::string& name)
+  std::shared_ptr<Asset> AssetManager::get (const std::string& name)
   {
     try
     {
       auto& asset_pair = m_assets.at(name);
       auto& asset_ptr = asset_pair.first;
+
       if (asset_ptr.expired())
       {
         // TODO: Load resource
         auto asset = asset_pair.second->construct();
         asset_ptr = asset;
+        spdlog::critical("Getting new asset");
         return asset;
       }
+      spdlog::critical("Getting existing asset");
       return asset_ptr.lock();
     }
     catch (std::out_of_range& e)
@@ -86,21 +90,21 @@ namespace core
       {
         case AssetType::TEXTURE:
           {
-            add<TextureData>(name, full_path);
+            add<TextureLoader>(name, full_path);
           }
           break;
 
         case AssetType::MODEL:
           {
             // TODO: Implement model loading
-            add<ModelData>(name, full_path);
+            add<ModelLoader>(name, full_path);
           }
           break;
 
         case AssetType::SOUND:
           {
             // TODO: Implement sound loading
-            add<SoundData>(name, full_path);
+            add<SoundLoader>(name, full_path);
           }
           break;
 

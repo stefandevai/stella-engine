@@ -1,16 +1,17 @@
 #pragma once
 
 #include <string>
+#include "stella/core/asset.hpp"
 
 namespace stella
 {
 namespace graphics
 {
 
-  class Texture
+  class Texture : public core::Asset
   {
     public:
-      Texture();
+      Texture(const std::string& filepath);
       ~Texture();
 
       void load(const std::string& filepath);

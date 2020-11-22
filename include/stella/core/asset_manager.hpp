@@ -10,7 +10,7 @@ namespace stella
 {
 namespace core
 {
-  using AssetPair = std::pair<std::weak_ptr<Asset>, std::unique_ptr<AssetData>>;
+  using AssetPair = std::pair<std::weak_ptr<Asset>, std::unique_ptr<AssetLoader>>;
   using AssetMap = std::unordered_map<std::string, AssetPair>;
 
   class AssetManager
@@ -23,8 +23,7 @@ namespace core
     void add (const std::string& name, const std::string& filepath, Args... args);
 
     // Gets a loaded asset by its name
-    template <typename T>
-    std::shared_ptr<T> get (const std::string& name);
+    std::shared_ptr<Asset> get (const std::string& name);
 
   private:
     const std::filesystem::path m_filepath;
@@ -32,7 +31,6 @@ namespace core
     JSON m_json;
     //std::unordered_map<std::string, std::shared_ptr<Asset>> m_assets;
     AssetMap m_assets;
-
 
     const std::unordered_map<std::string, AssetType> m_asset_types =
     {

@@ -8,20 +8,11 @@ namespace stella
 namespace core
 {
 
-  class TextureAsset : public Asset
-  {
-  public:
-    TextureAsset (const std::string& filepath);
-
-  private:
-    std::shared_ptr<graphics::Texture> m_data;
-  };
-  
   // TODO: Add proper asset creation
-  struct TextureData : public AssetData
+  struct TextureLoader : public AssetLoader
   {
-    TextureData (const std::string& filepath) : AssetData(filepath, AssetType::TEXTURE) {}
-    virtual std::shared_ptr<Asset> construct() { return std::make_shared<TextureAsset>(filepath); }
+    TextureLoader (const std::string& filepath) : AssetLoader(filepath, AssetType::TEXTURE) {}
+    virtual std::shared_ptr<Asset> construct() { return std::make_shared<graphics::Texture>(filepath); }
   };
 
 }

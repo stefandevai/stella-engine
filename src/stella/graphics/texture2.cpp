@@ -1,5 +1,6 @@
 #include "stella/graphics/texture2.hpp"
 #include "stella/graphics/opengl.hpp" // IWYU pragma: export
+#include "stella/core/asset.hpp" // IWYU pragma: export
 
 extern "C"
 {
@@ -13,9 +14,9 @@ namespace stella
 namespace graphics
 {
 
-  Texture::Texture()
+  Texture::Texture(const std::string& filepath)
   {
-
+    load(filepath);
   }
 
   Texture::~Texture()

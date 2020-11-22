@@ -14,9 +14,9 @@ namespace core
   };
 
   // TODO: Add proper asset creation
-  struct ModelData : public AssetData
+  struct ModelLoader : public AssetLoader
   {
-    ModelData (const std::string& filepath) : AssetData(filepath, AssetType::MODEL) {}
+    ModelLoader (const std::string& filepath) : AssetLoader(filepath, AssetType::MODEL) {}
     virtual std::shared_ptr<Asset> construct() { return std::make_shared<ModelAsset>(filepath); }
   };
 

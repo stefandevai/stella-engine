@@ -19,19 +19,19 @@ namespace core
   {
   };
 
-  struct AssetData
+  struct AssetLoader
   {
   public:
     const std::string filepath;
     const AssetType type;
 
   public:
-    virtual ~AssetData() {}
+    virtual ~AssetLoader() {}
 
     virtual std::shared_ptr<Asset> construct() = 0;
 
   protected:
-    AssetData (const std::string& filepath, const AssetType type) : filepath (filepath), type (type) {}
+    AssetLoader (const std::string& filepath, const AssetType type) : filepath (filepath), type (type) {}
   };
 
 }

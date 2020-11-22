@@ -14,9 +14,9 @@ namespace core
   };
 
   // TODO: Add proper asset creation
-  struct SoundData : public AssetData
+  struct SoundLoader : public AssetLoader
   {
-    SoundData (const std::string& filepath) : AssetData(filepath, AssetType::SOUND) {}
+    SoundLoader (const std::string& filepath) : AssetLoader(filepath, AssetType::SOUND) {}
     virtual std::shared_ptr<Asset> construct() { return std::make_shared<SoundAsset>(filepath); }
   };
   
