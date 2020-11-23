@@ -180,8 +180,6 @@ namespace graphics
   {
     glClearColor (m_clear_color.x, m_clear_color.y, m_clear_color.z, 1.0f);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // glClear (GL_COLOR_BUFFER_BIT);
-    // glEnable(GL_DEPTH_TEST);
   }
 
   void Display::quit()

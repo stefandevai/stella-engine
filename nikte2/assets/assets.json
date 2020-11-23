@@ -14,6 +14,12 @@
         },
 
         {
+            "name": "crate",
+            "type": "texture",
+            "path": "textures/crate.png"
+        },
+
+        {
             "name": "simple-shader",
             "type": "shader",
             "vertexFilepath": "shaders/no_effect.vert",

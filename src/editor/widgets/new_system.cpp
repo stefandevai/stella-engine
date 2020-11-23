@@ -19,7 +19,7 @@ namespace widget
 
     for (auto& system : scene->m_systems)
     {
-      current_systems.emplace_back(system->get_tag());
+      current_systems.emplace_back(system.second->get_tag());
     }
 
     if (ImGui::Begin("Add a System to the Current Scene", &m_open))

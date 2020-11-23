@@ -70,6 +70,9 @@ namespace editor
     void m_handle_none_mode_actions();
     void m_render_none_mode();
 
+    // Tools
+    void m_handle_pan_tool (ImGuiIO& io);
+
     // Render methods
     void m_render_edit_mode (const float window_width, const float window_height, const float game_width, const float game_height);
     void m_render_menu_bar();

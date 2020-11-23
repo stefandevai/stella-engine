@@ -59,7 +59,7 @@ namespace core
     m_json.object["systems"] = nlohmann::json::array();
     for (auto& s : m_systems)
     {
-      m_json.object["systems"].emplace_back(s->get_tag());
+      m_json.object["systems"].emplace_back(s.second->get_tag());
     }
 
     // Save json file
@@ -77,12 +77,17 @@ namespace core
 
   void Scene::update (const double dt)
   {
-    m_update_systems(dt);
+    m_camera.update(m_registry);
   }
 
   void Scene::render (const double dt)
   {
-    m_render_systems(dt);
+    auto render_system = std::dynamic_pointer_cast<system::Render>(m_systems.at("render"));
+
+    if (render_system != nullptr)
+    {
+      render_system->render(m_registry, m_camera, dt);
+    }
   }
 
   void Scene::add_system (const std::string& system_name)
@@ -105,13 +110,13 @@ namespace core
     {
       case SystemTag::RENDER:
         {
-          m_add_system<stella::system::Render>(m_asset_manager);
+          m_add_system<stella::system::Render>(system_name, m_asset_manager);
         }
         break;
 
       case SystemTag::ANIMATION:
         {
-          m_add_system<stella::system::AnimationPlayer>();
+          m_add_system<stella::system::AnimationPlayer>(system_name);
         }
         break;
 
@@ -121,22 +126,6 @@ namespace core
           m_modified = false;
         }
       break;
-    }
-  }
-
-  void Scene::m_render_systems (const double dt)
-  {
-    for (auto& s : m_systems)
-    {
-      s->render (m_registry, dt);
-    }
-  }
-
-  void Scene::m_update_systems (const double dt)
-  {
-    for (auto& s : m_systems)
-    {
-      s->update (m_registry, dt);
     }
   }
 } // namespace core

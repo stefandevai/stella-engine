@@ -2,6 +2,7 @@
 
 #include "../components.hpp"
 #include "./system.hpp"
+
 #ifdef _WIN32
   #include <SDL.h>
 #else
@@ -51,7 +52,7 @@ namespace system
 
     ~Player() override {}
 
-    void update (entt::registry& registry, const double dt) override
+    void update (entt::registry& registry, const double dt)
     {
       registry.group<component::Player> (entt::get<component::Body2D, component::Position, component::Dimension>)
           .each ([this, &registry] (auto entity, auto& player, auto& body, auto& pos, auto& dim) {

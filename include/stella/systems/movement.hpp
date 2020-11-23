@@ -1,9 +1,9 @@
 #pragma once
 
+#include "stella/systems/system.hpp"
 #include "stella/components/movement.hpp"
 #include "stella/components/player.hpp"
 #include "stella/components.hpp"
-#include "./system.hpp"
 
 namespace stella
 {
@@ -16,7 +16,7 @@ namespace system
 
     ~Movement() override {}
 
-    void update (entt::registry& registry, const double dt) override
+    void update (entt::registry& registry, const double dt)
     {
       registry
           .group<component::Movement> (entt::get<component::Position>,

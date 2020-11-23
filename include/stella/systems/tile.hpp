@@ -26,7 +26,7 @@ namespace system
 
   public:
     Tile (core::TileMap& tilemap, entt::registry::entity_type camera, entt::registry& registry);
-    void update (entt::registry& registry, const double dt) override;
+    void update (entt::registry& registry, const double dt);
     void remove_tile_visibility (entt::registry& registry, entt::entity entity);
   };
 } // namespace system

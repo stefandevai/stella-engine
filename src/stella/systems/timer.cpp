@@ -5,7 +5,7 @@ namespace stella
 {
 namespace system
 {
-  Timer::Timer (entt::registry& registry) {}
+  Timer::Timer (entt::registry& registry) : System ("timer") {}
 
   void Timer::update (entt::registry& registry, const double dt)
   {

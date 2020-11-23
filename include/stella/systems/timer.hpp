@@ -10,7 +10,7 @@ namespace system
   {
   public:
     Timer (entt::registry& registry);
-    void update (entt::registry& registry, const double dt) override;
+    void update (entt::registry& registry, const double dt);
 
   private:
     Timer() = delete;

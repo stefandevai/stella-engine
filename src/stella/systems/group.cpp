@@ -9,6 +9,7 @@ namespace stella
 namespace system
 {
   Group::Group (entt::registry& registry)
+    : System ("group")
   {
     registry.on_construct<component::Group>().connect<&Group::m_init_group> (this);
     m_group_observer = std::make_shared<entt::observer> (

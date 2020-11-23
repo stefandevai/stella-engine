@@ -1,15 +1,13 @@
 #include "stella/systems/animation_player.hpp"
 #include "stella/components/sprite.hpp"
 #include "stella/components/animation_player.hpp"
+#include <entt/entity/registry.hpp>
 
 namespace stella
 {
 namespace system
 {
-  AnimationPlayer::AnimationPlayer()
-  {
-    m_tag = "animation";
-  }
+  AnimationPlayer::AnimationPlayer() : System ("animation") { }
 
   void AnimationPlayer::update (entt::registry& registry, const double dt)
   {

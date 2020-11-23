@@ -19,7 +19,7 @@ namespace system
 
     ~Color() override {}
 
-    void update (entt::registry& registry, const double dt) override {}
+    void update (entt::registry& registry, const double dt) {}
 
   private:
     Color() = delete;

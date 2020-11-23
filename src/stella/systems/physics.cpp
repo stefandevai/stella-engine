@@ -7,7 +7,8 @@ namespace stella
 {
 namespace system
 {
-  Physics::Physics (const core::TileMap& tile_map, entt::registry& registry) : m_tile_map (tile_map)
+  Physics::Physics (const core::TileMap& tile_map, entt::registry& registry)
+    : System ("physics"), m_tile_map (tile_map)
   {
     registry.on_construct<component::Body2D>().connect<&Physics::initialize_body> (this);
     registry.on_destroy<component::Body2D>().connect<&Physics::remove_body_from_world> (this);

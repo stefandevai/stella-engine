@@ -10,7 +10,7 @@ namespace system
   {
   public:
     Speech();
-    void update (entt::registry& registry, const double dt) override;
+    void update (entt::registry& registry, const double dt);
   };
 } // namespace system
 } // namespace stella

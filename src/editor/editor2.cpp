@@ -356,7 +356,7 @@ namespace editor
         break;
       case EditorTool::PAN:
         {
-          //this->m_handle_pan_tool (io);
+          m_handle_pan_tool (io);
         }
         break;
       default:
@@ -453,6 +453,11 @@ namespace editor
     }
 
     m_current_action = Action::NONE;
+  }
+
+  void Editor::m_handle_pan_tool (ImGuiIO& io)
+  {
+
   }
 
   // TODO: Render a diferent menu bar for each mode

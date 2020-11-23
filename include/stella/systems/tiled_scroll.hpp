@@ -19,7 +19,7 @@ namespace system
 
     ~TiledScroll() override {}
 
-    void update (entt::registry& registry, const double dt) override
+    void update (entt::registry& registry, const double dt)
     {
       registry.group<component::Tileview> (entt::get<component::Position, component::Dimension>)
           .each ([this] (auto entity, auto& pos, auto& dim) {

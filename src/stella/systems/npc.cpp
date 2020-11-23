@@ -10,7 +10,8 @@ namespace stella
 {
 namespace system
 {
-  NPC::NPC (entt::registry& registry, entt::entity player_entity) : m_player_entity (player_entity)
+  NPC::NPC (entt::registry& registry, entt::entity player_entity)
+    : System ("npc"), m_player_entity (player_entity)
   {
     m_lua.open_libraries (sol::lib::base, sol::lib::string);
     registry.on_construct<component::NPC>().connect<&NPC::initialize_npc> (this);

@@ -9,7 +9,7 @@ namespace stella
 namespace system
 {
   Tile::Tile (core::TileMap& tilemap, entt::registry::entity_type camera, entt::registry& registry)
-    : m_tile_map (tilemap), m_camera (camera)
+    : System ("tile"), m_tile_map (tilemap), m_camera (camera)
   {
     if (m_tile_map.has_loaded())
     {

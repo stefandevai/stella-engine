@@ -16,7 +16,7 @@ namespace system
 
   public:
     Physics (const core::TileMap& tile_map, entt::registry& registry);
-    void update (entt::registry& registry, const double dt) override;
+    void update (entt::registry& registry, const double dt);
 
   private:
     Physics() = delete;

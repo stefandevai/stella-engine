@@ -4,6 +4,7 @@
 #include "stella/graphics/layers/sprite_layer.hpp"
 #include "stella/core/resource.hpp"
 #include <map>
+
 namespace stella
 {
 namespace graphics
@@ -32,7 +33,7 @@ namespace system
   {
   public:
     RenderT (entt::registry& registry, TextureManager& textures);
-    void update (entt::registry& registry, const double dt) override;
+    void update (entt::registry& registry, const double dt);
 
   private:
     const unsigned int DEFAULT_LAYER_ORDER = 256;

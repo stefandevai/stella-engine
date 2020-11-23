@@ -2,6 +2,7 @@
 
 #include "stella/systems/system.hpp"
 #include "stella/core/json.hpp"
+#include "stella/graphics/camera.hpp"
 #include <string>
 #include <vector>
 #include <memory>
@@ -27,7 +28,9 @@ namespace stella
 {
 namespace core
 {
+  using SystemMap = std::unordered_map<std::string, std::shared_ptr<system::System>>;
   class AssetManager;
+
 
   class Scene
   {
@@ -58,18 +61,23 @@ namespace core
     std::string m_name;
     std::string m_filepath;
     AssetManager& m_asset_manager;
-    std::vector<std::shared_ptr<system::System>> m_systems;
     entt::registry m_registry;
+    graphics::Camera m_camera;
     bool m_modified = false;
 
-  private:
-    void m_render_systems (const double dt);
-    void m_update_systems (const double dt);
-
-    template<typename T, typename... Params>
-    void m_add_system (Params&... params)
+    // Storing systems in this way allow us to render them in order
+    //std::vector<std::shared_ptr<system::System>> m_systems;
+    SystemMap m_systems =
     {
-      m_systems.push_back (std::make_shared<T> (params...));
+      { "render", nullptr },
+      { "animation", nullptr }
+    };
+
+  private:
+    template<typename T, typename... Params>
+    void m_add_system (const std::string& name, Params&... params)
+    {
+      m_systems[name] = std::make_shared<T> (params...);
     }
   };
 

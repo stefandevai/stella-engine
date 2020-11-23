@@ -1,6 +1,7 @@
 #include "stella/systems/character_animation.hpp"
 #include <string>
 #include <type_traits>
+#include <entt/entity/registry.hpp>
 #include "entt/entity/group.hpp"
 #include "entt/entity/storage.hpp"
 #include "entt/entity/utility.hpp"
@@ -13,7 +14,7 @@ namespace stella
 {
 namespace system
 {
-  CharacterAnimation::CharacterAnimation() {}
+  CharacterAnimation::CharacterAnimation() : System ("character-animation") {}
 
   void CharacterAnimation::update (entt::registry& registry, const double dt)
   {

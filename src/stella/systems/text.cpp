@@ -11,7 +11,8 @@ namespace stella
 {
 namespace system
 {
-  Text::Text (entt::registry& registry, FontManager& fonts) : m_fonts (fonts)
+  Text::Text (entt::registry& registry, FontManager& fonts)
+    : System ("text"), m_fonts (fonts)
   {
     registry.on_construct<component::Text>().connect<&Text::initialize_text> (this);
     registry.on_destroy<component::Text>().connect<&Text::delete_text> (this);

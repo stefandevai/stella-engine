@@ -83,8 +83,8 @@ namespace widget
         {
           for (auto& system : game->m_current_scene->m_systems)
           {
-            ImGui::PushID ((system->get_tag() + "#system-list").c_str());
-            if (ImGui::MenuItem (system->get_tag().c_str(), "", false)) {}
+            ImGui::PushID ((system.second->get_tag() + "#system-list").c_str());
+            if (ImGui::MenuItem (system.second->get_tag().c_str(), "", false)) {}
             ImGui::PopID();
           }
 

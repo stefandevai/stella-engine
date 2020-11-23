@@ -1,6 +1,5 @@
 #pragma once
 
-#include "entt/entity/fwd.hpp"
 #include "system.hpp"
 
 namespace stella
@@ -11,7 +10,7 @@ namespace system
   {
   public:
     CharacterAnimation();
-    void update (entt::registry& registry, const double dt) override;
+    void update (entt::registry& registry, const double dt);
   };
 } // namespace system
 } // namespace stella

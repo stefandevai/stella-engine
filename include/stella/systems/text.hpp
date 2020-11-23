@@ -4,7 +4,6 @@
 #include "stella/systems/system.hpp"
 #include "stella/components/text.hpp"
 #include <string>
-#include <entt/entity/registry.hpp>
 
 #include "stella/types.hpp"
 
@@ -19,7 +18,7 @@ namespace system
 
   public:
     Text (entt::registry& registry, core::ResourceManager<graphics::Font, const std::string, unsigned>& fonts);
-    void update (entt::registry& registry, const double dt) override;
+    void update (entt::registry& registry, const double dt);
 
   private:
     Text() = delete;

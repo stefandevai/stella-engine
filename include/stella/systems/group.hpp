@@ -1,7 +1,7 @@
 #pragma once
 
 #include "system.hpp"
-#include <entt/entity/registry.hpp>
+//#include <entt/entity/registry.hpp>
 
 namespace stella
 {
@@ -11,7 +11,7 @@ namespace system
   {
   public:
     Group (entt::registry& registry);
-    void update (entt::registry& registry, const double dt) override;
+    void update (entt::registry& registry, const double dt);
 
   private:
     std::shared_ptr<entt::observer> m_group_observer;

@@ -8,7 +8,7 @@ namespace stella
 {
 namespace system
 {
-  Speech::Speech() {}
+  Speech::Speech() : System ("speech") {}
 
   void Speech::update (entt::registry& registry, const double dt)
   {
