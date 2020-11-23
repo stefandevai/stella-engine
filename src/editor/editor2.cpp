@@ -325,6 +325,16 @@ namespace editor
     {
       m_current_action = Action::SAVE_GAME;
     }
+    // Pan tool
+    else if (state[SDL_SCANCODE_SPACE] && ImGui::IsMouseDragging (0))
+    {
+      // For the first time using the pan tool, save the camera position
+      if (m_current_tool != EditorTool::PAN)
+      {
+        m_game->m_current_scene->m_camera.save_position();
+        m_current_tool = EditorTool::PAN;
+      }
+    }
   }
 
   void Editor::m_handle_play_mode_input()
@@ -356,7 +366,7 @@ namespace editor
         break;
       case EditorTool::PAN:
         {
-          m_handle_pan_tool (io);
+          m_handle_pan_tool ();
         }
         break;
       default:
@@ -455,8 +465,21 @@ namespace editor
     m_current_action = Action::NONE;
   }
 
-  void Editor::m_handle_pan_tool (ImGuiIO& io)
+  void Editor::m_handle_pan_tool ()
   {
+    ImVec2 drag = ImGui::GetMouseDragDelta();
+
+    // Break after no more drag
+    if (drag.x == 0.0f && drag.y == 0.0f)
+    {
+      // TODO: use a stack of tools
+      m_current_tool = EditorTool::INSPECTOR;
+      return;
+    }
+
+    const float drag_factor = 2.0f;
+    const auto& camera_saved_position = m_game->m_current_scene->m_camera.get_saved_position();
+    m_game->m_current_scene->m_camera.set_position(camera_saved_position.x - drag.x * drag_factor, camera_saved_position.y - drag.y * drag_factor, camera_saved_position.z);
 
   }
 

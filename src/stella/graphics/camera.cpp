@@ -10,7 +10,6 @@ namespace graphics
 
   void Camera::update (entt::registry& registry)
   {
-    move (-1.0f, 0.0f, 0.0f);
     if (m_target == entt::null)
     {
       return;

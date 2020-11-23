@@ -71,7 +71,7 @@ namespace editor
     void m_render_none_mode();
 
     // Tools
-    void m_handle_pan_tool (ImGuiIO& io);
+    void m_handle_pan_tool ();
 
     // Render methods
     void m_render_edit_mode (const float window_width, const float window_height, const float game_width, const float game_height);
@@ -90,7 +90,7 @@ namespace editor
     float m_game_height = 0.f;
     std::unique_ptr<stella::graphics::Framebuffer> m_FBO;
     EditorMode m_current_mode = EditorMode::NONE;
-    EditorTool m_current_tool = EditorTool::INSPECTOR;
+    EditorTool m_current_tool = EditorTool::INSPECTOR; // TODO: use a stack of tools
     Action m_current_action = Action::NONE;
 
     // ImGui related properties
