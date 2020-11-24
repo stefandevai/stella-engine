@@ -4,19 +4,22 @@
         {
             "name": "nikte",
             "type": "texture",
-            "path": "textures/nikte.png"
+            "path": "textures/nikte.png",
+            "textureType": "diffuse"
         },
 
         {
             "name": "tileset",
             "type": "texture",
-            "path": "textures/tileset.png"
+            "path": "textures/tileset.png",
+            "textureType": "diffuse"
         },
 
         {
             "name": "crate",
             "type": "texture",
-            "path": "textures/crate.png"
+            "path": "textures/crate.png",
+            "textureType": "diffuse"
         },
 
         {

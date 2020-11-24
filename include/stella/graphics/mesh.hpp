@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/vec3.hpp>
+#include "stella/graphics/vertex.hpp"
 #include <vector>
 
 namespace stella
@@ -8,24 +8,14 @@ namespace stella
 namespace graphics
 {
   class ShaderProgram;
+  class Texture;
 
-  struct Vertex
-  {
-    glm::vec3 position;
-    //glm::vec3 normal;
-    //glm::vec3 tex_coords;
-  };
-
-  //struct Texture2
-  //{
-    //unsigned int id;
-    //std::string type;
-  //};
+  using TextureVector = std::vector<std::shared_ptr<Texture>>;
 
   class Mesh
   {
   public:
-    Mesh (const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
+    Mesh (const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, const TextureVector& textures);
     ~Mesh ();
 
     void draw (ShaderProgram& shader);
@@ -36,6 +26,7 @@ namespace graphics
     unsigned int m_ebo;
     const std::vector<Vertex> m_vertices;
     const std::vector<uint32_t> m_indices;
+    const TextureVector m_textures;
     //std::vector<Texture2> textures;
 
   private:

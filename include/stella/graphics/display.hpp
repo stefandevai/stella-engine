@@ -71,7 +71,7 @@ namespace graphics
     SDL_Window* m_window;
     SDL_GLContext m_gl_context;
     bool m_running;
-    glm::vec3 m_clear_color{0.f, 0.f, 0.f};
+    glm::vec3 m_clear_color{0.0f, 0.0f, 0.0f};
     SDL_Event m_event;
 
 #ifdef STELLA_BUILD_EDITOR

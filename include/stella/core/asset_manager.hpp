@@ -37,11 +37,9 @@ namespace core
           // TODO: Load resource
           auto asset = asset_pair.second->construct();
           asset_ptr = asset;
-          spdlog::critical("Getting new asset: {}", name);
           return std::dynamic_pointer_cast<T>(asset);
         }
 
-        spdlog::critical("Getting existing asset: {}", name);
         return std::dynamic_pointer_cast<T>(asset_ptr.lock());
       }
       catch (std::out_of_range& e)

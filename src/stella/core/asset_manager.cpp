@@ -25,10 +25,17 @@ namespace core
   template <typename T, typename... Args>
   void AssetManager::add (const std::string& name, const std::string& filepath, Args... args)
   {
+    // TODO: Better handling of existing textures
+    // If the key already exists just return
+    if (m_assets.find(name) != m_assets.end())
+    {
+      return;
+    }
+
     auto asset_loader = std::make_unique<T>(filepath, args...);
     std::weak_ptr<Asset> asset_ptr;
-    assert(asset_loader != nullptr);
-    assert(asset_ptr != nullptr);
+    assert (asset_loader != nullptr);
+    assert (asset_ptr != nullptr);
     m_assets.emplace(name, std::make_pair(std::move(asset_ptr), std::move(asset_loader)));
   }
 
@@ -46,8 +53,8 @@ namespace core
     
     for (auto& asset_info : assets)
     {
-      auto name = asset_info["name"].get<std::string>();
-      auto type_tag = asset_info["type"].get<std::string>();
+      const auto name = asset_info["name"].get<std::string>();
+      const auto type_tag = asset_info["type"].get<std::string>();
       AssetType type = AssetType::NONE;
 
       try
@@ -64,16 +71,19 @@ namespace core
       {
         case AssetType::TEXTURE:
           {
-            auto filepath = asset_info["path"].get<std::string>();
-            auto full_path = m_base_dir / filepath;
-            add<TextureLoader>(name, full_path);
+            const auto filepath = asset_info["path"].get<std::string>();
+            //const auto texture_type = asset_info["textureType"].get<std::string>();
+            const auto full_path = m_base_dir / filepath;
+
+            // TODO: Parse all texture types
+            add<TextureLoader>(name, full_path, graphics::TextureType::DIFFUSE);
           }
           break;
 
         case AssetType::MODEL:
           {
-            auto filepath = asset_info["path"].get<std::string>();
-            auto full_path = m_base_dir / filepath;
+            const auto filepath = asset_info["path"].get<std::string>();
+            const auto full_path = m_base_dir / filepath;
             // TODO: Implement model loading
             add<ModelLoader>(name, full_path);
           }
@@ -81,8 +91,8 @@ namespace core
 
         case AssetType::SHADER:
           {
-            auto vertex_filepath = asset_info["vertexFilepath"].get<std::string>();
-            auto fragment_filepath = asset_info["fragmentFilepath"].get<std::string>();
+            const auto vertex_filepath = asset_info["vertexFilepath"].get<std::string>();
+            const auto fragment_filepath = asset_info["fragmentFilepath"].get<std::string>();
             // TODO: Implement sound loading
             add<ShaderLoader>(name, m_base_dir / vertex_filepath, m_base_dir / fragment_filepath);
           }
