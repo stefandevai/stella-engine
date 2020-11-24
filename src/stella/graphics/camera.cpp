@@ -6,7 +6,10 @@ namespace stella
 namespace graphics
 {
 
-  Camera::Camera () { m_target = entt::null; }
+  Camera::Camera ()
+  {
+    m_target = entt::null;
+  }
 
   void Camera::update (entt::registry& registry)
   {
@@ -36,6 +39,14 @@ namespace graphics
     m_front.x = x;
     m_front.y = y;
     m_front.z = z - 501;
+  }
+
+  void Camera::set_frustrum (const float left, const float right, const float bottom, const float top)
+  {
+    m_frustrum_left = left;
+    m_frustrum_right = right;
+    m_frustrum_bottom = bottom;
+    m_frustrum_top = top;
   }
 
   void Camera::set_target (const entt::entity& target)

@@ -477,7 +477,7 @@ namespace editor
       return;
     }
 
-    const float drag_factor = 2.0f;
+    const float drag_factor = 1.0f;
     const auto& camera_saved_position = m_game->m_current_scene->m_camera.get_saved_position();
     m_game->m_current_scene->m_camera.set_position(camera_saved_position.x - drag.x * drag_factor, camera_saved_position.y - drag.y * drag_factor, camera_saved_position.z);
 

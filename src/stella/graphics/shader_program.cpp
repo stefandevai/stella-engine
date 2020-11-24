@@ -57,9 +57,14 @@ namespace graphics
     glUseProgram(m_program);
   }
 
-  void ShaderProgram::set_mat_4 (const std::string& uniform_name, const glm::mat4 &mat)
+  void ShaderProgram::set_mat_4 (const std::string& uniform_name, const glm::mat4 &mat) const
   {
     glUniformMatrix4fv(glGetUniformLocation(m_program, uniform_name.c_str()), 1, GL_FALSE, &mat[0][0]);
+  }
+
+  void ShaderProgram::set_float (const std::string& uniform_name, const float value) const
+  {
+    glUniform1f(glGetUniformLocation(m_program, uniform_name.c_str()), value);
   }
 }
 }

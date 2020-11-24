@@ -6,8 +6,6 @@
         "width": 896
     },
     "scenes": [
-        "scene1.json",
-        "scene2.json",
-        "scene3.json"
+        "scene1.json"
     ]
 }

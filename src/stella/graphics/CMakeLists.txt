@@ -5,6 +5,7 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    display.cpp
                                    font.cpp
                                    framebuffer.cpp
+                                   mesh.cpp
                                    renderer.cpp
                                    renderable.cpp
                                    sprite_renderer.cpp

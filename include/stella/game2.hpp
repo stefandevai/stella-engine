@@ -23,7 +23,7 @@ namespace stella
     void run();
     inline const uint_fast32_t get_width() const { return m_display.get_width(); };
     inline const uint_fast32_t get_height() const { return m_display.get_height(); };
-    inline void set_size(const int width, const int height) { m_display.set_size(width, height); };
+    inline void set_size(const int width, const int height) { m_width = width; m_height = height; m_display.set_size(width, height); };
     inline void set_title(const std::string& title) { m_title = title; m_display.set_title(title); };
     //inline void set_filepath(const std::string& filepath) { m_filepath = filepath; };
 
@@ -40,8 +40,8 @@ namespace stella
   private:
     // Hardcoded fields
     std::string m_initial_title = "Stella Engine";
-    unsigned m_iniitial_width = 800;
-    unsigned m_initial_height = 600;
+    unsigned m_width = 800;
+    unsigned m_height = 600;
     const std::filesystem::path m_config_filepath{"config.json"};
     const std::filesystem::path m_assets_config_filepath{"assets/assets.json"};
     const std::filesystem::path m_scenes_dir{"scenes"};
@@ -52,7 +52,7 @@ namespace stella
     core::AssetManager m_asset_manager{m_filepath / m_assets_config_filepath};
     entt::registry m_registry;
     std::string m_title;
-    graphics::Display m_display{m_iniitial_width, m_initial_height, m_initial_title};
+    graphics::Display m_display{m_width, m_height, m_initial_title};
 
     // TODO: Use another data structure to hold scenes and names
     std::vector<std::shared_ptr<core::Scene>> m_scenes;

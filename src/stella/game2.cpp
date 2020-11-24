@@ -24,7 +24,7 @@ namespace stella
   {
     // TODO: Check if scene already exists
     // If not, add to config.json file
-    auto scene = std::make_shared<core::Scene>(m_asset_manager);
+    auto scene = std::make_shared<core::Scene>(m_width, m_height, m_asset_manager);
 
     try
     {
@@ -42,7 +42,7 @@ namespace stella
   void Game::create_scene(const std::string& name, const std::string& filepath)
   {
     // TODO: Check if scene with same filepath already exists
-    auto scene = std::make_shared<core::Scene>(m_asset_manager);
+    auto scene = std::make_shared<core::Scene>(m_width, m_height, m_asset_manager);
     scene->set_name (name);
     scene->save (filepath);
     add_scene(scene);
@@ -150,6 +150,8 @@ namespace stella
     {
       auto width = game_object["width"].get<int>();
       auto height = game_object["height"].get<int>();
+      m_width = width;
+      m_height = height;
       m_display.set_size(width, height);
     }
 

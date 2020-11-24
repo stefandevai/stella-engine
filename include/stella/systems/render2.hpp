@@ -2,6 +2,7 @@
 
 #include "stella/systems/system.hpp"
 #include "stella/core/asset_manager.hpp"
+#include "stella/graphics/mesh.hpp"
 
 namespace stella
 {
@@ -22,16 +23,14 @@ namespace system
   {
   public:
     Render (core::AssetManager& asset_manager);
-    ~Render ();
 
     void render (entt::registry& registry, const graphics::Camera& camera, const double dt);
 
   private:
     core::AssetManager& m_asset_manager;
 
-    unsigned int VBO, VAO;
     std::shared_ptr<graphics::ShaderProgram> m_shader_program;
-    std::shared_ptr<graphics::Texture> m_texture;
+    std::vector<std::shared_ptr<graphics::Mesh>> meshes;
 
   };
 

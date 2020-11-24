@@ -10,8 +10,8 @@ namespace stella
 {
 namespace core
 {
-  Scene::Scene (AssetManager& asset_manager)
-    : m_asset_manager (asset_manager)
+  Scene::Scene (const int width, const int height, AssetManager& asset_manager)
+    : m_width (width), m_height (height), m_asset_manager (asset_manager)
   {
     spdlog::set_level(spdlog::level::debug);
   }
@@ -73,7 +73,10 @@ namespace core
     save(m_filepath);
   }
 
-  void Scene::start() {}
+  void Scene::start()
+  {
+    m_camera.set_frustrum (0.0f, static_cast<float>(m_width), static_cast<float>(m_height), 0.0f);
+  }
 
   void Scene::update (const double dt)
   {

@@ -31,24 +31,23 @@ namespace core
   using SystemMap = std::unordered_map<std::string, std::shared_ptr<system::System>>;
   class AssetManager;
 
-
   class Scene
   {
   public:
-    Scene (AssetManager& asset_manager);
+    Scene (const int width, const int height, AssetManager& asset_manager);
 
-    void load(const std::string& filepath);
-    void save(const std::string& filepath);
+    void load (const std::string& filepath);
+    void save (const std::string& filepath);
     void save();
     void start();
-    void update(const double dt);
-    void render(const double dt);
+    void update (const double dt);
+    void render (const double dt);
     void add_system (const std::string& system_name);
     inline bool is_modified() const { return m_modified; };
     inline std::string get_name() const { return m_name; };
     inline std::string get_filepath() const { return m_filepath; };
-    inline void set_name(const std::string& name) { m_name = name; m_modified = true; };
-    inline void set_filepath(const std::string& filepath) { m_filepath = filepath; m_modified = true; };
+    inline void set_name (const std::string& name) { m_name = name; m_modified = true; };
+    inline void set_filepath (const std::string& filepath) { m_filepath = filepath; m_modified = true; };
 
 #ifdef STELLA_BUILD_EDITOR
   friend class ::editor::Editor;
@@ -60,6 +59,8 @@ namespace core
     JSON m_json;
     std::string m_name;
     std::string m_filepath;
+    const int m_width;
+    const int m_height;
     AssetManager& m_asset_manager;
     entt::registry m_registry;
     graphics::Camera m_camera;
