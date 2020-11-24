@@ -85,7 +85,7 @@ namespace core
             const auto filepath = asset_info["path"].get<std::string>();
             const auto full_path = m_base_dir / filepath;
             // TODO: Implement model loading
-            add<ModelLoader>(name, full_path);
+            add<ModelLoader>(name, full_path, this);
           }
           break;
 

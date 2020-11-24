@@ -3,6 +3,7 @@ project(core)
 add_library(${PROJECT_NAME} STATIC tile_map.cpp
                                    ecs_lua_api.cpp
                                    asset_manager.cpp
+                                   model_loader.cpp
                                    shader_loader.cpp
                                    json.cpp
                                    map_grid.cpp

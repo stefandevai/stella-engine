@@ -6,10 +6,17 @@
 
 namespace stella
 {
+namespace core
+{
+  class ModelAsset;
+}
+}
+
+namespace stella
+{
 namespace graphics
 {
   class ShaderProgram;
-  class Texture;
   class Camera;
 }
 }
@@ -28,9 +35,8 @@ namespace system
 
   private:
     core::AssetManager& m_asset_manager;
-
     std::shared_ptr<graphics::ShaderProgram> m_shader_program;
-    std::vector<std::shared_ptr<graphics::Mesh>> meshes;
+    std::shared_ptr<core::ModelAsset> m_model;
 
   };
 
