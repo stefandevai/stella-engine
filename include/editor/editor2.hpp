@@ -9,8 +9,9 @@
 #include <entt/entity/registry.hpp> // IWYU pragma: export
 
 // Widgets
+#include "widgets/assets.hpp"
 #include "widgets/toolbar.hpp"
-#include "widgets/console.hpp"
+//#include "widgets/console.hpp"
 #include "widgets/chat.hpp"
 #include "widgets/inspector.hpp"
 #include "widgets/scene.hpp"
@@ -100,10 +101,11 @@ namespace editor
     const ImGuiWindowFlags m_window_flags = ImGuiWindowFlags_NoTitleBar;
 
     // Widgets
+    widget::Assets m_assets;
     widget::Toolbar m_toolbar;
     widget::Scene m_scene;
     widget::SceneEditor m_scene_editor;
-    widget::Console m_console{m_window_flags, m_font_mono};
+    //widget::Console m_console{m_window_flags, m_font_mono};
     widget::Inspector m_inspector;
     widget::NewScenePopup m_new_scene_popup{m_game};
     widget::LoadScenePopup m_load_scene_popup{m_game};

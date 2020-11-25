@@ -161,7 +161,8 @@ namespace editor
 
     //m_inspector.render (m_game->m_registry, m_game->m_textures.get_list());
     m_scene_editor.render (m_game);
-    m_console.render();
+    //m_console.render();
+    m_assets.render(m_game->m_asset_manager);
 
     ImGui::PopFont();
     ImGui::Render();
@@ -543,7 +544,7 @@ namespace editor
 
       ImGui::DockBuilderDockWindow (m_scene_editor.get_title_string().c_str(), dock_right_id);
       //ImGui::DockBuilderDockWindow (m_inspector.get_title_string().c_str(), dock_right_down_id);
-      ImGui::DockBuilderDockWindow (m_console.get_title_string().c_str(), dock_down_id);
+      ImGui::DockBuilderDockWindow (m_assets.get_title_string().c_str(), dock_down_id);
       ImGui::DockBuilderDockWindow (m_scene.get_title_string().c_str(), dock_main_id);
 
       ImGui::DockBuilderFinish (dock_main_id);

@@ -7,6 +7,14 @@
 #include <unordered_map>
 #include <spdlog/spdlog.h>
 
+namespace editor
+{
+namespace widget
+{
+  class Assets;
+}
+}
+
 namespace stella
 {
 namespace core
@@ -62,6 +70,10 @@ namespace core
       {"model", AssetType::MODEL},
       {"shader", AssetType::SHADER},
     };
+
+#ifdef STELLA_BUILD_EDITOR
+    friend class ::editor::widget::Assets;
+#endif
 
   private:
     void m_init_assets();

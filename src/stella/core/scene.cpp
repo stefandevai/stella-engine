@@ -59,7 +59,10 @@ namespace core
     m_json.object["systems"] = nlohmann::json::array();
     for (auto& s : m_systems)
     {
-      m_json.object["systems"].emplace_back(s.second->get_tag());
+      if (s.second != nullptr)
+      {
+        m_json.object["systems"].emplace_back(s.second->get_tag());
+      }
     }
 
     // Save json file

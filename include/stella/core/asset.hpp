@@ -27,6 +27,7 @@ namespace core
     virtual ~AssetLoader() {}
 
     virtual std::shared_ptr<Asset> construct() = 0;
+    inline const AssetType get_type () const { return m_type; }
 
   protected:
     const AssetType m_type;
