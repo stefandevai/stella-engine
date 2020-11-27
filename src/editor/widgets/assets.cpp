@@ -1,5 +1,5 @@
 #include "editor/widgets/assets.hpp"
-#include "stella/core/asset_manager.hpp"
+#include "stella/core/resource/asset_manager.hpp"
 
 namespace editor
 {

@@ -5,7 +5,6 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    display.cpp
                                    font.cpp
                                    framebuffer.cpp
-                                   mesh.cpp
                                    renderer.cpp
                                    renderable.cpp
                                    sprite_renderer.cpp
@@ -15,6 +14,9 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
                                    shape_renderer.cpp
                                    texture2.cpp
                                    vertex.cpp
+                                   renderer/mesh.cpp
+                                   renderer/renderer.cpp
+                                   renderer/batch2d.cpp
                                    layers/layer.cpp
                                    layers/sprite_layer.cpp
                                    layers/shape_layer.cpp)

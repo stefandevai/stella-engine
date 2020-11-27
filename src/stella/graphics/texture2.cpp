@@ -1,6 +1,5 @@
 #include "stella/graphics/texture2.hpp"
 #include "stella/graphics/opengl.hpp" // IWYU pragma: export
-#include "stella/core/asset.hpp" // IWYU pragma: export
 
 extern "C"
 {
@@ -10,13 +9,23 @@ extern "C"
 #include "stb_image.h"
 }
 
-namespace stella
-{
-namespace graphics
+namespace stella::graphics
 {
 
+  // Load single texture
   Texture::Texture(const std::string& filepath, const TextureType type)
-    : m_type (type)
+    : m_type (type),
+      m_horizontal_frames (1),
+      m_vertical_frames (1)
+  {
+    load(filepath);
+  }
+
+  // Load uniform texture atlas
+  Texture::Texture(const std::string& filepath, const TextureType type, const int horizontal_frames, const int vertical_frames)
+    : m_type (type),
+      m_horizontal_frames (horizontal_frames),
+      m_vertical_frames (vertical_frames)
   {
     load(filepath);
   }
@@ -28,9 +37,9 @@ namespace graphics
 
   void Texture::load(const std::string& filepath)
   {
-    int width;
-    int height;
-    int channels;
+    int width = 0;
+    int height = 0;
+    int channels = 0;
     unsigned char* image_data;
 
     //image_data = stbi_load (filepath.c_str(), &width, &height, &channels, STBI_rgb_alpha);
@@ -87,5 +96,40 @@ namespace graphics
     glBindTexture (GL_TEXTURE_2D, 0);
   }
 
-}
+  // TODO: Implement irregular frame calculations
+  const float Texture::get_frame_width(const int frame) const
+  {
+    return (m_width / static_cast<float>(m_horizontal_frames));
+  }
+
+  // TODO: Implement irregular frame calculations
+  const float Texture::get_frame_height(const int frame) const
+  {
+    return (m_height / static_cast<float>(m_vertical_frames));
+  }
+
+  // TODO: Implement irregular frame calculations
+  // Get top-left, top-right, bottom-right and bottom-left uv coordinates
+  const std::array<glm::vec2, 4> Texture::get_frame_coords (const int frame) const
+  {
+    const auto frame_width = get_frame_width (frame) / static_cast<float> (m_width);
+    const auto frame_height = get_frame_height (frame) / static_cast<float> (m_height);
+    const int max_frames = m_horizontal_frames * m_vertical_frames;
+    const float frame_x = static_cast<float> (frame % m_horizontal_frames);
+    const float frame_y = static_cast<float> ((frame % max_frames) / m_horizontal_frames);
+    // Multiply the x coord of the frame in the texture atlas by the normalized value of the width one frame.
+    const float top_left_x = frame_x * (m_width / static_cast<float> (m_horizontal_frames)) / m_width;
+    // Multiply the y coord of the frame in the tile map by the normalized value of the height one frame.
+    // Invert the value as the y axis is upwards for OpenGL
+    const float top_left_y = frame_y * (m_height / static_cast<float> (m_vertical_frames)) / m_height;
+
+    return std::array<glm::vec2, 4>
+    {
+      glm::vec2{top_left_x, top_left_y},
+      glm::vec2{top_left_x + frame_width, top_left_y},
+      glm::vec2{top_left_x + frame_width, top_left_y + frame_height},
+      glm::vec2{top_left_x, top_left_y + frame_height},
+    };
+  }
+
 }

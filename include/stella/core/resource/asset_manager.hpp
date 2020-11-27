@@ -1,6 +1,7 @@
 #pragma once
 
-#include "stella/core/asset.hpp"
+#include "stella/core/resource/asset.hpp"
+#include "stella/core/resource/asset_parameters.hpp"
 #include "stella/core/json.hpp"
 #include <string>
 #include <filesystem>
@@ -33,42 +34,48 @@ namespace core
 
     // Gets a loaded asset by its name
     template <typename T>
-    std::shared_ptr<T> get (const std::string& name)
+    std::shared_ptr<T> get (const std::string& id)
     {
+      std::shared_ptr<T> asset_value = nullptr;
+
       try
       {
-        auto& asset_pair = m_assets.at(name);
+        auto& asset_pair = m_assets.at(id);
         auto& asset_ptr = asset_pair.first;
 
         if (asset_ptr.expired())
         {
-          // TODO: Load resource
-          auto asset = asset_pair.second->construct();
-          asset_ptr = asset;
-          return std::dynamic_pointer_cast<T>(asset);
+          asset_value = std::dynamic_pointer_cast<T>(asset_pair.second->construct());
+          asset_ptr = asset_value;
         }
-
-        return std::dynamic_pointer_cast<T>(asset_ptr.lock());
+        else
+        {
+          asset_value = std::dynamic_pointer_cast<T>(asset_ptr.lock());
+        }
+        assert (asset_value != nullptr && "Template type must be an Asset type");
       }
       catch (std::out_of_range& e)
       {
-        spdlog::warn ("There's no asset named {}.\n{}", name, e.what());
+        // TODO: Add default asset to return
+        spdlog::warn ("There's no asset with ID {}.\n{}", id, e.what());
         return nullptr;
       }
+
+      return asset_value;
     }
 
   private:
     const std::filesystem::path m_filepath;
     std::filesystem::path m_base_dir;
     JSON m_json;
-    //std::unordered_map<std::string, std::shared_ptr<Asset>> m_assets;
     AssetMap m_assets;
 
     const std::unordered_map<std::string, AssetType> m_asset_types =
     {
-      {"texture", AssetType::TEXTURE},
-      {"model", AssetType::MODEL},
-      {"shader", AssetType::SHADER},
+      {ASSET_TYPE_TEXTURE, AssetType::TEXTURE},
+      {ASSET_TYPE_TEXTURE_ATLAS, AssetType::TEXTURE_ATLAS},
+      {ASSET_TYPE_SHADER, AssetType::SHADER},
+      {ASSET_TYPE_MODEL, AssetType::MODEL},
     };
 
 #ifdef STELLA_BUILD_EDITOR

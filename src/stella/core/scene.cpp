@@ -6,6 +6,12 @@
 #include <spdlog/spdlog.h>
 #include <iostream>
 
+// TEMP
+#include "stella/components/mesh.hpp"
+#include "stella/components/position2.hpp"
+#include "stella/components/sprite2.hpp"
+// TEMP
+
 namespace stella
 {
 namespace core
@@ -14,6 +20,7 @@ namespace core
     : m_width (width), m_height (height), m_asset_manager (asset_manager)
   {
     spdlog::set_level(spdlog::level::debug);
+    m_camera.set_frustrum (0.0f, static_cast<float>(m_width), static_cast<float>(m_height), 0.0f);
   }
 
   void Scene::load(const std::string& filepath)
@@ -78,7 +85,13 @@ namespace core
 
   void Scene::start()
   {
-    m_camera.set_frustrum (0.0f, static_cast<float>(m_width), static_cast<float>(m_height), 0.0f);
+    auto mesh_entity = m_registry.create();
+    m_registry.emplace<component::Mesh>(mesh_entity, "skull");
+    m_registry.emplace<component::Position2>(mesh_entity, 0.0f, 0.0f);
+
+    auto sprite_entity = m_registry.create();
+    m_registry.emplace<component::Sprite>(sprite_entity, "spritesheet-nikte", 54);
+    m_registry.emplace<component::Position2>(sprite_entity, 200.0f, 400.0f);
   }
 
   void Scene::update (const double dt)

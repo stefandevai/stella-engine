@@ -2,12 +2,13 @@ project(core)
 
 add_library(${PROJECT_NAME} STATIC tile_map.cpp
                                    ecs_lua_api.cpp
-                                   asset_manager.cpp
-                                   model_loader.cpp
-                                   shader_loader.cpp
                                    json.cpp
                                    map_grid.cpp
-                                   scene.cpp)
+                                   scene.cpp
+                                   resource/asset_manager.cpp
+                                   resource/model_loader.cpp
+                                   resource/shader_loader.cpp
+                                   resource/texture_loader.cpp)
                                    
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 

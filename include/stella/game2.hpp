@@ -3,7 +3,7 @@
 #include "stella/graphics/display.hpp"
 #include "stella/core/scene.hpp"
 #include "stella/core/json.hpp"
-#include "stella/core/asset_manager.hpp"
+#include "stella/core/resource/asset_manager.hpp"
 
 #include <entt/entity/registry.hpp>
 

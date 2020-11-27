@@ -1,4 +1,4 @@
-#include "stella/graphics/mesh.hpp"
+#include "stella/graphics/renderer/mesh.hpp"
 #include "stella/graphics/opengl.hpp"
 #include "stella/graphics/shader_program.hpp"
 #include "stella/graphics/texture2.hpp"
@@ -22,7 +22,7 @@ namespace graphics
     glDeleteBuffers(1, &m_vbo);
   }
 
-  void Mesh::draw (ShaderProgram& shader)
+  void Mesh::render (ShaderProgram& shader)
   {
     unsigned int diffuse_count = 1;
     unsigned int specular_count = 1;

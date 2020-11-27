@@ -1,7 +1,7 @@
 #pragma once
 
 #include "stella/graphics/opengl.hpp"
-#include "stella/core/asset.hpp"
+#include "stella/core/resource/asset.hpp"
 #include <glm/glm.hpp>
 
 namespace stella

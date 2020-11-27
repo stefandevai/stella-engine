@@ -2,31 +2,50 @@
     "assets":
     [
         {
-            "name": "nikte",
+            "id": "nikte",
             "type": "texture",
             "path": "textures/nikte.png",
             "textureType": "diffuse"
         },
 
         {
-            "name": "tileset",
+            "id": "tileset",
             "type": "texture",
             "path": "textures/tileset.png",
             "textureType": "diffuse"
         },
 
         {
-            "name": "crate",
+            "id": "crate",
             "type": "texture",
             "path": "textures/crate.png",
             "textureType": "diffuse"
         },
 
         {
-            "name": "simple-shader",
-            "type": "shader",
-            "vertexFilepath": "shaders/no_effect.vert",
-            "fragmentFilepath": "shaders/no_effect.frag"
+            "id": "skull",
+            "type": "model",
+            "path": "models/skull/12140_Skull_v3_L2.obj"
+        },
+
+        {
+            "id": "spritesheet-nikte",
+            "type": "texture-atlas",
+            "path": "textures/nikte.png",
+            "textureType": "diffuse",
+            "uniform": true,
+            "horizontalFrames": 9,
+            "verticalFrames": 6
+        },
+
+        {
+            "id": "spritesheet-tileset",
+            "type": "texture-atlas",
+            "path": "textures/tileset.png",
+            "textureType": "diffuse",
+            "uniform": true,
+            "horizontalFrames": 8,
+            "verticalFrames": 11
         }
     ]
 }

@@ -1,11 +1,11 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #define GLM_ENABLE_EXPERIMENTAL
 
-#include "stella/core/model_loader.hpp"
-#include "stella/core/texture_loader.hpp"
-#include "stella/core/asset_manager.hpp"
+#include "stella/core/resource/model_loader.hpp"
+#include "stella/core/resource/texture_loader.hpp"
+#include "stella/core/resource/asset_manager.hpp"
+#include "stella/graphics/renderer/mesh.hpp"
 #include "stella/graphics/vertex.hpp"
-#include "stella/graphics/mesh.hpp"
 #include "stella/graphics/texture2.hpp"
 #include "../../../lib/tinyobjloader/tinyobjloader.hpp"
 #include <filesystem>
@@ -114,8 +114,7 @@ namespace core
       }
     }
 
-    meshes.emplace_back(std::make_shared<graphics::Mesh>(vertices, indices, textures));
-    return std::make_shared<ModelAsset>(meshes);
+    return std::make_shared<graphics::Mesh>(vertices, indices, textures);
   }
 
 }
