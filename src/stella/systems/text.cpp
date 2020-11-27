@@ -11,8 +11,7 @@ namespace stella
 {
 namespace system
 {
-  Text::Text (entt::registry& registry, FontManager& fonts)
-    : System ("text"), m_fonts (fonts)
+  Text::Text (entt::registry& registry, FontManager& fonts) : System ("text"), m_fonts (fonts)
   {
     registry.on_construct<component::Text>().connect<&Text::initialize_text> (this);
     registry.on_destroy<component::Text>().connect<&Text::delete_text> (this);
@@ -20,31 +19,30 @@ namespace system
 
   void Text::update (entt::registry& registry, const double dt)
   {
-    registry.group<component::Text> (entt::get<component::Position>)
-        .each ([&registry, this, dt] (auto entity, auto& text, auto& pos) {
-          if (!text.is_static)
-          {
-            auto font = m_fonts.load (text.font_name);
-            // Define a char's x position in relation to the chars before it
-            float acc_char_posx = pos.x;
+    registry.group<component::Text> (entt::get<component::Position>).each ([&registry, this, dt] (auto entity, auto& text, auto& pos) {
+      if (!text.is_static)
+      {
+        auto font = m_fonts.load (text.font_name);
+        // Define a char's x position in relation to the chars before it
+        float acc_char_posx = pos.x;
 
-            for (const auto chr : text.char_entities)
-            {
-              auto& chr_pos        = registry.get<component::Position> (chr);
-              const auto& chr_code = registry.get<component::Charcode> (chr);
-              const auto& chr_data = font->get_char_data (chr_code.code);
+        for (const auto chr : text.char_entities)
+        {
+          auto& chr_pos        = registry.get<component::Position> (chr);
+          const auto& chr_code = registry.get<component::Charcode> (chr);
+          const auto& chr_data = font->get_char_data (chr_code.code);
 
-              chr_pos.x = acc_char_posx + chr_data.bl;
-              chr_pos.y = pos.y - chr_data.bt;
-              acc_char_posx += (chr_data.ax >> 6);
-            }
+          chr_pos.x = acc_char_posx + chr_data.bl;
+          chr_pos.y = pos.y - chr_data.bt;
+          acc_char_posx += (chr_data.ax >> 6);
+        }
 
-            if (registry.has<component::Typewriter> (entity))
-            {
-              m_typewrite (registry, entity, dt);
-            }
-          }
-        });
+        if (registry.has<component::Typewriter> (entity))
+        {
+          m_typewrite (registry, entity, dt);
+        }
+      }
+    });
   }
 
   void Text::m_typewrite (entt::registry& registry, entt::entity entity, const double dt)

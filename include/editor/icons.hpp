@@ -6,4 +6,3 @@
 #define ICON_FA_PLAY          u8"\uf04b"
 #define ICON_FA_PLUS          u8"\uf067"
 #define ICON_FA_MOUSE_POINTER u8"\uf245"
-

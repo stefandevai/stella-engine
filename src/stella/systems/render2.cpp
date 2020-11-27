@@ -8,9 +8,7 @@ namespace stella
 {
 namespace system
 {
-  Render::Render (core::AssetManager& asset_manager)
-    : System ("render"), m_asset_manager (asset_manager)
-  { }
+  Render::Render (core::AssetManager& asset_manager) : System ("render"), m_asset_manager (asset_manager) {}
 
   void Render::render (entt::registry& registry, const graphics::Camera& camera, const double dt)
   {
@@ -23,8 +21,8 @@ namespace system
 
     m_renderer.batch_sprites (registry);
 
-    m_renderer.render(camera);
+    m_renderer.render (camera);
   }
 
-}
-}
+} // namespace system
+} // namespace stella

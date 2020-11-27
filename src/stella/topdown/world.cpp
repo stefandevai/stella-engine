@@ -49,10 +49,8 @@ namespace topdown
     const int bw = (body->Position.x + body->Dimension.x) / TILE_DIMENSIONS;
     const int bh = (body->Position.y + body->Dimension.y) / TILE_DIMENSIONS;
 
-    if ((body->MovingTop() && check_tile_collision (bx, by - 1)) ||
-        (body->MovingRight() && check_tile_collision (bw, by)) ||
-        (body->MovingBottom() && check_tile_collision (bx, bh)) ||
-        (body->MovingLeft() && check_tile_collision (bx - 1, by)))
+    if ((body->MovingTop() && check_tile_collision (bx, by - 1)) || (body->MovingRight() && check_tile_collision (bw, by)) ||
+        (body->MovingBottom() && check_tile_collision (bx, bh)) || (body->MovingLeft() && check_tile_collision (bx - 1, by)))
     {
       body->ResetMovement();
     }

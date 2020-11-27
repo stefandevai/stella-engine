@@ -42,7 +42,7 @@ namespace script
     }
     else
     {
-      spdlog::warn("Entity has no Position");
+      spdlog::warn ("Entity has no Position");
       return std::make_tuple (0, 0, 0);
     }
   }
@@ -70,8 +70,7 @@ namespace script
       layer_type = component::LayerType::SHAPE_LAYER;
     }
 
-    m_registry.emplace<stella::component::LayerT> (
-        layer, layer_name, priority, layer_type, vert_shader_source, frag_shader_source, fixed);
+    m_registry.emplace<stella::component::LayerT> (layer, layer_name, priority, layer_type, vert_shader_source, frag_shader_source, fixed);
   }
 
   void ECSLuaApi::add_sprite_component (entt::registry::entity_type id, const sol::table& obj)
@@ -127,23 +126,17 @@ namespace script
     }
   }
 
-  void ECSLuaApi::add_tileview_component (entt::registry::entity_type id, const sol::table& obj)
-  {
-    m_registry.emplace<stella::component::Tileview> (id);
-  }
+  void ECSLuaApi::add_tileview_component (entt::registry::entity_type id, const sol::table& obj) { m_registry.emplace<stella::component::Tileview> (id); }
 
   void ECSLuaApi::add_movement_component (entt::registry::entity_type id, const sol::table& obj)
   {
-    glm::vec2 speed     = obj["speed"] == sol::lua_nil ? glm::vec2() : glm::vec2 (obj["speed"][1], obj["speed"][2]);
-    const bool& gravity = obj["has_gravity"] == sol::lua_nil ? true : obj["has_gravity"];
+    glm::vec2 speed               = obj["speed"] == sol::lua_nil ? glm::vec2() : glm::vec2 (obj["speed"][1], obj["speed"][2]);
+    const bool& gravity           = obj["has_gravity"] == sol::lua_nil ? true : obj["has_gravity"];
     const bool& constant_velocity = obj["has_constant_velocity"] == sol::lua_nil ? false : obj["has_constant_velocity"];
     m_registry.emplace<stella::component::Movement> (id, speed, gravity, constant_velocity);
   }
 
-  void ECSLuaApi::add_player_component (entt::registry::entity_type id, const sol::table& obj)
-  {
-    m_registry.emplace<stella::component::Player> (id);
-  }
+  void ECSLuaApi::add_player_component (entt::registry::entity_type id, const sol::table& obj) { m_registry.emplace<stella::component::Player> (id); }
 
   void ECSLuaApi::add_transform_component (entt::registry::entity_type id, const sol::table& obj)
   {
@@ -218,10 +211,7 @@ namespace script
   //   m_registry.emplace<stella::component::ParticleEmitter> (id, emitter_type, quantity);
   // }
 
-  void ECSLuaApi::add_tile_component (entt::registry::entity_type id, const sol::table& obj)
-  {
-    m_registry.emplace<stella::component::Tile> (id, 0, false);
-  }
+  void ECSLuaApi::add_tile_component (entt::registry::entity_type id, const sol::table& obj) { m_registry.emplace<stella::component::Tile> (id, 0, false); }
 
   void ECSLuaApi::add_scroll_component (entt::registry::entity_type id, const sol::table& obj)
   {
@@ -241,10 +231,7 @@ namespace script
     m_registry.emplace<stella::component::NPC> (id, path);
   }
 
-  void ECSLuaApi::add_character_animation_component (entt::registry::entity_type id)
-  {
-    m_registry.emplace<stella::component::CharacterAnimation> (id);
-  }
+  void ECSLuaApi::add_character_animation_component (entt::registry::entity_type id) { m_registry.emplace<stella::component::CharacterAnimation> (id); }
 
   void ECSLuaApi::add_shape_component (entt::registry::entity_type id, const sol::table& obj)
   {
@@ -280,10 +267,7 @@ namespace script
     }
   }
 
-  void ECSLuaApi::add_vertical_component (entt::registry::entity_type id)
-  {
-    m_registry.emplace<stella::component::Vertical> (id);
-  }
+  void ECSLuaApi::add_vertical_component (entt::registry::entity_type id) { m_registry.emplace<stella::component::Vertical> (id); }
 
   void ECSLuaApi::add_component (const sol::table& obj)
   {
@@ -332,11 +316,11 @@ namespace script
       else if (ct == "vertical")
         add_vertical_component (id);
       else
-        spdlog::warn("No component named " + ct);
+        spdlog::warn ("No component named " + ct);
     }
     else
     {
-      spdlog::warn("Component type is nil");
+      spdlog::warn ("Component type is nil");
     }
   }
 } // namespace script

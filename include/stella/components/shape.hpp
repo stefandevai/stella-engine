@@ -15,8 +15,7 @@ namespace component
   struct Shape : public Component
   {
     Shape() : Component ("Shape") {}
-    Shape (std::vector<glm::vec3>& vertices, std::string layer_id)
-      : Component ("Shape"), vertices (vertices), layer_id (layer_id)
+    Shape (std::vector<glm::vec3>& vertices, std::string layer_id) : Component ("Shape"), vertices (vertices), layer_id (layer_id)
     {
       // shape = std::make_shared<graphics::Shape>(vertices, glm::vec3());
     }

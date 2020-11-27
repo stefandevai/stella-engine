@@ -19,13 +19,12 @@ namespace graphics
 {
   double MouseX, MouseY;
 
-  Display::Display (GLuint width, GLuint height, const std::string& title)
-    : m_width (width), m_height (height), m_title (title)
+  Display::Display (GLuint width, GLuint height, const std::string& title) : m_width (width), m_height (height), m_title (title)
   {
     // SDL initialization
     if (SDL_Init (SDL_INIT_VIDEO) < 0)
     {
-      throw std::runtime_error("It was not possible to initialize SDL2");
+      throw std::runtime_error ("It was not possible to initialize SDL2");
     }
 
     const SDL_WindowFlags window_flags = (SDL_WindowFlags) (SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED | SDL_WINDOW_OPENGL);
@@ -34,8 +33,7 @@ namespace graphics
     SDL_ShowCursor (SDL_DISABLE);
 #endif
 
-    m_window = SDL_CreateWindow (
-        m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, window_flags);
+    m_window = SDL_CreateWindow (m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, window_flags);
 
 #if __APPLE__
     SDL_GL_SetAttribute (SDL_GL_CONTEXT_FLAGS,
@@ -58,13 +56,13 @@ namespace graphics
     m_running = true;
 
     // Set initial value for Frame
-    m_frame        = 1; // Setting as 1 to avoid division by 0
+    m_frame          = 1; // Setting as 1 to avoid division by 0
     m_last_fps_check = m_last_time = (float) SDL_GetTicks() / 1000.0f;
-    m_last_frame                     = 0;
+    m_last_frame                   = 0;
 
     if (!gladLoadGLLoader (SDL_GL_GetProcAddress))
     {
-      spdlog::critical("Failed to initialize GLAD");
+      spdlog::critical ("Failed to initialize GLAD");
     }
 
     // OpenGL Viewport settings
@@ -119,32 +117,29 @@ namespace graphics
     // Print FPS
     if (m_frame % 120 == 0)
     {
-      spdlog::debug(this->get_fps());
+      spdlog::debug (this->get_fps());
     }
 #endif
 
     this->m_get_dt();
     m_frame++;
-    //if (m_frame >= 10000000)
+    // if (m_frame >= 10000000)
     //{
-      //m_frame = 0;
+    // m_frame = 0;
     //}
 
     this->m_update_input();
     SDL_GL_SwapWindow (m_window);
   }
 
-  void Display::set_title (const std::string& title)
-  {
-    SDL_SetWindowTitle(m_window, title.c_str());
-  }
+  void Display::set_title (const std::string& title) { SDL_SetWindowTitle (m_window, title.c_str()); }
 
   void Display::set_size (const int width, const int height)
   {
-    m_width = width;
+    m_width  = width;
     m_height = height;
 
-    auto flags = SDL_GetWindowFlags(m_window);
+    auto flags = SDL_GetWindowFlags (m_window);
 
     // If the window is maximazed, don't resize it
     if (flags & SDL_WINDOW_MAXIMIZED)
@@ -152,7 +147,7 @@ namespace graphics
       return;
     }
 
-    SDL_SetWindowSize(m_window, width, height);
+    SDL_SetWindowSize (m_window, width, height);
   }
 
   void Display::set_clear_color (int r, int g, int b)
@@ -182,10 +177,7 @@ namespace graphics
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 
-  void Display::quit()
-  {
-    m_running = false;
-  }
+  void Display::quit() { m_running = false; }
 
   void Display::m_update_input()
   {
@@ -238,8 +230,8 @@ namespace graphics
   void Display::m_get_dt()
   {
     GLfloat currentTime = (float) SDL_GetTicks() / 1000.0f;
-    m_dt            = currentTime - m_last_time;
-    m_last_time      = currentTime;
+    m_dt                = currentTime - m_last_time;
+    m_last_time         = currentTime;
   }
 
   void Display::get_mouse_pos (double& mx, double& my)
@@ -256,11 +248,11 @@ namespace graphics
   {
     GLuint currentFrame = m_frame;
     GLuint deltaFrame   = currentFrame - m_last_frame;
-    m_last_frame     = currentFrame;
+    m_last_frame        = currentFrame;
 
     GLfloat currentTime = (float) SDL_GetTicks() / 1000.0f;
     GLfloat deltaTime   = currentTime - m_last_fps_check;
-    m_last_fps_check  = currentTime;
+    m_last_fps_check    = currentTime;
 
     return deltaFrame / deltaTime;
   }
@@ -279,13 +271,13 @@ namespace graphics
     if (width / (float) height > 1.78f)
     { // Height is max and width is adjusted
       int new_width = height * 1.77777f;
-      int left     = width - new_width;
+      int left      = width - new_width;
       glViewport (left / 2, 0, new_width, height);
     }
     else if (width / (float) height < 1.77f)
     { // Width is max and height is adjusted
       int new_height = (int) width / 1.77f;
-      int left      = height - new_height;
+      int left       = height - new_height;
       glViewport (0, left / 2, width, new_height);
     }
   }

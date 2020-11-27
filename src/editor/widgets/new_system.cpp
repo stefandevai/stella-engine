@@ -15,22 +15,21 @@ namespace widget
       return "";
     }
     std::string system_tag{};
-    std::vector<std::string> current_systems(stella::g_system_map.size());
+    std::vector<std::string> current_systems (stella::g_system_map.size());
 
     for (auto& system : scene->m_systems)
     {
-      current_systems.emplace_back(system.second->get_tag());
+      current_systems.emplace_back (system.second->get_tag());
     }
 
-    if (ImGui::Begin("Add a System to the Current Scene", &m_open))
+    if (ImGui::Begin ("Add a System to the Current Scene", &m_open))
     {
       for (auto keypair : stella::g_system_map)
       {
-        if (std::find(current_systems.begin(), current_systems.end(), keypair.first) == current_systems.end() &&
-            ImGui::MenuItem(keypair.first.c_str(), "", false))
+        if (std::find (current_systems.begin(), current_systems.end(), keypair.first) == current_systems.end() && ImGui::MenuItem (keypair.first.c_str(), "", false))
         {
           system_tag = keypair.first;
-          m_open = false;
+          m_open     = false;
         }
       }
     }
@@ -40,4 +39,3 @@ namespace widget
   }
 } // namespace widget
 } // namespace editor
-

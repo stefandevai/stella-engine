@@ -2,13 +2,13 @@
 
 namespace stella::graphics
 {
-  class ShaderProgram;
+class ShaderProgram;
 
-  class Renderable
-  {
-  public:
-    virtual ~Renderable() {}
+class Renderable
+{
+public:
+  virtual ~Renderable() {}
 
-    virtual void render (ShaderProgram& shader) = 0;
-  };
-}
+  virtual void render (ShaderProgram& shader) = 0;
+};
+} // namespace stella::graphics

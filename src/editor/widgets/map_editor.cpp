@@ -140,10 +140,7 @@ namespace widget
 
   void MapEditor::update_map_settings() { m_tile_map.set_name (m_map_name); }
 
-  void MapEditor::load()
-  {
-    ImGuiFileDialog::Instance()->OpenModal (LOAD_DIALOG_ID, "Choose File", ".xml\0.lua\0\0", ".");
-  }
+  void MapEditor::load() { ImGuiFileDialog::Instance()->OpenModal (LOAD_DIALOG_ID, "Choose File", ".xml\0.lua\0\0", "."); }
 
   void MapEditor::save()
   {
@@ -156,8 +153,7 @@ namespace widget
   void MapEditor::render_file_dialog()
   {
     ImGui::PushStyleVar (ImGuiStyleVar_WindowRounding, 0.0);
-    if (ImGuiFileDialog::Instance()->FileDialog (LOAD_DIALOG_ID,
-                                                 ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking))
+    if (ImGuiFileDialog::Instance()->FileDialog (LOAD_DIALOG_ID, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking))
     {
       ImGui::SetWindowFocus();
       if (ImGuiFileDialog::Instance()->IsOk == true)
@@ -169,8 +165,7 @@ namespace widget
       ImGuiFileDialog::Instance()->CloseDialog (LOAD_DIALOG_ID);
     }
 
-    if (ImGuiFileDialog::Instance()->FileDialog (SAVE_DIALOG_ID,
-                                                 ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking))
+    if (ImGuiFileDialog::Instance()->FileDialog (SAVE_DIALOG_ID, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking))
     {
       ImGui::SetWindowFocus();
       if (ImGuiFileDialog::Instance()->IsOk == true)

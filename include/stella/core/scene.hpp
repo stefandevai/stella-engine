@@ -11,7 +11,7 @@
 #ifdef STELLA_BUILD_EDITOR
 namespace editor
 {
-  class Editor;
+class Editor;
 }
 
 namespace editor
@@ -20,8 +20,8 @@ namespace widget
 {
   struct SceneEditor;
   struct NewSystem;
-}
-}
+} // namespace widget
+} // namespace editor
 #endif
 
 namespace stella
@@ -46,13 +46,21 @@ namespace core
     inline bool is_modified() const { return m_modified; };
     inline std::string get_name() const { return m_name; };
     inline std::string get_filepath() const { return m_filepath; };
-    inline void set_name (const std::string& name) { m_name = name; m_modified = true; };
-    inline void set_filepath (const std::string& filepath) { m_filepath = filepath; m_modified = true; };
+    inline void set_name (const std::string& name)
+    {
+      m_name     = name;
+      m_modified = true;
+    };
+    inline void set_filepath (const std::string& filepath)
+    {
+      m_filepath = filepath;
+      m_modified = true;
+    };
 
 #ifdef STELLA_BUILD_EDITOR
-  friend class ::editor::Editor;
-  friend struct ::editor::widget::SceneEditor;
-  friend struct ::editor::widget::NewSystem;
+    friend class ::editor::Editor;
+    friend struct ::editor::widget::SceneEditor;
+    friend struct ::editor::widget::NewSystem;
 #endif
 
   private:
@@ -67,12 +75,8 @@ namespace core
     bool m_modified = false;
 
     // Storing systems in this way allow us to render them in order
-    //std::vector<std::shared_ptr<system::System>> m_systems;
-    SystemMap m_systems =
-    {
-      { "render", nullptr },
-      { "animation", nullptr }
-    };
+    // std::vector<std::shared_ptr<system::System>> m_systems;
+    SystemMap m_systems = {{"render", nullptr}, {"animation", nullptr}};
 
   private:
     template<typename T, typename... Params>

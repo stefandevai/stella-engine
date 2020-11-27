@@ -12,4 +12,3 @@ namespace component
   };
 } // namespace component
 } // namespace stella
-

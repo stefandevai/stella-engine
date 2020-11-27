@@ -69,7 +69,7 @@ void ComponentList::emplace_default_component (Components component_type, entt::
       registry.emplace_or_replace<component::Vertical> (entity);
       break;
     default:
-      spdlog::critical("ERROR: Trying to emplace unknown component.\n");
+      spdlog::critical ("ERROR: Trying to emplace unknown component.\n");
       break;
   }
 }

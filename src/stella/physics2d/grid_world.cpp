@@ -32,10 +32,7 @@ namespace physics2d
       this->Bodies.erase (it);
   }
 
-  void GridWorld::add_water_surface (const std::shared_ptr<stella::physics2d::WaterSurface>& water_surface)
-  {
-    m_water_surfaces.emplace_back (water_surface);
-  }
+  void GridWorld::add_water_surface (const std::shared_ptr<stella::physics2d::WaterSurface>& water_surface) { m_water_surfaces.emplace_back (water_surface); }
 
   void GridWorld::remove_water_surface (const std::shared_ptr<stella::physics2d::WaterSurface>& water_surface)
   {

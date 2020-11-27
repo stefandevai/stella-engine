@@ -21,13 +21,12 @@ namespace system
 
     void update (entt::registry& registry, const double dt)
     {
-      registry.group<component::Tileview> (entt::get<component::Position, component::Dimension>)
-          .each ([this] (auto entity, auto& pos, auto& dim) {
-            if (pos.x + dim.w < 0)
-            {
-              pos.x = this->BoundX + (pos.x + dim.w);
-            }
-          });
+      registry.group<component::Tileview> (entt::get<component::Position, component::Dimension>).each ([this] (auto entity, auto& pos, auto& dim) {
+        if (pos.x + dim.w < 0)
+        {
+          pos.x = this->BoundX + (pos.x + dim.w);
+        }
+      });
     }
   };
 } // namespace system

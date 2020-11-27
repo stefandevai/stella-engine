@@ -60,7 +60,7 @@ namespace widget
       for (int line_no = clipper.DisplayStart; line_no < clipper.DisplayEnd; line_no++)
       {
         const char* line_start = buf_begin + LineOffsets[line_no];
-        const char* line_end = (line_no + 1 < LineOffsets.Size) ? (buf_begin + LineOffsets[line_no + 1] - 1) : buf_end;
+        const char* line_end   = (line_no + 1 < LineOffsets.Size) ? (buf_begin + LineOffsets[line_no + 1] - 1) : buf_end;
         ImGui::TextUnformatted (line_start, line_end);
       }
     }
@@ -98,15 +98,9 @@ namespace widget
 
         auto text_entity = registry.create();
         registry.emplace<stella::component::Position> (text_entity, 0.0f, -100.0f);
-        registry.emplace<stella::component::Text> (
-            text_entity, m_converter.from_bytes (std::string (editable_buffer)), "1980");
+        registry.emplace<stella::component::Text> (text_entity, m_converter.from_bytes (std::string (editable_buffer)), "1980");
         registry.emplace<stella::component::Timer> (
-            text_entity,
-            3000.0,
-            0.0,
-            stella::component::Timer::Type::DECREASE,
-            [] (entt::registry& r, const entt::entity e) { r.destroy (e); },
-            true);
+            text_entity, 3000.0, 0.0, stella::component::Timer::Type::DECREASE, [] (entt::registry& r, const entt::entity e) { r.destroy (e); }, true);
 
         auto& container = registry.get_or_emplace<stella::component::SpeechContainer> (player_entity);
         container.messages.push_back (text_entity);

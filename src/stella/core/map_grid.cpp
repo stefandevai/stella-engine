@@ -11,7 +11,7 @@ namespace core
   {
     if ((top != 0 && bottom != 0) || (right != 0 && left != 0))
     {
-      spdlog::warn("Can't resize a grid to opposite sides at the same time.");
+      spdlog::warn ("Can't resize a grid to opposite sides at the same time.");
       return;
     }
 

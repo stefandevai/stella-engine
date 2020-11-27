@@ -14,7 +14,9 @@ namespace npc
     m_state_stack.push (npc::State::NONE);
   }
 
-  void NPC::update_current_action() { /*std:: << "*" << m_name.c_str() << " is crying in a dark corner...\n";*/ }
+  void NPC::update_current_action()
+  { /*std:: << "*" << m_name.c_str() << " is crying in a dark corner...\n";*/
+  }
 
   std::wstring NPC::request (const std::wstring& req)
   {

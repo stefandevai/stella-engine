@@ -94,8 +94,7 @@ namespace widget
 
       if (new_entity != entt::null)
       {
-        registry.patch<stella::component::Group> (entity,
-                                          [&new_entity] (auto& group) { group.children.push_back (new_entity); });
+        registry.patch<stella::component::Group> (entity, [&new_entity] (auto& group) { group.children.push_back (new_entity); });
       }
     }
 

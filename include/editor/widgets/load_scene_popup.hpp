@@ -4,7 +4,7 @@
 
 namespace stella
 {
-  class Game;
+class Game;
 }
 
 namespace editor
@@ -24,4 +24,3 @@ namespace widget
   };
 } // namespace widget
 } // namespace editor
-

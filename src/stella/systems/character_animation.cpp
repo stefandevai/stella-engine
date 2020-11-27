@@ -18,43 +18,42 @@ namespace system
 
   void CharacterAnimation::update (entt::registry& registry, const double dt)
   {
-    registry.group<component::CharacterAnimation> (entt::get<component::Body2D, component::AnimationPlayer>)
-        .each ([] (auto entity, auto& char_anim, auto& body, auto& anim) {
-          std::string animation_name = "";
-          switch (body.Body->state)
-          {
-            case stella::topdown::BodyState::IDLE:
-              animation_name.append ("idle-");
-              break;
-            case stella::topdown::BodyState::MOVING:
-              animation_name.append ("walking-");
-              break;
-            default:
-              break;
-          }
+    registry.group<component::CharacterAnimation> (entt::get<component::Body2D, component::AnimationPlayer>).each ([] (auto entity, auto& char_anim, auto& body, auto& anim) {
+      std::string animation_name = "";
+      switch (body.Body->state)
+      {
+        case stella::topdown::BodyState::IDLE:
+          animation_name.append ("idle-");
+          break;
+        case stella::topdown::BodyState::MOVING:
+          animation_name.append ("walking-");
+          break;
+        default:
+          break;
+      }
 
-          // If we have defined a animation (BodyState is IDLE or MOVING)
-          if (!animation_name.empty())
-          {
-            if (body.Body->direction & stella::topdown::BodyDirection::LEFT)
-            {
-              animation_name.append (1, 'l');
-            }
-            else if (body.Body->direction & stella::topdown::BodyDirection::RIGHT)
-            {
-              animation_name.append (1, 'r');
-            }
-            else if (body.Body->direction & stella::topdown::BodyDirection::TOP)
-            {
-              animation_name.append (1, 't');
-            }
-            else if (body.Body->direction & stella::topdown::BodyDirection::BOTTOM)
-            {
-              animation_name.append (1, 'b');
-            }
-            anim.current = animation_name;
-          }
-        });
+      // If we have defined a animation (BodyState is IDLE or MOVING)
+      if (!animation_name.empty())
+      {
+        if (body.Body->direction & stella::topdown::BodyDirection::LEFT)
+        {
+          animation_name.append (1, 'l');
+        }
+        else if (body.Body->direction & stella::topdown::BodyDirection::RIGHT)
+        {
+          animation_name.append (1, 'r');
+        }
+        else if (body.Body->direction & stella::topdown::BodyDirection::TOP)
+        {
+          animation_name.append (1, 't');
+        }
+        else if (body.Body->direction & stella::topdown::BodyDirection::BOTTOM)
+        {
+          animation_name.append (1, 'b');
+        }
+        anim.current = animation_name;
+      }
+    });
   }
 } // namespace system
 } // namespace stella

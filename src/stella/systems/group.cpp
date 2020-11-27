@@ -8,14 +8,11 @@ namespace stella
 {
 namespace system
 {
-  Group::Group (entt::registry& registry)
-    : System ("group")
+  Group::Group (entt::registry& registry) : System ("group")
   {
     registry.on_construct<component::Group>().connect<&Group::m_init_group> (this);
-    m_group_observer = std::make_shared<entt::observer> (
-        registry, entt::collector.replace<component::Group>().where<component::Position>());
-    m_pos_observer = std::make_shared<entt::observer> (
-        registry, entt::collector.replace<component::Position>().where<component::Group>());
+    m_group_observer = std::make_shared<entt::observer> (registry, entt::collector.replace<component::Group>().where<component::Position>());
+    m_pos_observer   = std::make_shared<entt::observer> (registry, entt::collector.replace<component::Position>().where<component::Group>());
   }
 
   void Group::update (entt::registry& registry, const double dt)

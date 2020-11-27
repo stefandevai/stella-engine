@@ -56,7 +56,7 @@ namespace core
     }
     else
     {
-      spdlog::critical("Unknown file extension: " + extension);
+      spdlog::critical ("Unknown file extension: " + extension);
     }
   }
 
@@ -97,26 +97,22 @@ namespace core
 
           // Checks surrounding tiles to set active tile edges
           // Checks tile to the top
-          if (map_table["layers"][i]["grid"][(x + 1) + y * m_width] != sol::lua_nil &&
-              map_table["layers"][i]["grid"][x + (y - 1) * m_width][2] == 0)
+          if (map_table["layers"][i]["grid"][(x + 1) + y * m_width] != sol::lua_nil && map_table["layers"][i]["grid"][x + (y - 1) * m_width][2] == 0)
           {
             tile.active_edges.set (0);
           }
           // Checks tile to the right
-          if (map_table["layers"][i]["grid"][(x + 1) + y * m_width] != sol::lua_nil &&
-              map_table["layers"][i]["grid"][(x + 1) + y * m_width][2] == 0)
+          if (map_table["layers"][i]["grid"][(x + 1) + y * m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x + 1) + y * m_width][2] == 0)
           {
             tile.active_edges.set (1);
           }
           // Checks tile to the bottom
-          if (map_table["layers"][i]["grid"][(x + 1) + y * m_width] != sol::lua_nil &&
-              map_table["layers"][i]["grid"][(x) + (y + 1) * m_width][2] == 0)
+          if (map_table["layers"][i]["grid"][(x + 1) + y * m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x) + (y + 1) * m_width][2] == 0)
           {
             tile.active_edges.set (2);
           }
           // Checks tile to the left
-          if (map_table["layers"][i]["grid"][(x + 1) + y * m_width] != sol::lua_nil &&
-              map_table["layers"][i]["grid"][(x - 1) + y * m_width][2] == 0)
+          if (map_table["layers"][i]["grid"][(x + 1) + y * m_width] != sol::lua_nil && map_table["layers"][i]["grid"][(x - 1) + y * m_width][2] == 0)
           {
             tile.active_edges.set (3);
           }
@@ -128,7 +124,7 @@ namespace core
       layers.emplace_back (layer);
     }
 
-    spdlog::info("Loaded TileMap: " + m_name + " from " + path);
+    spdlog::info ("Loaded TileMap: " + m_name + " from " + path);
   }
 
   void TileMap::load_xml (const std::string& path)
@@ -136,12 +132,7 @@ namespace core
     this->clear();
     std::ifstream is (path);
     cereal::XMLInputArchive archive (is);
-    archive (CEREAL_NVP (m_name),
-             CEREAL_NVP (m_number_of_layers),
-             CEREAL_NVP (m_tile_dimension),
-             CEREAL_NVP (m_width),
-             CEREAL_NVP (m_height),
-             CEREAL_NVP (layers));
+    archive (CEREAL_NVP (m_name), CEREAL_NVP (m_number_of_layers), CEREAL_NVP (m_tile_dimension), CEREAL_NVP (m_width), CEREAL_NVP (m_height), CEREAL_NVP (layers));
 
     for (auto& layer : this->layers)
     {
@@ -151,7 +142,7 @@ namespace core
       }
     }
     this->refresh();
-    spdlog::info("Loaded TileMap: " + m_name + " from " + path);
+    spdlog::info ("Loaded TileMap: " + m_name + " from " + path);
   }
 
   void TileMap::save (const std::string& path)
@@ -160,14 +151,9 @@ namespace core
     std::ofstream os (path);
     cereal::XMLOutputArchive archive (os);
 
-    archive (CEREAL_NVP (m_name),
-             CEREAL_NVP (m_number_of_layers),
-             CEREAL_NVP (m_tile_dimension),
-             CEREAL_NVP (m_width),
-             CEREAL_NVP (m_height),
-             CEREAL_NVP (layers));
+    archive (CEREAL_NVP (m_name), CEREAL_NVP (m_number_of_layers), CEREAL_NVP (m_tile_dimension), CEREAL_NVP (m_width), CEREAL_NVP (m_height), CEREAL_NVP (layers));
 
-    spdlog::info("Tile Map saved: " + m_name + " in " + path);
+    spdlog::info ("Tile Map saved: " + m_name + " in " + path);
   }
 
   void TileMap::update_tile (const int value, const int x, const int y, const unsigned layer_id, const bool collidable)
@@ -236,8 +222,7 @@ namespace core
     }
   }
 
-  void
-  TileMap::update_tile_position (entt::entity entity, const unsigned layer_id, const int x, const int y, const int z)
+  void TileMap::update_tile_position (entt::entity entity, const unsigned layer_id, const int x, const int y, const int z)
   {
     if (m_registry.has<component::Position> (entity))
     {
@@ -252,8 +237,7 @@ namespace core
     }
   }
 
-  void TileMap::create_tile_entity (
-      const int value, const int x, const int y, const int z, const unsigned layer_id, bool collidable)
+  void TileMap::create_tile_entity (const int value, const int x, const int y, const int z, const unsigned layer_id, bool collidable)
   {
     if (value != 0)
     {
@@ -280,11 +264,10 @@ namespace core
   {
     assert (beginx < endx);
     assert (beginy < endy);
-    int left  = std::max (beginx / m_tile_dimension, 0);
-    int right = std::min (endx / m_tile_dimension, static_cast<int> (m_width));
-    int top   = std::max (beginy / m_tile_dimension, 0);
-    int bottom =
-        std::min (static_cast<int> (ceil (endy / static_cast<double> (m_tile_dimension))), static_cast<int> (m_height));
+    int left          = std::max (beginx / m_tile_dimension, 0);
+    int right         = std::min (endx / m_tile_dimension, static_cast<int> (m_width));
+    int top           = std::max (beginy / m_tile_dimension, 0);
+    int bottom        = std::min (static_cast<int> (ceil (endy / static_cast<double> (m_tile_dimension))), static_cast<int> (m_height));
     int layer_counter = 0;
 
     for (const auto& layer : this->layers)
@@ -300,8 +283,7 @@ namespace core
             layer->set_visibility (x, y, true);
             this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter, layer_tile.collidable);
           }
-          else if (layer_tile.value > 0 &&
-                   (!m_registry.valid (layer_tile.entity) || !m_registry.has<component::SpriteT> (layer_tile.entity)))
+          else if (layer_tile.value > 0 && (!m_registry.valid (layer_tile.entity) || !m_registry.has<component::SpriteT> (layer_tile.entity)))
           {
             layer->set_visibility (x, y, true);
             this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter, layer_tile.collidable);

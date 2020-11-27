@@ -6,7 +6,6 @@ namespace stella
 {
 namespace core
 {
-
   class ShaderLoader : public AssetLoader
   {
   public:
@@ -16,7 +15,6 @@ namespace core
   private:
     const std::string m_generic_filepath;
   };
-  
-}
-}
 
+} // namespace core
+} // namespace stella

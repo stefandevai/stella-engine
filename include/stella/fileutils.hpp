@@ -8,13 +8,10 @@
 
 namespace stella
 {
-
 class invalid_file : public std::invalid_argument
 {
-  public:
-    invalid_file(const std::string& message)
-      : std::invalid_argument(message)
-    { }
+public:
+  invalid_file (const std::string& message) : std::invalid_argument (message) {}
 };
 
 class FileUtils

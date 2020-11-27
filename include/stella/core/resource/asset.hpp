@@ -6,7 +6,6 @@ namespace stella
 {
 namespace core
 {
-
   enum class AssetType
   {
     NONE,
@@ -28,7 +27,7 @@ namespace core
     virtual ~AssetLoader() {}
 
     virtual std::shared_ptr<Asset> construct() = 0;
-    inline const AssetType get_type () const { return m_type; }
+    inline const AssetType get_type() const { return m_type; }
 
   protected:
     const AssetType m_type;
@@ -37,5 +36,5 @@ namespace core
     AssetLoader (const AssetType type) : m_type (type) {}
   };
 
-}
-}
+} // namespace core
+} // namespace stella

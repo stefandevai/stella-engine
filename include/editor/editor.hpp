@@ -58,8 +58,8 @@ namespace editor
     std::shared_ptr<graphics::ShapeLayerT> m_debug_layer;
     entt::entity m_editor_layer  = entt::null;
     entt::entity m_editor_sprite = entt::null;
-    //widget::TilesetEditor m_tileset_editor{"assets/sprites/tilesetv2.png"};
-    //widget::MapEditor m_map_editor{m_game};
+    // widget::TilesetEditor m_tileset_editor{"assets/sprites/tilesetv2.png"};
+    // widget::MapEditor m_map_editor{m_game};
     widget::Inspector m_inspector;
     widget::Toolbar m_toolbar;
     widget::BlockEditor m_block_editor;
@@ -67,9 +67,9 @@ namespace editor
     widget::NewScenePopup m_new_scene_popup{m_game};
     float m_window_width = 0.f, m_window_height = 0.f, m_game_width = 0.f, m_game_height = 0.f;
 
-    //std::vector<glm::vec2> vertices{
-        //glm::vec2{0.0f, 20.0f}, glm::vec2{128.0f, 80.0f}, glm::vec2{128.0f, 128.0f}, glm::vec2{0.0f, 128.0f}};
-    //std::shared_ptr<graphics::Shape> shape = std::make_shared<graphics::Shape> (vertices, glm::vec3{200.f, 100.f, 1.f});
+    // std::vector<glm::vec2> vertices{
+    // glm::vec2{0.0f, 20.0f}, glm::vec2{128.0f, 80.0f}, glm::vec2{128.0f, 128.0f}, glm::vec2{0.0f, 128.0f}};
+    // std::shared_ptr<graphics::Shape> shape = std::make_shared<graphics::Shape> (vertices, glm::vec3{200.f, 100.f, 1.f});
 
     // View options
     bool m_view_physics_debug_layer = true;
@@ -99,8 +99,7 @@ namespace editor
 
   private:
     void init_style();
-    void
-    draw_dock (const float window_width, const float window_height, const float game_width, const float game_height);
+    void draw_dock (const float window_width, const float window_height, const float game_width, const float game_height);
     void draw_editor();
     void draw_info (const ImVec2& pos);
     void draw_menu_bar();

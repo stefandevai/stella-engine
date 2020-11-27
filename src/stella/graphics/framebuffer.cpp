@@ -47,15 +47,7 @@ namespace graphics
     m_current_texture_resolution = glm::vec2 (m_display.get_width(), m_display.get_height());
 
     glBindTexture (GL_TEXTURE_2D, m_fbo_texture);
-    glTexImage2D (GL_TEXTURE_2D,
-                  0,
-                  GL_RGBA,
-                  m_current_texture_resolution.x,
-                  m_current_texture_resolution.y,
-                  0,
-                  GL_RGBA,
-                  GL_UNSIGNED_BYTE,
-                  NULL);
+    glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, m_current_texture_resolution.x, m_current_texture_resolution.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glBindTexture (GL_TEXTURE_2D, 0);
   }
 
@@ -77,15 +69,7 @@ namespace graphics
 
     glGenTextures (1, &m_fbo_texture);
     glBindTexture (GL_TEXTURE_2D, m_fbo_texture);
-    glTexImage2D (GL_TEXTURE_2D,
-                  0,
-                  GL_RGBA,
-                  m_current_texture_resolution.x,
-                  m_current_texture_resolution.y,
-                  0,
-                  GL_RGBA,
-                  GL_UNSIGNED_BYTE,
-                  NULL);
+    glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, m_current_texture_resolution.x, m_current_texture_resolution.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -97,21 +81,19 @@ namespace graphics
     unsigned int RBO;
     glGenRenderbuffers (1, &RBO);
     glBindRenderbuffer (GL_RENDERBUFFER, RBO);
-    glRenderbufferStorage (
-        GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_current_texture_resolution.x, m_current_texture_resolution.y);
+    glRenderbufferStorage (GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_current_texture_resolution.x, m_current_texture_resolution.y);
     glBindRenderbuffer (GL_RENDERBUFFER, 0);
     glFramebufferRenderbuffer (GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
 
     if (glCheckFramebufferStatus (GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {
-      spdlog::critical("Framebuffer is not complete.");
+      spdlog::critical ("Framebuffer is not complete.");
     }
 
     glBindFramebuffer (GL_FRAMEBUFFER, 0);
 
     // Quad
-    float vertices[] = {-1.0f, 1.0f, 0.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, -1.0f, 1.0f, 0.0f,
-                        -1.0f, 1.0f, 0.0f, 1.0f, 1.0f,  -1.0f, 1.0f, 0.0f, 1.0f, 1.0f,  1.0f, 1.0f};
+    float vertices[] = {-1.0f, 1.0f, 0.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, -1.0f, 1.0f, 0.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f};
     glGenVertexArrays (1, &m_vao);
     glGenBuffers (1, &m_vbo);
     glBindVertexArray (m_vao);

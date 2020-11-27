@@ -5,11 +5,7 @@ namespace stella
 {
 namespace graphics
 {
-
-  Camera::Camera ()
-  {
-    m_target = entt::null;
-  }
+  Camera::Camera() { m_target = entt::null; }
 
   void Camera::update (entt::registry& registry)
   {
@@ -43,23 +39,15 @@ namespace graphics
 
   void Camera::set_frustrum (const float left, const float right, const float bottom, const float top)
   {
-    m_frustrum_left = left;
-    m_frustrum_right = right;
+    m_frustrum_left   = left;
+    m_frustrum_right  = right;
     m_frustrum_bottom = bottom;
-    m_frustrum_top = top;
+    m_frustrum_top    = top;
   }
 
-  void Camera::set_target (const entt::entity& target)
-  {
-    m_target = target;
-  }
+  void Camera::set_target (const entt::entity& target) { m_target = target; }
 
-  void Camera::remove_target ()
-  {
-    m_target = entt::null;
-  }
+  void Camera::remove_target() { m_target = entt::null; }
 
-}
-}
-
-
+} // namespace graphics
+} // namespace stella

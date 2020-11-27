@@ -14,12 +14,10 @@ namespace stella
 {
 namespace system
 {
-  RenderT::RenderT (entt::registry& registry, TextureManager& textures)
-    : System ("render"), m_textures (textures)
+  RenderT::RenderT (entt::registry& registry, TextureManager& textures) : System ("render"), m_textures (textures)
   {
     // Create a default layer in case a sprite is added to an unknown layer
-    m_layers[DEFAULT_LAYER_NAME] = std::make_shared<graphics::SpriteLayerT> (
-        registry, "assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag", false);
+    m_layers[DEFAULT_LAYER_NAME] = std::make_shared<graphics::SpriteLayerT> (registry, "assets/shaders/sprite_batch.vert", "assets/shaders/sprite_batch.frag", false);
     registry.on_construct<component::LayerT>().connect<&RenderT::m_init_layer> (this);
     registry.on_construct<component::SpriteT>().connect<&RenderT::m_init_sprite> (this);
     registry.on_destroy<component::SpriteT>().connect<&RenderT::m_destroy_sprite> (this);
@@ -56,9 +54,8 @@ namespace system
     {
       if (!m_layers[order.second]->fixed && camera_pos)
       {
-        m_layers[order.second]->set_view_matrix (glm::lookAt (glm::vec3 (camera_pos->x, camera_pos->y, 30.0f),
-                                                              glm::vec3 (camera_pos->x, camera_pos->y, -1.f),
-                                                              glm::vec3 (0.f, 1.f, 0.f)));
+        m_layers[order.second]->set_view_matrix (
+            glm::lookAt (glm::vec3 (camera_pos->x, camera_pos->y, 30.0f), glm::vec3 (camera_pos->x, camera_pos->y, -1.f), glm::vec3 (0.f, 1.f, 0.f)));
       }
       m_layers[order.second]->render (registry);
     }
@@ -72,7 +69,7 @@ namespace system
     }
     else
     {
-      spdlog::warn("Could not find layer \"" + layer_name + "\". Adding sprite to default layer.");
+      spdlog::warn ("Could not find layer \"" + layer_name + "\". Adding sprite to default layer.");
       m_layers[DEFAULT_LAYER_NAME]->add (entity);
     }
   }
@@ -86,7 +83,7 @@ namespace system
     }
     else
     {
-      spdlog::warn("Could not remove sprite from unknown layer: " + layer_name);
+      spdlog::warn ("Could not remove sprite from unknown layer: " + layer_name);
       m_layers[DEFAULT_LAYER_NAME]->remove (entity);
     }
   }
@@ -94,8 +91,7 @@ namespace system
   void RenderT::m_add_sprite_to_layer (entt::registry& registry, entt::entity entity)
   {
     auto& sprite = registry.get<component::SpriteT> (entity);
-    if (!sprite.loaded && !sprite.texture.empty() && !sprite.layer.empty() &&
-        registry.has<component::Position> (entity) && registry.has<component::Dimension> (entity))
+    if (!sprite.loaded && !sprite.texture.empty() && !sprite.layer.empty() && registry.has<component::Position> (entity) && registry.has<component::Dimension> (entity))
     {
       m_add_renderable_to_layer (sprite.layer, entity);
 
@@ -109,10 +105,7 @@ namespace system
     }
   }
 
-  void RenderT::m_init_sprite (entt::registry& registry, entt::entity entity)
-  {
-    m_add_sprite_to_layer (registry, entity);
-  }
+  void RenderT::m_init_sprite (entt::registry& registry, entt::entity entity) { m_add_sprite_to_layer (registry, entity); }
   void RenderT::m_destroy_sprite (entt::registry& registry, entt::entity entity)
   {
     auto& sprite = registry.get<component::SpriteT> (entity);
@@ -137,19 +130,16 @@ namespace system
   void RenderT::m_init_layer (entt::registry& registry, entt::entity entity)
   {
     auto& layer = registry.get<component::LayerT> (entity);
-    assert (m_ordered_layers.find (layer.order) == m_ordered_layers.end() &&
-            "You should assign different orders for layers.");
+    assert (m_ordered_layers.find (layer.order) == m_ordered_layers.end() && "You should assign different orders for layers.");
     assert (m_layers.find (layer.id) == m_layers.end() && "You should assign different IDs for layers.");
 
     switch (layer.layer_type)
     {
       case component::LayerType::SPRITE_LAYER:
-        m_layers[layer.id] = std::make_shared<graphics::SpriteLayerT> (
-            registry, layer.vert_shader_source, layer.frag_shader_source, layer.fixed);
+        m_layers[layer.id] = std::make_shared<graphics::SpriteLayerT> (registry, layer.vert_shader_source, layer.frag_shader_source, layer.fixed);
         break;
       case component::LayerType::SHAPE_LAYER:
-        m_layers[layer.id] = std::make_shared<graphics::ShapeLayerT> (
-            registry, layer.vert_shader_source, layer.frag_shader_source, layer.fixed);
+        m_layers[layer.id] = std::make_shared<graphics::ShapeLayerT> (registry, layer.vert_shader_source, layer.frag_shader_source, layer.fixed);
         break;
       default:
         spdlog::warn ("Undefined layer type");

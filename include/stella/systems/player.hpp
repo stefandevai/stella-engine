@@ -42,8 +42,7 @@ namespace system
     stella::audio::SoundPlayer& SoundPlayer;
 
   public:
-    Player (stella::graphics::Display& display, stella::audio::SoundPlayer& sound_player)
-      : Display (display), SoundPlayer (sound_player)
+    Player (stella::graphics::Display& display, stella::audio::SoundPlayer& sound_player) : Display (display), SoundPlayer (sound_player)
     {
       this->SoundPlayer.AddSound ("jump", "assets/audio/jump.ogg");
       this->SoundPlayer.AddSound ("land", "assets/audio/land.ogg");

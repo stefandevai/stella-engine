@@ -13,10 +13,7 @@ namespace core
   {
   public:
     std::vector<T> m_grid;
-    Grid (unsigned width, unsigned height)
-      : m_grid (std::vector<T> (width * height)), m_width (width), m_height (height)
-    {
-    }
+    Grid (unsigned width, unsigned height) : m_grid (std::vector<T> (width * height)), m_width (width), m_height (height) {}
     ~Grid() {}
 
     inline unsigned width() { return m_width; }

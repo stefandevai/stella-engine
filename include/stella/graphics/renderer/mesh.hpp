@@ -18,7 +18,7 @@ namespace graphics
   {
   public:
     Mesh (const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, const TextureVector& textures);
-    ~Mesh ();
+    ~Mesh();
 
     void render (ShaderProgram& shader);
 
@@ -33,6 +33,5 @@ namespace graphics
   private:
     void m_setup();
   };
-}
-}
-
+} // namespace graphics
+} // namespace stella

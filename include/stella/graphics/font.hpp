@@ -24,10 +24,7 @@ namespace graphics
   {
   public:
     Font (const std::string& path, std::size_t size = 48);
-    inline CharacterData get_char_data (wchar_t c)
-    {
-      return ((c >= CHAR_BOTTOM_LIMIT && c < CHAR_TOP_LIMIT) ? m_chars[c] : m_empty_char_data);
-    };
+    inline CharacterData get_char_data (wchar_t c) { return ((c >= CHAR_BOTTOM_LIMIT && c < CHAR_TOP_LIMIT) ? m_chars[c] : m_empty_char_data); };
     inline std::shared_ptr<Texture> get_atlas() const { return m_texture_atlas; };
 
   private:

@@ -6,18 +6,14 @@ namespace stella
 {
 namespace core
 {
-  ShaderLoader::ShaderLoader (const std::string& generic_filepath)
-    : AssetLoader(AssetType::SHADER), m_generic_filepath(generic_filepath)
-  {
-
-  }
+  ShaderLoader::ShaderLoader (const std::string& generic_filepath) : AssetLoader (AssetType::SHADER), m_generic_filepath (generic_filepath) {}
 
   std::shared_ptr<Asset> ShaderLoader::construct()
   {
-    const auto vertex_source = FileUtils::read_file(m_generic_filepath + ".vs");
-    const auto fragment_source = FileUtils::read_file(m_generic_filepath + ".fs");
-    return std::make_shared<graphics::ShaderProgram>(vertex_source.c_str(), fragment_source.c_str());
+    const auto vertex_source   = FileUtils::read_file (m_generic_filepath + ".vs");
+    const auto fragment_source = FileUtils::read_file (m_generic_filepath + ".fs");
+    return std::make_shared<graphics::ShaderProgram> (vertex_source.c_str(), fragment_source.c_str());
   }
 
-}
-}
+} // namespace core
+} // namespace stella

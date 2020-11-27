@@ -10,12 +10,7 @@ namespace physics2d
 
   struct Manifold
   {
-    Manifold (std::shared_ptr<stella::physics2d::Body> a,
-              std::shared_ptr<stella::physics2d::Body> b,
-              glm::vec2 penetration)
-      : A (a), B (b), Penetration (penetration)
-    {
-    }
+    Manifold (std::shared_ptr<stella::physics2d::Body> a, std::shared_ptr<stella::physics2d::Body> b, glm::vec2 penetration) : A (a), B (b), Penetration (penetration) {}
     ~Manifold() {}
 
     std::shared_ptr<stella::physics2d::Body> A;

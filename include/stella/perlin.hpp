@@ -113,13 +113,10 @@ public:
     const std::int32_t A = p[X] + Y, AA = p[A] + Z, AB = p[A + 1] + Z;
     const std::int32_t B = p[X + 1] + Y, BA = p[B] + Z, BB = p[B + 1] + Z;
 
-    return Lerp (w,
-                 Lerp (v,
-                       Lerp (u, Grad (p[AA], x, y, z), Grad (p[BA], x - 1, y, z)),
-                       Lerp (u, Grad (p[AB], x, y - 1, z), Grad (p[BB], x - 1, y - 1, z))),
-                 Lerp (v,
-                       Lerp (u, Grad (p[AA + 1], x, y, z - 1), Grad (p[BA + 1], x - 1, y, z - 1)),
-                       Lerp (u, Grad (p[AB + 1], x, y - 1, z - 1), Grad (p[BB + 1], x - 1, y - 1, z - 1))));
+    return Lerp (
+        w,
+        Lerp (v, Lerp (u, Grad (p[AA], x, y, z), Grad (p[BA], x - 1, y, z)), Lerp (u, Grad (p[AB], x, y - 1, z), Grad (p[BB], x - 1, y - 1, z))),
+        Lerp (v, Lerp (u, Grad (p[AA + 1], x, y, z - 1), Grad (p[BA + 1], x - 1, y, z - 1)), Lerp (u, Grad (p[AB + 1], x, y - 1, z - 1), Grad (p[BB + 1], x - 1, y - 1, z - 1))));
   }
 
   double octaveNoise (double x, std::int32_t octaves) const
@@ -178,15 +175,9 @@ public:
 
   double octaveNoise0_1 (double x, std::int32_t octaves) const { return octaveNoise (x, octaves) * 0.5 + 0.5; }
 
-  double octaveNoise0_1 (double x, double y, std::int32_t octaves) const
-  {
-    return octaveNoise (x, y, octaves) * 0.5 + 0.5;
-  }
+  double octaveNoise0_1 (double x, double y, std::int32_t octaves) const { return octaveNoise (x, y, octaves) * 0.5 + 0.5; }
 
-  double octaveNoise0_1 (double x, double y, double z, std::int32_t octaves) const
-  {
-    return octaveNoise (x, y, z, octaves) * 0.5 + 0.5;
-  }
+  double octaveNoise0_1 (double x, double y, double z, std::int32_t octaves) const { return octaveNoise (x, y, z, octaves) * 0.5 + 0.5; }
 
   double get_double (double x, double y) { return noise (x, y); }
 

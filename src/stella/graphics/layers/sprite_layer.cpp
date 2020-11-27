@@ -10,10 +10,7 @@ namespace stella
 {
 namespace graphics
 {
-  SpriteLayerT::SpriteLayerT (entt::registry& registry,
-                              const std::string& vert_shader_path,
-                              const std::string& frag_shader_path,
-                              const bool fixed)
+  SpriteLayerT::SpriteLayerT (entt::registry& registry, const std::string& vert_shader_path, const std::string& frag_shader_path, const bool fixed)
     : LayerT (registry, fixed), shader (std::make_shared<Shader> (vert_shader_path.c_str(), frag_shader_path.c_str()))
   {
     GLint tex_ids[21] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};

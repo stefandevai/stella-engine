@@ -4,7 +4,7 @@ namespace editor
 {
 namespace widget
 {
-  EditModeMainMenuOptions::EditModeMainMenuOptions () : Widget("EditModeMainMenuOptions") {}
+  EditModeMainMenuOptions::EditModeMainMenuOptions() : Widget ("EditModeMainMenuOptions") {}
 
   editor::Action EditModeMainMenuOptions::render()
   {
@@ -69,5 +69,3 @@ namespace widget
   }
 } // namespace widget
 } // namespace editor
-
-

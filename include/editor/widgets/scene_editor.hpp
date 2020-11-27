@@ -7,7 +7,7 @@
 
 namespace stella
 {
-  class Game;
+class Game;
 }
 
 namespace editor
@@ -20,7 +20,7 @@ namespace widget
     SceneEditor();
 
     void reload();
-    void render(std::shared_ptr<stella::Game>& game);
+    void render (std::shared_ptr<stella::Game>& game);
     void open();
 
   private:
@@ -34,13 +34,12 @@ namespace widget
     };
 
   private:
-    void m_set_action(SceneEditorAction action);
+    void m_set_action (SceneEditorAction action);
 
   private:
-    int m_number_of_objects = 0;
+    int m_number_of_objects    = 0;
     SceneEditorAction m_action = SceneEditorAction::RELOAD_EDITOR;
     NewSystem m_new_system;
   };
 } // namespace widget
 } // namespace editor
-

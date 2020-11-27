@@ -4,13 +4,12 @@ namespace stella
 {
 namespace graphics
 {
-  Shape::Shape (const std::vector<glm::vec2>& vertices, const glm::vec3& position, const glm::vec4& color)
-    : Renderable (position, glm::vec2()), m_vertices (vertices)
+  Shape::Shape (const std::vector<glm::vec2>& vertices, const glm::vec3& position, const glm::vec4& color) : Renderable (position, glm::vec2()), m_vertices (vertices)
   {
     Dimensions.x = calc_width();
     Dimensions.y = calc_height();
-    m_color      = static_cast<unsigned> (color.a * 255) << 24 | static_cast<unsigned> (color.b * 255) << 16 |
-              static_cast<unsigned> (color.g * 255) << 8 | static_cast<unsigned> (color.r * 255);
+    m_color      = static_cast<unsigned> (color.a * 255) << 24 | static_cast<unsigned> (color.b * 255) << 16 | static_cast<unsigned> (color.g * 255) << 8 |
+              static_cast<unsigned> (color.r * 255);
     //   double maxx, maxy, minx, miny;
     //   maxx = vertices[0].x;
     //   maxy = vertices[0].y;

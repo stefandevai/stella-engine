@@ -32,10 +32,7 @@ namespace widget
   public:
     Toolbar();
     ~Toolbar();
-    void render (entt::registry& registry,
-                 editor::EditorMode& mode,
-                 editor::EditorTool& tool,
-                 const float width);
+    void render (entt::registry& registry, editor::EditorMode& mode, editor::EditorTool& tool, const float width);
     const ImVec2& size() { return m_size; }
   };
 } // namespace widget

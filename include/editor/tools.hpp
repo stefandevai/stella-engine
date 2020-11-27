@@ -2,14 +2,12 @@
 
 namespace editor
 {
-
-  enum class EditorTool
-  {
-    NONE,
-    TILE_PEN,
-    INSPECTOR,
-    PAN,
-  };
+enum class EditorTool
+{
+  NONE,
+  TILE_PEN,
+  INSPECTOR,
+  PAN,
+};
 
 }
-

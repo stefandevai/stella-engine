@@ -22,12 +22,11 @@ namespace system
 
     void update (entt::registry& registry, const double dt) override
     {
-      registry.group<component::Scroll> (entt::get<component::Position>)
-          .each ([this, dt] (auto entity, auto& scroll, auto& pos) {
-            auto final_speed = scroll.speed + this->GlobalScrollingSpeed;
-            pos.x += final_speed.x * dt;
-            pos.y += final_speed.y * dt;
-          });
+      registry.group<component::Scroll> (entt::get<component::Position>).each ([this, dt] (auto entity, auto& scroll, auto& pos) {
+        auto final_speed = scroll.speed + this->GlobalScrollingSpeed;
+        pos.x += final_speed.x * dt;
+        pos.y += final_speed.y * dt;
+      });
     }
   };
 } // namespace system

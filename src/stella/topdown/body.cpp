@@ -4,8 +4,7 @@ namespace stella
 {
 namespace topdown
 {
-  Body::Body (glm::vec2 position, glm::vec2 dimension, const double movement_speed)
-    : Position (position), Dimension (dimension), m_movement_speed (movement_speed)
+  Body::Body (glm::vec2 position, glm::vec2 dimension, const double movement_speed) : Position (position), Dimension (dimension), m_movement_speed (movement_speed)
   {
     this->Target.x      = this->Position.x;
     this->Target.y      = this->Position.y;

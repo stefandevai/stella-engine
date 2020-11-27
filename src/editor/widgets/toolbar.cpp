@@ -13,10 +13,7 @@ namespace widget
 
   Toolbar::~Toolbar() {}
 
-  void Toolbar::render (entt::registry& registry,
-                        editor::EditorMode& mode,
-                        editor::EditorTool& tool,
-                        const float width)
+  void Toolbar::render (entt::registry& registry, editor::EditorMode& mode, editor::EditorTool& tool, const float width)
   {
     ImGui::SetNextWindowSize (ImVec2 (width, 60), ImGuiCond_Always);
     ImGui::SetNextWindowPos (ImVec2 (0, 0), ImGuiCond_Always);
@@ -25,9 +22,8 @@ namespace widget
     // ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize))
     if (ImGui::Begin ("toolbar-win",
                       nullptr,
-                      ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse |
-                          ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar |
-                          ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus))
+                      ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
+                          ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus))
     {
       ImGui::PushStyleVar (ImGuiStyleVar_FramePadding, ImVec2 (4.f, 2.f));
       ImGui::PushStyleVar (ImGuiStyleVar_ItemSpacing, ImVec2 (1.0f, 0.0f));

@@ -16,9 +16,7 @@ namespace graphics
     unsigned m_color = 0;
 
   public:
-    Shape (const std::vector<glm::vec2>& vertices,
-           const glm::vec3& position,
-           const glm::vec4& color = glm::vec4{1.f, 1.f, 1.f, 1.f});
+    Shape (const std::vector<glm::vec2>& vertices, const glm::vec3& position, const glm::vec4& color = glm::vec4{1.f, 1.f, 1.f, 1.f});
 
     // inline const glm::vec3 position() const { return m_position; }
     inline const std::vector<glm::vec2> vertices() const { return m_vertices; }

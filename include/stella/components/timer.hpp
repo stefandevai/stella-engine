@@ -23,11 +23,7 @@ namespace component
     Timer() : Component ("Timer") {}
 
     // Timer (TimerEvent event, const int duration) : event (event), duration (duration) {}
-    Timer (const double duration,
-           const double target,
-           const Type timer_type,
-           std::function<void (entt::registry&, const entt::entity)> fn,
-           bool active = true)
+    Timer (const double duration, const double target, const Type timer_type, std::function<void (entt::registry&, const entt::entity)> fn, bool active = true)
       : Component ("Timer"), duration (duration), target (target), timer_type (timer_type), fn (fn), active (active)
     {
     }

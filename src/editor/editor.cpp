@@ -25,28 +25,22 @@ namespace editor
 {
   Editor::Editor (stella::Game& game) : m_game (game), m_registry (game.m_registry)
   {
-    m_debug_layer = std::make_shared<graphics::ShapeLayerT> (
-        m_registry, "assets/shaders/debug_shader.vert", "assets/shaders/debug_shader.frag", true);
+    m_debug_layer  = std::make_shared<graphics::ShapeLayerT> (m_registry, "assets/shaders/debug_shader.vert", "assets/shaders/debug_shader.frag", true);
     m_editor_layer = game.m_registry.create();
-    game.m_registry.emplace<component::LayerT> (m_editor_layer,
-                                                "editor",
-                                                9999,
-                                                component::LayerType::SPRITE_LAYER,
-                                                "assets/shaders/sprite_batch.vert",
-                                                "assets/shaders/gui.frag",
-                                                false);
+    game.m_registry.emplace<component::LayerT> (
+        m_editor_layer, "editor", 9999, component::LayerType::SPRITE_LAYER, "assets/shaders/sprite_batch.vert", "assets/shaders/gui.frag", false);
 
-    //ImVec2 dimensions = m_tileset_editor.get_tile_dimensions();
-    //m_editor_sprite   = game.m_registry.create();
-    //game.m_registry.emplace<component::Position> (m_editor_sprite, -dimensions.x, -dimensions.y);
-    //game.m_registry.emplace<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
-    //auto& sprite = game.m_registry.emplace<component::SpriteT> (m_editor_sprite, "editor");
+    // ImVec2 dimensions = m_tileset_editor.get_tile_dimensions();
+    // m_editor_sprite   = game.m_registry.create();
+    // game.m_registry.emplace<component::Position> (m_editor_sprite, -dimensions.x, -dimensions.y);
+    // game.m_registry.emplace<component::Dimension> (m_editor_sprite, dimensions.x, dimensions.y);
+    // auto& sprite = game.m_registry.emplace<component::SpriteT> (m_editor_sprite, "editor");
 
-    //sprite.texture_ptr          = std::make_shared<graphics::Texture> (m_tileset_editor.texture);
-    //sprite.texture_ptr->hframes = m_tileset_editor.get_texture_dimensions_in_tiles().x;
-    //sprite.texture_ptr->vframes = m_tileset_editor.get_texture_dimensions_in_tiles().y;
-    //sprite.frame                = 0;
-    //sprite.layer                = "editor";
+    // sprite.texture_ptr          = std::make_shared<graphics::Texture> (m_tileset_editor.texture);
+    // sprite.texture_ptr->hframes = m_tileset_editor.get_texture_dimensions_in_tiles().x;
+    // sprite.texture_ptr->vframes = m_tileset_editor.get_texture_dimensions_in_tiles().y;
+    // sprite.frame                = 0;
+    // sprite.layer                = "editor";
 
     m_game.m_textures.load ("handler-move", "assets/editor/handler_move.png", 1, 1);
     m_game.m_textures.load ("handler-x", "assets/editor/handler_x.png", 1, 1);
@@ -81,9 +75,9 @@ namespace editor
     m_font_mono      = io.Fonts->AddFontFromFileTTF ("assets/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf", 14.0f);
 
     // Merge font awesome font with Lato-Regular
-    m_font_sans_regular     = io.Fonts->AddFontFromFileTTF ("assets/fonts/Lato/Lato-Regular.ttf", 13.0f, &config);
-    config.MergeMode        = true;
-    config.GlyphMinAdvanceX = 13.0f;
+    m_font_sans_regular                = io.Fonts->AddFontFromFileTTF ("assets/fonts/Lato/Lato-Regular.ttf", 13.0f, &config);
+    config.MergeMode                   = true;
+    config.GlyphMinAdvanceX            = 13.0f;
     static const ImWchar icon_ranges[] = {ICON_FA_MIN, ICON_FA_MAX, 0};
     io.Fonts->AddFontFromFileTTF ("assets/fonts/fa-solid-900.ttf", 13.0f, &config, icon_ranges);
 
@@ -107,17 +101,17 @@ namespace editor
         // Save map
         if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_S])
         {
-          //m_map_editor.save_as();
+          // m_map_editor.save_as();
         }
         else if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_S])
         {
-          //m_map_editor.save();
+          // m_map_editor.save();
         }
 
         // Load map
         if (state[SDL_SCANCODE_LCTRL] && state[SDL_SCANCODE_O])
         {
-          //m_map_editor.load();
+          // m_map_editor.load();
         }
 
         // Run game without the editor
@@ -150,11 +144,11 @@ namespace editor
         {
           if (state[SDL_SCANCODE_M])
           {
-            //m_map_editor.open();
+            // m_map_editor.open();
           }
-          //else if (state[SDL_SCANCODE_T])
+          // else if (state[SDL_SCANCODE_T])
           //{
-            //m_tileset_editor.open();
+          // m_tileset_editor.open();
           //}
           else if (state[SDL_SCANCODE_I])
           {
@@ -175,11 +169,11 @@ namespace editor
         {
           if (state[SDL_SCANCODE_M])
           {
-            //m_map_editor.close();
+            // m_map_editor.close();
           }
-          //else if (state[SDL_SCANCODE_T])
+          // else if (state[SDL_SCANCODE_T])
           //{
-            //m_tileset_editor.close();
+          // m_tileset_editor.close();
           //}
           else if (state[SDL_SCANCODE_I])
           {
@@ -226,20 +220,14 @@ namespace editor
         m_game.m_display.clear();
         m_game.render (m_game.m_display.get_dt());
         m_FBO->unbind();
-        this->render (m_game.m_display.get_window_width(),
-                      m_game.m_display.get_window_height(),
-                      m_game.m_display.m_width,
-                      m_game.m_display.m_height);
+        this->render (m_game.m_display.get_window_width(), m_game.m_display.get_window_height(), m_game.m_display.m_width, m_game.m_display.m_height);
       }
       else if (m_current_state == PLAY)
       {
         m_game.m_display.clear();
         m_game.update (m_game.m_display.get_dt());
         this->update (m_game.m_display.get_dt());
-        this->render (m_game.m_display.get_window_width(),
-                      m_game.m_display.get_window_height(),
-                      m_game.m_display.m_width,
-                      m_game.m_display.m_height);
+        this->render (m_game.m_display.get_window_width(), m_game.m_display.get_window_height(), m_game.m_display.m_width, m_game.m_display.m_height);
         m_game.m_display.update();
         this->configure_input();
       }
@@ -254,8 +242,7 @@ namespace editor
     }
   }
 
-  void
-  Editor::render (const float window_width, const float window_height, const float game_width, const float game_height)
+  void Editor::render (const float window_width, const float window_height, const float game_width, const float game_height)
   {
     if (m_window != nullptr)
     {
@@ -268,10 +255,8 @@ namespace editor
       {
         this->draw_dock (window_width, window_height, game_width, game_height);
       }
-      m_toolbar.render (
-          m_game.m_registry, m_current_state, m_current_tool, m_window_width, [this]() { this->draw_menu_bar(); });
+      m_toolbar.render (m_game.m_registry, m_current_state, m_current_tool, m_window_width, [this]() { this->draw_menu_bar(); });
       m_block_editor.render();
-
 
       ImGui::PopFont();
       ImGui::Render();
@@ -309,90 +294,86 @@ namespace editor
   void Editor::m_map_tile_pos (const ImGuiIO& io, std::function<void (const ImVec2&)> position_action)
   {
     //// If the mouse is within the game screen boundaries
-    //if (m_scene.active() && io.MousePos.x > m_scene.get_x() && io.MousePos.x < m_scene.get_width() &&
-        //io.MousePos.y <= m_scene.get_game_screen_height() + m_scene.get_game_screen_y_spacing() &&
-        //io.MousePos.y > m_scene.get_game_screen_y_spacing())
+    // if (m_scene.active() && io.MousePos.x > m_scene.get_x() && io.MousePos.x < m_scene.get_width() &&
+    // io.MousePos.y <= m_scene.get_game_screen_height() + m_scene.get_game_screen_y_spacing() &&
+    // io.MousePos.y > m_scene.get_game_screen_y_spacing())
     //{
-      //const auto& camera_pos    = m_game.get_camera_pos();
-      //float width_padding       = m_scene.get_game_screen_x_spacing();
-      //float height_padding      = m_scene.get_game_screen_y_spacing();
-      //const float width_factor  = m_game_width / static_cast<float> (m_scene.get_game_screen_width());
-      //const float height_factor = m_game_height / static_cast<float> (m_scene.get_game_screen_height());
+    // const auto& camera_pos    = m_game.get_camera_pos();
+    // float width_padding       = m_scene.get_game_screen_x_spacing();
+    // float height_padding      = m_scene.get_game_screen_y_spacing();
+    // const float width_factor  = m_game_width / static_cast<float> (m_scene.get_game_screen_width());
+    // const float height_factor = m_game_height / static_cast<float> (m_scene.get_game_screen_height());
 
-      //const auto map_pos_x = (io.MousePos.x - width_padding) * width_factor + camera_pos[0] - 1.0f;
-      //const auto map_pos_y = (io.MousePos.y - height_padding) * height_factor + camera_pos[1] - 3.0f;
+    // const auto map_pos_x = (io.MousePos.x - width_padding) * width_factor + camera_pos[0] - 1.0f;
+    // const auto map_pos_y = (io.MousePos.y - height_padding) * height_factor + camera_pos[1] - 3.0f;
 
-      //position_action (ImVec2 (map_pos_x, map_pos_y));
+    // position_action (ImVec2 (map_pos_x, map_pos_y));
     //}
   }
 
   void Editor::m_handle_tile_pen (const ImGuiIO& io)
   {
-    //m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
-      //// Set dummy sprite position with grid snapping
-      //int new_tile_value  = m_tileset_editor.get_selected_tile_id();
-      //const auto tile_pos = m_tileset_editor.pos2tile (map_pos.x, map_pos.y);
-      //auto& sprite_pos    = m_registry.get<component::Position> (m_editor_sprite);
-      //auto& sprite_spr    = m_registry.get<component::SpriteT> (m_editor_sprite);
-      //sprite_pos.x        = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
-      //sprite_pos.y        = tile_pos.y * m_tileset_editor.get_tile_dimensions().y;
-      //sprite_spr.frame    = new_tile_value;
+    // m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
+    //// Set dummy sprite position with grid snapping
+    // int new_tile_value  = m_tileset_editor.get_selected_tile_id();
+    // const auto tile_pos = m_tileset_editor.pos2tile (map_pos.x, map_pos.y);
+    // auto& sprite_pos    = m_registry.get<component::Position> (m_editor_sprite);
+    // auto& sprite_spr    = m_registry.get<component::SpriteT> (m_editor_sprite);
+    // sprite_pos.x        = tile_pos.x * m_tileset_editor.get_tile_dimensions().x;
+    // sprite_pos.y        = tile_pos.y * m_tileset_editor.get_tile_dimensions().y;
+    // sprite_spr.frame    = new_tile_value;
 
-      //if (ImGui::IsMouseDown (0))
-      //{
-        //// Update tile if user clicks
-        //// bool collidable = m_tileset_editor.get_selected_tile_collidable();
-        //// int layer_id    = m_map_editor.get_selected_layer_id();
-        //// m_game.m_tile_map.update_tile (new_tile_value, tile_pos.x, tile_pos.y, layer_id, collidable);
+    // if (ImGui::IsMouseDown (0))
+    //{
+    //// Update tile if user clicks
+    //// bool collidable = m_tileset_editor.get_selected_tile_collidable();
+    //// int layer_id    = m_map_editor.get_selected_layer_id();
+    //// m_game.m_tile_map.update_tile (new_tile_value, tile_pos.x, tile_pos.y, layer_id, collidable);
 
-        //if (m_map_editor.get_selected_layer_id() >= 0)
-        //{
-          //const auto entity = m_tileset_editor.get_entity (m_game.m_registry);
-          //m_game.m_registry.patch<component::Position> (entity, [&sprite_pos] (auto& pos) {
-            //pos.x = sprite_pos.x;
-            //pos.y = sprite_pos.y;
-          //});
-          //auto& tile    = m_game.m_registry.get<component::Tile> (entity);
-          //tile.layer_id = m_map_editor.get_selected_layer_id();
-          //m_game.m_tile_map.update_tile (entity, m_game.m_registry);
-        //}
-        //else
-        //{
-          //std:: << "Please select a layer first.\n";
-        //}
-      //}
+    // if (m_map_editor.get_selected_layer_id() >= 0)
+    //{
+    // const auto entity = m_tileset_editor.get_entity (m_game.m_registry);
+    // m_game.m_registry.patch<component::Position> (entity, [&sprite_pos] (auto& pos) {
+    // pos.x = sprite_pos.x;
+    // pos.y = sprite_pos.y;
+    //});
+    // auto& tile    = m_game.m_registry.get<component::Tile> (entity);
+    // tile.layer_id = m_map_editor.get_selected_layer_id();
+    // m_game.m_tile_map.update_tile (entity, m_game.m_registry);
+    //}
+    // else
+    //{
+    // std:: << "Please select a layer first.\n";
+    //}
+    //}
     //});
   }
 
   void Editor::m_handle_pan_tool (const ImGuiIO& io)
   {
-    //m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
-      //auto& pos = m_registry.get<stella::component::Position> (m_game.m_camera);
-      //if (!is_panning)
-      //{
-        //camera_pos_without_pan = ImVec2{pos.x, pos.y};
-        //is_panning             = true;
-      //}
-      //ImVec2 drag = ImGui::GetMouseDragDelta();
-      //pos.x       = camera_pos_without_pan.x - drag.x;
-      //pos.y       = camera_pos_without_pan.y - drag.y;
+    // m_map_tile_pos (io, [this] (const ImVec2& map_pos) {
+    // auto& pos = m_registry.get<stella::component::Position> (m_game.m_camera);
+    // if (!is_panning)
+    //{
+    // camera_pos_without_pan = ImVec2{pos.x, pos.y};
+    // is_panning             = true;
+    //}
+    // ImVec2 drag = ImGui::GetMouseDragDelta();
+    // pos.x       = camera_pos_without_pan.x - drag.x;
+    // pos.y       = camera_pos_without_pan.y - drag.y;
     //});
   }
 
   void Editor::m_handle_inspector (const ImGuiIO& io)
   {
-    m_map_tile_pos (
-        io, [this, &io] (const ImVec2& map_pos) { m_selection_system->on_click (m_game.m_registry, io, map_pos); });
+    m_map_tile_pos (io, [this, &io] (const ImVec2& map_pos) { m_selection_system->on_click (m_game.m_registry, io, map_pos); });
     m_selection_system->update (m_game.m_registry);
   }
 
   void Editor::m_play_mode()
   {
     m_current_state = PLAY;
-    glViewport (0,
-                m_toolbar.size().y,
-                m_game.m_display.get_window_width(),
-                m_game.m_display.get_window_height() - m_toolbar.size().y);
+    glViewport (0, m_toolbar.size().y, m_game.m_display.get_window_width(), m_game.m_display.get_window_height() - m_toolbar.size().y);
     m_game.m_display.m_check_viewport_proportions();
   }
 
@@ -466,10 +447,7 @@ namespace editor
     // style.Colors[ImGuiCol_TitleBgActive]      = tab_color;
   }
 
-  void Editor::draw_dock (const float window_width,
-                          const float window_height,
-                          const float game_width,
-                          const float game_height)
+  void Editor::draw_dock (const float window_width, const float window_height, const float game_width, const float game_height)
   {
     m_window_width  = window_width;
     m_window_height = window_height;
@@ -499,9 +477,8 @@ namespace editor
     ImGui::SetNextWindowBgAlpha (0.0f);
     ImGui::Begin ("MainDS",
                   nullptr,
-                  ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove |
-                      ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus |
-                      ImGuiWindowFlags_NoNavFocus);
+                  ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar |
+                      ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus);
     ImGui::PopStyleVar();
     ImGui::PopStyleVar (2);
 
@@ -512,13 +489,11 @@ namespace editor
       ImGui::DockBuilderAddNode (dockspace_id, ImGuiDockNodeFlags_DockSpace);
       ImGui::DockBuilderSetNodeSize (dockspace_id, ImVec2 (window_width, window_height));
 
-      ImGuiID dock_main_id  = dockspace_id;
-      ImGuiID dock_right_id = ImGui::DockBuilderSplitNode (dock_main_id, ImGuiDir_Right, 0.2f, nullptr, &dock_main_id);
-      ImGuiID dock_right_down_id =
-          ImGui::DockBuilderSplitNode (dock_right_id, ImGuiDir_Down, 0.5f, nullptr, &dock_right_id);
-      ImGuiID dock_down_id = ImGui::DockBuilderSplitNode (dock_main_id, ImGuiDir_Down, 0.25f, nullptr, &dock_main_id);
-      ImGuiID dock_down_right_id =
-          ImGui::DockBuilderSplitNode (dock_down_id, ImGuiDir_Right, 0.5f, nullptr, &dock_down_id);
+      ImGuiID dock_main_id       = dockspace_id;
+      ImGuiID dock_right_id      = ImGui::DockBuilderSplitNode (dock_main_id, ImGuiDir_Right, 0.2f, nullptr, &dock_main_id);
+      ImGuiID dock_right_down_id = ImGui::DockBuilderSplitNode (dock_right_id, ImGuiDir_Down, 0.5f, nullptr, &dock_right_id);
+      ImGuiID dock_down_id       = ImGui::DockBuilderSplitNode (dock_main_id, ImGuiDir_Down, 0.25f, nullptr, &dock_main_id);
+      ImGuiID dock_down_right_id = ImGui::DockBuilderSplitNode (dock_down_id, ImGuiDir_Right, 0.5f, nullptr, &dock_down_id);
 
       ImGui::DockBuilderDockWindow (m_scene_editor.get_title_string().c_str(), dock_right_id);
       ImGui::DockBuilderDockWindow (m_inspector.get_title_string().c_str(), dock_right_down_id);
@@ -532,19 +507,18 @@ namespace editor
     ImGui::DockSpace (dockspace_id, ImVec2 (0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
     ImGui::End();
 
-
     m_scene.render ((void*) (intptr_t) m_FBO->get_texture());
 
-    //m_map_editor.render_file_dialog();
+    // m_map_editor.render_file_dialog();
 
     if (m_inspector.is_open())
     {
       m_inspector.render (m_game.m_registry, m_game.m_textures.get_list());
     }
-    //m_map_editor.render();
-    //if (m_tileset_editor.is_open())
+    // m_map_editor.render();
+    // if (m_tileset_editor.is_open())
     //{
-      //m_tileset_editor.render();
+    // m_tileset_editor.render();
     //}
     if (m_scene_editor.is_open())
     {
@@ -636,9 +610,9 @@ namespace editor
         ImGui::Dummy (ImVec2{0.0f, 1.5f});
         m_widget_build_option (m_inspector, "oi/ci");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        //m_widget_build_option (m_map_editor, "om/cm");
-        //ImGui::Dummy (ImVec2{0.0f, 3.0f});
-        //m_widget_build_option (m_tileset_editor, "ot/ct");
+        // m_widget_build_option (m_map_editor, "om/cm");
+        // ImGui::Dummy (ImVec2{0.0f, 3.0f});
+        // m_widget_build_option (m_tileset_editor, "ot/ct");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
         m_widget_build_option (m_chat, "oh/ch");
         ImGui::Dummy (ImVec2{0.0f, 3.0f});
@@ -676,7 +650,7 @@ namespace editor
       // Set Scene widget title
       if (m_game.m_current_scene != nullptr)
       {
-        m_scene.set_title("Scene: " + m_game.m_current_scene->get_name());
+        m_scene.set_title ("Scene: " + m_game.m_current_scene->get_name());
       }
 
       // Reload scene editor

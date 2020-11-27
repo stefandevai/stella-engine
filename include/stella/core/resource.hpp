@@ -12,7 +12,7 @@ namespace core
   class Resource
   {
   public:
-    Resource (const std::string& path) : m_path(path) {}
+    Resource (const std::string& path) : m_path (path) {}
     virtual ~Resource() {}
 
   private:

@@ -15,15 +15,13 @@ namespace graphics
 {
   class ShaderProgram;
   class Camera;
-}
-}
-
+} // namespace graphics
+} // namespace stella
 
 namespace stella
 {
 namespace system
 {
-
   class Render : public System
   {
   public:
@@ -33,11 +31,10 @@ namespace system
 
   private:
     core::AssetManager& m_asset_manager;
-    graphics::Renderer m_renderer {m_asset_manager};
+    graphics::Renderer m_renderer{m_asset_manager};
     std::shared_ptr<graphics::ShaderProgram> m_shader_program;
     std::shared_ptr<core::ModelAsset> m_model;
-
   };
 
-}
-}
+} // namespace system
+} // namespace stella

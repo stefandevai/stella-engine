@@ -7,45 +7,44 @@
 
 namespace stella::graphics
 {
+enum class TextureType
+{
+  DIFFUSE,
+  SPECULAR,
+  NORMAL,
+};
 
-  enum class TextureType
-  {
-    DIFFUSE,
-    SPECULAR,
-    NORMAL,
-  };
+class Texture : public core::Asset
+{
+public:
+  // Load single texture
+  Texture (const std::string& filepath, const TextureType type);
+  // Load uniform texture atlas
+  Texture (const std::string& filepath, const TextureType type, const int horizontal_frames, const int vertical_frames);
+  ~Texture();
 
-  class Texture : public core::Asset
-  {
-  public:
-    // Load single texture
-    Texture(const std::string& filepath, const TextureType type);
-    // Load uniform texture atlas
-    Texture(const std::string& filepath, const TextureType type, const int horizontal_frames, const int vertical_frames);
-    ~Texture();
+  void load (const std::string& filepath);
+  void bind();
+  void unbind();
+  inline const unsigned int get_id() const { return m_id; }
+  inline const int get_width() const { return m_width; }
+  inline const int get_height() const { return m_height; }
+  inline const int get_horizontal_frames() const { return m_horizontal_frames; }
+  inline const int get_vertical_frames() const { return m_vertical_frames; }
+  inline const TextureType get_type() const { return m_type; }
+  // TODO: Implement irregular frame calculations
+  const float get_frame_width (const int frame) const;
+  const float get_frame_height (const int frame) const;
+  // Get top-left, top-right, bottom-right and bottom-left uv coordinates
+  const std::array<glm::vec2, 4> get_frame_coords (const int frame) const;
 
-    void load(const std::string& filepath);
-    void bind();
-    void unbind();
-    inline const unsigned int get_id() const { return m_id; }
-    inline const int get_width() const { return m_width; }
-    inline const int get_height() const { return m_height; }
-    inline const int get_horizontal_frames() const { return m_horizontal_frames; }
-    inline const int get_vertical_frames() const { return m_vertical_frames; }
-    inline const TextureType get_type() const { return m_type; }
-    // TODO: Implement irregular frame calculations
-    const float get_frame_width(const int frame) const;
-    const float get_frame_height(const int frame) const;
-    // Get top-left, top-right, bottom-right and bottom-left uv coordinates
-    const std::array<glm::vec2, 4> get_frame_coords (const int frame) const;
+protected:
+  const TextureType m_type;
+  const int m_horizontal_frames;
+  const int m_vertical_frames;
+  unsigned int m_id = 0;
+  int m_width       = 0;
+  int m_height      = 0;
+};
 
-  protected:
-    const TextureType m_type;
-    const int m_horizontal_frames;
-    const int m_vertical_frames;
-    unsigned int m_id = 0;
-    int m_width = 0;
-    int m_height = 0;
-  };
-
-}
+} // namespace stella::graphics

@@ -33,7 +33,7 @@ namespace graphics
     }
     else
     {
-      spdlog::warn("There's no animation named " + name);
+      spdlog::warn ("There's no animation named " + name);
     }
   }
 

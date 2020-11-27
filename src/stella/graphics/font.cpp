@@ -13,15 +13,15 @@ namespace graphics
   {
     if (FT_Init_FreeType (&m_ft))
     {
-      spdlog::critical("Could not init FreeType Library");
+      spdlog::critical ("Could not init FreeType Library");
     }
     if (FT_New_Face (m_ft, m_path, 0, &m_face))
     {
-      spdlog::critical("Failed to load font");
+      spdlog::critical ("Failed to load font");
     }
     if (FT_Select_Charmap (m_face, FT_ENCODING_UNICODE))
     {
-      spdlog::critical("Failed to load unicode charmap");
+      spdlog::critical ("Failed to load unicode charmap");
     }
     FT_Set_Pixel_Sizes (m_face, 0, m_size);
 
@@ -30,7 +30,7 @@ namespace graphics
     {
       if (FT_Load_Char (m_face, c, FT_LOAD_RENDER))
       {
-        spdlog::critical("Failed to load Glyph");
+        spdlog::critical ("Failed to load Glyph");
         continue;
       }
       aw += m_face->glyph->bitmap.width;
@@ -50,18 +50,10 @@ namespace graphics
     {
       if (FT_Load_Char (m_face, c, FT_LOAD_RENDER))
       {
-        spdlog::critical("Failed to load Glyph");
+        spdlog::critical ("Failed to load Glyph");
         continue;
       }
-      glTexSubImage2D (GL_TEXTURE_2D,
-                       0,
-                       aa,
-                       0,
-                       m_face->glyph->bitmap.width,
-                       m_face->glyph->bitmap.rows,
-                       GL_RED,
-                       GL_UNSIGNED_BYTE,
-                       m_face->glyph->bitmap.buffer);
+      glTexSubImage2D (GL_TEXTURE_2D, 0, aa, 0, m_face->glyph->bitmap.width, m_face->glyph->bitmap.rows, GL_RED, GL_UNSIGNED_BYTE, m_face->glyph->bitmap.buffer);
 
       CharacterData ch_data = {m_face->glyph->advance.x,
                                m_face->glyph->advance.y,

@@ -4,8 +4,7 @@ namespace editor
 {
 namespace widget
 {
-  Console::Console (const ImGuiWindowFlags window_flags, ImFont*& mono_font)
-    : Widget ("Console"), WindowFlags (window_flags), MonoFont (mono_font)
+  Console::Console (const ImGuiWindowFlags window_flags, ImFont*& mono_font) : Widget ("Console"), WindowFlags (window_flags), MonoFont (mono_font)
   {
     m_open         = true;
     AutoScroll     = true;

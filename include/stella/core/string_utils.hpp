@@ -16,8 +16,7 @@ public:
 
   static inline void rtrim (std::wstring& str)
   {
-    str.erase (std::find_if (str.rbegin(), str.rend(), [] (wchar_t ch) { return !std::isspace (ch); }).base(),
-               str.end());
+    str.erase (std::find_if (str.rbegin(), str.rend(), [] (wchar_t ch) { return !std::isspace (ch); }).base(), str.end());
   }
 
   static inline void trim (std::wstring& str)

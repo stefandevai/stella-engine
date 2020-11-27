@@ -14,7 +14,7 @@ namespace widget
     std::string m_id;
     std::string m_title;
     std::string m_title_string;
-    Widget (const std::string& id) : m_id(id), m_title(id), m_title_string(id + "###" + id) {};
+    Widget (const std::string& id) : m_id (id), m_title (id), m_title_string (id + "###" + id){};
 
   public:
     virtual ~Widget() = default;
@@ -24,10 +24,10 @@ namespace widget
     virtual inline void toggle() { m_open = !m_open; }
     virtual inline void open() { m_open = true; }
     virtual inline void close() { m_open = false; }
-    virtual inline void set_id(const std::string& id) { m_id = id; }
-    virtual inline void set_title(const std::string& title)
+    virtual inline void set_id (const std::string& id) { m_id = id; }
+    virtual inline void set_title (const std::string& title)
     {
-      m_title = title;
+      m_title        = title;
       m_title_string = m_title + "###" + m_id;
     }
   };

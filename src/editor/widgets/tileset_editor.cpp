@@ -71,10 +71,8 @@ namespace widget
           ImVec4 tint_col  = ImVec4 (1.f, 1.f, 1.f, 0.7f);
           int item_spacing = 0.f;
           ImVec2 size      = ImVec2 (m_tile_dimensions[0], m_tile_dimensions[1]);
-          ImVec2 uv1 =
-              ImVec2 (i * m_tile_dimensions[0] / (float) m_texture_w, j * m_tile_dimensions[1] / (float) m_texture_h);
-          ImVec2 uv2          = ImVec2 ((m_tile_dimensions[0] + i * m_tile_dimensions[0]) / (float) m_texture_w,
-                               (m_tile_dimensions[1] + j * m_tile_dimensions[1]) / (float) m_texture_h);
+          ImVec2 uv1       = ImVec2 (i * m_tile_dimensions[0] / (float) m_texture_w, j * m_tile_dimensions[1] / (float) m_texture_h);
+          ImVec2 uv2 = ImVec2 ((m_tile_dimensions[0] + i * m_tile_dimensions[0]) / (float) m_texture_w, (m_tile_dimensions[1] + j * m_tile_dimensions[1]) / (float) m_texture_h);
           ImTextureID texture = (void*) (intptr_t) this->texture.GetID();
 
           if (i + j * w_in_tiles == m_selected_tile_id)
@@ -125,8 +123,7 @@ namespace widget
 
   ImVec2 TilesetEditor::pos2tile (const double x, const double y)
   {
-    return ImVec2 (std::floor (x / static_cast<double> (m_tile_dimensions[0])),
-                   std::floor (y / static_cast<double> (m_tile_dimensions[1])));
+    return ImVec2 (std::floor (x / static_cast<double> (m_tile_dimensions[0])), std::floor (y / static_cast<double> (m_tile_dimensions[1])));
   }
 
   void TilesetEditor::render_tile_sprite (const ImVec2& pos, const float alpha)
@@ -136,15 +133,8 @@ namespace widget
       ImGui::SetNextWindowSize (ImVec2 (64.f, 64.f), ImGuiCond_Always);
       ImGui::SetNextWindowPos (pos, ImGuiCond_Always);
       ImGui::SetNextWindowBgAlpha (alpha);
-      ImGui::Begin ("texture",
-                    nullptr,
-                    ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize |
-                        ImGuiWindowFlags_NoSavedSettings);
-      ImGui::Image (m_selected_tile_texture,
-                    m_selected_tile_size,
-                    m_selected_tile_uv1,
-                    m_selected_tile_uv2,
-                    ImVec4 (1.f, 1.f, 1.f, alpha));
+      ImGui::Begin ("texture", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
+      ImGui::Image (m_selected_tile_texture, m_selected_tile_size, m_selected_tile_uv1, m_selected_tile_uv2, ImVec4 (1.f, 1.f, 1.f, alpha));
       ImGui::End();
     }
   }

@@ -30,8 +30,8 @@ typedef float GLfloat;
 #ifdef STELLA_BUILD_EDITOR
 namespace editor
 {
-  class Editor;
-} // namespace stella
+class Editor;
+} // namespace editor
 #endif
 
 namespace stella
@@ -78,11 +78,11 @@ namespace graphics
     friend class ::editor::Editor;
 
   #if __APPLE__
-      // GL 3.2 Core + GLSL 150
-      const char* m_glsl_version = "#version 150";
+    // GL 3.2 Core + GLSL 150
+    const char* m_glsl_version = "#version 150";
   #else
-      // GL 3.0 + GLSL 130
-      const char* m_glsl_version = "#version 130";
+    // GL 3.0 + GLSL 130
+    const char* m_glsl_version = "#version 130";
   #endif
 #endif
 

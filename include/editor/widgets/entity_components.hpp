@@ -15,8 +15,7 @@ namespace widget
     EntityComponents() {}
 
     template<class T>
-    void render_component_node (entt::registry& registry,
-                                const std::function<void (entt::registry&, const entt::entity)>& render_params)
+    void render_component_node (entt::registry& registry, const std::function<void (entt::registry&, const entt::entity)>& render_params)
     {
       if (registry.has<T> (m_selected_entity))
       {

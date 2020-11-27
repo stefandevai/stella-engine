@@ -14,10 +14,7 @@ namespace component
   struct Text : public Component
   {
     Text() : Component ("Text") {}
-    Text (const std::wstring text,
-          const std::string font_name,
-          const std::string color = "#ffffffff",
-          const bool is_static    = false)
+    Text (const std::wstring text, const std::string font_name, const std::string color = "#ffffffff", const bool is_static = false)
       : Component ("Text"), text (text), font_name (font_name), color (color), is_static (is_static)
     {
     }

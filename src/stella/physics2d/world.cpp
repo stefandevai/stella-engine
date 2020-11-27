@@ -133,8 +133,7 @@ namespace physics2d
     // Checks:
     //    - if *A* last bottom is less than the center y of *B*
     //    - if last *A* bottom is greater than the top of *B*
-    if (last_maxy_a < cyb && maxy_a >= miny_b &&
-        ((last_intersected_x && !last_intersected_y) || (!last_intersected_x && !last_intersected_y)))
+    if (last_maxy_a < cyb && maxy_a >= miny_b && ((last_intersected_x && !last_intersected_y) || (!last_intersected_x && !last_intersected_y)))
     {
       mf.A->Collisions.set (2);
       mf.A->Acceleration.y = 0.f;
@@ -145,8 +144,7 @@ namespace physics2d
     // Checks:
     //    - if *A* last top is greater than the center y of *B*
     //    - if last *A* top is less than the bottom of *B*
-    else if (last_miny_a > cyb && miny_a <= maxy_b &&
-             ((last_intersected_x && !last_intersected_y) || (!last_intersected_x && !last_intersected_y)))
+    else if (last_miny_a > cyb && miny_a <= maxy_b && ((last_intersected_x && !last_intersected_y) || (!last_intersected_x && !last_intersected_y)))
     {
       mf.A->Collisions.set (0);
       mf.A->Acceleration.y = 0.f;
@@ -157,8 +155,7 @@ namespace physics2d
     // Checks:
     //    - if *A* last right is less than the center x of *B*
     //    - if last *A* right is greater than the left of *B*
-    else if (last_maxx_a < cxb && maxx_a >= minx_b &&
-             ((!last_intersected_x && last_intersected_y) || (!last_intersected_x && !last_intersected_y)))
+    else if (last_maxx_a < cxb && maxx_a >= minx_b && ((!last_intersected_x && last_intersected_y) || (!last_intersected_x && !last_intersected_y)))
     {
       mf.A->Collisions.set (1);
       mf.A->Acceleration.x = 0.f;
@@ -169,8 +166,7 @@ namespace physics2d
     // Checks:
     //    - if *A* last left is greater than the center x of *B*
     //    - if last *A* left is less than the right of *B*
-    else if (last_minx_a > cxb && minx_a < maxx_b &&
-             ((!last_intersected_x && last_intersected_y) || (!last_intersected_x && !last_intersected_y)))
+    else if (last_minx_a > cxb && minx_a < maxx_b && ((!last_intersected_x && last_intersected_y) || (!last_intersected_x && !last_intersected_y)))
     {
       mf.A->Collisions.set (3);
       mf.A->Acceleration.x = 0.f;
@@ -180,7 +176,7 @@ namespace physics2d
     // Shouldn't get to this point. Left for debug purposes.
     else
     {
-      spdlog::debug("Shouldn't be here! Resolve Manifold");
+      spdlog::debug ("Shouldn't be here! Resolve Manifold");
     }
   }
 

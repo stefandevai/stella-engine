@@ -53,10 +53,7 @@ namespace script
       double y = static_cast<double> ((pos / 256) % 256);
       return m_noise_generator.get_int (static_cast<int> (min), static_cast<int> (max), x / 100.f, y / 100.f);
     }
-    inline int get_random (double min, double max)
-    {
-      return static_cast<int> (min) + rand() % ((static_cast<int> (max) + 1) - static_cast<int> (min));
-    }
+    inline int get_random (double min, double max) { return static_cast<int> (min) + rand() % ((static_cast<int> (max) + 1) - static_cast<int> (min)); }
   };
 } // namespace script
 } // namespace stella

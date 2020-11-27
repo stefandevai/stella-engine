@@ -6,7 +6,6 @@ namespace stella
 {
 namespace core
 {
-
   class AssetManager;
 
   class ModelLoader : public AssetLoader
@@ -19,7 +18,6 @@ namespace core
     const std::string m_filepath;
     AssetManager* m_asset_manager;
   };
-  
-}
-}
 
+} // namespace core
+} // namespace stella

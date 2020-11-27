@@ -16,20 +16,19 @@ namespace stella
 {
 namespace core
 {
-  Scene::Scene (const int width, const int height, AssetManager& asset_manager)
-    : m_width (width), m_height (height), m_asset_manager (asset_manager)
+  Scene::Scene (const int width, const int height, AssetManager& asset_manager) : m_width (width), m_height (height), m_asset_manager (asset_manager)
   {
-    spdlog::set_level(spdlog::level::debug);
-    m_camera.set_frustrum (0.0f, static_cast<float>(m_width), static_cast<float>(m_height), 0.0f);
+    spdlog::set_level (spdlog::level::debug);
+    m_camera.set_frustrum (0.0f, static_cast<float> (m_width), static_cast<float> (m_height), 0.0f);
   }
 
-  void Scene::load(const std::string& filepath)
+  void Scene::load (const std::string& filepath)
   {
-    m_json.load(filepath);
+    m_json.load (filepath);
 
     if (m_json.object["name"] == nullptr)
     {
-      throw std::invalid_argument("No Scene name was provided.");
+      throw std::invalid_argument ("No Scene name was provided.");
     }
 
     if (m_json.object["systems"] != nullptr)
@@ -37,26 +36,26 @@ namespace core
       auto system_names = m_json.object["systems"].get<std::vector<std::string>>();
       for (auto& system_name : system_names)
       {
-        add_system(system_name);
+        add_system (system_name);
       }
     }
 
-    m_name = m_json.object["name"].get<std::string>();
+    m_name     = m_json.object["name"].get<std::string>();
     m_filepath = filepath;
 
     // Scene is not modified when loaded
     m_modified = false;
   }
 
-  void Scene::save(const std::string& filepath)
+  void Scene::save (const std::string& filepath)
   {
     if (filepath.empty())
     {
-      throw std::invalid_argument("Filepath is empty.");
+      throw std::invalid_argument ("Filepath is empty.");
     }
     if (m_name.empty())
     {
-      throw std::invalid_argument("Scene name should not be empty.");
+      throw std::invalid_argument ("Scene name should not be empty.");
     }
 
     // Update name
@@ -68,44 +67,38 @@ namespace core
     {
       if (s.second != nullptr)
       {
-        m_json.object["systems"].emplace_back(s.second->get_tag());
+        m_json.object["systems"].emplace_back (s.second->get_tag());
       }
     }
 
     // Save json file
-    m_json.save(filepath);
+    m_json.save (filepath);
     m_filepath = filepath;
     m_modified = false;
   }
 
-  void Scene::save()
-  {
-    save(m_filepath);
-  }
+  void Scene::save() { save (m_filepath); }
 
   void Scene::start()
   {
     auto mesh_entity = m_registry.create();
-    m_registry.emplace<component::Mesh>(mesh_entity, "skull");
-    m_registry.emplace<component::Position2>(mesh_entity, 0.0f, 0.0f);
+    m_registry.emplace<component::Mesh> (mesh_entity, "skull");
+    m_registry.emplace<component::Position2> (mesh_entity, 0.0f, 0.0f);
 
     auto sprite_entity = m_registry.create();
-    m_registry.emplace<component::Sprite>(sprite_entity, "spritesheet-nikte", 54);
-    m_registry.emplace<component::Position2>(sprite_entity, 200.0f, 400.0f);
+    m_registry.emplace<component::Sprite> (sprite_entity, "spritesheet-nikte", 54);
+    m_registry.emplace<component::Position2> (sprite_entity, 200.0f, 400.0f);
   }
 
-  void Scene::update (const double dt)
-  {
-    m_camera.update(m_registry);
-  }
+  void Scene::update (const double dt) { m_camera.update (m_registry); }
 
   void Scene::render (const double dt)
   {
-    auto render_system = std::dynamic_pointer_cast<system::Render>(m_systems.at("render"));
+    auto render_system = std::dynamic_pointer_cast<system::Render> (m_systems.at ("render"));
 
     if (render_system != nullptr)
     {
-      render_system->render(m_registry, m_camera, dt);
+      render_system->render (m_registry, m_camera, dt);
     }
   }
 
@@ -115,35 +108,35 @@ namespace core
 
     try
     {
-      system_tag = g_system_map.at(system_name);
+      system_tag = g_system_map.at (system_name);
     }
     catch (std::out_of_range& e)
     {
-      spdlog::warn("Unknown system: {}\n{}", system_name, e.what());
+      spdlog::warn ("Unknown system: {}\n{}", system_name, e.what());
       return;
     }
-    
+
     m_modified = true;
 
     switch (system_tag)
     {
       case SystemTag::RENDER:
-        {
-          m_add_system<stella::system::Render>(system_name, m_asset_manager);
-        }
-        break;
+      {
+        m_add_system<stella::system::Render> (system_name, m_asset_manager);
+      }
+      break;
 
       case SystemTag::ANIMATION:
-        {
-          m_add_system<stella::system::AnimationPlayer>(system_name);
-        }
-        break;
+      {
+        m_add_system<stella::system::AnimationPlayer> (system_name);
+      }
+      break;
 
       default:
-        {
-          spdlog::warn("Unknown system: {}", system_name);
-          m_modified = false;
-        }
+      {
+        spdlog::warn ("Unknown system: {}", system_name);
+        m_modified = false;
+      }
       break;
     }
   }
