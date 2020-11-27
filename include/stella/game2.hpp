@@ -4,9 +4,7 @@
 #include "stella/core/scene.hpp"
 #include "stella/core/json.hpp"
 #include "stella/core/resource/asset_manager.hpp"
-
 #include <entt/entity/registry.hpp>
-
 #include <string>
 #include <vector>
 #include <memory>
