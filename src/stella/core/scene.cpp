@@ -86,8 +86,12 @@ namespace core
     m_registry.emplace<component::Position2> (mesh_entity, 0.0f, 0.0f);
 
     auto sprite_entity = m_registry.create();
-    m_registry.emplace<component::Sprite> (sprite_entity, "spritesheet-nikte", 54);
+    m_registry.emplace<component::Sprite> (sprite_entity, "nikte", 54);
     m_registry.emplace<component::Position2> (sprite_entity, 200.0f, 400.0f);
+
+    auto sprite_entity2 = m_registry.create();
+    m_registry.emplace<component::Sprite> (sprite_entity2, "tileset", 54);
+    m_registry.emplace<component::Position2> (sprite_entity2, 0.0f, 0.0f);
   }
 
   void Scene::update (const double dt) { m_camera.update (m_registry); }

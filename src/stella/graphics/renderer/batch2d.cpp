@@ -2,6 +2,7 @@
 
 #include "stella/graphics/renderer/batch2d.hpp"
 #include "stella/graphics/texture2.hpp"
+#include "stella/graphics/shader_program.hpp"
 #include "stella/graphics/opengl.hpp"
 #include "stella/components/sprite2.hpp"
 #include "stella/components/position2.hpp"
@@ -73,7 +74,9 @@ void Batch2D::render (ShaderProgram& shader)
   {
     glActiveTexture (GL_TEXTURE0 + i);
     m_textures[i]->bind();
+    shader.set_int ("textures[" + std::to_string(i) + "]", i);
   }
+  glActiveTexture (GL_TEXTURE0);
 
   glBindVertexArray (m_vao);
   glDrawElements (GL_TRIANGLES, m_index_count, GL_UNSIGNED_INT, 0);

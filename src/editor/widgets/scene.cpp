@@ -63,5 +63,6 @@ namespace widget
     ImGui::PopStyleVar();
     ImGui::PopStyleVar();
   }
+
 } // namespace widget
 } // namespace editor

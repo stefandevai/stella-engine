@@ -25,6 +25,7 @@ void main()
       break;
     case 1:
       final_color = texture(textures[1], f_in.uv);
+      //final_color = vec4(1.0, 1.0, 1.0, 1.0);
       break;
     case 2:
       final_color = texture(textures[2], f_in.uv);

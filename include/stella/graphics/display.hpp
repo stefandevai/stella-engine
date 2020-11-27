@@ -1,10 +1,5 @@
 #pragma once
 
-#include <array>
-#include <string>
-
-//#include <SDL2/SDL.h>
-//#include <SDL2/SDL_opengl.h>
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
   #include <SDL.h>
   #include <SDL_timer.h>
@@ -17,15 +12,7 @@
 #endif
 #undef main
 #include <glm/glm.hpp>
-
-// Set to 1 to disable vsync
-#define DISABLE_VSYNC 0
-
-// Forward declarations
-struct SDL_Window;
-typedef void* SDL_GLContext;
-typedef unsigned int GLuint;
-typedef float GLfloat;
+#include <string>
 
 #ifdef STELLA_BUILD_EDITOR
 namespace editor
@@ -41,38 +28,39 @@ namespace graphics
   class Display
   {
   public:
-    Display (GLuint width, GLuint height, const std::string& title);
+    Display (const unsigned int width, const unsigned int height, const std::string& title);
     ~Display();
-    bool is_running() const;
+    const bool is_running() const;
     void update();
+    void render();
     void clear();
     void quit();
     void set_title (const std::string& title);
     void set_size (const int width, const int height);
-    void set_clear_color (int r, int g, int b);
-    void set_clear_color (GLfloat x, GLfloat y, GLfloat z);
-    GLuint get_width() const;
-    GLuint get_height() const;
-    GLuint get_window_width() const;
-    GLuint get_window_height() const;
-    static GLfloat get_time() { return (GLfloat) SDL_GetTicks(); }
-    GLuint get_frame() const { return m_frame; }
-    GLfloat get_dt() const { return m_dt; }
-    GLfloat get_fps();
+    void set_clear_color (const float a, const float b, const float c);
+    const unsigned int get_width() const;
+    const unsigned int get_height() const;
+    const int get_window_width() const;
+    const int get_window_height() const;
+    static float get_time() { return (float) SDL_GetTicks(); }
+    const float get_dt() const { return (static_cast<float>(m_dt) / 1000.0f); }
+    const float get_fps() const;
     static void get_mouse_pos (double& mx, double& my);
-    static const unsigned char* get_gl_version();
-    static const unsigned char* get_gl_renderer();
     static bool is_key_down (int key);
+    void reset_viewport();
+    void update_viewport();
 
   private:
-    GLuint m_width, m_height, m_frame, m_last_frame;
-    GLfloat m_last_time, m_last_fps_check, m_dt = 0.0f;
-    std::string m_title;
     SDL_Window* m_window;
     SDL_GLContext m_gl_context;
-    bool m_running;
-    glm::vec3 m_clear_color{0.0f, 0.0f, 0.0f};
     SDL_Event m_event;
+    unsigned int m_width;
+    unsigned int m_height;
+    std::string m_title;
+    unsigned int m_dt = 0;
+    unsigned int m_last_time = 0;
+    bool m_running = false;
+    glm::vec3 m_clear_color{0.0f, 0.0f, 0.0f};
 
 #ifdef STELLA_BUILD_EDITOR
     friend class ::editor::Editor;
@@ -86,9 +74,10 @@ namespace graphics
   #endif
 #endif
 
+  private:
     void m_update_input();
-    void m_get_dt();
-    void m_check_viewport_proportions();
+    void m_update_dt();
+    void m_update_viewport_proportions();
   };
 } // namespace graphics
 } // namespace stella

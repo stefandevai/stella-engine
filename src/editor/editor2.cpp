@@ -3,6 +3,7 @@
 #include "editor/actions.hpp"
 #include "stella/game2.hpp"
 #include "stella/graphics/framebuffer.hpp"
+#include "stella/graphics/opengl.hpp"
 
 #include "../../lib/imgui/imgui.h"                       // IWYU pragma: export
 #include "../../lib/imgui/examples/imgui_impl_opengl3.h" // IWYU pragma: export
@@ -64,29 +65,29 @@ void Editor::m_run_none_mode()
 
 void Editor::m_run_edit_mode()
 {
+  // TODO: Save current state to restore when getting back from play mode
   ImGuiIO& io = ImGui::GetIO();
   m_handle_edit_mode_tool (io);
-
-  // TODO: Save current state to restore when getting back from play mode
-  m_game->update (m_game->m_display.get_dt());
   m_game->m_display.update();
+  m_game->update (m_game->m_display.get_dt());
+  m_handle_edit_mode_input();
+  m_handle_edit_mode_actions();
+
   m_FBO->bind();
   m_game->m_display.clear();
   m_game->render (m_game->m_display.get_dt());
   m_FBO->unbind();
 
-  m_handle_edit_mode_input();
-  m_handle_edit_mode_actions();
   m_render_edit_mode (m_game->m_display.get_window_width(), m_game->m_display.get_window_height(), m_game->m_display.m_width, m_game->m_display.m_height);
+  m_game->m_display.render();
 }
 
 void Editor::m_run_play_mode()
 {
   ImGuiIO& io = ImGui::GetIO();
   m_handle_play_mode_tool (io);
-
-  m_game->update (m_game->m_display.get_dt());
   m_game->m_display.update();
+  m_game->update (m_game->m_display.get_dt());
   m_handle_play_mode_input();
   m_handle_play_mode_actions();
 
@@ -94,6 +95,7 @@ void Editor::m_run_play_mode()
   m_game->render (m_game->m_display.get_dt());
 
   m_render_play_mode (m_game->m_display.get_window_width(), m_game->m_display.get_window_height(), m_game->m_display.m_width, m_game->m_display.m_height);
+  m_game->m_display.render();
 }
 
 void Editor::m_render_none_mode()
@@ -133,7 +135,18 @@ void Editor::m_render_edit_mode (const float window_width, const float window_he
   ImGui::PushFont (m_font_sans_regular);
 
   m_render_menu_bar();
+
+  const auto last_mode = m_current_mode;
   m_toolbar.render (m_game->m_registry, m_current_mode, m_current_tool, m_window_width);
+  // TODO: Refactor toolbar code
+  // Check if tool has change
+  if (m_current_mode != last_mode)
+  {
+    if (m_current_mode == EditorMode::PLAY)
+    {
+      m_game->m_display.update_viewport();
+    }
+  }
 
   m_render_dock();
 
@@ -178,9 +191,37 @@ void Editor::m_render_play_mode (const float window_width, const float window_he
   m_render_menu_bar();
   m_toolbar.render (m_game->m_registry, m_current_mode, m_current_tool, m_window_width);
 
+  m_render_game_info();
+
   ImGui::PopFont();
   ImGui::Render();
   ImGui_ImplOpenGL3_RenderDrawData (ImGui::GetDrawData());
+}
+
+void Editor::m_render_game_info()
+{
+  static float fps = 0.0f;
+  static float dt = 0.0f;
+
+  // Update values
+  if (ImGui::GetFrameCount() % 30 == 0)
+  {
+    fps = m_game->m_display.get_fps();
+    dt = m_game->m_display.get_dt();
+  }
+
+  ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
+  ImGui::SetNextWindowBgAlpha(0.35f);
+  ImGui::SetNextWindowPos(ImVec2(15.0f, 72.0f), ImGuiCond_Always);
+  if (ImGui::Begin("Example: Simple overlay", nullptr, window_flags))
+  {
+    ImGui::Text("Game Info");
+    ImGui::Separator();
+    ImGui::Text("FPS: %.5f", fps);
+    ImGui::Text("Frame: %.5f", dt);
+  }
+  ImGui::End();
+
 }
 
 void Editor::m_init()
@@ -444,6 +485,7 @@ void Editor::m_handle_play_mode_actions()
 
     case Action::QUIT_PLAY_MODE:
     {
+      m_game->m_display.reset_viewport();
       m_current_mode = EditorMode::EDIT;
     }
     break;

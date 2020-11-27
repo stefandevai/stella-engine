@@ -58,5 +58,7 @@ namespace graphics
   }
 
   void ShaderProgram::set_float (const std::string& uniform_name, const float value) const { glUniform1f (glGetUniformLocation (m_program, uniform_name.c_str()), value); }
+
+  void ShaderProgram::set_int (const std::string& uniform_name, const int value) const { glUniform1i (glGetUniformLocation (m_program, uniform_name.c_str()), value); }
 } // namespace graphics
 } // namespace stella

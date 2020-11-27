@@ -117,10 +117,12 @@ void Game::run()
 {
   while (m_display.is_running())
   {
-    m_display.clear();
-    update (m_display.get_dt());
-    render (m_display.get_dt());
     m_display.update();
+    update (m_display.get_dt());
+
+    m_display.clear();
+    render (m_display.get_dt());
+    m_display.render();
   }
 }
 
