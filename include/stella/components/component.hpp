@@ -1,17 +1,16 @@
 #pragma once
 
+#include "stella/component_types.hpp"
 #include <string>
 
-namespace stella
+namespace stella::component
 {
-namespace component
+struct Component
 {
-  struct Component
-  {
-    Component (const std::string& name) : name (name) {}
-    virtual ~Component() {}
-    std::string name = "";
-    bool loaded      = false;
-  };
-} // namespace component
+  Component (const std::string& name);
+  virtual ~Component();
+  std::string name;
+  bool loaded      = false;
+  ComponentType type = ComponentType::NONE;
+};
 } // namespace stella

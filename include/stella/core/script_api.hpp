@@ -8,7 +8,13 @@
 namespace stella
 {
 enum class ComponentType;
+
+namespace component
+{
+  struct Component;
 }
+}
+
 
 namespace stella::core
 {
@@ -23,7 +29,8 @@ public:
   // API
   const entt::entity api_create_entity();
   sol::table api_get_component (const entt::entity entity, const sol::table& object);
-  void api_add_component (const entt::entity entity, const sol::table& object);
+  //void api_add_component (const entt::entity entity, const sol::table& object);
+  void api_add_component (const entt::entity entity, component::Component& component);
   void api_patch_component (const entt::entity entity, const sol::table& object);
   void api_remove_component (const entt::entity entity, const sol::table& object);
 
@@ -33,6 +40,7 @@ private:
   std::string m_filepath;
 
 private:
-  const ComponentType m_get_component_type (const sol::table& object);
+  //const ComponentType m_get_component_type (const sol::table& object);
+  const ComponentType m_get_component_type (const std::string& component_tag);
 };
 } // namespace stella::core

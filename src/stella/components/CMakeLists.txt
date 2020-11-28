@@ -1,6 +1,7 @@
 project(components)
 
-add_library(${PROJECT_NAME} STATIC color.cpp
+add_library(${PROJECT_NAME} STATIC component.cpp
+                                   color.cpp
                                    group.cpp
                                    sprite.cpp
                                    sprite2.cpp)
