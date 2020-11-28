@@ -8,6 +8,7 @@
 #include "stella/core/resource/shader_loader.hpp"
 #include "stella/components/sprite2.hpp"
 #include "stella/components/mesh.hpp"
+#include "stella/components/position2.hpp"
 
 namespace stella::graphics
 {
@@ -22,6 +23,12 @@ void Renderer::batch_sprites (entt::registry& registry)
   for (auto entity : sprite_view)
   {
     auto& sprite = registry.get<component::Sprite> (entity);
+
+    // If the entity has no Position component, skip it
+    if (!registry.has<component::Position2>(entity))
+    {
+      continue;
+    }
 
     // Load texture if it has not been loaded
     if (sprite.texture == nullptr)

@@ -28,11 +28,23 @@ public:
   inline const std::string& get_filepath() const { return m_filepath; }
   // API
   const entt::entity api_create_entity();
-  sol::table api_get_component (const entt::entity entity, const sol::table& object);
-  //void api_add_component (const entt::entity entity, const sol::table& object);
-  void api_add_component (const entt::entity entity, component::Component& component);
-  void api_patch_component (const entt::entity entity, const sol::table& object);
-  void api_remove_component (const entt::entity entity, const sol::table& object);
+  template <typename T>
+  T& api_get_component (const entt::entity entity)
+  {
+    return m_registry.get<T>(entity);
+  }
+
+  template <typename T>
+  void api_add_component (const entt::entity entity, T& component)
+  {
+    m_registry.emplace<T>(entity, component);
+  }
+
+  template <typename T>
+  void api_remove_component (const entt::entity entity)
+  {
+    m_registry.remove_if_exists<T>(entity);
+  }
 
 private:
   entt::registry& m_registry;
@@ -40,7 +52,7 @@ private:
   std::string m_filepath;
 
 private:
-  //const ComponentType m_get_component_type (const sol::table& object);
-  const ComponentType m_get_component_type (const std::string& component_tag);
+  void m_init_api();
+  void m_init_component_usertypes();
 };
 } // namespace stella::core
