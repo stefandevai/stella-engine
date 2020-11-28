@@ -16,8 +16,11 @@ class ScriptAPI
 {
 public:
   ScriptAPI (entt::registry& registry);
-  ~ScriptAPI();
 
+  void load (const std::string& filepath);
+  void reload();
+  inline const std::string& get_filepath() const { return m_filepath; }
+  // API
   const entt::entity api_create_entity();
   sol::table api_get_component (const entt::entity entity, const sol::table& object);
   void api_add_component (const entt::entity entity, const sol::table& object);
@@ -27,6 +30,7 @@ public:
 private:
   entt::registry& m_registry;
   sol::state m_lua;
+  std::string m_filepath;
 
 private:
   const ComponentType m_get_component_type (const sol::table& object);

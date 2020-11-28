@@ -6,6 +6,7 @@ add_library(${PROJECT_NAME} STATIC tile_map.cpp
                                    json.cpp
                                    map_grid.cpp
                                    scene.cpp
+                                   input/sdl_input_mapper.cpp
                                    resource/asset_manager.cpp
                                    resource/model_loader.cpp
                                    resource/shader_loader.cpp

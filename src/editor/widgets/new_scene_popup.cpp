@@ -32,7 +32,7 @@ namespace widget
       ImGui::SameLine (0.f, 4.f);
       if (ImGui::Button ("...###scene-file-dialog-button1", ImVec2 (60.f, 0)))
       {
-        ImGuiFileDialog::Instance()->OpenModal ("new-scene-file-dialog1", "New Scene", ".json", ".");
+        ImGuiFileDialog::Instance()->OpenModal ("new-scene-file-dialog1", "New Scene", ".json", "");
       }
 
       ImGui::Dummy (ImVec2 (0.f, 5.f));

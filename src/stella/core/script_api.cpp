@@ -16,6 +16,37 @@ ScriptAPI::ScriptAPI (entt::registry& registry) : m_registry (registry)
   m_lua.set_function ("remove_component", &ScriptAPI::api_remove_component, this);
 }
 
+void ScriptAPI::load (const std::string& filepath)
+{
+  auto loading_result = m_lua.load_file(filepath);
+
+  if (!loading_result.valid())
+  {
+    spdlog::critical ("Could not load script {}:\n{}", filepath, static_cast<sol::error>(loading_result).what());
+    return;
+  }
+
+  auto execution_result = loading_result();
+  if (!execution_result.valid())
+  {
+    spdlog::critical ("Could not execute script {}:\n{}", filepath, static_cast<sol::error>(execution_result).what());
+    return;
+  }
+
+  m_filepath = filepath;
+}
+
+void ScriptAPI::reload()
+{
+  if (m_filepath.empty())
+  {
+    spdlog::warn ("No script filepath selected.");
+    return;
+  }
+
+  m_lua.load (m_filepath);
+}
+
 const entt::entity ScriptAPI::api_create_entity() { return m_registry.create(); }
 
 sol::table ScriptAPI::api_get_component (const entt::entity entity, const sol::table& object)

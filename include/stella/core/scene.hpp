@@ -2,6 +2,7 @@
 
 #include "stella/systems/system.hpp"
 #include "stella/core/json.hpp"
+#include "stella/core/script_api.hpp"
 #include "stella/graphics/camera.hpp"
 #include <string>
 #include <vector>
@@ -11,23 +12,19 @@
 #ifdef STELLA_BUILD_EDITOR
 namespace editor
 {
-class Editor;
+  class Editor;
 }
 
-namespace editor
-{
-namespace widget
+namespace editor::widget
 {
   struct SceneEditor;
   struct NewSystem;
-} // namespace widget
 } // namespace editor
 #endif
 
-namespace stella
+namespace stella::core
 {
-namespace core
-{
+
   using SystemMap = std::unordered_map<std::string, std::shared_ptr<system::System>>;
   class AssetManager;
 
@@ -72,6 +69,7 @@ namespace core
     AssetManager& m_asset_manager;
     entt::registry m_registry;
     graphics::Camera m_camera;
+    core::ScriptAPI m_script_api{m_registry};
     bool m_modified = false;
 
     // Storing systems in this way allow us to render them in order
@@ -86,5 +84,4 @@ namespace core
     }
   };
 
-} // namespace core
 } // namespace stella

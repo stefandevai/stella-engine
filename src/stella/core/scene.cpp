@@ -81,16 +81,18 @@ namespace core
 
   void Scene::start()
   {
+    m_script_api.load ("/Users/stefandevai/Developer/games/stella-engine/nikte2/scripts/main.lua");
+
     auto mesh_entity = m_registry.create();
     m_registry.emplace<component::Mesh> (mesh_entity, "skull");
     m_registry.emplace<component::Position2> (mesh_entity, 0.0f, 0.0f);
 
     auto sprite_entity = m_registry.create();
-    m_registry.emplace<component::Sprite> (sprite_entity, "nikte", 54);
+    m_registry.emplace<component::Sprite> (sprite_entity, "spritesheet-nikte", 0);
     m_registry.emplace<component::Position2> (sprite_entity, 200.0f, 400.0f);
 
     auto sprite_entity2 = m_registry.create();
-    m_registry.emplace<component::Sprite> (sprite_entity2, "tileset", 54);
+    m_registry.emplace<component::Sprite> (sprite_entity2, "tileset");
     m_registry.emplace<component::Position2> (sprite_entity2, 0.0f, 0.0f);
   }
 

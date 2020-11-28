@@ -25,14 +25,6 @@ namespace widget
     {
       std::string selected_scene_name;
 
-      // Scene name
-      // ImGui::Dummy (ImVec2 (0.f, 3.f));
-      // ImGui::Text ("Name:");
-      // ImGui::PushID ("scene-editor-input#1");
-      // ImGui::InputTextWithHint ("", "", scene_name, IM_ARRAYSIZE (scene_name));
-      // ImGui::PopID();
-      // ImGui::Dummy (ImVec2 (0.f, 3.f));
-
       if (ImGui::BeginCombo ("###scene-combo1", game->m_current_scene->get_name().c_str(), 0))
       {
         for (auto& scene : game->m_scenes)
@@ -48,11 +40,53 @@ namespace widget
       }
 
       ImGui::Dummy (ImVec2 (0.f, 3.f));
+
+      // Scene script
+      static bool script_set = false;
+      static char script_path[512] = "";
+      const float item_width             = ImGui::CalcItemWidth();
+
+      if (!script_set && game->m_current_scene != nullptr)
+      {
+        // Set current script filepath
+        strcpy (script_path, game->m_current_scene->m_script_api.get_filepath().c_str());
+        script_set = true;
+      }
+
+      ImGui::Text ("Script:");
+      ImGui::PushItemWidth (item_width - 64.f);
+      ImGui::InputText ("###scene-editor-input5", script_path, IM_ARRAYSIZE (script_path));
+      ImGui::PopItemWidth();
+      ImGui::SameLine (0.f, 4.f);
+      if (ImGui::Button ("...###scene-editor-dialog-button1", ImVec2 (30.f, 0)))
+      {
+        ImGuiFileDialog::Instance()->OpenModal ("scene-editor-file-dialog1", "Script", ".lua", "");
+      }
+      ImGui::SameLine (0.f, 4.f);
+      if (ImGui::Button ("R###scene-editor-dialog-button2", ImVec2 (30.f, 0)))
+      {
+        game->m_current_scene->m_script_api.load(std::string(script_path));
+      }
+
+      // File dialog
+      if (ImGuiFileDialog::Instance()->FileDialog ("scene-editor-file-dialog1"))
+      {
+        if (ImGuiFileDialog::Instance()->IsOk == true)
+        {
+          std::string filepath = ImGuiFileDialog::Instance()->GetFilePathName();
+          strcpy (script_path, filepath.c_str());
+          game->m_current_scene->m_script_api.load(filepath);
+        }
+        ImGuiFileDialog::Instance()->CloseDialog ("scene-editor-file-dialog1");
+      }
+
+      ImGui::Dummy (ImVec2 (0.f, 3.f));
       ImGui::Separator();
       ImGui::Dummy (ImVec2 (0.f, 3.f));
 
       if (game->m_current_scene != nullptr)
       {
+        // Scene Objects
         if (ImGui::CollapsingHeader ("Objects###scene-editor-input3"))
         {
           game->m_current_scene->m_registry.view<stella::component::GameObject, stella::component::Name>().each ([] (auto entity, auto& obj, auto& name) {
@@ -74,6 +108,7 @@ namespace widget
 
         ImGui::Dummy (ImVec2 (0.f, 3.f));
 
+        // Scene Systems
         if (ImGui::CollapsingHeader ("Systems###scene-editor-input4"))
         {
           for (auto& system : game->m_current_scene->m_systems)
