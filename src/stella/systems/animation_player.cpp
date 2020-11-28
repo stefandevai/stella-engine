@@ -1,6 +1,6 @@
 #include "stella/systems/animation_player.hpp"
-#include "stella/components/sprite.hpp"
 #include "stella/components/animation_player.hpp"
+#include "stella/components/sprite2.hpp"
 #include <entt/entity/registry.hpp>
 
 namespace stella
@@ -11,42 +11,56 @@ namespace system
 
   void AnimationPlayer::update (entt::registry& registry, const double dt)
   {
-    registry.group<component::AnimationPlayer> (entt::get<component::SpriteT>).each ([dt] (auto entity, auto& anim, auto& sprite) {
-      if (anim.state == component::AnimationPlayer::PLAY)
-      {
-        if (anim.current != anim.last || anim.last_state == component::AnimationPlayer::STOP)
-        {
-          anim.index   = 0;
-          anim.elapsed = 0.0f;
-          anim.last    = anim.current;
-        }
-        auto& anim_data = anim.animations[anim.current];
-        sprite.frame    = anim_data.frames[anim.index];
+    auto view = registry.view<component::Sprite, component::AnimationPlayer>();
 
-        if (anim.elapsed > anim_data.step)
-        {
-          ++anim.index;
-          if (anim.index >= anim_data.frames.size())
-          {
-            if (anim.loop)
-            {
-              anim.index = anim.index % anim_data.frames.size();
-            }
-            else
-            {
-              anim.state = component::AnimationPlayer::STOP;
-              anim.index = anim_data.frames.size() - 1;
-            }
-          }
-          anim.elapsed = 0.0f;
-        }
-        else
-        {
-          anim.elapsed += dt;
-        }
+    for (const auto entity : view)
+    {
+      auto& animations = registry.get<component::AnimationPlayer>(entity);
+
+      animations.last_state = animations.state;
+
+      // Stop loop if we should not play the animation
+      if (animations.state != component::AnimationPlayer::PLAY)
+      {
+        continue;
       }
-      anim.last_state = anim.state;
-    });
+
+      auto& sprite = registry.get<component::Sprite>(entity);
+
+      // If we are starting an animation, reset its parameters
+      if (animations.current != animations.last || animations.last_state == component::AnimationPlayer::STOP)
+      {
+        animations.index   = 0;
+        animations.elapsed = 0.0f;
+        animations.last    = animations.current;
+      }
+
+      auto& anim_data = animations.animations.at(animations.current);
+      sprite.set_frame(anim_data.frames.at(animations.index));
+
+      // Advance frame if the time elapsed is greater than step
+      if (animations.elapsed > anim_data.step)
+      {
+        ++animations.index;
+        if (animations.index >= anim_data.frames.size())
+        {
+          if (anim_data.loop)
+          {
+            animations.index = animations.index % anim_data.frames.size();
+          }
+          else
+          {
+            animations.state = component::AnimationPlayer::STOP;
+            animations.index = anim_data.frames.size() - 1;
+          }
+        }
+        animations.elapsed = 0.0f;
+      }
+      else
+      {
+        animations.elapsed += dt;
+      }
+    }
   }
 } // namespace system
 } // namespace stella

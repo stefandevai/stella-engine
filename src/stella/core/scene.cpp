@@ -10,6 +10,7 @@
 #include "stella/components/mesh.hpp"
 #include "stella/components/position2.hpp"
 #include "stella/components/sprite2.hpp"
+#include "stella/components/animation_player.hpp"
 // TEMP
 
 namespace stella
@@ -90,13 +91,30 @@ namespace core
     auto sprite_entity = m_registry.create();
     m_registry.emplace<component::Sprite> (sprite_entity, "spritesheet-nikte", 0);
     m_registry.emplace<component::Position2> (sprite_entity, 200.0f, 400.0f);
+    m_registry.emplace<component::AnimationPlayer> (sprite_entity);
+    auto& animations = m_registry.get<component::AnimationPlayer> (sprite_entity);
+    animations.add ("idle-down", component::AnimationData{{0}, 0.1f});
+    animations.add ("idle-right", component::AnimationData{{18}, 0.1f});
+    animations.add ("idle-up", component::AnimationData{{27}, 0.1f});
+    animations.add ("idle-left", component::AnimationData{{45}, 0.1f});
+    animations.add ("walk-right", component::AnimationData{{19, 20, 21, 22, 23, 24, 25, 26}, 0.1f, true});
+    animations.current = "walk-right";
 
     auto sprite_entity2 = m_registry.create();
     m_registry.emplace<component::Sprite> (sprite_entity2, "tileset");
     m_registry.emplace<component::Position2> (sprite_entity2, 0.0f, 0.0f);
   }
 
-  void Scene::update (const double dt) { m_camera.update (m_registry); }
+  void Scene::update (const double dt)
+  {
+    m_camera.update (m_registry);
+
+    if (m_systems["animation"] != nullptr)
+    {
+      auto animation_system = std::dynamic_pointer_cast<system::AnimationPlayer> (m_systems.at ("animation"));
+      animation_system->update(m_registry, dt);
+    }
+  }
 
   void Scene::render (const double dt)
   {

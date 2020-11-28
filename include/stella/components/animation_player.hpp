@@ -11,13 +11,15 @@ namespace component
 {
   struct AnimationData
   {
+    AnimationData(const std::vector<unsigned int>& frames = {}, const float step = 0.1f, const bool loop = false) : frames(frames), step(step), loop(loop) {}
     std::vector<unsigned int> frames;
     float step = 0.1;
+    bool loop = false;
   };
 
   struct AnimationPlayer : public Component
   {
-    AnimationPlayer() : Component ("Animation Player") {}
+    AnimationPlayer() : Component ("AnimationPlayer") {}
     enum State
     {
       STOP,
@@ -25,7 +27,6 @@ namespace component
       PAUSE
     };
     std::unordered_map<std::string, AnimationData> animations;
-    bool loop           = false;
     State state         = STOP;
     State last_state    = STOP;
     std::string current = "";
@@ -41,7 +42,7 @@ namespace component
         last    = name;
         state   = PLAY;
       }
-      animations[name] = data;
+      animations.emplace(name, data);
     }
   };
 } // namespace component

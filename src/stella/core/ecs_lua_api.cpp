@@ -102,7 +102,7 @@ namespace script
   void ECSLuaApi::add_animation_component (entt::registry::entity_type id, const sol::table& obj)
   {
     auto& anim_player = m_registry.emplace<stella::component::AnimationPlayer> (id);
-    anim_player.loop  = obj["loop"] == sol::nil ? false : obj["loop"];
+    //anim_player.loop  = obj["loop"] == sol::nil ? false : obj["loop"];
 
     sol::table animations_obj = obj["animations"];
     for (const auto& key_value_pair : animations_obj)
