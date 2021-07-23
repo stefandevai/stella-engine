@@ -6,7 +6,7 @@ add_library(${PROJECT_NAME} STATIC editor2.cpp
                                    widgets/chat.cpp
                                    widgets/console.cpp
                                    widgets/inspector.cpp
-                                   widgets/tileset_editor.cpp
+                                   # widgets/tileset_editor.cpp
                                    widgets/scene.cpp
                                    widgets/toolbar.cpp
                                    widgets/file_dialog.cpp
@@ -19,7 +19,7 @@ add_library(${PROJECT_NAME} STATIC editor2.cpp
                                    widgets/component_menu.cpp
                                    widgets/add_components.cpp
                                    widgets/block_editor.cpp
-                                   systems/selection.cpp
+                                   # systems/selection.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/examples/imgui_impl_sdl.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/examples/imgui_impl_opengl3.cpp
                                    ${CMAKE_SOURCE_DIR}/lib/imgui/imgui.cpp

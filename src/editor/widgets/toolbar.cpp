@@ -3,7 +3,7 @@
 #include "editor/components/selected.hpp"
 #include "stella/components/position.hpp"
 #include "stella/components/dimension.hpp"
-#include "stella/components/sprite.hpp"
+/* #include "stella/components/sprite.hpp" */
 
 namespace editor
 {

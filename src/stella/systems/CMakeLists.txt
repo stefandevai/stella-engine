@@ -1,16 +1,17 @@
 project(systems)
 
 add_library(${PROJECT_NAME} STATIC animation_player.cpp
-                                   character_animation.cpp
+                                   # character_animation.cpp
                                    render2.cpp
-                                   group.cpp
-                                   npc.cpp
+                                   # group.cpp
+                                   # npc.cpp
                                    physics.cpp
-                                   render.cpp
-                                   speech.cpp
-                                   text.cpp
-                                   tile.cpp
-                                   timer.cpp)
+                                   # render.cpp
+                                   # speech.cpp
+                                   # text.cpp
+                                   # tile.cpp
+                                   # timer.cpp
+                                   )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${STELLA_LIBRARY_NAME}::graphics)
 

@@ -3,23 +3,24 @@ project(graphics)
 add_library(${PROJECT_NAME} STATIC animator.cpp
                                    camera.cpp
                                    display.cpp
-                                   font.cpp
+                                   #font.cpp
                                    framebuffer.cpp
-                                   renderer.cpp
-                                   renderable.cpp
-                                   sprite_renderer.cpp
+                                   #renderer.cpp
+                                   #renderable.cpp
+                                   #sprite_renderer.cpp
                                    shader.cpp
                                    shader_program.cpp
-                                   shape.cpp
-                                   shape_renderer.cpp
+                                   #shape.cpp
+                                   #shape_renderer.cpp
                                    texture2.cpp
                                    vertex.cpp
                                    renderer/mesh.cpp
                                    renderer/renderer.cpp
                                    renderer/batch2d.cpp
-                                   layers/layer.cpp
-                                   layers/sprite_layer.cpp
-                                   layers/shape_layer.cpp)
+                                   #layers/layer.cpp
+                                   #layers/sprite_layer.cpp
+                                   #layers/shape_layer.cpp
+                                   )
                              
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 

@@ -78,18 +78,18 @@ namespace widget
       m_components.render_component_node<stella::component::Color> (registry, Color());
       m_components.render_component_node<stella::component::Dimension> (registry, Dimension());
 
-      // TODO: Understand why the functor is always passed by value in this case
-      m_group_widget.set_texture_list (texture_list);
-      if (registry.has<stella::component::Group> (m_selected_entity))
-      {
-        auto& group = registry.get<stella::component::Group> (m_selected_entity);
-        if (ImGui::TreeNode (group.name.c_str()))
-        {
-          m_group_widget.render (registry, m_selected_entity);
-          ImGui::Dummy (ImVec2 (0, 2.0));
-          ImGui::TreePop();
-        }
-      }
+      /* // TODO: Understand why the functor is always passed by value in this case */
+      /* m_group_widget.set_texture_list (texture_list); */
+      /* if (registry.has<stella::component::Group> (m_selected_entity)) */
+      /* { */
+      /*   auto& group = registry.get<stella::component::Group> (m_selected_entity); */
+      /*   if (ImGui::TreeNode (group.name.c_str())) */
+      /*   { */
+      /*     m_group_widget.render (registry, m_selected_entity); */
+      /*     ImGui::Dummy (ImVec2 (0, 2.0)); */
+      /*     ImGui::TreePop(); */
+      /*   } */
+      /* } */
 
       // m_components.render_component_node<stella::component::Group> (registry, m_group_widget);
       m_components.render_component_node<stella::component::LayerT> (registry, Layer());
@@ -98,7 +98,7 @@ namespace widget
       m_components.render_component_node<stella::component::Script> (registry, Script());
       m_components.render_component_node<stella::component::Shape> (registry, Shape());
       m_components.render_component_node<stella::component::SpeechContainer> (registry, SpeechContainer());
-      m_components.render_component_node<stella::component::SpriteT> (registry, Sprite (texture_list));
+      /* m_components.render_component_node<stella::component::SpriteT> (registry, Sprite (texture_list)); */
       m_components.render_component_node<stella::component::Text> (registry, Text());
       m_components.render_component_node<stella::component::Tile> (registry, Tile());
       m_components.render_component_node<stella::component::Timer> (registry, Timer());

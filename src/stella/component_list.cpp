@@ -29,9 +29,9 @@ void ComponentList::emplace_default_component (Components component_type, entt::
     case Dimension:
       registry.emplace_or_replace<component::Dimension> (entity);
       break;
-    case Group:
-      registry.emplace_or_replace<component::Group> (entity);
-      break;
+    /* case Group: */
+    /*   registry.emplace_or_replace<component::Group> (entity); */
+    /*   break; */
     case Layer:
       registry.emplace_or_replace<component::LayerT> (entity);
       break;
@@ -50,9 +50,9 @@ void ComponentList::emplace_default_component (Components component_type, entt::
     case SpeechContainer:
       registry.emplace_or_replace<component::SpeechContainer> (entity);
       break;
-    case Sprite:
-      registry.emplace_or_replace<component::SpriteT> (entity);
-      break;
+    /* case Sprite: */
+    /*   registry.emplace_or_replace<component::SpriteT> (entity); */
+    /*   break; */
     case Text:
       registry.emplace_or_replace<component::Text> (entity);
       break;

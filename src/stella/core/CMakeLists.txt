@@ -1,10 +1,10 @@
 project(core)
 
-add_library(${PROJECT_NAME} STATIC tile_map.cpp
-                                   ecs_lua_api.cpp
+add_library(${PROJECT_NAME} STATIC # tile_map.cpp
+                                   # ecs_lua_api.cpp
                                    script_api.cpp
                                    json.cpp
-                                   map_grid.cpp
+                                   # map_grid.cpp
                                    scene.cpp
                                    input/sdl_input_mapper.cpp
                                    resource/asset_manager.cpp

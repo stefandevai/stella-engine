@@ -4,7 +4,8 @@
 //#include "../../lib/imgui/imgui.hpp"
 #include <entt/entity/registry.hpp> // IWYU pragma: export
 #include "add_components.hpp"
-#include "components/group.hpp"
+#include "editor/widgets/entity_components.hpp"
+/* #include "components/group.hpp" */
 
 namespace editor
 {
@@ -16,7 +17,7 @@ namespace widget
     entt::entity m_selected_entity = entt::null;
     AddComponents m_add_components{};
     EntityComponents m_components;
-    Group m_group_widget;
+    /* Group m_group_widget; */
     // int teste = 0;
 
     void m_render_component_nodes (entt::registry& registry, const std::vector<std::string>& texture_list);

@@ -1,21 +1,19 @@
-local demo = require('scripts.demo.main')
+local entity = create_entity()
 
-function load_assets()
-  demo.load_assets()
-end
+local animations = Animation.new()
+animations:add("walk-down", AnimationData.new({{ 1, 2, 3, 4, 5, 6, 7, 8 }}, 0.1, true))
+animations.current = "walk-down"
 
-function load_game()
-  demo.load()
-end
+add_component_position(entity, Position.new(600, 100))
+add_component_sprite(entity, Sprite.new("spritesheet-nikte"))
+add_component_animation(entity, animations)
 
-function update_game(dt)
-  demo.update(dt)
-end
+--local pos = get_component_position(entity)
+--local sprite = get_component_sprite(entity)
+--sprite:set_frame(18)
 
-function render_game(dt)
-  demo.render(dt)
-end
+--print (pos.x)
+--print (pos.y)
+--print (pos.z)
 
-function quit_game()
-end
-
+--remove_component_position(entity)

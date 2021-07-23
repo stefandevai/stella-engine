@@ -13,8 +13,8 @@
 #include "stella/components/script.hpp"
 #include "stella/components/shape.hpp"
 #include "stella/components/speech_container.hpp"
-#include "stella/components/group.hpp"
-#include "stella/components/sprite.hpp"
+/* #include "stella/components/group.hpp" */
+/* #include "stella/components/sprite.hpp" */
 #include "stella/components/text.hpp"
 #include "stella/components/tile.hpp"
 #include "stella/components/timer.hpp"

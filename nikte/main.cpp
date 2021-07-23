@@ -1,19 +1,23 @@
-#include "game.hpp"
+#include <stella/game2.hpp> // IWYU pragma: export
 
 #ifdef STELLA_BUILD_EDITOR
-  #include "editor/editor.hpp"
+  #include "editor/editor2.hpp"
 #endif
 
 int main (int argc, char* argv[])
 {
-  nikte::Game game;
+  const std::string game_dir = "/Users/stefandevai/Developer/games/stella-engine/nikte2";
 
-#ifdef STELLA_BUILD_EDITOR
-  stella::editor::Editor editor{game};
+  // if constexpr (STELLA_BUILD_EDITOR)
+  //{
+  editor::Editor editor{game_dir};
   editor.run();
-#else
-  game.run();
-#endif
+  //}
+  // else
+  //{
+  // stella::Game game{game_filepath};
+  // game.run();
+  //}
 
   return 0;
 }
