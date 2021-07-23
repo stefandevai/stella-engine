@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Variables
+BUILD_DIR="build"
+TARGET_DIR="nikte2"
+TARGET="nikte2"
+OPT1=$1
+OPT2=$2
+
 # Init checking
 function print_options {
   printf "Use:\n    -m or --make: runs cmake from build folder.\n    -b or --build: builds program.\n    -e or --execute: executes target.\n    -c or --clean: cleans build directory. If added as a second option the it will also clean the build directory before executing the action.\n"
@@ -12,13 +19,6 @@ elif [[ $# == 0 ]]; then
 	print_options
   exit 1
 fi
-
-# Variables
-BUILD_DIR="build"
-TARGET_DIR="nikte2"
-TARGET="nikte2"
-OPT1=$1
-OPT2=$2
 
 # Functions
 # Runs CMake

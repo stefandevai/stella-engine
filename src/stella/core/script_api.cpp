@@ -102,9 +102,6 @@ void ScriptAPI::m_init_component_usertypes()
         [](const sol::table& obj) {return AnimationData{obj[1].get<std::vector<unsigned int>>()};},
         [](const sol::table& obj, const float step) {return AnimationData{obj[1].get<std::vector<unsigned int>>(), step};},
         [](const sol::table& obj, const float step = 0.1f, const bool loop = false) {return AnimationData{obj[1].get<std::vector<unsigned int>>(), step, loop};}));
-      //sol::constructors<AnimationData(const std::vector<unsigned int>&),
-                        //AnimationData(const std::vector<unsigned int>&, const float),
-                        //AnimationData(const std::vector<unsigned int>&, const float, const bool)>());
 }
 
 } // namespace stella::core
