@@ -1,3 +1,4 @@
+.cache/
 build/
 *.o
 .DS_Store
