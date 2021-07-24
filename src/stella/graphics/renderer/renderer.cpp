@@ -1,3 +1,4 @@
+#include <entt/entity/registry.hpp>
 #include "stella/graphics/renderer/renderer.hpp"
 #include "stella/graphics/renderer/config.hpp"
 #include "stella/graphics/renderer/mesh.hpp"
@@ -9,6 +10,7 @@
 #include "stella/components/sprite2.hpp"
 #include "stella/components/mesh.hpp"
 #include "stella/components/position2.hpp"
+#include "stella/components/text.hpp"
 
 namespace stella::graphics
 {

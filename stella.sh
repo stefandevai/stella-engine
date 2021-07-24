@@ -28,7 +28,7 @@ function cmake_func {
   fi
   
   cd $BUILD_DIR
-  cmake ..
+  cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
 }
 
 # Runs cmake and make
@@ -36,10 +36,10 @@ function make_func {
   if [ ! -d "$BUILD_DIR" ]; then
     mkdir $BUILD_DIR
     cd $BUILD_DIR
-    cmake ..
+    cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
   elif [ ! -f "$BUILD_DIR"/Makefile ]; then
     cd $BUILD_DIR
-    cmake ..
+    cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
   else
     cd $BUILD_DIR
   fi
@@ -52,11 +52,11 @@ function exec_func {
 	if [ ! -d "$BUILD_DIR" ]; then
 		mkdir $BUILD_DIR
 		cd $BUILD_DIR
-		cmake ..
+		cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
 		make -j 4
 	elif [ ! -f "$BUILD_DIR"/Makefile ]; then
 		cd $BUILD_DIR
-		cmake ..
+		cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
 		make -j 4
 	elif [ ! -f "$BUILD_DIR"/"$TARGET_DIR"/"$TARGET" ]; then
 		cd $BUILD_DIR

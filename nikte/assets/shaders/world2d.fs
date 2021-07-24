@@ -22,10 +22,10 @@ void main()
   {
     case 0:
       final_color = texture(textures[0], f_in.uv);
+      /* final_color = vec4(1.0, 1.0, 1.0, 1.0); */
       break;
     case 1:
       final_color = texture(textures[1], f_in.uv);
-      //final_color = vec4(1.0, 1.0, 1.0, 1.0);
       break;
     case 2:
       final_color = texture(textures[2], f_in.uv);
@@ -56,6 +56,7 @@ void main()
       break;
   }
   
-  color = vec4(final_color.rgb, final_color.a * f_in.color.a);
+  /* color = vec4(final_color.rgb, final_color.a * f_in.color.r); */
+  color = vec4(f_in.color.rgb, f_in.color.a * final_color.r);
 }
 

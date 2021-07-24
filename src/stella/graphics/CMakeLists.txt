@@ -3,7 +3,7 @@ project(graphics)
 add_library(${PROJECT_NAME} STATIC animator.cpp
                                    camera.cpp
                                    display.cpp
-                                   #font.cpp
+                                   font.cpp
                                    framebuffer.cpp
                                    #renderer.cpp
                                    #renderable.cpp

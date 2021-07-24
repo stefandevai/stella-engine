@@ -13,6 +13,9 @@ enum class ComponentType
   POSITION,
   COLOR,
   ANIMATION_PLAYER,
+  TEXT,
+  CHARCODE,
+  DIMENSION,
 };
 
 const std::unordered_map<std::string, ComponentType> COMPONENT_MAP
@@ -22,6 +25,10 @@ const std::unordered_map<std::string, ComponentType> COMPONENT_MAP
     {"AnimationPlayer", ComponentType::ANIMATION_PLAYER},
     {"Color", ComponentType::COLOR},
     {"Position", ComponentType::POSITION},
+    {"Text", ComponentType::TEXT},
+    {"Charcode", ComponentType::CHARCODE},
+    {"Color", ComponentType::COLOR},
+    {"Dimension", ComponentType::DIMENSION},
 };
 
 } // namespace stella

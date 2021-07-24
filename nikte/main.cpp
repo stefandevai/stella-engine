@@ -6,7 +6,7 @@
 
 int main (int argc, char* argv[])
 {
-  const std::string game_dir = "/Users/stefandevai/Developer/games/stella-engine/nikte2";
+  const std::string game_dir = "/Users/stefandevai/Developer/games/stella-engine/nikte";
 
   // if constexpr (STELLA_BUILD_EDITOR)
   //{

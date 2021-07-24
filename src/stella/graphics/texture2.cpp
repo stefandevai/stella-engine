@@ -1,3 +1,4 @@
+#include <spdlog/spdlog.h>
 #include "stella/graphics/texture2.hpp"
 #include "stella/graphics/opengl.hpp" // IWYU pragma: export
 
@@ -12,13 +13,22 @@ extern "C"
 namespace stella::graphics
 {
 // Load single texture
-Texture::Texture (const std::string& filepath, const TextureType type) : m_type (type), m_horizontal_frames (1), m_vertical_frames (1) { load (filepath); }
+Texture::Texture (const std::string& filepath, const TextureType type) : m_type (type), m_horizontal_frames (1), m_vertical_frames (1)
+{
+  load (filepath);
+}
 
 // Load uniform texture atlas
 Texture::Texture (const std::string& filepath, const TextureType type, const int horizontal_frames, const int vertical_frames)
   : m_type (type), m_horizontal_frames (horizontal_frames), m_vertical_frames (vertical_frames)
 {
   load (filepath);
+}
+
+Texture::Texture (const int width, const int height, const TextureType type)
+  : m_type(type), m_horizontal_frames(1), m_vertical_frames(1), m_width(width), m_height(height)
+{
+  m_load_empty();
 }
 
 Texture::~Texture() { glDeleteTextures (1, &m_id); }
@@ -79,10 +89,16 @@ void Texture::bind() { glBindTexture (GL_TEXTURE_2D, m_id); }
 void Texture::unbind() { glBindTexture (GL_TEXTURE_2D, 0); }
 
 // TODO: Implement irregular frame calculations
-const float Texture::get_frame_width (const int frame) const { return (m_width / static_cast<float> (m_horizontal_frames)); }
+const float Texture::get_frame_width (const int frame) const
+{
+  return (m_width / static_cast<float> (m_horizontal_frames));
+}
 
 // TODO: Implement irregular frame calculations
-const float Texture::get_frame_height (const int frame) const { return (m_height / static_cast<float> (m_vertical_frames)); }
+const float Texture::get_frame_height (const int frame) const
+{ 
+  return (m_height / static_cast<float> (m_vertical_frames));
+}
 
 // TODO: Implement irregular frame calculations
 // Get top-left, top-right, bottom-right and bottom-left uv coordinates
@@ -105,6 +121,25 @@ const std::array<glm::vec2, 4> Texture::get_frame_coords (const int frame) const
       glm::vec2{top_left_x + frame_width, top_left_y + frame_height},
       glm::vec2{top_left_x, top_left_y + frame_height},
   };
+}
+
+void Texture::m_load_empty()
+{
+  glGenTextures (1, &m_id);
+  glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+  glBindTexture (GL_TEXTURE_2D, m_id);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, m_width, m_height, 0, GL_RED, GL_UNSIGNED_BYTE, 0x0000);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glBindTexture (GL_TEXTURE_2D, 0);
+
+  GLenum err;
+  while((err = glGetError()) != GL_NO_ERROR)
+  {
+    spdlog::critical ("Failed to create empty Texture. OpenGL error code: 0x{0:04x}", err);
+  }
 }
 
 } // namespace stella::graphics

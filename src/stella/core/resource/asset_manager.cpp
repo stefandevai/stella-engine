@@ -2,6 +2,7 @@
 #include "stella/core/resource/texture_loader.hpp"
 #include "stella/core/resource/model_loader.hpp"
 #include "stella/core/resource/shader_loader.hpp"
+#include "stella/core/resource/font_loader.hpp"
 #include "../../../lib/json/json.hpp"
 
 namespace stella
@@ -108,6 +109,15 @@ namespace core
           {
             // TODO: Implement functionality for non uniform texture atlases
           }
+        }
+        break;
+
+        case AssetType::FONT:
+        {
+          const auto filepath = asset_info[ASSET_PARAMETER_PATH].get<std::string>();
+          const auto size = asset_info[ASSET_PARAMETER_SIZE].get<std::size_t>();
+
+          add<FontLoader> (id, m_base_dir / filepath, size);
         }
         break;
 

@@ -1,4 +1,4 @@
-project(nikte2)
+project(nikte)
 
 set(EXAMPLE_SOURCES main.cpp)
 add_executable(${PROJECT_NAME} ${EXAMPLE_SOURCES})

@@ -10,7 +10,8 @@ add_library(${PROJECT_NAME} STATIC # tile_map.cpp
                                    resource/asset_manager.cpp
                                    resource/model_loader.cpp
                                    resource/shader_loader.cpp
-                                   resource/texture_loader.cpp)
+                                   resource/texture_loader.cpp
+                                   resource/font_loader.cpp)
                                    
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 

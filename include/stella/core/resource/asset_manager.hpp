@@ -75,6 +75,7 @@ namespace core
         {ASSET_TYPE_TEXTURE_ATLAS, AssetType::TEXTURE_ATLAS},
         {ASSET_TYPE_SHADER, AssetType::SHADER},
         {ASSET_TYPE_MODEL, AssetType::MODEL},
+        {ASSET_TYPE_FONT, AssetType::FONT},
     };
 
 #ifdef STELLA_BUILD_EDITOR

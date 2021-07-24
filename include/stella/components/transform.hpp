@@ -12,6 +12,7 @@ namespace component
 
     glm::vec3 rotation;
     glm::vec3 scale;
+    glm::vec3 pivot = glm::vec3(0.f);
   };
 } // namespace component
 } // namespace stella

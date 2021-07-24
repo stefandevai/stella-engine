@@ -98,7 +98,7 @@ namespace widget
 
         auto text_entity = registry.create();
         registry.emplace<stella::component::Position> (text_entity, 0.0f, -100.0f);
-        registry.emplace<stella::component::Text> (text_entity, m_converter.from_bytes (std::string (editable_buffer)), "1980");
+        registry.emplace<stella::component::Text> (text_entity, m_converter.from_bytes (std::string (editable_buffer)), "1980", 48);
         registry.emplace<stella::component::Timer> (
             text_entity, 3000.0, 0.0, stella::component::Timer::Type::DECREASE, [] (entt::registry& r, const entt::entity e) { r.destroy (e); }, true);
 

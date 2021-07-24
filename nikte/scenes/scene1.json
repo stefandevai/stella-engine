@@ -1,1 +1,1 @@
-{"name":"Scene 1","systems":["render", "animation"]}
+{"name":"Scene 1","systems":["render", "animation", "text"]}

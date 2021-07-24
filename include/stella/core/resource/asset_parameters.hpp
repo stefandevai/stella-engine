@@ -7,6 +7,7 @@ const std::string ASSET_TYPE_TEXTURE       = "texture";
 const std::string ASSET_TYPE_TEXTURE_ATLAS = "texture-atlas";
 const std::string ASSET_TYPE_SHADER        = "shader";
 const std::string ASSET_TYPE_MODEL         = "model";
+const std::string ASSET_TYPE_FONT         = "font";
 
 // JSON objects
 const std::string ASSET_OBJECT_ASSETS = "assets";
@@ -15,6 +16,7 @@ const std::string ASSET_OBJECT_ASSETS = "assets";
 const std::string ASSET_PARAMETER_ID   = "id";
 const std::string ASSET_PARAMETER_TYPE = "type";
 const std::string ASSET_PARAMETER_PATH = "path";
+const std::string ASSET_PARAMETER_SIZE = "size";
 
 const std::string ASSET_PARAMETER_UNIFORM           = "uniform";
 const std::string ASSET_PARAMETER_HORIZONTAL_FRAMES = "horizontalFrames";

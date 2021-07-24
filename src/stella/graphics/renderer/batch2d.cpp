@@ -92,6 +92,9 @@ void Batch2D::emplace (entt::registry& registry, entt::entity entity)
   const std::array<glm::vec2, 4> texcoords = sprite.get_texcoords();
   unsigned int color                       = 4294967295; // Default white color
 
+  /* spdlog::warn("{} {} {} {}", texcoords[0].x, texcoords[1].x, texcoords[2].x, texcoords[3].x); */
+  /* spdlog::warn("{} {} {} {}", texcoords[0].y, texcoords[1].y, texcoords[2].y, texcoords[3].y); */
+
   const std::shared_ptr<Texture>& texture = sprite.texture;
 
   assert (sprite.texture != nullptr);
@@ -124,14 +127,35 @@ void Batch2D::emplace (entt::registry& registry, entt::entity entity)
   if (registry.has<component::Transform> (entity))
   {
     const auto& transform_component = registry.get<component::Transform> (entity);
-    // Translating half dimension to set the point of rotation to the center of the sprite
-    general_transform = glm::translate (general_transform, glm::vec3 (size.x + position.x, size.y + position.y, position.z) / 2.f);
-    general_transform = glm::scale (general_transform, transform_component.scale);
-    general_transform = glm::rotate (general_transform, glm::radians (transform_component.rotation.x), glm::vec3 (1.f, 0.f, 0.f));
-    general_transform = glm::rotate (general_transform, glm::radians (transform_component.rotation.y), glm::vec3 (0.f, 1.f, 0.f));
-    general_transform = glm::rotate (general_transform, glm::radians (transform_component.rotation.z), glm::vec3 (0.f, 0.f, 1.f));
-    // Removing the added half dimension
-    general_transform = glm::translate (general_transform, glm::vec3 (-size.x, -size.y, 0.f) / 2.f);
+
+    // Translate and add pivot for other transformations
+    general_transform = glm::translate (general_transform, glm::vec3 (position.x + transform_component.pivot.x, position.y + transform_component.pivot.y, position.z + transform_component.pivot.z));
+
+    // Scale only if necessary
+    if (transform_component.scale.x != 1.f || transform_component.scale.y != 1.f || transform_component.scale.z != 1.f)
+    {
+      general_transform = glm::scale (general_transform, transform_component.scale);
+    }
+
+    // Rotate only if necessary
+    if (transform_component.rotation.x != 0.0f)
+    {
+      general_transform = glm::rotate (general_transform, glm::radians (transform_component.rotation.x), glm::vec3 (1.f, 0.f, 0.f));
+    }
+    if (transform_component.rotation.y != 0.0f)
+    {
+      general_transform = glm::rotate (general_transform, glm::radians (transform_component.rotation.y), glm::vec3 (0.f, 1.f, 0.f));
+    }
+    if (transform_component.rotation.z != 0.0f)
+    {
+      general_transform = glm::rotate (general_transform, glm::radians (transform_component.rotation.z), glm::vec3 (0.f, 0.f, 1.f));
+    }
+
+    // Remove the pivot translation if needed
+    if (transform_component.pivot.x != 0.f || transform_component.pivot.y != 0.f || transform_component.pivot.z != 0.f)
+    {
+      general_transform = glm::translate (general_transform, transform_component.pivot * -1.f);
+    }
   }
   else
   {

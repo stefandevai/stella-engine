@@ -21,7 +21,7 @@ namespace graphics
 
   void Framebuffer::draw()
   {
-    m_display.set_clear_color (0.f, 0.f, 0.f);
+    m_display.set_clear_color (0.5f, 0.5f, 0.5f);
     m_display.clear();
     glBindVertexArray (m_vao);
     glBindTexture (GL_TEXTURE_2D, get_texture());

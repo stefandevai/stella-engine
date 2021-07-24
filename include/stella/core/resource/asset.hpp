@@ -13,6 +13,7 @@ namespace core
     SHADER,
     MODEL,
     TEXTURE_ATLAS,
+    FONT,
   };
 
   class Asset

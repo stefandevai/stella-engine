@@ -1,5 +1,6 @@
 #pragma once
 
+#include "stella/core/resource.hpp"
 #include "stella/graphics/font.hpp"
 
 typedef stella::core::ResourceManager<stella::graphics::Texture, const std::string, const unsigned, const unsigned> TextureManager;

@@ -10,6 +10,7 @@ enum class SystemTag
   NONE,
   RENDER,
   ANIMATION,
+  TEXT,
 };
 
 typedef std::unordered_map<std::string, SystemTag> SystemMap;
@@ -17,5 +18,6 @@ typedef std::unordered_map<std::string, SystemTag> SystemMap;
 const SystemMap g_system_map = {
     {"render", SystemTag::RENDER},
     {"animation", SystemTag::ANIMATION},
+    {"text", SystemTag::TEXT},
 };
 } // namespace stella

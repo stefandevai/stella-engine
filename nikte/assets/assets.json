@@ -46,6 +46,13 @@
             "uniform": true,
             "horizontalFrames": 8,
             "verticalFrames": 11
+        },
+
+        {
+            "id": "font-lato",
+            "type": "font",
+            "path": "fonts/Lato/Lato-Black.ttf",
+            "size": 64
         }
     ]
 }

@@ -2,11 +2,13 @@
 #include "stella/system_tags.hpp"
 #include "stella/systems/render2.hpp"
 #include "stella/systems/animation_player.hpp"
+#include "stella/systems/text.hpp"
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 #include <iostream>
 
 // TEMP
+#include "stella/components/text.hpp"
 #include "stella/components/mesh.hpp"
 #include "stella/components/position2.hpp"
 #include "stella/components/sprite2.hpp"
@@ -82,27 +84,31 @@ namespace core
 
   void Scene::start()
   {
-    m_script_api.load ("/Users/stefandevai/Developer/games/stella-engine/nikte2/scripts/main.lua");
+    m_script_api.load ("/Users/stefandevai/Developer/games/stella-engine/nikte/scripts/main.lua");
 
-    auto mesh_entity = m_registry.create();
-    m_registry.emplace<component::Mesh> (mesh_entity, "skull");
-    m_registry.emplace<component::Position2> (mesh_entity, 0.0f, 0.0f);
+    /* auto mesh_entity = m_registry.create(); */
+    /* m_registry.emplace<component::Mesh> (mesh_entity, "skull"); */
+    /* m_registry.emplace<component::Position2> (mesh_entity, 0.0f, 0.0f); */
 
-    auto sprite_entity = m_registry.create();
-    m_registry.emplace<component::Sprite> (sprite_entity, "spritesheet-nikte", 0);
-    m_registry.emplace<component::Position2> (sprite_entity, 200.0f, 400.0f);
-    m_registry.emplace<component::AnimationPlayer> (sprite_entity);
-    auto& animations = m_registry.get<component::AnimationPlayer> (sprite_entity);
-    animations.add ("idle-down", component::AnimationData{{0}, 0.1f});
-    animations.add ("idle-right", component::AnimationData{{18}, 0.1f});
-    animations.add ("idle-up", component::AnimationData{{27}, 0.1f});
-    animations.add ("idle-left", component::AnimationData{{45}, 0.1f});
-    animations.add ("walk-right", component::AnimationData{{19, 20, 21, 22, 23, 24, 25, 26}, 0.1f, true});
-    animations.current = "walk-right";
+    /* auto sprite_entity = m_registry.create(); */
+    /* m_registry.emplace<component::Sprite> (sprite_entity, "spritesheet-nikte", 0); */
+    /* m_registry.emplace<component::Position2> (sprite_entity, 200.0f, 400.0f); */
+    /* m_registry.emplace<component::AnimationPlayer> (sprite_entity); */
+    /* auto& animations = m_registry.get<component::AnimationPlayer> (sprite_entity); */
+    /* animations.add ("idle-down", component::AnimationData{{0}, 0.1f}); */
+    /* animations.add ("idle-right", component::AnimationData{{18}, 0.1f}); */
+    /* animations.add ("idle-up", component::AnimationData{{27}, 0.1f}); */
+    /* animations.add ("idle-left", component::AnimationData{{45}, 0.1f}); */
+    /* animations.add ("walk-right", component::AnimationData{{19, 20, 21, 22, 23, 24, 25, 26}, 0.1f, true}); */
+    /* animations.current = "walk-right"; */
 
-    auto sprite_entity2 = m_registry.create();
-    m_registry.emplace<component::Sprite> (sprite_entity2, "tileset");
-    m_registry.emplace<component::Position2> (sprite_entity2, 0.0f, 0.0f);
+    /* auto sprite_entity2 = m_registry.create(); */
+    /* m_registry.emplace<component::Sprite> (sprite_entity2, "tileset"); */
+    /* m_registry.emplace<component::Position2> (sprite_entity2, 0.0f, 0.0f); */
+
+    auto text_entity = m_registry.create();
+    m_registry.emplace<component::Position2> (text_entity, 100.0f, 100.0f);
+    m_registry.emplace<component::Text> (text_entity, L"Hello World.", "font-lato", 32);
   }
 
   void Scene::update (const double dt)
@@ -113,6 +119,12 @@ namespace core
     {
       auto animation_system = std::dynamic_pointer_cast<system::AnimationPlayer> (m_systems.at ("animation"));
       animation_system->update(m_registry, dt);
+    }
+
+    if (m_systems["text"] != nullptr)
+    {
+      auto text_system = std::dynamic_pointer_cast<system::Text> (m_systems.at ("text"));
+      text_system->update(m_registry, dt);
     }
   }
 
@@ -153,6 +165,12 @@ namespace core
       case SystemTag::ANIMATION:
       {
         m_add_system<stella::system::AnimationPlayer> (system_name);
+      }
+      break;
+
+      case SystemTag::TEXT:
+      {
+        m_add_system<stella::system::Text> (system_name, m_registry, m_asset_manager);
       }
       break;
 
