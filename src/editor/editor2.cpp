@@ -201,27 +201,27 @@ void Editor::m_render_play_mode (const float window_width, const float window_he
 void Editor::m_render_game_info()
 {
   static float fps = 0.0f;
-  static float dt = 0.0f;
+  static float dt  = 0.0f;
 
   // Update values
   if (ImGui::GetFrameCount() % 30 == 0)
   {
     fps = m_game->m_display.get_fps();
-    dt = m_game->m_display.get_dt();
+    dt  = m_game->m_display.get_dt();
   }
 
-  ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
-  ImGui::SetNextWindowBgAlpha(0.35f);
-  ImGui::SetNextWindowPos(ImVec2(15.0f, 72.0f), ImGuiCond_Always);
-  if (ImGui::Begin("Example: Simple overlay", nullptr, window_flags))
+  ImGuiWindowFlags window_flags =
+      ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
+  ImGui::SetNextWindowBgAlpha (0.35f);
+  ImGui::SetNextWindowPos (ImVec2 (15.0f, 72.0f), ImGuiCond_Always);
+  if (ImGui::Begin ("Example: Simple overlay", nullptr, window_flags))
   {
-    ImGui::Text("Game Info");
+    ImGui::Text ("Game Info");
     ImGui::Separator();
-    ImGui::Text("FPS: %.5f", fps);
-    ImGui::Text("Frame: %.5f", dt);
+    ImGui::Text ("FPS: %.5f", fps);
+    ImGui::Text ("Frame: %.5f", dt);
   }
   ImGui::End();
-
 }
 
 void Editor::m_init()

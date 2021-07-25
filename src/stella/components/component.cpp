@@ -3,12 +3,11 @@
 
 namespace stella::component
 {
-Component::Component (const std::string& name)
-  : name (name)
+Component::Component (const std::string& name) : name (name)
 {
   try
   {
-    type = COMPONENT_MAP.at(name);
+    type = COMPONENT_MAP.at (name);
   }
   catch (std::out_of_range& e)
   {
@@ -18,4 +17,4 @@ Component::Component (const std::string& name)
 }
 
 Component::~Component() {}
-} // namespace stella
+} // namespace stella::component

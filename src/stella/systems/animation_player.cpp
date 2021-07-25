@@ -15,7 +15,7 @@ namespace system
 
     for (const auto entity : view)
     {
-      auto& animations = registry.get<component::AnimationPlayer>(entity);
+      auto& animations = registry.get<component::AnimationPlayer> (entity);
 
       animations.last_state = animations.state;
 
@@ -25,7 +25,7 @@ namespace system
         continue;
       }
 
-      auto& sprite = registry.get<component::Sprite>(entity);
+      auto& sprite = registry.get<component::Sprite> (entity);
 
       // If we are starting an animation, reset its parameters
       if (animations.current != animations.last || animations.last_state == component::AnimationPlayer::STOP)
@@ -35,8 +35,8 @@ namespace system
         animations.last    = animations.current;
       }
 
-      auto& anim_data = animations.animations.at(animations.current);
-      sprite.set_frame(anim_data.frames.at(animations.index));
+      auto& anim_data = animations.animations.at (animations.current);
+      sprite.set_frame (anim_data.frames.at (animations.index));
 
       // Advance frame if the time elapsed is greater than step
       if (animations.elapsed > anim_data.step)

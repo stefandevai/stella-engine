@@ -51,12 +51,11 @@ namespace graphics
     CharacterData m_empty_char_data = {0, 0, 0, 0, 0, 0, 0.f};
 
     // Unicode char ranges to load data from the font file
-    std::vector<std::pair<unsigned int, unsigned int>> m_char_ranges =
-    {
-      std::make_pair(0x20, 0x7E),   // Basic Latin
-      std::make_pair(0xA1, 0x1BF),  // Latin Supplement, Extended-A and part of Extended-B
-      std::make_pair(0x1C4, 0x1CC), // Serbian Cyrillic
-      std::make_pair(0x200, 0x21B), // Additions for Slovenian, Croatian and Romanian
+    std::vector<std::pair<unsigned int, unsigned int>> m_char_ranges = {
+        std::make_pair (0x20, 0x7E),   // Basic Latin
+        std::make_pair (0xA1, 0x1BF),  // Latin Supplement, Extended-A and part of Extended-B
+        std::make_pair (0x1C4, 0x1CC), // Serbian Cyrillic
+        std::make_pair (0x200, 0x21B), // Additions for Slovenian, Croatian and Romanian
     };
   };
 } // namespace graphics

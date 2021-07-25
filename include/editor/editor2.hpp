@@ -64,7 +64,7 @@ private:
   void m_handle_play_mode_actions();
   void m_handle_play_mode_tool (ImGuiIO& io);
   void m_render_play_mode (const float window_width, const float window_height, const float game_width, const float game_height);
-  void m_render_game_info ();
+  void m_render_game_info();
 
   // None mode
   void m_run_none_mode();

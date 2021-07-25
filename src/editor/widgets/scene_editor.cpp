@@ -42,9 +42,9 @@ namespace widget
       ImGui::Dummy (ImVec2 (0.f, 3.f));
 
       // Scene script
-      static bool script_set = false;
+      static bool script_set       = false;
       static char script_path[512] = "";
-      const float item_width             = ImGui::CalcItemWidth();
+      const float item_width       = ImGui::CalcItemWidth();
 
       if (!script_set && game->m_current_scene != nullptr)
       {
@@ -65,7 +65,7 @@ namespace widget
       ImGui::SameLine (0.f, 4.f);
       if (ImGui::Button ("R###scene-editor-dialog-button2", ImVec2 (30.f, 0)))
       {
-        game->m_current_scene->m_script_api.load(std::string(script_path));
+        game->m_current_scene->m_script_api.load (std::string (script_path));
       }
 
       // File dialog
@@ -75,7 +75,7 @@ namespace widget
         {
           std::string filepath = ImGuiFileDialog::Instance()->GetFilePathName();
           strcpy (script_path, filepath.c_str());
-          game->m_current_scene->m_script_api.load(filepath);
+          game->m_current_scene->m_script_api.load (filepath);
         }
         ImGuiFileDialog::Instance()->CloseDialog ("scene-editor-file-dialog1");
       }

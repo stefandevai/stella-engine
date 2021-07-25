@@ -7,7 +7,7 @@ const std::string ASSET_TYPE_TEXTURE       = "texture";
 const std::string ASSET_TYPE_TEXTURE_ATLAS = "texture-atlas";
 const std::string ASSET_TYPE_SHADER        = "shader";
 const std::string ASSET_TYPE_MODEL         = "model";
-const std::string ASSET_TYPE_FONT         = "font";
+const std::string ASSET_TYPE_FONT          = "font";
 
 // JSON objects
 const std::string ASSET_OBJECT_ASSETS = "assets";

@@ -18,18 +18,18 @@ ScriptAPI::ScriptAPI (entt::registry& registry) : m_registry (registry)
 
 void ScriptAPI::load (const std::string& filepath)
 {
-  auto loading_result = m_lua.load_file(filepath);
+  auto loading_result = m_lua.load_file (filepath);
 
   if (!loading_result.valid())
   {
-    spdlog::critical ("Could not load script {}:\n{}", filepath, static_cast<sol::error>(loading_result).what());
+    spdlog::critical ("Could not load script {}:\n{}", filepath, static_cast<sol::error> (loading_result).what());
     return;
   }
 
   auto execution_result = loading_result();
   if (!execution_result.valid())
   {
-    spdlog::critical ("Could not execute script {}:\n{}", filepath, static_cast<sol::error>(execution_result).what());
+    spdlog::critical ("Could not execute script {}:\n{}", filepath, static_cast<sol::error> (execution_result).what());
     return;
   }
 
@@ -53,12 +53,12 @@ void ScriptAPI::m_init_api()
 {
   m_lua.set_function ("create_entity", &ScriptAPI::api_create_entity, this);
 
-  m_lua.create_named_table("registry", "assign", m_lua.create_table_with());
-  m_lua["registry"]["get"] = m_lua.create_table_with();
+  m_lua.create_named_table ("registry", "assign", m_lua.create_table_with());
+  m_lua["registry"]["get"]    = m_lua.create_table_with();
   m_lua["registry"]["remove"] = m_lua.create_table_with();
 
   sol::table assign_table = m_lua["registry"]["assign"];
-  sol::table get_table = m_lua["registry"]["get"];
+  sol::table get_table    = m_lua["registry"]["get"];
   sol::table remove_table = m_lua["registry"]["remove"];
 
   assign_table.set_function ("sprite", &ScriptAPI::api_add_component<component::Sprite>, this);
@@ -86,41 +86,53 @@ void ScriptAPI::m_init_component_usertypes()
 {
   using namespace component;
 
-  m_lua.new_usertype<Sprite>("Sprite",
-      sol::constructors<Sprite(const std::string&), Sprite(const std::string&, const int)>(),
-      sol::base_classes, sol::bases<Component>(),
-      "set_frame", &Sprite::set_frame,
-      "increment_frame", &Sprite::increment_frame,
-      "decrement_frame", &Sprite::decrement_frame);
+  m_lua.new_usertype<Sprite> ("Sprite",
+                              sol::constructors<Sprite (const std::string&), Sprite (const std::string&, const int)>(),
+                              sol::base_classes,
+                              sol::bases<Component>(),
+                              "set_frame",
+                              &Sprite::set_frame,
+                              "increment_frame",
+                              &Sprite::increment_frame,
+                              "decrement_frame",
+                              &Sprite::decrement_frame);
 
-  m_lua.new_usertype<Mesh>("Mesh",
-      sol::constructors<Mesh(const std::string&)>(),
-      sol::base_classes, sol::bases<Component>());
+  m_lua.new_usertype<Mesh> ("Mesh", sol::constructors<Mesh (const std::string&)>(), sol::base_classes, sol::bases<Component>());
 
-  m_lua.new_usertype<Position2>("Position",
-      sol::constructors<Position2(const float, const float), Position2(const float, const float, const float)>(),
-      sol::base_classes, sol::bases<Component>(),
-      "x", &Position2::x,
-      "y", &Position2::y,
-      "z", &Position2::z);
+  m_lua.new_usertype<Position2> ("Position",
+                                 sol::constructors<Position2 (const float, const float), Position2 (const float, const float, const float)>(),
+                                 sol::base_classes,
+                                 sol::bases<Component>(),
+                                 "x",
+                                 &Position2::x,
+                                 "y",
+                                 &Position2::y,
+                                 "z",
+                                 &Position2::z);
 
-  m_lua.new_usertype<AnimationPlayer>("Animation",
-      sol::constructors<AnimationPlayer()>(),
-      sol::base_classes, sol::bases<Component>(),
-      "current", &AnimationPlayer::current,
-      "add", &AnimationPlayer::add);
+  m_lua.new_usertype<AnimationPlayer> (
+      "Animation", sol::constructors<AnimationPlayer()>(), sol::base_classes, sol::bases<Component>(), "current", &AnimationPlayer::current, "add", &AnimationPlayer::add);
 
-  m_lua.new_usertype<AnimationData>("AnimationData",
-      sol::meta_function::construct, sol::factories(
-        [](const sol::table& obj) {return AnimationData{obj[1].get<std::vector<unsigned int>>()};},
-        [](const sol::table& obj, const float step) {return AnimationData{obj[1].get<std::vector<unsigned int>>(), step};},
-        [](const sol::table& obj, const float step = 0.1f, const bool loop = false) {return AnimationData{obj[1].get<std::vector<unsigned int>>(), step, loop};}));
+  m_lua.new_usertype<AnimationData> ("AnimationData",
+                                     sol::meta_function::construct,
+                                     sol::factories ([] (const sol::table& obj) { return AnimationData{obj[1].get<std::vector<unsigned int>>()}; },
+                                                     [] (const sol::table& obj, const float step) {
+                                                       return AnimationData{obj[1].get<std::vector<unsigned int>>(), step};
+                                                     },
+                                                     [] (const sol::table& obj, const float step = 0.1f, const bool loop = false) {
+                                                       return AnimationData{obj[1].get<std::vector<unsigned int>>(), step, loop};
+                                                     }));
 
-  m_lua.new_usertype<Text>("Text",
-      sol::constructors<Text(const std::wstring text, const std::string font_name, const unsigned int font_size), Text(const std::wstring text, const std::string font_name, const unsigned int font_size, const std::string& color, const bool is_static)>(),
-      sol::base_classes, sol::bases<Component>(),
-      "set_is_static", &Text::set_is_static,
-      "set_color", &Text::set_color);
+  m_lua.new_usertype<Text> (
+      "Text",
+      sol::constructors<Text (const std::wstring text, const std::string font_name, const unsigned int font_size),
+                        Text (const std::wstring text, const std::string font_name, const unsigned int font_size, const std::string& color, const bool is_static)>(),
+      sol::base_classes,
+      sol::bases<Component>(),
+      "set_is_static",
+      &Text::set_is_static,
+      "set_color",
+      &Text::set_color);
 }
 
 } // namespace stella::core

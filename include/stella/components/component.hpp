@@ -10,7 +10,7 @@ struct Component
   Component (const std::string& name);
   virtual ~Component();
   std::string name;
-  bool loaded      = false;
+  bool loaded        = false;
   ComponentType type = ComponentType::NONE;
 };
-} // namespace stella
+} // namespace stella::component

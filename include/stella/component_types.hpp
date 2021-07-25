@@ -18,8 +18,7 @@ enum class ComponentType
   DIMENSION,
 };
 
-const std::unordered_map<std::string, ComponentType> COMPONENT_MAP
-{
+const std::unordered_map<std::string, ComponentType> COMPONENT_MAP{
     {"Sprite", ComponentType::SPRITE},
     {"Mesh", ComponentType::MESH},
     {"AnimationPlayer", ComponentType::ANIMATION_PLAYER},

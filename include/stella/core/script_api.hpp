@@ -13,8 +13,7 @@ namespace component
 {
   struct Component;
 }
-}
-
+} // namespace stella
 
 namespace stella::core
 {
@@ -28,22 +27,22 @@ public:
   inline const std::string& get_filepath() const { return m_filepath; }
   // API
   const entt::entity api_create_entity();
-  template <typename T>
+  template<typename T>
   T& api_get_component (const entt::entity entity)
   {
-    return m_registry.get<T>(entity);
+    return m_registry.get<T> (entity);
   }
 
-  template <typename T>
+  template<typename T>
   void api_add_component (const entt::entity entity, T& component)
   {
-    m_registry.emplace<T>(entity, component);
+    m_registry.emplace<T> (entity, component);
   }
 
-  template <typename T>
+  template<typename T>
   void api_remove_component (const entt::entity entity)
   {
-    m_registry.remove_if_exists<T>(entity);
+    m_registry.remove_if_exists<T> (entity);
   }
 
 private:

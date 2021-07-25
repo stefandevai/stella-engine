@@ -17,7 +17,7 @@ public:
 
   inline void set_texture (const std::shared_ptr<graphics::Texture>& tex) { texture = tex; };
   inline void set_frame (const int frame) { m_frame = frame; };
-  void set_custom_uv (const float left, const float top,  const float width, const float height);
+  void set_custom_uv (const float left, const float top, const float width, const float height);
   inline void increment_frame() { ++m_frame; }
   inline void decrement_frame() { --m_frame; }
   const glm::vec2 get_size() const;
@@ -25,10 +25,10 @@ public:
   const std::array<glm::vec2, 4> get_texcoords() const;
 
 private:
-  int m_frame = 0;
+  int m_frame          = 0;
   bool m_has_custom_uv = false;
   glm::vec2 m_custom_uv{};
-  float m_custom_width = 0.0f;
+  float m_custom_width  = 0.0f;
   float m_custom_height = 0.0f;
 };
 

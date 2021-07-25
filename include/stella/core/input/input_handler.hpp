@@ -2,12 +2,9 @@
 
 namespace stella::core
 {
+class InputHandler
+{
+public:
+};
 
-  class InputHandler
-  {
-  public:
-
-  };
-
-}
-
+} // namespace stella::core

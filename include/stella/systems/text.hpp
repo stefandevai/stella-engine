@@ -9,7 +9,7 @@
 
 namespace stella::core
 {
-  class AssetManager;
+class AssetManager;
 }
 
 namespace stella

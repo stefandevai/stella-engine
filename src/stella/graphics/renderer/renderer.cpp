@@ -19,7 +19,7 @@ Renderer::Renderer (core::AssetManager& asset_manager) : m_asset_manager (asset_
 
 void Renderer::batch_sprites (entt::registry& registry)
 {
-  auto sprite_view = registry.view<component::Sprite, component::Position2>(entt::exclude<component::Charcode>);
+  auto sprite_view = registry.view<component::Sprite, component::Position2> (entt::exclude<component::Charcode>);
 
   m_world_batch.init_emplacing();
 
@@ -32,7 +32,7 @@ void Renderer::batch_sprites (entt::registry& registry)
     {
       sprite.texture = m_asset_manager.get<graphics::Texture> (sprite.resource_id);
     }
-    
+
     m_world_batch.emplace (registry, entity);
   }
 
@@ -50,7 +50,7 @@ void Renderer::batch_sprites (entt::registry& registry)
     {
       sprite.texture = m_asset_manager.get<graphics::Texture> (sprite.resource_id);
     }
-    
+
     m_text_batch.emplace (registry, entity);
   }
   m_text_batch.finalize_emplacing();
@@ -87,9 +87,9 @@ void Renderer::render (const graphics::Camera& camera)
   shader3d->use();
 
   glm::mat4 model3d = glm::mat4 (1.0f);
-  model3d = glm::translate (model3d, glm::vec3 (440.0f, 400.0f, 0.0f));
-  model3d = glm::scale (model3d, glm::vec3 (10.0f, -10.0f, 10.0f));
-  model3d = glm::rotate (model3d, glm::radians (-90.0f), glm::vec3 (1.0f, 0.0f, 0.0f));
+  model3d           = glm::translate (model3d, glm::vec3 (440.0f, 400.0f, 0.0f));
+  model3d           = glm::scale (model3d, glm::vec3 (10.0f, -10.0f, 10.0f));
+  model3d           = glm::rotate (model3d, glm::radians (-90.0f), glm::vec3 (1.0f, 0.0f, 0.0f));
   shader3d->set_mat_4 ("mvp", camera.get_projection_matrix() * camera.get_view_matrix() * model3d);
 
   for (auto& mesh : m_meshes)

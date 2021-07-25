@@ -11,10 +11,10 @@ namespace component
 {
   struct AnimationData
   {
-    AnimationData(const std::vector<unsigned int>& frames = {}, const float step = 0.1f, const bool loop = false) : frames(frames), step(step), loop(loop) {}
+    AnimationData (const std::vector<unsigned int>& frames = {}, const float step = 0.1f, const bool loop = false) : frames (frames), step (step), loop (loop) {}
     std::vector<unsigned int> frames;
     float step = 0.1;
-    bool loop = false;
+    bool loop  = false;
   };
 
   struct AnimationPlayer : public Component
@@ -42,7 +42,7 @@ namespace component
         last    = name;
         state   = PLAY;
       }
-      animations.emplace(name, data);
+      animations.emplace (name, data);
     }
   };
 } // namespace component

@@ -53,7 +53,7 @@ protected:
   /* float m_frame_width = 0.0f; */
   /* float m_frame_height = 0.0f; */
 
-  void m_load_empty ();
+  void m_load_empty();
 };
 
 } // namespace stella::graphics

@@ -32,7 +32,7 @@ namespace graphics
 #endif
 
     const SDL_WindowFlags window_flags = (SDL_WindowFlags) (SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED | SDL_WINDOW_OPENGL);
-    m_window = SDL_CreateWindow (m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, window_flags);
+    m_window                           = SDL_CreateWindow (m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, window_flags);
 
 #if __APPLE__
     // Always required on Mac
@@ -104,10 +104,7 @@ namespace graphics
     m_update_input();
   }
 
-  void Display::render()
-  {
-    SDL_GL_SwapWindow (m_window);
-  }
+  void Display::render() { SDL_GL_SwapWindow (m_window); }
 
   void Display::set_title (const std::string& title) { SDL_SetWindowTitle (m_window, title.c_str()); }
 
@@ -191,9 +188,9 @@ namespace graphics
 
   void Display::m_update_dt()
   {
-    const unsigned int current_time  = SDL_GetTicks();
-    m_dt                = current_time - m_last_time;
-    m_last_time         = current_time;
+    const unsigned int current_time = SDL_GetTicks();
+    m_dt                            = current_time - m_last_time;
+    m_last_time                     = current_time;
   }
 
   void Display::get_mouse_pos (double& mx, double& my)
@@ -202,15 +199,9 @@ namespace graphics
     my = MouseY;
   }
 
-  const float Display::get_fps() const
-  {
-    return (1.0f / (static_cast<float>(m_dt) / 1000.0f));
-  }
+  const float Display::get_fps() const { return (1.0f / (static_cast<float> (m_dt) / 1000.0f)); }
 
-  void Display::reset_viewport()
-  {
-    glViewport (0, 0, m_width, m_height);
-  }
+  void Display::reset_viewport() { glViewport (0, 0, m_width, m_height); }
 
   void Display::update_viewport()
   {
@@ -229,7 +220,7 @@ namespace graphics
     const int height = vpcoords[3];
 
     // 16/9 = 1.77777. Therefore, we check if the new proportions are greater or lower than that
-    const auto factor = width / static_cast<float>(height);
+    const auto factor = width / static_cast<float> (height);
     if (factor > 1.78f)
     { // Height is max and width is adjusted
       const int new_width = height * 1.77777f;

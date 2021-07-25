@@ -115,7 +115,7 @@ namespace core
         case AssetType::FONT:
         {
           const auto filepath = asset_info[ASSET_PARAMETER_PATH].get<std::string>();
-          const auto size = asset_info[ASSET_PARAMETER_SIZE].get<std::size_t>();
+          const auto size     = asset_info[ASSET_PARAMETER_SIZE].get<std::size_t>();
 
           add<FontLoader> (id, m_base_dir / filepath, size);
         }

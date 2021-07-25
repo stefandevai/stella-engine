@@ -26,8 +26,8 @@ namespace system
     registry.group<component::Text> (entt::get<component::Position2>).each ([&registry, this, dt] (auto entity, auto& text, auto& pos) {
       if (!text.get_is_static())
       {
-        auto font = m_assets.get<graphics::Font> (text.get_font_name());
-        const auto scale = text.get_font_size() / static_cast<float>(font->get_size());
+        auto font        = m_assets.get<graphics::Font> (text.get_font_name());
+        const auto scale = text.get_font_size() / static_cast<float> (font->get_size());
         // Define a char's x position in relation to the chars before it
         float acc_char_posx = pos.x;
 
@@ -84,16 +84,16 @@ namespace system
 
   void Text::m_append_to_text (entt::registry& registry, entt::entity entity, const wchar_t chr)
   {
-    assert(registry.has<component::Position2>(entity));
-    assert(registry.has<component::Dimension>(entity));
-    assert(registry.has<component::Text>(entity));
+    assert (registry.has<component::Position2> (entity));
+    assert (registry.has<component::Dimension> (entity));
+    assert (registry.has<component::Text> (entity));
 
-    auto& text      = registry.get<component::Text> (entity);
-    auto& pos       = registry.get<component::Position2> (entity);
-    auto& dim       = registry.get<component::Dimension> (entity);
-    auto font       = m_assets.get<graphics::Font> (text.get_font_name());
-    const auto scale = text.get_font_size() / static_cast<float>(font->get_size());
-    float char_maxh = 0.f;
+    auto& text       = registry.get<component::Text> (entity);
+    auto& pos        = registry.get<component::Position2> (entity);
+    auto& dim        = registry.get<component::Dimension> (entity);
+    auto font        = m_assets.get<graphics::Font> (text.get_font_name());
+    const auto scale = text.get_font_size() / static_cast<float> (font->get_size());
+    float char_maxh  = 0.f;
 
     const auto& ch     = font->get_char_data (chr);
     auto char_posx     = static_cast<float> (pos.x) + dim.w;
@@ -109,7 +109,7 @@ namespace system
     if (w > 0.f && h > 0.f)
     {
       registry.emplace<component::Charcode> (char_entity, chr);
-      auto& sprite          = registry.emplace<component::Sprite> (char_entity, text.get_font_name());
+      auto& sprite = registry.emplace<component::Sprite> (char_entity, text.get_font_name());
       sprite.set_texture (font->get_atlas());
       sprite.set_custom_uv (ch.tx, ch.bt, ch.bw, ch.bh);
 
@@ -131,14 +131,14 @@ namespace system
 
   void Text::initialize_text (entt::registry& registry, entt::entity entity)
   {
-    assert(registry.has<component::Position2>(entity));
-    assert(registry.has<component::Text>(entity));
+    assert (registry.has<component::Position2> (entity));
+    assert (registry.has<component::Text> (entity));
 
-    auto& text      = registry.get<component::Text> (entity);
-    auto font       = m_assets.get<graphics::Font> (text.get_font_name());
-    const auto pos = registry.get<component::Position2> (entity);
-    const auto scale = text.get_font_size() / static_cast<float>(font->get_size());
-    float char_posx = 0.f;
+    auto& text       = registry.get<component::Text> (entity);
+    auto font        = m_assets.get<graphics::Font> (text.get_font_name());
+    const auto pos   = registry.get<component::Position2> (entity);
+    const auto scale = text.get_font_size() / static_cast<float> (font->get_size());
+    float char_posx  = 0.f;
     /* float char_maxh = 0.f; */
 
     double max_text_width = 0.f;
@@ -180,13 +180,13 @@ namespace system
       if (w > 0.f && h > 0.f)
       {
         registry.emplace<component::Charcode> (char_entity, c);
-        auto& sprite          = registry.emplace<component::Sprite> (char_entity, text.get_font_name());
+        auto& sprite = registry.emplace<component::Sprite> (char_entity, text.get_font_name());
         sprite.set_texture (font->get_atlas());
         sprite.set_custom_uv (ch.tx, ch.bh, ch.bw, ch.bh);
 
         if (text.get_font_size() != font->get_size())
         {
-          auto& transform = registry.emplace<component::Transform> (char_entity);
+          auto& transform   = registry.emplace<component::Transform> (char_entity);
           transform.scale.x = scale;
           transform.scale.y = scale;
         }

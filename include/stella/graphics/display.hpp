@@ -43,7 +43,7 @@ namespace graphics
     const int get_window_width() const;
     const int get_window_height() const;
     static float get_time() { return (float) SDL_GetTicks(); }
-    const float get_dt() const { return (static_cast<float>(m_dt) / 1000.0f); }
+    const float get_dt() const { return (static_cast<float> (m_dt) / 1000.0f); }
     const float get_fps() const;
     static void get_mouse_pos (double& mx, double& my);
     static bool is_key_down (int key);
@@ -57,9 +57,9 @@ namespace graphics
     unsigned int m_width;
     unsigned int m_height;
     std::string m_title;
-    unsigned int m_dt = 0;
+    unsigned int m_dt        = 0;
     unsigned int m_last_time = 0;
-    bool m_running = false;
+    bool m_running           = false;
     glm::vec3 m_clear_color{0.0f, 0.0f, 0.0f};
 
 #ifdef STELLA_BUILD_EDITOR

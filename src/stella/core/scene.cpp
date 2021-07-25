@@ -75,10 +75,7 @@ namespace core
 
   void Scene::save() { save (m_filepath); }
 
-  void Scene::start()
-  {
-    m_script_api.load ("/Users/stefandevai/Developer/games/stella-engine/nikte/scripts/main.lua");
-  }
+  void Scene::start() { m_script_api.load ("/Users/stefandevai/Developer/games/stella-engine/nikte/scripts/main.lua"); }
 
   void Scene::update (const double dt)
   {
@@ -87,13 +84,13 @@ namespace core
     if (m_systems["animation"] != nullptr)
     {
       auto animation_system = std::dynamic_pointer_cast<system::AnimationPlayer> (m_systems.at ("animation"));
-      animation_system->update(m_registry, dt);
+      animation_system->update (m_registry, dt);
     }
 
     if (m_systems["text"] != nullptr)
     {
       auto text_system = std::dynamic_pointer_cast<system::Text> (m_systems.at ("text"));
-      text_system->update(m_registry, dt);
+      text_system->update (m_registry, dt);
     }
   }
 

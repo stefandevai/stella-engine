@@ -74,7 +74,7 @@ void Batch2D::render (ShaderProgram& shader)
   {
     glActiveTexture (GL_TEXTURE0 + i);
     m_textures[i]->bind();
-    shader.set_int ("textures[" + std::to_string(i) + "]", i);
+    shader.set_int ("textures[" + std::to_string (i) + "]", i);
   }
   glActiveTexture (GL_TEXTURE0);
 
@@ -129,7 +129,8 @@ void Batch2D::emplace (entt::registry& registry, entt::entity entity)
     const auto& transform_component = registry.get<component::Transform> (entity);
 
     // Translate and add pivot for other transformations
-    general_transform = glm::translate (general_transform, glm::vec3 (position.x + transform_component.pivot.x, position.y + transform_component.pivot.y, position.z + transform_component.pivot.z));
+    general_transform = glm::translate (general_transform,
+                                        glm::vec3 (position.x + transform_component.pivot.x, position.y + transform_component.pivot.y, position.z + transform_component.pivot.z));
 
     // Scale only if necessary
     if (transform_component.scale.x != 1.f || transform_component.scale.y != 1.f || transform_component.scale.z != 1.f)
