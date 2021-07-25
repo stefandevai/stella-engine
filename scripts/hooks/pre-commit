@@ -1,0 +1,6 @@
+#!/bin/bash
+
+find include/ -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --verbose -i -style=file
+find src/ -type f \( -iname "*.hpp" -or -iname "*.cpp" ! -iname "lemmatizer.cpp" \) | xargs clang-format --verbose -i -style=file
+find example/ -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --verbose -i -style=file
+find test/ -type f \( -iname "*.h" -o -iname "*.cpp" ! -iname "catch.cpp" \) | xargs clang-format --verbose -i -style=file
