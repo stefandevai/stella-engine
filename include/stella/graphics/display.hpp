@@ -14,12 +14,12 @@
 #include <glm/glm.hpp>
 #include <string>
 
-#ifdef STELLA_BUILD_EDITOR
+/* #ifdef STELLA_BUILD_EDITOR */
 namespace editor
 {
 class Editor;
 } // namespace editor
-#endif
+/* #endif */
 
 namespace stella
 {
@@ -62,17 +62,17 @@ namespace graphics
     bool m_running           = false;
     glm::vec3 m_clear_color{0.0f, 0.0f, 0.0f};
 
-#ifdef STELLA_BUILD_EDITOR
+    /* #ifdef STELLA_BUILD_EDITOR */
     friend class ::editor::Editor;
 
-  #if __APPLE__
+#if __APPLE__
     // GL 3.2 Core + GLSL 150
     const char* m_glsl_version = "#version 150";
-  #else
+#else
     // GL 3.0 + GLSL 130
     const char* m_glsl_version = "#version 130";
-  #endif
 #endif
+    /* #endif */
 
   private:
     void m_update_input();

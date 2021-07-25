@@ -78,9 +78,9 @@ namespace core
         {ASSET_TYPE_FONT, AssetType::FONT},
     };
 
-#ifdef STELLA_BUILD_EDITOR
+    /* #ifdef STELLA_BUILD_EDITOR */
     friend class ::editor::widget::Assets;
-#endif
+    /* #endif */
 
   private:
     void m_init_assets();

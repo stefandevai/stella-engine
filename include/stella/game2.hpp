@@ -64,10 +64,10 @@ private:
   std::vector<std::shared_ptr<core::Scene>> m_scenes;
   std::shared_ptr<core::Scene> m_current_scene = nullptr;
 
-#ifdef STELLA_BUILD_EDITOR
+  /* #ifdef STELLA_BUILD_EDITOR */
   friend class ::editor::Editor;
   friend struct ::editor::widget::SceneEditor;
-#endif
+  /* #endif */
 
 private:
   void m_init_variables();

@@ -8,16 +8,13 @@ int main (int argc, char* argv[])
 {
   const std::string game_dir = "/Users/stefandevai/Developer/games/stella-engine/nikte";
 
-  // if constexpr (STELLA_BUILD_EDITOR)
-  //{
+#ifdef STELLA_BUILD_EDITOR
   editor::Editor editor{game_dir};
   editor.run();
-  //}
-  // else
-  //{
-  // stella::Game game{game_filepath};
-  // game.run();
-  //}
+#else
+  stella::Game game{game_dir};
+  game.run();
+#endif
 
   return 0;
 }

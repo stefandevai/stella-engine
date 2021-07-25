@@ -9,7 +9,7 @@
 #include <memory>
 #include <entt/entity/registry.hpp>
 
-#ifdef STELLA_BUILD_EDITOR
+/* #ifdef STELLA_BUILD_EDITOR */
 namespace editor
 {
 class Editor;
@@ -20,7 +20,7 @@ namespace editor::widget
 struct SceneEditor;
 struct NewSystem;
 } // namespace editor::widget
-#endif
+/* #endif */
 
 namespace stella::core
 {
@@ -53,11 +53,11 @@ public:
     m_modified = true;
   };
 
-#ifdef STELLA_BUILD_EDITOR
+  /* #ifdef STELLA_BUILD_EDITOR */
   friend class ::editor::Editor;
   friend struct ::editor::widget::SceneEditor;
   friend struct ::editor::widget::NewSystem;
-#endif
+  /* #endif */
 
 private:
   JSON m_json;

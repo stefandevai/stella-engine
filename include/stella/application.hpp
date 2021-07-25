@@ -4,7 +4,7 @@
 #include <entt/entity/registry.hpp>
 #include <string>
 
-#ifdef STELLA_BUILD_EDITOR
+/* #ifdef STELLA_BUILD_EDITOR */
 namespace stella
 {
 namespace editor
@@ -12,7 +12,7 @@ namespace editor
   class Editor;
 }
 } // namespace stella
-#endif
+/* #endif */
 
 namespace stella
 {
@@ -38,9 +38,9 @@ namespace core
     virtual void update (const double dt) = 0;
     virtual void render (const double dt) = 0;
 
-#ifdef STELLA_BUILD_EDITOR
+    /* #ifdef STELLA_BUILD_EDITOR */
     friend class editor::Editor;
-#endif
+    /* #endif */
   };
 
 } // namespace core

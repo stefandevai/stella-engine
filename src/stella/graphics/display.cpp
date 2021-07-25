@@ -133,8 +133,7 @@ namespace graphics
 
   void Display::clear()
   {
-    /* glClearColor (m_clear_color.x, m_clear_color.y, m_clear_color.z, 1.0f); */
-    glClearColor (0.5f, 0.5f, 0.5f, 1.0f);
+    glClearColor (m_clear_color.x, m_clear_color.y, m_clear_color.z, 1.0f);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 

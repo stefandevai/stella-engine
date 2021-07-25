@@ -38,13 +38,17 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 option(STELLA_DEBUG_MODE "Build in debug mode" on)
 
 # Build editor
-option(STELLA_BUILD_EDITOR "Build engine editor" on)
+option(BUILD_EDITOR "Build engine editor" ON)
 
 # Turn this option on to build a targeted example
 option(BUILD_STELLA_EXAMPLE "Build example" on)
 
 # Build tests
 option(BUILD_STELLA_TESTS "Build tests" off)
+
+if (STELLA_DEBUG_MODE)
+	add_compile_definitions(CMAKE_EXPORT_COMPILE_COMMANDS=1)
+endif()
 
 # Turn on these options to use the libraries contained in your machine (Linux and OSX only).
 option(USE_SYSTEM_SDL2 "Search your system for SDL2 library" on)
@@ -77,10 +81,7 @@ endif()
 include_directories(${SDL2_INCLUDE_DIRS})
 
 # Dear ImGui
-if (STELLA_BUILD_EDITOR)
-  add_compile_definitions(STELLA_BUILD_EDITOR)
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/editor/imgui)
-endif()
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/editor/imgui)
 
 # GLAD
 if (NOT BUILD_EMSCRIPTEN)

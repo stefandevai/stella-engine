@@ -1,13 +1,17 @@
 #!/bin/bash
 
-# Variables
+# =====================================================
+# Definitions
+# =====================================================
 BUILD_DIR="build"
 TARGET_DIR="nikte"
 TARGET="nikte"
 OPT1=$1
 OPT2=$2
 
+# =====================================================
 # Init checking
+# =====================================================
 function print_options {
   printf "Use:\n    -m or --make: runs cmake from build folder.\n    -b or --build: builds program.\n    -e or --execute: executes target.\n    -c or --clean: cleans build directory. If added as a second option the it will also clean the build directory before executing the action.\n"
 }
@@ -20,58 +24,46 @@ elif [[ $# == 0 ]]; then
   exit 1
 fi
 
-# Functions
+# =====================================================
 # Runs CMake
+# =====================================================
 function cmake_func {
   if [ ! -d "$BUILD_DIR" ]; then
     mkdir "$BUILD_DIR"
   fi
-  
+
   cd $BUILD_DIR
-  cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
+  cmake -DBUILD_EDITOR=ON ..
 }
 
+# =====================================================
 # Runs cmake and make
+# =====================================================
 function make_func {
-  if [ ! -d "$BUILD_DIR" ]; then
-    mkdir $BUILD_DIR
-    cd $BUILD_DIR
-    cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
-  elif [ ! -f "$BUILD_DIR"/Makefile ]; then
-    cd $BUILD_DIR
-    cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
-  else
-    cd $BUILD_DIR
-  fi
+	cmake_func
 
   make -j 4
 }
 
+# =====================================================
 # Execute target
+# =====================================================
 function exec_func {
-	if [ ! -d "$BUILD_DIR" ]; then
-		mkdir $BUILD_DIR
-		cd $BUILD_DIR
-		cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
-		make -j 4
-	elif [ ! -f "$BUILD_DIR"/Makefile ]; then
-		cd $BUILD_DIR
-		cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
-		make -j 4
-	elif [ ! -f "$BUILD_DIR"/"$TARGET_DIR"/"$TARGET" ]; then
-		cd $BUILD_DIR
-		make -j 4
-	else
-		cd $BUILD_DIR
+	if [[ ! -d "$BUILD_DIR" || ! -f "$BUILD_DIR/$TARGET_DIR/$TARGET" ]]; then
+		make_func
 	fi
 
-	cp -r ../$TARGET_DIR/assets example
+	if [ -f  "$BUILD_DIR/$TARGET_DIR/config/imgui.ini" ]; then
+		rm "$BUILD_DIR/$TARGET_DIR/config/imgui.ini"
+	fi
 
-	cd $TARGET_DIR
+	cd "$BUILD_DIR/$TARGET_DIR"
 	./"$TARGET"
 }
 
+# =====================================================
 # Cleans build dir partially or completely
+# =====================================================
 function clean_func {
 	case $1 in
 		-c|--clean)
@@ -98,7 +90,9 @@ function clean_func {
 	esac
 }
 
+# =====================================================
 # Creates the boilerplate for a cpp class
+# =====================================================
 function create_class {
 	if [[ -n $OPT2 ]]; then
 		class_name=$OPT2
@@ -138,7 +132,9 @@ ${class_camel_name}::~${class_camel_name}() {
 " > "$class_name.cpp"
 }
 
+# =====================================================
 # Formats cpp code using clang-format
+# =====================================================
 function format_code {
 	find include/ -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --verbose -i -style=file
 	find src/ -type f \( -iname "*.hpp" -or -iname "*.cpp" ! -iname "lemmatizer.cpp" \) | xargs clang-format --verbose -i -style=file
@@ -154,7 +150,9 @@ function copy_assets {
 	# cp -r $TARGET_DIR/scripts $BUILD_DIR/$TARGET_DIR
 #}
 
+# =====================================================
 # Args evalutation
+# =====================================================
 case $OPT1 in
   -m|--make)
     MODE=CMAKE # Invoke cmake

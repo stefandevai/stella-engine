@@ -24,8 +24,8 @@ registry.assign["animation"](player, player_animations)
 
 local test_text = create_entity()
 
-registry.assign["position"](test_text, Position.new(0, 0))
-registry.assign["text"](test_text, Text.new("(Nikte$#!)", "font-lato", 48))
+registry.assign["position"](test_text, Position.new(20, 10))
+registry.assign["text"](test_text, Text.new("Stella Engine", "font-lato", 32))
 
 local text_component = registry.get["text"](test_text)
 text_component:set_is_static(false)
