@@ -5,8 +5,8 @@ import shutil
 import os
 
 BUILD_DIR = 'build'
-TARGET_DIR = 'nikte'
-TARGET = 'nikte'
+TARGET_DIR = 'example'
+TARGET = 'example'
 
 def build(include_editor, is_production):
     old_cwd = os.getcwd()
