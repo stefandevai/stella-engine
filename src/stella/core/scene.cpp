@@ -75,7 +75,8 @@ namespace core
 
   void Scene::save() { save (m_filepath); }
 
-  void Scene::start() { m_script_api.load ("/Users/stefandevai/Developer/games/stella-engine/example/scripts/main.lua"); }
+  /* void Scene::start() { m_script_api.load ("/Users/stefandevai/Developer/games/stella-engine/example/scripts/main.lua"); } */
+  void Scene::start() { m_script_api.load ("./scripts/main.lua"); }
 
   void Scene::update (const double dt)
   {

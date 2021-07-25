@@ -117,7 +117,7 @@ namespace core
           const auto filepath = asset_info[ASSET_PARAMETER_PATH].get<std::string>();
           const auto size     = asset_info[ASSET_PARAMETER_SIZE].get<std::size_t>();
 
-          add<FontLoader> (id, m_base_dir / filepath, size);
+          add<FontLoader> (id, filepath, size);
         }
         break;
 

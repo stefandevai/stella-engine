@@ -155,12 +155,12 @@ def execute(has_built):
     if os.path.exists(imgui_path):
         os.remove(imgui_path)
 
-    # Copy necessary support files
-    if not has_built:
-        os.system(f'cp -r {TARGET_DIR}/assets {target_path}')
-        os.system(f'cp -r {TARGET_DIR}/scenes {target_path}')
-        os.system(f'cp -r {TARGET_DIR}/scripts {target_path}')
-        os.system(f'cp {TARGET_DIR}/config.json {target_path}')
+    # # Copy necessary support files
+    # if not has_built:
+    #     os.system(f'cp -r {TARGET_DIR}/assets {target_path}')
+    #     os.system(f'cp -r {TARGET_DIR}/scenes {target_path}')
+    #     os.system(f'cp -r {TARGET_DIR}/scripts {target_path}')
+    #     os.system(f'cp {TARGET_DIR}/config.json {target_path}')
 
     os.chdir(target_path)
     os.system(f'./{TARGET}')

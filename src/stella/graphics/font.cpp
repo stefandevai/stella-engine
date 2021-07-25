@@ -16,7 +16,7 @@ namespace graphics
     }
     if (FT_New_Face (m_ft, m_path, 0, &m_face))
     {
-      spdlog::critical ("Failed to load font");
+      spdlog::critical ("Failed to load font {}", m_path);
     }
     if (FT_Select_Charmap (m_face, FT_ENCODING_UNICODE))
     {
