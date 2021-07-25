@@ -51,8 +51,8 @@
         {
             "id": "font-lato",
             "type": "font",
-            "path": "fonts/Lato/Lato-Black.ttf",
-            "size": 64
+            "path": "fonts/1980.ttf",
+            "size": 32
         }
     ]
 }

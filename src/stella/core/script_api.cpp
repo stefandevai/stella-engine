@@ -117,9 +117,10 @@ void ScriptAPI::m_init_component_usertypes()
         [](const sol::table& obj, const float step = 0.1f, const bool loop = false) {return AnimationData{obj[1].get<std::vector<unsigned int>>(), step, loop};}));
 
   m_lua.new_usertype<Text>("Text",
-      sol::constructors<Text(const std::wstring text, const std::string font_name, const unsigned int font_size)>(),
+      sol::constructors<Text(const std::wstring text, const std::string font_name, const unsigned int font_size), Text(const std::wstring text, const std::string font_name, const unsigned int font_size, const std::string& color, const bool is_static)>(),
       sol::base_classes, sol::bases<Component>(),
-      "text", &Text::text);
+      "set_is_static", &Text::set_is_static,
+      "set_color", &Text::set_color);
 }
 
 } // namespace stella::core

@@ -17,7 +17,7 @@ public:
 
   inline void set_texture (const std::shared_ptr<graphics::Texture>& tex) { texture = tex; };
   inline void set_frame (const int frame) { m_frame = frame; };
-  void set_custom_uv (const glm::vec2& uv, const float width, const float height);
+  void set_custom_uv (const float left, const float top,  const float width, const float height);
   inline void increment_frame() { ++m_frame; }
   inline void decrement_frame() { --m_frame; }
   const glm::vec2 get_size() const;

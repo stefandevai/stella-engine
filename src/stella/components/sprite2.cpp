@@ -45,9 +45,9 @@ const std::array<glm::vec2, 4> Sprite::get_texcoords() const
   return texture->get_frame_coords (m_frame);
 }
 
-void Sprite::set_custom_uv (const glm::vec2& uv, const float width, const float height)
+void Sprite::set_custom_uv (const float left, const float top, const float width, const float height)
 {
-  m_custom_uv = uv;
+  m_custom_uv = glm::vec2(left, top);
   m_custom_width = width;
   m_custom_height = height;
   m_has_custom_uv = true;

@@ -23,31 +23,31 @@ namespace system
 
   void Text::update (entt::registry& registry, const double dt)
   {
-    /* registry.group<component::Text> (entt::get<component::Position2>).each ([&registry, this, dt] (auto entity, auto& text, auto& pos) { */
-    /*   if (!text.is_static) */
-    /*   { */
-    /*     auto font = m_assets.get<graphics::Font> (text.font_name); */
-    /*     const auto scale = text.font_size / static_cast<float>(font->get_size()); */
-    /*     // Define a char's x position in relation to the chars before it */
-    /*     float acc_char_posx = pos.x; */
+    registry.group<component::Text> (entt::get<component::Position2>).each ([&registry, this, dt] (auto entity, auto& text, auto& pos) {
+      if (!text.get_is_static())
+      {
+        auto font = m_assets.get<graphics::Font> (text.get_font_name());
+        const auto scale = text.get_font_size() / static_cast<float>(font->get_size());
+        // Define a char's x position in relation to the chars before it
+        float acc_char_posx = pos.x;
 
-    /*     for (const auto chr : text.char_entities) */
-    /*     { */
-    /*       auto& chr_pos        = registry.get<component::Position2> (chr); */
-    /*       const auto& chr_code = registry.get<component::Charcode> (chr); */
-    /*       const auto& chr_data = font->get_char_data (chr_code.code); */
+        for (const auto chr : text.char_entities)
+        {
+          auto& chr_pos        = registry.get<component::Position2> (chr);
+          const auto& chr_code = registry.get<component::Charcode> (chr);
+          const auto& chr_data = font->get_char_data (chr_code.code);
 
-    /*       chr_pos.x = acc_char_posx + chr_data.bl * scale; */
-    /*       chr_pos.y = pos.y - chr_data.bt * scale; */
-    /*       acc_char_posx += (chr_data.ax >> 6) * scale; */
-    /*     } */
+          chr_pos.x = acc_char_posx + chr_data.bl * scale;
+          chr_pos.y = pos.y + (font->get_max_character_top() - chr_data.bt) * scale;
+          acc_char_posx += (chr_data.ax >> 6) * scale;
+        }
 
-    /*     if (registry.has<component::Typewriter> (entity)) */
-    /*     { */
-    /*       m_typewrite (registry, entity, dt); */
-    /*     } */
-    /*   } */
-    /* }); */
+        if (registry.has<component::Typewriter> (entity))
+        {
+          m_typewrite (registry, entity, dt);
+        }
+      }
+    });
   }
 
   void Text::m_typewrite (entt::registry& registry, entt::entity entity, const double dt)
@@ -91,16 +91,17 @@ namespace system
     auto& text      = registry.get<component::Text> (entity);
     auto& pos       = registry.get<component::Position2> (entity);
     auto& dim       = registry.get<component::Dimension> (entity);
-    auto font       = m_assets.get<graphics::Font> (text.font_name);
+    auto font       = m_assets.get<graphics::Font> (text.get_font_name());
+    const auto scale = text.get_font_size() / static_cast<float>(font->get_size());
     float char_maxh = 0.f;
 
     const auto& ch     = font->get_char_data (chr);
     auto char_posx     = static_cast<float> (pos.x) + dim.w;
-    const GLfloat xpos = char_posx + ch.bl * text.scale;
-    const GLfloat ypos = pos.y + ch.bt * text.scale;
-    const GLfloat w    = ch.bw * text.scale;
-    const GLfloat h    = ch.bh * text.scale;
-    dim.w += (ch.ax >> 6) * text.scale;
+    const GLfloat xpos = char_posx + ch.bl * scale;
+    const GLfloat ypos = pos.y + ch.bt * scale;
+    const GLfloat w    = ch.bw * scale;
+    const GLfloat h    = ch.bh * scale;
+    dim.w += (ch.ax >> 6) * scale;
 
     auto char_entity = registry.create();
 
@@ -108,13 +109,13 @@ namespace system
     if (w > 0.f && h > 0.f)
     {
       registry.emplace<component::Charcode> (char_entity, chr);
-      auto& sprite          = registry.emplace<component::Sprite> (char_entity, text.font_name);
+      auto& sprite          = registry.emplace<component::Sprite> (char_entity, text.get_font_name());
       sprite.set_texture (font->get_atlas());
-      sprite.set_custom_uv (glm::vec2 (ch.tx, ch.bt), ch.bw, ch.bh);
+      sprite.set_custom_uv (ch.tx, ch.bt, ch.bw, ch.bh);
 
       registry.emplace<component::Position2> (char_entity, xpos, ypos, 30);
       registry.emplace<component::Dimension> (char_entity, w, h);
-      registry.emplace<component::Color> (char_entity, text.color);
+      registry.emplace<component::Color> (char_entity, text.get_color());
     }
     // Else, the character is an space
     else
@@ -124,7 +125,7 @@ namespace system
     }
     text.char_entities.push_back (char_entity);
 
-    char_posx += (ch.ax >> 6) * text.scale;
+    char_posx += (ch.ax >> 6) * scale;
     char_maxh = std::max (char_maxh, h);
   }
 
@@ -134,9 +135,9 @@ namespace system
     assert(registry.has<component::Text>(entity));
 
     auto& text      = registry.get<component::Text> (entity);
-    auto font       = m_assets.get<graphics::Font> (text.font_name);
+    auto font       = m_assets.get<graphics::Font> (text.get_font_name());
     const auto pos = registry.get<component::Position2> (entity);
-    const auto scale = text.font_size / static_cast<float>(font->get_size());
+    const auto scale = text.get_font_size() / static_cast<float>(font->get_size());
     float char_posx = 0.f;
     /* float char_maxh = 0.f; */
 
@@ -156,16 +157,16 @@ namespace system
     if (registry.has<component::Typewriter> (entity))
     {
       auto& typewriter       = registry.get<component::Typewriter> (entity);
-      typewriter.target_text = text.text;
+      typewriter.target_text = text.get_text();
 
-      if (!text.text.empty())
+      if (!text.get_text().empty())
       {
-        text.text = text.text.substr (0, 1);
+        text.set_text (text.get_text().substr (0, 1));
       }
       ++typewriter.char_index;
     }
 
-    for (wchar_t c : text.text)
+    for (wchar_t c : text.get_text())
     {
       const auto& ch     = font->get_char_data (c);
       const GLfloat xpos = char_posx + ch.bl * scale;
@@ -179,11 +180,11 @@ namespace system
       if (w > 0.f && h > 0.f)
       {
         registry.emplace<component::Charcode> (char_entity, c);
-        auto& sprite          = registry.emplace<component::Sprite> (char_entity, text.font_name);
+        auto& sprite          = registry.emplace<component::Sprite> (char_entity, text.get_font_name());
         sprite.set_texture (font->get_atlas());
-        sprite.set_custom_uv (glm::vec2 (ch.tx, ch.bh), ch.bw, ch.bh);
+        sprite.set_custom_uv (ch.tx, ch.bh, ch.bw, ch.bh);
 
-        if (text.font_size != font->get_size())
+        if (text.get_font_size() != font->get_size())
         {
           auto& transform = registry.emplace<component::Transform> (char_entity);
           transform.scale.x = scale;
@@ -192,7 +193,7 @@ namespace system
 
         registry.emplace<component::Position2> (char_entity, pos.x + xpos, pos.y + ypos, 30.0f);
         registry.emplace<component::Dimension> (char_entity, w, h);
-        registry.emplace<component::Color> (char_entity, text.color);
+        registry.emplace<component::Color> (char_entity, text.get_color());
       }
       // Else, the character is an space
       else
