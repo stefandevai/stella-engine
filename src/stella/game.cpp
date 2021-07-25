@@ -1,4 +1,4 @@
-#include "stella/game2.hpp"
+#include "stella/game.hpp"
 #include "stella/graphics/texture2.hpp"
 #include "stella/components/position.hpp"
 #include <spdlog/spdlog.h>

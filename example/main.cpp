@@ -1,4 +1,4 @@
-#include <stella/game2.hpp> // IWYU pragma: export
+#include <stella/game.hpp> // IWYU pragma: export
 
 #ifdef STELLA_BUILD_EDITOR
   #include "editor/editor2.hpp"

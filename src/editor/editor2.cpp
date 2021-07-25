@@ -1,7 +1,7 @@
 #include "editor/editor2.hpp"
 #include "editor/icons.hpp"
 #include "editor/actions.hpp"
-#include "stella/game2.hpp"
+#include "stella/game.hpp"
 #include "stella/graphics/framebuffer.hpp"
 #include "stella/graphics/opengl.hpp"
 

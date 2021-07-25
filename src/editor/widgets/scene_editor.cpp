@@ -1,6 +1,6 @@
 #include "editor/widgets/scene_editor.hpp"
 #include "editor/widgets/file_dialog.hpp"
-#include "stella/game2.hpp"
+#include "stella/game.hpp"
 #include "stella/core/scene.hpp"
 #include "stella/components/game_object.hpp"
 #include "stella/components/name.hpp"

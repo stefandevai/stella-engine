@@ -1,7 +1,7 @@
 #include "editor/editor.hpp"
 #include "imgui_internal.h"
 
-#include "stella/game2.hpp"
+#include "stella/game.hpp"
 #include "stella/components/dimension.hpp"
 #include "stella/components/layer.hpp"
 #include "stella/components/position.hpp"
