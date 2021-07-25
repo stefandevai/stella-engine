@@ -42,7 +42,7 @@ namespace system
           acc_char_posx += (chr_data.ax >> 6) * scale;
         }
 
-        if (registry.has<component::Typewriter> (entity))
+        if (registry.any_of<component::Typewriter> (entity))
         {
           m_typewrite (registry, entity, dt);
         }
@@ -72,7 +72,7 @@ namespace system
     // We finished displaying the entire text
     else
     {
-      if (registry.has<component::Timer> (entity) && !typewriter.has_finished)
+      if (registry.any_of<component::Timer> (entity) && !typewriter.has_finished)
       {
         // Activate the timer after all the text is displayed
         auto& timer             = registry.get<component::Timer> (entity);
@@ -84,9 +84,9 @@ namespace system
 
   void Text::m_append_to_text (entt::registry& registry, entt::entity entity, const wchar_t chr)
   {
-    assert (registry.has<component::Position2> (entity));
-    assert (registry.has<component::Dimension> (entity));
-    assert (registry.has<component::Text> (entity));
+    assert (registry.any_of<component::Position2> (entity));
+    assert (registry.any_of<component::Dimension> (entity));
+    assert (registry.any_of<component::Text> (entity));
 
     auto& text       = registry.get<component::Text> (entity);
     auto& pos        = registry.get<component::Position2> (entity);
@@ -131,8 +131,8 @@ namespace system
 
   void Text::initialize_text (entt::registry& registry, entt::entity entity)
   {
-    assert (registry.has<component::Position2> (entity));
-    assert (registry.has<component::Text> (entity));
+    assert (registry.any_of<component::Position2> (entity));
+    assert (registry.any_of<component::Text> (entity));
 
     auto& text       = registry.get<component::Text> (entity);
     auto font        = m_assets.get<graphics::Font> (text.get_font_name());
@@ -146,7 +146,7 @@ namespace system
 
     // TODO: If there are defined dimensions, the text should remain within
     // its constraints
-    if (registry.has<component::Dimension> (entity))
+    if (registry.any_of<component::Dimension> (entity))
     {
       const auto& dim = registry.get<component::Dimension> (entity);
       max_text_width  = dim.w;
@@ -154,7 +154,7 @@ namespace system
     }
 
     // Add only one character if it has the typewriter effect
-    if (registry.has<component::Typewriter> (entity))
+    if (registry.any_of<component::Typewriter> (entity))
     {
       auto& typewriter       = registry.get<component::Typewriter> (entity);
       typewriter.target_text = text.get_text();

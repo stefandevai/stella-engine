@@ -101,7 +101,7 @@ void Batch2D::emplace (entt::registry& registry, entt::entity entity)
   assert (size.x != 0);
   assert (size.y != 0);
 
-  if (registry.has<component::Color> (entity))
+  if (registry.any_of<component::Color> (entity))
   {
     const auto& color_component = registry.get<component::Color> (entity);
     color                       = color_component.int_color;
@@ -124,7 +124,7 @@ void Batch2D::emplace (entt::registry& registry, entt::entity entity)
 
   // Get transformations and apply them to the sprite vertices
   auto general_transform = glm::mat4 (1.0f);
-  if (registry.has<component::Transform> (entity))
+  if (registry.any_of<component::Transform> (entity))
   {
     const auto& transform_component = registry.get<component::Transform> (entity);
 

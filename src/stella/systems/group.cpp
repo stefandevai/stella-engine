@@ -11,8 +11,8 @@ namespace system
   Group::Group (entt::registry& registry) : System ("group")
   {
     registry.on_construct<component::Group>().connect<&Group::m_init_group> (this);
-    m_group_observer = std::make_shared<entt::observer> (registry, entt::collector.replace<component::Group>().where<component::Position>());
-    m_pos_observer   = std::make_shared<entt::observer> (registry, entt::collector.replace<component::Position>().where<component::Group>());
+    m_group_observer = std::make_shared<entt::observer> (registry, entt::collector.update<component::Group>().where<component::Position>());
+    m_pos_observer   = std::make_shared<entt::observer> (registry, entt::collector.update<component::Position>().where<component::Group>());
   }
 
   void Group::update (entt::registry& registry, const double dt)
@@ -28,7 +28,7 @@ namespace system
 
       for (auto child : group.children)
       {
-        if (registry.has<component::Position> (child))
+        if (registry.any_of<component::Position> (child))
         {
           registry.patch<component::Position> (child, [&diffx, &diffy, &diffz] (auto& child_pos) {
             child_pos.x += diffx;
@@ -56,7 +56,7 @@ namespace system
         minx = miny = minz = maxx = maxy = maxz = 0.f;
 
         const auto& first_child = group.children.front();
-        if (registry.has<component::Position> (first_child))
+        if (registry.any_of<component::Position> (first_child))
         {
           const auto& first_pos = registry.get<component::Position> (first_child);
           minx = maxx = first_pos.x;
@@ -64,7 +64,7 @@ namespace system
           minz = maxz = first_pos.z;
         }
 
-        if (registry.has<component::Dimension> (first_child))
+        if (registry.any_of<component::Dimension> (first_child))
         {
           const auto& first_dim = registry.get<component::Dimension> (first_child);
           maxx += first_dim.w;
@@ -76,7 +76,7 @@ namespace system
         {
           for (auto child = group.children.begin() + 1; child != group.children.end(); ++child)
           {
-            if (registry.has<component::Position> (*child))
+            if (registry.any_of<component::Position> (*child))
             {
               const auto& child_pos = registry.get<component::Position> (*child);
               if (child_pos.x > maxx)
@@ -95,10 +95,10 @@ namespace system
                 minz = child_pos.z;
             }
 
-            if (registry.has<component::Dimension> (first_child))
+            if (registry.any_of<component::Dimension> (first_child))
             {
               component::Position child_pos;
-              if (registry.has<component::Position> (*child))
+              if (registry.any_of<component::Position> (*child))
               {
                 child_pos = registry.get<component::Position> (*child);
               }
@@ -128,11 +128,11 @@ namespace system
 
   void Group::m_init_group (entt::registry& registry, entt::entity entity)
   {
-    if (!registry.has<component::Position> (entity))
+    if (!registry.any_of<component::Position> (entity))
     {
       registry.emplace<component::Position> (entity);
     }
-    if (!registry.has<component::Dimension> (entity))
+    if (!registry.any_of<component::Dimension> (entity))
     {
       registry.emplace<component::Dimension> (entity);
     }

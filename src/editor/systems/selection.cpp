@@ -59,7 +59,7 @@ namespace system
 
                 if (registry.valid (selected_entity) && selected_entity != entt::null)
                 {
-                  registry.remove_if_exists<component::Selected> (selected_entity);
+                  registry.remove<component::Selected> (selected_entity);
                 }
                 selected_entity = entity;
                 clicked_entity  = true;
@@ -72,7 +72,7 @@ namespace system
       {
         if (registry.valid (selected_entity) && selected_entity != entt::null)
         {
-          registry.remove_if_exists<component::Selected> (selected_entity);
+          registry.remove<component::Selected> (selected_entity);
           selected_entity = entt::null;
         }
       }
@@ -85,11 +85,11 @@ namespace system
     // {
     //   if (registry.valid(selected_entity) && selected_entity != entt::null)
     //   {
-    //     registry.remove_if_exists<component::Selected>(selected_entity);
+    //     registry.remove<component::Selected>(selected_entity);
     //   }
     //   selected_entity = entity;
     // }
-    if (registry.has<stella::component::Position> (entity) && registry.has<stella::component::Dimension> (entity))
+    if (registry.any_of<stella::component::Position> (entity) && registry.any_of<stella::component::Dimension> (entity))
     {
       const auto& pos = registry.get<stella::component::Position> (entity);
       const auto& dim = registry.get<stella::component::Dimension> (entity);

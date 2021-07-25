@@ -1,8 +1,9 @@
 #pragma once
 
-#include "stella/graphics/renderer/batch2d.hpp"
+#include <unordered_map>
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
+#include "stella/graphics/renderer/batch2d.hpp"
 
 namespace stella::core
 {

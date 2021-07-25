@@ -58,7 +58,7 @@ void Renderer::batch_sprites (entt::registry& registry)
 
 void Renderer::add_renderable3d (entt::registry& registry, entt::entity entity)
 {
-  if (registry.has<component::Mesh> (entity))
+  if (registry.any_of<component::Mesh> (entity))
   {
     auto& mesh_component = registry.get<component::Mesh> (entity);
     if (mesh_component.mesh == nullptr)

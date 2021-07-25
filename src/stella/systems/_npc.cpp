@@ -179,7 +179,7 @@ namespace system
   void NPC::initialize_npc (entt::registry& registry, entt::entity entity)
   {
     auto& npc = registry.get<component::NPC> (entity);
-    assert (registry.has<component::Position> (entity) && "NPC doesn't have position component.");
+    assert (registry.any_of<component::Position> (entity) && "NPC doesn't have position component.");
     m_npc_list.push_back (npc::NPC ("scripts/npcs/eliza.lua"));
 
     const auto& pos = registry.get<component::Position> (entity);

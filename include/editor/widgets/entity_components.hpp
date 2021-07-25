@@ -17,7 +17,7 @@ namespace widget
     template<class T>
     void render_component_node (entt::registry& registry, const std::function<void (entt::registry&, const entt::entity)>& render_params)
     {
-      if (registry.has<T> (m_selected_entity))
+      if (registry.any_of<T> (m_selected_entity))
       {
         T& component = registry.get<T> (m_selected_entity);
         if (ImGui::TreeNode (component.name.c_str()))

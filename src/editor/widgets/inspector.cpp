@@ -80,7 +80,7 @@ namespace widget
 
       /* // TODO: Understand why the functor is always passed by value in this case */
       /* m_group_widget.set_texture_list (texture_list); */
-      /* if (registry.has<stella::component::Group> (m_selected_entity)) */
+      /* if (registry.any_of<stella::component::Group> (m_selected_entity)) */
       /* { */
       /*   auto& group = registry.get<stella::component::Group> (m_selected_entity); */
       /*   if (ImGui::TreeNode (group.name.c_str())) */

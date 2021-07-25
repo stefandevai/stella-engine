@@ -44,7 +44,7 @@ namespace graphics
     m_renderer.begin();
     for (auto entity : m_entities)
     {
-      if (registry.has<component::SpriteT> (entity) && registry.has<component::Position> (entity))
+      if (registry.any_of<component::SpriteT> (entity) && registry.any_of<component::Position> (entity))
       {
         m_renderer.submit (registry, entity);
       }

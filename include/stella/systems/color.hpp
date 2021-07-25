@@ -27,7 +27,7 @@ namespace system
     // void initialize_color (entt::registry& registry, entt::entity entity)
     // {
     //   auto& color = registry.get<component::Color> (entity);
-    //   if (registry.has<component::Shape> (entity))
+    //   if (registry.any_of<component::Shape> (entity))
     //   {
     //     auto& shape = registry.get<component::Shape> (entity);
     //     shape.shape->set_color (color.int_color);

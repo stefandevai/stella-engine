@@ -94,7 +94,7 @@ namespace graphics
 
     std::shared_ptr<Texture> texture = sprite.texture_ptr;
 
-    if (registry.has<component::Color> (entity))
+    if (registry.any_of<component::Color> (entity))
     {
       const auto& colorc = registry.get<component::Color> (entity);
       color              = colorc.int_color;
@@ -111,7 +111,7 @@ namespace graphics
     GLfloat uvoffsetY = dimensions.y / static_cast<GLfloat> (texture->GetHeight());
 
     auto particular_transform = *m_transformation_back;
-    if (registry.has<component::Vertical> (entity))
+    if (registry.any_of<component::Vertical> (entity))
     {
       // Translation before scale and rotation
       // Also we multiply the height (dim.y) by sin(45deg) in order to compensate
@@ -128,7 +128,7 @@ namespace graphics
     else
     {
       auto trans = component::Transform();
-      if (registry.has<component::Transform> (entity))
+      if (registry.any_of<component::Transform> (entity))
       {
         trans = registry.get<component::Transform> (entity);
       }

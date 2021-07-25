@@ -58,7 +58,7 @@ namespace core
     {
       if (registry != nullptr && registry->valid (entity))
       {
-        if (registry->has<component::Position> (entity))
+        if (registry->any_of<component::Position> (entity))
         {
           auto& pos = registry->get<component::Position> (entity);
           archive (pos.x, pos.y, pos.z, value, collidable, solid_edges, custom_edges, active_edges);

@@ -87,7 +87,7 @@ namespace graphics
     const auto dim                         = shape.calc_dimensions();
 
     auto particular_transform = *m_transformation_back;
-    if (registry.has<component::Vertical> (entity))
+    if (registry.any_of<component::Vertical> (entity))
     {
       // Translation before scale and rotation
       // Also we multiply the height (dim.y) by sin(45deg) in order to compensate
@@ -104,7 +104,7 @@ namespace graphics
     else
     {
       auto trans = component::Transform();
-      if (registry.has<component::Transform> (entity))
+      if (registry.any_of<component::Transform> (entity))
       {
         trans = registry.get<component::Transform> (entity);
       }

@@ -6,8 +6,8 @@
 #include "stella/graphics/opengl.hpp"
 
 #include "../../lib/imgui/imgui.h"                       // IWYU pragma: export
-#include "../../lib/imgui/examples/imgui_impl_opengl3.h" // IWYU pragma: export
-#include "../../lib/imgui/examples/imgui_impl_sdl.h"     // IWYU pragma: export
+#include "../../lib/imgui/backends/imgui_impl_opengl3.h" // IWYU pragma: export
+#include "../../lib/imgui/backends/imgui_impl_sdl.h"     // IWYU pragma: export
 #include "imgui_internal.h"
 
 #include <stdexcept>
@@ -311,7 +311,7 @@ void Editor::m_init_imgui()
   style.Colors[ImGuiCol_PlotHistogram]         = ImVec4 (0.73f, 0.60f, 0.15f, 1.00f);
   style.Colors[ImGuiCol_PlotHistogramHovered]  = ImVec4 (1.00f, 0.60f, 0.00f, 1.00f);
   style.Colors[ImGuiCol_TextSelectedBg]        = ImVec4 (0.87f, 0.87f, 0.87f, 0.35f);
-  style.Colors[ImGuiCol_ModalWindowDarkening]  = ImVec4 (0.80f, 0.80f, 0.80f, 0.35f);
+  style.Colors[ImGuiCol_ModalWindowDimBg]  = ImVec4 (0.80f, 0.80f, 0.80f, 0.35f);
   style.Colors[ImGuiCol_DragDropTarget]        = ImVec4 (1.00f, 1.00f, 0.00f, 0.90f);
   style.Colors[ImGuiCol_NavHighlight]          = ImVec4 (0.60f, 0.60f, 0.60f, 1.00f);
   style.Colors[ImGuiCol_NavWindowingHighlight] = ImVec4 (1.00f, 1.00f, 1.00f, 0.70f);

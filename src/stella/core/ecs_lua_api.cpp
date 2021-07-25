@@ -35,7 +35,7 @@ namespace script
 
   std::tuple<int, int, int> ECSLuaApi::get_position (entt::registry::entity_type entity)
   {
-    if (m_registry.has<stella::component::Position> (entity))
+    if (m_registry.any_of<stella::component::Position> (entity))
     {
       const auto& position = m_registry.get<stella::component::Position> (entity);
       return std::make_tuple (position.x, position.y, position.z);

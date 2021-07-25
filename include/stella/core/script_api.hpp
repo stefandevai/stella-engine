@@ -42,7 +42,7 @@ public:
   template<typename T>
   void api_remove_component (const entt::entity entity)
   {
-    m_registry.remove_if_exists<T> (entity);
+    m_registry.remove<T> (entity);
   }
 
 private:

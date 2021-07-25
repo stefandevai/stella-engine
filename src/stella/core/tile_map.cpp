@@ -209,7 +209,7 @@ namespace core
 
   void TileMap::update_tile_sprite (entt::entity entity, const unsigned layer_id, const int value)
   {
-    if (m_registry.has<component::SpriteT> (entity))
+    if (m_registry.any_of<component::SpriteT> (entity))
     {
       auto& sprite = m_registry.get<component::SpriteT> (entity);
       sprite.frame = value;
@@ -224,7 +224,7 @@ namespace core
 
   void TileMap::update_tile_position (entt::entity entity, const unsigned layer_id, const int x, const int y, const int z)
   {
-    if (m_registry.has<component::Position> (entity))
+    if (m_registry.any_of<component::Position> (entity))
     {
       auto& pos = m_registry.get<component::Position> (entity);
       pos.x     = x * m_tile_dimension;
@@ -283,7 +283,7 @@ namespace core
             layer->set_visibility (x, y, true);
             this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter, layer_tile.collidable);
           }
-          else if (layer_tile.value > 0 && (!m_registry.valid (layer_tile.entity) || !m_registry.has<component::SpriteT> (layer_tile.entity)))
+          else if (layer_tile.value > 0 && (!m_registry.valid (layer_tile.entity) || !m_registry.any_of<component::SpriteT> (layer_tile.entity)))
           {
             layer->set_visibility (x, y, true);
             this->create_tile_entity (layer_tile.value, x, y, layer_tile.z, layer_counter, layer_tile.collidable);
