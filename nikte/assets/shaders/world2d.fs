@@ -56,7 +56,7 @@ void main()
       break;
   }
   
-  /* color = vec4(final_color.rgb, final_color.a * f_in.color.r); */
-  color = vec4(f_in.color.rgb, f_in.color.a * final_color.r);
+  color = vec4(final_color.rgb, final_color.a * f_in.color.r);
+  /* color = vec4(f_in.color.rgb, f_in.color.a * final_color.r); */
 }
 

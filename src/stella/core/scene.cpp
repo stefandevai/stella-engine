@@ -66,6 +66,7 @@ namespace core
 
     // Update system tags
     m_json.object["systems"] = nlohmann::json::array();
+
     for (auto& s : m_systems)
     {
       if (s.second != nullptr)
@@ -106,9 +107,9 @@ namespace core
     /* m_registry.emplace<component::Sprite> (sprite_entity2, "tileset"); */
     /* m_registry.emplace<component::Position2> (sprite_entity2, 0.0f, 0.0f); */
 
-    auto text_entity = m_registry.create();
-    m_registry.emplace<component::Position2> (text_entity, 100.0f, 100.0f);
-    m_registry.emplace<component::Text> (text_entity, L"Hello World.", "font-lato", 32);
+    /* auto text_entity = m_registry.create(); */
+    /* m_registry.emplace<component::Position2> (text_entity, 100.0f, 100.0f); */
+    /* m_registry.emplace<component::Text> (text_entity, L"Hello World.", "font-lato", 32, "#ffffffff", true); */
   }
 
   void Scene::update (const double dt)

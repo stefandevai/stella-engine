@@ -35,6 +35,7 @@ private:
   core::AssetManager& m_asset_manager;
   std::vector<std::shared_ptr<graphics::Mesh>> m_meshes;
   Batch2D m_world_batch;
+  Batch2D m_text_batch;
   ShaderMap m_shaders{
       {ShaderType::WORLD2D, nullptr},
       {ShaderType::WORLD3D, nullptr},

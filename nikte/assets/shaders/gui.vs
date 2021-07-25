@@ -1,17 +1,25 @@
 #version 330 core
-layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aNormal;
-layout (location = 2) in vec2 aTexCoord;
 
-out vec3 Normal;
-out vec2 TexCoord;
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec2 uv;
+layout (location = 2) in float tid;
+layout (location = 3) in vec4 color;
+
+out DATA
+{
+  vec2 uv;
+  float tid;
+  vec4 color;
+  vec2 pos;
+} v_out;
 
 uniform mat4 mvp;
 
 void main()
 {
-  Normal = Normal;
-  TexCoord = aTexCoord;
-  gl_Position = mvp * vec4(aPos, 1.0); 
+  gl_Position = mvp * vec4(position, 1.0);
+  v_out.uv = vec2(uv.x, uv.y);
+  v_out.tid = tid;
+  v_out.color = color;
+  v_out.pos = position.xy;
 }
-

@@ -1,10 +1,12 @@
-.cache/
-build/
+tags
+.cache
+build
 *.o
 .DS_Store
 tools/cppcheck/html
 nikte/dialogue/__pycache__/
 .vscode/
+lib
 lib/glm/doc
 lib/glm/cmake
 lib/glm/test

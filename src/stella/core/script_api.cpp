@@ -4,6 +4,7 @@
 #include "stella/components/mesh.hpp"
 #include "stella/components/position2.hpp"
 #include "stella/components/animation_player.hpp"
+#include "stella/components/text.hpp"
 #include <spdlog/spdlog.h>
 
 namespace stella::core
@@ -52,21 +53,33 @@ void ScriptAPI::m_init_api()
 {
   m_lua.set_function ("create_entity", &ScriptAPI::api_create_entity, this);
 
-  m_lua.set_function ("add_component_sprite", &ScriptAPI::api_add_component<component::Sprite>, this);
-  m_lua.set_function ("get_component_sprite", &ScriptAPI::api_get_component<component::Sprite>, this);
-  m_lua.set_function ("remove_component_sprite", &ScriptAPI::api_remove_component<component::Sprite>, this);
+  m_lua.create_named_table("registry", "assign", m_lua.create_table_with());
+  m_lua["registry"]["get"] = m_lua.create_table_with();
+  m_lua["registry"]["remove"] = m_lua.create_table_with();
 
-  m_lua.set_function ("add_component_position", &ScriptAPI::api_add_component<component::Position2>, this);
-  m_lua.set_function ("get_component_position", &ScriptAPI::api_get_component<component::Position2>, this);
-  m_lua.set_function ("remove_component_position", &ScriptAPI::api_remove_component<component::Position2>, this);
+  sol::table assign_table = m_lua["registry"]["assign"];
+  sol::table get_table = m_lua["registry"]["get"];
+  sol::table remove_table = m_lua["registry"]["remove"];
 
-  m_lua.set_function ("add_component_mesh", &ScriptAPI::api_add_component<component::Mesh>, this);
-  m_lua.set_function ("get_component_mesh", &ScriptAPI::api_get_component<component::Mesh>, this);
-  m_lua.set_function ("remove_component_mesh", &ScriptAPI::api_remove_component<component::Mesh>, this);
+  assign_table.set_function ("sprite", &ScriptAPI::api_add_component<component::Sprite>, this);
+  get_table.set_function ("sprite", &ScriptAPI::api_get_component<component::Sprite>, this);
+  remove_table.set_function ("sprite", &ScriptAPI::api_remove_component<component::Sprite>, this);
 
-  m_lua.set_function ("add_component_animation", &ScriptAPI::api_add_component<component::AnimationPlayer>, this);
-  m_lua.set_function ("get_component_animation", &ScriptAPI::api_get_component<component::AnimationPlayer>, this);
-  m_lua.set_function ("remove_component_animation", &ScriptAPI::api_remove_component<component::AnimationPlayer>, this);
+  assign_table.set_function ("position", &ScriptAPI::api_add_component<component::Position2>, this);
+  get_table.set_function ("position", &ScriptAPI::api_get_component<component::Position2>, this);
+  remove_table.set_function ("position", &ScriptAPI::api_remove_component<component::Position2>, this);
+
+  assign_table.set_function ("mesh", &ScriptAPI::api_add_component<component::Mesh>, this);
+  get_table.set_function ("mesh", &ScriptAPI::api_get_component<component::Mesh>, this);
+  remove_table.set_function ("mesh", &ScriptAPI::api_remove_component<component::Mesh>, this);
+
+  assign_table.set_function ("animation", &ScriptAPI::api_add_component<component::AnimationPlayer>, this);
+  get_table.set_function ("animation", &ScriptAPI::api_get_component<component::AnimationPlayer>, this);
+  remove_table.set_function ("animation", &ScriptAPI::api_remove_component<component::AnimationPlayer>, this);
+
+  assign_table.set_function ("text", &ScriptAPI::api_add_component<component::Text>, this);
+  get_table.set_function ("text", &ScriptAPI::api_get_component<component::Text>, this);
+  remove_table.set_function ("text", &ScriptAPI::api_remove_component<component::Text>, this);
 }
 
 void ScriptAPI::m_init_component_usertypes()
@@ -102,6 +115,11 @@ void ScriptAPI::m_init_component_usertypes()
         [](const sol::table& obj) {return AnimationData{obj[1].get<std::vector<unsigned int>>()};},
         [](const sol::table& obj, const float step) {return AnimationData{obj[1].get<std::vector<unsigned int>>(), step};},
         [](const sol::table& obj, const float step = 0.1f, const bool loop = false) {return AnimationData{obj[1].get<std::vector<unsigned int>>(), step, loop};}));
+
+  m_lua.new_usertype<Text>("Text",
+      sol::constructors<Text(const std::wstring text, const std::string font_name, const unsigned int font_size)>(),
+      sol::base_classes, sol::bases<Component>(),
+      "text", &Text::text);
 }
 
 } // namespace stella::core

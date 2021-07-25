@@ -1,9 +1,8 @@
-#include "stella/graphics/font.hpp"
-
 #include <algorithm>
+#include <string>
 #include <spdlog/spdlog.h>
-
 #include <glm/glm.hpp> // IWYU pragma: export
+#include "stella/graphics/font.hpp"
 
 namespace stella
 {
@@ -26,15 +25,18 @@ namespace graphics
     FT_Set_Pixel_Sizes (m_face, 0, m_size);
 
     unsigned int aw = 0, ah = 0;
-    for (wchar_t c = CHAR_BOTTOM_LIMIT; c < CHAR_TOP_LIMIT; c++)
+    for (const auto& char_range : m_char_ranges)
     {
-      if (FT_Load_Char (m_face, c, FT_LOAD_RENDER))
+      for (wchar_t c = char_range.first; c < char_range.second; c++)
       {
-        spdlog::critical ("Failed to load Glyph");
-        continue;
+        if (FT_Load_Char (m_face, c, FT_LOAD_RENDER))
+        {
+          spdlog::critical ("Failed to load Glyph");
+          continue;
+        }
+        aw += m_face->glyph->bitmap.width;
+        ah = std::max (ah, m_face->glyph->bitmap.rows);
       }
-      aw += m_face->glyph->bitmap.width;
-      ah = std::max (ah, m_face->glyph->bitmap.rows);
     }
 
     m_atlas_width  = aw;
@@ -42,29 +44,33 @@ namespace graphics
 
     m_texture_atlas = std::make_shared<Texture> (aw, ah, TextureType::DIFFUSE);
 
-    int aa = 0;
+    int xoffset = 0;
     glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
     m_texture_atlas->bind();
 
-    for (wchar_t c = CHAR_BOTTOM_LIMIT; c < CHAR_TOP_LIMIT; c++)
+    for (const auto& char_range : m_char_ranges)
     {
-      if (FT_Load_Char (m_face, c, FT_LOAD_RENDER))
+      for (wchar_t c = char_range.first; c < char_range.second; c++)
       {
-        spdlog::critical ("Failed to load Glyph");
-        continue;
+        if (FT_Load_Char (m_face, c, FT_LOAD_RENDER))
+        {
+          spdlog::critical ("Failed to load Glyph");
+          continue;
+        }
+        glTexSubImage2D (GL_TEXTURE_2D, 0, xoffset, 0, m_face->glyph->bitmap.width, m_face->glyph->bitmap.rows, GL_RED, GL_UNSIGNED_BYTE, m_face->glyph->bitmap.buffer);
+
+        m_max_character_top = std::max (m_max_character_top, m_face->glyph->bitmap_top);
+
+        CharacterData ch_data = {m_face->glyph->advance.x,
+                                 m_face->glyph->advance.y,
+                                 m_face->glyph->bitmap.width,
+                                 m_face->glyph->bitmap.rows,
+                                 m_face->glyph->bitmap_left,
+                                 m_face->glyph->bitmap_top,
+                                 (float) xoffset / m_atlas_width};
+        m_chars.insert (std::pair<wchar_t, CharacterData> (c, ch_data));
+        xoffset += m_face->glyph->bitmap.width;
       }
-      glTexSubImage2D (GL_TEXTURE_2D, 0, aa, 0, m_face->glyph->bitmap.width, m_face->glyph->bitmap.rows, GL_RED, GL_UNSIGNED_BYTE, m_face->glyph->bitmap.buffer);
-
-
-      CharacterData ch_data = {m_face->glyph->advance.x,
-                               m_face->glyph->advance.y,
-                               m_face->glyph->bitmap.width,
-                               m_face->glyph->bitmap.rows,
-                               m_face->glyph->bitmap_left,
-                               m_face->glyph->bitmap_top,
-                               (float) aa / m_atlas_width};
-      m_chars.insert (std::pair<wchar_t, CharacterData> (c, ch_data));
-      aa += m_face->glyph->bitmap.width;
     }
     m_texture_atlas->unbind();
 
