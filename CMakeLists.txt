@@ -94,7 +94,7 @@ endif()
 include_directories(${DEPENDENCIES_DIR}/glm)
 
 # stb_image - Handles image loading in various formats.
-include_directories(${DEPENDENCIES_DIR}/stb_image)
+include_directories(${DEPENDENCIES_DIR}/stb)
 
 # spdlog - Logging library
 include_directories(${DEPENDENCIES_DIR}/spdlog/include)

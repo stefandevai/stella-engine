@@ -13,7 +13,7 @@ add_library(${PROJECT_NAME} STATIC animation_player.cpp
                                    # timer.cpp
                                    )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${STELLA_LIBRARY_NAME}::graphics)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${STELLA_LIBRARY_NAME}::graphics nlohmann_json::nlohmann_json)
 
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 

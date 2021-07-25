@@ -1,9 +1,9 @@
+#include <nlohmann/json.hpp>
 #include "stella/core/resource/asset_manager.hpp"
 #include "stella/core/resource/texture_loader.hpp"
 #include "stella/core/resource/model_loader.hpp"
 #include "stella/core/resource/shader_loader.hpp"
 #include "stella/core/resource/font_loader.hpp"
-#include "../../../lib/json/json.hpp"
 
 namespace stella
 {

@@ -26,3 +26,15 @@
 [submodule "lib/spdlog"]
 	path = lib/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "lib/json"]
+	path = lib/json
+	url = https://github.com/nlohmann/json
+[submodule "lib/tinyobjloader"]
+	path = lib/tinyobjloader
+	url = https://github.com/tinyobjloader/tinyobjloader/
+[submodule "lib/stb"]
+	path = lib/stb
+	url = https://github.com/nothings/stb/
+[submodule "lib/glm"]
+	path = lib/glm
+	url = https://github.com/g-truc/glm

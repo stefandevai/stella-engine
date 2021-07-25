@@ -6,7 +6,6 @@ build
 tools/cppcheck/html
 nikte/dialogue/__pycache__/
 .vscode/
-lib
 lib/glm/doc
 lib/glm/cmake
 lib/glm/test

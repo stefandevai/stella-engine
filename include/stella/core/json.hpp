@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../../lib/json/json.hpp"
+/* #include "../../../lib/json/json.hpp" */
+#include <nlohmann/json.hpp>
 
 namespace stella
 {

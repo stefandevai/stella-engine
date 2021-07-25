@@ -25,10 +25,10 @@ add_library(${PROJECT_NAME} STATIC animator.cpp
 add_library(${STELLA_LIBRARY_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 if (BUILD_EDITOR)
-    target_link_libraries(${PROJECT_NAME} PRIVATE editor::editor)
+    target_link_libraries(${PROJECT_NAME} PRIVATE editor::editor nlohmann_json::nlohmann_json)
     target_compile_definitions(${PROJECT_NAME} PRIVATE STELLA_BUILD_EDITOR)
 else()
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${STELLA_LIBRARY_NAME}::components)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${STELLA_LIBRARY_NAME}::components nlohmann_json::nlohmann_json)
 endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/stella/${PROJECT_NAME})

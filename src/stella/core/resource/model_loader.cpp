@@ -7,7 +7,8 @@
 #include "stella/graphics/renderer/mesh.hpp"
 #include "stella/graphics/vertex.hpp"
 #include "stella/graphics/texture2.hpp"
-#include "../../../lib/tinyobjloader/tinyobjloader.hpp"
+/* #include "../../../lib/tinyobjloader/tinyobjloader.hpp" */
+#include <tiny_obj_loader.h>
 #include <filesystem>
 #include <unordered_map>
 
