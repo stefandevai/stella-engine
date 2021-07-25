@@ -9,9 +9,12 @@ namespace stella
 {
 Game::Game (const std::filesystem::path& filepath) : m_filepath (filepath)
 {
+  spdlog::info("Initializing Stella Engine");
   m_json.load (m_filepath / m_config_filepath);
   m_init_variables();
+  spdlog::info("Successfully loaded config");
   m_init_scenes();
+  spdlog::info("Successfully initialized scenes");
 }
 
 void Game::add_scene (std::shared_ptr<core::Scene>& scene) { m_scenes.push_back (scene); }
@@ -89,6 +92,8 @@ void Game::save()
       scene->save();
     }
   }
+
+  spdlog::info("Saved game");
 }
 
 void Game::update (const double dt)
@@ -115,6 +120,7 @@ void Game::render (const double dt)
 
 void Game::run()
 {
+  spdlog::info("Starting main loop");
   while (m_display.is_running())
   {
     m_display.update();
@@ -126,7 +132,11 @@ void Game::run()
   }
 }
 
-void Game::quit() { m_display.quit(); }
+void Game::quit()
+{
+  m_display.quit();
+  spdlog::info("Successfully quit game");
+}
 
 void Game::m_init_variables()
 {

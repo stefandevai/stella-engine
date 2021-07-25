@@ -1,8 +1,7 @@
 {
     "game": {
-        "firstScene": "Scene 1",
         "height": 504,
-        "title": "Nikte",
+        "name": "",
         "width": 896
     },
     "scenes": [

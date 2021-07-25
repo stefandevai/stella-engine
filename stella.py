@@ -21,7 +21,7 @@ def build(include_editor, is_production):
     os.system('make -j 4')
     os.chdir(old_cwd)
 
-def execute():
+def execute(has_built):
     old_cwd = os.getcwd()
 
     build_path = f'{old_cwd}/{BUILD_DIR}'
@@ -33,6 +33,13 @@ def execute():
 
     if os.path.exists(imgui_path):
         os.remove(imgui_path)
+
+    # Copy necessary support files
+    if not has_built:
+        os.system(f'cp -r {TARGET_DIR}/assets {target_path}')
+        os.system(f'cp -r {TARGET_DIR}/scenes {target_path}')
+        os.system(f'cp -r {TARGET_DIR}/scripts {target_path}')
+        os.system(f'cp {TARGET_DIR}/config.json {target_path}')
 
     os.chdir(target_path)
     os.system(f'./{TARGET}')
@@ -91,7 +98,7 @@ def main():
         build(args.no_editor, args.production)
 
     if (args.execute):
-        execute()
+        execute(args.build)
 
     if (args.format):
         format_code()

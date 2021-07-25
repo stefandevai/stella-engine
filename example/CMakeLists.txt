@@ -38,8 +38,14 @@ else()
     # Copy assets directory
     file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-    ## Copy scripts directory
-    #file(COPY scripts DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+    # Copy scripts directory
+    file(COPY scripts DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+    # Copy scenes directory
+    file(COPY scenes DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+    # Copy config file
+    file(COPY config.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
     # Copy config directory
     file(COPY ${CMAKE_SOURCE_DIR}/config DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
