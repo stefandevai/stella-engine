@@ -2,6 +2,7 @@
 
 import argparse
 import shutil
+import sys
 import os
 
 BUILD_DIR = 'build'
@@ -11,7 +12,7 @@ TARGET = 'example'
 # ================================================================================
 # Create class utils
 # ================================================================================
-def create(path, name):
+def create(name, path):
     if path == 'include/editor/widgets':
         create_widget(name)
     else:
@@ -195,9 +196,16 @@ def format_code():
     os.system(f'find {TARGET_DIR} -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --verbose -i -style=file')
     os.system('find test/ -type f \( -iname "*.h" -o -iname "*.cpp" ! -iname "catch.cpp" \) | xargs clang-format --verbose -i -style=file')
 
+class CustomParser(argparse.ArgumentParser):
+    def error(self, message):
+        sys.stderr.write('Argparse error: %s\n' % message)
+        self.print_help()
+        sys.exit(2)
+
 def main():
     parser = argparse.ArgumentParser(description='Stella Engine development scripts.')
 
+    # Define options
     parser.add_argument('--build', '-b', action='store_true', help='build example')
     parser.add_argument('--no-editor', '-n', action='store_false', help='build example without the editor')
     parser.add_argument('--production', '-p', action='store_true', help='build an optimized version of the example')
@@ -205,13 +213,18 @@ def main():
     parser.add_argument('--clean', '-c', action='store_true', help='clean cmake cache and assets')
     parser.add_argument('--clean-all', action='store_true', help='delete build directory')
     parser.add_argument('--format', '-f', action='store_true', help='format code using clang-format')
-    parser.add_argument('--class-path', help='header path of the new class')
-    parser.add_argument('--class-name', help='name of the class')
+    parser.add_argument('--create-class', nargs=2, metavar=('name', 'path'), help='create a class with a template')
+
+    # Print help if no options were given
+    if len(sys.argv) == 1:
+      parser.print_help(sys.stderr)
+      sys.exit(1)
 
     args = parser.parse_args()
 
-    if args.class_name and args.class_path:
-        create(args.class_path, args.class_name)
+    # Select action according to the options provided
+    if args.create_class:
+        create(args.create_class[0], args.create_class[1])
 
     if (args.clean):
         clean()
