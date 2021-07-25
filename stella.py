@@ -188,6 +188,7 @@ def clean_all():
     if not os.path.isdir(build_path):
         return
 
+
     shutil.rmtree(build_path)
 
 def format_code():
